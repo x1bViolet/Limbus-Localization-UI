@@ -1,3 +1,5 @@
+(Old cringecode version, still works)
+
 
 # Limbus Localization UI | Версия 1.8
 
