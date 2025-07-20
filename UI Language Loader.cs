@@ -26,6 +26,9 @@ namespace LC_Localization_Task_Absolute
             [JsonProperty("Default Font")]
             public string DefaultUIFont { get; set; } = "";
 
+            [JsonProperty("Custom Logo (⇲ Assets Directory/[+] Languages/Custom Logos)")]
+            public string CustomMainMenuLogo { get; set; } = "";
+
             [JsonProperty("UI Static")]
             public List<UIStaticTextItem> StaticUIElements { get; set; }
 
@@ -37,6 +40,12 @@ namespace LC_Localization_Task_Absolute
 
             [JsonProperty("Make Scan Button tooltip width")]
             public double MakeScanTooltip_Width { get; set; } = 296;
+
+            [JsonProperty("Program Version at main menu")]
+            public string ProgramVersionTitle { get; set; } = "Version";
+
+            [JsonProperty("Startup Object name")]
+            public string StartupObjectName { get; set; } = "Ramus Aureus Resonantus Est";
 
             [JsonProperty("Unsaved Changes Marker")]
             public string UnsavedChangesMarker { get; set; } = "";
@@ -102,12 +111,6 @@ namespace LC_Localization_Task_Absolute
 
             [JsonProperty("Warnings window title")]
             public string WarningsWindowTitle { get; set; } = "";
-
-            [OnDeserialized]
-            internal void OnInit(StreamingContext context)
-            {
-                rin(FallbackKeywordsNotFound);
-            }
         }
         internal protected class UnsavedChangesInfo_Passives
         {
@@ -245,6 +248,7 @@ namespace LC_Localization_Task_Absolute
 
         internal protected static bool UILanguageLoadingEvent = false;
         internal protected static string LastSeenDefaultInsertion = "";
+        internal protected static string LastSeenDefaultObjectName = "";
         internal protected static void InitializeUILanguage(string SourceFile)
         {
             UILanguageLoadingEvent = true;
@@ -265,6 +269,20 @@ namespace LC_Localization_Task_Absolute
 
             MainControl.MakePreviewScan_Tooltip.SetRichText(LoadedLanguage.MakeScanTooltip);
             MainControl.MakePreviewScan_Tooltip.Width = LoadedLanguage.MakeScanTooltip_Width;
+            MainControl.PROGRAM_Version.Text = LoadedLanguage.ProgramVersionTitle;
+
+            if (File.Exists(@$"⇲ Assets Directory\[+] Languages\Custom Logos\{LoadedLanguage.CustomMainMenuLogo}"))
+            {
+                MainControl.MainMenuLogo.Source = GenerateBitmapFromFile(@$"⇲ Assets Directory\[+] Languages\Custom Logos\{LoadedLanguage.CustomMainMenuLogo}");
+            }
+
+            if (PreviewUpdate_TargetSite != null)
+            {
+                if (PreviewUpdate_TargetSite.Equals(MainControl.PreviewLayout_Default))
+                {
+                    MainControl.NavigationPanel_ObjectName_Display.Text = LoadedLanguage.StartupObjectName;
+                }
+            }
 
             foreach (UIStaticTextItem UIStaticItemData in LoadedLanguage.StaticUIElements)
             {

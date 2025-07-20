@@ -1682,9 +1682,9 @@
                                             <Grid x:Name="SwitchMenuButtons_DefaultMenu" Visibility="Visible">
                                                 <Border Style="{StaticResource BorderDefaultDesk}"/>
                                                 <StackPanel HorizontalAlignment="Center">
-                                                    <Image Source="/UI/Logo.png" HorizontalAlignment="Center" Height="200" Width="200" Margin="0 5 0 5"/>
+                                                    <Image x:Name="MainMenuLogo" Source="/UI/Logo.png" HorizontalAlignment="Center" Height="200" Width="200" Margin="0 5 0 5"/>
                                                     <StackPanel Margin="5 5 0 1" Orientation="Horizontal" HorizontalAlignment="Center">
-                                                        <TextBlock Foreground="#c6c3bd" FontWeight="Black" Style="{StaticResource TextBlockDefaultDesk}" FontSize="28" FontFamily="UI/Fonts/#GOST Type BU" Margin="5">
+                                                        <TextBlock x:Name="PROGRAM_Version" Foreground="#c6c3bd" FontWeight="Black" Style="{StaticResource TextBlockDefaultDesk}" FontSize="28" FontFamily="UI/Fonts/#GOST Type BU" Margin="5">
                                                             Version
                                                         </TextBlock>
                                                         <TextBlock Foreground="#c6c3bd" Text="※" FontWeight="Light" Style="{StaticResource TextBlockDefaultDesk}" FontSize="28" FontFamily="UI/Fonts/#GOST Type BU" Margin="5"/>

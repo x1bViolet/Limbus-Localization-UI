@@ -1,6 +1,10 @@
-﻿using NLog;
+﻿using Newtonsoft.Json;
+using NLog;
+using System.Runtime.Serialization;
 using System.Windows;
+using System.IO;
 using static LC_Localization_Task_Absolute.Requirements;
+using System.Text;
 
 
 namespace LC_Localization_Task_Absolute;
@@ -8,14 +12,51 @@ namespace LC_Localization_Task_Absolute;
 /// <summary>
 /// Interaction logic for App.xaml
 /// </summary>
+
+internal abstract class QuickConfigAndLanguage
+{
+    internal protected class ConfigDelta
+    {
+        [JsonProperty("Internal")]
+        public Internal Internal { get; set; } = new Internal();
+    }
+    internal protected class Internal
+    {
+        [JsonProperty("UI Language")]
+        public string UILanguage { get; set; } = "";
+    }
+}
+
 public partial class App : Application
 {
+    
+
+
+
     protected override void OnStartup(StartupEventArgs e)
     {
         base.OnStartup(e);
         SetupExceptionHandling();
 
-        SplashScreen StartupSplash = new SplashScreen("UI/Logo.png");
+        try { Console.OutputEncoding = Encoding.UTF8; }
+        catch { }
+
+        string LogoPath = "UI/Logo.png";
+
+        try
+        {
+            var quickconfig = JsonConvert.DeserializeObject<QuickConfigAndLanguage.ConfigDelta>(File.ReadAllText( @"⇲ Assets Directory\Configurazione^.json"));
+
+            if (quickconfig.Internal.UILanguage.EndsWith("繁體中文.json"))
+            {
+                LogoPath = "UI/Logo (CN).png";
+            }
+
+
+        }
+        catch (Exception ex) { rin(ex.ToString()); }
+
+        SplashScreen StartupSplash = new SplashScreen(LogoPath);
         StartupSplash.Show(true, topMost: true);
 
         Dispatcher.BeginInvoke(new Action(() =>
