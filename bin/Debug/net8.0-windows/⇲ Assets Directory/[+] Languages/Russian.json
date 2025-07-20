@@ -521,6 +521,7 @@
   "Unsaved Changes Marker": "[$] <size=76%><color=#fc5a03><b>(Изм.)</b></color></size>",
   "Make Scan Button tooltip": "Экспортировать предпросмотр в PNG (Папка '⇲ Assets Directory\\[⇲] Scans')",
   "Make Scan Button tooltip width": 290,
+  "Program Version at main menu": "Версия",
   "Fonts": {
     "Font Files (⇲ Assets Directory/[+] Languages/Fonts)": [
       {
