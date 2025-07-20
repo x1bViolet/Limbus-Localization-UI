@@ -520,6 +520,7 @@
   "Unsaved Changes Marker": "[$] <size=66%><color=#fc5a03><b>(Changed)</b></color></size>",
   "Make Scan Button tooltip": "Export preview to PNG (To <font=\"Consolas\"><b>⇲ Assets Directory\\[⇲] Scans<b></font> directory)",
   "Make Scan Button tooltip width": 296,
+  "Program Version at main menu": "Version",
   "Fonts": {
     "Font Files (⇲ Assets Directory/[+] Languages/Fonts)": [
       {
