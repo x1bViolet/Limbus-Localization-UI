@@ -2822,6 +2822,69 @@
       "Keyword": "Poise",
       "Tier": "3"
     },
+
+
+
+
+
+    {
+      "ID": 9805,
+      "Image": "Ashen Constellation's Blessing.png",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9806,
+      "Image": "The Unchosen.png",
+      "Affinity": "Envy",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9807,
+      "Image": "Sword Sharpened with Tears.png",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9808,
+      "Image": "Magical Girl's Lovely Gift.png",
+      "Affinity": "Lust",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9809,
+      "Image": "Spent Use, Forming Hate.png",
+      "Affinity": "Wrath",
+      "Keyword": "Charge",
+      "Tier": "3"
+    },
+    {
+      "ID": 9810,
+      "Image": "Trauma Shield.png",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9811,
+      "Image": "Value Disposal.png",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+
+
+
+
+
+
+
+
+
     {
       "ID": 9795,
       "Image": "A Drop.png",
