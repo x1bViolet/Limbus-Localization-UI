@@ -29,7 +29,7 @@
         "Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/en"
       },
       "Custom Language Associative Settings": {
-        "Associative Properties Selected": "Russian (MTL)",
+        "Associative Properties Selected": "English (Original)",
         "Associative Properties List": [
           {
             "Name": "Example",
@@ -66,6 +66,7 @@
               "Keywords Shorthands Contextmenu Insertion Shape": "[<KeywordID>:`<KeywordName>`]<KeywordColor>",
               "Keywords Shorthands Contextmenu Insertion Shape <KeywordColor>": "(<HexColor>)",
               "Keywords Multiple Meanings Dictionary": "⇲ Assets Directory/[+] Keywords/Another/MTL Keywords Dictionary.json",
+              "Keywords Sprite Vertical Offset": -4,
 
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-mtl/Font/Title/Title.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-mtl/Font/Context/Context.ttf",
