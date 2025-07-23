@@ -431,7 +431,7 @@ namespace LC_Localization_Task_Absolute
             public string KeywordsDirectory { get; set; } = "";
 
             [JsonProperty("Keywords Autodetection Regex Pattern")]
-            public string Keywords_AutodetectionRegex { get; set; } = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-<'"":+])").ToString();
+            public string Keywords_AutodetectionRegex { get; set; } = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-_<'"":+])").ToString();
 
             [JsonProperty("Keywords Shorthands Regex Pattern")]
             public string Keywords_ShorthandsRegex { get; set; } = new Regex(@"NOTHING THERE").ToString();
