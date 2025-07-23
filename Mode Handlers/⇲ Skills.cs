@@ -200,7 +200,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                             {
                                                 Border RightMenuCoinButton_DisableCover = MainControl.FindName($"STE_DisableCover_Skills_Coin_{CoinNumber}") as Border;
 
-                                                VisibilityChangeQuery[ThisCoinDescPanel] = Visible;
+                                                if (!CoinDescription.Description.Equals("")) VisibilityChangeQuery[ThisCoinDescPanel] = Visible;
                                                 VisibilityChangeQuery[RightMenuCoinButton_DisableCover] = Collapsed;
 
                                                 if (!CoinDescription.Description.Equals(CoinDescription.EditorDescription))
@@ -224,7 +224,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                                         CoinDescNumber++;
                                     }
-                                    //}
                                 
 
                                     if (FullLink.Coins[CoinNumber - 1].CoinDescriptions
