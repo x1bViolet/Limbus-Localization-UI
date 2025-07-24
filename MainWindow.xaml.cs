@@ -610,7 +610,7 @@ public partial class MainWindow : Window
 
         if (!SWBT_Skills_EGOAbnormalitySkillName.Text.Equals(FullLink.EGOAbnormalityName))
         {
-            FullLink.EGOAbnormalityName = SWBT_Skills_EGOAbnormalitySkillName.Text.Replace("\\n", "\n");
+            FullLink.EGOAbnormalityName = SWBT_Skills_EGOAbnormalitySkillName.Text;
 
             Mode_Skills.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
         }
@@ -865,7 +865,7 @@ public partial class MainWindow : Window
 
         if (!SWBT_Keywords_KeywordName.Text.Equals(FullLinkKeyword.Name))
         {
-            FullLinkKeyword.Name = SWBT_Keywords_KeywordName.Text.Trim().Replace("\\n", "\n");
+            FullLinkKeyword.Name = SWBT_Keywords_KeywordName.Text.Trim();
             NavigationPanel_ObjectName_Display.Text = FullLinkKeyword.Name;
 
             AnyChanges = true;
@@ -1201,7 +1201,7 @@ public partial class MainWindow : Window
 
                 if (!SWBT_Skills_MainSkillName.Text.Equals(FullLinkSkills.Name))
                 {
-                    FullLinkSkills.Name = SWBT_Skills_MainSkillName.Text.Trim().Replace("\\n", "\n");
+                    FullLinkSkills.Name = SWBT_Skills_MainSkillName.Text.Trim();
                     NavigationPanel_ObjectName_Display.Text = FullLinkSkills.Name;
 
                     Mode_Skills.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
@@ -1218,7 +1218,7 @@ public partial class MainWindow : Window
                 
                 if (!SWBT_Passives_MainPassiveName.Text.Equals(FullLinkPassives.Name))
                 {
-                    FullLinkPassives.Name = SWBT_Passives_MainPassiveName.Text.Trim().Replace("\\n", "\n");
+                    FullLinkPassives.Name = SWBT_Passives_MainPassiveName.Text.Trim();
                     NavigationPanel_ObjectName_Display.Text = FullLinkPassives.Name;
 
                     Mode_Passives.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
@@ -1234,7 +1234,7 @@ public partial class MainWindow : Window
 
                 if (!SWBT_Keywords_KeywordName.Text.Equals(FullLinkKeywords.Name))
                 {
-                    FullLinkKeywords.Name = SWBT_Keywords_KeywordName.Text.Trim().Replace("\\n", "\n");
+                    FullLinkKeywords.Name = SWBT_Keywords_KeywordName.Text.Trim();
                     NavigationPanel_ObjectName_Display.Text = FullLinkKeywords.Name;
 
                     Mode_Keywords.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
@@ -1250,7 +1250,7 @@ public partial class MainWindow : Window
 
                 if (!SWBT_EGOGifts_EGOGiftName.Text.Equals(FullLinkEGOGifts.Name))
                 {
-                    FullLinkEGOGifts.Name = SWBT_EGOGifts_EGOGiftName.Text.Trim().Replace("\\n", "\n");
+                    FullLinkEGOGifts.Name = SWBT_EGOGifts_EGOGiftName.Text.Trim();
                     NavigationPanel_ObjectName_Display.Text = FullLinkEGOGifts.Name;
 
                     Mode_EGOGifts.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
@@ -1678,11 +1678,11 @@ public partial class MainWindow : Window
 
         if (Sender.Name.Equals("SWBT_Keywords_KeywordName") & !PreviewLayout_Keywords_Bufs_Name.IsFocused)
         {
-            PreviewLayout_Keywords_Bufs_Name.Text = SWBT_Keywords_KeywordName.Text.Replace("\\n", "\n");
-            PreviewLayout_Keywords_BattleKeywords_Name.Text = SWBT_Keywords_KeywordName.Text.Replace("\\n", "\n");
+            PreviewLayout_Keywords_Bufs_Name.Text = SWBT_Keywords_KeywordName.Text;
+            PreviewLayout_Keywords_BattleKeywords_Name.Text = SWBT_Keywords_KeywordName.Text;
         }
 
-        if (Sender.Name.Equals("SWBT_EGOGifts_EGOGiftName")) EGOGiftName_PreviewLayout.Text = SWBT_EGOGifts_EGOGiftName.Text.Replace("\\n", "\n");
+        if (Sender.Name.Equals("SWBT_EGOGifts_EGOGiftName")) EGOGiftName_PreviewLayout.Text = SWBT_EGOGifts_EGOGiftName.Text;
     }
 
     #region Mouse and Keyboard shortcuts
@@ -1712,10 +1712,14 @@ public partial class MainWindow : Window
         {
             string ClipboardText = Clipboard.GetText();
 
-            if (ClipboardText.Contains("\\\""))
+            rin($"\n\n\nInput: {ClipboardText}");
+
+            if (ClipboardText.Contains(@"\""") | ClipboardText.Contains(@"\n"))
             {
                 QuotesClipboardOldText = ClipboardText;
-                Clipboard.SetText(ClipboardText.Replace("\\\"", "\"").Replace("\\\n", "\n"));
+                string Replaced = ClipboardText.Replace(@"\""", @"""").Replace(@"\n", "\n");
+                rin($"Replace: {Replaced}");
+                Clipboard.SetText(Replaced);
                 IsQuotesConvertedInClipboard = true;
             }
 
@@ -1740,7 +1744,7 @@ public partial class MainWindow : Window
 
                         if (PreviewUpdate_TargetSite.Equals(PreviewLayout_Skills_MainDesc))
                         {
-                            DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Description = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].EditorDescription.Replace("\\n", "\n");
+                            DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Description = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].EditorDescription;
 
                             UILanguage["Right Menu — Skill Desc"].SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Desc"]);
 
@@ -1752,7 +1756,7 @@ public partial class MainWindow : Window
                             var FullLinkSkill = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Coins[Mode_Skills.CurrentSkillCoinIndex].CoinDescriptions;
                             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
-                            FullLinkSkill[Mode_Skills.CurrentSkillCoinDescIndex].Description = FullLinkSkill[Mode_Skills.CurrentSkillCoinDescIndex].EditorDescription.Replace("\\n", "\n");
+                            FullLinkSkill[Mode_Skills.CurrentSkillCoinDescIndex].Description = FullLinkSkill[Mode_Skills.CurrentSkillCoinDescIndex].EditorDescription;
 
                             if (!FullLinkSkill.Where(x => !x.Description.Equals(x.EditorDescription)).Any())
                             {
@@ -1779,7 +1783,7 @@ public partial class MainWindow : Window
 
                         if (Mode_Passives.TargetSite_StringLine.Equals("Main Description"))
                         {
-                            FullLinkPassive.Description = FullLinkPassive.EditorDescription.Replace("\\n", "\n");
+                            FullLinkPassive.Description = FullLinkPassive.EditorDescription;
 
                             MainControl.STE_Passives_MainDescription
                                 .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Desc"]);
@@ -1788,7 +1792,7 @@ public partial class MainWindow : Window
                         }
                         else if (Mode_Passives.TargetSite_StringLine.Equals("Summary Description"))
                         {
-                            FullLinkPassive.SummaryDescription = FullLinkPassive.EditorSummaryDescription.Replace("\\n", "\n");
+                            FullLinkPassive.SummaryDescription = FullLinkPassive.EditorSummaryDescription;
 
                             STE_Passives_SummaryDescription
                                 .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
@@ -1806,7 +1810,7 @@ public partial class MainWindow : Window
 
                         if (Mode_Keywords.TargetSite_StringLine.Equals("Main Description"))
                         {
-                            FullLinkKeyword.Description = FullLinkKeyword.EditorDescription.Replace("\\n", "\n");
+                            FullLinkKeyword.Description = FullLinkKeyword.EditorDescription;
 
                             MainControl.STE_Keyword_MainDescription
                                 .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]);
@@ -1833,7 +1837,7 @@ public partial class MainWindow : Window
 
                         if (Mode_EGOGifts.TargetSite_StringLine.Equals("Main Description"))
                         {
-                            FullLinkEGOGift.Description = FullLinkEGOGift.EditorDescription.Replace("\\n", "\n");
+                            FullLinkEGOGift.Description = FullLinkEGOGift.EditorDescription;
 
                             MainControl.STE_EGOGift_MainDescription
                                 .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — E.G.O Gift Desc"]);
@@ -1846,7 +1850,7 @@ public partial class MainWindow : Window
 
                             int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
 
-                            FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].Description = FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription.Replace("\\n", "\n");
+                            FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].Description = FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
 
                             (MainControl.FindName($"STE_EGOGift_SimpleDescription{SimpleDescNumber}") as RichTextBox)
                                 .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {SimpleDescNumber}"]);

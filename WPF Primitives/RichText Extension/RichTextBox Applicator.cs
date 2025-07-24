@@ -324,7 +324,7 @@ namespace RichText
 
 
             // Главное разбивание текста на список с обычным текстом и тегами
-            string[] TextSegmented = $"\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0{RichTextString.Replace("\\n", "\n")}\0\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0".Split(['\uFFF5', '\uFFF6'], StringSplitOptions.RemoveEmptyEntries);
+            string[] TextSegmented = $"\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0{RichTextString}\0\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0\uFFF5EMPTY¤\uFFF6\0".Split(['\uFFF5', '\uFFF6'], StringSplitOptions.RemoveEmptyEntries);
 
             List<string> __TextSegmented__ = TextSegmented.ToList();
             __TextSegmented__.RemoveAll(TextItem => TextItem.Equals("\0"));
