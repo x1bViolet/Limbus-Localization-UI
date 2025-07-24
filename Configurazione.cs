@@ -209,7 +209,8 @@ namespace LC_Localization_Task_Absolute
 
             LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection = SelectedAssociativePropery.Properties.Keywords_AutodetectionRegex;
             rin($"  Keywords Autodetection Regex Pattern: {LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection}");
-            Configurazione.ShorthandsPattern = new Regex(SelectedAssociativePropery.Properties.Keywords_ShorthandsRegex);
+            Configurazione.ShorthandsPattern = new Regex(SelectedAssociativePropery.Properties.Keywords_ShorthandsRegex, RegexOptions.Singleline);
+
             rin($"  Keywords Shorthands Regex Pattern: {Configurazione.ShorthandsPattern}");
 
 
