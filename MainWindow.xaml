@@ -754,7 +754,7 @@
                                                                     </Viewbox>
                                                                 </StackPanel>
                                                                 
-                                                                <ScrollViewer x:Name="SurfaceScrollPreview_Keywords__BattleKeywords" Margin="13 48 18 18">
+                                                                <ScrollViewer x:Name="SurfaceScrollPreview_Keywords__BattleKeywords" Margin="13 48 25 18">
                                                                     <RichTextBox x:Name="Special_PreviewLayout_Keywords_BattleKeywords_Desc" Foreground="#ebcaa2" IsReadOnly="True" FontFamily="Pretendard Light" FontSize="19" Visibility="Visible">
                                                                         <FlowDocument>
                                                                             <Paragraph>
@@ -792,7 +792,7 @@
                                                                    Panel.ZIndex="10"
                                                                    LineStackingStrategy="BlockLineHeight"
                                                                    LineHeight="24"
-                                                                   Width="260"
+                                                                   Width="280"
                                                                    TextAlignment="Center"
                                                                    VerticalAlignment="Center"
                                                                    FontSize="29"
