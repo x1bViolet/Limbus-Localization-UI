@@ -323,6 +323,7 @@ namespace LC_Localization_Task_Absolute
                                 CustomLang_KeywordsDir.Text = FormattedPath;
 
                                 Configurazione.SelectedAssociativePropery_Shared.Properties.KeywordsDirectory = FormattedPath;
+                                Configurazione.LoadErrors = "";
                                 Configurazione.UpdateCustomLanguagePart(Configurazione.SelectedAssociativePropery_Shared);
                                 
                                 RichTextBoxApplicator.UpdateLast();
@@ -351,6 +352,7 @@ namespace LC_Localization_Task_Absolute
                                 CustomLang_TitleFont.Text = FormattedPath;
 
                                 Configurazione.SelectedAssociativePropery_Shared.Properties.TitleFont = FormattedPath;
+                                Configurazione.LoadErrors = "";
                                 Configurazione.UpdatePreviewLayoutsFont(Configurazione.SelectedAssociativePropery_Shared.Properties);
 
                                 ChangeJsonConfigViaRegex("Title Font", FormattedPath, IsInsideCurrentCustomLangProperties: true);
@@ -376,6 +378,7 @@ namespace LC_Localization_Task_Absolute
                                 CustomLang_ContextFont.Text = FormattedPath;
 
                                 Configurazione.SelectedAssociativePropery_Shared.Properties.ContextFont = FormattedPath;
+                                Configurazione.LoadErrors = "";
                                 Configurazione.UpdatePreviewLayoutsFont(Configurazione.SelectedAssociativePropery_Shared.Properties);
 
                                 ChangeJsonConfigViaRegex("Context Font", FormattedPath, IsInsideCurrentCustomLangProperties: true);
