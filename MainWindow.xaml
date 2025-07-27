@@ -498,30 +498,33 @@
                                                 </Image.RenderTransform>
                                             </Image>
 
+                                            
                                             <Canvas x:Name="SkillsPreviewFreeBordersCanvas"></Canvas>
-                                                <ScrollViewer x:Name="SurfaceScrollPreview_Skills" Margin="10 20 30 40">
-                                                    <ScrollViewer.Resources>
-                                                        <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">0</sys:Double>
-                                                    </ScrollViewer.Resources>
-                                                    <Grid x:Name="SurfaceScrollPreview_Skills_Inner">
-                                                        <Border x:Name="ScanAreaView_Skills" BorderBrush="Red" BorderThickness="0" Background="#00121212"/>
-                                                        <StackPanel x:Name="PreviewLayoutGrid_Skills_ContentControlStackPanel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="663">
-                                                            <RichTextBox x:Name="PreviewLayout_Skills_MainDesc" Foreground="#ebcaa2" IsReadOnly="True" FontFamily="Pretendard Light" FontSize="20" Margin="0 0 0 7">
-                                                                <FlowDocument>
-                                                                    <Paragraph>
-                                                                        <Run>
-                                                                            [В конце атаки] Восстанавливает 20 CД четырём союзникам с наименьшей СД
-                                                                        </Run>
-                                                                    </Paragraph>
-                                                                </FlowDocument>
-                                                            </RichTextBox>
+                                            
+                                            <ScrollViewer x:Name="SurfaceScrollPreview_Skills" Margin="10 20 30 40">
+                                                <ScrollViewer.Resources>
+                                                    <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">0</sys:Double>
+                                                </ScrollViewer.Resources>
+                                                <Grid x:Name="SurfaceScrollPreview_Skills_Inner">
+                                                    <Border x:Name="ScanAreaView_Skills" BorderBrush="Red" BorderThickness="0" Background="#00121212"/>
+                                                    <StackPanel x:Name="PreviewLayoutGrid_Skills_ContentControlStackPanel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="663">
+                                                        <RichTextBox x:Name="PreviewLayout_Skills_MainDesc" Foreground="#ebcaa2" IsReadOnly="True" FontFamily="Pretendard Light" FontSize="20" Margin="0 0 0 7">
+                                                            <FlowDocument>
+                                                                <Paragraph>
+                                                                    <Run>
+                                                                        В тихом омуте черти водятся
+                                                                    </Run>
+                                                                </Paragraph>
+                                                            </FlowDocument>
+                                                        </RichTextBox>
+                                                        <StackPanel Margin="5 0 31.2 0">
                                                             <Grid x:Name="PreviewLayout_Skills_Coin1" Margin="0 3 0 0" Visibility="Visible">
                                                                 <Image Source="/UI/Limbus/Coins/Coin 1.png" Width="43.6" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                                <StackPanel Margin="53 15 0 0">
+                                                                <StackPanel Margin="50 15 0 0">
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin1_Desc1" Style="{StaticResource CoinDesc}" Visibility="Visible">
                                                                         <FlowDocument>
                                                                             <Paragraph>
-                                                                                <Run Text="Монета 1"/>
+                                                                                <Run Text="(правда)"/>
                                                                             </Paragraph>
                                                                         </FlowDocument>
                                                                     </RichTextBox>
@@ -540,7 +543,7 @@
                                                             </Grid>
                                                             <Grid x:Name="PreviewLayout_Skills_Coin2" Margin="0 3 0 0" Visibility="Visible">
                                                                 <Image Source="/UI/Limbus/Coins/Coin 2.png" Width="43.6" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                                <StackPanel Margin="53 15 0 0">
+                                                                <StackPanel Margin="50 15 0 0">
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin2_Desc1"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin2_Desc2"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin2_Desc3"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
@@ -557,7 +560,7 @@
                                                             </Grid>
                                                             <Grid x:Name="PreviewLayout_Skills_Coin3" Margin="0 3 0 0" Visibility="Visible">
                                                                 <Image Source="/UI/Limbus/Coins/Coin 3.png" Width="43.6" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                                <StackPanel Margin="53 15 0 0">
+                                                                <StackPanel Margin="50 15 0 0">
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin3_Desc1"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin3_Desc2"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin3_Desc3"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
@@ -574,7 +577,7 @@
                                                             </Grid>
                                                             <Grid x:Name="PreviewLayout_Skills_Coin4" Margin="0 3 0 0" Visibility="Visible">
                                                                 <Image Source="/UI/Limbus/Coins/Coin 4.png" Width="43.6" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                                <StackPanel Margin="53 15 0 0">
+                                                                <StackPanel Margin="50 15 0 0">
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin4_Desc1"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin4_Desc2"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin4_Desc3"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
@@ -591,7 +594,7 @@
                                                             </Grid>
                                                             <Grid x:Name="PreviewLayout_Skills_Coin5" Margin="0 3 0 0" Visibility="Visible">
                                                                 <Image Source="/UI/Limbus/Coins/Coin 5.png" Width="43.6" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                                <StackPanel Margin="53 15 0 0">
+                                                                <StackPanel Margin="50 15 0 0">
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin5_Desc1"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin5_Desc2"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin5_Desc3"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
@@ -608,7 +611,7 @@
                                                             </Grid>
                                                             <Grid x:Name="PreviewLayout_Skills_Coin6" Margin="0 3 0 0" Visibility="Visible">
                                                                 <Image Source="/UI/Limbus/Coins/Coin 6.png" Width="43.6" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                                <StackPanel Margin="53 15 0 0">
+                                                                <StackPanel Margin="50 15 0 0">
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin6_Desc1"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin6_Desc2"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
                                                                     <RichTextBox x:Name="PreviewLayout_Skills_Coin6_Desc3"  Style="{StaticResource CoinDesc}" Visibility="Collapsed"/>
@@ -624,9 +627,9 @@
                                                                 </StackPanel>
                                                             </Grid>
                                                         </StackPanel>
-                                                    </Grid>
+                                                    </StackPanel>
+                                                </Grid>
                                             </ScrollViewer>
-                                            
                                         </Grid>
 
                                         <Grid x:Name="PreviewLayoutGrid_Passives" Visibility="Collapsed">
