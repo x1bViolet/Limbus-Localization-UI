@@ -185,7 +185,7 @@ namespace RichText
                     OverrideSpriteSize = double.Parse(target);
                 }
 
-                double DefinedWidth = Target.FontSize * 1.0285;
+                double DefinedWidth = Target.FontSize;
                 double DefinedHeight = Target.FontSize;
 
                 if (OverrideSpriteSize != 0)
