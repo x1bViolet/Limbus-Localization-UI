@@ -42,6 +42,8 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
 
+                public string _comment { get; set; }
+
                 [OnDeserialized]
                 private void OnInit(StreamingContext context)
                 {
@@ -110,6 +112,8 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore] // For editor
                 public string EditorSummaryDescription { get; set; }
 
+                public string _comment { get; set; }
+
                 [OnDeserialized]
                 private void OnInit(StreamingContext context)
                 {
@@ -144,7 +148,9 @@ namespace LC_Localization_Task_Absolute.Json
 
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
-                
+
+                public string _comment { get; set; }
+
                 [JsonIgnore] // For Preview
                 public string UpgradeLevel { get; set; }
 
@@ -176,6 +182,8 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
 
+                public string _comment { get; set; }
+
                 [OnDeserialized]
                 private void OnInit(StreamingContext context) => EditorDescription = Description;
             }
@@ -206,6 +214,8 @@ namespace LC_Localization_Task_Absolute.Json
                 public string EditorDescription { get; set; }
                 [JsonIgnore] // For editor
                 public string EditorSummaryDescription { get; set; }
+
+                public string _comment { get; set; }
 
                 [OnDeserialized]
                 private void OnInit(StreamingContext context)
