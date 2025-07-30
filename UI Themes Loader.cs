@@ -24,6 +24,25 @@ namespace LC_Localization_Task_Absolute
             return FormalTaskCompleted;
         }
 
+        /// <summary>
+        /// Get FontFamily from file or just as <c>new FontFamily(Name)</c>
+        /// </summary>
+        internal protected static FontFamily FindFontFamilyThere(string SomePath)
+        {
+            System.Windows.Media.FontFamily Finded = new FontFamily();
+
+            if (File.Exists(SomePath))
+            {
+                Finded = FileToFontFamily(SomePath);
+            }
+            else
+            {
+                Finded = new System.Windows.Media.FontFamily(SomePath);
+            }
+
+            return Finded;
+        }
+
         internal protected class Theme
         {
             [JsonProperty("Hide Background while Minimal Width")]
@@ -179,8 +198,16 @@ namespace LC_Localization_Task_Absolute
             {
                 NullableControl.NullExterminate(this);
 
+                if (UILanguageLoader.LoadedFontFamilies.ContainsKey(FontFamily))
+                {
+                    MainControl.Editor.FontFamily = LoadedFontFamilies[FontFamily];
+                }
+                else
+                {
+                    MainControl.Editor.FontFamily = FindFontFamilyThere(FontFamily);
+                }
+
                 MainControl.Editor.FontSize = FontSize;
-                MainControl.Editor.FontFamily = new System.Windows.Media.FontFamily(FontFamily);
                 MainControl.Editor.FontWeight = WeightFrom(FontWeight);
                 MainControl.Editor.Foreground = ToColor(FontColor);
                 MainControl.Editor.CaretBrush = ToColor(CaretColor);
@@ -278,7 +305,7 @@ namespace LC_Localization_Task_Absolute
                 }
                 else
                 {
-                    MainControl.Resources["UITheme_EditorContextMenu_FontFamily"] = new FontFamily(LoadedTheme.EditorContextMenu.Font);
+                    MainControl.Resources["UITheme_EditorContextMenu_FontFamily"] = FindFontFamilyThere(LoadedTheme.EditorContextMenu.Font);
                 }
 
                 MainControl.Resources["UITheme_EditorContextMenu_Font"]       = ToColor(LoadedTheme.EditorContextMenu.Font);
