@@ -114,7 +114,7 @@ namespace RichText
                 #region Sub/Sup
                 if (TextData.InnerTags.Contains("TextStyle@Subscript") | TextData.InnerTags.Contains("TextStyle@Superscript"))
                 {
-                    PreviewLayout_AppendRun.FontSize = Target.FontSize / 1.4;
+                    PreviewLayout_AppendRun.FontSize = PreviewLayout_AppendRun.FontSize / 1.4;
 
                     if      (TextData.InnerTags.Contains("TextStyle@Subscript"  )) PreviewLayout_AppendRun.BaselineAlignment = BaselineAlignment.Subscript;
                     else if (TextData.InnerTags.Contains("TextStyle@Superscript")) PreviewLayout_AppendRun.BaselineAlignment = BaselineAlignment.Superscript;
