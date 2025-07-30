@@ -517,7 +517,7 @@
                                                                 </Paragraph>
                                                             </FlowDocument>
                                                         </RichTextBox>
-                                                        <StackPanel Margin="5 0 31.2 0">
+                                                        <StackPanel Margin="5 0 40.2 0">
                                                             <Grid x:Name="PreviewLayout_Skills_Coin1" Margin="0 3 0 0" Visibility="Visible">
                                                                 <Image Source="/UI/Limbus/Coins/Coin 1.png" Width="43.6" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                                                 <StackPanel Margin="50 15 0 0">
@@ -945,6 +945,11 @@
                                             
                                         </TextBlock>
                                     </Border>
+                                </Grid>
+                                <Grid Margin="0 0 0 0" Visibility="Collapsed">
+                                    <ProgressBar x:Name="ProgressTotal" Height="25" Minimum="0" Maximum="100" Value="50" Background="{StaticResource UITheme_BordersBackground}" BorderBrush="{StaticResource UITheme_BordersBackground}" Foreground="{StaticResource UITheme_DefaultTextColor}">
+                                        
+                                    </ProgressBar>
                                 </Grid>
                                 <Grid x:Name="NavigationPanel_ObjectID" Margin="0 4 0 0" HorizontalAlignment="Left" Width="285.4">
                                     <Border x:Name="NavigationPanel_IDSwitch_Previous" PreviewMouseLeftButtonDown="NavigationPanel_IDSwitch" PreviewMouseRightButtonDown="NavigationPanel_IDSwitch_ToFirst" Style="{StaticResource ButtonDefaultDeskHighlightable}" HorizontalAlignment="Left"  Width="62" Height="{Binding Path=ActualHeight, ElementName=IDButton_Container}" VerticalAlignment="Top">
