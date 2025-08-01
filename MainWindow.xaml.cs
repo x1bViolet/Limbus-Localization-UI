@@ -2219,6 +2219,7 @@ public partial class MainWindow : Window
         {
             await Task.Delay(50);
             SettingsControl.Show();
+            SettingsControl.Focus();
         }
     }
 
