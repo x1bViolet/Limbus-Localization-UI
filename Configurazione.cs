@@ -301,6 +301,7 @@ namespace LC_Localization_Task_Absolute
 
                 SettingsControl.InputSkillsPanelWidth.Text = $"{Configurazione.DeltaConfig.ScanParameters.AreaWidth}";
                 SettingsControl.InputScansScaleFactor.Text = $"{Configurazione.DeltaConfig.ScanParameters.ScaleFactor}";
+                SettingsControl.InputSkillsScanBackgroundColor.Text = $"{Configurazione.DeltaConfig.ScanParameters.BackgroundColor}";
             }
 
             return FormalTaskCompleted;
