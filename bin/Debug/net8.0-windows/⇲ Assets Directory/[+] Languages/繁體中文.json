@@ -600,14 +600,6 @@
   "Fonts": {
     "Font Files (⇲ Assets Directory/[+] Languages/Fonts)": [
       {
-        "File": "Segoe Fluent Icons.ttf",
-        "Name": "Segoe Fluent Icons"
-      },
-      {
-        "File": "Ionicons.ttf",
-        "Name": "Ionicons"
-      },
-      {
         "File": "Bookman Old Style.ttf",
         "Name": "Bookman Old Style"
       },
@@ -620,7 +612,7 @@
         "Name": "Mikodacs"
       },
       {
-        "File": "Unispace.ttf",
+        "File": "Unispace (Ru).ttf",
         "Name": "Unispace"
       },
       {

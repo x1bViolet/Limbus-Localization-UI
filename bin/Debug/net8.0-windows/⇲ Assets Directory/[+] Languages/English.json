@@ -545,6 +545,7 @@
     {
       "Element ID": "[Settings] Preview Scans — Background Color (Skills only)",
       "Font": "GOST Type BU",
+      "Vertical Offset": -0.5,
       "Font Weight": "Bold"
     }
   ],
@@ -587,14 +588,6 @@
   "Fonts": {
     "Font Files (⇲ Assets Directory/[+] Languages/Fonts)": [
       {
-        "File": "Segoe Fluent Icons.ttf",
-        "Name": "Segoe Fluent Icons"
-      },
-      {
-        "File": "Ionicons.ttf",
-        "Name": "Ionicons"
-      },
-      {
         "File": "Bookman Old Style.ttf",
         "Name": "Bookman Old Style"
       },
@@ -603,11 +596,7 @@
         "Name": "GOST Type BU"
       },
       {
-        "File": "Mikodacs.otf",
-        "Name": "Mikodacs"
-      },
-      {
-        "File": "Unispace.ttf",
+        "File": "Unispace (Ru).ttf",
         "Name": "Unispace"
       },
       {
