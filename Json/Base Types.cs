@@ -316,6 +316,7 @@ namespace LC_Localization_Task_Absolute.Json
                     {
                         int? LatestRegisteredCoinPowerValue = null;
                         int? LatestRegisteredBasePowerValue = null;
+                        string? LatestRegisteredAffinity = null;
                         string? LatestRegisteredCoinMathOperator = null;
 
                         foreach(DetailedInfoItem_UptieLevel JsonUptieGaksungLevel in UptieLevelsJsonList)
@@ -327,6 +328,9 @@ namespace LC_Localization_Task_Absolute.Json
                             if (LevelCorrection   == null) LevelCorrection   = JsonUptieGaksungLevel.LevelCorrection_UPTIE;
                             if (CoinMathOperator  == null) CoinMathOperator  = JsonUptieGaksungLevel.CoinMathOperator_UPTIE;
                             if (CoinTypesSequence == null) CoinTypesSequence = JsonUptieGaksungLevel.CoinTypesSequence_UPTIE;
+
+                            if (JsonUptieGaksungLevel.Affinity_UPTIE == null) JsonUptieGaksungLevel.Affinity_UPTIE = LatestRegisteredAffinity;
+                            LatestRegisteredAffinity = JsonUptieGaksungLevel.Affinity_UPTIE;
 
                             // If switching to previous upties, don't keep higher values because null
                             if (JsonUptieGaksungLevel.CoinPower_UPTIE == null)
