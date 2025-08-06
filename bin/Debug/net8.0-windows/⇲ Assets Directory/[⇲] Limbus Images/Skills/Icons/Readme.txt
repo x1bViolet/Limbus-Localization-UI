@@ -1,0 +1,3 @@
+Almost all icons starting from Canto IV is available in pre-release file, unpack "Skill Icons.zip" file from it there. (130mb archive is too big for github source code files)
+
+Image names (not including .png extension) must match skill IDs. Sometimes there may be 'ID'_4 files for Identities Uptie Level 4, they are being referenced by files in "⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info".

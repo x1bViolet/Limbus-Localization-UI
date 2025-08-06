@@ -217,6 +217,32 @@ public partial class MainWindow : Window
 
     internal protected void InitMain()
     {
+        // To not upload 2300+ files on github
+        if (File.Exists(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip"))
+        {
+            try
+            {
+                System.IO.Compression.ZipFile.ExtractToDirectory(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip", @"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json");
+
+                File.Delete(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip");
+            }
+            catch { }
+        }
+
+        //if (File.Exists(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\Limbus\Limbus $Unpack.zip"))
+        //{
+        //    try
+        //    {
+        //        System.IO.Compression.ZipFile.ExtractToDirectory(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\Limbus\Limbus $Unpack.zip", @"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\Limbus");
+
+        //        File.Delete(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\Limbus\Limbus $Unpack.zip");
+        //    }
+        //    catch { }
+        //}
+
+
+
+
         PreviewUpdate_TargetSite = PreviewLayout_Default;
 
         File.WriteAllText(@"⇲ Assets Directory\Latest loading.txt", "");
