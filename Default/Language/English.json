@@ -186,6 +186,10 @@
       "Text": "View Desc."
     },
     {
+      "Element ID": "Skills Name Replication 'Atk Weight'",
+      "Text": "Atk Weight"
+    },
+    {
       "Element ID": "Editor Context Menu — Insert Style",
       "Font": "Unispace",
       "Text": "※ Insert <color=#f8c200><style> Higlight</color>",
@@ -271,6 +275,11 @@
       "Font": "Segoe UI"
     },
     {
+      "Element ID": "[Settings] Limbus Preview — Enable Skill Names Replication",
+      "Text": "Enable Skill Names Replication",
+      "Font": "Segoe UI"
+    },
+    {
       "Element ID": "[Settings] Limbus Preview — Preview update delay",
       "Text": "Limbus Preview update delay",
       "Font": "Segoe UI"
@@ -336,6 +345,35 @@
     },
 
 
+
+    {
+      "Element ID": "[Settings] Resourecs Reload — Secton Name",
+      "Text": "⦁ Resources Reload",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — Custom Language Keywords",
+      "Text": "Custom Lang Keywords",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — Keyword Icons",
+      "Text": "Keyword Icons",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — Skills Icons and Display Info",
+      "Text": "Skills Display Info and Icons",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — E.G.O Gifts Icons and Display Info",
+      "Text": "E.G.O Gifts Display Info and Icons",
+      "Font": "Segoe UI"
+    },
+
+
+
     {
       "Element ID": "[Settings] Preview Scans — Section Name",
       "Text": "⦁ Preview Scans",
@@ -349,6 +387,21 @@
     {
       "Element ID": "[Settings] Preview Scans — Width of Skills Preview",
       "Text": "Skills Panel Width",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Background Color (Skills only)",
+      "Text": "Skill Exports Background Color (<i>Hex</i> <u>RGB</u> / <u>ARGB</u>)",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Toggle Background Color View",
+      "Text": "Toggle Background Color View",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Scale Factor",
+      "Text": "Scale Factor",
       "Font": "Segoe UI"
     },
     {
@@ -387,7 +440,7 @@
       "Element ID": "Json File Path",
       "Font": "GOST Type BU",
       "Font Size": 25,
-      "Font Weight": "Bold",
+      "Font Weight":  "Bold",
       "Horizontal Offset": 3.8,
       "Vertical Offset": 2.5
     },
@@ -480,7 +533,17 @@
       "Font Weight": "Bold"
     },
     {
-      "Element ID": "[Settings] Custom Lanugage — Width of Skills Preview",
+      "Element ID": "[Settings] Preview Scans — Width of Skills Preview",
+      "Font": "GOST Type BU",
+      "Font Weight": "Bold"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Scale Factor",
+      "Font": "GOST Type BU",
+      "Font Weight": "Bold"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Background Color (Skills only)",
       "Font": "GOST Type BU",
       "Font Weight": "Bold"
     }
@@ -518,6 +581,9 @@
   },
   "Default [$] Insertion": "…",
   "Unsaved Changes Marker": "[$] <size=66%><color=#fc5a03><b>(Changed)</b></color></size>",
+  "Make Scan Button tooltip": "Export preview to PNG (To <font=\"Consolas\"><b>⇲ Assets Directory\\[⇲] Scans<b></font> directory)",
+  "Make Scan Button tooltip width": 296,
+  "Program Version at main menu": "Version",
   "Fonts": {
     "Font Files (⇲ Assets Directory/[+] Languages/Fonts)": [
       {

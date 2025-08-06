@@ -1,9 +1,12 @@
-﻿using LC_Localization_Task_Absolute.Mode_Handlers;
+﻿using LC_Localization_Task_Absolute.Json;
+using LC_Localization_Task_Absolute.Limbus_Integration;
+using LC_Localization_Task_Absolute.Mode_Handlers;
 using RichText;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
+using System.Windows.Media;
 using static LC_Localization_Task_Absolute.ConfigRegexSaver;
 using static LC_Localization_Task_Absolute.MainWindow;
 using static LC_Localization_Task_Absolute.Requirements;
@@ -122,6 +125,12 @@ namespace LC_Localization_Task_Absolute
             {
                 MainControl.ScanAreaView_Skills.BorderThickness = new Thickness(2);
                 ScansManager.ToggleScanAreaView();
+
+            }
+            if (!MainControl.SurfaceScrollPreview_Skills_Inner.Background.Equals(Brushes.Transparent))
+            {
+                ToggleSkillsScanBackgroundColorView_I.Visibility = Collapsed;
+                MainControl.SurfaceScrollPreview_Skills_Inner.Background = Brushes.Transparent;
             }
             this.Hide();
         }
@@ -136,6 +145,43 @@ namespace LC_Localization_Task_Absolute
             }
         }
 
+        private void OptionPress(object sender, MouseButtonEventArgs e)
+        {
+            string Sender = (sender as FrameworkElement).Name;
+            switch (Sender)
+            {
+                case "ReloadCustomLanguageKeywords":
+                    if (Directory.Exists(Configurazione.SelectedAssociativePropery_Shared.Properties.KeywordsDirectory))
+                    {
+                        KeywordsInterrogate.InitializeGlossaryFrom
+                        (
+                            KeywordsDirectory: Configurazione.SelectedAssociativePropery_Shared.Properties.KeywordsDirectory,
+                            WriteOverFallback: true
+                        );
+                        RichTextBoxApplicator.UpdateLast();
+                    }
+                    break;
+
+                case "ReloadKeywordImages":
+                    KeywordsInterrogate.KeywordImages.Clear();
+                    KeywordsInterrogate.LoadInlineImages();
+                    RichTextBoxApplicator.UpdateLast();
+                    break;
+
+                case "ResetEGOGiftsDisplayInfo":
+                    Mode_EGOGifts.OrganizedData.DisplayInfo_Icons.Clear();
+                    Mode_EGOGifts.OrganizedData.UpdateDisplayInfo();
+                    break;
+
+                case "ReloadSkillsDisplayInfo":
+                    Mode_Skills.OrganizedDisplayInfo.Clear();
+                    Mode_Skills.LoadDisplayInfo();
+                    Custom_Skills_Constructor.LoadedSkillConstructors.Clear();
+                    Custom_Skills_Constructor.ReadSkillConstructors();
+                    Mode_Skills.ChangeSkillHeaderReplicaAppearance();
+                    break;
+            }
+        }
 
         private void OptionToggle(object sender, MouseButtonEventArgs e)
         {
@@ -153,6 +199,33 @@ namespace LC_Localization_Task_Absolute
                 {
                     case "ToggleScansPreview":
                         ScansManager.ToggleScanAreaView();
+                        break;
+
+
+
+                    case "Recheck_SkillsBackgroundColor":
+                        Configurazione.DeltaConfig.ScanParameters.BackgroundColor = InputSkillsScanBackgroundColor.Text;
+
+                        ChangeJsonConfigViaRegex("Background Color", Configurazione.DeltaConfig.ScanParameters.BackgroundColor);
+
+                        break;
+
+
+                    case "ToggleSkillsScanBackgroundColorView":
+
+                        switch (ToggleSkillsScanBackgroundColorView_I.Visibility)
+                        {
+                            case Collapsed:
+                                ToggleSkillsScanBackgroundColorView_I.Visibility = Visible;
+                                MainControl.SurfaceScrollPreview_Skills_Inner.Background = SettingsControl.InputSkillsBackgroundColor_Display.Background;
+                                break;
+
+                            case Visible:
+                                ToggleSkillsScanBackgroundColorView_I.Visibility = Collapsed;
+                                MainControl.SurfaceScrollPreview_Skills_Inner.Background = Brushes.Transparent;
+                                break;
+                        }
+
                         break;
 
 
@@ -197,6 +270,26 @@ namespace LC_Localization_Task_Absolute
 
                         ChangeJsonConfigViaRegex("Highlight Coin Descs on manual switch", Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnManualSwitch);
 
+                        break;
+
+
+
+                    case "ToggleEnableSkillNamesReplica":
+                        Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSkillNamesReplication = !Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSkillNamesReplication;
+                        ToggleEnableSkillNamesReplica_I.Visibility = ToggleEnableSkillNamesReplica_I.Visibility switch
+                        {
+                            Visible => Collapsed,
+                            _/*Collapsed*/ => Visible
+                        };
+
+                        MainControl.SkillReplica.Visibility = Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSkillNamesReplication switch
+                        {
+                            true  => Visible,
+                            false => Collapsed
+                        };
+
+                        ChangeJsonConfigViaRegex("Enable Skill Names Replication", Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSkillNamesReplication);
+                        Mode_Skills.ChangeSkillHeaderReplicaAppearance();
                         break;
 
 
@@ -272,7 +365,33 @@ namespace LC_Localization_Task_Absolute
                         }
                         catch
                         {
-                            MessageBox.Show("Not a number!");
+                            InputPreviewUpdateDelay.Text = $"{Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.PreviewUpdateDelay}";
+                        }
+                        break;
+
+                        
+
+                    case "Recheck_ScansScaleFactor":
+                        try
+                        {
+                            double NewScansScaleFactor = double.Parse(InputScansScaleFactor.Text);
+                            if (NewScansScaleFactor > 20)
+                            {
+                                NewScansScaleFactor = 20;
+                            }
+                            if (NewScansScaleFactor < 1)
+                            {
+                                NewScansScaleFactor = 1;
+                            }
+
+                            Configurazione.DeltaConfig.ScanParameters.ScaleFactor = NewScansScaleFactor;
+                            ChangeJsonConfigViaRegex("Scale Factor", Configurazione.DeltaConfig.ScanParameters.ScaleFactor = NewScansScaleFactor);
+
+                            InputScansScaleFactor.Text = $"{NewScansScaleFactor}";
+                        }
+                        catch
+                        {
+
                         }
                         break;
 
@@ -333,7 +452,7 @@ namespace LC_Localization_Task_Absolute
                         }
                         else
                         {
-                            MessageBox.Show("This directory does not exists!");
+                            MessageBox.Show(UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.KeywordsDirNotFound.Extern(CustomLang_KeywordsDir.Text.Trim()));
                         }
 
                         break;
@@ -360,7 +479,7 @@ namespace LC_Localization_Task_Absolute
                         }
                         else
                         {
-                            MessageBox.Show("This font file not found!");
+                            MessageBox.Show(UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.TitleFontMissing.Extern(CustomLang_TitleFont.Text.Trim()));
                         }
                         break;
 
@@ -386,7 +505,7 @@ namespace LC_Localization_Task_Absolute
                         }
                         else
                         {
-                            MessageBox.Show("This font file not found!");
+                            MessageBox.Show(UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.ContextFontMissing.Extern(CustomLang_ContextFont.Text.Trim()));
                         }
                         break;
                 }
@@ -451,6 +570,30 @@ namespace LC_Localization_Task_Absolute
         {
             e.Cancel = true;
             DoClose();
+        }
+
+        private void InputSkillsBackgroundColor_TextChanged(object sender, TextChangedEventArgs e)
+        {
+            try
+            {
+                if (InputSkillsBackgroundColor_Display != null)
+                {
+                    if (InputSkillsBackgroundColor_Display.Background != null)
+                    {
+                        string NewSkillsBackground = InputSkillsScanBackgroundColor.Text;
+
+                        SolidColorBrush NewColor = ToColor(NewSkillsBackground);
+
+                        InputSkillsBackgroundColor_Display.Background = NewColor;
+
+                        if (ToggleSkillsScanBackgroundColorView_I.Visibility.Equals(Visible))
+                        {
+                            MainControl.SurfaceScrollPreview_Skills_Inner.Background = NewColor;
+                        }
+                    }
+                }
+            }
+            catch { }
         }
     }
 }

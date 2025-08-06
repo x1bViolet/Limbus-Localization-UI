@@ -1,0 +1,109 @@
+Checking File :: Basic Sample (Default Values).json
+
+
+
+
+
+Checking File :: 「Cinq Assoc. East Section 3」 Don Quixote (ALT Without Upties).json
+★ Skill with ID '7081031101'   (Skill 1  — 「Fa Jin」)
+  ⋉ Damage Type:Pierce | Action:Attack | Rank:1
+  ⋉ Coins:[Regular-Regular] | Coins Type:+
+  ⋉ Atk Weight:1 | Level Correction:2
+    * Shared options (No Upties) ^ 'Gluttony' — Base Power:3 | Coin Power:3 | Another Icon:null
+---------------------------------------------------------
+
+★ Skill with ID '7081031102'   (Skill 2  — 「Virescent Flame Palm」)
+  ⋉ Damage Type:Pierce | Action:Attack | Rank:2
+  ⋉ Coins:[Regular-Regular-Regular] | Coins Type:+
+  ⋉ Atk Weight:1 | Level Correction:2
+    * Shared options (No Upties) ^ 'Wrath' — Base Power:4 | Coin Power:3 | Another Icon:null
+---------------------------------------------------------
+
+★ Skill with ID '7081031103'   (Skill 3  — 「Prithee, let this be an enlightening bout」)
+  ⋉ Damage Type:Pierce | Action:Attack | Rank:3
+  ⋉ Coins:[Regular-Regular-Regular-Regular] | Coins Type:+
+  ⋉ Atk Weight:1 | Level Correction:3
+    * Shared options (No Upties) ^ 'Pride' — Base Power:3 | Coin Power:3 | Another Icon:null
+---------------------------------------------------------
+
+★ Skill with ID '7081031104'   (Evade Skill  — 「Thou'rt in dire need of a lesson in table manners!」)
+  ⋉ Damage Type:None | Action:Evade | Rank:1
+  ⋉ Coins:[Regular] | Coins Type:+
+  ⋉ Atk Weight:1 | Level Correction:2
+    * Shared options (No Upties) ^ 'Wrath' — Base Power:4 | Coin Power:10 | Another Icon:1031104_4
+---------------------------------------------------------
+
+
+
+
+
+
+Checking File :: 「Cinq Assoc. East Section 3」 Don Quixote.json
+★ Skill with ID '1031101'   (Skill 1  — 「Fa Jin」)
+  ⋉ Damage Type:Pierce | Action:Attack | Rank:1
+  ⋉ Coins:[Regular-Regular] | Coins Type:+
+  ⋉ Atk Weight:1 | Level Correction:2
+    - Uptie:1 ^ 'Gluttony' — Base Power:3 | Coin Power:3 | Another Icon:null
+    - Uptie:3 ^ 'Gluttony' — Base Power:3 | Coin Power:4 | Another Icon:null
+---------------------------------------------------------
+
+★ Skill with ID '1031102'   (Skill 2  — 「Virescent Flame Palm」)
+  ⋉ Damage Type:Pierce | Action:Attack | Rank:2
+  ⋉ Coins:[Regular-Regular-Regular] | Coins Type:+
+  ⋉ Atk Weight:1 | Level Correction:2
+    - Uptie:1 ^ 'Wrath' — Base Power:4 | Coin Power:3 | Another Icon:null
+    - Uptie:3 ^ 'Wrath' — Base Power:4 | Coin Power:4 | Another Icon:null
+---------------------------------------------------------
+
+★ Skill with ID '1031103'   (Skill 3  — 「Prithee, let this be an enlightening bout」)
+  ⋉ Damage Type:Pierce | Action:Attack | Rank:3
+  ⋉ Coins:[Regular-Regular-Regular-Regular] | Coins Type:+
+  ⋉ Atk Weight:1 | Level Correction:3
+    - Uptie:1 ^ 'Pride' — Base Power:3 | Coin Power:3 | Another Icon:null
+    - Uptie:4 ^ 'Pride' — Base Power:4 | Coin Power:3 | Another Icon:null
+---------------------------------------------------------
+
+★ Skill with ID '1031104'   (Evade Skill  — 「Thou'rt in dire need of a lesson in table manners!」)
+  ⋉ Damage Type:None | Action:Evade | Rank:1
+  ⋉ Coins:[Regular] | Coins Type:+
+  ⋉ Atk Weight:1 | Level Correction:2
+    - Uptie:1 ^ 'None' — Base Power:4 | Coin Power:10 | Another Icon:null
+    - Uptie:4 ^ 'Wrath' — Base Power:4 | Coin Power:10 | Another Icon:1031104_4
+---------------------------------------------------------
+
+
+
+
+
+
+Checking File :: 「LCE E.G.OːːLantern」 Yi Sang.json
+★ Skill with ID '1011101'   (Skill 1  — 「Though it must be prefaced that E.G.O gears are standardized equipment,」)
+  ⋉ Damage Type:Blunt | Action:Attack | Rank:1
+  ⋉ Coins:[Unbreakable-Unbreakable] | Coins Type:+
+  ⋉ Atk Weight:1 | Level Correction:0
+    - Uptie:1 ^ 'Sloth' — Base Power:3 | Coin Power:3 | Another Icon:null
+    - Uptie:4 ^ 'Sloth' — Base Power:4 | Coin Power:3 | Another Icon:null
+---------------------------------------------------------
+
+★ Skill with ID '1011102'   (Skill 2  — 「when juxtaposed with E.G.O gear from L Corp., depending on the degree of attunement to the Abnormality,」)
+  ⋉ Damage Type:Pierce | Action:Attack | Rank:2
+  ⋉ Coins:[Unbreakable] | Coins Type:+
+  ⋉ Atk Weight:1 | Level Correction:1
+    - Uptie:1 ^ 'Envy' — Base Power:6 | Coin Power:6 | Another Icon:null
+    - Uptie:3 ^ 'Envy' — Base Power:8 | Coin Power:6 | Another Icon:null
+---------------------------------------------------------
+
+★ Skill with ID '1011103'   (Skill 3  — 「Yet, the degree to which that attunement and synchronization are achieved may resultantly allow the user to be devoured」)
+  ⋉ Damage Type:Pierce | Action:Attack | Rank:3
+  ⋉ Coins:[Regular-Regular-Regular] | Coins Type:-
+  ⋉ Atk Weight:1 | Level Correction:5
+    - Uptie:1 ^ 'Gluttony' — Base Power:16 | Coin Power:5 | Another Icon:null
+---------------------------------------------------------
+
+★ Skill with ID '1011104'   (Counter Skill  — 「Yet, the degree to which that attunement and synchronization are achieved may resultantly allow the user to be devoured」)
+  ⋉ Damage Type:Blunt | Action:Counter | Rank:1
+  ⋉ Coins:[Regular] | Coins Type:+
+  ⋉ Atk Weight:1 | Level Correction:5
+    - Uptie:1 ^ 'Gluttony' — Base Power:10 | Coin Power:5 | Another Icon:null
+---------------------------------------------------------
+

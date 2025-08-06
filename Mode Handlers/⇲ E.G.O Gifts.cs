@@ -58,7 +58,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 [OnDeserialized]
                 private void OnInit(StreamingContext context)
                 {
-                    if (Image.IsNull())
+                    if (Image == null)
                     {
                         rin($"Null name for {ID}");
                     }
@@ -69,39 +69,12 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     }
                     else
                     {
-                        rin($"Not found file called \"{Image}\" for id {ID}");
+                        rin($"Not found file called \"{Image}\" for E.G.O Gift with id '{ID}'");
                     }
                 }
             }
 
-            internal protected class A1_IconsDisplayInfo
-            {
-                [JsonProperty("ID Matches")]
-                public List<IconDisplayInfo> IDMatches { get; set; }
-            }
-            internal protected class IconDisplayInfo
-            {
-
-                [JsonProperty("Base ID")]
-                public int BaseID { get; set; }
-
-                [JsonProperty("File")]
-                public string Filename { get; set; }
-
-                public BitmapImage Image { get; set; }
-
-
-                [OnDeserialized]
-                private void OnInit(StreamingContext context)
-                {
-                    if (File.Exists(@$"⇲ Assets Directory\[⇲] Limbus Images\E.G.O Gifts\{Filename}"))
-                    {
-                        Image = GenerateBitmapFromFile(@$"⇲ Assets Directory\[⇲] Limbus Images\E.G.O Gifts\{Filename}");
-                    }
-                }
-            }
-
-            internal protected static void UpdateOrganizedInfo()
+            internal protected static void UpdateDisplayInfo()
             {
                 DisplayInfo_Attributes_JSON = JsonConvert.DeserializeObject<A1_AttributesDisplayInfo>(File.ReadAllText(@"⇲ Assets Directory\[⇲] Limbus Images\E.G.O Gifts\⇲ Display Info.json"));
 
@@ -159,7 +132,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                 if (notfound.Count > 0)
                 {
-                    MessageBox.Show($"Following ID's not found in Display Info:{string.Join("\n", notfound)}");
+                    MessageBox.Show($"Following IDs not found in \"⇲ Assets Directory\\[⇲] Limbus Images\\E.G.O Gifts\\⇲ Display Info.json\":\n{string.Join(", ", notfound)}");
                 }
             }
         }
@@ -258,7 +231,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             else
             {
                 MainControl.EGOGiftDisplay_MainIcon.Source = KeywordsInterrogate.KeywordImages["Unknown"];
-
             }
 
 
@@ -268,7 +240,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             for (int i = 1; i <= 6; i++) ((MainControl.FindName($"STE_DisableCover_EGOGift_SimpleDescription{i}")) as Border).Visibility = Visibility.Visible;
 
-            if (!FullLink.SimpleDescriptions.IsNull())
+            if (FullLink.SimpleDescriptions != null)
             {
                 for (int i = 1; i <= FullLink.SimpleDescriptions.Count; i++)
                 {
@@ -391,24 +363,37 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                 : KeywordsInterrogate.KeywordImages["Unknown"],
                     };
                 }
+                
 
-                MainControl.EGOGiftAffinityType_NameBackground.Background = ToColor(
-                OrganizedData.DisplayInfo_Attributes[CurrentEGOGiftID].Affinity switch
-                    {
-                        "Wrath"    => "#fe0101",
-                        "Lust"     => "#fe6f01",
-                        "Sloth"    => "#fed435",
-                        "Gluttony" => "#a7fe01",
-                        "Gloom"    => "#1cc7f1",
-                        "Pride"    => "#014fd6",
-                        "Envy"     => "#9800df",
-                        _ => "#9f6a3a"
-                    }
-                );
+                string SelectAffinityForBgName = OrganizedData.DisplayInfo_Attributes[CurrentEGOGiftID].Affinity switch
+                {
+                    "Wrath" => "Wrath",
+                    "Lust" => "Lust",
+                    "Sloth" => "Sloth",
+                    "Gluttony" => "Gluttony",
+                    "Gloom" => "Gloom",
+                    "Pride" => "Pride",
+                    "Envy" => "Envy",
+                    _ => "None"
+                };
+
+                MainControl.EGOGiftNameBackground.Source = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Backgrounds/Affinity-Colored E.G.O Gifts Name Backgrounds/{SelectAffinityForBgName}.png"));
+                //MainControl.EGOGiftAffinityType_NameBackground.Background = ToColor(
+                //OrganizedData.DisplayInfo_Attributes[CurrentEGOGiftID].Affinity switch
+                //    {
+                //        "Wrath"    => "#fe0101",
+                //        "Lust"     => "#fe6f01",
+                //        "Sloth"    => "#fed435",
+                //        "Gluttony" => "#a7fe01",
+                //        "Gloom"    => "#1cc7f1",
+                //        "Pride"    => "#014fd6",
+                //        "Envy"     => "#9800df",
+                //        _ => "#9f6a3a"
+                //    }
+                //);
             }
             else
             {
-                //MessageBox.Show($"Not found id '{CurrentEGOGiftID}' in Display Info");
                 MainControl.EGOGiftAffinityType_NameBackground.Background = ToColor("#9f6a3a");
                 MainControl.EGOGiftDisplay_Tier.Text = "";
             }

@@ -144,7 +144,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             var FullLink = DelegateKeywords[CurrentKeywordID];
             /////////////////////////////////////////////////
             
-            if (!FullLink.SummaryDescription.IsNull())
+            if (FullLink.SummaryDescription != null)
             {
                 if (!FullLink.SummaryDescription.Equals(FullLink.EditorSummaryDescription))
                 {

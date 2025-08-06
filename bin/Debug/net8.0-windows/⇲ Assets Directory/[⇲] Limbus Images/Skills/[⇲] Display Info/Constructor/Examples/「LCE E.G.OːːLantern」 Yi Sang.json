@@ -1,0 +1,128 @@
+{
+  "Skills Info": [
+    {
+      "(Name)": "Skill 1  — 「Though it must be prefaced that E.G.O gears are standardized equipment,」",
+
+      "ID": 1011101,
+
+      "Specific": {
+        "Damage Type": "Blunt",
+        "Action": "Attack",
+        
+        "Rank": 1
+      },
+
+      "Characteristics": {
+        "Coins List": ["Unbreakable", "Unbreakable"],
+        "Coins Type": "Plus",
+
+        "Attack Weight": 1
+      },
+
+      "Upties": {
+        "1": {
+          "Coin Power": 3,
+          "Base Power": 3,
+          "Affinity": "Sloth"
+        },
+        "4": {
+          "Base Power": 4
+        }
+      }
+    },
+
+
+
+
+    {
+      "(Name)": "Skill 2  — 「when juxtaposed with E.G.O gear from L Corp., depending on the degree of attunement to the Abnormality,」",
+
+      "ID": 1011102,
+
+      "Specific": {
+        "Damage Type": "Pierce",
+        "Action": "Attack",
+        
+        "Rank": 2
+      },
+
+      "Characteristics": {
+        "Coins List": ["Unbreakable"],
+        "Coins Type": "Plus",
+
+        "Attack Weight": 1,
+        "Level Correction": 1
+      },
+
+      "Upties": {
+        "1": {
+          "Coin Power": 6,
+          "Base Power": 6,
+          "Affinity": "Envy"
+        },
+        "3": {
+          "Base Power": 8
+        }
+      }
+    },
+
+
+
+    {
+      "(Name)": "Skill 3  — 「Yet, the degree to which that attunement and synchronization are achieved may resultantly allow the user to be devoured」",
+
+      "ID": 1011103,
+
+      "Specific": {
+        "Damage Type": "Pierce",
+        "Action": "Attack",
+        
+        "Rank": 3
+      },
+
+      "Characteristics": {
+        "Coins List": ["Regular", "Regular", "Regular"],
+        "Coins Type": "Minus",
+
+        "Attack Weight": 1,
+        "Level Correction": 5
+      },
+
+      "Upties": {
+        "1": {
+          "Coin Power": 5,
+          "Base Power": 16,
+          "Affinity": "Gluttony"
+        }
+      }
+    },
+
+
+
+    {
+      "(Name)": "Counter Skill  — 「Yet, the degree to which that attunement and synchronization are achieved may resultantly allow the user to be devoured」",
+
+      "ID": 1011104,
+
+      "Specific": {
+        "Action": "Counter",
+        "Damage Type": "Blunt"
+      },
+
+      "Characteristics": {
+        "Coins List": ["Regular"],
+        "Coins Type": "Plus",
+
+        "Level Correction": 5
+      },
+
+      "Upties": {
+        "1": {
+          "Base Power": 10,
+          "Coin Power": 5,
+          "Affinity": "Gluttony"
+        }
+      }
+    }
+  ]
+}

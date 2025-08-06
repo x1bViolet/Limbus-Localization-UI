@@ -1,0 +1,107 @@
+{
+  "Skills Info": [
+    {
+      "(Name)": "Skill 1  — 「Fa Jin」",
+
+      "ID": 7081031101,
+
+      "Specific": {
+        "Damage Type": "Pierce",
+        "Affinity": "Gluttony",
+        "Action": "Attack",
+        
+        "Rank": 1
+      },
+
+      "Characteristics": {
+        "Coin Power": 3,
+        "Base Power": 3,
+        
+        "Coins List": ["Regular", "Regular"],
+        "Coins Type": "Plus",
+
+        "Attack Weight": 1,
+        "Level Correction": 2
+      }
+    },
+
+
+
+
+    {
+      "(Name)": "Skill 2  — 「Virescent Flame Palm」",
+
+      "ID": 7081031102,
+
+      "Specific": {
+        "Damage Type": "Pierce",
+        "Affinity": "Wrath",
+        "Action": "Attack",
+        
+        "Rank": 2
+      },
+
+      "Characteristics": {
+        "Coin Power": 3,
+        "Base Power": 4,
+
+        "Coins List": ["Regular", "Regular", "Regular"],
+        "Coins Type": "Plus",
+
+        "Attack Weight": 1,
+        "Level Correction": 2
+      }
+    },
+
+
+
+    {
+      "(Name)": "Skill 3  — 「Prithee, let this be an enlightening bout」",
+
+      "ID": 7081031103,
+
+      "Specific": {
+        "Damage Type": "Pierce",
+        "Affinity": "Pride",
+        "Action": "Attack",
+        
+        "Rank": 3
+      },
+
+      "Characteristics": {
+        "Coin Power": 3,
+        "Base Power": 3,
+
+        "Coins List": ["Regular", "Regular", "Regular", "Regular"],
+        "Coins Type": "Plus",
+
+        "Attack Weight": 1,
+        "Level Correction": 3
+      }
+    },
+
+
+
+    {
+      "(Name)": "Evade Skill  — 「Thou'rt in dire need of a lesson in table manners!」",
+
+      "ID": 7081031104,
+      "Icon ID": "1031104_4",
+
+      "Specific": {
+        "Action": "Evade",
+        "Affinity": "Wrath"
+      },
+
+      "Characteristics": {
+        "Base Power": 4,
+        "Coin Power": 10,
+
+        "Coins List": ["Regular"],
+        "Coins Type": "Plus",
+
+        "Level Correction": 2
+      }
+    }
+  ]
+}

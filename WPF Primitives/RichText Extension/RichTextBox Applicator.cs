@@ -159,39 +159,39 @@ namespace RichText
                     }
                 }
 
-                double OverrideSpriteVerticalOffset = 0;
-                double OverrideSpriteHorizontalOffset = 0;
-                double OverrideSpriteSize = 0;
+                double OverrideTag_SpriteVerticalOffset = 0;
+                double OverrideTag_SpriteHorizontalOffset = 0;
+                double OverrideTag_SpriteSize = 0;
 
-                var OverrideSpriteVerticalOffsetValuesFound = ImageData.TextBase.InnerTags.ItemsThatContain("SpritesVerticalOffset@");
-                var OverrideSpriteHorizontalOffsetValuesFound = ImageData.TextBase.InnerTags.ItemsThatContain("SpritesHorizontalOffset@");
-                var OverrideSpriteSizeValuesFound = ImageData.TextBase.InnerTags.ItemsThatContain("SpritesSize@");
+                var OverrideTag_SpriteVerticalOffsetValuesFound = ImageData.TextBase.InnerTags.ItemsThatContain("SpritesVerticalOffset@");
+                var OverrideTag_SpriteHorizontalOffsetValuesFound = ImageData.TextBase.InnerTags.ItemsThatContain("SpritesHorizontalOffset@");
+                var OverrideTag_SpriteSizeValuesFound = ImageData.TextBase.InnerTags.ItemsThatContain("SpritesSize@");
 
-                if (OverrideSpriteVerticalOffsetValuesFound.Count > 0)
+                if (OverrideTag_SpriteVerticalOffsetValuesFound.Count > 0)
                 {
-                    string target = Regex.Match(OverrideSpriteVerticalOffsetValuesFound[0], @"SpritesVerticalOffset@((\+|\-)\d+)").Groups[1].Value;
-                    OverrideSpriteVerticalOffset = double.Parse(target);
+                    string target = Regex.Match(OverrideTag_SpriteVerticalOffsetValuesFound[0], @"SpritesVerticalOffset@((\+|\-)\d+)").Groups[1].Value;
+                    OverrideTag_SpriteVerticalOffset = target.GetDouble();
                 }
                 
-                if (OverrideSpriteHorizontalOffsetValuesFound.Count > 0)
+                if (OverrideTag_SpriteHorizontalOffsetValuesFound.Count > 0)
                 {
-                    string target = Regex.Match(OverrideSpriteHorizontalOffsetValuesFound[0], @"SpritesHorizontalOffset@((\+|\-)\d+)").Groups[1].Value;
-                    OverrideSpriteHorizontalOffset = double.Parse(target);
+                    string target = Regex.Match(OverrideTag_SpriteHorizontalOffsetValuesFound[0], @"SpritesHorizontalOffset@((\+|\-)\d+)").Groups[1].Value;
+                    OverrideTag_SpriteHorizontalOffset = target.GetDouble();
                 }
                 
-                if (OverrideSpriteSizeValuesFound.Count > 0)
+                if (OverrideTag_SpriteSizeValuesFound.Count > 0)
                 {
-                    string target = Regex.Match(OverrideSpriteSizeValuesFound[0], @"SpritesSize@((\+|\-)\d+)").Groups[1].Value;
-                    OverrideSpriteSize = double.Parse(target);
+                    string target = Regex.Match(OverrideTag_SpriteSizeValuesFound[0], @"SpritesSize@((\+|\-)\d+)").Groups[1].Value;
+                    OverrideTag_SpriteSize = double.Parse(target);
                 }
 
                 double DefinedWidth = Target.FontSize;
                 double DefinedHeight = Target.FontSize;
 
-                if (OverrideSpriteSize != 0)
+                if (OverrideTag_SpriteSize != 0)
                 {
-                    DefinedWidth = OverrideSpriteSize;
-                    DefinedHeight = OverrideSpriteSize;
+                    DefinedWidth = OverrideTag_SpriteSize;
+                    DefinedHeight = OverrideTag_SpriteSize;
                 }
 
                 Image SpriteImage = new()
@@ -199,10 +199,13 @@ namespace RichText
                     Source = KeywordImageSource,
                     Width = DefinedWidth,
                     Height = DefinedHeight,
-                    Margin = new Thickness(OverrideSpriteHorizontalOffset == 0 ? Configurazione.KeywordSpriteHorizontalOffset : OverrideSpriteHorizontalOffset,
-                                           OverrideSpriteVerticalOffset == 0 ? Configurazione.KeywordSpriteVerticalOffset : OverrideSpriteVerticalOffset,
-                                           0,
-                                           0)
+                    Margin = new Thickness(
+                        
+                        OverrideTag_SpriteHorizontalOffset == 0 ? Configurazione.KeywordSpriteHorizontalOffset : OverrideTag_SpriteHorizontalOffset,
+                        OverrideTag_SpriteVerticalOffset == 0 ? Configurazione.KeywordSpriteVerticalOffset : OverrideTag_SpriteVerticalOffset,
+
+                        0,
+                        0)
                 };
 
                 if (ImageData.TextBase.Text.Equals(""))

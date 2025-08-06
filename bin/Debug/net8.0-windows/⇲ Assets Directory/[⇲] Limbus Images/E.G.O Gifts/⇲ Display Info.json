@@ -102,21 +102,21 @@
     {
       "ID": 1022,
       "Image": "A Sign (1022).png",
-      "Affinity": "",
+      "Affinity": "Wrath",
       "Keyword": "-",
       "Tier": "-"
     },
     {
       "ID": 1023,
       "Image": "A Sign (1023).png",
-      "Affinity": "",
+      "Affinity": "Wrath",
       "Keyword": "-",
       "Tier": "-"
     },
     {
       "ID": 1024,
       "Image": "A Sign (1024).png",
-      "Affinity": "",
+      "Affinity": "Wrath",
       "Keyword": "-",
       "Tier": "-"
     },
@@ -144,7 +144,7 @@
     {
       "ID": 1037,
       "Image": "N Corp. Seal.png",
-      "Affinity": "",
+      "Affinity": "Lust",
       "Keyword": "-",
       "Tier": "-"
     },
@@ -550,7 +550,7 @@
     {
       "ID": 2064,
       "Image": "Tranquil Lotus Bolus.png",
-      "Affinity": "",
+      "Affinity": "Gluttony",
       "Keyword": "-",
       "Tier": "-"
     },

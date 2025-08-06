@@ -10,7 +10,8 @@
       "Preview Update Delay (Seconds)": 0,
       "Highlight <style>": true,
       "Highlight Coin Descs on right click": true,
-      "Highlight Coin Descs on manual switch": false
+      "Highlight Coin Descs on manual switch": false,
+      "Enable Skill Names Replication": true
     },
     "Custom Language Properties": {
       "Keywords Ignore": [
@@ -171,7 +172,7 @@
             "Name": "Korean (Original)",
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/kr",
-              "Keywords Sprite Vertical Offset": 4,
+              "Keywords Sprite Vertical Offset": 2.8,
 
               "Title Font": "⇲ Assets Directory/[⇲] Limbus Embedded Fonts/KOTRA_BOLD.ttf",
               "Title Font (Override Read Name)": "KOTRA BOLD",
@@ -194,8 +195,14 @@
     }
   },
   "Scan Parameters": {
-    "Skills Area Width": 0,
-    "Comment": "0 means default width"
+    "Skills Area Width": 700,
+    "Scale Factor": 5,
+    "Background Color": "#00000000",
+    "Comments": [
+      "'Skills Area Width' as 0 means default width",
+      "'Background Color' can be ARGB",
+      "'Scale Factor' highly affects on text quality, bigger values cuses long export time, max value is 20 (About ~7 seconds of absurdres image exporting)"
+    ]
   },
   "Technical Actions": {
     "Keywords Multiple Meanings Dictionary": {

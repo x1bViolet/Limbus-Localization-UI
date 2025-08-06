@@ -62,9 +62,9 @@ public partial class MainWindow : Window
 
             ["Right Menu — Current ID Copy Button"] = STE_NavigationPanel_ObjectID_Display,
             ["Right Menu — Current ID Copy Button (Copied)"] = STE_NavigationPanel_ObjectID_Display_IDCopied,
-
             ["Skills Main Name [Shadow Text]"] = STE_Skills_MainSkillName_ShadowText,
             ["Skills EGO Abnormality Name [Shadow Text]"] = STE_Skills_EGOAbnormalitySkillName_ShadowText,
+            ["Skills Name Replication 'Atk Weight'"] = STE_Skills_Replication_AtkWeightText,
             ["Right Menu — Skill Desc"] = STE_Skills_MainDescription,
             ["Right Menu — Skill Coin 1"] = STE_Skills_Coin_1,
             ["Right Menu — Skill Coin 2"] = STE_Skills_Coin_2,
@@ -120,8 +120,9 @@ public partial class MainWindow : Window
             ["[Settings] Limbus Preview — Highlight <style>"] = SettingsControl.STE_Settings_LimbusPreview_HighlightStyle,
             ["[Settings] Limbus Preview — Highlight Coin Desc on click"] = SettingsControl.STE_Settings_LimbusPreview_HighlightCoinDescOnClick,
             ["[Settings] Limbus Preview — Highlight Coin Desc on manual switch"] = SettingsControl.STE_Settings_LimbusPreview_HighlightCoinDescOnSwitch,
+            ["[Settings] Limbus Preview — Enable Skill Names Replication"] = SettingsControl.STE_Settings_LimbusPreview_EnableSkillNamesReplica,
             ["[Settings] Limbus Preview — Preview update delay"] = SettingsControl.STE_Settings_LimbusPreview_UpdateDelay,
-           
+
             ["[Settings] Custom Lanugage — Section Name"] = SettingsControl.STE_Settings_CustomLanguage_SectionName,
             ["[Settings] Custom Lanugage — Selected Properties"] = SettingsControl.STE_Settings_CustomLanguage_Selected,
             ["[Settings] Custom Lanugage — Keywords Directory"] = SettingsControl.STE_Settings_CustomLanguage_KeywordsDirectory,
@@ -137,8 +138,18 @@ public partial class MainWindow : Window
             ["[Settings] Internal — Dropdown lists Readme"] = SettingsControl.STE_Settings_Internal_Readme,
 
 
+            ["[Settings] Resourecs Reload — Secton Name"] = SettingsControl.STE_Settings_Resources_Reload_SectionName,
+            ["[Settings] Resourecs Reload — Custom Language Keywords"] = SettingsControl.STE_Settings_Resources_Reload__CustomLangKeywords,
+            ["[Settings] Resourecs Reload — Keyword Icons"] = SettingsControl.STE_Settings_Resources_Reload__KeywordImages,
+            ["[Settings] Resourecs Reload — Skills Icons and Display Info"] = SettingsControl.STE_Settings_Resources_Reload__ReloadSkillsDisplayInfo,
+            ["[Settings] Resourecs Reload — E.G.O Gifts Icons and Display Info"] = SettingsControl.STE_Settings_Resources_Reload__ResetEGOGiftsDisplayInfo,
+
+
             ["[Settings] Preview Scans — Section Name"] = SettingsControl.STE_Settings_PreviewScans_SectionName,
             ["[Settings] Preview Scans — Toggle Scan Area view"] = SettingsControl.STE_Settings_PreviewScans_ToggleAreaView,
+            ["[Settings] Preview Scans — Scale Factor"] = SettingsControl.STE_Settings_PreviewScans_ScansScaleFactor,
+            ["[Settings] Preview Scans — Background Color (Skills only)"] = SettingsControl.STE_Settings_PreviewScans_SkillsBackgroundColor,
+            ["[Settings] Preview Scans — Toggle Background Color View"] = SettingsControl.STE_Settings_PreviewScans_ToggleSkillsBackgroundColorView,
             ["[Settings] Preview Scans — Width of Skills Preview"] = SettingsControl.STE_Settings_PreviewScans_SkillsAreaWidth,
             ["[Settings] Preview Scans — Display Keyword Sprites"] = SettingsControl.STE_Settings_PreviewScans_DisplayKeywordSpritesToggle,
             ["[Settings] Preview Scans — Display Keyword Underline"] = SettingsControl.STE_Settings_PreviewScans_DisplayKeywordUnderlineToggle,
@@ -168,7 +179,9 @@ public partial class MainWindow : Window
             ["[Settings] Custom Lanugage — Keywords Directory"] = SettingsControl.CustomLang_KeywordsDir,
             ["[Settings] Custom Lanugage — Title Font"] = SettingsControl.CustomLang_TitleFont,
             ["[Settings] Custom Lanugage — Context Font"] = SettingsControl.CustomLang_ContextFont,
-            ["[Settings] Custom Lanugage — Width of Skills Preview"] = SettingsControl.InputSkillsPanelWidth,
+            ["[Settings] Preview Scans — Width of Skills Preview"] = SettingsControl.InputSkillsPanelWidth,
+            ["[Settings] Preview Scans — Scale Factor"] = SettingsControl.InputScansScaleFactor,
+            ["[Settings] Preview Scans — Background Color (Skills only)"] = SettingsControl.InputSkillsScanBackgroundColor,
         };
     }
     #endregion
@@ -208,6 +221,8 @@ public partial class MainWindow : Window
 
         File.WriteAllText(@"⇲ Assets Directory\Latest loading.txt", "");
 
+        Mode_Skills.LoadSkillFrames();
+
         Configurazione.PullLoad();
 
         if (File.Exists(@"⇲ Assets Directory\Default Text.txt"))
@@ -216,7 +231,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            Editor.Text = "               <spritessize=+30><font=\"BebasKai SDF\"><size=140%><sprite name=\"9202\"> <u>Limbus Company Localization Interface</u> <color=#f8c200>'1.0:0</color></size></font></spritessize>";
+            Editor.Text = "               <spritessize=+30><font=\"BebasKai SDF\"><size=140%><sprite name=\"9202\"> <u>Limbus Company Localization Interface</u> <color=#f8c200>'1.1:5</color></size></font></spritessize>\n\nЧерти вышли из омута";
         }
 
         RichText.InternalModel.InitializingEvent = false;
@@ -263,6 +278,20 @@ public partial class MainWindow : Window
             PullUpdatePreview(Editor.Text);
         }
 
+        //if (Mode_Handlers.Upstairs.ActiveProperties.Key.Equals("Skills"))
+        //{
+        //    //////////////////////////////////////////////////////////////////////////////////////////////
+        //    var FullLink = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel];
+        //    //////////////////////////////////////////////////////////////////////////////////////////////
+        //    if (FullLink.Coins != null)
+        //    {
+        //        if (FullLink.Coins.Count > 0)
+        //        {
+        //            Mode_Skills.CheckSkillNameReplicaCoins_FromLocalizationFile();
+        //        }
+        //    }
+        //}
+
         // Window_PreviewKeyDown() -> if ctrlv and \" -> Editor_TextChanged() -> here
         // After pasting formatted clipboard return normal text to clipboard that was before
         if (IsQuotesConvertedInClipboard)
@@ -278,7 +307,6 @@ public partial class MainWindow : Window
         switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
         {
             case "Skills":
-
                 if (Mode_Skills.CurrentSkillID != -1)
                 {
                     if (!EditorText.Equals(""))
@@ -291,7 +319,6 @@ public partial class MainWindow : Window
                     }
 
                     Mode_Skills.LastPreviewUpdatesBank[PreviewUpdate_TargetSite] = EditorText.Replace("\r", "");
-
 
                     if (PreviewUpdate_TargetSite.Equals(MainControl.PreviewLayout_Skills_MainDesc))
                     {
@@ -529,7 +556,7 @@ public partial class MainWindow : Window
             default: break;
         }
 
-        if (!PreviewUpdate_TargetSite.IsNull()) PreviewUpdate_TargetSite.SetLimbusRichText(EditorText);
+        if (PreviewUpdate_TargetSite != null) PreviewUpdate_TargetSite.SetLimbusRichText(EditorText);
     }
     #endregion
 
@@ -852,7 +879,7 @@ public partial class MainWindow : Window
             AnyChanges = true;
         }
 
-        if (!FullLinkKeyword.SummaryDescription.IsNull())
+        if (FullLinkKeyword.SummaryDescription != null)
         {
             if (!FullLinkKeyword.SummaryDescription.Equals(FullLinkKeyword.EditorSummaryDescription))
             {
@@ -1386,7 +1413,7 @@ public partial class MainWindow : Window
                         UnsavedChangesInPassiveDesc = true;
                         UnsavedChangesCount++;
                     }
-                    if (!CheckPassive.Value.SummaryDescription.IsNull())
+                    if (CheckPassive.Value.SummaryDescription != null)
                     {
                         if (!CheckPassive.Value.SummaryDescription.Equals(CheckPassive.Value.EditorSummaryDescription))
                         {
@@ -1430,19 +1457,19 @@ public partial class MainWindow : Window
                             AnythingChanged = true;
                         }
                         
-                        if (!UptieLevel.Coins.IsNull())
+                        if (UptieLevel.Coins != null)
                         {
                             foreach (var Coin in UptieLevel.Coins)
                             {
-                                if (!Coin.IsNull())
+                                if (Coin != null)
                                 {
-                                    if (!Coin.CoinDescriptions.IsNull())
+                                    if (Coin.CoinDescriptions != null)
                                     {
                                         foreach (var CoinDesc in Coin.CoinDescriptions)
                                         {
-                                            if (!CoinDesc.IsNull())
+                                            if (CoinDesc != null)
                                             {
-                                                if (!CoinDesc.Description.IsNull())
+                                                if (CoinDesc.Description != null)
                                                 {
                                                     if (!CoinDesc.Description.Equals(CoinDesc.EditorDescription))
                                                     {
@@ -1484,7 +1511,7 @@ public partial class MainWindow : Window
                         UnsavedChangesInKeywordDesc = true;
                         UnsavedChangesCount++;
                     }
-                    if (!CheckKeyword.Value.SummaryDescription.IsNull())
+                    if (CheckKeyword.Value.SummaryDescription != null)
                     {
                         if (!CheckKeyword.Value.SummaryDescription.Equals(CheckKeyword.Value.EditorSummaryDescription))
                         {
@@ -1523,7 +1550,7 @@ public partial class MainWindow : Window
                         {
                             ChangedDesc = true;
                         }
-                        if (!CheckEGOGift.Value.SimpleDescriptions.IsNull())
+                        if (CheckEGOGift.Value.SimpleDescriptions != null)
                         {
                             int SimpleDescIndexer = 1;
                             foreach (var SimpleDesc in CheckEGOGift.Value.SimpleDescriptions)
@@ -1668,6 +1695,11 @@ public partial class MainWindow : Window
             _  => Collapsed,
         };
 
+        if (Sender.Name.Equals("SWBT_Skills_MainSkillName"))
+        {
+            SkillNameReplica.Text = SWBT_Skills_MainSkillName.Text;
+        }
+
         if (Sender.Name.Contains("Keywords_FormatInsertion"))
         {
             string FormatInsertionNumber = Sender.Name.Split("Keywords_FormatInsertion_")[^1];
@@ -1712,7 +1744,7 @@ public partial class MainWindow : Window
         {
             string ClipboardText = Clipboard.GetText();
 
-            rin($"\n\n\nInput: {ClipboardText}");
+            //rin($"\n\n\nInput: {ClipboardText}");
 
             if (ClipboardText.Contains(@"\""") | ClipboardText.Contains(@"\n"))
             {
@@ -1738,128 +1770,131 @@ public partial class MainWindow : Window
             {
                 IsCtrlSPressed = true;
 
-                switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
+                if (PreviewUpdate_TargetSite != null)
                 {
-                    case "Skills":
+                    switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
+                    {
+                        case "Skills":
 
-                        if (PreviewUpdate_TargetSite.Equals(PreviewLayout_Skills_MainDesc))
-                        {
-                            DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Description = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].EditorDescription;
-
-                            UILanguage["Right Menu — Skill Desc"].SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Desc"]);
-
-                            Mode_Skills.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
-                        }
-                        else
-                        {
-                            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                            var FullLinkSkill = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Coins[Mode_Skills.CurrentSkillCoinIndex].CoinDescriptions;
-                            //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                            FullLinkSkill[Mode_Skills.CurrentSkillCoinDescIndex].Description = FullLinkSkill[Mode_Skills.CurrentSkillCoinDescIndex].EditorDescription;
-
-                            if (!FullLinkSkill.Where(x => !x.Description.Equals(x.EditorDescription)).Any())
+                            if (PreviewUpdate_TargetSite.Equals(PreviewLayout_Skills_MainDesc))
                             {
-                                (MainControl.FindName($"STE_Skills_Coin_{Mode_Skills.CurrentSkillCoinIndex + 1}") as RichTextBox)
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]);
+                                DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Description = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].EditorDescription;
+
+                                UILanguage["Right Menu — Skill Desc"].SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Desc"]);
+
+                                Mode_Skills.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                            }
+                            else
+                            {
+                                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+                                var FullLinkSkill = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Coins[Mode_Skills.CurrentSkillCoinIndex].CoinDescriptions;
+                                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
+
+                                FullLinkSkill[Mode_Skills.CurrentSkillCoinDescIndex].Description = FullLinkSkill[Mode_Skills.CurrentSkillCoinDescIndex].EditorDescription;
+
+                                if (!FullLinkSkill.Where(x => !x.Description.Equals(x.EditorDescription)).Any())
+                                {
+                                    (MainControl.FindName($"STE_Skills_Coin_{Mode_Skills.CurrentSkillCoinIndex + 1}") as RichTextBox)
+                                        .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]);
+                                }
+
+                                if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
+                                {
+                                    MainControl.STE_Skills_Coin_DescNumberDisplay.SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"].Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1));
+                                }
+
+                                Mode_Skills.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
                             }
 
-                            if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
+                            break;
+
+
+                        case "Passives":
+
+                            //////////////////////////////////////////////////////////////////////
+                            var FullLinkPassive = DelegatePassives[Mode_Passives.CurrentPassiveID];
+                            //////////////////////////////////////////////////////////////////////
+
+                            if (Mode_Passives.TargetSite_StringLine.Equals("Main Description"))
                             {
-                                MainControl.STE_Skills_Coin_DescNumberDisplay.SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"].Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1));
+                                FullLinkPassive.Description = FullLinkPassive.EditorDescription;
+
+                                MainControl.STE_Passives_MainDescription
+                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Desc"]);
+
+                                Mode_Passives.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                            }
+                            else if (Mode_Passives.TargetSite_StringLine.Equals("Summary Description"))
+                            {
+                                FullLinkPassive.SummaryDescription = FullLinkPassive.EditorSummaryDescription;
+
+                                STE_Passives_SummaryDescription
+                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
+
+                                Mode_Passives.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
                             }
 
-                            Mode_Skills.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
-                        }
-
-                        break;
+                            break;
 
 
-                    case "Passives":
+                        case "Keywords":
+                            //////////////////////////////////////////////////////////////////////
+                            var FullLinkKeyword = DelegateKeywords[Mode_Keywords.CurrentKeywordID];
+                            //////////////////////////////////////////////////////////////////////
 
-                        //////////////////////////////////////////////////////////////////////
-                        var FullLinkPassive = DelegatePassives[Mode_Passives.CurrentPassiveID];
-                        //////////////////////////////////////////////////////////////////////
+                            if (Mode_Keywords.TargetSite_StringLine.Equals("Main Description"))
+                            {
+                                FullLinkKeyword.Description = FullLinkKeyword.EditorDescription;
 
-                        if (Mode_Passives.TargetSite_StringLine.Equals("Main Description"))
-                        {
-                            FullLinkPassive.Description = FullLinkPassive.EditorDescription;
+                                MainControl.STE_Keyword_MainDescription
+                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]);
 
-                            MainControl.STE_Passives_MainDescription
-                                .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Desc"]);
+                                Mode_Keywords.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                            }
+                            else if (Mode_Keywords.TargetSite_StringLine.Equals("Summary Description"))
+                            {
+                                FullLinkKeyword.SummaryDescription = FullLinkKeyword.EditorSummaryDescription;
 
-                            Mode_Passives.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
-                        }
-                        else if (Mode_Passives.TargetSite_StringLine.Equals("Summary Description"))
-                        {
-                            FullLinkPassive.SummaryDescription = FullLinkPassive.EditorSummaryDescription;
+                                STE_Keyword_SummaryDescription
+                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
 
-                            STE_Passives_SummaryDescription
-                                .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
+                                Mode_Keywords.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                            }
 
-                            Mode_Passives.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
-                        }
-
-                        break;
-
-
-                    case "Keywords":
-                        //////////////////////////////////////////////////////////////////////
-                        var FullLinkKeyword = DelegateKeywords[Mode_Keywords.CurrentKeywordID];
-                        //////////////////////////////////////////////////////////////////////
-
-                        if (Mode_Keywords.TargetSite_StringLine.Equals("Main Description"))
-                        {
-                            FullLinkKeyword.Description = FullLinkKeyword.EditorDescription;
-
-                            MainControl.STE_Keyword_MainDescription
-                                .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]);
-
-                            Mode_Keywords.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
-                        }
-                        else if (Mode_Keywords.TargetSite_StringLine.Equals("Summary Description"))
-                        {
-                            FullLinkKeyword.SummaryDescription = FullLinkKeyword.EditorSummaryDescription;
-
-                            STE_Keyword_SummaryDescription
-                                .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
-
-                            Mode_Keywords.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
-                        }
-
-                        break;
+                            break;
 
 
-                    case "E.G.O Gifts":
-                        //////////////////////////////////////////////////////////////////////
-                        var FullLinkEGOGift = DelegateEGOGifts[Mode_EGOGifts.CurrentEGOGiftID];
-                        //////////////////////////////////////////////////////////////////////
+                        case "E.G.O Gifts":
+                            //////////////////////////////////////////////////////////////////////
+                            var FullLinkEGOGift = DelegateEGOGifts[Mode_EGOGifts.CurrentEGOGiftID];
+                            //////////////////////////////////////////////////////////////////////
 
-                        if (Mode_EGOGifts.TargetSite_StringLine.Equals("Main Description"))
-                        {
-                            FullLinkEGOGift.Description = FullLinkEGOGift.EditorDescription;
+                            if (Mode_EGOGifts.TargetSite_StringLine.Equals("Main Description"))
+                            {
+                                FullLinkEGOGift.Description = FullLinkEGOGift.EditorDescription;
 
-                            MainControl.STE_EGOGift_MainDescription
-                                .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — E.G.O Gift Desc"]);
+                                MainControl.STE_EGOGift_MainDescription
+                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — E.G.O Gift Desc"]);
 
-                            Mode_EGOGifts.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
-                        }
-                        else
-                        {
-                            string SimpleDescNumber = $"{Mode_EGOGifts.TargetSite_StringLine[^1]}";
+                                Mode_EGOGifts.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                            }
+                            else
+                            {
+                                string SimpleDescNumber = $"{Mode_EGOGifts.TargetSite_StringLine[^1]}";
 
-                            int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
+                                int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
 
-                            FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].Description = FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
+                                FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].Description = FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
 
-                            (MainControl.FindName($"STE_EGOGift_SimpleDescription{SimpleDescNumber}") as RichTextBox)
-                                .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {SimpleDescNumber}"]);
+                                (MainControl.FindName($"STE_EGOGift_SimpleDescription{SimpleDescNumber}") as RichTextBox)
+                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {SimpleDescNumber}"]);
 
 
-                            Mode_EGOGifts.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
-                        }
+                                Mode_EGOGifts.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                            }
 
-                        break;
+                            break;
+                    }
                 }
             }
         }
@@ -1939,15 +1974,15 @@ public partial class MainWindow : Window
                     switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
                     {
                         case "Skills":
-                            Mode_Handlers.Mode_Skills.TransformToSkill(RegularObjectTargetID);
+                            if (DelegateSkills_IDList.Contains(RegularObjectTargetID)) Mode_Handlers.Mode_Skills.TransformToSkill(RegularObjectTargetID);
                             break;
 
                         case "Passives":
-                            Mode_Handlers.Mode_Passives.TransformToPassive(RegularObjectTargetID);
+                            if (DelegatePassives_IDList.Contains(RegularObjectTargetID)) Mode_Handlers.Mode_Passives.TransformToPassive(RegularObjectTargetID);
                             break;
                         
                         case "E.G.O Gifts":
-                            Mode_Handlers.Mode_EGOGifts.TransformToEGOGift(RegularObjectTargetID);
+                            if (DelegateEGOGifts_IDList.Contains(RegularObjectTargetID)) Mode_Handlers.Mode_EGOGifts.TransformToEGOGift(RegularObjectTargetID);
                             break;
                     }
                 }

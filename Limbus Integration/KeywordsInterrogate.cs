@@ -11,6 +11,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using LC_Localization_Task_Absolute.Json;
 using Newtonsoft.Json;
+using static LC_Localization_Task_Absolute.SettingsWindow;
 using static LC_Localization_Task_Absolute.Configurazione;
 using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Keywords;
@@ -116,7 +117,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             if (File.Exists(Filepath))
             {
                 KeywordsMultipleMeaningsDictionaryJson Readed = JsonConvert.DeserializeObject<KeywordsMultipleMeaningsDictionaryJson>(File.ReadAllText(Filepath));
-                if (!Readed.IsNull())
+                if (Readed != null)
                 {
                     KeywordsMultipleMeaningsDictionary = new();
                     foreach(KeywordsMultipleMeanings KeywordMeaningsInfo in Readed.Info)
@@ -151,15 +152,25 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
         
         internal protected static void LoadInlineImages()
         {
-            //rin($"\n$ Loading keyword images");
+            //await Task.Run(async () =>
+            //{
+                
+                //rin($"\n$ Loading keyword images");
             KeywordImages["Unknown"] = new BitmapImage(new Uri("pack://application:,,,/Default/Images/Unknown.png"));
-            int Counter = 0;
-            foreach (FileInfo KeywordImage in new DirectoryInfo(@"⇲ Assets Directory\[⇲] Limbus Images\Keywords").GetFiles("*.png", SearchOption.AllDirectories))
+            double Counter = 0;
+
+            List<FileInfo> LoadSite = new DirectoryInfo(@"⇲ Assets Directory\[⇲] Limbus Images\Keywords").GetFiles("*.png", SearchOption.AllDirectories).ToList();
+            double TotalCount = LoadSite.Count;
+
+            foreach (FileInfo KeywordImage in LoadSite)
             {
                 string TargetID = KeywordImage.Name.Replace(KeywordImage.Extension, "");
                 KeywordImages[TargetID] = GenerateBitmapFromFile(KeywordImage.FullName);
                 Counter++;
             }
+
+            //    return;
+            //});
             //rin($"  {Counter} images loaded from \"⇲ Assets Directory\\[⇲] Limbus Images\\Keywords\" directory");
         }
         internal protected static void InitializeGlossaryFrom(string KeywordsDirectory, bool WriteOverFallback = false, string FilesPrefix = "")
@@ -197,7 +208,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 if (SkillTag_Found.Count > 0)
                 {
                     BaseTypes.Type_SkillTag.SkillTags SkillTagsJson = JsonConvert.DeserializeObject<SkillTags>(File.ReadAllText(SkillTag_Found[0].FullName));
-                    if (!SkillTagsJson.dataList.IsNull())
+                    if (SkillTagsJson.dataList != null)
                     {
                         foreach (SkillTag SkillTag in SkillTagsJson.dataList)
                         {
@@ -239,13 +250,19 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
                 //rin($"\n$ Loading keywords");
                 Counter = 0;
-                foreach (FileInfo KeywordFileInfo in new DirectoryInfo(KeywordsDirectory).GetFiles(
+
+                List<FileInfo> LoadSite = new DirectoryInfo(KeywordsDirectory).GetFiles(
                     searchPattern: "*Bufs*.json",
                     searchOption: SearchOption.AllDirectories
-                )) {
+                ).ToList();
+                double TotalFilesCount = LoadSite.Count;
+
+                
+                foreach (FileInfo KeywordFileInfo in LoadSite)
+                {
                     BaseTypes.Type_Keywords.Keywords TargetSite = KeywordFileInfo.Deserealize<Keywords>() as Keywords;
 
-                    if (!TargetSite.IsNull())
+                    if (TargetSite != null)
                     {
                         foreach(Keyword KeywordItem in TargetSite.dataList)
                         {
@@ -294,6 +311,9 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                         }
                     }
                 }
+                return;
+                
+
                 Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter = Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter.OrderBy(obj => obj.Key.Length).ToDictionary(obj => obj.Key, obj => obj.Value).Reverse().ToDictionary();
                 Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter = Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter.OrderBy(obj => obj.Key.Length).ToDictionary(obj => obj.Key, obj => obj.Value).Reverse().ToDictionary();
             }

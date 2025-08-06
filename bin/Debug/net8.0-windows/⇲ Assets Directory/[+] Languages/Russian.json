@@ -183,6 +183,10 @@
       "Font": "Mikodacs"
     },
     {
+      "Element ID": "Skills Name Replication 'Atk Weight'",
+      "Text": "Кол-во целей"
+    },
+    {
       "Element ID": "Editor Context Menu — Insert Style",
       "Font": "Unispace",
       "Text": "※ Вставить <color=#f8c200><style> Higlight</color>",
@@ -272,6 +276,11 @@
       "Font": "Segoe UI"
     },
     {
+      "Element ID": "[Settings] Limbus Preview — Enable Skill Names Replication",
+      "Text": "Включить воссоздание имён скиллов",
+      "Font": "Segoe UI"
+    },
+    {
       "Element ID": "[Settings] Limbus Preview — Preview update delay",
       "Text": "Задержка обновления предпросмотра",
       "Font": "Segoe UI"
@@ -332,14 +341,43 @@
     },
     {
       "Element ID": "[Settings] Internal — Dropdown lists Readme",
-      "Text": "Drop-down lists only consider files and folders from\n<font=\"Consolas\"><b><color=#7177ff>⇲ Assets Directory\\[+] Languages</color></b></font> and <font=\"Consolas\"><b><color=#7177ff>⇲ Assets Directory\\[+] Themes</color></b></font> respectively",
+      "Text": "Списки учитывают файлы и папки только из <font=\"Consolas\"><b><color=#7177ff>⇲ Assets Directory\\[+] Languages</color></b></font> и <font=\"Consolas\"><b><color=#7177ff>⇲ Assets Directory\\[+] Themes</color></b></font> соответственно",
       "Font": "Segoe UI"
     },
 
 
+
+    {
+      "Element ID": "[Settings] Resourecs Reload — Secton Name",
+      "Text": "⦁ Перезагрузка ресурсов",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — Custom Language Keywords",
+      "Text": "Ключевые слова кастомной локализации",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — Keyword Icons",
+      "Text": "Спрайты ключевых слов",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — Skills Icons and Display Info",
+      "Text": "Информация о скиллах и их иконки",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — E.G.O Gifts Icons and Display Info",
+      "Text": "Информация о ЭГО Дарах и их иконки",
+      "Font": "Segoe UI"
+    },
+
+
+
     {
       "Element ID": "[Settings] Preview Scans — Section Name",
-      "Text": "⦁ Предпросмотр",
+      "Text": "⦁ Экспорт предпросмотра",
       "Font": "Segoe UI"
     },
     {
@@ -350,6 +388,21 @@
     {
       "Element ID": "[Settings] Preview Scans — Width of Skills Preview",
       "Text": "Ширина скиллов",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Background Color (Skills only)",
+      "Text": "Цвет фона экспорта скиллов\n(<i>Hex</i> <u>RGB</u> / <u>ARGB</u>)",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Toggle Background Color View",
+      "Text": "Отобразить цвет фона",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Scale Factor",
+      "Text": "Масштаб",
       "Font": "Segoe UI"
     },
     {
@@ -364,22 +417,22 @@
     },
     {
       "Element ID": "[Settings] Preview Scans — Readme Title",
-      "Text": "Readme (Why Skills width adjustment only)",
+      "Text": "Readme (Почему относится только к скиллам)",
       "Font": "Segoe UI"
     },
     {
       "Element ID": "[Settings] Preview Scans — Readme 1",
-      "Text": "<font=\"Consolas\"><b><color=#7177ff>Universal Template.json</color></b></font> (Skills .json file) file in \n<font=\"Consolas\"><b><color=#7177ff>⇲ Assets Directory\\[⇲] Scans</color></b></font> can be used for translating new Identities preview Skills and Passives both, Status Effects as well if you adjust this width to appropriate value. So it counts as Skills for viewer only if you write something in coins and they will be visible. Type 0 to reset to default width, all text even outside of window still being rendered and scanned.",
+      "Text": "<font=\"Consolas\"><b><color=#7177ff>Universal Template.json</color></b></font> (.json файл типа Скиллов) в папке <font=\"Consolas\"><b><color=#7177ff>⇲ Assets Directory\\[⇲] Scans</color></b></font> может одновременно использоваться для перевода скиллов, пассивок и эффектов новых айди с использованием одного лишь главного описания для последних двух пунктов. Для стороннего наблюдателя выглядит как скилл, только если видны его монеты. Ширина в 0 пикселей установит значение по умолчанию, всё с предпросмотра даже за его пределами всё равно будет отсканировано.",
       "Font": "Segoe UI"
     },
     {
       "Element ID": "[Settings] Preview Scans — Readme 2",
-      "Text": "If you would make copies and rename this file, it will still be recognized automatically by the special line <font=\"Consolas\"><b><color=#aaace7>\"Template Marker\": \"(Don't remove)\"</color></b></font> inside.",
+      "Text": "Файл распознаётся как шаблонный благодаря строке <font=\"Consolas\"><b><color=#aaace7>\"Template Marker\": \"(Don't remove)\"</color></b></font> внутри, его можно переименовывать.",
       "Font": "Segoe UI"
     },
     {
       "Element ID": "[Settings] Preview Scans — Readme 3",
-      "Text": "Just use it for all.",
+      "Text": "Используйте его для всего этого.",
       "Font": "Segoe UI"
     }
   ],
@@ -512,7 +565,17 @@
       "Font Weight": "Bold"
     },
     {
-      "Element ID": "[Settings] Custom Lanugage — Width of Skills Preview",
+      "Element ID": "[Settings] Preview Scans — Width of Skills Preview",
+      "Font": "GOST Type BU",
+      "Font Weight": "Bold"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Scale Factor",
+      "Font": "GOST Type BU",
+      "Font Weight": "Bold"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Background Color (Skills only)",
       "Font": "GOST Type BU",
       "Font Weight": "Bold"
     }

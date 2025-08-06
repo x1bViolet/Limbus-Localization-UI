@@ -1,4 +1,5 @@
-﻿using LC_Localization_Task_Absolute.Limbus_Integration;
+﻿using LC_Localization_Task_Absolute.Json;
+using LC_Localization_Task_Absolute.Limbus_Integration;
 using LC_Localization_Task_Absolute.Mode_Handlers;
 using Newtonsoft.Json;
 using RichText;
@@ -98,7 +99,9 @@ namespace LC_Localization_Task_Absolute
 
         internal protected static void PullLoad()
         {
-            Mode_EGOGifts.OrganizedData.UpdateOrganizedInfo();
+            Mode_EGOGifts.OrganizedData.UpdateDisplayInfo();
+            Mode_Skills.LoadDisplayInfo();
+            Custom_Skills_Constructor.ReadSkillConstructors();
             KeywordsInterrogate.LoadInlineImages();
             LimbusPreviewFormatter.InitializeLimbusEmbeddedFonts();
 
@@ -141,9 +144,6 @@ namespace LC_Localization_Task_Absolute
                         SelectedAssociativePropery_Shared = SelectedAssociativePropery_Found[0];
 
                         UpdateCustomLanguagePart(SelectedAssociativePropery_Shared);
-
-                        KeywordSpriteHorizontalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteHorizontalOffset;
-                        KeywordSpriteVerticalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteVerticalOffset;
 
                         SettingsWindow.UpdateSettingsMenu_CustomLang();
                     }
@@ -205,6 +205,9 @@ namespace LC_Localization_Task_Absolute
                     LoadErrors += UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.MultipleKeywordsDictionaryMissing.Extern(SelectedAssociativePropery.Properties.KeywordsDirectory);
                 }
             }
+
+            KeywordSpriteHorizontalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteHorizontalOffset;
+            KeywordSpriteVerticalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteVerticalOffset;
 
 
             LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection = SelectedAssociativePropery.Properties.Keywords_AutodetectionRegex;
@@ -296,8 +299,8 @@ namespace LC_Localization_Task_Absolute
                     MainControl.PreviewLayoutGrid_Keywords_Sub_BattleKeywords_BackgroundImage.Source = GenerateBitmapFromFile(@"⇲ Assets Directory\[⇲] Limbus Images\UI\BattleKeywords Background.png");
                 }
 
-                string StringWidthSkills = Configurazione.DeltaConfig.ScanParameters.AreaWidth.ToString();
-                SettingsControl.InputSkillsPanelWidth.Text = StringWidthSkills;
+                SettingsControl.InputSkillsPanelWidth.Text = $"{Configurazione.DeltaConfig.ScanParameters.AreaWidth}";
+                SettingsControl.InputScansScaleFactor.Text = $"{Configurazione.DeltaConfig.ScanParameters.ScaleFactor}";
             }
 
             return FormalTaskCompleted;
@@ -387,6 +390,9 @@ namespace LC_Localization_Task_Absolute
 
             [JsonProperty("Highlight Coin Descs on manual switch")]
             public bool HighlightCoinDescsOnManualSwitch { get; set; } = false;
+
+            [JsonProperty("Enable Skill Names Replication")]
+            public bool EnableSkillNamesReplication { get; set; } = true;
         }
         internal protected class CustomLanguageProperties
         {
@@ -480,6 +486,19 @@ namespace LC_Localization_Task_Absolute
         {
             [JsonProperty("Skills Area Width")]
             public double AreaWidth { get; set; } = 0;
+
+            [JsonProperty("Scale Factor")]
+            public double ScaleFactor { get; set; } = 4;
+
+            [JsonProperty("Background Color")]
+            public string BackgroundColor { get; set; } = "#00000000";
+
+            [OnDeserialized]
+            internal void OnDeserialized(StreamingContext context)
+            {
+                if (ScaleFactor > 20) ScaleFactor = 20;
+                if (ScaleFactor < 0) ScaleFactor = 1;
+            }
         }
         internal protected class TechnicalActions
         {

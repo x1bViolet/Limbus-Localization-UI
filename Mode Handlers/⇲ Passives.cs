@@ -111,7 +111,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             var FullLink = DelegatePassives[CurrentPassiveID];
             /////////////////////////////////////////////////
             
-            if (!FullLink.SummaryDescription.IsNull())
+            if (FullLink.SummaryDescription != null)
             {
                 if (!FullLink.SummaryDescription.Equals(FullLink.EditorSummaryDescription))
                 {

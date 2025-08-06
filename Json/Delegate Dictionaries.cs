@@ -42,7 +42,7 @@ namespace LC_Localization_Task_Absolute.Json
             DelegateSkills_IDList.Clear();
             Mode_Skills.Skills_NameIDs.Clear();
 
-            if (!Source.dataList.IsNull())
+            if (Source.dataList != null)
             {
                 foreach(Type_Skills.Skill CurrentSkill in Source.dataList)
                 {
@@ -65,7 +65,7 @@ namespace LC_Localization_Task_Absolute.Json
             DelegatePassives_IDList.Clear();
             Mode_Passives.Passives_NameIDs.Clear();
 
-            if (!Source.dataList.IsNull())
+            if (Source.dataList != null)
             {
                 foreach (Type_Passives.Passive CurrentPassive in Source.dataList)
                 {
@@ -83,7 +83,7 @@ namespace LC_Localization_Task_Absolute.Json
             DelegateKeywords_IDList.Clear();
             Mode_Keywords.Keywords_NameIDs.Clear();
 
-            if (!Source.dataList.IsNull())
+            if (Source.dataList != null)
             {
                 foreach (Type_Keywords.Keyword CurrentKeyword in Source.dataList)
                 {
@@ -101,7 +101,7 @@ namespace LC_Localization_Task_Absolute.Json
             DelegateEGOGifts_IDList.Clear();
             Mode_EGOGifts.EGOGifts_NameIDs.Clear();
 
-            if (!Source.dataList.IsNull())
+            if (Source.dataList != null)
             {
                 foreach (Type_EGOGifts.EGOGift CurrentKeyword in Source.dataList)
                 {
@@ -119,7 +119,7 @@ namespace LC_Localization_Task_Absolute.Json
             DelegateUniversal_IDList.Clear();
             Mode_Passives.Passives_NameIDs.Clear();
 
-            if (!Source.dataList.IsNull())
+            if (Source.dataList != null)
             {
                 if (Source.dataList.Count > 0)
                 {

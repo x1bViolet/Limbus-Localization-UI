@@ -585,7 +585,7 @@ TargetType="{x:Type ScrollBar}">
                         <StackPanel x:Name="SettingsList" Margin="0 0 10 0">
                             <Grid x:Name="SH_Internal">
                                 <StackPanel>
-                                    <StackPanel Margin="0 0 0 0" Visibility="Visible">
+                                    <StackPanel x:Name="SECTION_Limbus_Preview" Visibility="Visible">
                                         <RichTextBox x:Name="STE_Settings_LimbusPreview_SectionName" Style="{StaticResource Header}">
                                             <FlowDocument>
                                                 <Paragraph Padding="0,1,0,0">
@@ -653,6 +653,24 @@ TargetType="{x:Type ScrollBar}">
                                                     <ColumnDefinition/>
                                                     <ColumnDefinition/>
                                                 </Grid.ColumnDefinitions>
+                                                <RichTextBox x:Name="STE_Settings_LimbusPreview_EnableSkillNamesReplica" Grid.Column="0" Background="#FF191818" Style="{StaticResource SubName}" HorizontalAlignment="Left">
+                                                    <FlowDocument>
+                                                        <Paragraph Padding="0 1 0 0">
+                                                            Enable Skill Names Replication
+                                                        </Paragraph>
+                                                    </FlowDocument>
+                                                </RichTextBox>
+                                                <Border x:Name="ToggleEnableSkillNamesReplica" PreviewMouseLeftButtonUp="OptionToggle" Grid.Column="1" Style="{StaticResource BorderButton}" HorizontalAlignment="Left" Width="26.4" Height="26.4">
+                                                    <TextBlock x:Name="ToggleEnableSkillNamesReplica_I" Style="{StaticResource ButtonInner}">
+                                                        
+                                                    </TextBlock>
+                                                </Border>
+                                            </Grid>
+                                            <Grid Margin="0 5 0 0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
                                                 <RichTextBox x:Name="STE_Settings_LimbusPreview_UpdateDelay" Grid.Column="0" Background="#FF191818" Style="{StaticResource SubName}" HorizontalAlignment="Left">
                                                     <FlowDocument>
                                                         <Paragraph Padding="0 1 0 0">
@@ -679,7 +697,7 @@ TargetType="{x:Type ScrollBar}">
                                             </Grid>
                                         </StackPanel>
                                     </StackPanel>
-                                    <StackPanel Margin="0 15 0 0" Visibility="Visible">
+                                    <StackPanel x:Name="SECTION_Custom_Lanugage" Margin="0 15 0 0" Visibility="Visible">
                                         <RichTextBox x:Name="STE_Settings_CustomLanguage_SectionName" Style="{StaticResource Header}">
                                             <FlowDocument>
                                                 <Paragraph Padding="0,1,0,0">
@@ -795,7 +813,7 @@ TargetType="{x:Type ScrollBar}">
                                             </StackPanel>
                                         </StackPanel>
                                     </StackPanel>
-                                    <StackPanel Margin="0 15 0 0">
+                                    <StackPanel x:Name="SECTION_Internal" Margin="0 15 0 0" Visibility="Visible">
                                         <RichTextBox x:Name="STE_Settings_Internal_SectionName" Style="{StaticResource Header}">
                                             <FlowDocument>
                                                 <Paragraph Padding="0,1,0,0">
@@ -891,7 +909,90 @@ TargetType="{x:Type ScrollBar}">
                                             </RichTextBox>
                                         </StackPanel>
                                     </StackPanel>
-                                    <StackPanel Margin="0 15 0 0">
+                                    <StackPanel x:Name="SECTION_Resources_Reload" Margin="0 15 0 0" Visibility="Visible">
+                                        <RichTextBox x:Name="STE_Settings_Resources_Reload_SectionName" Style="{StaticResource Header}">
+                                            <FlowDocument>
+                                                <Paragraph Padding="0,1,0,0">
+                                                    ⦁ Resources Reload
+                                                </Paragraph>
+                                            </FlowDocument>
+                                        </RichTextBox>
+                                        <Grid Margin="0 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <RichTextBox x:Name="STE_Settings_Resources_Reload__CustomLangKeywords" Grid.Column="0" Background="#FF191818" Style="{StaticResource SubName}" HorizontalAlignment="Left">
+                                                <FlowDocument>
+                                                    <Paragraph Padding="0 1 0 0">
+                                                        Custom Lang Keywords
+                                                    </Paragraph>
+                                                </FlowDocument>
+                                            </RichTextBox>
+                                            <Border x:Name="ReloadCustomLanguageKeywords" PreviewMouseLeftButtonUp="OptionPress" Grid.Column="1" Style="{StaticResource BorderButton}" HorizontalAlignment="Left" Width="26.4" Height="26.4">
+                                                <TextBlock x:Name="ReloadCustomLanguageKeywords_I" Style="{StaticResource ButtonInner}">
+                                                    
+                                                </TextBlock>
+                                            </Border>
+                                        </Grid>
+                                        <Grid Margin="0 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <RichTextBox x:Name="STE_Settings_Resources_Reload__KeywordImages" Grid.Column="0" Background="#FF191818" Style="{StaticResource SubName}" HorizontalAlignment="Left">
+                                                <FlowDocument>
+                                                    <Paragraph Padding="0 1 0 0">
+                                                        Reload Keyword Icons
+                                                    </Paragraph>
+                                                </FlowDocument>
+                                            </RichTextBox>
+                                            <Border x:Name="ReloadKeywordImages" PreviewMouseLeftButtonUp="OptionPress" Grid.Column="1" Style="{StaticResource BorderButton}" HorizontalAlignment="Left" Width="26.4" Height="26.4">
+                                                <TextBlock x:Name="ReloadKeywordImages_I" Style="{StaticResource ButtonInner}">
+                                                    
+                                                </TextBlock>
+                                            </Border>
+                                        </Grid>
+                                        <Grid Margin="0 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <RichTextBox x:Name="STE_Settings_Resources_Reload__ReloadSkillsDisplayInfo" Grid.Column="0" Background="#FF191818" Style="{StaticResource SubName}" HorizontalAlignment="Left">
+                                                <FlowDocument>
+                                                    <Paragraph Padding="0 1 0 0">
+                                                         Skills Display Info and Icons
+                                                    </Paragraph>
+                                                </FlowDocument>
+                                            </RichTextBox>
+                                            <Border x:Name="ReloadSkillsDisplayInfo" PreviewMouseLeftButtonUp="OptionPress" Grid.Column="1" Style="{StaticResource BorderButton}" HorizontalAlignment="Left" Width="26.4" Height="26.4">
+                                                <TextBlock x:Name="ReloadSkillsDisplayInfo_I" Style="{StaticResource ButtonInner}">
+                                                    
+                                                </TextBlock>
+                                            </Border>
+                                        </Grid>
+                                        <Grid Margin="0 5 0 0">
+                                            <Grid.ColumnDefinitions>
+                                                <ColumnDefinition/>
+                                                <ColumnDefinition/>
+                                            </Grid.ColumnDefinitions>
+                                            <RichTextBox x:Name="STE_Settings_Resources_Reload__ResetEGOGiftsDisplayInfo" Grid.Column="0" Background="#FF191818" Style="{StaticResource SubName}" HorizontalAlignment="Left">
+                                                <FlowDocument>
+                                                    <Paragraph Padding="0 1 0 0">
+                                                        E.G.O Gifts Icons
+                                                    </Paragraph>
+                                                </FlowDocument>
+                                            </RichTextBox>
+                                            <Border x:Name="ResetEGOGiftsDisplayInfo" PreviewMouseLeftButtonUp="OptionPress" Grid.Column="1" Style="{StaticResource BorderButton}" HorizontalAlignment="Left" Width="26.4" Height="26.4">
+                                                <TextBlock x:Name="ResetEGOGiftsDisplayInfo_I" Style="{StaticResource ButtonInner}">
+                                                    
+                                                </TextBlock>
+                                            </Border>
+                                        </Grid>
+
+
+                                    </StackPanel>
+                                    <StackPanel x:Name="SECTION_Preview_scans" Margin="0 15 0 0" Visibility="Visible">
                                         <RichTextBox x:Name="STE_Settings_PreviewScans_SectionName" Style="{StaticResource Header}">
                                             <FlowDocument>
                                                 <Paragraph Padding="0,1,0,0">
@@ -941,6 +1042,85 @@ TargetType="{x:Type ScrollBar}">
                                                         </TextBox>
                                                     </Border>
                                                     <Border x:Name="Recheck_SkillsPanelWidth" PreviewMouseLeftButtonUp="OptionToggle" Grid.Column="1" Style="{StaticResource BorderButton}" Width="26.4" Height="26.4">
+                                                        <TextBlock Style="{StaticResource ButtonInner}">
+                                                            
+                                                        </TextBlock>
+                                                    </Border>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid Margin="0 5 0 0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <RichTextBox x:Name="STE_Settings_PreviewScans_ScansScaleFactor" Grid.Column="0" Background="#FF191818" Style="{StaticResource SubName}" HorizontalAlignment="Left">
+                                                    <FlowDocument>
+                                                        <Paragraph Padding="0 1 0 0">
+                                                            Scans Scale Factor
+                                                        </Paragraph>
+                                                    </FlowDocument>
+                                                </RichTextBox>
+                                                <Grid Grid.Column="1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition Width="26.4"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Background="#FF191919" Grid.Column="0" Style="{StaticResource BorderButton}" Margin="0 0 5 0" Height="26.4">
+                                                        <TextBox x:Name="InputScansScaleFactor" Style="{StaticResource InputText}">
+                                                            0.00
+                                                        </TextBox>
+                                                    </Border>
+                                                    <Border x:Name="Recheck_ScansScaleFactor" PreviewMouseLeftButtonUp="OptionToggle" Grid.Column="1" Style="{StaticResource BorderButton}" Width="26.4" Height="26.4">
+                                                        <TextBlock Style="{StaticResource ButtonInner}">
+                                                            
+                                                        </TextBlock>
+                                                    </Border>
+                                                </Grid>
+                                            </Grid>
+                                            <Grid Margin="0 5 0 0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <RichTextBox x:Name="STE_Settings_PreviewScans_ToggleSkillsBackgroundColorView" Grid.Column="0" Background="#FF191818" Style="{StaticResource SubName}" HorizontalAlignment="Left">
+                                                    <FlowDocument>
+                                                        <Paragraph Padding="0 1 0 0">
+                                                            Toggle Skills Background Color
+                                                        </Paragraph>
+                                                    </FlowDocument>
+                                                </RichTextBox>
+                                                <Border x:Name="ToggleSkillsScanBackgroundColorView" PreviewMouseLeftButtonUp="OptionToggle" Grid.Column="1" Style="{StaticResource BorderButton}" HorizontalAlignment="Left" Width="26.4" Height="26.4">
+                                                    <TextBlock x:Name="ToggleSkillsScanBackgroundColorView_I" Style="{StaticResource ButtonInner}" Visibility="Collapsed">
+                                                        
+                                                    </TextBlock>
+                                                </Border>
+                                            </Grid>
+                                            <Grid Margin="0 5 0 0">
+                                                <Grid.ColumnDefinitions>
+                                                    <ColumnDefinition/>
+                                                    <ColumnDefinition/>
+                                                </Grid.ColumnDefinitions>
+                                                <RichTextBox x:Name="STE_Settings_PreviewScans_SkillsBackgroundColor" Grid.Column="0" Background="#FF191818" Style="{StaticResource SubName}" HorizontalAlignment="Left">
+                                                    <FlowDocument>
+                                                        <Paragraph Padding="0 1 0 0">
+                                                            Skills Background Color (Hex RGB/ARGB)
+                                                        </Paragraph>
+                                                    </FlowDocument>
+                                                </RichTextBox>
+                                                <Grid Grid.Column="1">
+                                                    <Grid.ColumnDefinitions>
+                                                        <ColumnDefinition/>
+                                                        <ColumnDefinition Width="26.4"/>
+                                                    </Grid.ColumnDefinitions>
+                                                    <Border Background="#FF191919" Grid.Column="0" Style="{StaticResource BorderButton}" Margin="0 0 5 0" Height="26.4">
+                                                        <Grid>
+                                                            <TextBox x:Name="InputSkillsScanBackgroundColor" MaxLength="9" TextChanged="InputSkillsBackgroundColor_TextChanged" Width="115" HorizontalAlignment="Left" Style="{StaticResource InputText}" Margin="0 1.9 21.6 0">
+                                                                #00202020
+                                                            </TextBox>
+                                                            <Border x:Name="InputSkillsBackgroundColor_Display" HorizontalAlignment="Right" VerticalAlignment="Center" BorderThickness="2 0 0 0" BorderBrush="#FF333333" Width="36" Height="24" Margin="3 0 -0.5 0"/>
+                                                        </Grid>
+                                                    </Border>
+                                                    <Border x:Name="Recheck_SkillsBackgroundColor" PreviewMouseLeftButtonUp="OptionToggle" Grid.Column="1" Style="{StaticResource BorderButton}" Width="26.4" Height="26.4">
                                                         <TextBlock Style="{StaticResource ButtonInner}">
                                                             
                                                         </TextBlock>

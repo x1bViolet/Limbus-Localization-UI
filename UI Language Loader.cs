@@ -65,7 +65,7 @@ namespace LC_Localization_Task_Absolute
             [OnDeserialized]
             internal void OnInit(StreamingContext context)
             {
-                if (!UnsavedChangesInfo.IsNull())
+                if (UnsavedChangesInfo != null)
                 {
                     LangUnsavedChangesInfo = UnsavedChangesInfo;
                 }
@@ -122,8 +122,6 @@ namespace LC_Localization_Task_Absolute
 
             [JsonProperty("Summary Desc")]
             public string SummaryDesc { get; set; }
-
-            [OnDeserialized] internal void OnInit(StreamingContext context) => NullableControl.NullExterminate(this);
         }
         internal protected class UnsavedChangesInfo_Keywords
         {
@@ -135,8 +133,6 @@ namespace LC_Localization_Task_Absolute
 
             [JsonProperty("Summary Desc")]
             public string SummaryDesc { get; set; }
-
-            [OnDeserialized] internal void OnInit(StreamingContext context) => NullableControl.NullExterminate(this);
         }
         internal protected class UnsavedChangesInfo_EGOGifts
         {
@@ -148,8 +144,6 @@ namespace LC_Localization_Task_Absolute
 
             [JsonProperty("Simple Desc")]
             public string SimpleDesc { get; set; }
-
-            [OnDeserialized] internal void OnInit(StreamingContext context) => NullableControl.NullExterminate(this);
         }
         internal protected class UnsavedChangesInfo_Skills
         {
@@ -158,14 +152,12 @@ namespace LC_Localization_Task_Absolute
 
             [JsonProperty("Uptie Level")]
             public string UptieLevel { get; set; }
-
-            [OnDeserialized] internal void OnInit(StreamingContext context) => NullableControl.NullExterminate(this);
         }
 
         internal protected class UIStaticTextItem
         {
             [JsonProperty("Element ID")]
-            public string ElementID { get; set; }
+            public string ElementID { get; set; } = "";
 
             [JsonProperty("Text")]
             public string Text { get; set; }
@@ -196,8 +188,6 @@ namespace LC_Localization_Task_Absolute
 
             [JsonProperty("Visible")]
             public bool? Visible { get; set; }
-
-            [OnDeserialized] internal void OnInit(StreamingContext context) => NullableControl.NullExterminate(this);
         }
 
         internal protected class UITextfieldItem
@@ -221,8 +211,6 @@ namespace LC_Localization_Task_Absolute
 
             [JsonProperty("Horizontal Offset")]
             public double HorizontalOffset { get; set; }
-
-            [OnDeserialized] internal void OnInit(StreamingContext context) => NullableControl.NullExterminate(this);
         }
 
         internal protected class FontsInfo
@@ -288,6 +276,13 @@ namespace LC_Localization_Task_Absolute
             {
                 string TargetUIElementID = UIStaticItemData.ElementID;
                 string TargetUIElementText = UIStaticItemData.Text;
+
+                if (TargetUIElementID.Equals("Skills Name Replication 'Atk Weight'"))
+                {
+                    // Because RichTextBox can't have dynamic width and it neccessary with this element
+                    MainControl.AtkWeightText_sub.Text = TargetUIElementText;
+                }
+
                 //rin(TargetUIElementID);
                 if (UILanguage.ContainsKey(TargetUIElementID))
                 {
@@ -295,7 +290,7 @@ namespace LC_Localization_Task_Absolute
 
                     if (UIStaticItemData.ElementID.StartsWith("Editor Context Menu"))
                     {
-                        if (!UIStaticItemData.Visible.IsNull())
+                        if (UIStaticItemData.Visible != null)
                         {
                             if (UIStaticItemData.Visible == false)
                             {
@@ -310,7 +305,7 @@ namespace LC_Localization_Task_Absolute
                         }
                     }
 
-                    if (!UIStaticItemData.VericalOffset.IsNull())
+                    if (UIStaticItemData.VericalOffset != null)
                     {
                         UILanguage[TargetUIElementID].Margin =
                             new System.Windows.Thickness(
@@ -320,7 +315,7 @@ namespace LC_Localization_Task_Absolute
                                 UILanguage[TargetUIElementID].Margin.Bottom
                             );
                     }
-                    if (!UIStaticItemData.HorizontalOffset.IsNull())
+                    if (UIStaticItemData.HorizontalOffset != null)
                     {
                         UILanguage[TargetUIElementID].Margin =
                         new System.Windows.Thickness(
@@ -332,7 +327,7 @@ namespace LC_Localization_Task_Absolute
                     }
 
                     bool DefaultFontFromPCLoaded = false;
-                    if (!UIStaticItemData.Font.IsNull())
+                    if (UIStaticItemData.Font != null)
                     {
                         if (LoadedFontFamilies.ContainsKey(UIStaticItemData.Font))
                         {
@@ -364,13 +359,14 @@ namespace LC_Localization_Task_Absolute
                     }
                         
 
-                    if (!UIStaticItemData.FontSize.IsNull()) UILanguage[TargetUIElementID].FontSize = (double)UIStaticItemData.FontSize;
+                    if (UIStaticItemData.FontSize != null) UILanguage[TargetUIElementID].FontSize = (double)UIStaticItemData.FontSize;
 
-                    if (!UIStaticItemData.FontWeight.IsNull())
+                    if (UIStaticItemData.FontWeight != null)
                     {
                         UILanguage[TargetUIElementID].FontWeight = WeightFrom(UIStaticItemData.FontWeight);
                     }
-                    if (!UIStaticItemData.FontColor.IsNull())
+
+                    if (UIStaticItemData.FontColor != null)
                     {
                         UILanguage[TargetUIElementID].Foreground = ToColor(UIStaticItemData.FontColor);
                     }
@@ -382,11 +378,11 @@ namespace LC_Localization_Task_Absolute
 
 
 
-                    if (!UIStaticItemData.Width.IsNull())
+                    if (UIStaticItemData.Width != null)
                     {
                         if (UIStaticItemData.Width != 0) UILanguage[TargetUIElementID].Width = (double)UIStaticItemData.Width;
                     }
-                    if (!UIStaticItemData.Height.IsNull())
+                    if (UIStaticItemData.Height != null)
                     {
                         if (UIStaticItemData.Height != 0) UILanguage[TargetUIElementID].Height = (double)UIStaticItemData.Height;
                     }
@@ -399,7 +395,7 @@ namespace LC_Localization_Task_Absolute
                             .Replace("</loadfont>", $"</loadfont><loadfont=`{LoadFontAttach}`>");
                     }
 
-                    if (!UIStaticItemData.Text.IsNull())
+                    if (UIStaticItemData.Text != null)
                     {
                         UILanguageElementsTextData[TargetUIElementID] = UIStaticItemData.Text;
 

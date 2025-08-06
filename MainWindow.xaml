@@ -250,7 +250,7 @@
             <Setter Property="FontWeight" Value="{DynamicResource UITheme_EditorContextMenu_FontWeight}"/>
             <Style.Triggers>
                 <Trigger Property="IsMouseOver" Value="True">
-                    
+
                 </Trigger>
             </Style.Triggers>
         </Style>
@@ -301,7 +301,7 @@
                         </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <RichTextBox x:Name="STE_Title" Width="500" Foreground="#473131" VerticalAlignment="Top" FontSize="23">
-                                
+
                             </RichTextBox>
                         </StackPanel>
                     </Grid>
@@ -328,7 +328,7 @@
                                             <FlowDocument>
                                                 <Paragraph>
                                                     <Run>
-                                                        
+
                                                     </Run>
                                                 </Paragraph>
                                             </FlowDocument>
@@ -390,7 +390,7 @@
                                         <Border x:Name="Editor_Background" CornerRadius="5" BorderThickness="1" BorderBrush="#FF3B2B2B" Background="#EE251A1A" Margin="0 0 0 2" >
                                             <TextBox x:Name="Editor" TextChanged="Editor_TextChanged" BorderThickness="0" Background="Transparent" ClipToBounds="True" Margin="2"
                                                      Foreground="#ABA193" CaretBrush="#FFE9DBC6" SelectionBrush="#66D4D4D4" AcceptsReturn="True" TextWrapping="Wrap">
-                                                
+
                                                 <TextBox.ContextMenu>
                                                     <ContextMenu Name="cxm">
                                                         <MenuItem x:Name="ContextMenuItem_InsertStyle" Click="Actions_ContextMenu_Shared">
@@ -478,18 +478,18 @@
                                     </Grid>
                                     <Grid Grid.Row="1" Height="383" x:Name="PreviewLayouts">
 
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
+
+
+
+
+
+
+
+
+
+
+
+
                                         <Grid x:Name="PreviewLayoutGrid_Skills" Visibility="Collapsed">
                                             <Image x:Name="PreviewLayout_RegularSkills_Background" Source="/UI/Limbus/Backgrounds/Skills.png" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                             <Image x:Name="PreviewLayout_EGOSkills_Background" Source="/UI/Limbus/Backgrounds/Skills (E.G.O).png" Visibility="Collapsed" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Bottom">
@@ -498,17 +498,194 @@
                                                 </Image.RenderTransform>
                                             </Image>
 
-                                            
+
                                             <Canvas x:Name="SkillsPreviewFreeBordersCanvas"></Canvas>
-                                            
+
                                             <ScrollViewer x:Name="SurfaceScrollPreview_Skills" Margin="10 20 30 40">
                                                 <ScrollViewer.Resources>
                                                     <sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">0</sys:Double>
                                                 </ScrollViewer.Resources>
-                                                <Grid x:Name="SurfaceScrollPreview_Skills_Inner">
+                                                <Grid x:Name="SurfaceScrollPreview_Skills_Inner" Background="Transparent">
                                                     <Border x:Name="ScanAreaView_Skills" BorderBrush="Red" BorderThickness="0" Background="#00121212"/>
+
+                                                    <Image Source="/UI/Limbus/Skills/Sample.png" Height="180" Opacity="0" Margin="-0.3 -13 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+
+
+
+
                                                     <StackPanel x:Name="PreviewLayoutGrid_Skills_ContentControlStackPanel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="663">
-                                                        <RichTextBox x:Name="PreviewLayout_Skills_MainDesc" Foreground="#ebcaa2" IsReadOnly="True" FontFamily="Pretendard Light" FontSize="20" Margin="0 0 0 7">
+                                                        <Grid x:Name="SkillReplica" Margin="0 -20 0 13" Opacity="1">
+
+
+                                                            <Border x:Name="SkillReplicaAffinityColorHolder" Background="#fe0101" Width="0" Height="0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                            
+                                                            
+                                                            <Grid>
+                                                                <Grid x:Name="SkillIconSite" Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Height="137">
+                                                                    <Grid x:Name="CoinPowerBackground" Opacity="1">
+                                                                        <Border Width="40" Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" Height="50" Opacity="1" RenderTransformOrigin="0.5 0.5" Margin="65,24,30,52">
+                                                                            <Border.RenderTransform>
+                                                                                <RotateTransform Angle="-11"/>
+                                                                            </Border.RenderTransform>
+                                                                            <Border.Effect>
+                                                                                <DropShadowEffect ShadowDepth="1.6" BlurRadius="0" Direction="-44" Color="Black" RenderingBias="Performance" />
+                                                                            </Border.Effect>
+                                                                        </Border>
+                                                                    </Grid>
+                                                                    
+                                                                    
+                                                                    <Image x:Name="SkilIcon" Margin="54.8,56,0,0" Visibility="Visible" Opacity="1" Height="62.5" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/UI/Limbus/Skills/Base Icons/Sample.png">
+                                                                        <Image.OpacityMask>
+                                                                            <ImageBrush ImageSource="/UI/Limbus/Skills/Icon Opacity Mask.png"/>
+                                                                        </Image.OpacityMask>
+                                                                    </Image>
+
+                                                                    <Image x:Name="SkilFrame" Source="/UI/Limbus/Skills/Frames/Wrath/3.png" Margin="22.8 24 0 0" Visibility="Visible" Opacity="1" Height="127" Width="{Binding Path=Height, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                                    
+                                                                    
+                                                                    <TextBlock x:Name="CoinPowerValue" Margin="30,24,2,6" HorizontalAlignment="Center" FontSize="28.6" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
+                                                                            +4
+                                                                        <TextBlock.Effect>
+                                                                            <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                        </TextBlock.Effect>
+                                                                    </TextBlock>
+                                                                    <Grid x:Name="DamageTypeGrid" Margin="70 111 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                                        <Grid Width="26" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top">
+                                                                            <Border Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" Opacity="1">
+                                                                                <Border.OpacityMask>
+                                                                                    <ImageBrush ImageSource="/UI/Limbus/Skills/Damage Type Opacity Mask.png"/>
+                                                                                </Border.OpacityMask>
+                                                                            </Border>
+                                                                            <Border Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" Opacity="1" Width="22.3" Height="22.3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                                <Border.OpacityMask>
+                                                                                    <ImageBrush ImageSource="/UI/Limbus/Skills/Damage Type Opacity Mask.png"/>
+                                                                                </Border.OpacityMask>
+                                                                                <Border Background="#7A000000"/>
+                                                                            </Border>
+                                                                            <Border Background="#FF232323" Opacity="1" Width="17.3" Height="17.3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                                <Border.OpacityMask>
+                                                                                    <ImageBrush ImageSource="/UI/Limbus/Skills/Damage Type Opacity Mask.png"/>
+                                                                                </Border.OpacityMask>
+                                                                                <Border Background="#7F000000">
+                                                                                </Border>
+                                                                            </Border>
+                                                                        </Grid>
+                                                                        <Grid Margin="2" Width="25">
+                                                                            <Image x:Name="SkillDamageType_Blunt"  Visibility="Collapsed" Width="20" Margin="0 -2 0 0"    HorizontalAlignment="Center" VerticalAlignment="Center" Source="/UI/Limbus/Skills/Damage Types/Blunt.png"/>
+                                                                            <Image x:Name="SkillDamageType_Slash"  Visibility="Collapsed" Width="20" Margin="-3 1 0 0"    HorizontalAlignment="Center" VerticalAlignment="Center" Source="/UI/Limbus/Skills/Damage Types/Slash.png"/>
+                                                                            <Image x:Name="SkillDamageType_Pierce" Visibility="Visible"   Width="22" Margin="-1 -0.3 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/UI/Limbus/Skills/Damage Types/Pierce.png"/>
+                                                                        </Grid>
+                                                                    </Grid>
+                                                                    <TextBlock x:Name="BasePowerValue" Margin="0,59,92,0" HorizontalAlignment="Right" FontSize="50" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
+                                                                           9
+                                                                        <TextBlock.Effect>
+                                                                            <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                        </TextBlock.Effect>
+                                                                    </TextBlock>
+                                                                </Grid>
+
+                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="128 23 0 0">
+                                                                    
+                                                                    
+                                                                    <Image x:Name="SkillAffinityIcon" Source="/UI/Limbus/Skills/Affinity Icons/Wrath.png" Height="54" VerticalAlignment="Bottom" Margin="-5 0 -4 0" />
+
+                                                                    
+                                                                    <Grid>
+                                                                        <StackPanel x:Name="SkillReplicaCoinsTab" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0 0 0 0" Height="28.2">
+                                                                            <Image Source="/UI/Limbus/Skills/Regular Coin.png"/>
+                                                                            <Image Source="/UI/Limbus/Skills/Unbreakable Coin.png"/>
+                                                                            <Image Source="/UI/Limbus/Skills/Unbreakable Coin.png"/>
+                                                                        </StackPanel>
+
+                                                                        <Border HorizontalAlignment="Left" Background="Transparent" Opacity="1" VerticalAlignment="Top" Margin="4 30.8 0 0" Height="29.2">
+                                                                            <Grid>
+                                                                                <StackPanel Orientation="Horizontal">
+                                                                                    <Grid MinWidth="60">
+                                                                                        <Border Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" Margin="0 0 12.8 0"/>
+                                                                                        <Border Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" HorizontalAlignment="Right" Width="13" Margin="0 0 0.5 0">
+                                                                                            <Border.OpacityMask>
+                                                                                                <ImageBrush ImageSource="/UI/Limbus/Skills/Name Opacity Mask.png" Stretch="Fill"/>
+                                                                                            </Border.OpacityMask>
+                                                                                        </Border>
+                                                                                        <Border HorizontalAlignment="Right" Margin="0 0 0.38 0" VerticalAlignment="Top" Opacity="0.5" Height="29.2" Width="49.2" Background="Black">
+                                                                                            <Border.OpacityMask>
+                                                                                                <ImageBrush ImageSource="/UI/Limbus/Skills/Name Left Mask.png"/>
+                                                                                            </Border.OpacityMask>
+                                                                                        </Border>
+
+                                                                                        <Viewbox HorizontalAlignment="Left" x:Name="SkillNameReplica_WidthRestrictor" Margin="6 0 23 0" MaxHeight="23.8" MaxWidth="430">
+                                                                                            <TextBlock x:Name="SkillNameReplica" FontFamily="{Binding ElementName=NavigationPanel_ObjectName_Display, Path=FontFamily}" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="25" MaxWidth="700" FontSize="23" Foreground="#EBCAA2">
+                                                                                                Корреляция времени
+                                                                                                <TextBlock.Effect>
+                                                                                                    <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                                                </TextBlock.Effect>
+                                                                                            </TextBlock>
+                                                                                        </Viewbox>
+
+                                                                                        <Grid.Effect>
+                                                                                            <DropShadowEffect ShadowDepth="4" BlurRadius="0" Direction="230" Color="Black" RenderingBias="Performance"/>
+                                                                                        </Grid.Effect>
+                                                                                    </Grid>
+
+
+                                                                                    <Grid Margin="-10 0 0 0" x:Name="SkillCopiesGrid">
+                                                                                        <Image HorizontalAlignment="Left" VerticalAlignment="Center" Source="/UI/Limbus/Skills/Copies Count Mult.png" Margin="3 1 0 0" Opacity="10.2" Height="20"/>
+                                                                                        <TextBlock x:Name="SkillCopiesAmount" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="22 1 0 0" FontSize="33.5" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
+                                                                                            0
+                                                                                            <TextBlock.Effect>
+                                                                                                <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                                            </TextBlock.Effect>
+                                                                                        </TextBlock>
+                                                                                    </Grid>
+
+                                                                                </StackPanel>
+
+
+                                                                            </Grid>
+                                                                        </Border>
+                                                                    </Grid>
+                                                                </StackPanel>
+                                                                
+                                                                <Grid x:Name="SkillLevelTypeIcons" Visibility="Visible">
+                                                                    <Image x:Name="OffenseLevelIcon" Visibility="Visible" Source="/UI/Limbus/Skills/Offense Level.png" Width="42" Margin="128,89,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                                    <Image x:Name="DefenseLevelIcon" Visibility="Collapsed" Source="/UI/Limbus/Skills/Defense Level.png" Width="42" Margin="128,89,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                                </Grid>
+
+                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="173,92,0,0">
+                                                                    <TextBlock Width="44" x:Name="SkillLevel" Visibility="Visible" FontSize="37.5" TextDecorations="Underline" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
+                                                                        77
+                                                                        <TextBlock.Effect>
+                                                                            <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                        </TextBlock.Effect>
+                                                                    </TextBlock>
+
+                                                                    <RichTextBox x:Name="STE_Skills_Replication_AtkWeightText" Visibility="Collapsed">
+                                                                        <FlowDocument>
+                                                                            <Paragraph>
+                                                                                
+                                                                            </Paragraph>
+                                                                        </FlowDocument>
+                                                                    </RichTextBox>
+                                                                    <StackPanel x:Name="AttackWeightPanel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,12,0,0" Orientation="Horizontal">
+                                                                        <TextBlock x:Name="AtkWeightText_sub" FontSize="15" Foreground="#f8c200" FontFamily="{Binding ElementName=PreviewLayout_Skills_MainDesc, Path=FontFamily}">
+                                                                            Кол-во целей
+                                                                            <TextBlock.Effect>
+                                                                                <DropShadowEffect ShadowDepth="0.8" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                            </TextBlock.Effect>
+                                                                        </TextBlock>
+                                                                        <TextBlock x:Name="SkillAtkWeight" Margin="5 -5.5 0 0" FontSize="20" Foreground="#f8c200">
+                                                                            ■■■■
+                                                                            <TextBlock.Effect>
+                                                                                <DropShadowEffect ShadowDepth="1.5" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                            </TextBlock.Effect>
+                                                                        </TextBlock>
+                                                                    </StackPanel>
+                                                                </StackPanel>
+
+                                                            </Grid>
+                                                        </Grid>
+
+                                                        <RichTextBox x:Name="PreviewLayout_Skills_MainDesc" FontFamily="UI/Fonts/#Pretendard" Foreground="#ebcaa2" IsReadOnly="True" FontSize="20" Margin="0 0 0 7">
                                                             <FlowDocument>
                                                                 <Paragraph>
                                                                     <Run>
@@ -517,7 +694,7 @@
                                                                 </Paragraph>
                                                             </FlowDocument>
                                                         </RichTextBox>
-                                                        <StackPanel Margin="5 0 40.2 0">
+                                                        <StackPanel Margin="5 0 40.2 0" x:Name="CoinsStackPanel">
                                                             <Grid x:Name="PreviewLayout_Skills_Coin1" Margin="0 3 0 0" Visibility="Visible">
                                                                 <Image Source="/UI/Limbus/Coins/Coin 1.png" Width="43.6" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                                                 <StackPanel Margin="50 15 0 0">
@@ -709,9 +886,7 @@
 
                                             <Grid x:Name="PreviewLayoutGrid_Keywords_Sub_BattleKeywords" Visibility="Collapsed">
                                                 <Border Margin="2">
-                                                    <Image x:Name="PreviewLayoutGrid_Keywords_Sub_BattleKeywords_BackgroundImage" Source="UI/Limbus/Backgrounds/Keywords (BattleKeywords).png" VerticalAlignment="Bottom" RenderTransformOrigin="1 1" Stretch="Fill">
-                                                       
-                                                    </Image>
+                                                    <Image x:Name="PreviewLayoutGrid_Keywords_Sub_BattleKeywords_BackgroundImage" VerticalAlignment="Bottom" RenderTransformOrigin="1 1" Stretch="Fill"/>
                                                 </Border>
 
                                                 <Grid Width="408" Margin="165 0 0 0" MaxHeight="277" HorizontalAlignment="Left" VerticalAlignment="Center">
@@ -756,7 +931,7 @@
                                                                                    LineStackingStrategy="BlockLineHeight"/>
                                                                     </Viewbox>
                                                                 </StackPanel>
-                                                                
+
                                                                 <ScrollViewer x:Name="SurfaceScrollPreview_Keywords__BattleKeywords" Margin="13 48 25 18">
                                                                     <RichTextBox x:Name="Special_PreviewLayout_Keywords_BattleKeywords_Desc" Foreground="#ebcaa2" IsReadOnly="True" FontFamily="Pretendard Light" FontSize="19" Visibility="Visible">
                                                                         <FlowDocument>
@@ -788,8 +963,8 @@
                                         <Grid x:Name="PreviewLayoutGrid_EGOGifts" Visibility="Collapsed">
                                             <Border x:Name="EGOGiftAffinityType_NameBackground" Margin="190 15 18 0" Height="95" VerticalAlignment="Top">
                                                 <Grid>
-                                                    <Image Source="/UI/Limbus/Backgrounds/E.G.O Gift Name Background.png" Margin="30 -12 0 0"/>
-                                                    
+                                                    <Image x:Name="EGOGiftNameBackground" Stretch="Fill" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="10 10 10 10" Source="/UI/Limbus/Backgrounds/Affinity-Colored E.G.O Gifts Name Backgrounds/Wrath.png"/>
+
                                                     <Viewbox Width="260" Height="49" Stretch="Uniform" HorizontalAlignment="Center">
                                                         <TextBlock x:Name="EGOGiftName_PreviewLayout"
                                                                    Panel.ZIndex="10"
@@ -875,7 +1050,7 @@
                                                         <FlowDocument>
                                                             <Paragraph>
                                                                 <Run>
-                                                                    При активации абсолютного резонанса Гнева наносит в общей сложности 5
+                                                                    Нет тут омута
                                                                 </Run>
                                                             </Paragraph>
                                                         </FlowDocument>
@@ -900,19 +1075,19 @@
 
                                             </ScrollViewer>
                                         </Grid>
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
-                                        
+
+
+
+
+
+
+
+
+
+
+
+
+
                                     </Grid>
                                 </Grid>
                             </Border>
@@ -948,7 +1123,7 @@
                                 </Grid>
                                 <Grid Margin="0 0 0 0" Visibility="Collapsed">
                                     <ProgressBar x:Name="ProgressTotal" Height="25" Minimum="0" Maximum="100" Value="50" Background="{StaticResource UITheme_BordersBackground}" BorderBrush="{StaticResource UITheme_BordersBackground}" Foreground="{StaticResource UITheme_DefaultTextColor}">
-                                        
+
                                     </ProgressBar>
                                 </Grid>
                                 <Grid x:Name="NavigationPanel_ObjectID" Margin="0 4 0 0" HorizontalAlignment="Left" Width="285.4">
@@ -1007,7 +1182,7 @@
                                 <Grid x:Name="NavigationPanel_ObjectName" Margin="0 4 0 0" HorizontalAlignment="Left">
                                     <Border Style="{StaticResource BorderDefaultDesk}" Height="40">
                                         <ScrollViewer x:Name="NavigationPanel_ObjectName_DisplayScrollViewer" Width="284" Height="34">
-                                            <TextBlock x:Name="NavigationPanel_ObjectName_Display" Width="270" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="25" Foreground="{DynamicResource UITheme_ObjectNameColor}">
+                                            <TextBlock FontFamily="UI/Fonts/#Mikodacs" x:Name="NavigationPanel_ObjectName_Display" Width="270" HorizontalAlignment="Center" VerticalAlignment="Center" TextWrapping="Wrap" TextAlignment="Center" FontSize="25" Foreground="{DynamicResource UITheme_ObjectNameColor}">
                                                 Ramus Aureus Resonantus Est
                                             </TextBlock>
                                             <ScrollViewer.Resources>
@@ -1059,21 +1234,21 @@
 
 
                                         <Grid x:Name="SwitchButtons_MainGrid">
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
-                                            
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
                                             <Grid VerticalAlignment="Top" x:Name="SwitchButtons_Skills" Visibility="Collapsed">
                                                 <StackPanel>
 
@@ -1685,7 +1860,7 @@
 
                                             </Grid>
 
-                                            
+
 
                                             <Grid x:Name="SwitchMenuButtons_DefaultMenu" Visibility="Visible">
                                                 <Border Style="{StaticResource BorderDefaultDesk}"/>
@@ -1697,7 +1872,7 @@
                                                         </TextBlock>
                                                         <TextBlock Foreground="#c6c3bd" Text="※" FontWeight="Light" Style="{StaticResource TextBlockDefaultDesk}" FontSize="28" FontFamily="UI/Fonts/#GOST Type BU" Margin="5"/>
                                                         <TextBlock Foreground="#c6c3bd" FontWeight="Black" Style="{StaticResource TextBlockDefaultDesk}" FontSize="28" FontFamily="UI/Fonts/#GOST Type BU" Margin="5">
-                                                           1.1:4
+                                                           1.1:5
                                                         </TextBlock>
                                                     </StackPanel>
                                                 </StackPanel>
@@ -1723,7 +1898,7 @@
                             </Grid>
                         </Grid>
                     </Grid>
-                    
+
                 </Grid>
             </Grid>
         </Border>

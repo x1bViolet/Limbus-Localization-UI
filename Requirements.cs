@@ -1,6 +1,4 @@
-﻿using SixLabors.ImageSharp;
-using System.IO;
-using System.Reflection;
+﻿using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
@@ -8,50 +6,10 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static LC_Localization_Task_Absolute.MainWindow;
 
 namespace LC_Localization_Task_Absolute
 {
-    internal abstract class NullableControl
-    {
-        internal abstract class Settings
-        {
-            internal protected static bool WriteInfomationExternal = false;
-            internal protected static bool PlaceStringNullMarker = true;
-            internal protected static string StringNullMarker = "<Null>";
-        }
-
-        // All null strings to "<Null>" strings
-        internal protected static void NullExterminate(object Target, bool WriteInfo = false)
-        {
-            string NullValueInformation = "\x1b[0m\x1b[38;5;197mNull\x1b[0m";
-            string PropertyItemInformation = "\x1b[38;5;245m[$]\x1b[0m";
-
-            PropertyInfo[] TargetPropertiesInfo = Target.GetType().GetProperties();
-            if (NullableControl.Settings.WriteInfomationExternal | WriteInfo) Console.WriteLine($"Properties of '\x1b[38;5;248m{Target.GetType().Name}\x1b[0m'");
-            foreach (PropertyInfo ClassProperty in TargetPropertiesInfo)
-            {
-                string PropertyName = ClassProperty.Name;
-                object PropertyValue = ClassProperty.GetValue(Target);
-
-                if (NullableControl.Settings.WriteInfomationExternal | WriteInfo) Console.Write($"  [\x1b[38;5;63mProperty Name\x1b[0m] '\x1b[38;5;248m{PropertyName}\x1b[0m' ::\x1b[0m [\x1b[38;5;63mValue\x1b[0m]\x1b[38;5;62m<\x1b[38;5;203m{ClassProperty.PropertyType.ToString().Replace(".", "\x1b[38;5;62m.\x1b[38;5;203m")}\x1b[38;5;62m>\x1b[0m {(PropertyValue.IsNull() ? NullValueInformation : PropertyItemInformation.Extern(PropertyValue))}");
-
-                if (PropertyValue.IsNull())
-                {
-                    switch (ClassProperty.PropertyType.ToString())
-                    {
-                        case "System.String": ClassProperty.SetValue(Target, NullableControl.Settings.StringNullMarker);
-                            if (NullableControl.Settings.WriteInfomationExternal | WriteInfo) Console.Write($"   \x1b[38;5;62m{{\x1b[38;5;203mReset\x1b[38;5;62m}}\x1b[0m -> \"\x1b[38;5;245m{NullableControl.Settings.StringNullMarker}\x1b[0m\"");
-                            break;
-
-                        default: break;
-                    }
-                }
-                if (NullableControl.Settings.WriteInfomationExternal | WriteInfo) Console.WriteLine();
-            }
-            if (NullableControl.Settings.WriteInfomationExternal | WriteInfo) Console.WriteLine();
-        }
-    }
-
     internal static class Requirements
     {
         internal static int LinesCount(this string check) => check.Count(f => f == '\n');
@@ -213,6 +171,20 @@ namespace LC_Localization_Task_Absolute
 
             return false;
         }
+        internal static FileInfo? GetFileWithName(this string SearchDirectory, string SearchName)
+        {
+            var Files = new DirectoryInfo(SearchDirectory).GetFiles("*.*", SearchOption.AllDirectories);
+
+            var Found = Files.Where(file => file.Name.Equals(SearchName)).ToList();
+            if (Found.Count > 0)
+            {
+                return Found[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
         internal static FileInfo? SelectWithName(this IEnumerable<FileInfo> Source, string Name)
         {
             Source = Source.Where(file => file.Name.Equals(Name));
@@ -273,60 +245,32 @@ namespace LC_Localization_Task_Absolute
         }
 
 
-        internal static bool IsNull(this object? item)
-        {
-            if (item == null)
-            {
-                return true;
-            }
-            else if (item.Equals("<Null>"))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
         internal static void rin(params object[] s)
         {
             File.AppendAllText(@"⇲ Assets Directory\Latest loading.txt", String.Join(' ', s) + "\n");
             Console.WriteLine(String.Join(' ', s));
         }
+        internal static void LogCustomSkillsConstructor(params object[] s)
+        {
+            string LogFile = @"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor\Recognizing Log.txt";
+            if (!File.Exists(LogFile))
+            {
+                File.WriteAllText(LogFile, "");
+                File.SetAttributes(LogFile, File.GetAttributes(LogFile) | FileAttributes.Hidden);
+            }
+
+            File.AppendAllText(LogFile, String.Join(' ', s) + "\n");
+        }
         internal static void rinx(params object[] s) { Console.WriteLine(String.Join(' ', s)); rinx(); }
         internal static void rinx() => Console.ReadKey();
 
-        internal static bool IsDirectoryWritable(string dirPath, bool throwIfFails = false)
-        {
-            try
-            {
-                using (FileStream fs = File.Create(
-                    Path.Combine(
-                        dirPath,
-                        Path.GetRandomFileName()
-                    ),
-                    1,
-                    FileOptions.DeleteOnClose)
-                )
-                { }
-                return true;
-            }
-            catch
-            {
-                if (throwIfFails)
-                    throw;
-                else
-                    return false;
-            }
-        }
-
         /// <summary>
-        /// Accepts RGB or ARGB hex sequence (#abcdef / #ffabcdef)<br/>
-        /// Returns transperent if HexString is null or equals "", White if HexString is not color
+        /// Accepts RGB or ARGB hex sequence (#rrggbb / #AArrggbb)<br/>
+        /// Returns transperent if HexString is null/"" or if HexString is not color
         /// </summary>
         internal static SolidColorBrush ToColor(string HexString)
         {
-            if (HexString.IsNull()) return System.Windows.Media.Brushes.White;
+            if (HexString == null) return System.Windows.Media.Brushes.Transparent;
 
             if (HexString.Length == 7)
             {
@@ -352,7 +296,7 @@ namespace LC_Localization_Task_Absolute
             }
             else
             {
-                return System.Windows.Media.Brushes.White;
+                return System.Windows.Media.Brushes.Transparent;
             }
         }
 
@@ -427,32 +371,36 @@ namespace LC_Localization_Task_Absolute
 
         internal static BitmapImage GenerateBitmapFromFile(string ImageFilepath)
         {
-            bool IsWebp = ImageFilepath.EndsWith(".webp");
-            byte[] ImageData = File.ReadAllBytes(ImageFilepath);
-            using (MemoryStream stream = new MemoryStream(IsWebp ? ConvertWebpToPng(ImageData) : ImageData))
+            if (File.Exists(ImageFilepath))
             {
-                BitmapImage bitmapImage = new BitmapImage();
-                bitmapImage.BeginInit();
-                bitmapImage.StreamSource = stream;
-                bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                bitmapImage.EndInit();
-                bitmapImage.Freeze();
-
-                return bitmapImage;
-            }
-        }
-        internal static byte[] ConvertWebpToPng(byte[] WebpData)
-        {
-            using (var InputStream = new MemoryStream(WebpData))
-            using (var image = SixLabors.ImageSharp.Image.Load(InputStream))
-            {
-                using (var OutputStream = new MemoryStream())
+                //bool IsWebp = ImageFilepath.EndsWith(".webp");
+                byte[] ImageData = File.ReadAllBytes(ImageFilepath);
+                using (MemoryStream stream = new MemoryStream(ImageData))
                 {
-                    image.SaveAsPng(OutputStream);
-                    return OutputStream.ToArray();
+                    BitmapImage bitmapImage = new BitmapImage();
+                    bitmapImage.BeginInit();
+                    bitmapImage.StreamSource = stream;
+                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmapImage.EndInit();
+                    bitmapImage.Freeze();
+
+                    return bitmapImage;
                 }
             }
+            else return new BitmapImage();
         }
+        //internal static byte[] ConvertWebpToPng(byte[] WebpData)
+        //{
+        //    using (var InputStream = new MemoryStream(WebpData))
+        //    using (var image = SixLabors.ImageSharp.Image.Load(InputStream))
+        //    {
+        //        using (var OutputStream = new MemoryStream())
+        //        {
+        //            image.SaveAsPng(OutputStream);
+        //            return OutputStream.ToArray();
+        //        }
+        //    }
+        //}
 
         internal static string GetText(this System.Windows.Controls.RichTextBox From)
         {
@@ -488,13 +436,33 @@ namespace LC_Localization_Task_Absolute
             return Target.GetProperties().Where(property => property.Name.Equals(PropertyName)).Count() > 0;
         }
 
-        internal static void ScanScrollviewer(ScrollViewer Target, string NameHint, int Upscale = 4, double DpiX = 96d, double DpiY = 96d)
+        /// <summary>
+        /// Returns double from string if success, otherwise 0
+        /// </summary>
+        internal static double GetDouble(this string From)
+        {
+            try   { return double.Parse(From); }
+            catch { return 0; }
+        }
+
+        /// <summary>
+        /// Return "null" str if Source is null, else Source
+        /// </summary>
+        internal static string nullHandle(this object Source)
+        {
+            return $"{(Source == null ? "null" : Source)}";
+        }
+
+        internal static void ScanScrollviewer(ScrollViewer Target, string NameHint, double DpiX = 96d, double DpiY = 96d)
         {
             ////////////////////////////////////////////////////
             double OriginalScrollOffset = Target.VerticalOffset;
             Target.ScrollToVerticalOffset(0);
             // Because text on image somehow will slide up if preview was scrolled
 
+            double Upscale = Configurazione.DeltaConfig.ScanParameters.ScaleFactor;
+
+            MainControl.SurfaceScrollPreview_Skills_Inner.Background = ToColor(Configurazione.DeltaConfig.ScanParameters.BackgroundColor);
 
             FrameworkElement PreviewContent = Target.Content as FrameworkElement;
 
@@ -505,7 +473,7 @@ namespace LC_Localization_Task_Absolute
             int RenderWidth = (int)(PreviewContent.ActualWidth * Upscale);
             int RenderHeight = (int)(PreviewContent.ActualHeight * Upscale);
 
-            RenderTargetBitmap PreviewLayoutRender = new RenderTargetBitmap(RenderWidth, RenderHeight, 96 * Upscale, 96 * Upscale, PixelFormats.Pbgra32);
+            RenderTargetBitmap PreviewLayoutRender = new RenderTargetBitmap(RenderWidth, RenderHeight, DpiX * Upscale, DpiY * Upscale, PixelFormats.Pbgra32);
             PreviewLayoutRender.Render(PreviewContent);
 
             PngBitmapEncoder ExportBitmapEncoder = new PngBitmapEncoder();
@@ -516,6 +484,7 @@ namespace LC_Localization_Task_Absolute
                 ExportBitmapEncoder.Save(ExportStream);
             }
 
+            MainControl.SurfaceScrollPreview_Skills_Inner.Background = Brushes.Transparent;
 
             ////////////////////////////////////////////////////
             Target.ScrollToVerticalOffset(OriginalScrollOffset);

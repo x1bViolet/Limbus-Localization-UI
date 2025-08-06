@@ -95,8 +95,6 @@ namespace LC_Localization_Task_Absolute
 
             [JsonProperty("Font Color")]
             public string FontColor { get; set; }
-
-            [OnDeserialized] internal void OnInit(StreamingContext context) => NullableControl.NullExterminate(this);
         }
 
         internal protected class RightMenuTextfieldsControl
@@ -130,11 +128,11 @@ namespace LC_Localization_Task_Absolute
             public string Background { get; set; }
 
             [JsonProperty("Background (Highlighted)")]
-            public string BackgroundHighlighted { get; set; }
-            public string Border { get; set; }
+            public string BackgroundHighlighted { get; set; } = "";
+            public string Border { get; set; } = "";
 
             [JsonProperty("Disable Cover Color")]
-            public string DisableCover { get; set; }
+            public string DisableCover { get; set; } = "";
 
             [JsonProperty("Corner Radius")]
             public double CornerRadius { get; set; }
@@ -143,25 +141,21 @@ namespace LC_Localization_Task_Absolute
             public double BorderThickness { get; set; }
 
             [JsonProperty("Icons Color")]
-            public string IconsColor { get; set; }
-
-            [OnDeserialized] internal void OnInit(StreamingContext context) => NullableControl.NullExterminate(this);
+            public string IconsColor { get; set; } = "";
         }
         internal protected class BordersThemeControl
         {
             [JsonProperty("Background")]
-            public string Background { get; set; }
+            public string Background { get; set; } = "";
 
             [JsonProperty("Border")]
-            public string Border { get; set; }
+            public string Border { get; set; } = "";
 
             [JsonProperty("Corner Radius")]
             public double CornerRadius { get; set; }
 
             [JsonProperty("Border Thickness")]
             public double BorderThickness { get; set; }
-
-            [OnDeserialized] internal void OnInit(StreamingContext context) => NullableControl.NullExterminate(this);
         }
 
         internal protected class EditorSettings
@@ -170,34 +164,32 @@ namespace LC_Localization_Task_Absolute
             public double FontSize { get; set; }
 
             [JsonProperty("Font")]
-            public string FontFamily { get; set; }
+            public string FontFamily { get; set; } = "";
 
             [JsonProperty("Font Color")]
-            public string FontColor { get; set; }
+            public string FontColor { get; set; } = "";
 
             [JsonProperty("Font Weight")]
-            public string FontWeight { get; set; }
+            public string FontWeight { get; set; } = "";
 
             [JsonProperty("Background")]
-            public string Background { get; set; }
+            public string Background { get; set; } = "";
 
             [JsonProperty("Border")]
-            public string Border { get; set; }
+            public string Border { get; set; } = "";
 
             [JsonProperty("Corner Radius")]
             public double CornerRadius { get; set; }
 
             [JsonProperty("Caret Color")]
-            public string CaretColor { get; set; }
+            public string CaretColor { get; set; } = "";
 
             [JsonProperty("Selection Color")]
-            public string SelectionColor { get; set; }
+            public string SelectionColor { get; set; } = "";
 
             [OnDeserialized]
             internal void ChangeEditorStyle(StreamingContext context)
             {
-                NullableControl.NullExterminate(this);
-
                 if (UILanguageLoader.LoadedFontFamilies.ContainsKey(FontFamily))
                 {
                     MainControl.Editor.FontFamily = LoadedFontFamilies[FontFamily];
@@ -222,27 +214,25 @@ namespace LC_Localization_Task_Absolute
         internal protected class EditorContextMenuSettings
         {
             [JsonProperty("Font")]
-            public string Font { get; set; }
-            
+            public string Font { get; set; } = "";
+
             [JsonProperty("Font Weight")]
-            public string FontWeight { get; set; }
+            public string FontWeight { get; set; } = "";
 
             [JsonProperty("Background")]
-            public string Background { get; set; }
-            
+            public string Background { get; set; } = "";
+
             [JsonProperty("Background (Highlighted)")]
-            public string BackgroundHighlighted { get; set; }
+            public string BackgroundHighlighted { get; set; } = "";
 
             [JsonProperty("Border")]
-            public string Border { get; set; }
+            public string Border { get; set; } = "";
 
             [JsonProperty("Font Color")]
-            public string FontColor { get; set; }
+            public string FontColor { get; set; } = "";
 
             [JsonProperty("Corner Radius")]
             public double CornerRadius { get; set; }
-
-            [OnDeserialized] internal void OnInit(StreamingContext context) => NullableControl.NullExterminate(this);
         }
 
         internal protected static void InitializeUITheme(string FolderName)
@@ -268,7 +258,7 @@ namespace LC_Localization_Task_Absolute
             MainControl.Resources["UITheme_NavigationPanelBackground"] = ToColor(LoadedTheme.NavigationPanelBackground);
             MainControl.Resources["UITheme_DefaultTextColor"]          = ToColor(LoadedTheme.UITextFontColor);
 
-            if (!LoadedTheme.ButtonsThemeControl.IsNull())
+            if (LoadedTheme.ButtonsThemeControl != null)
             {
                 MainControl.Resources["UITheme_ButtonsBackground"]            = ToColor(LoadedTheme.ButtonsThemeControl.Background);
                 MainControl.Resources["UITheme_ButtonsBorder"]                = ToColor(LoadedTheme.ButtonsThemeControl.Border);
@@ -282,7 +272,7 @@ namespace LC_Localization_Task_Absolute
                 MainControl.Resources["UITheme_ButtonsBorderThickness"] = new Thickness(LoadedTheme.ButtonsThemeControl.BorderThickness);
             }
 
-            if (!LoadedTheme.BordersThemeControl.IsNull())
+            if (LoadedTheme.BordersThemeControl != null)
             {
                 MainControl.Resources["UITheme_BordersBackground"]  = ToColor(LoadedTheme.BordersThemeControl.Background);
                 MainControl.Resources["UITheme_BordersBorderColor"] = ToColor(LoadedTheme.BordersThemeControl.Border);
@@ -291,7 +281,7 @@ namespace LC_Localization_Task_Absolute
                 MainControl.Resources["UITheme_BordersBorderThickness"] = new Thickness(LoadedTheme.BordersThemeControl.BorderThickness);
             }
 
-            if (!LoadedTheme.EditorContextMenu.IsNull())
+            if (LoadedTheme.EditorContextMenu != null)
             {
                 MainControl.Resources["UITheme_EditorContextMenu_Border"]                = ToColor(LoadedTheme.EditorContextMenu.Border);
                 MainControl.Resources["UITheme_EditorContextMenu_Background"]            = ToColor(LoadedTheme.EditorContextMenu.Background);
@@ -312,11 +302,11 @@ namespace LC_Localization_Task_Absolute
                 MainControl.Resources["UITheme_EditorContextMenu_FontWeight"] = WeightFrom(LoadedTheme.EditorContextMenu.FontWeight);
             }
 
-            if (!LoadedTheme.UITextFontColorIndividuals.IsNull())
+            if (LoadedTheme.UITextFontColorIndividuals != null)
             {
                 foreach(IndividualFontColor IndividualFontColor in LoadedTheme.UITextFontColorIndividuals)
                 {
-                    if (!IndividualFontColor.ElementID.IsNull())
+                    if (IndividualFontColor.ElementID != null)
                     {
                         if (AbleToSetForegroundByTheme.ContainsKey(IndividualFontColor.ElementID))
                         {

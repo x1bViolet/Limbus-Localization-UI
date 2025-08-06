@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>LC_Localization_Task_Absolute</RootNamespace>
     <Nullable>enable</Nullable>
@@ -31,8 +31,15 @@
     <None Remove="UI\Fonts\Pretendard-Light.otf" />
     <None Remove="UI\Fonts\Segoe Fluent Icons.ttf" />
     <None Remove="UI\Images\Floor of Literature.png" />
+    <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Envy.png" />
+    <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Gloom.png" />
+    <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Gluttony.png" />
+    <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Lust.png" />
+    <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\None.png" />
+    <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Pride.png" />
+    <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Sloth.png" />
+    <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Wrath.png" />
     <None Remove="UI\Limbus\Backgrounds\Dirty Background.png" />
-    <None Remove="UI\Limbus\Backgrounds\E.G.O Gift Name Background.png" />
     <None Remove="UI\Limbus\Backgrounds\E.G.O Gift Tier 2 Background.png" />
     <None Remove="UI\Limbus\Backgrounds\E.G.O Gift Tier 3 Background.png" />
     <None Remove="UI\Limbus\Backgrounds\E.G.O Gift Ugrade level indicator 2.png" />
@@ -54,6 +61,54 @@
     <None Remove="UI\Limbus\Coins\Coin 4.png" />
     <None Remove="UI\Limbus\Coins\Coin 5.png" />
     <None Remove="UI\Limbus\Coins\Coin 6.png" />
+    <None Remove="UI\Limbus\Skills\Affinity Icons\Envy.png" />
+    <None Remove="UI\Limbus\Skills\Affinity Icons\Gloom.png" />
+    <None Remove="UI\Limbus\Skills\Affinity Icons\Gluttony.png" />
+    <None Remove="UI\Limbus\Skills\Affinity Icons\Lust.png" />
+    <None Remove="UI\Limbus\Skills\Affinity Icons\Pride.png" />
+    <None Remove="UI\Limbus\Skills\Affinity Icons\Sloth.png" />
+    <None Remove="UI\Limbus\Skills\Affinity Icons\Wrath.png" />
+    <None Remove="UI\Limbus\Skills\Base Icons\Attack.png" />
+    <None Remove="UI\Limbus\Skills\Base Icons\Counter.png" />
+    <None Remove="UI\Limbus\Skills\Base Icons\Evade.png" />
+    <None Remove="UI\Limbus\Skills\Base Icons\Guard.png" />
+    <None Remove="UI\Limbus\Skills\Base Icons\Sample.png" />
+    <None Remove="UI\Limbus\Skills\Copies Count Mult.png" />
+    <None Remove="UI\Limbus\Skills\Damage Type Opacity Mask.png" />
+    <None Remove="UI\Limbus\Skills\Damage Types\Blunt.png" />
+    <None Remove="UI\Limbus\Skills\Damage Types\Pierce.png" />
+    <None Remove="UI\Limbus\Skills\Damage Types\Slash.png" />
+    <None Remove="UI\Limbus\Skills\Defense Level.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Envy\1.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Envy\2.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Envy\3.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Gloom\1.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Gloom\2.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Gloom\3.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Gluttony\1.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Gluttony\2.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Gluttony\3.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Lust\1.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Lust\2.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Lust\3.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Pride\1.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Pride\2.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Pride\3.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Skill Default Frame alt.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Skill Default Frame.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Sloth\1.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Sloth\2.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Sloth\3.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Wrath\1.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Wrath\2.png" />
+    <None Remove="UI\Limbus\Skills\Frames\Wrath\3.png" />
+    <None Remove="UI\Limbus\Skills\Icon Opacity Mask.png" />
+    <None Remove="UI\Limbus\Skills\Name Left Mask.png" />
+    <None Remove="UI\Limbus\Skills\Name Opacity Mask.png" />
+    <None Remove="UI\Limbus\Skills\Offense Level.png" />
+    <None Remove="UI\Limbus\Skills\Regular Coin.png" />
+    <None Remove="UI\Limbus\Skills\Sample.png" />
+    <None Remove="UI\Limbus\Skills\Unbreakable Coin.png" />
     <None Remove="UI\Limbus\Uptie leves\Background.png" />
     <None Remove="UI\Limbus\Uptie leves\EX E.G.O Gifts Tier.png" />
     <None Remove="UI\Limbus\Uptie leves\Uptie 1.png" />
@@ -75,7 +130,161 @@
     <Resource Include="UI\Fonts\GOST Type BU.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Envy.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Gloom.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Gluttony.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Lust.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\None.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Pride.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Sloth.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Wrath.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="UI\Limbus\Coins\Coin 6.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Affinity Icons\Envy.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Affinity Icons\Gloom.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Affinity Icons\Gluttony.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Affinity Icons\Lust.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Affinity Icons\Pride.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Affinity Icons\Sloth.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Affinity Icons\Wrath.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Base Icons\Sample.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Copies Count Mult.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Damage Type Opacity Mask.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Damage Types\Blunt.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Damage Types\Pierce.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Damage Types\Slash.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Defense Level.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Envy\1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Envy\2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Envy\3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Gloom\1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Gloom\2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Gloom\3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Gluttony\1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Gluttony\2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Gluttony\3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Lust\1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Lust\2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Lust\3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Pride\1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Pride\2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Pride\3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Skill Default Frame alt.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Skill Default Frame.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Sloth\1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Sloth\2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Sloth\3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Wrath\1.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Wrath\2.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Frames\Wrath\3.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Icon Opacity Mask.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Left Mask.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Opacity Mask.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Offense Level.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Regular Coin.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Sample.png" />
+    <Resource Include="UI\Limbus\Skills\Unbreakable Coin.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Uptie leves\EX E.G.O Gifts Tier.png">
@@ -109,9 +318,6 @@
     <Resource Include="UI\Limbus\Backgrounds\Dirty Background.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="UI\Limbus\Backgrounds\E.G.O Gift Name Background.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="UI\Limbus\Backgrounds\E.G.O Gift Tier 2 Background.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -131,9 +337,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Backgrounds\E.G.O Gift Ugrade level switch Selected.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Backgrounds\Keywords (BattleKeywords).png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Backgrounds\Keywords (Bufs) — Button.png">
@@ -171,7 +374,6 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.4.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.8" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 

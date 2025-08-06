@@ -188,6 +188,10 @@
       "Text": "查看描述"
     },
     {
+      "Element ID": "Skills Name Replication 'Atk Weight'",
+      "Text": "攻擊容量"
+    },
+    {
       "Element ID": "Editor Context Menu — Insert Style",
       "Font": "Unispace",
       "Text": "※ 插入 <color=#f8c200><style> 高亮文字</color>",
@@ -279,6 +283,11 @@
       "Font": "Segoe UI"
     },
     {
+      "Element ID": "[Settings] Limbus Preview — Enable Skill Names Replication",
+      "Text": "啟用技能名稱同步顯示",
+      "Font": "Segoe UI"
+    },
+    {
       "Element ID": "[Settings] Limbus Preview — Preview update delay",
       "Text": "預覽更新延遲（秒）",
       "Font": "Segoe UI"
@@ -341,6 +350,36 @@
       "Font": "Segoe UI"
     },
 
+
+
+    {
+      "Element ID": "[Settings] Resourecs Reload — Secton Name",
+      "Text": "重新載入資源",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — Custom Language Keywords",
+      "Text": "自訂語言關鍵詞",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — Keyword Icons",
+      "Text": "關鍵詞圖示",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — Skills Icons and Display Info",
+      "Text": "技能顯示資訊與圖示",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Resourecs Reload — E.G.O Gifts Icons and Display Info",
+      "Text": "E.G.O飾品顯示資訊與圖示",
+      "Font": "Segoe UI"
+    },
+
+
+
     {
       "Element ID": "[Settings] Preview Scans — Section Name",
       "Text": "⦁ 預覽輸出圖片",
@@ -354,6 +393,21 @@
     {
       "Element ID": "[Settings] Preview Scans — Width of Skills Preview",
       "Text": "技能面板寬度(像素)",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Background Color (Skills only)",
+      "Text": "技能匯出背景顏色 (<i>Hex</i> <u>RGB</u> / <u>ARGB</u>)",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Toggle Background Color View",
+      "Text": "切換背景顏色顯示",
+      "Font": "Segoe UI"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Scale Factor",
+      "Text": "縮放係數",
       "Font": "Segoe UI"
     },
     {
@@ -466,6 +520,7 @@
     {
       "Element ID": "[Settings] Limbus Preview — Preview update delay",
       "Font": "思源黑体TW-Bold",
+      "Vertical Offset": -2,
       "Font Weight": "Bold"
     },
     {
@@ -487,8 +542,21 @@
       "Font Weight": "Bold"
     },
     {
-      "Element ID": "[Settings] Custom Lanugage — Width of Skills Preview",
+      "Element ID": "[Settings] Preview Scans — Width of Skills Preview",
       "Font": "思源黑体TW-Bold",
+      "Vertical Offset": -2,
+      "Font Weight": "Bold"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Scale Factor",
+      "Font": "思源黑体TW-Bold",
+      "Vertical Offset": -2,
+      "Font Weight": "Bold"
+    },
+    {
+      "Element ID": "[Settings] Preview Scans — Background Color (Skills only)",
+      "Font": "思源黑体TW-Bold",
+      "Vertical Offset": -2,
       "Font Weight": "Bold"
     }
   ],
