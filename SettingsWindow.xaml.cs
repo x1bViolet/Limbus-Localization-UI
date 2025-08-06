@@ -578,18 +578,15 @@ namespace LC_Localization_Task_Absolute
             {
                 if (InputSkillsBackgroundColor_Display != null)
                 {
-                    if (InputSkillsBackgroundColor_Display.Background != null)
+                    string NewSkillsBackground = InputSkillsScanBackgroundColor.Text;
+
+                    SolidColorBrush NewColor = ToColor(NewSkillsBackground);
+
+                    InputSkillsBackgroundColor_Display.Background = NewColor;
+
+                    if (ToggleSkillsScanBackgroundColorView_I.Visibility.Equals(Visible))
                     {
-                        string NewSkillsBackground = InputSkillsScanBackgroundColor.Text;
-
-                        SolidColorBrush NewColor = ToColor(NewSkillsBackground);
-
-                        InputSkillsBackgroundColor_Display.Background = NewColor;
-
-                        if (ToggleSkillsScanBackgroundColorView_I.Visibility.Equals(Visible))
-                        {
-                            MainControl.SurfaceScrollPreview_Skills_Inner.Background = NewColor;
-                        }
+                        MainControl.SurfaceScrollPreview_Skills_Inner.Background = NewColor;
                     }
                 }
             }
