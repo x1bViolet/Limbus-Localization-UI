@@ -171,6 +171,13 @@ namespace LC_Localization_Task_Absolute.Json
             [JsonProperty("Action"     )] public string Action     { get; set; } = "Attack";
             [JsonProperty("Rank"       )] public int    Rank       { get; set; } = 1;
             [JsonProperty("Copies"     )] public int?   Copies     { get; set; }
+
+            [OnDeserialized]
+            private void TechnicalProcessing(StreamingContext context)
+            {
+                if (Rank > 3) Rank = 3;
+                if (Rank < 1) Rank = 1;
+            }
         }
 
         public class SkillContstructor_Characteristics
