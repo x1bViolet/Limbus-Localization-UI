@@ -270,6 +270,9 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("id")]
                 public BigInteger? ID { get; set; }
 
+                [JsonProperty("textID")]
+                public BigInteger? LocalizationItemID { get; set; }
+
                 [JsonProperty("skillTier")]
                 public int Rank { get; set; } = 1;
 
@@ -312,6 +315,9 @@ namespace LC_Localization_Task_Absolute.Json
                 [OnDeserialized]
                 internal void TechnicalProcessing(StreamingContext context)
                 {
+                    // Associate for json files
+                    if (LocalizationItemID != null) ID = LocalizationItemID;
+
                     if (UptieLevelsJsonList != null)
                     {
                         int? LatestRegisteredCoinPowerValue = null;
