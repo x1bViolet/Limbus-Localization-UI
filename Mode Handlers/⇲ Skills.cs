@@ -513,7 +513,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                         // Affinity color
                         Select_Affinity = Info_Uptie.Affinity;
 
-                        // Icon
+                        // Another Icon
                         if (Info_Uptie.IconID != null) // If icon is alt from some other skill or _4 uptie
                         {
                             Select_IconID = Info_Uptie.IconID;
@@ -894,7 +894,11 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             if (Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSkillNamesReplication)
             {
-                ChangeSkillHeaderReplicaAppearance();
+                try
+                {
+                    ChangeSkillHeaderReplicaAppearance();
+                }
+                catch (Exception ex) { rin(ex.ToString()); /*by thy way*/ }
             }
 
 
