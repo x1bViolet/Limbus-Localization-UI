@@ -24,10 +24,10 @@ namespace LC_Localization_Task_Absolute.Json
             internal protected static List<dynamic> DelegateUniversal_IDList = [];
 
         internal protected static List<dynamic> Delegates = [
-            DelegateSkills  , DelegateSkills_IDList,
-            DelegatePassives, DelegatePassives_IDList,
-            DelegateKeywords, DelegateEGOGifts_IDList,
-            DelegateEGOGifts, DelegateKeywords_IDList,
+            DelegateSkills,    DelegateSkills_IDList,
+            DelegatePassives,  DelegatePassives_IDList,
+            DelegateKeywords,  DelegateEGOGifts_IDList,
+            DelegateEGOGifts,  DelegateKeywords_IDList,
             DelegateUniversal, DelegateUniversal_IDList,
         ];
 
@@ -38,102 +38,117 @@ namespace LC_Localization_Task_Absolute.Json
 
         internal protected static void InitializeSkillsDelegateFrom(Type_Skills.Skills? Source)
         {
-            DelegateSkills.Clear();
-            DelegateSkills_IDList.Clear();
-            Mode_Skills.Skills_NameIDs.Clear();
-
-            if (Source.dataList != null)
+            if (Source != null)
             {
-                foreach(Type_Skills.Skill CurrentSkill in Source.dataList)
+                if (Source.dataList != null)
                 {
-                    DelegateSkills[CurrentSkill.ID] = new Dictionary<int, Type_Skills.UptieLevel>();
-                    foreach(Type_Skills.UptieLevel CurrentUptieLevel in CurrentSkill.UptieLevels)
+                    DelegateSkills.Clear();
+                    DelegateSkills_IDList.Clear();
+                    Mode_Skills.Skills_NameIDs.Clear();
+
+                    foreach(Type_Skills.Skill CurrentSkill in Source.dataList)
                     {
-                        DelegateSkills[CurrentSkill.ID][CurrentUptieLevel.Uptie] = CurrentUptieLevel;
+                        DelegateSkills[CurrentSkill.ID] = new Dictionary<int, Type_Skills.UptieLevel>();
+                        foreach(Type_Skills.UptieLevel CurrentUptieLevel in CurrentSkill.UptieLevels)
+                        {
+                            DelegateSkills[CurrentSkill.ID][CurrentUptieLevel.Uptie] = CurrentUptieLevel;
 
-                        Mode_Skills.Skills_NameIDs[DelegateSkills[CurrentSkill.ID][CurrentUptieLevel.Uptie].Name.Trim()] = CurrentSkill.ID;
+                            Mode_Skills.Skills_NameIDs[DelegateSkills[CurrentSkill.ID][CurrentUptieLevel.Uptie].Name.Trim()] = CurrentSkill.ID;
+                        }
                     }
-                }
 
-                DelegateSkills_IDList = DelegateSkills.Keys.ToList();
+                    DelegateSkills_IDList = DelegateSkills.Keys.ToList();
+                }
             }
         }
 
-        internal protected static void InitializePassivesDelegateFrom(Type_Passives.Passives? Source)
+        internal protected static void InitializePassivesDelegateFrom(Type_Passives.Passives Source)
         {
-            DelegatePassives.Clear();
-            DelegatePassives_IDList.Clear();
-            Mode_Passives.Passives_NameIDs.Clear();
-
-            if (Source.dataList != null)
+            if (Source != null)
             {
-                foreach (Type_Passives.Passive CurrentPassive in Source.dataList)
+                if (Source.dataList != null)
                 {
-                    DelegatePassives[CurrentPassive.ID] = CurrentPassive;
-                    Mode_Passives.Passives_NameIDs[CurrentPassive.Name.Trim()] = CurrentPassive.ID;
-                }
+                    DelegatePassives.Clear();
+                    DelegatePassives_IDList.Clear();
+                    Mode_Passives.Passives_NameIDs.Clear();
 
-                DelegatePassives_IDList = DelegatePassives.Keys.ToList();
+                    foreach (Type_Passives.Passive CurrentPassive in Source.dataList)
+                    {
+                        DelegatePassives[CurrentPassive.ID] = CurrentPassive;
+                        Mode_Passives.Passives_NameIDs[CurrentPassive.Name.Trim()] = CurrentPassive.ID;
+                    }
+
+                    DelegatePassives_IDList = DelegatePassives.Keys.ToList();
+                }
             }
         }
 
-        internal protected static void InitializeKeywordsDelegateFrom(Type_Keywords.Keywords? Source)
+        internal protected static void InitializeKeywordsDelegateFrom(Type_Keywords.Keywords Source)
         {
-            DelegateKeywords.Clear();
-            DelegateKeywords_IDList.Clear();
-            Mode_Keywords.Keywords_NameIDs.Clear();
-
-            if (Source.dataList != null)
+            if (Source != null)
             {
-                foreach (Type_Keywords.Keyword CurrentKeyword in Source.dataList)
+                if (Source.dataList != null)
                 {
-                    DelegateKeywords[CurrentKeyword.ID] = CurrentKeyword;
-                    Mode_Keywords.Keywords_NameIDs[CurrentKeyword.Name.Trim()] = CurrentKeyword.ID;
-                }
+                    DelegateKeywords.Clear();
+                    DelegateKeywords_IDList.Clear();
+                    Mode_Keywords.Keywords_NameIDs.Clear();
 
-                DelegateKeywords_IDList = DelegateKeywords.Keys.ToList();
+                    foreach (Type_Keywords.Keyword CurrentKeyword in Source.dataList)
+                    {
+                        DelegateKeywords[CurrentKeyword.ID] = CurrentKeyword;
+                        Mode_Keywords.Keywords_NameIDs[CurrentKeyword.Name.Trim()] = CurrentKeyword.ID;
+                    }
+
+                    DelegateKeywords_IDList = DelegateKeywords.Keys.ToList();
+                }
             }
         }
 
-        internal protected static void InitializeEGOGiftsDelegateFrom(Type_EGOGifts.EGOGifts? Source)
+        internal protected static void InitializeEGOGiftsDelegateFrom(Type_EGOGifts.EGOGifts Source)
         {
-            DelegateEGOGifts.Clear();
-            DelegateEGOGifts_IDList.Clear();
-            Mode_EGOGifts.EGOGifts_NameIDs.Clear();
-
-            if (Source.dataList != null)
+            if (Source != null)
             {
-                foreach (Type_EGOGifts.EGOGift CurrentKeyword in Source.dataList)
+                if (Source.dataList != null)
                 {
-                    DelegateEGOGifts[CurrentKeyword.ID] = CurrentKeyword;
-                    Mode_EGOGifts.EGOGifts_NameIDs[CurrentKeyword.Name.Trim()] = CurrentKeyword.ID;
-                }
+                    DelegateEGOGifts.Clear();
+                    DelegateEGOGifts_IDList.Clear();
+                    Mode_EGOGifts.EGOGifts_NameIDs.Clear();
 
-                DelegateEGOGifts_IDList = DelegateEGOGifts.Keys.ToList();
+                    foreach (Type_EGOGifts.EGOGift CurrentKeyword in Source.dataList)
+                    {
+                        DelegateEGOGifts[CurrentKeyword.ID] = CurrentKeyword;
+                        Mode_EGOGifts.EGOGifts_NameIDs[CurrentKeyword.Name.Trim()] = CurrentKeyword.ID;
+                    }
+
+                    DelegateEGOGifts_IDList = DelegateEGOGifts.Keys.ToList();
+                }
             }
         }
 
         internal protected static void InitializeContentBasedUniversalDelegateFrom(Type_ContentBasedUniversal.ContentBasedUniversal? Source)
         {
-            DelegateUniversal.Clear();
-            DelegateUniversal_IDList.Clear();
-            Mode_Passives.Passives_NameIDs.Clear();
-
-            if (Source.dataList != null)
+            if (Source != null)
             {
-                if (Source.dataList.Count > 0)
+                if (Source.dataList != null)
                 {
-                    Type CheckItem = Source.dataList[0].GetType();
-                    if (CheckItem.HasProperty("id") & CheckItem.HasProperty("content"))
+                    if (Source.dataList.Count > 0)
                     {
-                        
-                        foreach (dynamic CurrentItem in Source.dataList)
-                        {
-                            DelegateUniversal[CurrentItem.id] = CurrentItem;
-                            //Mode_Passives.Passives_NameIDs[CurrentPassive.Name.Trim()] = CurrentPassive.ID;
-                        }
+                        DelegateUniversal.Clear();
+                        DelegateUniversal_IDList.Clear();
+                        Mode_Passives.Passives_NameIDs.Clear();
 
-                        DelegatePassives_IDList = DelegatePassives.Keys.ToList();
+                        Type CheckItem = Source.dataList[0].GetType();
+                        if (CheckItem.HasProperty("id") & CheckItem.HasProperty("content"))
+                        {
+                        
+                            foreach (dynamic CurrentItem in Source.dataList)
+                            {
+                                DelegateUniversal[CurrentItem.id] = CurrentItem;
+                                //Mode_Passives.Passives_NameIDs[CurrentPassive.Name.Trim()] = CurrentPassive.ID;
+                            }
+
+                            DelegatePassives_IDList = DelegatePassives.Keys.ToList();
+                        }
                     }
                 }
             }

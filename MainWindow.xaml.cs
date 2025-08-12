@@ -26,11 +26,9 @@ namespace LC_Localization_Task_Absolute;
 public partial class MainWindow : Window
 {
     #region Initials
-    /// <summary>
-    /// Damn
-    /// </summary>
     internal protected static MainWindow MainControl;
     internal protected static SettingsWindow SettingsControl = new SettingsWindow();
+    internal protected static bool ManualTextLoadEvent = false;
 
 
     internal protected static Dictionary<string, RichTextBox> UILanguage;
@@ -38,12 +36,9 @@ public partial class MainWindow : Window
     internal protected static Dictionary<string, RichTextBox> PreviewLayoutControls;
 
     internal protected static List<dynamic?> SwitchButtons_TextFieldsControl = [];
-
     internal protected static List<RichTextBox?> PreviewLayoutsList = [];
-
     internal protected static List<TextBox> FocusableTextBoxes = [];
     
-    internal protected static bool ManualTextLoadEvent = false;
     internal protected static RichTextBox PreviewUpdate_TargetSite;
 
     internal protected static string DefaultTheme = "";
@@ -192,14 +187,10 @@ public partial class MainWindow : Window
         InitializeComponent();
         MainControl = this;
 
-        try { Console.OutputEncoding = Encoding.UTF8; }
-        catch { }
-        
         InitializeUIInteractionLogic();
         InitializeDefaultResource();
 
         InitSurfaceScroll(NavigationPanel_ObjectName_DisplayScrollViewer);
-
         InitSurfaceScroll(SurfaceScrollPreview_Skills);
         InitSurfaceScroll(SurfaceScrollPreview_Keywords__Bufs);
         InitSurfaceScroll(SurfaceScrollPreview_Keywords__BattleKeywords);
@@ -217,7 +208,6 @@ public partial class MainWindow : Window
 
     internal protected void InitMain()
     {
-        // To not upload 2300+ files on github
         if (File.Exists(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip"))
         {
             try
@@ -229,25 +219,11 @@ public partial class MainWindow : Window
             catch { }
         }
 
-        //if (File.Exists(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\Limbus\Limbus $Unpack.zip"))
-        //{
-        //    try
-        //    {
-        //        System.IO.Compression.ZipFile.ExtractToDirectory(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\Limbus\Limbus $Unpack.zip", @"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\Limbus");
-
-        //        File.Delete(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\Limbus\Limbus $Unpack.zip");
-        //    }
-        //    catch { }
-        //}
-
-
-
-
         PreviewUpdate_TargetSite = PreviewLayout_Default;
 
         File.WriteAllText(@"⇲ Assets Directory\Latest loading.txt", "");
 
-        Mode_Skills.LoadSkillFrames();
+        Mode_Skills.LoadDefaultResources();
 
         Configurazione.PullLoad();
 
@@ -665,7 +641,7 @@ public partial class MainWindow : Window
         {
             FullLink.EGOAbnormalityName = SWBT_Skills_EGOAbnormalitySkillName.Text;
 
-            Mode_Skills.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+            Mode_Skills.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
         }
     }
 
@@ -924,7 +900,7 @@ public partial class MainWindow : Window
             AnyChanges = true;
         }
 
-        if (AnyChanges) Mode_Keywords.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+        if (AnyChanges) Mode_Keywords.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
     }
     private void Actions_Keywords_BufsSpecialNameButton(object sender, MouseButtonEventArgs e)
     {
@@ -1257,7 +1233,7 @@ public partial class MainWindow : Window
                     FullLinkSkills.Name = SWBT_Skills_MainSkillName.Text.Trim();
                     NavigationPanel_ObjectName_Display.Text = FullLinkSkills.Name;
 
-                    Mode_Skills.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                    Mode_Skills.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                 }
 
                 break;
@@ -1274,7 +1250,7 @@ public partial class MainWindow : Window
                     FullLinkPassives.Name = SWBT_Passives_MainPassiveName.Text.Trim();
                     NavigationPanel_ObjectName_Display.Text = FullLinkPassives.Name;
 
-                    Mode_Passives.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                    Mode_Passives.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                 }
 
                 break;
@@ -1290,7 +1266,7 @@ public partial class MainWindow : Window
                     FullLinkKeywords.Name = SWBT_Keywords_KeywordName.Text.Trim();
                     NavigationPanel_ObjectName_Display.Text = FullLinkKeywords.Name;
 
-                    Mode_Keywords.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                    Mode_Keywords.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                 }
 
                 break;
@@ -1306,7 +1282,7 @@ public partial class MainWindow : Window
                     FullLinkEGOGifts.Name = SWBT_EGOGifts_EGOGiftName.Text.Trim();
                     NavigationPanel_ObjectName_Display.Text = FullLinkEGOGifts.Name;
 
-                    Mode_EGOGifts.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                    Mode_EGOGifts.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                 }
 
                 break;
@@ -1319,11 +1295,6 @@ public partial class MainWindow : Window
         CurrentFileEncoding = Target.GetFileEncoding();
         MainControl.JsonFilePath.Text = CurrentFile.FullName;
         MainControl.JsonFilePath.CaretIndex = MainControl.JsonFilePath.Text.Length;
-    }
-    internal protected static void FocusOnFile(string TargetPath)
-    {
-        CurrentFile = new FileInfo(TargetPath);
-        MainControl.JsonFilePath.Text = CurrentFile.FullName;
     }
 
     internal protected void Actions_FILE_SelectFile_Acutal()
@@ -1399,8 +1370,6 @@ public partial class MainWindow : Window
     {
         DefaultTheme = LoadFromEmbeddedResources("LC_Localization_Task_Absolute.Default.Theme.Theme.json");
         DefaultLanguage = LoadFromEmbeddedResources("LC_Localization_Task_Absolute.Default.Language.English.json");
-
-        UILanguageLoader.InitializeUILanguage("хуй]");
     }
 
     
@@ -1648,8 +1617,6 @@ public partial class MainWindow : Window
 
     private void ProcessLogicalTree(object current)
     {
-        string elementInfo = current.GetType().Name;
-
         if (current is FrameworkElement)
         {
             string ElementName = (current as FrameworkElement).Name;
@@ -1660,7 +1627,6 @@ public partial class MainWindow : Window
             else if (ElementName.StartsWith("PreviewLayout_") & current is RichTextBox)
             {
                 PreviewLayoutsList.Add(current as RichTextBox);
-                //(current as RichTextBox).Style = FindResource("LimbusType") as Style;
 
                 if (ElementName.Equals("PreviewLayout_EGOGifts"))
                 {
@@ -1674,7 +1640,7 @@ public partial class MainWindow : Window
             else if (ElementName.StartsWith("Special_PreviewLayout_") & current is RichTextBox)
             {
                 PreviewLayoutsList.Add(current as RichTextBox);
-                //(current as RichTextBox).Style = FindResource("LimbusType") as Style;
+
                 if (ElementName.Equals("Special_PreviewLayout_Keywords_BattleKeywords_Desc"))
                 {
                     (current as RichTextBox).SetValue(Paragraph.LineHeightProperty, 25.0);
@@ -1684,14 +1650,9 @@ public partial class MainWindow : Window
                     (current as RichTextBox).SetValue(Paragraph.LineHeightProperty, 20.0);
                 }
             }
-            else if (ElementName.StartsWith("STE_ContextMenu_"))
-            {
-
-            }
 
             if (current is TextBox)
             {
-                //rin($"  Defined TextBox: {(current as TextBox).Name}");
                 FocusableTextBoxes.Add(current as TextBox);
             }
         }
@@ -1808,7 +1769,7 @@ public partial class MainWindow : Window
 
                                 UILanguage["Right Menu — Skill Desc"].SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Desc"]);
 
-                                Mode_Skills.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                                Mode_Skills.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
                             else
                             {
@@ -1829,7 +1790,7 @@ public partial class MainWindow : Window
                                     MainControl.STE_Skills_Coin_DescNumberDisplay.SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"].Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1));
                                 }
 
-                                Mode_Skills.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                                Mode_Skills.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
 
                             break;
@@ -1848,7 +1809,7 @@ public partial class MainWindow : Window
                                 MainControl.STE_Passives_MainDescription
                                     .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Desc"]);
 
-                                Mode_Passives.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                                Mode_Passives.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
                             else if (Mode_Passives.TargetSite_StringLine.Equals("Summary Description"))
                             {
@@ -1857,7 +1818,7 @@ public partial class MainWindow : Window
                                 STE_Passives_SummaryDescription
                                     .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
 
-                                Mode_Passives.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                                Mode_Passives.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
 
                             break;
@@ -1875,7 +1836,7 @@ public partial class MainWindow : Window
                                 MainControl.STE_Keyword_MainDescription
                                     .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]);
 
-                                Mode_Keywords.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                                Mode_Keywords.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
                             else if (Mode_Keywords.TargetSite_StringLine.Equals("Summary Description"))
                             {
@@ -1884,7 +1845,7 @@ public partial class MainWindow : Window
                                 STE_Keyword_SummaryDescription
                                     .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
 
-                                Mode_Keywords.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                                Mode_Keywords.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
 
                             break;
@@ -1902,7 +1863,7 @@ public partial class MainWindow : Window
                                 MainControl.STE_EGOGift_MainDescription
                                     .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — E.G.O Gift Desc"]);
 
-                                Mode_EGOGifts.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                                Mode_EGOGifts.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
                             else
                             {
@@ -1916,7 +1877,7 @@ public partial class MainWindow : Window
                                     .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {SimpleDescNumber}"]);
 
 
-                                Mode_EGOGifts.DeserializedInfo.MarkSerialize(CurrentFile.FullName);
+                                Mode_EGOGifts.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
 
                             break;

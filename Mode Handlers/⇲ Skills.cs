@@ -85,10 +85,12 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
         }
 
-        internal protected static void LoadSkillFrames()
+        internal protected static void LoadDefaultResources()
         {
             foreach (string Affinity in new List<string> { "Wrath", "Lust", "Sloth", "Gluttony", "Gloom", "Pride", "Envy" })
             {
+                AffinityIcons[Affinity] = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Affinity Icons/{Affinity}.png"));
+
                 for (int i = 1; i <= 3; i++)
                 {
                     SkillFrames[$"{Affinity} {i}"] = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Frames/{Affinity}/{i}.png"));
@@ -99,15 +101,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         internal protected static void LoadDisplayInfo()
         {
-            foreach (string Affinity in new List<string> { "Wrath", "Lust", "Sloth", "Gluttony", "Gloom", "Pride", "Envy" })
+            foreach (string SkillType in new List<string> { "Attack", "Guard", "Evade", "Counter" })
             {
-                AffinityIcons[Affinity] = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Affinity Icons/{Affinity}.png"));
-
-                foreach (string SkillType in new List<string> { "Attack", "Guard", "Evade", "Counter" })
+                DefaultIcons[$"{SkillType} None"] = GenerateBitmapFromFile(@$"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\[⇲] Default\None\{SkillType}.png");
+                
+                foreach (string Affinity in new List<string> { "Wrath", "Lust", "Sloth", "Gluttony", "Gloom", "Pride", "Envy" })
                 {
                     DefaultIcons[$"{SkillType} {Affinity}"] = GenerateBitmapFromFile(@$"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\[⇲] Default\{Affinity}\{SkillType}.png");
-
-                    DefaultIcons[$"{SkillType} None"] = GenerateBitmapFromFile(@$"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\[⇲] Default\None\{SkillType}.png");
                 }
             }
 
@@ -115,14 +115,18 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 foreach(FileInfo SkillDataFile in new DirectoryInfo(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json").GetFiles("*.json", SearchOption.AllDirectories))
                 {
-                    BaseTypes.Type_RawSkills.SkillsDetailedInfo Deserialized = JsonConvert.DeserializeObject<BaseTypes.Type_RawSkills.SkillsDetailedInfo>(File.ReadAllText(SkillDataFile.FullName));
-                    if (Deserialized.List != null)
+                    var Deserialized = SkillDataFile.Deserealize<BaseTypes.Type_RawSkills.SkillsDetailedInfo>();
+
+                    if (Deserialized != null)
                     {
-                        foreach(BaseTypes.Type_RawSkills.DetailedInfoItem SkillData in Deserialized.List)
+                        if (Deserialized.List != null)
                         {
-                            if (SkillData.ID != null & SkillData.UptieLevelsDictionary != null)
+                            foreach(BaseTypes.Type_RawSkills.DetailedInfoItem SkillData in Deserialized.List)
                             {
-                                OrganizedDisplayInfo[(BigInteger)SkillData.ID] = SkillData;
+                                if (SkillData.ID != null & SkillData.UptieLevelsDictionary != null)
+                                {
+                                    OrganizedDisplayInfo[(BigInteger)SkillData.ID] = SkillData;
+                                }
                             }
                         }
                     }
@@ -818,7 +822,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         internal protected static Task LoadStructure(FileInfo JsonFile)
         {
-            DeserializedInfo = JsonFile.Deserealize<Skills>() as Skills;
+            DeserializedInfo = JsonFile.Deserealize<Skills>();
             InitializeSkillsDelegateFrom(DeserializedInfo);
 
             if (DelegateSkills_IDList.Count > 0)

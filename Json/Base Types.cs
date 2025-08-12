@@ -38,7 +38,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string EGOAbnormalityName { get; set; }
 
                 [JsonProperty("desc")]
-                public string Description { get; set; }
+                public string Description { get; set; } = "";
 
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
@@ -48,11 +48,6 @@ namespace LC_Localization_Task_Absolute.Json
                 [OnDeserialized]
                 private void OnInit(StreamingContext context)
                 {
-                    if (Description == null)
-                    {
-                        Description = "";
-                    }
-                    
                     EditorDescription = Description;
                 }
 
@@ -67,7 +62,7 @@ namespace LC_Localization_Task_Absolute.Json
             public class CoinDesc
             {
                 [JsonProperty("desc")]
-                public string Description { get; set; }
+                public string Description { get; set; } = "";
 
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
@@ -77,11 +72,6 @@ namespace LC_Localization_Task_Absolute.Json
                 [OnDeserialized]
                 private void OnInit(StreamingContext context)
                 {
-                    if (Description == null)
-                    {
-                        Description = "";
-                    }
-
                     EditorDescription = Description;
                 }
             }
@@ -103,7 +93,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string Name { get; set; }
 
                 [JsonProperty("desc")]
-                public string Description { get; set; }
+                public string Description { get; set; } = "";
 
                 [JsonProperty("summary")]
                 public string SummaryDescription { get; set; }
@@ -118,8 +108,6 @@ namespace LC_Localization_Task_Absolute.Json
                 [OnDeserialized]
                 private void OnInit(StreamingContext context)
                 {
-                    if (Description == null) Description = "";
-
                     EditorDescription = Description;
                     EditorSummaryDescription = SummaryDescription;
                 }
@@ -138,14 +126,14 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("id")]
                 public int ID { get; set; }
 
-                [JsonIgnore]
+                [JsonIgnore] // For Preview
                 public List<int> UpgradeLevelsAssociativeIDs { get; set; }
 
                 [JsonProperty("name")]
                 public string Name { get; set; }
 
                 [JsonProperty("desc")]
-                public string Description { get; set; }
+                public string Description { get; set; } = "";
 
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
@@ -153,19 +141,13 @@ namespace LC_Localization_Task_Absolute.Json
                 public string _comment { get; set; }
 
                 [JsonIgnore] // For Preview
-                public string UpgradeLevel { get; set; }
+                public string UpgradeLevel { get; set; } = "1";
 
                 [OnDeserialized]
                 private void OnInit(StreamingContext context)
                 {
-                    if (Description == null)
-                    {
-                        Description = "";
-                    }
-
                     EditorDescription = Description;
 
-                    UpgradeLevel = "1";
                     UpgradeLevelsAssociativeIDs = new List<int>();
                 }
 
@@ -206,7 +188,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string Name { get; set; }
 
                 [JsonProperty("desc")]
-                public string Description { get; set; }
+                public string Description { get; set; } = "";
 
                 [JsonProperty("summary")]
                 public string SummaryDescription { get; set; }
@@ -221,7 +203,6 @@ namespace LC_Localization_Task_Absolute.Json
                 [OnDeserialized]
                 private void OnInit(StreamingContext context)
                 {
-                    if (Description == null) Description = "";
                     EditorDescription = Description;
                     EditorSummaryDescription = SummaryDescription;
                 }

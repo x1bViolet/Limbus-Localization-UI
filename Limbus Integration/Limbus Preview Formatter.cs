@@ -48,7 +48,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
         internal protected abstract class RemoteRegexPatterns
         {
             //                                                                Template until settings load
-            internal protected static string AutoKeywordsDetection = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}<\['\"":\-+])").ToString();
+            internal protected static string AutoKeywordsDetection = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-_<'"":\+])").ToString();
             internal protected static Regex StyleMarker = new Regex(@"<style=""\w+"">|</style>");
             internal protected static Regex LoadfontMark = new Regex(@"<loadfont=`.*?`>|</loadfont>");
             internal protected static Regex SpritesOverrideHorizontalOffset = new Regex(@"<spriteshoffset=((\+|\-)\d+)>|</spritesvoffset>");
@@ -125,7 +125,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             {
                 PreviewText = RemoteRegexPatterns.KeywordLink.Replace(PreviewText, Match =>
                 {
-                    return $"[{Match.Groups["ID"].Value}]\0{Match.Groups["Color"].Value}"; // To avoid color error [abcdeID](#color), get out, that must be converted at line 150 after shorthands
+                    return $"[{Match.Groups["ID"].Value}]\0{Match.Groups["Color"].Value}"; // To avoid color error [abcdeID](#color), get out, that must be converted at line 150 after shorthands (Jia Qui skill jumpscare in release with 'Dialogues(#c8e7d9)' in desc)
                 });
 
                 // Collapse all TMPro evident keywords with default names into links for safe unevident keywords conversion
@@ -136,9 +136,9 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                         string ID = Match.Groups["ID"].Value;
                         if (!ID.Equals("") & KeywordsGlossary.ContainsKey(ID))
                         {
-                            if (Match.Groups["Name"].Value.Equals(KeywordsGlossary[Match.Groups["ID"].Value].Name))
+                            if (Match.Groups["Name"].Value.Equals(KeywordsGlossary[ID].Name))
                             {
-                                return $"[{Match.Groups["ID"].Value}]({Match.Groups["Color"].Value})";
+                                return $"[{ID}]({Match.Groups["Color"].Value})";
                             }
                         }
                         return Match.Groups[0].Value;
@@ -150,7 +150,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                     if (PreviewText.Contains(UnevidentKeyword.Key))
                     {
                         // https://regex101.com/r/CcrEVU/2 .NET 7.0 (C#) section
-                        //                                                 (Wrath Fragility)(?![\p{L}<['"":\-+]) example
+                        //                                                 (Wrath Fragility)(?![\p{L}\[\]\-_<'"":\+]) as example
                         PreviewText = Regex.Replace(PreviewText, RemoteRegexPatterns.AutoKeywordsDetection.Replace("KeywordNameWillBeHere", UnevidentKeyword.Key), Match =>
                         {
                             return $"[{UnevidentKeyword.Value}]";

@@ -9,6 +9,7 @@ using static LC_Localization_Task_Absolute.Mode_Handlers.Upstairs;
 
 namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
+    // idk
     internal abstract class Mode_ContentUniversal
     {
         internal protected static dynamic FormalTaskCompleted = null;
@@ -62,13 +63,12 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         internal protected static Task LoadStructure(FileInfo JsonFile)
         {
-            DeserializedInfo = JsonFile.Deserealize<ContentBasedUniversal>() as ContentBasedUniversal;
+            DeserializedInfo = JsonFile.Deserealize<ContentBasedUniversal>();
             InitializeContentBasedUniversalDelegateFrom(DeserializedInfo);
 
             if (DelegatePassives_IDList.Count > 0)
             {
                 Mode_Handlers.Mode_ContentUniversal.TriggerSwitch();
-                //TransformToPassive(DelegatePassives_IDList[0]);
             }
 
             return FormalTaskCompleted;

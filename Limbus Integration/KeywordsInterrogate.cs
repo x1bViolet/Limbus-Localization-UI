@@ -108,7 +108,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
             if (FoundCounter > 0)
             {
-                Export.MarkSerialize("Keywords Multiple Meanings.json");
+                Export.SerializeFormatted("Keywords Multiple Meanings.json");
                 MessageBox.Show($"Keywords multiple meanings from \"{LocalizationWithKeywordsPath}\" dir exported as \"Keywords Multiple Meanings.json\" at program folder");
             }
         }
@@ -260,7 +260,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 
                 foreach (FileInfo KeywordFileInfo in LoadSite)
                 {
-                    BaseTypes.Type_Keywords.Keywords TargetSite = KeywordFileInfo.Deserealize<Keywords>() as Keywords;
+                    var TargetSite = KeywordFileInfo.Deserealize<Keywords>();
 
                     if (TargetSite != null)
                     {

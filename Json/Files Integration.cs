@@ -5,7 +5,7 @@ namespace LC_Localization_Task_Absolute.Json
 {
     internal static partial class FilesIntegration
     {
-        internal static void MarkSerialize(this object Target, string Filename)
+        internal static void SerializeFormatted(this object Target, string Filename)
         {
             string Output = JsonConvert.SerializeObject(
                 value:      Target,
@@ -15,6 +15,6 @@ namespace LC_Localization_Task_Absolute.Json
             File.WriteAllText(Filename, Output.Replace("\r\n", "\n"), MainWindow.CurrentFileEncoding);
         }
 
-        internal static object? Deserealize<TargetType>(this FileInfo Target) => JsonConvert.DeserializeObject<TargetType>(Target.GetText());
+        internal static dynamic? Deserealize<TargetType>(this FileInfo Target) => JsonConvert.DeserializeObject<TargetType>(Target.GetText());
     }
 }

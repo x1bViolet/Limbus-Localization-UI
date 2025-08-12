@@ -80,7 +80,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         internal protected static Task LoadStructure(FileInfo JsonFile)
         {
-            DeserializedInfo = JsonFile.Deserealize<Keywords>() as Keywords;
+            DeserializedInfo = JsonFile.Deserealize<Keywords>();
             InitializeKeywordsDelegateFrom(DeserializedInfo);
 
             if (DelegateKeywords_IDList.Count > 0)
