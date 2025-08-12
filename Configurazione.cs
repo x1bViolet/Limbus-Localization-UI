@@ -11,6 +11,7 @@ using System.Windows.Controls;
 using System.Windows.Media;
 using static LC_Localization_Task_Absolute.MainWindow;
 using static LC_Localization_Task_Absolute.Requirements;
+using static System.Windows.Visibility;
 
 namespace LC_Localization_Task_Absolute
 {
@@ -36,23 +37,23 @@ namespace LC_Localization_Task_Absolute
 
             string ValueTypePattern = NewValue.GetType().ToString() switch
             {
-                /*lang=regex*/ "System.Double"   => @"(\d+)(\.(\d+))?",
+                /*lang=regex*/ "System.Double"  => @"(\d+)(\.(\d+))?",
                 /*lang=regex*/ "System.Boolean" => @"(true|false)",
-                /*lang=regex*/ "System.String"    => @"""(.*?)""",
+                /*lang=regex*/ "System.String"  => @"""(.*?)""",
                 /*lang=regex*/ _ => @"""(.*?)"""
             };
 
             CurrentConfigurationJsonContent = Regex.Replace(
-                input:       CurrentConfigurationJsonContent,
-                pattern:    @$"{MatchAppend}""{PropertyName.ToEscapeRegexString()}"": {ValueTypePattern}(?<Afterward>(,)?(\r)?\n)",
+                input:     CurrentConfigurationJsonContent,
+                pattern:   @$"{MatchAppend}""{PropertyName.ToEscapeRegexString()}"": {ValueTypePattern}(?<Afterward>(,)?(\r)?\n)",
                 evaluator: Match => {
 
                     string ValueReplacementString = ValueTypePattern switch
                     {
                         /*lang=regex*/ @"(\d+)(\.(\d+))?" => $"{NewValue.ToString().Replace(",", ".")}",
-                        /*lang=regex*/ @"(true|false)"        => $"{NewValue.ToString().ToLower()}",
-                        /*lang=regex*/ @"""(.*?)"""            => $"\"{NewValue}\"",
-                        /*lang=regex*/ _                            => $"\"{NewValue}\"",
+                        /*lang=regex*/ @"(true|false)"    => $"{NewValue.ToString().ToLower()}",
+                        /*lang=regex*/ @"""(.*?)"""       => $"\"{NewValue}\"",
+                        /*lang=regex*/ _                  => $"\"{NewValue}\"",
                     };
 
                     return @$"{Match.Groups["PatternInsideThisProperty"].Value}""{PropertyName}"": {ValueReplacementString}{Match.Groups["Afterward"].Value}";
@@ -100,8 +101,10 @@ namespace LC_Localization_Task_Absolute
         internal protected static void PullLoad()
         {
             Mode_EGOGifts.OrganizedData.UpdateDisplayInfo();
+
             Mode_Skills.LoadDisplayInfo();
             Custom_Skills_Constructor.ReadSkillConstructors();
+
             KeywordsInterrogate.LoadInlineImages();
             LimbusPreviewFormatter.InitializeLimbusEmbeddedFonts();
 
@@ -302,6 +305,7 @@ namespace LC_Localization_Task_Absolute
                 SettingsControl.InputSkillsPanelWidth.Text = $"{Configurazione.DeltaConfig.ScanParameters.AreaWidth}";
                 SettingsControl.InputScansScaleFactor.Text = $"{Configurazione.DeltaConfig.ScanParameters.ScaleFactor}";
                 SettingsControl.InputSkillsScanBackgroundColor.Text = $"{Configurazione.DeltaConfig.ScanParameters.BackgroundColor}";
+                MainControl.SkillReplica.Visibility = Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSkillNamesReplication ? Visible : Collapsed;
             }
 
             return FormalTaskCompleted;
@@ -439,7 +443,7 @@ namespace LC_Localization_Task_Absolute
             public string KeywordsDirectory { get; set; } = "";
 
             [JsonProperty("Keywords Autodetection Regex Pattern")]
-            public string Keywords_AutodetectionRegex { get; set; } = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-_<'"":+])").ToString();
+            public string Keywords_AutodetectionRegex { get; set; } = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-_<'"":\+])").ToString();
 
             [JsonProperty("Keywords Shorthands Regex Pattern")]
             public string Keywords_ShorthandsRegex { get; set; } = new Regex(@"NOTHING THERE").ToString();

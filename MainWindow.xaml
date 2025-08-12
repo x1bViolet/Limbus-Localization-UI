@@ -514,7 +514,7 @@
 
 
                                                     <StackPanel x:Name="PreviewLayoutGrid_Skills_ContentControlStackPanel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="663">
-                                                        <Grid x:Name="SkillReplica" Margin="0 -20 0 13" Opacity="1">
+                                                        <Grid x:Name="SkillReplica" Margin="0 -20 0 13" Opacity="1" Visibility="Collapsed">
 
 
                                                             <Border x:Name="SkillReplicaAffinityColorHolder" Background="#fe0101" Width="0" Height="0" HorizontalAlignment="Left" VerticalAlignment="Top"/>

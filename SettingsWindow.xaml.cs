@@ -47,6 +47,7 @@ namespace LC_Localization_Task_Absolute
             InputPreviewUpdateDelay.Text = Settings.PreviewSettings.PreviewSettingsBaseSettings.PreviewUpdateDelay.ToString();
             ToggleTopmostState_I.Visibility = Settings.Internal.AlwaysOnTop ? Visible : Collapsed;
             ToggleLoadWarnings_I.Visibility = Settings.Internal.ShowLoadWarnings ? Visible : Collapsed;
+            ToggleEnableSkillNamesReplica_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.EnableSkillNamesReplication ? Visible : Collapsed;
 
             rin("\n\n----------------------------------------------------");
 
@@ -174,11 +175,15 @@ namespace LC_Localization_Task_Absolute
                     break;
 
                 case "ReloadSkillsDisplayInfo":
+
                     Mode_Skills.OrganizedDisplayInfo.Clear();
                     Mode_Skills.LoadDisplayInfo();
+
                     Custom_Skills_Constructor.LoadedSkillConstructors.Clear();
                     Custom_Skills_Constructor.ReadSkillConstructors();
+
                     Mode_Skills.ChangeSkillHeaderReplicaAppearance();
+
                     break;
             }
         }
