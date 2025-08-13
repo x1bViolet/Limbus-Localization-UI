@@ -205,7 +205,7 @@
                         <ColumnDefinition Width="5"/>
                         <ColumnDefinition/>
                     </Grid.ColumnDefinitions>
-                    <ContentPresenter ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="1" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" Margin="0 0 0 0" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+                    <ContentPresenter ContentTemplate="{TemplateBinding HeaderTemplate}" Content="{TemplateBinding Header}" Grid.Column="1" ContentStringFormat="{TemplateBinding HeaderStringFormat}" ContentSource="Header" RecognizesAccessKey="True" SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
                     <Popup x:Name="PART_Popup"  AllowsTransparency="True" Focusable="False" IsOpen="{Binding IsSubmenuOpen, RelativeSource={RelativeSource TemplatedParent}}" PopupAnimation="{DynamicResource {x:Static SystemParameters.MenuPopupAnimationKey}}" Placement="Bottom">
                         <Border x:Name="SubMenuBorder" BorderBrush="{DynamicResource UITheme_EditorContextMenu_Border}" BorderThickness="1" Background="{DynamicResource UITheme_EditorContextMenu_Background}" Padding="0">
                             <ScrollViewer x:Name="SubMenuScrollViewer" Style="{DynamicResource {ComponentResourceKey ResourceId=MenuScrollViewer, TypeInTargetAssembly={x:Type FrameworkElement}}}">
@@ -514,55 +514,55 @@
 
 
                                                     <StackPanel x:Name="PreviewLayoutGrid_Skills_ContentControlStackPanel" VerticalAlignment="Top" HorizontalAlignment="Left" Width="663">
-                                                        <Grid x:Name="SkillReplica" Margin="0 -20 0 13" Opacity="1" Visibility="Collapsed">
+                                                        <Grid x:Name="SkillReplica" Margin="0 -20 0 13" Visibility="Visible">
 
 
                                                             <Border x:Name="SkillReplicaAffinityColorHolder" Background="#fe0101" Width="0" Height="0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                                             
                                                             
                                                             <Grid>
-                                                                <Grid x:Name="SkillIconSite" Opacity="1" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Height="137">
-                                                                    <Grid x:Name="CoinPowerBackground" Opacity="1">
-                                                                        <Border Width="40" Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" Height="50" Opacity="1" RenderTransformOrigin="0.5 0.5" Margin="65,24,30,52">
+                                                                <Grid x:Name="SkillIconSite" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Height="137">
+                                                                    <Grid x:Name="CoinPowerBackground">
+                                                                        <Border Width="40" Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" Height="50" RenderTransformOrigin="0.5 0.5" Margin="65 24 30 52">
                                                                             <Border.RenderTransform>
                                                                                 <RotateTransform Angle="-11"/>
                                                                             </Border.RenderTransform>
                                                                             <Border.Effect>
-                                                                                <DropShadowEffect ShadowDepth="1.6" BlurRadius="0" Direction="-44" Color="Black" RenderingBias="Performance" />
+                                                                                <DropShadowEffect ShadowDepth="1.6" BlurRadius="0" Direction="-44"/>
                                                                             </Border.Effect>
                                                                         </Border>
                                                                     </Grid>
                                                                     
                                                                     
-                                                                    <Image x:Name="SkilIcon" Margin="54.8,56,0,0" Visibility="Visible" Opacity="1" Height="62.5" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/UI/Limbus/Skills/Base Icons/Sample.png">
+                                                                    <Image x:Name="SkilIcon" Margin="54.8,56,0,0" Visibility="Visible" Height="62.5" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/UI/Limbus/Skills/Base Icons/Sample.png">
                                                                         <Image.OpacityMask>
                                                                             <ImageBrush ImageSource="/UI/Limbus/Skills/Icon Opacity Mask.png"/>
                                                                         </Image.OpacityMask>
                                                                     </Image>
 
-                                                                    <Image x:Name="SkilFrame" Source="/UI/Limbus/Skills/Frames/Wrath/3.png" Margin="22.8 24 0 0" Visibility="Visible" Opacity="1" Height="127" Width="{Binding Path=Height, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                                    <Image x:Name="SkilFrame" Source="/UI/Limbus/Skills/Frames/Wrath/3.png" Margin="22.8 24 0 0" Visibility="Visible" Height="127" Width="{Binding Path=Height, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                                                     
                                                                     
-                                                                    <TextBlock x:Name="CoinPowerValue" Margin="30,24,2,6" HorizontalAlignment="Center" FontSize="28.6" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
-                                                                            +4
+                                                                    <TextBlock x:Name="CoinPowerValue" Margin="30 24 2 6" HorizontalAlignment="Center" FontSize="28.6" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
+                                                                        +4
                                                                         <TextBlock.Effect>
-                                                                            <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                            <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50"/>
                                                                         </TextBlock.Effect>
                                                                     </TextBlock>
                                                                     <Grid x:Name="DamageTypeGrid" Margin="70 111 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
                                                                         <Grid Width="26" Height="26" HorizontalAlignment="Left" VerticalAlignment="Top">
-                                                                            <Border Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" Opacity="1">
+                                                                            <Border Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}">
                                                                                 <Border.OpacityMask>
                                                                                     <ImageBrush ImageSource="/UI/Limbus/Skills/Damage Type Opacity Mask.png"/>
                                                                                 </Border.OpacityMask>
                                                                             </Border>
-                                                                            <Border Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" Opacity="1" Width="22.3" Height="22.3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                            <Border Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" Width="22.3" Height="22.3" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                                                 <Border.OpacityMask>
                                                                                     <ImageBrush ImageSource="/UI/Limbus/Skills/Damage Type Opacity Mask.png"/>
                                                                                 </Border.OpacityMask>
                                                                                 <Border Background="#7A000000"/>
                                                                             </Border>
-                                                                            <Border Background="#FF232323" Opacity="1" Width="17.3" Height="17.3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                                                            <Border Background="#FF232323" Width="17.3" Height="17.3" HorizontalAlignment="Center" VerticalAlignment="Center">
                                                                                 <Border.OpacityMask>
                                                                                     <ImageBrush ImageSource="/UI/Limbus/Skills/Damage Type Opacity Mask.png"/>
                                                                                 </Border.OpacityMask>
@@ -576,10 +576,10 @@
                                                                             <Image x:Name="SkillDamageType_Pierce" Visibility="Visible"   Width="22" Margin="-1 -0.3 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/UI/Limbus/Skills/Damage Types/Pierce.png"/>
                                                                         </Grid>
                                                                     </Grid>
-                                                                    <TextBlock x:Name="BasePowerValue" Margin="0,59,92,0" HorizontalAlignment="Right" FontSize="50" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
-                                                                           9
+                                                                    <TextBlock x:Name="BasePowerValue" Margin="0 59 92 0" HorizontalAlignment="Right" FontSize="50" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
+                                                                        9
                                                                         <TextBlock.Effect>
-                                                                            <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                            <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50"/>
                                                                         </TextBlock.Effect>
                                                                     </TextBlock>
                                                                 </Grid>
@@ -591,13 +591,13 @@
 
                                                                     
                                                                     <Grid>
-                                                                        <StackPanel x:Name="SkillReplicaCoinsTab" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="0 0 0 0" Height="28.2">
+                                                                        <StackPanel x:Name="SkillReplicaCoinsTab" Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Height="28.2">
                                                                             <Image Source="/UI/Limbus/Skills/Regular Coin.png"/>
                                                                             <Image Source="/UI/Limbus/Skills/Unbreakable Coin.png"/>
                                                                             <Image Source="/UI/Limbus/Skills/Unbreakable Coin.png"/>
                                                                         </StackPanel>
 
-                                                                        <Border HorizontalAlignment="Left" Background="Transparent" Opacity="1" VerticalAlignment="Top" Margin="4 30.8 0 0" Height="29.2">
+                                                                        <Border HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Top" Margin="4 30.8 0 0" Height="29.2">
                                                                             <Grid>
                                                                                 <StackPanel Orientation="Horizontal">
                                                                                     <Grid MinWidth="60">
@@ -617,13 +617,13 @@
                                                                                             <TextBlock x:Name="SkillNameReplica" FontFamily="{Binding ElementName=NavigationPanel_ObjectName_Display, Path=FontFamily}" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="25" MaxWidth="700" FontSize="23" Foreground="#EBCAA2">
                                                                                                 Корреляция времени
                                                                                                 <TextBlock.Effect>
-                                                                                                    <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                                                    <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50"/>
                                                                                                 </TextBlock.Effect>
                                                                                             </TextBlock>
                                                                                         </Viewbox>
 
                                                                                         <Grid.Effect>
-                                                                                            <DropShadowEffect ShadowDepth="4" BlurRadius="0" Direction="230" Color="Black" RenderingBias="Performance"/>
+                                                                                            <DropShadowEffect ShadowDepth="4" BlurRadius="0" Direction="230"/>
                                                                                         </Grid.Effect>
                                                                                     </Grid>
 
@@ -633,7 +633,7 @@
                                                                                         <TextBlock x:Name="SkillCopiesAmount" HorizontalAlignment="Left" VerticalAlignment="Center" Margin="22 1 0 0" FontSize="33.5" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
                                                                                             0
                                                                                             <TextBlock.Effect>
-                                                                                                <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                                                <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50"/>
                                                                                             </TextBlock.Effect>
                                                                                         </TextBlock>
                                                                                     </Grid>
@@ -647,15 +647,15 @@
                                                                 </StackPanel>
                                                                 
                                                                 <Grid x:Name="SkillLevelTypeIcons" Visibility="Visible">
-                                                                    <Image x:Name="OffenseLevelIcon" Visibility="Visible" Source="/UI/Limbus/Skills/Offense Level.png" Width="42" Margin="128,89,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
-                                                                    <Image x:Name="DefenseLevelIcon" Visibility="Collapsed" Source="/UI/Limbus/Skills/Defense Level.png" Width="42" Margin="128,89,0,0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                                    <Image x:Name="OffenseLevelIcon" Visibility="Visible" Source="/UI/Limbus/Skills/Offense Level.png" Width="42" Margin="128 89 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
+                                                                    <Image x:Name="DefenseLevelIcon" Visibility="Collapsed" Source="/UI/Limbus/Skills/Defense Level.png" Width="42" Margin="128 89 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                                                 </Grid>
 
-                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="173,92,0,0">
+                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="173 92 0 0">
                                                                     <TextBlock Width="44" x:Name="SkillLevel" Visibility="Visible" FontSize="37.5" TextDecorations="Underline" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
                                                                         77
                                                                         <TextBlock.Effect>
-                                                                            <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                            <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50"/>
                                                                         </TextBlock.Effect>
                                                                     </TextBlock>
 
@@ -666,17 +666,17 @@
                                                                             </Paragraph>
                                                                         </FlowDocument>
                                                                     </RichTextBox>
-                                                                    <StackPanel x:Name="AttackWeightPanel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2,12,0,0" Orientation="Horizontal">
+                                                                    <StackPanel x:Name="AttackWeightPanel" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="2 12 0 0" Orientation="Horizontal">
                                                                         <TextBlock x:Name="AtkWeightText_sub" FontSize="15" Foreground="#f8c200" FontFamily="{Binding ElementName=PreviewLayout_Skills_MainDesc, Path=FontFamily}">
                                                                             Кол-во целей
                                                                             <TextBlock.Effect>
-                                                                                <DropShadowEffect ShadowDepth="0.8" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                                <DropShadowEffect ShadowDepth="0.8" BlurRadius="0" Direction="-50"/>
                                                                             </TextBlock.Effect>
                                                                         </TextBlock>
                                                                         <TextBlock x:Name="SkillAtkWeight" Margin="5 -5.5 0 0" FontSize="20" Foreground="#f8c200">
                                                                             ■■■■
                                                                             <TextBlock.Effect>
-                                                                                <DropShadowEffect ShadowDepth="1.5" BlurRadius="0" Direction="-50" Color="Black" RenderingBias="Performance"/>
+                                                                                <DropShadowEffect ShadowDepth="1.5" BlurRadius="0" Direction="-50"/>
                                                                             </TextBlock.Effect>
                                                                         </TextBlock>
                                                                     </StackPanel>
@@ -1004,7 +1004,7 @@
                                                 </TextBlock>
                                                 <Image x:Name="EGOGiftDisplay_EXTier" Visibility="Collapsed" Source="/UI/Limbus/Uptie leves/EX E.G.O Gifts Tier.png" Width="57" Margin="0 7.5 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                             </Grid>
-                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="271" Height="47" Margin="212,123,0,0">
+                                            <Grid HorizontalAlignment="Left" VerticalAlignment="Top" Width="271" Height="47" Margin="212 123 0 0">
                                                 <RichTextBox x:Name="STE_EGOGifts_LivePreview_ViewDescButtons" Width="125" HorizontalAlignment="Left" VerticalAlignment="Center" FontSize="20" Margin="-5 0 0 0" Foreground="{Binding Path=Foreground, ElementName=NavigationPanel_ObjectName_Display}" FontFamily="{Binding Path=FontFamily, ElementName=NavigationPanel_ObjectName_Display}" FontWeight="{Binding Path=FontWeight, ElementName=NavigationPanel_ObjectName_Display}">
                                                     <FlowDocument>
                                                         <Paragraph>
@@ -1121,7 +1121,7 @@
                                         </TextBlock>
                                     </Border>
                                 </Grid>
-                                <Grid Margin="0 0 0 0" Visibility="Collapsed">
+                                <Grid Visibility="Collapsed">
                                     <ProgressBar x:Name="ProgressTotal" Height="25" Minimum="0" Maximum="100" Value="50" Background="{StaticResource UITheme_BordersBackground}" BorderBrush="{StaticResource UITheme_BordersBackground}" Foreground="{StaticResource UITheme_DefaultTextColor}">
 
                                     </ProgressBar>
