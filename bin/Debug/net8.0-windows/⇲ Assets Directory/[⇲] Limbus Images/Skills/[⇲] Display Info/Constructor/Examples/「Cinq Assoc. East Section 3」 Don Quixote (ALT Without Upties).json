@@ -3,7 +3,12 @@
     {
       "(Name)": "Skill 1  — 「Fa Jin」",
 
-      "ID": 7081031101,
+      "ID": 1031101999,
+      "Icon ID": "1031101",
+
+      "Attributes": {
+        "Show Affinity Icon": true
+      },
 
       "Specific": {
         "Damage Type": "Pierce",
@@ -31,7 +36,12 @@
     {
       "(Name)": "Skill 2  — 「Virescent Flame Palm」",
 
-      "ID": 7081031102,
+      "ID": 1031102999,
+      "Icon ID": "1031102",
+
+      "Attributes": {
+        "Show Affinity Icon": true
+      },
 
       "Specific": {
         "Damage Type": "Pierce",
@@ -58,7 +68,12 @@
     {
       "(Name)": "Skill 3  — 「Prithee, let this be an enlightening bout」",
 
-      "ID": 7081031103,
+      "ID": 1031103999,
+      "Icon ID": "1031103",
+
+      "Attributes": {
+        "Show Affinity Icon": true
+      },
 
       "Specific": {
         "Damage Type": "Pierce",
@@ -85,8 +100,12 @@
     {
       "(Name)": "Evade Skill  — 「Thou'rt in dire need of a lesson in table manners!」",
 
-      "ID": 7081031104,
+      "ID": 1031104999,
       "Icon ID": "1031104_4",
+
+      "Attributes": {
+        "Show Affinity Icon": true
+      },
 
       "Specific": {
         "Action": "Evade",

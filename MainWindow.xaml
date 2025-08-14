@@ -258,47 +258,14 @@
 
     </Window.Resources>
     <Grid Background="#FF231D24">
-        <Border CornerRadius="5 5 5 5" BorderThickness="1" BorderBrush="#FF3A3A3A" Panel.ZIndex="1000">
-            <Grid x:Name="UIGrid" Panel.ZIndex="-1" >
+        <Border CornerRadius="5 5 5 5" x:Name="MainWindowContentControl" BorderThickness="1" BorderBrush="#FF3A3A3A" Panel.ZIndex="1000">
+            <Grid x:Name="UIGrid" Panel.ZIndex="-1" Background="#FF101117">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="34"/>
                     <RowDefinition/>
                 </Grid.RowDefinitions>
-                <Border Grid.Row="0" Background="#FF101117" CornerRadius="5 5 0 0" MouseLeftButtonDown="Window_DragMove">
+                <Border Grid.Row="0" Background="#FF101117" CornerRadius="5 5 0 0" Margin="0 0 136 0" MouseLeftButtonDown="Window_DragMove">
                     <Grid x:Name="TitleBar">
-                        <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                            <Border x:Name="MinimizeButton" PreviewMouseLeftButtonDown="Minimize" Style="{StaticResource TB_Highlight}" MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Margin="1" CornerRadius="5">
-                                <TextBlock HorizontalAlignment="Center" Foreground="#FF9D9D9D" FontSize="20" VerticalAlignment="Bottom" FontFamily="UI\Fonts\#Segoe Fluent Icons">
-                                    
-                                </TextBlock>
-                            </Border>
-                            <Border x:Name="MakeLimbusPreviewScan" PreviewMouseLeftButtonDown="MakeLimbusPreviewScan_Do" Visibility="Visible"  Style="{StaticResource TB_Highlight}" MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Margin="1" CornerRadius="5">
-                                <TextBlock x:Name="PreviewScanButtonIndicator" HorizontalAlignment="Center" Foreground="#FF9D9D9D" FontSize="20" VerticalAlignment="Center" FontFamily="UI\Fonts\#Segoe Fluent Icons">
-                                    
-                                </TextBlock>
-                                <Border.ToolTip>
-                                    <ToolTip HorizontalOffset="20" Background="#E0676767">
-                                        <RichTextBox x:Name="MakePreviewScan_Tooltip" Width="296" Foreground="White">
-                                            <FlowDocument>
-                                                <Paragraph>
-                                                    Export preview to PNG (⇲ Assets Directory\[⇲] Scans)
-                                                </Paragraph>
-                                            </FlowDocument>
-                                        </RichTextBox>
-                                    </ToolTip>
-                                </Border.ToolTip>
-                            </Border>
-                            <Border x:Name="SettingsButton" PreviewMouseLeftButtonDown="OpenSettings" Visibility="Visible" Style="{StaticResource TB_Highlight}" MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Margin="1" CornerRadius="5">
-                                <TextBlock HorizontalAlignment="Center" Foreground="#FF9D9D9D" FontSize="20" VerticalAlignment="Center" FontFamily="UI\Fonts\#Segoe Fluent Icons">
-                                    
-                                </TextBlock>
-                            </Border>
-                            <Border x:Name="ShutdownButton" PreviewMouseLeftButtonDown="Shutdown" Style="{StaticResource TB_ShutdownHighlight}" MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Margin="1" CornerRadius="5">
-                                <TextBlock HorizontalAlignment="Center" Foreground="#FF9D9D9D" FontSize="20" VerticalAlignment="Center" FontFamily="UI\Fonts\#Segoe Fluent Icons">
-                                    
-                                </TextBlock>
-                            </Border>
-                        </StackPanel>
                         <StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
                             <RichTextBox x:Name="STE_Title" Width="500" Foreground="#473131" VerticalAlignment="Top" FontSize="23">
 
@@ -306,6 +273,39 @@
                         </StackPanel>
                     </Grid>
                 </Border>
+                <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                    <Border x:Name="MinimizeButton" PreviewMouseLeftButtonDown="Minimize" Style="{StaticResource TB_Highlight}" MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Margin="1" CornerRadius="5">
+                        <TextBlock HorizontalAlignment="Center" Foreground="#FF9D9D9D" FontSize="20" VerticalAlignment="Bottom" FontFamily="UI\Fonts\#Segoe Fluent Icons">
+            
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="MakeLimbusPreviewScan" PreviewMouseLeftButtonDown="MakeLimbusPreviewScan_Do" Visibility="Visible"  Style="{StaticResource TB_Highlight}" MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Margin="1" CornerRadius="5">
+                        <TextBlock x:Name="PreviewScanButtonIndicator" HorizontalAlignment="Center" Foreground="#FF9D9D9D" FontSize="20" VerticalAlignment="Center" FontFamily="UI\Fonts\#Segoe Fluent Icons">
+            
+                        </TextBlock>
+                        <Border.ToolTip>
+                            <ToolTip HorizontalOffset="20" Background="#E0676767">
+                                <RichTextBox x:Name="MakePreviewScan_Tooltip" Width="296" Foreground="White">
+                                    <FlowDocument>
+                                        <Paragraph>
+                                            Export preview to PNG (⇲ Assets Directory\[⇲] Scans)
+                                        </Paragraph>
+                                    </FlowDocument>
+                                </RichTextBox>
+                            </ToolTip>
+                        </Border.ToolTip>
+                    </Border>
+                    <Border x:Name="SettingsButton" PreviewMouseLeftButtonDown="OpenSettings" Visibility="Visible" Style="{StaticResource TB_Highlight}" MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Margin="1" CornerRadius="5">
+                        <TextBlock HorizontalAlignment="Center" Foreground="#FF9D9D9D" FontSize="20" VerticalAlignment="Center" FontFamily="UI\Fonts\#Segoe Fluent Icons">
+            
+                        </TextBlock>
+                    </Border>
+                    <Border x:Name="ShutdownButton" PreviewMouseLeftButtonDown="Shutdown" Style="{StaticResource TB_ShutdownHighlight}" MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Margin="1" CornerRadius="5">
+                        <TextBlock HorizontalAlignment="Center" Foreground="#FF9D9D9D" FontSize="20" VerticalAlignment="Center" FontFamily="UI\Fonts\#Segoe Fluent Icons">
+            
+                        </TextBlock>
+                    </Border>
+                </StackPanel>
 
 
                 <Grid Grid.Row="1" x:Name="MainContent">
@@ -490,7 +490,7 @@
 
 
 
-                                        <Grid x:Name="PreviewLayoutGrid_Skills" Visibility="Collapsed">
+                                        <Grid x:Name="PreviewLayoutGrid_Skills" Visibility="Visible">
                                             <Image x:Name="PreviewLayout_RegularSkills_Background" Source="/UI/Limbus/Backgrounds/Skills.png" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                             <Image x:Name="PreviewLayout_EGOSkills_Background" Source="/UI/Limbus/Backgrounds/Skills (E.G.O).png" Visibility="Collapsed" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Bottom">
                                                 <Image.RenderTransform>
@@ -522,7 +522,7 @@
                                                             
                                                             <Grid>
                                                                 <Grid x:Name="SkillIconSite" HorizontalAlignment="Left" VerticalAlignment="Top" Width="135" Height="137">
-                                                                    <Grid x:Name="CoinPowerBackground">
+                                                                    <Grid x:Name="CoinPowerBackground" Visibility="Visible">
                                                                         <Border Width="40" Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" Height="50" RenderTransformOrigin="0.5 0.5" Margin="65 24 30 52">
                                                                             <Border.RenderTransform>
                                                                                 <RotateTransform Angle="-11"/>
@@ -543,7 +543,7 @@
                                                                     <Image x:Name="SkilFrame" Source="/UI/Limbus/Skills/Frames/Wrath/3.png" Margin="22.8 24 0 0" Visibility="Visible" Height="127" Width="{Binding Path=Height, RelativeSource={RelativeSource Self}}" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                                                     
                                                                     
-                                                                    <TextBlock x:Name="CoinPowerValue" Margin="30 24 2 6" HorizontalAlignment="Center" FontSize="28.6" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
+                                                                    <TextBlock Visibility="Visible" x:Name="CoinPowerValue" Margin="30 24 2 6" HorizontalAlignment="Center" FontSize="28.6" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
                                                                         +4
                                                                         <TextBlock.Effect>
                                                                             <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50"/>
@@ -573,10 +573,10 @@
                                                                         <Grid Margin="2" Width="25">
                                                                             <Image x:Name="SkillDamageType_Blunt"  Visibility="Collapsed" Width="20" Margin="0 -2 0 0"    HorizontalAlignment="Center" VerticalAlignment="Center" Source="/UI/Limbus/Skills/Damage Types/Blunt.png"/>
                                                                             <Image x:Name="SkillDamageType_Slash"  Visibility="Collapsed" Width="20" Margin="-3 1 0 0"    HorizontalAlignment="Center" VerticalAlignment="Center" Source="/UI/Limbus/Skills/Damage Types/Slash.png"/>
-                                                                            <Image x:Name="SkillDamageType_Pierce" Visibility="Visible"   Width="22" Margin="-1 -0.3 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/UI/Limbus/Skills/Damage Types/Pierce.png"/>
+                                                                            <Image x:Name="SkillDamageType_Pierce" Visibility="Visible"   Width="22" Margin="-2 -0.3 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" Source="/UI/Limbus/Skills/Damage Types/Pierce.png"/>
                                                                         </Grid>
                                                                     </Grid>
-                                                                    <TextBlock x:Name="BasePowerValue" Margin="0 59 92 0" HorizontalAlignment="Right" FontSize="50" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
+                                                                    <TextBlock x:Name="BasePowerValue" Visibility="Visible" Margin="0 59 92 0" HorizontalAlignment="Right" FontSize="50" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
                                                                         9
                                                                         <TextBlock.Effect>
                                                                             <DropShadowEffect ShadowDepth="2" BlurRadius="0" Direction="-50"/>
@@ -587,7 +587,7 @@
                                                                 <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="128 23 0 0">
                                                                     
                                                                     
-                                                                    <Image x:Name="SkillAffinityIcon" Source="/UI/Limbus/Skills/Affinity Icons/Wrath.png" Height="54" VerticalAlignment="Bottom" Margin="-5 0 -4 0" />
+                                                                    <Image x:Name="SkillAffinityIcon" Source="/UI/Limbus/Skills/Affinity Icons/Wrath.png" Height="54" VerticalAlignment="Top" Margin="-5 6 -4 0" />
 
                                                                     
                                                                     <Grid>
@@ -597,7 +597,7 @@
                                                                             <Image Source="/UI/Limbus/Skills/Unbreakable Coin.png"/>
                                                                         </StackPanel>
 
-                                                                        <Border HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Top" Margin="4 30.8 0 0" Height="29.2">
+                                                                        <Border x:Name="SkillNameType1" Visibility="Visible" HorizontalAlignment="Left" Background="Transparent" VerticalAlignment="Top" Margin="4 30.8 0 0" Height="29.2">
                                                                             <Grid>
                                                                                 <StackPanel Orientation="Horizontal">
                                                                                     <Grid MinWidth="60">
@@ -643,6 +643,27 @@
 
                                                                             </Grid>
                                                                         </Border>
+
+                                                                        <Border x:Name="SkillNameType2_ForCustomIdentityPreview_ItsAUnusedTemplate" Visibility="Collapsed" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="4 30.8 0 0">
+                                                                            <Grid x:Name="ABCSKILLNAME">
+                                                                                <Image Source="/UI/Limbus/Skills/Name Background/Wrath.png" Margin="-77 0 0 0" Stretch="Fill" Height="{Binding ElementName=ABCSKILLNAME, Path=ActualHeight}">
+                                                                                    <Image.Clip>
+                                                                                        <RectangleGeometry Rect="77 0 1000 2000"/>
+                                                                                    </Image.Clip>
+                                                                                </Image>
+                                                                                
+                                                                                <TextBlock Margin="7 3 30 0" Padding="0 1 0 3" MaxWidth="270" HorizontalAlignment="Left" FontFamily="{Binding ElementName=NavigationPanel_ObjectName_Display, Path=FontFamily}" TextWrapping="Wrap" LineStackingStrategy="BlockLineHeight" LineHeight="25" FontSize="23" Foreground="#EBCAA2">
+                                                                                    Lonesome Stand: Sacrifice to Claim The Garden
+                                                                                    <TextBlock.Effect>
+                                                                                        <DropShadowEffect ShadowDepth="2.7" BlurRadius="0" Direction="-90"/>
+                                                                                    </TextBlock.Effect>
+                                                                                </TextBlock>
+
+                                                                                <Grid.Effect>
+                                                                                    <DropShadowEffect ShadowDepth="4" BlurRadius="0" Direction="230"/>
+                                                                                </Grid.Effect>
+                                                                            </Grid>
+                                                                        </Border>
                                                                     </Grid>
                                                                 </StackPanel>
                                                                 
@@ -651,7 +672,7 @@
                                                                     <Image x:Name="DefenseLevelIcon" Visibility="Collapsed" Source="/UI/Limbus/Skills/Defense Level.png" Width="42" Margin="128 89 0 0" HorizontalAlignment="Left" VerticalAlignment="Top"/>
                                                                 </Grid>
 
-                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Margin="173 92 0 0">
+                                                                <StackPanel Orientation="Horizontal" HorizontalAlignment="Left" VerticalAlignment="Top" Visibility="Visible" Margin="173 92 0 0">
                                                                     <TextBlock Width="44" x:Name="SkillLevel" Visibility="Visible" FontSize="37.5" TextDecorations="Underline" Foreground="#EBCAA2" FontFamily="UI/Fonts/#EXCELSIOR SANS">
                                                                         77
                                                                         <TextBlock.Effect>
@@ -1063,7 +1084,7 @@
                                             </Grid>
                                         </Grid>
 
-                                        <Grid x:Name="PreviewLayoutGrid_Default" Visibility="Visible">
+                                        <Grid x:Name="PreviewLayoutGrid_Default" Visibility="Collapsed">
                                             <Image Source="UI/Limbus/Backgrounds/Skills.png" Stretch="None" HorizontalAlignment="Left" VerticalAlignment="Bottom"/>
                                             <ScrollViewer x:Name="SurfaceScrollPreview_Default" Margin="10 20 40 50">
 

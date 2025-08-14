@@ -5,28 +5,28 @@ Checking File :: Basic Sample (Default Values).json
 
 
 Checking File :: 「Cinq Assoc. East Section 3」 Don Quixote (ALT Without Upties).json
-★ Skill with ID '7081031101'   (Skill 1  — 「Fa Jin」)
+★ Skill with ID '1031101999'   (Skill 1  — 「Fa Jin」)
   ⋉ Damage Type:Pierce | Action:Attack | Rank:1
   ⋉ Coins:[Regular-Regular] | Coins Type:+
   ⋉ Atk Weight:1 | Level Correction:2
-    * Shared options (No Upties) ^ 'Gluttony' — Base Power:3 | Coin Power:3 | Another Icon:null
+    * Shared options (No Upties) ^ 'Gluttony' — Base Power:3 | Coin Power:3 | Another Icon:1031101
 ---------------------------------------------------------
 
-★ Skill with ID '7081031102'   (Skill 2  — 「Virescent Flame Palm」)
+★ Skill with ID '1031102999'   (Skill 2  — 「Virescent Flame Palm」)
   ⋉ Damage Type:Pierce | Action:Attack | Rank:2
   ⋉ Coins:[Regular-Regular-Regular] | Coins Type:+
   ⋉ Atk Weight:1 | Level Correction:2
-    * Shared options (No Upties) ^ 'Wrath' — Base Power:4 | Coin Power:3 | Another Icon:null
+    * Shared options (No Upties) ^ 'Wrath' — Base Power:4 | Coin Power:3 | Another Icon:1031102
 ---------------------------------------------------------
 
-★ Skill with ID '7081031103'   (Skill 3  — 「Prithee, let this be an enlightening bout」)
+★ Skill with ID '1031103999'   (Skill 3  — 「Prithee, let this be an enlightening bout」)
   ⋉ Damage Type:Pierce | Action:Attack | Rank:3
   ⋉ Coins:[Regular-Regular-Regular-Regular] | Coins Type:+
   ⋉ Atk Weight:1 | Level Correction:3
-    * Shared options (No Upties) ^ 'Pride' — Base Power:3 | Coin Power:3 | Another Icon:null
+    * Shared options (No Upties) ^ 'Pride' — Base Power:3 | Coin Power:3 | Another Icon:1031103
 ---------------------------------------------------------
 
-★ Skill with ID '7081031104'   (Evade Skill  — 「Thou'rt in dire need of a lesson in table manners!」)
+★ Skill with ID '1031104999'   (Evade Skill  — 「Thou'rt in dire need of a lesson in table manners!」)
   ⋉ Damage Type:None | Action:Evade | Rank:1
   ⋉ Coins:[Regular] | Coins Type:+
   ⋉ Atk Weight:1 | Level Correction:2

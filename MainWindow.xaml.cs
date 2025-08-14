@@ -238,6 +238,23 @@ public partial class MainWindow : Window
 
         RichText.InternalModel.InitializingEvent = false;
 
+        if (false)
+        {
+            PreviewLayoutGrid_Skills_ContentControlStackPanel.Children.Clear();
+            PreviewLayoutGrid_Skills_ContentControlStackPanel.Children.Add(
+                __Identity_Preview_Sample__.CreateSkillGrid(Custom_Skills_Constructor.LoadedSkillConstructors[1031101999], new UptieLevel()
+                {
+                    Description = "Наносит на <style=\"highlight\">15%</style> больше урона за каждый [DianxueDonQuixote:`Удар по меридианам - Дон Кихот`] на цели (До <style=\"highlight\">45%</style>)\n<style=\"highlight\">Если быстрее цели</style>, +1 к Силе монет <style=\"highlight\">за каждые 2 единицы разницы в скорости (До 2)</style>\n[WinDuel] Получает 5 [Breath:`Дыхания`]\n[WinDuel] Если цели нанесён [DianxueDonQuixote:`Удар по меридианам - Дон Кихот`], получает ещё 3 [Breath:`Дыхания`]",
+                    Coins = new List<Coin>()
+                    {
+                        new Coin() { CoinDescriptions = new List<CoinDesc>() { new CoinDesc() { Description = "[OnSucceedAttack] Наносит 1 [Combustion:`Огонь`]" } } },
+                        new Coin() { CoinDescriptions = new List<CoinDesc>() { new CoinDesc() { Description = "[OnSucceedAttack] Наносит 1 [Combustion:`Огонь`]" } } },
+                        new Coin() { CoinDescriptions = new List<CoinDesc>() { new CoinDesc() { Description = "[OnSucceedAttack] Наносит 2 [Combustion:`Огня`]"  } } },
+                        new Coin() { CoinDescriptions = new List<CoinDesc>() { new CoinDesc() { Description = "На (Сумма силы своего [Breath:`Дыхания`] и [Combustion:`Огня`] на цели)% больше урона при критическом попадании (До <style=\"highlight\">50%</style>)\n<style=\"highlight\">[OnSucceedAttack] Наносит 3 [DefenseDown:`Понижения уровня защиты`] целям с [DianxueDonQuixote:`Ударом по меридианам - Дон Кихот`]</style>" } } },
+                    }
+                })
+            );
+        }
 
 
         ////Default file load on startup
@@ -1377,6 +1394,10 @@ public partial class MainWindow : Window
     private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         //rin($"Autohide:{UIThemesLoader.LoadedTheme.AutoHideBackgroundOnMinWidth}; Width:{Width} (>{Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinWidth}), Height:{Height} (>{Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinHeight})");
+        rin($"{ActualWidth}x{ActualHeight}");
+
+        //if (WindowState == WindowState.Maximized) WindowState = WindowState.Normal;
+
         if ((Width <= Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinWidth + 2 & Height <= Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinHeight + 2)
             | (((UIThemesLoader.LoadedTheme != null ? UIThemesLoader.LoadedTheme.AutoHideBackgroundOnMinWidth : false) & Width <= Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinWidth + 2)))
         {
@@ -1386,7 +1407,7 @@ public partial class MainWindow : Window
         {
             BackgroundImage.Visibility = Visibility.Visible;
         }
-        NewWindowSizes.Rect = new Rect(0, 0, Width, Height);
+        NewWindowSizes.Rect = new Rect(0, 0, ActualWidth, ActualHeight);
     }
 
 
@@ -1591,7 +1612,24 @@ public partial class MainWindow : Window
         }
     }
     internal protected bool SelectFileInstead = false;
-    private void Window_DragMove(object sender, MouseButtonEventArgs e) => this.DragMove();
+    private void Window_DragMove(object sender, MouseButtonEventArgs e)
+    {
+        if (WindowState == WindowState.Maximized)
+        {
+            WindowState = WindowState.Normal;
+            this.Left = 0;
+            this.Top = 0;
+        }
+        this.DragMove();
+        if (WindowState == WindowState.Maximized)
+        {
+            MainWindowContentControl.Margin = new Thickness(6, 6, 0, 6);
+        }
+        else
+        {
+            MainWindowContentControl.Margin = new Thickness(0);
+        }
+    }
     private void Minimize(object sender, MouseButtonEventArgs e) => WindowState = WindowState.Minimized;
     private void Shutdown(object sender, MouseButtonEventArgs e)
     {
@@ -2299,6 +2337,11 @@ public partial class MainWindow : Window
         {
             ScanScrollviewer(CurrentTarget, NameHint);
         }
+    }
+
+    private void TitleBarButtons_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    {
+        rin("asd");
     }
 }
 public static class RemoveChildHelper

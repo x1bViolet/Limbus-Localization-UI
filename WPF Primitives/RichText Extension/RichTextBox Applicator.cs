@@ -33,14 +33,20 @@ namespace RichText
             }
         }
 
-        internal static void SetLimbusRichText(this RichTextBox Target, string RichTextString)
+        internal static void SetLimbusRichText(this RichTextBox Target, string RichTextString, string SpecifiedTextProcessingMode = null)
         {
             RichTextBoxApplicator.LastUpdateTarget = Target;
             RichTextBoxApplicator.LastUpdateText = RichTextString;
-            RichTextString = LimbusPreviewFormatter.Apply(RichTextString);
+            RichTextString = LimbusPreviewFormatter.Apply(RichTextString, SpecifiedTextProcessingMode);
             IsProcessingLimbusText = true;
             Target.SetRichText(RichTextString, ImagesLineBreak: true);
             IsProcessingLimbusText = false;
+        }
+        internal static RichTextBox ApplyLimbusRichText(this RichTextBox Target, string RichTextString, string SpecifiedTextProcessingMode = null)
+        {
+            RichTextBox Out = Target;
+            Out.SetLimbusRichText(RichTextString, SpecifiedTextProcessingMode);
+            return Out;
         }
 
         internal static void SetRichText(this RichTextBox Target, string RichTextString, bool ImagesLineBreak = false)

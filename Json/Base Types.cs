@@ -182,10 +182,10 @@ namespace LC_Localization_Task_Absolute.Json
             public class Keyword
             {
                 [JsonProperty("id")]
-                public string ID { get; set; }
+                public string ID { get; set; } = "NOTHING THERE \0 \0";
 
                 [JsonProperty("name")]
-                public string Name { get; set; }
+                public string Name { get; set; } = "NOTHING THERE \0 \0";
 
                 [JsonProperty("desc")]
                 public string Description { get; set; } = "";

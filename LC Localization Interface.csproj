@@ -103,6 +103,14 @@
     <None Remove="UI\Limbus\Skills\Frames\Wrath\2.png" />
     <None Remove="UI\Limbus\Skills\Frames\Wrath\3.png" />
     <None Remove="UI\Limbus\Skills\Icon Opacity Mask.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Envy.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Gloom.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Gluttony.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Lust.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\None.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Pride.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Sloth.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Wrath.png" />
     <None Remove="UI\Limbus\Skills\Name Left Mask.png" />
     <None Remove="UI\Limbus\Skills\Name Opacity Mask.png" />
     <None Remove="UI\Limbus\Skills\Offense Level.png" />
@@ -269,6 +277,30 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Skills\Icon Opacity Mask.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Envy.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Gloom.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Gluttony.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Lust.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\None.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Pride.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Sloth.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Wrath.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Skills\Name Left Mask.png">

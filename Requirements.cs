@@ -94,6 +94,23 @@ namespace LC_Localization_Task_Absolute
 
             return false;
         }
+
+        internal static bool NullOrEmpty(this string CheckString)
+        {
+            if (CheckString == null)
+            {
+                return true;
+            }
+            else if (CheckString.Equals(""))
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
         internal static bool StartsWithOneOf(this string CheckString, IEnumerable<string> CheckSource)
         {
             foreach (var Check in CheckSource)
@@ -368,6 +385,13 @@ namespace LC_Localization_Task_Absolute
             return Export;
         }
 
+        /// <summary>
+        /// BitmapImage from application resources by <c>new Uri($"pack://application:,,,/{ResourecImageName}")</c>
+        /// </summary>
+        internal static BitmapImage FromResource(string ResourecImageName)
+        {
+            return new BitmapImage(new Uri($"pack://application:,,,/{ResourecImageName}"));
+        }
 
         internal static BitmapImage GenerateBitmapFromFile(string ImageFilepath)
         {

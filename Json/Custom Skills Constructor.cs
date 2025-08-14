@@ -177,6 +177,7 @@ namespace LC_Localization_Task_Absolute.Json
             {
                 if (Rank > 3) Rank = 3;
                 if (Rank < 1) Rank = 1;
+                if (!DamageType.EqualsOneOf(["Pierce", "Blunt", "Slash"])) DamageType = "None";
             }
         }
 
@@ -217,6 +218,13 @@ namespace LC_Localization_Task_Absolute.Json
             [JsonProperty("Override 'Base Power'")] public string? OverrideBasePower { get; set; }
             [JsonProperty("Override 'Coin Power'")] public string? OverrideCoinPower { get; set; }
             [JsonProperty("Override 'Base Level'")] public string? OverrideBaseLevel { get; set; }
+        }
+
+        public class SkillConstructor_CustomIdentityPreviewSampleAttributes
+        {
+            public double SkillNameMaxWidth { get; set; } = 270;
+            public double SkillNameBackgroundMaxHeight { get; set; } = 57;
+            public List<double> SkillNameMargin { get; set; } = [7, 3, 30, 0];
         }
 
         public class SkillContstructor_Uptie
