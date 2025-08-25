@@ -24,11 +24,11 @@
   <ItemGroup>
     <None Remove="Default\Language\English.json" />
     <None Remove="Default\Theme\Theme.json" />
-    <None Remove="UI\Fonts\BebasKai.otf" />
     <None Remove="UI\Fonts\ExcelsiorSans.ttf" />
     <None Remove="UI\Fonts\GOST Type BU.ttf" />
     <None Remove="UI\Fonts\Mikodacs.otf" />
-    <None Remove="UI\Fonts\Pretendard-Light.otf" />
+    <None Remove="UI\Fonts\ofont.ru_Bebas Neue.ttf" />
+    <None Remove="UI\Fonts\SCDream5.otf" />
     <None Remove="UI\Fonts\Segoe Fluent Icons.ttf" />
     <None Remove="UI\Images\Floor of Literature.png" />
     <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Envy.png" />
@@ -61,6 +61,30 @@
     <None Remove="UI\Limbus\Coins\Coin 4.png" />
     <None Remove="UI\Limbus\Coins\Coin 5.png" />
     <None Remove="UI\Limbus\Coins\Coin 6.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Decorative Warning %28Caution%29.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Decorative Warning %28Part%29.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Decorative Warning %28Season%29.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Frame.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\ALEPH.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\HE.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\TETH.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\WAW.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\ZAYIN.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Rarity 0.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Rarity 00.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Rarity 000.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Don Quixote.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Faust.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Gregor.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Heathcliff.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Hong Lu.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Ishmael.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Meursault.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Outis.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Rodion.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Sinclair.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Yi Sang.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Skill Name abc.png" />
     <None Remove="UI\Limbus\Skills\Affinity Icons\Envy.png" />
     <None Remove="UI\Limbus\Skills\Affinity Icons\Gloom.png" />
     <None Remove="UI\Limbus\Skills\Affinity Icons\Gluttony.png" />
@@ -103,6 +127,14 @@
     <None Remove="UI\Limbus\Skills\Frames\Wrath\2.png" />
     <None Remove="UI\Limbus\Skills\Frames\Wrath\3.png" />
     <None Remove="UI\Limbus\Skills\Icon Opacity Mask.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Cut\Envy.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Cut\Gloom.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Cut\Gluttony.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Cut\Lust.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Cut\None.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Cut\Pride.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Cut\Sloth.png" />
+    <None Remove="UI\Limbus\Skills\Name Background\Cut\Wrath.png" />
     <None Remove="UI\Limbus\Skills\Name Background\Envy.png" />
     <None Remove="UI\Limbus\Skills\Name Background\Gloom.png" />
     <None Remove="UI\Limbus\Skills\Name Background\Gluttony.png" />
@@ -115,7 +147,6 @@
     <None Remove="UI\Limbus\Skills\Name Opacity Mask.png" />
     <None Remove="UI\Limbus\Skills\Offense Level.png" />
     <None Remove="UI\Limbus\Skills\Regular Coin.png" />
-    <None Remove="UI\Limbus\Skills\Sample.png" />
     <None Remove="UI\Limbus\Skills\Unbreakable Coin.png" />
     <None Remove="UI\Limbus\Uptie leves\Background.png" />
     <None Remove="UI\Limbus\Uptie leves\EX E.G.O Gifts Tier.png" />
@@ -132,10 +163,19 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="UI\Fonts\ofont.ru_Bebas Neue.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="UI\Fonts\ExcelsiorSans.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Fonts\GOST Type BU.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Fonts\SCDream5.otf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Envy.png">
@@ -163,6 +203,84 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Coins\Coin 6.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Decorative Warning (Caution).png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Decorative Warning (Part).png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Decorative Warning (Season).png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Frame.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\ALEPH.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\HE.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\TETH.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\WAW.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\ZAYIN.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Left Top Corner Logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Right Bottom Corner Logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Name Background %28Identity%29.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Name Background %28Sinner%29.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Rarity 0.png" />
+    <Resource Include="UI\Limbus\Custom Identity Preview\Rarity 00.png" />
+    <Resource Include="UI\Limbus\Custom Identity Preview\Rarity 000.png" />
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Don Quixote.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Faust.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Gregor.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Heathcliff.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Hong Lu.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Ishmael.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Meursault.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Outis.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Rodion.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Ryōshū.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Sinclair.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Yi Sang.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Skills\Affinity Icons\Envy.png">
@@ -279,6 +397,30 @@
     <Resource Include="UI\Limbus\Skills\Icon Opacity Mask.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Cut\Envy.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Cut\Gloom.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Cut\Gluttony.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Cut\Lust.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Cut\None.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Cut\Pride.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Cut\Sloth.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Name Background\Cut\Wrath.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="UI\Limbus\Skills\Name Background\Envy.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -315,7 +457,6 @@
     <Resource Include="UI\Limbus\Skills\Regular Coin.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="UI\Limbus\Skills\Sample.png" />
     <Resource Include="UI\Limbus\Skills\Unbreakable Coin.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -335,16 +476,7 @@
     <EmbeddedResource Include="Default\Theme\Theme.json">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </EmbeddedResource>
-    <Resource Include="UI\Fonts\BebasKai.otf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="UI\Fonts\Mikodacs.otf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Fonts\Pretendard-Light.otf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Images\Hod Icon.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Backgrounds\Dirty Background.png">
@@ -406,6 +538,7 @@
   <ItemGroup>
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.4.0" />
+    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 

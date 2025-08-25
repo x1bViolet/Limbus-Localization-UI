@@ -4,6 +4,7 @@ using LC_Localization_Task_Absolute.Mode_Handlers;
 using Microsoft.Win32;
 using RichText;
 using System.IO;
+using System.Numerics;
 using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
@@ -12,11 +13,17 @@ using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Effects;
 using System.Windows.Threading;
 using static LC_Localization_Task_Absolute.Configurazione;
+using static LC_Localization_Task_Absolute.Json.BaseTypes;
+using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Keywords;
+using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Passives;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
+using static LC_Localization_Task_Absolute.Json.Custom_Skills_Constructor;
 using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
 using static LC_Localization_Task_Absolute.Json.FilesIntegration;
+using static LC_Localization_Task_Absolute.Mode_Handlers.CustomIdentityPreviewCreator.ProjectFile.Sections;
 using static LC_Localization_Task_Absolute.Requirements;
 using static System.Globalization.NumberStyles;
 using static System.Windows.Visibility;
@@ -238,24 +245,24 @@ public partial class MainWindow : Window
 
         RichText.InternalModel.InitializingEvent = false;
 
-        if (false)
         {
-            PreviewLayoutGrid_Skills_ContentControlStackPanel.Children.Clear();
-            PreviewLayoutGrid_Skills_ContentControlStackPanel.Children.Add(
-                __Identity_Preview_Sample__.CreateSkillGrid(Custom_Skills_Constructor.LoadedSkillConstructors[1031101999], new UptieLevel()
-                {
-                    Description = "Наносит на <style=\"highlight\">15%</style> больше урона за каждый [DianxueDonQuixote:`Удар по меридианам - Дон Кихот`] на цели (До <style=\"highlight\">45%</style>)\n<style=\"highlight\">Если быстрее цели</style>, +1 к Силе монет <style=\"highlight\">за каждые 2 единицы разницы в скорости (До 2)</style>\n[WinDuel] Получает 5 [Breath:`Дыхания`]\n[WinDuel] Если цели нанесён [DianxueDonQuixote:`Удар по меридианам - Дон Кихот`], получает ещё 3 [Breath:`Дыхания`]",
-                    Coins = new List<Coin>()
-                    {
-                        new Coin() { CoinDescriptions = new List<CoinDesc>() { new CoinDesc() { Description = "[OnSucceedAttack] Наносит 1 [Combustion:`Огонь`]" } } },
-                        new Coin() { CoinDescriptions = new List<CoinDesc>() { new CoinDesc() { Description = "[OnSucceedAttack] Наносит 1 [Combustion:`Огонь`]" } } },
-                        new Coin() { CoinDescriptions = new List<CoinDesc>() { new CoinDesc() { Description = "[OnSucceedAttack] Наносит 2 [Combustion:`Огня`]"  } } },
-                        new Coin() { CoinDescriptions = new List<CoinDesc>() { new CoinDesc() { Description = "На (Сумма силы своего [Breath:`Дыхания`] и [Combustion:`Огня`] на цели)% больше урона при критическом попадании (До <style=\"highlight\">50%</style>)\n<style=\"highlight\">[OnSucceedAttack] Наносит 3 [DefenseDown:`Понижения уровня защиты`] целям с [DianxueDonQuixote:`Ударом по меридианам - Дон Кихот`]</style>" } } },
-                    }
-                })
-            );
-        }
+            InitializeIdentityPreviewCreatorProperties();
 
+
+
+            // Switch ui back to regular on startup (i dont want to change xaml back)
+            IdentityPreviewCreator_TextEntries_ElementsColor.Text = "#abcdef";
+
+            IdentityPreviewCreator_CautionTypeSelector.SelectedIndex = 0;
+            IdentityPreviewCreator_CreateNewProject();
+
+            SwitchUI_Activate();
+
+            SwitchUI_Deactivate();
+
+            this.Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
+            this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
+        }
 
         ////Default file load on startup
         //FileInfo SomeFile = new FileInfo(@"Skills_personality-01.json");
@@ -402,7 +409,7 @@ public partial class MainWindow : Window
                         var CoinInfoFullLink = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Coins[Mode_Skills.CurrentSkillCoinIndex];
                         //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
                         
-                        if (CoinInfoFullLink.CoinDescriptions.Where(x => x.EditorDescription.EqualsOneOf(["", "<style=\"highlight\"></style>"])).Count() == CoinInfoFullLink.CoinDescriptions.Count)
+                        if (CoinInfoFullLink.CoinDescriptions.Where(x => x.EditorDescription.EqualsOneOf("", "<style=\"highlight\"></style>")).Count() == CoinInfoFullLink.CoinDescriptions.Count)
                         {
                             (MainControl.FindName($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}") as Grid).Visibility = Collapsed;
                         }
@@ -584,12 +591,6 @@ public partial class MainWindow : Window
     #region Surfacescroll
     internal protected static void InitSurfaceScroll(ScrollViewer Target)
     {
-        try
-        {
-            Target.Resources.Add(SystemParameters.VerticalScrollBarWidthKey, 0.0);
-        }
-        catch { }
-        
         Target.PreviewMouseLeftButtonDown += SurfaceScroll_MouseLeftButtonDown;
         Target.PreviewMouseMove += SurfaceScroll_MouseMove;
         Target.PreviewMouseLeftButtonUp += SurfaceScroll_MouseLeftButtonUp;
@@ -610,7 +611,7 @@ public partial class MainWindow : Window
         if (SurfaceScroll_isDragging)
         {
             Point currentPosition = e.GetPosition(sender as ScrollViewer);
-            Vector diff = SurfaceScroll_lastMousePosition - currentPosition;
+            System.Windows.Vector diff = SurfaceScroll_lastMousePosition - currentPosition;
             (sender as ScrollViewer).ScrollToVerticalOffset((sender as ScrollViewer).VerticalOffset + diff.Y);
             (sender as ScrollViewer).ScrollToHorizontalOffset((sender as ScrollViewer).HorizontalOffset + diff.X);
             SurfaceScroll_lastMousePosition = currentPosition;
@@ -732,30 +733,33 @@ public partial class MainWindow : Window
 
     private void NavigationPanel_Skills_SwitchToCoinDesc_FastSwitch(object sender, MouseButtonEventArgs e)
     {
-        RichTextBox Sender = sender as RichTextBox;
-
-        string CoinNumber = $"{Sender.Name.Split("PreviewLayout_Skills_Coin")[1][0]}";
-        string CoinDescNumber = $"{Sender.Name.Split("_Desc")[1]}";
-
-        Mode_Skills.SetCoinFocus(int.Parse(CoinNumber));
-        Mode_Skills.SwitchToCoinDesc(int.Parse(CoinDescNumber) - 1);
-
-        if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnRightClick)
+        if (!CustomIdentityPreviewCreator.IsActive)
         {
-            NavigationPanel_Skills_SwitchToCoinDesc_FastSwitch_CoinDescFocusHighlightEvent(Sender);
+            RichTextBox Sender = sender as RichTextBox;
+
+            string CoinNumber = $"{Sender.Name.Split("PreviewLayout_Skills_Coin")[1][0]}";
+            string CoinDescNumber = $"{Sender.Name.Split("_Desc")[1]}";
+
+            Mode_Skills.SetCoinFocus(int.Parse(CoinNumber));
+            Mode_Skills.SwitchToCoinDesc(int.Parse(CoinDescNumber) - 1);
+
+            if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnRightClick)
+            {
+                NavigationPanel_Skills_SwitchToCoinDesc_FastSwitch_CoinDescFocusHighlightEvent(Sender);
+            }
         }
     }
 
     internal protected static async void NavigationPanel_Skills_SwitchToCoinDesc_FastSwitch_CoinDescFocusHighlightEvent(RichTextBox TargetDesc)
     {
-        TargetDesc.Background = ToColor("#01303030");
+        TargetDesc.Background = ToSolidColorBrush("#01303030");
 
         for (int i = 255; i >= 0; i--)
         {
             string TransperacyChange = i.ToString("X");
             if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
 
-            TargetDesc.Background = ToColor($"#{TransperacyChange}{TargetDesc.Background.ToString()[3..]}");
+            TargetDesc.Background = ToSolidColorBrush($"#{TransperacyChange}{TargetDesc.Background.ToString()[3..]}");
             if(i%3 == 0) await Task.Delay(1);
         }
     }
@@ -784,7 +788,7 @@ public partial class MainWindow : Window
             string TransperacyChange = i.ToString("X");
             if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
 
-            STE_DisableCover_Passives_SummaryDescription.Background = ToColor($"#{TransperacyChange}{STE_DisableCover_Passives_SummaryDescription.Background.ToString()[3..]}");
+            STE_DisableCover_Passives_SummaryDescription.Background = ToSolidColorBrush($"#{TransperacyChange}{STE_DisableCover_Passives_SummaryDescription.Background.ToString()[3..]}");
 
             if (i % 2 == 0) await Task.Delay(1);
         }
@@ -834,7 +838,7 @@ public partial class MainWindow : Window
             string TransperacyChange = i.ToString("X");
             if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
 
-            STE_DisableCover_Keyword_SummaryDescription.Background = ToColor($"#{TransperacyChange}{STE_DisableCover_Keyword_SummaryDescription.Background.ToString()[3..]}");
+            STE_DisableCover_Keyword_SummaryDescription.Background = ToSolidColorBrush($"#{TransperacyChange}{STE_DisableCover_Keyword_SummaryDescription.Background.ToString()[3..]}");
 
             if (i % 2 == 0) await Task.Delay(1);
         }
@@ -1186,7 +1190,7 @@ public partial class MainWindow : Window
                             string TransperacyChange = i.ToString("X");
                             if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
 
-                            STE_NavigationPanel_ObjectID_Display.Foreground = ToColor($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display.Foreground.ToString()[3..]}");
+                            STE_NavigationPanel_ObjectID_Display.Foreground = ToSolidColorBrush($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display.Foreground.ToString()[3..]}");
 
                             if (i % 3 == 0) await Task.Delay(1);
                         }
@@ -1196,7 +1200,7 @@ public partial class MainWindow : Window
                             string TransperacyChange = i.ToString("X");
                             if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
 
-                            STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground = ToColor($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground.ToString()[3..]}");
+                            STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground = ToSolidColorBrush($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground.ToString()[3..]}");
 
                             if (i % 3 == 0) await Task.Delay(1);
                         }
@@ -1208,7 +1212,7 @@ public partial class MainWindow : Window
                             string TransperacyChange = i.ToString("X");
                             if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
 
-                            STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground = ToColor($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground.ToString()[3..]}");
+                            STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground = ToSolidColorBrush($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground.ToString()[3..]}");
 
                             if (i % 3 == 0) await Task.Delay(1);
                         }
@@ -1218,7 +1222,7 @@ public partial class MainWindow : Window
                             string TransperacyChange = i.ToString("X");
                             if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
 
-                            STE_NavigationPanel_ObjectID_Display.Foreground = ToColor($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display.Foreground.ToString()[3..]}");
+                            STE_NavigationPanel_ObjectID_Display.Foreground = ToSolidColorBrush($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display.Foreground.ToString()[3..]}");
 
                             if (i % 3 == 0) await Task.Delay(1);
                         }
@@ -1316,9 +1320,9 @@ public partial class MainWindow : Window
 
     internal protected void Actions_FILE_SelectFile_Acutal()
     {
-        OpenFileDialog JsonFileSelector = new Microsoft.Win32.OpenFileDialog();
+        OpenFileDialog JsonFileSelector = new OpenFileDialog();
         JsonFileSelector.DefaultExt = ".json";
-        JsonFileSelector.Filter = "Text documents (.json)|*.json";
+        JsonFileSelector.Filter = "Limbus localization files |*.json";
 
         bool? Result = JsonFileSelector.ShowDialog();
 
@@ -1330,9 +1334,10 @@ public partial class MainWindow : Window
 
             string CheckName = TemplateTarget.Name.RemovePrefix(["JP_", "KR_", "EN_"]);
 
-            if (File.ReadAllText(TemplateTarget.FullName).Contains(@"""Template Marker"": ""(Don't remove)"""))
+            string? PredefinedFileType = TryAcquireManualFileType(TemplateTarget.FullName);
+            if (PredefinedFileType != null)
             {
-                CheckName = "Skills";
+                CheckName = PredefinedFileType;
             }
 
             if (CheckName.StartsWith("Skills"))
@@ -1394,7 +1399,6 @@ public partial class MainWindow : Window
     private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
     {
         //rin($"Autohide:{UIThemesLoader.LoadedTheme.AutoHideBackgroundOnMinWidth}; Width:{Width} (>{Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinWidth}), Height:{Height} (>{Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinHeight})");
-        rin($"{ActualWidth}x{ActualHeight}");
 
         //if (WindowState == WindowState.Maximized) WindowState = WindowState.Normal;
 
@@ -1612,22 +1616,39 @@ public partial class MainWindow : Window
         }
     }
     internal protected bool SelectFileInstead = false;
+
+    private bool CanDragMove = true;
     private void Window_DragMove(object sender, MouseButtonEventArgs e)
     {
-        if (WindowState == WindowState.Maximized)
+        if (CanDragMove)
         {
-            WindowState = WindowState.Normal;
-            this.Left = 0;
-            this.Top = 0;
-        }
-        this.DragMove();
-        if (WindowState == WindowState.Maximized)
-        {
-            MainWindowContentControl.Margin = new Thickness(6, 6, 0, 6);
-        }
-        else
-        {
-            MainWindowContentControl.Margin = new Thickness(0);
+            if (WindowState == WindowState.Maximized)
+            {
+                WindowState = WindowState.Normal;
+                this.Left = 0;
+                this.Top = 0;
+            }
+            this.DragMove();
+            if (WindowState == WindowState.Maximized)
+            {
+                if (CustomIdentityPreviewCreator.IsActive)
+                {
+                    var workArea = SystemParameters.WorkArea;
+                    this.Left = workArea.Left;
+                    this.Top = workArea.Top;
+                    this.Width = workArea.Width;
+                    this.Height = workArea.Height;
+                    this.WindowState = WindowState.Normal;
+                }
+                else
+                {
+                    MainWindowContentControl.Margin = new Thickness(6, 6, 0, 6);
+                }
+            }
+            else
+            {
+                MainWindowContentControl.Margin = new Thickness(0);
+            }
         }
     }
     private void Minimize(object sender, MouseButtonEventArgs e) => WindowState = WindowState.Minimized;
@@ -1688,8 +1709,15 @@ public partial class MainWindow : Window
                     (current as RichTextBox).SetValue(Paragraph.LineHeightProperty, 20.0);
                 }
             }
-
-            if (current is TextBox)
+            else if (!ElementName.StartsWith("SeriousScrollViewer") & current is ScrollViewer)
+            {
+                try
+                {
+                    (current as ScrollViewer).Resources.Add(SystemParameters.VerticalScrollBarWidthKey, 0.0);
+                }
+                catch { } // DISABLE SCROLLBAR
+            }
+            else if (current is TextBox)
             {
                 FocusableTextBoxes.Add(current as TextBox);
             }
@@ -1786,6 +1814,20 @@ public partial class MainWindow : Window
         if (Keyboard.IsKeyDown(Key.LeftCtrl) & Keyboard.IsKeyDown(Key.P))
         {
             if (MakeLimbusPreviewScan.IsHitTestVisible) SavePreviewlayoutScan();
+        }
+
+        if (Keyboard.IsKeyDown(Key.LeftCtrl) & Keyboard.IsKeyDown(Key.F) & CustomIdentityPreviewCreator.IsActive)
+        {
+            if (FirstColumnItemsSelector.Visibility == Visible)
+            {
+                FirstColumnItemsSelector.Visibility = Collapsed;
+                SecondColumnItemsSelector.Visibility = Collapsed;
+            }
+            else
+            {
+                FirstColumnItemsSelector.Visibility = Visible;
+                SecondColumnItemsSelector.Visibility = Visible;
+            }
         }
 
         #region Files saving
@@ -2142,7 +2184,7 @@ public partial class MainWindow : Window
 
 
 
-    #region Context Menu
+    #region Editor context Menu
     private void Actions_ContextMenu_Shared(object sender, RoutedEventArgs e)
     {
         string Editor_SelectedTextTemplate = Editor.SelectedText;
@@ -2273,6 +2315,12 @@ public partial class MainWindow : Window
     }
 
     private void ReloadConfig(object sender, MouseButtonEventArgs e) => ReloadConfig_Direct();
+
+    internal protected static void ReloadConfig_Direct()
+    {
+        Configurazione.PullLoad();
+    }
+    
     async private void OpenSettings(object sender, MouseButtonEventArgs e)
     {
         if (!SettingsControl.IsActive)
@@ -2283,67 +2331,899 @@ public partial class MainWindow : Window
         }
     }
 
-    internal protected static void ReloadConfig_Direct()
-    {
-        Configurazione.PullLoad();
-    }
-
     private void SavePreviewlayoutScan()
     {
         string NameHint = "";
+        string ManualPath = "";
 
         ScrollViewer CurrentTarget = null;
 
-        switch (Upstairs.ActiveProperties.Key)
+        if (CustomIdentityPreviewCreator.IsActive)
         {
-            case "Skills":
-                CurrentTarget = SurfaceScrollPreview_Skills;
-                NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
-                           $"ID {Mode_Skills.CurrentSkillID}" +
-                           (CurrentFile.Name.ToLower().Contains("personality") ? $", Uptie {Mode_Skills.CurrentSkillUptieLevel}" : "");
-                break;
+            CurrentTarget = SeriousScrollViewer_1;
 
-            case "Passives":
-                CurrentTarget = SurfaceScrollPreview_Passives;
-                NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
-                           $"ID {Mode_Passives.CurrentPassiveID}";
-                break;
+            SaveFileDialog OutputPathSelector = NewSaveFileDialog("Image files", ["png"]);
+            OutputPathSelector.FileName = $"{DateTime.Now.ToString("HHːmmːss (dd.MM.yyyy)")}.png";
+            if (OutputPathSelector.ShowDialog() == true)
+            {
+                ManualPath = OutputPathSelector.FileName;
+            }
+        }
+        else
+        {
+            switch (Upstairs.ActiveProperties.Key)
+            {
+                case "Skills":
+                    CurrentTarget = SurfaceScrollPreview_Skills;
+                    NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
+                               $"ID {Mode_Skills.CurrentSkillID}" +
+                               (CurrentFile.Name.ToLower().Contains("personality") ? $", Uptie {Mode_Skills.CurrentSkillUptieLevel}" : "");
+                    break;
 
-            case "Keywords":
-                CurrentTarget = 
-                    PreviewLayoutGrid_Keywords_Sub_Bufs.Visibility == Visibility.Visible ?
-                        Scanable__PreviewLayout_Keywords_Bufs_Desc
-                        :
-                        SurfaceScrollPreview_Keywords__BattleKeywords;
-                NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
-                           $"ID {Mode_Keywords.CurrentKeywordID}";
-                break;
+                case "Passives":
+                    CurrentTarget = SurfaceScrollPreview_Passives;
+                    NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
+                               $"ID {Mode_Passives.CurrentPassiveID}";
+                    break;
 
-            case "E.G.O Gifts":
-                CurrentTarget = SurfaceScrollPreview_EGOGifts;
-                NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
-                           $"ID {Mode_EGOGifts.CurrentEGOGiftID}";
-                break;
+                case "Keywords":
+                    CurrentTarget =
+                        PreviewLayoutGrid_Keywords_Sub_Bufs.Visibility == Visibility.Visible ?
+                            Scanable__PreviewLayout_Keywords_Bufs_Desc
+                            :
+                            SurfaceScrollPreview_Keywords__BattleKeywords;
+                    NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
+                               $"ID {Mode_Keywords.CurrentKeywordID}";
+                    break;
 
-            default: break;
+                case "E.G.O Gifts":
+                    if (CurrentFile != null)
+                    {
+                        CurrentTarget = SurfaceScrollPreview_EGOGifts;
+                        NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
+                                   $"ID {Mode_EGOGifts.CurrentEGOGiftID}";
+                    }
+                    break;
+
+                default: break;
+            }
+            if (!Directory.Exists(@"⇲ Assets Directory\[⇲] Scans"))
+            {
+                Directory.CreateDirectory(@"⇲ Assets Directory\[⇲] Scans");
+            }
         }
 
-        if (!Directory.Exists(@"⇲ Assets Directory\[⇲] Scans"))
-        {
-            Directory.CreateDirectory(@"⇲ Assets Directory\[⇲] Scans");
-        }
 
         if (CurrentTarget != null)
         {
-            ScanScrollviewer(CurrentTarget, NameHint);
+            bool ManuallyHiddenSelectors = false;
+            if (FirstColumnItemsSelector.Visibility == Visible)
+            {
+                FirstColumnItemsSelector.Visibility = Collapsed;
+                SecondColumnItemsSelector.Visibility = Collapsed;
+            }
+            else ManuallyHiddenSelectors = true;
+
+            ScanScrollviewer(CurrentTarget, NameHint, ManualPath);
+
+            if (!ManuallyHiddenSelectors)
+            {
+                FirstColumnItemsSelector.Visibility = Visible;
+                SecondColumnItemsSelector.Visibility = Visible;
+            }
         }
     }
 
-    private void TitleBarButtons_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+    /// <summary>
+    /// THERE ARE LINKS CODELENS STOP LYING
+    /// </summary>
+    private void IdentityPreviewCreator_ToggleSectionVisibilityMaster(object sender, MouseButtonEventArgs e)
     {
-        rin("asd");
+        Grid Target = ((sender as UILocalization_Grocerius).Parent as StackPanel).Children[1] as Grid;
+
+        Target.Visibility = Target.Visibility == Visible ? Collapsed : Visible;
     }
+
+
+
+
+    private static Random random = new Random();
+
+    public static string RandomString(int length)
+    {
+        return new string(Enumerable.Repeat("ЙУABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", length)
+            .Select(s => s[random.Next(s.Length)]).ToArray());
+    }
+
+    private protected List<string> DefinedUIDsForColumnItems = new List<string>();
+    private ItemRepresenter CreatePlaceholder(string NewItemType, string ManualUID = "", AddedTextItems_Single ManualInfoInsert = null)
+    {
+        string UID = ManualUID;
+        if (ManualUID.Equals("")) // If not set (Item creation in ui) -> generate
+        {
+            for (int UIDGeneratorRound = 1; UIDGeneratorRound <= 100; UIDGeneratorRound++)
+            {
+                UID = RandomString(6);
+                if (!DefinedUIDsForColumnItems.Contains(UID))
+                {
+                    DefinedUIDsForColumnItems.Add(UID);
+                    break;
+                } // idk they can be same in 0.00000001% of cases just for safety
+            }
+        }
+        // else being set by loading project
+
+        AddedTextItems_Single InfoToInsert = ManualInfoInsert != null ? ManualInfoInsert : new CustomIdentityPreviewCreator.ProjectFile.Sections.AddedTextItems_Single() { Type = NewItemType };
+
+        ItemRepresenter ColumnItemAdd = new ItemRepresenter()
+        {
+            // Linked with project file data by ReEnumerateColumnItemsInProject() executing after each interactions with column items
+            ItemInfo = InfoToInsert,
+            HorizontalAlignment = HorizontalAlignment.Left,
+            MinWidth = 300,
+            Background = Brushes.Transparent,
+            Uid = UID,
+            Margin = new Thickness(0, 0, 0, 10),
+            Children =
+            {
+                new TextBlock()
+                {
+                    Foreground = Brushes.White,
+                    Opacity = 0.4,
+                    FontSize = 25,
+                    TextAlignment = TextAlignment.Center,
+                    Effect = new DropShadowEffect() { BlurRadius = 0, ShadowDepth = 3 },
+                    FontFamily = MainControl.FindResource("BebasKaiUniversal") as FontFamily,
+                    HorizontalAlignment = HorizontalAlignment.Center,
+                    VerticalAlignment = VerticalAlignment.Center,
+                    Text = $"TEXT CONTROL\n({NewItemType}, [Item #{UID}]) "
+                }
+            },
+        };
+
+        ColumnItemAdd.ContextMenu = new ContextMenu()
+        {
+            Items =
+            {
+                new MenuItem()
+                {
+                    Header = new UILocalization_Grocerius()
+                    {
+                        Text = $"Item #{UID}",
+                        FontSize = 14,
+                        Width = 145,
+                        Margin = new Thickness(-7.2, 2, 0, 2),
+                        FontFamily = new FontFamily("GOST Type BU"),
+                        IsHitTestVisible = false
+                        
+                    }
+                },
+                new Separator() { Margin = new Thickness(-30, 2, 0, 2) },
+                new MenuItem()
+                {
+                    Header = new UILocalization_Grocerius()
+                    {
+                        SpecProperty_ContextMenuParent = ColumnItemAdd, // ContextMenu parent link because i somehow cant access it through MenuItem.parent.parent.parent
+                        FontSize = 14,
+                        Width = 145,
+                        Margin = new Thickness(-7.2, 2, 0, 2),
+                        Text = "▲ Move up",
+                        FontFamily = new FontFamily("GOST Type BU")
+                    }
+                },
+                new MenuItem()
+                {
+                    Header = new UILocalization_Grocerius()
+                    {
+                        SpecProperty_ContextMenuParent = ColumnItemAdd,
+                        FontSize = 14,
+                        Width = 145,
+                        Margin = new Thickness(-7.2, 2, 0, 2),
+                        Text = "▼ Move down",
+                        FontFamily = new FontFamily("GOST Type BU")
+                    }
+                },
+                new Separator() { Margin = new Thickness(-30, 2, 0, 2) },
+                new MenuItem()
+                {
+                    Header = new UILocalization_Grocerius()
+                    {
+                        SpecProperty_ContextMenuParent = ColumnItemAdd,
+                        FontSize = 14,
+                        Width = 145,
+                        Margin = new Thickness(-7.2, 2, 0, 2),
+                        Text = "✕ Remove",
+                        FontFamily = new FontFamily("GOST Type BU")
+                    }
+                }
+            }
+        };
+
+        ColumnItemAdd.PreviewMouseLeftButtonDown += SetFocusOnColumnElement_Link;
+
+        (ColumnItemAdd.ContextMenu.Items[2] as MenuItem).Click += MoveColumnItemUp;
+        (ColumnItemAdd.ContextMenu.Items[3] as MenuItem).Click += MoveColumnItemDown;
+        (ColumnItemAdd.ContextMenu.Items[5] as MenuItem).Click += RemoveColumnItem;
+
+        return ColumnItemAdd;
+    }
+
+    private void SetFocusOnColumnElement_Link(object sender, MouseButtonEventArgs e)
+    {
+        SeriousScrollViewer_0.ScrollToBottom();
+        SetFocusOnColumnItem(sender as ItemRepresenter);
+    }
+
+    private void MoveColumnItemUp(object sender, RoutedEventArgs e)
+    {
+        MoveColumnItemMaster(sender, "Up");
+    }
+
+    private void MoveColumnItemDown(object sender, RoutedEventArgs e)
+    {
+        MoveColumnItemMaster(sender, "Down");
+    }
+
+
+    private protected void MoveColumnItemMaster(object ContextMenuItemSender, string Direction)
+    {
+        ItemRepresenter Target = ((ContextMenuItemSender as MenuItem).Header as UILocalization_Grocerius).SpecProperty_ContextMenuParent as ItemRepresenter;
+
+        StackPanel TargetColumn = Target.Parent as StackPanel;
+
+        if (Direction.Equals("Up")) TargetColumn.MoveItemUp(Target);
+        else TargetColumn.MoveItemDown(Target);
+
+        ReEnumerateColumnItemsInProject();
+    }
+
+    private async void RemoveColumnItem(object sender, RoutedEventArgs e)
+    {
+        ItemRepresenter Target = ((sender as MenuItem).Header as UILocalization_Grocerius).SpecProperty_ContextMenuParent as ItemRepresenter;
+
+        StackPanel TargetColumn = Target.Parent as StackPanel;
+
+        await Task.Delay(150); // some white thing appears for 0.1 second if without delay
+
+        DefinedUIDsForColumnItems.Remove(Target.Uid);
+
+        TargetColumn.Children.Remove(Target);
+
+        ReEnumerateColumnItemsInProject();
+    }
+
+
+    // Check column items and update all text info in project file data
+    private void ReEnumerateColumnItemsInProject()
+    {
+        var FirstColumnProjectData = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.FirstColumnItems;
+        var SecondColumnProjectData = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.SecondColumnItems;
+
+        FirstColumnProjectData.Clear();
+        SecondColumnProjectData.Clear();
+
+        foreach (ItemRepresenter TextItemGrid in IdentityPreviewItems_FirstColumn.Children)
+        {
+            FirstColumnProjectData[TextItemGrid.Uid] = TextItemGrid.ItemInfo;
+        }
+
+        foreach (ItemRepresenter TextItemGrid in IdentityPreviewItems_SecondColumn.Children)
+        {
+            SecondColumnProjectData[TextItemGrid.Uid] = TextItemGrid.ItemInfo;
+        }
+    }
+
+
+
+    private protected StackPanel GetTargetColumn(object Sender)
+    {
+        return ((((Sender as ComboBoxItem).Parent as ComboBox).Parent as Grid).Parent as StackPanel).Children[0] as StackPanel;
+    }
+
+    private void IdentityPreviewCreator_AddSkillToColumn(object sender, MouseButtonEventArgs e)
+    {
+        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(sender), "Skill");
+    }
+    private void IdentityPreviewCreator_AddPassiveToColumn(object sender, MouseButtonEventArgs e)
+    {
+        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(sender), "Passive");
+    }
+    private void IdentityPreviewCreator_AddKeywordToColumn(object sender, MouseButtonEventArgs e)
+    {
+        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(sender), "Keyword");
+    }
+
+
+
+
+
+
+
+
+    private protected void IdentityPreviewCreator_AddItemToColumnFromUIMaster(StackPanel TargetColumn, string Type)
+    {
+        ItemRepresenter CreatedColumnItem = CreatePlaceholder(Type);
+        CreatedColumnItem.ColumnNumber = TargetColumn.Uid;
+
+        TargetColumn.Children.Add(CreatedColumnItem);
+        ReEnumerateColumnItemsInProject();
+
+        SetFocusOnColumnItem(CreatedColumnItem);
+    }
+
+    internal static ItemRepresenter FocusedColumnItem = null;
+    private protected void SetFocusOnColumnItem(ItemRepresenter Target, bool UpdateSelectorsAndSliders = true)
+    {
+        MakeAvailable(ItemEditor_ParentGrid); // Unlock from startup state
+
+        ColumnItemFocusingEvent = true;
+
+        #region Static value change (UI elements lock/unlock)
+        FocusedColumnItem = Target;
+
+        SkillsTextIDSelector.Visibility = Collapsed;
+        PassivesTextIDSelector.Visibility = Collapsed;
+        KeywordTextIDSelector.Visibility = Collapsed;
+
+        MakeUnavailable
+        (
+            SkillMainAndCoinDescriptionsWidthController__ParentGrid,
+            PassiveDescriptionWidthController__ParentGrid,
+            KeywordIconFileSelectButton_ParentGrid,
+            ItemSignatureInput_ParentGrid,
+
+            SkillsDisplayInfoIDSelector_ParentGrid
+        );
+
+        SelectedItemSignature.Text = FocusedColumnItem.ItemInfo.TextItemSignature;
+
+        if (UpdateSelectorsAndSliders) KeywordIconSelectionLabel.Text = "Keyword icon image";
+
+        if (UpdateSelectorsAndSliders)
+        {
+            SkillsLocalizationIDSelector.SelectedIndex = -1;
+            PassivesLocalizationIDSelector.SelectedIndex = -1;
+            KeywordsLocalizationIDSelector.SelectedIndex = -1;
+            SkillsDisplayInfoIDSelector.SelectedIndex = -1;
+        }
+
+
+        if (FocusedColumnItem.ItemInfo.Type.Equals("Skill"))
+        {
+            if (FocusedColumnItem.Children.Count == 2) MakeAvailable(ItemSignatureInput_ParentGrid);
+
+            MakeAvailable(SkillMainAndCoinDescriptionsWidthController__ParentGrid, SkillsDisplayInfoIDSelector_ParentGrid);
+
+            SkillsTextIDSelector.Visibility = Visible;
+            if (UpdateSelectorsAndSliders)
+            {
+                SkillsLocalizationIDSelector.SelectedIndex = Target.SelectedLocalizationItemIndex;
+                SkillsDisplayInfoIDSelector.SelectedIndex = Target.SelectedSkillDisplayInfoConstructorIndex;
+            }
+        }
+        else
+        {
+            if (FocusedColumnItem.ItemInfo.Type.Equals("Passive"))
+            {
+                if (FocusedColumnItem.Children.Count == 2) MakeAvailable(ItemSignatureInput_ParentGrid);
+
+                MakeAvailable(PassiveDescriptionWidthController__ParentGrid);
+
+                PassivesTextIDSelector.Visibility = Visible;
+                if (UpdateSelectorsAndSliders)
+                {
+                    PassivesLocalizationIDSelector.SelectedIndex = Target.SelectedLocalizationItemIndex;
+                }
+            }
+            else if (FocusedColumnItem.ItemInfo.Type.Equals("Keyword"))
+            {
+                if (FocusedColumnItem.KeywordIcon != null)
+                {
+                    MakeAvailable(KeywordIconFileSelectButton_ParentGrid);
+
+                    if (File.Exists(FocusedColumnItem.ItemInfo.KeywordIconImage))
+                    {
+                        KeywordIconSelectionLabel.Text = $"Keyword icon image\n<size=78%><color=#fc5a03>{FocusedColumnItem.ItemInfo.KeywordIconImage.GetName()}</color></size>";
+                    }
+                }
+
+                KeywordTextIDSelector.Visibility = Visible;
+                if (UpdateSelectorsAndSliders)
+                {
+                    KeywordsLocalizationIDSelector.SelectedIndex = Target.SelectedLocalizationItemIndex;
+                }
+            }
+        }
+        #endregion
+
+        if (UpdateSelectorsAndSliders) ChangeSliderValuesOnFocus();
+
+        IdentityPreviewCreator_EditingItemHeader.Text = $"> Editing item: <b>#{Target.Uid}</b> ({Target.ItemInfo.Type})";
+
+        ColumnItemFocusingEvent = false;
+    }
+    private protected void ChangeSliderValuesOnFocus()
+    {
+        ColumnItemVerticalOffsetControllder.Value = FocusedColumnItem.ItemInfo.VerticalOffset;
+        ColumnItemHorizontalOffsetControllder.Value = FocusedColumnItem.ItemInfo.HorizontalOffset;
+
+        NameMaxWidthController.Value = FocusedColumnItem.ItemInfo.NameMaxWidth;
+
+        KeywordOrPassiveDescriptionWidthController.Value = FocusedColumnItem.ItemInfo.PassiveDescriptionWidth;
+
+        SkillMainDescriptionWidthController.Value = FocusedColumnItem.ItemInfo.SkillMainDescriptionWidth;
+        SkillCoinDescriptionsWidthController.Value = FocusedColumnItem.ItemInfo.SkillCoinsDescriptionWidth;
+    }
+
+
+
+
+
+
+
+
+
+    // LOAD EVERYTHING
+    private void IdentityPreviewCreator_LoadProjectFile(object sender, MouseButtonEventArgs e)
+    {
+        OpenFileDialog ProjectSelectorDialog = new OpenFileDialog();
+        ProjectSelectorDialog.DefaultExt = ".json";
+        ProjectSelectorDialog.Filter = "Saved project file |*.json";
+
+        bool? Result = ProjectSelectorDialog.ShowDialog();
+
+        if (Result == true)
+        {
+            FileInfo Target = LoadedProjectFile = new FileInfo(ProjectSelectorDialog.FileName);
+            CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject LoadedProject = Target.Deserealize<CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject>(Context: Target.Directory.FullName.Replace("\\", "/"));
+
+            if (LoadedProject.ActualProject != null)
+            {
+                IdentityPreviewCreator_CreateNewProject();
+
+                CustomIdentityPreviewCreator.ProjectFile.LoadedProject = LoadedProject;
+                
+               
+
+                #region Image parameters
+                {
+                    var @ImageParameters = LoadedProject.ImageParameters;
+
+                    IdentityPreviewCreator_WidthController_FirstStep.Value = ImageParameters.WidthAdjustment_FirstStep;
+                    IdentityPreviewCreator_WidthController_SecondStep.Value = ImageParameters.WidthAdjustment_SecondStep;
+
+                    IdentityPreviewHeight_IsAuto.IsChecked = ImageParameters.HeightAdjustment_IsAuto;
+                    if (!ImageParameters.HeightAdjustment_IsAuto)
+                    {
+                        IdentityPreviewCreator_HeightController.Value = ImageParameters.HeightAdjustment;
+                    }
+                
+                    if (File.Exists(ImageParameters.PortraitImage))
+                    {
+                        SelectIdentityOrEGOPortrait_Action(ImageParameters.PortraitImage);
+                    }
+                    IdentityPreviewCreator_AllocatedWidthForPortraitController.Value = ImageParameters.AllocatedWidthForPortrait;
+
+                    if (ImageParameters.Type.Equals("E.G.O"))
+                    {
+                        PortraitTypeSelector.SelectedIndex = 1;
+                    }
+                    else
+                    {
+                        PortraitTypeSelector.SelectedIndex = 0;
+                    }
+
+                    ImageTypeText_TextEntry.Text = ImageParameters.ImageTypeSign;
+                    if (File.Exists(ImageParameters.ImageTypeSign_AnotherFont)) SelectImageTypeSignFont_Action(ImageParameters.ImageTypeSign_AnotherFont);
+
+                    IdentityPreviewCreator_IdentityPortraitScaleController.Value = ImageParameters.IdentityPortraitScale;
+                    IdentityPreviewCreator_IdentityPortraitHorizontalOffsetController.Value = ImageParameters.PortraitHorizontalOffset;
+                    IdentityPreviewCreator_IdentityPortraitVerticalOffsetController.Value = ImageParameters.PortraitVerticalOffset;
+
+                    IdentityPreviewCreator_IdentityHeader_ParentGridMarginController.Value = ImageParameters.HeaderOffset;
+                    IdentityPreviewCreator_IdentityHeader_IdentityOrEGONameOffsetController.Value = ImageParameters.IdentityOrEGONameOffset;
+                    IdentityPreviewCreator_IdentityHeader_SinnerNameOffsetController.Value = ImageParameters.SinnerNameOffset;
+                    IdentityPreviewCreator_IdentityHeader_IdentityRarityHorizontalOffsetController.Value = ImageParameters.RarityOrEGORiskLevelHorizontalOffset;
+                    IdentityPreviewCreator_IdentityHeader_IdentityRarityVerticalOffsetController.Value = ImageParameters.RarityOrEGORiskLevelVerticalOffset;
+
+                    IdentityPreviewCreator_TextBackgroundFadeoutSoftnessController.Value = ImageParameters.TextBackgroundFadeoutSoftness;
+                    IdentityPreviewCreator_VignetteSoftnessController.Value = ImageParameters.VignetteStrength;
+                    IdentityPreviewCreator_TopVignetteOffsetController.Value = ImageParameters.TopVignetteOffset;
+                    IdentityPreviewCreator_LeftVignetteOffsetController.Value = ImageParameters.LeftVignetteOffset;
+                    IdentityPreviewCreator_BottomVignetteOffsetController.Value = ImageParameters.BottomVignetteOffset;
+                }
+                #endregion
+
+                #region Specific of the sinner and Identity/E.G.O
+                {
+                    var q = LoadedProject.Specific;
+
+                    string StoredSinnerName = q.SinnerName; // Changing icon also changes default sinner name
+                    string StoredAmbienceColor = q.AmbienceColor; // Same
+
+                    if (q.SinnerIcon != null)
+                    {
+                        if (File.Exists(q.SinnerIcon))
+                        {
+                            // Custom
+                            SelectCustomSinnerIcon_Action(q.SinnerIcon);
+                        }
+                        else
+                        {
+                            IdentityPreviewCreator_SinnerIconSelector.SelectedIndex = q.SinnerIcon switch
+                            {
+                                "Yi Sang"     => 0,
+                                "Faust"       => 1,
+                                "Don Quixote" => 2,
+                                "Ryōshū"      => 3,
+                                "Meursault"   => 4,
+                                "Hong Lu"     => 5,
+                                "Heathcliff"  => 6,
+                                "Ishmael"     => 7,
+                                "Rodion"      => 8,
+                                "Sinclair"    => 9,
+                                "Outis"       => 10,
+                                "Gregor"      => 11,
+                                _             => 0
+                            };
+                        }
+                    }
+
+                    IdentityPreviewCreator_SinnerIconBrightnessController.Value = q.IconBrightness;
+                    IdentityPreviewCreator_SinnerIconSizeController.Value = q.IconSize;
+
+                    IdentityPreviewCreator_TextEntries_ElementsColor.Text = StoredAmbienceColor;
+                    if (StoredSinnerName != null) IdentityPreviewCreator_TextEntries_SinnerName.Text = StoredSinnerName;
+                    if (q.IdentityOrEGOName != null) IdentityPreviewCreator_TextEntries_IdentityOrEGOName.Text = q.IdentityOrEGOName;
+
+                    CanOverwriteProjectCautionsType = false;
+                    IdentityPreviewCreator_TextEntries_ElementsColor.Text = q.AmbienceColor;
+                    CanOverwriteProjectCautionsType = true;
+
+                    if (q.RarityOrEGORiskLevel != null)
+                    {
+                        IdentityPreviewCreator_IdentityHeader_RarityOrEGORiskLevelSelector.SelectedIndex = q.RarityOrEGORiskLevel switch
+                        {
+                            "000" => 0,
+                            "00"  => 1,
+                            "0"   => 2,
+
+                            "ZAYIN" => 3,
+                            "HE"    => 4,
+                            "TETH"  => 5,
+                            "WAW"   => 6,
+                            "ALEPH" => 7,
+                        };
+                    }
+                }
+                #endregion
+
+                #region Decorative cautions
+                {
+                    var q = LoadedProject.DecorativeCautions;
+
+                    IdentityPreviewCreator_Cautions_BoomRadiusController.Value = q.CautionBloomRadius;
+                    IdentityPreviewCreator_Cautions_OpacityController.Value = q.CautionOpacity;
+
+                    IdentityPreviewCreator_TextEntries_CustomCautionString.Text = q.CustomText.CustomCautionString;
+                    if (File.Exists(q.CustomText.AnotherFont)) SelectDecorativeCautionsCustomFont_Action(q.CustomText.AnotherFont);
+                    //IdentityPreviewCreator_CautionSettings_CustomCautionsParamBinder.Margin = new Thickness(0, q.CustomText.TextVerticalOffset, 0, 0);
+                    //IdentityPreviewCreator_CautionSettings_CustomCautionsParamBinder.FontSize = q.CustomText.TextSize;
+
+                    CautionsCustomTextVerticalOffsetController.Value = q.CustomText.TextVerticalOffset * 100;
+                    CautionsCustomTextSizeController.Value = q.CustomText.TextSize * 100;
+
+
+                    IdentityPreviewCreator_CautionTypeSelector.SelectedIndex = q.CautionType switch
+                    {
+                        "SEASON" => 0,
+                        "CAUTION" => 1,
+                        "None" => 2,
+                        "Custom text" => 3
+                    };
+                }
+                #endregion
+
+                #region Text info
+                {
+                    var q = LoadedProject.Text;
+
+                    IdentityPreviewCreator_TextInfo_FirstColumnOffsetController.Value = q.FirstColumnOffset;
+                    IdentityPreviewCreator_TextInfo_SecondColumnOffsetController.Value = q.SecondColumnOffset;
+
+                    FirstColumnItemSignaturesOffsetController.Value = q.FirstColumnItemSignaturesOffset;
+                    SecondColumnItemSignaturesOffsetController.Value = q.SecondColumnItemSignaturesOffset;
+                    if (File.Exists(q.ItemSignaturesAnotherFont)) SelectAnotherItemSignsFont_Action(q.ItemSignaturesAnotherFont);
+                    
+                    KeywordBoxesWidthController.Value = q.KeywordBoxesWidth;
+
+                    // Update ID selectors
+                    if (File.Exists(q.SkillsLocalizationFile)) UpdateSelector__SkillLocalizationIDSelector();
+                    if (File.Exists(q.SkillsDisplayInfoConstructorFile)) UpdateSelector__SkillsDisplayInfoIDSelector();
+                    if (File.Exists(q.PassivesLocalizationFile)) UpdateSelector__PassivesLocalizationIDSelector();
+                    if (File.Exists(q.KeywordsLocalizationFile)) UpdateSelector__KeywordsLocalizationIDSelector();
+
+
+                    ReconstructColumnItems();
+                }
+                #endregion
+            }
+        }
+    }
+
+
+    private void IdentityPreviewCreator_CreateNewProject()
+    {
+        CustomIdentityPreviewCreator.ProjectFile.LoadedProject = new CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject();
+        CustomIdentityPreviewCreator.ProjectFile.LoadedProject.ActualProject = true;
+
+        IdentityPreviewItems_FirstColumn.Children.Clear();
+        IdentityPreviewItems_SecondColumn.Children.Clear();
+
+        MakeAvailable
+        (
+            IdentityPreviewCreator_SectionHosts_ImageParameters,
+            IdentityPreviewCreator_SectionHosts_SinnerAndIdentityOrEGOSpecific,
+            IdentityPreviewCreator_SectionHosts_DecorativeCaution,
+            IdentityPreviewCreator_SectionHosts_TextInfo,
+            IdentityPreviewCreator_SaveProjectToFileButton,
+            IdentityTextColumns
+        );
+    }
+
+    private void IdentityPreviewCreator_SaveProjectToFile(object sender, MouseButtonEventArgs e)
+    {
+        SaveFileDialog SaveLocation = NewSaveFileDialog("Json files", ["json"], "Project.json");
+
+        if (SaveLocation.ShowDialog() == true)
+        {
+            CustomIdentityPreviewCreator.ProjectFile.LoadedProject.SerializeFormatted(SaveLocation.FileName, Context: new FileInfo(SaveLocation.FileName).Directory.FullName.Replace("\\", "/"));
+        }
+    }
+
+    
+
+
+
+
+
+    private protected Dictionary<int, int> ID_And_Index__Links_Skills = new Dictionary<int, int>();
+    private protected void UpdateSelector__SkillLocalizationIDSelector()
+    {
+        string TargetFile = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.SkillsLocalizationFile;
+
+        Skills LoadedSkillsLocalizationData = new FileInfo(TargetFile).Deserealize<Skills>();
+
+        if (LoadedSkillsLocalizationData.dataList != null && LoadedSkillsLocalizationData.dataList.Count > 0)
+        {
+            ID_And_Index__Links_Skills.Clear();
+            SkillsLocalizationIDSelector.Items.Clear();
+
+            int ItemEnumerator = 1;
+            foreach (Skill SkillItem in LoadedSkillsLocalizationData.dataList)
+            {
+                if (SkillItem.ID != null && SkillItem.UptieLevels != null && SkillItem.UptieLevels.Count > 0)
+                {
+                    UptieLevel TargetUptieWithDesc = SkillItem.UptieLevels[^1]; // Last uptie
+
+                    string SkillName = TargetUptieWithDesc.Name.nullHandle(NullText: "<i>No name</i>");
+
+                    
+                    if (TargetUptieWithDesc.OptionalAffinity != null)
+                    {
+                        string AffinityColor = CustomIdentityPreviewCreator.GetAffinityColor(TargetUptieWithDesc.OptionalAffinity).ToString().Replace("#FF", "#");
+                        SkillName = $"<color={AffinityColor}>{SkillName}</color>";
+                    }
+
+                    string ItemName = $"{ItemEnumerator} — {SkillItem.ID} {SkillName}";
+
+                    if (!TargetUptieWithDesc.Description.IsNullOrEmpty())
+                    {
+                        AddSpecItemToSelector(SkillsLocalizationIDSelector, ItemName, TargetUptieWithDesc, SkillItem.ID);
+
+                        ID_And_Index__Links_Skills[(int)SkillItem.ID] = ItemEnumerator - 1;
+                    }
+                }
+
+                ItemEnumerator++;
+            }
+        }
+
+        if (SkillsLocalizationIDSelector.Items.Count > 0)
+        {
+            SelectSkillsLocalizationFile_Label.Text = $"Skills localization\n<size=78%><color=#fc5a03>{TargetFile.GetName()}</color></size>";
+        }
+    }
+
+    private protected Dictionary<int, int> ID_And_Index__Links_Passives = new Dictionary<int, int>();
+    private protected void UpdateSelector__PassivesLocalizationIDSelector()
+    {
+        string TargetFile = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.PassivesLocalizationFile;
+
+        Passives LoadedPassivesLocalizationData = new FileInfo(TargetFile).Deserealize<Passives>();
+
+        if (LoadedPassivesLocalizationData.dataList != null && LoadedPassivesLocalizationData.dataList.Count > 0)
+        {
+            ID_And_Index__Links_Passives.Clear();
+            PassivesLocalizationIDSelector.Items.Clear();
+
+            int ItemEnumerator = 1;
+            foreach (Passive PassiveItem in LoadedPassivesLocalizationData.dataList)
+            {
+                if (PassiveItem.ID != null & PassiveItem.Description != null)
+                {
+                    string ItemName = $"{ItemEnumerator} — {PassiveItem.ID} {PassiveItem.Name.nullHandle(NullText: "<i>No name</i>")}";
+
+                    AddSpecItemToSelector(PassivesLocalizationIDSelector, ItemName, PassiveItem, PassiveItem.ID);
+
+                    ID_And_Index__Links_Passives[(int)PassiveItem.ID] = ItemEnumerator - 1;
+                }
+
+                ItemEnumerator++;
+            }
+        }
+
+        if (PassivesLocalizationIDSelector.Items.Count > 0)
+        {
+            SelectPassivesLocalizationFile_Label.Text = $"Passives localization\n<size=78%><color=#fc5a03>{TargetFile.GetName()}</color></size>";
+        }
+    }
+
+    private protected Dictionary<string, int> ID_And_Index__Links_Keywords = new Dictionary<string, int>();
+    private protected void UpdateSelector__KeywordsLocalizationIDSelector()
+    {
+        string TargetFile = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.KeywordsLocalizationFile;
+
+        Keywords LoadedKeywordsLocalizationData = new FileInfo(TargetFile).Deserealize<Keywords>();
+
+        if (LoadedKeywordsLocalizationData.dataList != null && LoadedKeywordsLocalizationData.dataList.Count > 0)
+        {
+            ID_And_Index__Links_Keywords.Clear();
+            KeywordsLocalizationIDSelector.Items.Clear();
+
+            int ItemEnumerator = 1;
+            foreach (Keyword KeywordItem in LoadedKeywordsLocalizationData.dataList)
+            {
+                if (KeywordItem.ID != null & KeywordItem.Description != null)
+                {
+                    string ItemName = $"{ItemEnumerator} — {KeywordItem.ID} {KeywordItem.Name.nullHandle(NullText: "<i>No name</i>")}";
+
+                    AddSpecItemToSelector(KeywordsLocalizationIDSelector, ItemName, KeywordItem, KeywordItem.ID);
+
+                    ID_And_Index__Links_Keywords[KeywordItem.ID] = ItemEnumerator - 1;
+                }
+
+                ItemEnumerator++;
+            }
+        }
+
+        if (KeywordsLocalizationIDSelector.Items.Count > 0)
+        {
+            SelectKeywordsLocalizationFile_Label.Text = $"Keywords localization\n<size=78%><color=#fc5a03>{TargetFile.GetName()}</color></size>";
+        }
+    }
+
+    private protected Dictionary<BigInteger, int> ID_And_Index__Links_SkillsDisplayInfo = new Dictionary<BigInteger, int>();
+    private protected void UpdateSelector__SkillsDisplayInfoIDSelector()
+    {
+        FileInfo TargetFile = new FileInfo(CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.SkillsDisplayInfoConstructorFile);
+
+        SkillsConstructorFile LoadedSkillsLocalizationData = new FileInfo(TargetFile.FullName).Deserealize<SkillsConstructorFile>(Context: TargetFile.Directory.FullName.Replace("\\", "/"));
+
+        if (LoadedSkillsLocalizationData.List != null && LoadedSkillsLocalizationData.List.Count > 0)
+        {
+            ID_And_Index__Links_SkillsDisplayInfo.Clear();
+            SkillsDisplayInfoIDSelector.Items.Clear();
+
+            int ItemEnumerator = 1;
+            foreach (SkillContstructor Constructor in LoadedSkillsLocalizationData.List)
+            {
+                if (Constructor.ID != null)
+                {
+                    string AffinityColor = CustomIdentityPreviewCreator.GetAffinityColor(Constructor.Specific.Affinity).ToString().Replace("#FF", "#");
+
+                    string TargetName = $"{ItemEnumerator} — {Constructor.ID} <color={AffinityColor}>{Constructor.SkillName.nullHandle(NullText: "<i>No name</i>")}</color>";
+
+                    AddSpecItemToSelector(SkillsDisplayInfoIDSelector, TargetName, Constructor, Constructor.ID);
+
+                    ID_And_Index__Links_SkillsDisplayInfo[(BigInteger)Constructor.ID] = ItemEnumerator - 1;
+                }
+
+                ItemEnumerator++;
+            }
+        }
+
+        if (SkillsDisplayInfoIDSelector.Items.Count > 0)
+        {
+            SelectSkillsDisplayInfoFile_Label.Text = $"Skills Display Info\n<size=78%><color=#fc5a03>{TargetFile.Name}</color></size>";
+        }
+    }
+
+
+    private protected void AddSpecItemToSelector(ComboBox Target, string ItemName, dynamic AttachedItem, dynamic AttachedItemID)
+    {
+        Target.Items.Add(new UILocalization_Grocerius()
+        {
+            FontFamily = new FontFamily("GOST Type BU"),
+            Text = ItemName,
+            FontSize = 14,
+            Padding = new Thickness(0, 5, 0, 5),
+            Width = 150,
+            UniversalDataBindings = new Dictionary<string, dynamic>() { ["Attached item"] = AttachedItem, ["Attached item ID"] = AttachedItemID }
+        });
+    }
+
 }
+
+
+// Used in preview exports to png as reconnection items to Canvas for displaying them over other elements
 public static class RemoveChildHelper
 {
     public static void ReconnectAsChildTo(this UIElement TargetElement, dynamic NewParent)

@@ -368,7 +368,7 @@ namespace LC_Localization_Task_Absolute
 
                     if (UIStaticItemData.FontColor != null)
                     {
-                        UILanguage[TargetUIElementID].Foreground = ToColor(UIStaticItemData.FontColor);
+                        UILanguage[TargetUIElementID].Foreground = ToSolidColorBrush(UIStaticItemData.FontColor);
                     }
                     else
                     {

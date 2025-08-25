@@ -20,7 +20,7 @@ namespace LC_Localization_Task_Absolute.Json
         internal protected static Dictionary<string, Type_Keywords.Keyword> DelegateKeywords = [];
             internal protected static List<string> DelegateKeywords_IDList = [];
 
-        internal protected static Dictionary<dynamic, Type_ContentBasedUniversal.ContentBasedUniversal> DelegateUniversal = [];
+        internal protected static Dictionary<dynamic, Type_ContentBasedUniversal_UNUSEDPROBABLYUSELESS.ContentBasedUniversal> DelegateUniversal = [];
             internal protected static List<dynamic> DelegateUniversal_IDList = [];
 
         internal protected static List<dynamic> Delegates = [
@@ -48,12 +48,15 @@ namespace LC_Localization_Task_Absolute.Json
 
                     foreach(Type_Skills.Skill CurrentSkill in Source.dataList)
                     {
-                        DelegateSkills[CurrentSkill.ID] = new Dictionary<int, Type_Skills.UptieLevel>();
-                        foreach(Type_Skills.UptieLevel CurrentUptieLevel in CurrentSkill.UptieLevels)
+                        if (CurrentSkill.ID != null)
                         {
-                            DelegateSkills[CurrentSkill.ID][CurrentUptieLevel.Uptie] = CurrentUptieLevel;
+                            DelegateSkills[(int)CurrentSkill.ID] = new Dictionary<int, Type_Skills.UptieLevel>();
+                            foreach(Type_Skills.UptieLevel CurrentUptieLevel in CurrentSkill.UptieLevels)
+                            {
+                                DelegateSkills[(int)CurrentSkill.ID][CurrentUptieLevel.Uptie] = CurrentUptieLevel;
 
-                            Mode_Skills.Skills_NameIDs[DelegateSkills[CurrentSkill.ID][CurrentUptieLevel.Uptie].Name.Trim()] = CurrentSkill.ID;
+                                Mode_Skills.Skills_NameIDs[DelegateSkills[(int)CurrentSkill.ID][CurrentUptieLevel.Uptie].Name.Trim()] = (int)CurrentSkill.ID;
+                            }
                         }
                     }
 
@@ -74,8 +77,11 @@ namespace LC_Localization_Task_Absolute.Json
 
                     foreach (Type_Passives.Passive CurrentPassive in Source.dataList)
                     {
-                        DelegatePassives[CurrentPassive.ID] = CurrentPassive;
-                        Mode_Passives.Passives_NameIDs[CurrentPassive.Name.Trim()] = CurrentPassive.ID;
+                        if (CurrentPassive.ID != null)
+                        {
+                            DelegatePassives[(int)CurrentPassive.ID] = CurrentPassive;
+                            Mode_Passives.Passives_NameIDs[CurrentPassive.Name.Trim()] = (int)CurrentPassive.ID;
+                        }
                     }
 
                     DelegatePassives_IDList = DelegatePassives.Keys.ToList();
@@ -125,7 +131,7 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        internal protected static void InitializeContentBasedUniversalDelegateFrom(Type_ContentBasedUniversal.ContentBasedUniversal? Source)
+        internal protected static void InitializeContentBasedUniversalDelegateFrom(Type_ContentBasedUniversal_UNUSEDPROBABLYUSELESS.ContentBasedUniversal? Source)
         {
             if (Source != null)
             {

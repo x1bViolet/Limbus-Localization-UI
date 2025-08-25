@@ -52,7 +52,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         };
 
 
-        internal protected static Dictionary<BigInteger, BaseTypes.Type_RawSkills.DetailedInfoItem> OrganizedDisplayInfo = new Dictionary<BigInteger, BaseTypes.Type_RawSkills.DetailedInfoItem>();
+        internal protected static Dictionary<BigInteger, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem> OrganizedDisplayInfo = new Dictionary<BigInteger, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem>();
         
         internal protected static BitmapImage RegularCoinIcon = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Regular Coin.png"));
         internal protected static BitmapImage UnbreakableCoinIcon = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Unbreakable Coin.png"));
@@ -70,17 +70,25 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             if (SkillIcons.ContainsKey(ID)) return SkillIcons[ID];
             else
             {
-                var IconFile = @"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons".GetFileWithName($"{ID}.png");
-                if (IconFile != null)
+                if (File.Exists(ID))
                 {
-                    BitmapImage FoundedImage = GenerateBitmapFromFile(IconFile.FullName);
-                    SkillIcons[ID] = FoundedImage;
-
-                    return FoundedImage;
+                    // rin($"Returning from {ID}..");
+                    return GenerateBitmapFromFile(ID);
                 }
                 else
                 {
-                    return null;
+                    FileInfo IconFile = @"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons".GetFileWithName($"{ID}.png");
+                    if (IconFile != null)
+                    {
+                        BitmapImage FoundedImage = GenerateBitmapFromFile(IconFile.FullName);
+                        SkillIcons[ID] = FoundedImage;
+
+                        return FoundedImage;
+                    }
+                    else
+                    {
+                        return null;
+                    }
                 }
             }
         }
@@ -115,13 +123,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 foreach(FileInfo SkillDataFile in new DirectoryInfo(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json").GetFiles("*.json", SearchOption.AllDirectories))
                 {
-                    var Deserialized = SkillDataFile.Deserealize<BaseTypes.Type_RawSkills.SkillsDetailedInfo>();
+                    var Deserialized = SkillDataFile.Deserealize<BaseTypes.Type_RawSkillsDisplayInfo.SkillsDetailedInfo>();
 
                     if (Deserialized != null)
                     {
                         if (Deserialized.List != null)
                         {
-                            foreach(BaseTypes.Type_RawSkills.DetailedInfoItem SkillData in Deserialized.List)
+                            foreach(BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem SkillData in Deserialized.List)
                             {
                                 if (SkillData.ID != null & SkillData.UptieLevelsDictionary != null)
                                 {
@@ -176,14 +184,14 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                         {
                             MainControl.SkillReplicaAffinityColorHolder.Background = Info_Uptie.Affinity_UPTIE switch
                             {
-                                "Wrath"    => ToColor("#fe0101"),
-                                "Lust"     => ToColor("#fe6f01"),
-                                "Sloth"    => ToColor("#edc427"),
-                                "Gluttony" => ToColor("#a7fe01"),
-                                "Gloom"    => ToColor("#1cc7f1"),
-                                "Pride"    => ToColor("#014fd6"),
-                                "Envy"     => ToColor("#9800df"),
-                                _ => ToColor("#9f6a3a")
+                                "Wrath"    => ToSolidColorBrush("#fe0101"),
+                                "Lust"     => ToSolidColorBrush("#fe6f01"),
+                                "Sloth"    => ToSolidColorBrush("#edc427"),
+                                "Gluttony" => ToSolidColorBrush("#a7fe01"),
+                                "Gloom"    => ToSolidColorBrush("#1cc7f1"),
+                                "Pride"    => ToSolidColorBrush("#014fd6"),
+                                "Envy"     => ToSolidColorBrush("#9800df"),
+                                _ => ToSolidColorBrush("#9f6a3a")
                             };
 
                             // Frame
@@ -241,7 +249,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
 
                         // Offense|Defense Level icons
-                        if (Info_Main.SkillAction.EqualsOneOf(["Attack", "Counter"]))
+                        if (Info_Main.SkillAction.EqualsOneOf("Attack", "Counter"))
                         {
                             MainControl.OffenseLevelIcon.Visibility = Visible;
                             MainControl.DamageTypeGrid.Visibility = Visible;
@@ -405,7 +413,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 {
                     MainControl.SkillLevel.Visibility = Visible;
                     MainControl.SkillLevelTypeIcons.Visibility = Visible;
-                    if (Info_Main.Specific.Action.EqualsOneOf(["Attack", "Counter"]))
+                    if (Info_Main.Specific.Action.EqualsOneOf("Attack", "Counter"))
                     {
                         MainControl.OffenseLevelIcon.Visibility = Visible;
                     }
@@ -414,7 +422,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                         MainControl.DefenseLevelIcon.Visibility = Visible;
                     }
                 }
-                if (Info_Main.Specific.Action.EqualsOneOf(["Attack", "Counter"]))
+                if (Info_Main.Specific.Action.EqualsOneOf("Attack", "Counter"))
                 {
                     MainControl.DamageTypeGrid.Visibility = Visible;
                 }
@@ -571,14 +579,14 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 // Affinity color
                 MainControl.SkillReplicaAffinityColorHolder.Background = Select_Affinity switch
                 {
-                    "Wrath"    => ToColor("#fe0101"),
-                    "Lust"     => ToColor("#fe6f01"),
-                    "Sloth"    => ToColor("#edc427"),
-                    "Gluttony" => ToColor("#a7fe01"),
-                    "Gloom"    => ToColor("#1cc7f1"),
-                    "Pride"    => ToColor("#014fd6"),
-                    "Envy"     => ToColor("#9800df"),
-                    _ => ToColor("#9f6a3a")
+                    "Wrath"    => ToSolidColorBrush("#fe0101"),
+                    "Lust"     => ToSolidColorBrush("#fe6f01"),
+                    "Sloth"    => ToSolidColorBrush("#edc427"),
+                    "Gluttony" => ToSolidColorBrush("#a7fe01"),
+                    "Gloom"    => ToSolidColorBrush("#1cc7f1"),
+                    "Pride"    => ToSolidColorBrush("#014fd6"),
+                    "Envy"     => ToSolidColorBrush("#9800df"),
+                    _ => ToSolidColorBrush("#9f6a3a")
                 };
 
                 // Frame
@@ -695,7 +703,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 MainControl.SkillLevel.Visibility = Visible;
                 MainControl.SkillLevel.Text = "??";
 
-                MainControl.SkillReplicaAffinityColorHolder.Background = ToColor("#9f6a3a");
+                MainControl.SkillReplicaAffinityColorHolder.Background = ToSolidColorBrush("#9f6a3a");
 
                 MainControl.SkilIcon.Source = new BitmapImage();
                 MainControl.SkilFrame.Source = DefaultSkillFrameAlt;
@@ -763,9 +771,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
 
 
-
+        internal protected static bool EnableUptieLevels_Recent = false;
+        internal protected static bool EnableEGOAbnormalityName_Recent = false;
         internal protected static void TriggerSwitch(bool EnableUptieLevels, bool EnableEGOAbnormalityName)
         {
+            EnableUptieLevels_Recent = EnableUptieLevels;
+            EnableEGOAbnormalityName_Recent = EnableEGOAbnormalityName;
+
             MainControl.PreviewLayouts.Height = 383;
             MainControl.EditorWidthControl.Width = new GridLength(706.6);
 
@@ -974,7 +986,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                     }
 
 
-                                    if (CurrentCoin.CoinDescriptions.Where(x => x.EditorDescription.EqualsOneOf(["", "<style=\"highlight\"></style>"])).Count() == CurrentCoin.CoinDescriptions.Count)
+                                    if (CurrentCoin.CoinDescriptions.Where(x => x.EditorDescription.EqualsOneOf("", "<style=\"highlight\"></style>")).Count() == CurrentCoin.CoinDescriptions.Count)
                                     {
                                         MainCoinPanel.Visibility = Collapsed;
                                     }

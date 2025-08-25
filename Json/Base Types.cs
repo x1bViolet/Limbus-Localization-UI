@@ -1,6 +1,8 @@
 ﻿using Newtonsoft.Json;
 using System.Numerics;
 using System.Runtime.Serialization;
+using System.IO;
+using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
 
 namespace LC_Localization_Task_Absolute.Json
 {
@@ -14,18 +16,24 @@ namespace LC_Localization_Task_Absolute.Json
 
                 [JsonProperty("Template Marker")]
                 public string ScansTemplateMarker { get; set; }
+
+                [JsonProperty("Manual File Type")]
+                public string ManualFileType { get; set; }
             }
 
             public class Skill
             {
                 [JsonProperty("id")]
-                public int ID { get; set; }
+                public int? ID { get; set; }
 
                 [JsonProperty("levelList")]
                 public List<UptieLevel> UptieLevels { get; set; }
             }
             public class UptieLevel
             {
+                [JsonProperty("Affinity")]
+                public string OptionalAffinity { get; set; }
+
                 [JsonProperty("level")]
                 public int Uptie { get; set; }
 
@@ -82,12 +90,15 @@ namespace LC_Localization_Task_Absolute.Json
             public class Passives
             {
                 public List<Passive> dataList { get; set; }
+
+                [JsonProperty("Manual File Type")]
+                public string ManualFileType { get; set; }
             }
 
             public class Passive
             {
                 [JsonProperty("id")]
-                public int ID { get; set; }
+                public int? ID { get; set; }
 
                 [JsonProperty("name")]
                 public string Name { get; set; }
@@ -119,6 +130,9 @@ namespace LC_Localization_Task_Absolute.Json
             public class EGOGifts
             {
                 public List<EGOGift> dataList { get; set; }
+
+                [JsonProperty("Manual File Type")]
+                public string ManualFileType { get; set; }
             }
 
             public class EGOGift
@@ -177,6 +191,9 @@ namespace LC_Localization_Task_Absolute.Json
             public class Keywords
             {
                 public List<Keyword> dataList { get; set; }
+
+                [JsonProperty("Manual File Type")]
+                public string ManualFileType { get; set; }
             }
 
             public class Keyword
@@ -212,7 +229,7 @@ namespace LC_Localization_Task_Absolute.Json
 
                 // Special settings that can be used instead of "⇲ Assets Directory\[+] Keywords\Keyword Colors.T[-]"
                 [JsonProperty("Color")]
-                public string Color { get; set; }
+                public string? Color { get; set; }
             }
         }
     
@@ -221,6 +238,9 @@ namespace LC_Localization_Task_Absolute.Json
             public class SkillTags
             {
                 public List<SkillTag> dataList { get; set; }
+
+                [JsonProperty("Manual File Type")]
+                public string ManualFileType { get; set; }
             }
 
             public class SkillTag
@@ -238,7 +258,38 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        internal abstract class Type_RawSkills
+        internal class ManualFileTypeCheckHandler
+        {
+            [JsonProperty("Manual File Type")] public string ManualFileType { get; set; }
+        }
+        internal protected static string? TryAcquireManualFileType(string Filename)
+        {
+            string FileText = File.ReadAllText(Filename);
+            ManualFileTypeCheckHandler FileHeader = JsonConvert.DeserializeObject<ManualFileTypeCheckHandler>(FileText);
+            if (FileHeader.ManualFileType != null)
+            {
+                return FileHeader.ManualFileType switch
+                {
+                    "Skills" => "Skills", 
+                    "Passives" => "Passive",
+                    "Keywords" => "BattleKeywords",
+                    "Keywords (Bufs)" => "Bufs",
+                    "Keywords (BattleKeywords)" => "BattleKeywords",
+                    "E.G.O Gifts" => "EGOgift",
+                    _ => null
+                };
+            }
+            else if (FileText.Contains(@"""Template Marker"": ""(Don't remove)"""))
+            {
+                return "Skills";
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        internal abstract class Type_RawSkillsDisplayInfo
         {
             public class SkillsDetailedInfo
             {
@@ -498,9 +549,9 @@ namespace LC_Localization_Task_Absolute.Json
 
 
         /// <summary>
-        /// For most other files with a simple structure in the form of "id" and "content" only objects
+        /// For most other files with a simple structure in the form of "id" and "content" only objectsprobablyunusedidk
         /// </summary>
-        internal abstract class Type_ContentBasedUniversal
+        internal abstract class Type_ContentBasedUniversal_UNUSEDPROBABLYUSELESS
         {
             public class ContentBasedUniversal
             {

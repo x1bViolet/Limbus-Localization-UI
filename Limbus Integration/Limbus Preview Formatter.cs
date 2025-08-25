@@ -68,7 +68,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
         internal protected static string Apply(string PreviewText, string SpecifiedTextProcessingMode = null)
         {
             if (SpecifiedTextProcessingMode == null) SpecifiedTextProcessingMode = Mode_Handlers.Upstairs.ActiveProperties.Key;
-            else if (!SpecifiedTextProcessingMode.EqualsOneOf(["E.G.O Gifts", "Keywords", "Passives", "Skills"])) // If invalid
+            else if (!SpecifiedTextProcessingMode.EqualsOneOf("E.G.O Gifts", "Keywords", "Passives", "Skills")) // If invalid
             {
                 SpecifiedTextProcessingMode = Mode_Handlers.Upstairs.ActiveProperties.Key;
             }
@@ -132,7 +132,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             });
 
 
-            if (SpecifiedTextProcessingMode.EqualsOneOf(["Skills", "Passives", "E.G.O Gifts"]))
+            if (SpecifiedTextProcessingMode.EqualsOneOf("Skills", "Passives", "E.G.O Gifts"))
             {
                 PreviewText = RemoteRegexPatterns.KeywordLink.Replace(PreviewText, Match =>
                 {
@@ -188,8 +188,8 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                         $"</color>";
                     }
                     else if ( // Return skill tag or empty TabExplain if skills, or return default if ego gifts (keywords already excluded)
-                           (SpecifiedTextProcessingMode.EqualsOneOf(["Skills", "Passives"]) & SkillTags.ContainsKey(Match.Groups[0].Value))
-                         | (SpecifiedTextProcessingMode.EqualsOneOf(["Skills", "Passives"]) & Match.Groups[0].Value.Equals("[TabExplain]"))
+                           (SpecifiedTextProcessingMode.EqualsOneOf("Skills", "Passives") & SkillTags.ContainsKey(Match.Groups[0].Value))
+                         | (SpecifiedTextProcessingMode.EqualsOneOf("Skills", "Passives") & Match.Groups[0].Value.Equals("[TabExplain]"))
                          |  SpecifiedTextProcessingMode.Equals("E.G.O Gifts")
                     ) {
                         return Match.Groups[0].Value;
@@ -206,7 +206,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 }
 
                 // Skill tags
-                if (SpecifiedTextProcessingMode.EqualsOneOf(["Skills", "Passives"]))
+                if (SpecifiedTextProcessingMode.EqualsOneOf("Skills", "Passives"))
                 {
                     PreviewText = PreviewText.Replace("[TabExplain]", "");
                     foreach (KeyValuePair<string, string> SkillTag in SkillTags)

@@ -188,7 +188,8 @@ namespace LC_Localization_Task_Absolute
             }
         }
 
-        private void OptionToggle(object sender, MouseButtonEventArgs e)
+        public bool ChangeConfigOnOptionToggle = true;
+        public void OptionToggle(object sender, MouseButtonEventArgs e)
         {
             if (!Configurazione.SettingsLoadingEvent)
             {
@@ -585,7 +586,7 @@ namespace LC_Localization_Task_Absolute
                 {
                     string NewSkillsBackground = InputSkillsScanBackgroundColor.Text;
 
-                    SolidColorBrush NewColor = ToColor(NewSkillsBackground);
+                    SolidColorBrush NewColor = ToSolidColorBrush(NewSkillsBackground);
 
                     InputSkillsBackgroundColor_Display.Background = NewColor;
 

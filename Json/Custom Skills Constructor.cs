@@ -2,6 +2,7 @@
 using System.IO;
 using System.Numerics;
 using System.Runtime.Serialization;
+using System.Windows;
 using static LC_Localization_Task_Absolute.Requirements;
 
 namespace LC_Localization_Task_Absolute.Json
@@ -63,7 +64,7 @@ namespace LC_Localization_Task_Absolute.Json
             public string? IconID { get; set; }
 
             [JsonProperty("(Name)")]
-            public string? OptionalName { get; set; }
+            public string? SkillName { get; set; }
 
             public SkillContstructor_Specific Specific { get; set; } = new SkillContstructor_Specific();
 
@@ -77,9 +78,15 @@ namespace LC_Localization_Task_Absolute.Json
             [OnDeserialized]
             private void TechnicalProcessing(StreamingContext context)
             {
-                if (ID != null)
+                if (IconID != null)
                 {
-                    LogCustomSkillsConstructor($"★ Skill with ID '{ID}'   ({OptionalName})");
+                    IconID = IconID.Replace(":Constructor:", $"{context.Context}");
+                    rin(context.Context);
+                }
+
+                if (ID != null & Configurazione.SettingsLoadingEvent)
+                {
+                    LogCustomSkillsConstructor($"★ Skill with ID '{ID}'   ({SkillName})");
 
                     LogCustomSkillsConstructor($"  ⋉ Damage Type:{Specific.DamageType} | Action:{Specific.Action} | Rank:{Specific.Rank}");
                     LogCustomSkillsConstructor($"  ⋉ Coins:[{string.Join("-", Characteristics.CoinsList)}] | Coins Type:{Characteristics.CoinsType}");
@@ -97,7 +104,7 @@ namespace LC_Localization_Task_Absolute.Json
                     {
                         foreach (KeyValuePair<string, SkillContstructor_Uptie> Uptie in Skill_Upties)
                         {
-                            if (Uptie.Key.EqualsOneOf(["1", "2", "3", "4"]))
+                            if (Uptie.Key.EqualsOneOf("1", "2", "3", "4"))
                             {
                                 if (!SetDefaultNoneAffinityOnFirstEncounteredUptieIfItNotSet)
                                 {
@@ -177,7 +184,7 @@ namespace LC_Localization_Task_Absolute.Json
             {
                 if (Rank > 3) Rank = 3;
                 if (Rank < 1) Rank = 1;
-                if (!DamageType.EqualsOneOf(["Pierce", "Blunt", "Slash"])) DamageType = "None";
+                if (!DamageType.EqualsOneOf("Pierce", "Blunt", "Slash")) DamageType = "None";
             }
         }
 
@@ -225,6 +232,21 @@ namespace LC_Localization_Task_Absolute.Json
             public double SkillNameMaxWidth { get; set; } = 270;
             public double SkillNameBackgroundMaxHeight { get; set; } = 57;
             public List<double> SkillNameMargin { get; set; } = [7, 3, 30, 0];
+            public Thickness LoadedSkillNameMargin { get; set; }
+            public double SkillNameSize { get; set; } = 23;
+
+            [OnDeserialized]
+            private void OnInit(StreamingContext context)
+            {
+                try
+                {
+                    LoadedSkillNameMargin = new Thickness(SkillNameMargin[0], SkillNameMargin[1], SkillNameMargin[2], SkillNameMargin[3]);
+                }
+                catch
+                {
+                    LoadedSkillNameMargin = new Thickness(0);
+                }
+            }
         }
 
         public class SkillContstructor_Uptie

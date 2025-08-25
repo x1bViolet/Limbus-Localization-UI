@@ -1,8 +1,11 @@
-﻿using System.IO;
+﻿using SixLabors.ImageSharp;
+using SixLabors.ImageSharp.PixelFormats;
+using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
@@ -10,9 +13,91 @@ using static LC_Localization_Task_Absolute.MainWindow;
 
 namespace LC_Localization_Task_Absolute
 {
+    internal static class SecondaryUtilities
+    {
+        // To apply custom color to white images (Tint), used for creating custom color for sinner name in custom identity preview
+        // Sixlabors because default options of 'foreach(pixel in somewpfbitmapimage)' slow asf
+
+        // ^ BitmapImage --ToSixlaborsImage()-> Image<Rgba32> -> TintWhiteMaskImage(Image<Rgba32>) -> colored Image<Rgba32> --ToBitmapImage()-> colored BitmapImage
+
+        // Some speed shennigans from SixLabors docs https://docs.sixlabors.com/articles/imagesharp/pixelbuffers.html
+        internal static Image<Rgba32> TintWhiteMaskImage(Image<Rgba32> LoadedImage, Rgba32 TintColor)
+        {
+            // Or 'LoadedImage = SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(@"C:\,some,where,\Import.png");'
+
+            Image<Rgba32> ResultImage = LoadedImage.Clone();
+            ResultImage.ProcessPixelRows(Accessor =>
+            {
+                for (int Y_HeightPixel = 0; Y_HeightPixel < Accessor.Height; Y_HeightPixel++)
+                {
+                    Span<Rgba32> PixelSpan = Accessor.GetRowSpan(Y_HeightPixel);
+
+                    for (int X_WidthPixel = 0; X_WidthPixel < PixelSpan.Length; X_WidthPixel++)
+                    {
+                        ref Rgba32 CurrentPixel = ref PixelSpan[X_WidthPixel];
+
+                        if (CurrentPixel.A > 0)
+                        {
+                            CurrentPixel = new Rgba32
+                            (
+                                (byte)(CurrentPixel.R * TintColor.R / 255),
+                                (byte)(CurrentPixel.G * TintColor.G / 255),
+                                (byte)(CurrentPixel.B * TintColor.B / 255),
+                                CurrentPixel.A
+                            );
+                        }
+                    }
+                }
+            });
+            
+            return ResultImage; // Or 'ResultImage.SaveAsPng(@"C:\,some,where,\Export.png");'
+        }
+
+        internal static BitmapImage TintWhiteMaskBitmap(BitmapImage Selected, string HexColor)
+        {
+            SixLabors.ImageSharp.Image<Rgba32> Colored = SecondaryUtilities.TintWhiteMaskImage(Selected.ToSixlaborsImage(), Rgba32.ParseHex(HexColor.Replace("#", "")));
+
+            return Colored.ToBitmapImage();
+        }
+
+        internal static Image<Rgba32> ToSixlaborsImage(this BitmapImage WPFImageSource)
+        {
+            int Width = WPFImageSource.PixelWidth;
+            int Height = WPFImageSource.PixelHeight;
+            int ArrayStride = Width * 4; // Four bytes per pixel in BGRA32
+            byte[] PixelData = new byte[Height * ArrayStride];
+
+            WPFImageSource.CopyPixels(PixelData, ArrayStride, 0);
+
+            return SixLabors.ImageSharp.Image.LoadPixelData<Rgba32>(PixelData, Width, Height);
+        }
+
+        internal static BitmapImage ToBitmapImage(this Image<Rgba32> SixlaborsImageSource)
+        {
+            using (MemoryStream ImageConvertStream = new MemoryStream())
+            {
+                SixlaborsImageSource.SaveAsPng(ImageConvertStream);
+                ImageConvertStream.Position = 0;
+
+                BitmapImage ResultBitmapImage = new BitmapImage();
+                ResultBitmapImage.BeginInit();
+                ResultBitmapImage.CacheOption = BitmapCacheOption.OnLoad;
+                ResultBitmapImage.StreamSource = ImageConvertStream;
+                ResultBitmapImage.EndInit();
+                ResultBitmapImage.Freeze();
+
+                return ResultBitmapImage;
+            }
+        }
+    }
+
+
+
     internal static class Requirements
     {
         internal static int LinesCount(this string check) => check.Count(f => f == '\n');
+
+        internal static byte ToByte(this string HexDigit) => byte.Parse(HexDigit, System.Globalization.NumberStyles.HexNumber);
 
         internal static Encoding GetFileEncoding(this FileInfo TargetFile)
         {
@@ -21,6 +106,84 @@ namespace LC_Localization_Task_Absolute
                 reader.Peek(); // you need this!
                 return reader.CurrentEncoding;
             }
+        }
+
+        internal static void MoveItemUp(this StackPanel ParentStackPanel, UIElement TargetElement)
+        {
+            int CurrentIndex = ParentStackPanel.Children.IndexOf(TargetElement);
+            if (CurrentIndex > 0)
+            {
+                ParentStackPanel.Children.RemoveAt(CurrentIndex);
+                ParentStackPanel.Children.Insert(CurrentIndex - 1, TargetElement);
+            }
+        }
+        internal static void MoveItemDown(this StackPanel ParentStackPanel, UIElement TargetElement)
+        {
+            int CurrentIndex = ParentStackPanel.Children.IndexOf(TargetElement);
+            if (CurrentIndex >= 0 && CurrentIndex < ParentStackPanel.Children.Count - 1)
+            {
+                ParentStackPanel.Children.RemoveAt(CurrentIndex);
+                ParentStackPanel.Children.Insert(CurrentIndex + 1, TargetElement);
+            }
+        }
+
+        internal static void InkCanvasUndo(InkCanvas Target)
+        {
+            if (Target.Strokes.Count > 0) Target.Strokes.RemoveAt(Target.Strokes.Count - 1);
+        }
+
+        internal static FrameworkElement SetBindingWithReturn(this FrameworkElement Target, DependencyProperty Property, string BindingPropertyName, DependencyObject BindingSource)
+        {
+            Target.SetBinding(Property, new Binding(BindingPropertyName)
+            {
+                Source = BindingSource
+            });
+
+            return Target;
+        }
+
+        internal static UIElement SetColumn(this UIElement Target, int ColumnNumber)
+        {
+            Grid.SetColumn(Target, ColumnNumber);
+            return Target;
+        }
+
+        internal static RichTextBox SetLineHeight(this RichTextBox Target, double LineHeight)
+        {
+            Target.SetValue(Paragraph.LineStackingStrategyProperty, LineStackingStrategy.BlockLineHeight);
+            Target.SetValue(Paragraph.LineHeightProperty, LineHeight);
+            return Target;
+        }
+
+        internal static void MoveItemUp(this List<string> TargetList, string Element)
+        {
+            int CurrentIndex = TargetList.IndexOf(Element);
+            if (CurrentIndex > 0)
+            {
+                TargetList.RemoveAt(CurrentIndex);
+                TargetList.Insert(CurrentIndex - 1, Element);
+            }
+        }
+        internal static void MoveItemDown(this List<string> TargetList, string Element)
+        {
+            int CurrentIndex = TargetList.IndexOf(Element);
+            if (CurrentIndex >= 0 && CurrentIndex < TargetList.Count() - 1)
+            {
+                TargetList.RemoveAt(CurrentIndex);
+                TargetList.Insert(CurrentIndex + 1, Element);
+            }
+        }
+        internal static void SetLeftMargin(this FrameworkElement Target, double LeftMargin)
+        {
+            Target.Margin = new Thickness(LeftMargin, Target.Margin.Top, Target.Margin.Right, Target.Margin.Bottom);
+        }
+        internal static void SetTopMargin(this FrameworkElement Target, double TopMargin)
+        {
+            Target.Margin = new Thickness(Target.Margin.Left, TopMargin, Target.Margin.Right, Target.Margin.Bottom);
+        }
+        internal static void SetBottomMargin(this FrameworkElement Target, double BottomMargin)
+        {
+            Target.Margin = new Thickness(Target.Margin.Left, Target.Margin.Top, Target.Margin.Right, BottomMargin);
         }
 
         internal static Dictionary<string, string> RemoveItemWithValue(this Dictionary<string, string> TargetDictionary, string RemoveValue)
@@ -85,7 +248,7 @@ namespace LC_Localization_Task_Absolute
             return TargetString;
         }
 
-        internal static bool EqualsOneOf(this string CheckString, IEnumerable<string> CheckSource)
+        internal static bool EqualsOneOf(this string CheckString, params string[] CheckSource)
         {
             foreach (var Check in CheckSource)
             {
@@ -95,7 +258,7 @@ namespace LC_Localization_Task_Absolute
             return false;
         }
 
-        internal static bool NullOrEmpty(this string CheckString)
+        internal static bool IsNullOrEmpty(this string CheckString)
         {
             if (CheckString == null)
             {
@@ -227,6 +390,11 @@ namespace LC_Localization_Task_Absolute
             return File.ReadAllBytes(file.FullName);
         }
 
+        internal static string GetName(this string Filepath)
+        {
+            return Filepath.Split("\\")[^1].Split("/")[^1];
+        }
+
         internal static List<string> RemoveAtIndex(this List<string> Source, int Index)
         {
             Source.RemoveAt(Index);
@@ -285,7 +453,7 @@ namespace LC_Localization_Task_Absolute
         /// Accepts RGB or ARGB hex sequence (#rrggbb / #AArrggbb)<br/>
         /// Returns transperent if HexString is null/"" or if HexString is not color
         /// </summary>
-        internal static SolidColorBrush ToColor(string HexString)
+        internal static SolidColorBrush ToSolidColorBrush(string HexString)
         {
             if (HexString == null) return System.Windows.Media.Brushes.Transparent;
 
@@ -331,6 +499,25 @@ namespace LC_Localization_Task_Absolute
             else
             {
                 if (WriteInfo) rin($"      Font file \"{FontPath}\" not found, returning \"Arial\"");
+                return new System.Windows.Media.FontFamily("Arial");
+            }
+        }
+
+        internal static System.Windows.Media.FontFamily FileToFontFamily_WithNameReturn(string FontPath, out string AcquiredFontName)
+        {
+            if (File.Exists(FontPath))
+            {
+                string FontFullPath = new FileInfo(FontPath).FullName;
+                Uri FontUri = new Uri(FontFullPath, UriKind.Absolute);
+
+                AcquiredFontName = GetFontName(FontFullPath);
+
+                return new System.Windows.Media.FontFamily(FontUri, $"./#{AcquiredFontName}");
+            }
+            else
+            {
+                AcquiredFontName = "?";
+
                 return new System.Windows.Media.FontFamily("Arial");
             }
         }
@@ -388,9 +575,13 @@ namespace LC_Localization_Task_Absolute
         /// <summary>
         /// BitmapImage from application resources by <c>new Uri($"pack://application:,,,/{ResourecImageName}")</c>
         /// </summary>
-        internal static BitmapImage FromResource(string ResourecImageName)
+        internal static BitmapImage ImageFromResource(string ResourecImageName)
         {
             return new BitmapImage(new Uri($"pack://application:,,,/{ResourecImageName}"));
+        }
+        internal static FontFamily FontFromResource(string ResourecImageName)
+        {
+            return new FontFamily($"pack://application:,,,/{ResourecImageName}");
         }
 
         internal static BitmapImage GenerateBitmapFromFile(string ImageFilepath)
@@ -416,7 +607,7 @@ namespace LC_Localization_Task_Absolute
         //internal static byte[] ConvertWebpToPng(byte[] WebpData)
         //{
         //    using (var InputStream = new MemoryStream(WebpData))
-        //    using (var image = SixLabors.ImageSharp.Image.Load(InputStream))
+        //    using (var image = Image.Load(InputStream))
         //    {
         //        using (var OutputStream = new MemoryStream())
         //        {
@@ -472,21 +663,25 @@ namespace LC_Localization_Task_Absolute
         /// <summary>
         /// Return "null" str if Source is null, else Source
         /// </summary>
-        internal static string nullHandle(this object Source)
+        internal static string nullHandle(this object Source, string NullText = "null")
         {
-            return $"{(Source == null ? "null" : Source)}";
+            return $"{(Source == null ? NullText : Source)}";
         }
 
-        internal static void ScanScrollviewer(ScrollViewer Target, string NameHint, double DpiX = 96d, double DpiY = 96d)
+        internal static void ScanScrollviewer(ScrollViewer Target, string NameHint, string ManualPath = "", double DpiX = 96d, double DpiY = 96d)
         {
+            string OutputPath = !ManualPath.Equals("") ? ManualPath : @$"⇲ Assets Directory\[⇲] Scans\{NameHint} @ {DateTime.Now.ToString("HHːmmːss (dd.MM.yyyy)")}.png";
+
             ////////////////////////////////////////////////////
-            double OriginalScrollOffset = Target.VerticalOffset;
+            double OriginalVerticalScrollOffset = Target.VerticalOffset;
+            double OriginalHorizontalScrollOffset = Target.HorizontalOffset;
             Target.ScrollToVerticalOffset(0);
+            Target.ScrollToHorizontalOffset(0);
             // Because text on image somehow will slide up if preview was scrolled
 
             double Upscale = Configurazione.DeltaConfig.ScanParameters.ScaleFactor;
 
-            MainControl.SurfaceScrollPreview_Skills_Inner.Background = ToColor(Configurazione.DeltaConfig.ScanParameters.BackgroundColor);
+            MainControl.SurfaceScrollPreview_Skills_Inner.Background = ToSolidColorBrush(Configurazione.DeltaConfig.ScanParameters.BackgroundColor);
 
             FrameworkElement PreviewContent = Target.Content as FrameworkElement;
 
@@ -503,7 +698,7 @@ namespace LC_Localization_Task_Absolute
             PngBitmapEncoder ExportBitmapEncoder = new PngBitmapEncoder();
             ExportBitmapEncoder.Frames.Add(BitmapFrame.Create(PreviewLayoutRender));
 
-            using (FileStream ExportStream = new FileStream(path: @$"⇲ Assets Directory\[⇲] Scans\{NameHint} @ {DateTime.Now.ToString("HHːmmːss (dd.MM.yyyy)")}.png", mode: FileMode.Create))
+            using (FileStream ExportStream = new FileStream(path: OutputPath, mode: FileMode.Create))
             {
                 ExportBitmapEncoder.Save(ExportStream);
             }
@@ -511,7 +706,8 @@ namespace LC_Localization_Task_Absolute
             MainControl.SurfaceScrollPreview_Skills_Inner.Background = Brushes.Transparent;
 
             ////////////////////////////////////////////////////
-            Target.ScrollToVerticalOffset(OriginalScrollOffset);
+            Target.ScrollToVerticalOffset(OriginalVerticalScrollOffset);
+            Target.ScrollToHorizontalOffset(OriginalHorizontalScrollOffset);
         }
     }
 }

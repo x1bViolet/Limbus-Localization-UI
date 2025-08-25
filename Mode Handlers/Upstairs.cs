@@ -13,12 +13,39 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 Height = 550,
                 Width = 1000,
+
                 MinHeight = 464,
                 MinWidth = 709.8,
+
                 MaxHeight = 10000,
                 MaxWidth = 1000,
             },
         };
+        internal protected static void TriggerSwitchToRecent()
+        {
+            switch (ActiveProperties.Key)
+            {
+                case "E.G.O Gifts":
+
+                    if (MainWindow.CurrentFile != null)
+                    {
+                        Mode_EGOGifts.TriggerSwitch();
+                    }
+                    else
+                    {
+                        MainControl.MaxWidth = 1000;
+                        MainControl.MaxHeight = 1920;
+
+                        MainControl.Height = 550;
+                        MainControl.Width = 1000;
+                    }
+                    break;
+
+                case "Keywords": Mode_Keywords.TriggerSwitch(); break;
+                case "Passives": Mode_Passives.TriggerSwitch(); break;
+                case "Skills": Mode_Skills.TriggerSwitch(Mode_Skills.EnableUptieLevels_Recent, Mode_Skills.EnableEGOAbnormalityName_Recent); break;
+            }
+        }
 
         internal protected record SwitchedInterfaceProperties
         {

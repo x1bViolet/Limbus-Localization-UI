@@ -394,7 +394,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
             else
             {
-                MainControl.EGOGiftAffinityType_NameBackground.Background = ToColor("#9f6a3a");
+                MainControl.EGOGiftAffinityType_NameBackground.Background = ToSolidColorBrush("#9f6a3a");
                 MainControl.EGOGiftDisplay_Tier.Text = "";
             }
         }

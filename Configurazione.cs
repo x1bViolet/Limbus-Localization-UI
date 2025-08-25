@@ -20,50 +20,53 @@ namespace LC_Localization_Task_Absolute
         // Because serealizing current config with all default values causes a lot of mess string values that hard to remove
         internal static void ChangeJsonConfigViaRegex(string PropertyName, dynamic NewValue, bool IsInsideCurrentCustomLangProperties = false)
         {
-            string CurrentConfigurationJsonContent = File.ReadAllText(@"⇲ Assets Directory\Configurazione^.json");
-            string OldConfig = CurrentConfigurationJsonContent;
-
-            #region Change
-            string MatchAppend = "";
-            if (IsInsideCurrentCustomLangProperties)
+            if (SettingsControl.ChangeConfigOnOptionToggle)
             {
-                /*lang=regex*/
-                MatchAppend = @"(?<PatternInsideThisProperty>""Custom Language Associative Settings"": {(.*?)""Name"": ""<Current \0 Name>"",(.*?))"
-                    .Replace(
-                        @"<Current \0 Name>",
-                        Configurazione.DeltaConfig.PreviewSettings.CustomLanguageProperties.AssociativeSettings.Selected.ToEscapeRegexString()
-                    );
-            }
+                string CurrentConfigurationJsonContent = File.ReadAllText(@"⇲ Assets Directory\Configurazione^.json");
+                string OldConfig = CurrentConfigurationJsonContent;
 
-            string ValueTypePattern = NewValue.GetType().ToString() switch
-            {
-                /*lang=regex*/ "System.Double"  => @"(\d+)(\.(\d+))?",
-                /*lang=regex*/ "System.Boolean" => @"(true|false)",
-                /*lang=regex*/ "System.String"  => @"""(.*?)""",
-                /*lang=regex*/ _ => @"""(.*?)"""
-            };
+                #region Change
+                string MatchAppend = "";
+                if (IsInsideCurrentCustomLangProperties)
+                {
+                    /*lang=regex*/
+                    MatchAppend = @"(?<PatternInsideThisProperty>""Custom Language Associative Settings"": {(.*?)""Name"": ""<Current \0 Name>"",(.*?))"
+                        .Replace(
+                            @"<Current \0 Name>",
+                            Configurazione.DeltaConfig.PreviewSettings.CustomLanguageProperties.AssociativeSettings.Selected.ToEscapeRegexString()
+                        );
+                }
 
-            CurrentConfigurationJsonContent = Regex.Replace(
-                input:     CurrentConfigurationJsonContent,
-                pattern:   @$"{MatchAppend}""{PropertyName.ToEscapeRegexString()}"": {ValueTypePattern}(?<Afterward>(,)?(\r)?\n)",
-                evaluator: Match => {
+                string ValueTypePattern = NewValue.GetType().ToString() switch
+                {
+                    /*lang=regex*/ "System.Double"  => @"(\d+)(\.(\d+))?",
+                    /*lang=regex*/ "System.Boolean" => @"(true|false)",
+                    /*lang=regex*/ "System.String"  => @"""(.*?)""",
+                    /*lang=regex*/ _ => @"""(.*?)"""
+                };
 
-                    string ValueReplacementString = ValueTypePattern switch
-                    {
-                        /*lang=regex*/ @"(\d+)(\.(\d+))?" => $"{NewValue.ToString().Replace(",", ".")}",
-                        /*lang=regex*/ @"(true|false)"    => $"{NewValue.ToString().ToLower()}",
-                        /*lang=regex*/ @"""(.*?)"""       => $"\"{NewValue}\"",
-                        /*lang=regex*/ _                  => $"\"{NewValue}\"",
-                    };
+                CurrentConfigurationJsonContent = Regex.Replace(
+                    input:     CurrentConfigurationJsonContent,
+                    pattern:   @$"{MatchAppend}""{PropertyName.ToEscapeRegexString()}"": {ValueTypePattern}(?<Afterward>(,)?(\r)?\n)",
+                    evaluator: Match => {
 
-                    return @$"{Match.Groups["PatternInsideThisProperty"].Value}""{PropertyName}"": {ValueReplacementString}{Match.Groups["Afterward"].Value}";
+                        string ValueReplacementString = ValueTypePattern switch
+                        {
+                            /*lang=regex*/ @"(\d+)(\.(\d+))?" => $"{NewValue.ToString().Replace(",", ".")}",
+                            /*lang=regex*/ @"(true|false)"    => $"{NewValue.ToString().ToLower()}",
+                            /*lang=regex*/ @"""(.*?)"""       => $"\"{NewValue}\"",
+                            /*lang=regex*/ _                  => $"\"{NewValue}\"",
+                        };
+
+                        return @$"{Match.Groups["PatternInsideThisProperty"].Value}""{PropertyName}"": {ValueReplacementString}{Match.Groups["Afterward"].Value}";
                     
-            }, options: MatchAppend.Equals("") ? RegexOptions.None : RegexOptions.Singleline);
-            #endregion
+                }, options: MatchAppend.Equals("") ? RegexOptions.None : RegexOptions.Singleline);
+                #endregion
 
-            if (!OldConfig.Equals(CurrentConfigurationJsonContent))
-            {
-                File.WriteAllText(@"⇲ Assets Directory\Configurazione^.json", CurrentConfigurationJsonContent);
+                if (!OldConfig.Equals(CurrentConfigurationJsonContent))
+                {
+                    File.WriteAllText(@"⇲ Assets Directory\Configurazione^.json", CurrentConfigurationJsonContent);
+                }
             }
         }
     }

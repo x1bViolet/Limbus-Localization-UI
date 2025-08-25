@@ -19,7 +19,7 @@ namespace LC_Localization_Task_Absolute
         
         internal protected static Task ChangeBackgroundImageShadowTransperacy(string BackgroundImageTransperacy)
         {
-            MainControl.BackgroundImageShadowingColor.Background = ToColor(BackgroundImageTransperacy);
+            MainControl.BackgroundImageShadowingColor.Background = ToSolidColorBrush(BackgroundImageTransperacy);
 
             return FormalTaskCompleted;
         }
@@ -85,7 +85,7 @@ namespace LC_Localization_Task_Absolute
             internal void OnInit(StreamingContext context)
             {
                 ChangeBackgroundImageShadowTransperacy(BackgroundImageShadow);
-                MainControl.Resources["UITheme_ObjectNameColor"] = ToColor(ObjectNameFontColor);
+                MainControl.Resources["UITheme_ObjectNameColor"] = ToSolidColorBrush(ObjectNameFontColor);
             }
         }
         internal protected class IndividualFontColor
@@ -111,9 +111,9 @@ namespace LC_Localization_Task_Absolute
             [OnDeserialized]
             internal void OnInit(StreamingContext context)
             {
-                SolidColorBrush ApplyFontColor = ToColor(FontColor);
-                SolidColorBrush ApplySelectionColor = ToColor(SelectionColor);
-                SolidColorBrush ApplyCaretColor = ToColor(CaretColor);
+                SolidColorBrush ApplyFontColor = ToSolidColorBrush(FontColor);
+                SolidColorBrush ApplySelectionColor = ToSolidColorBrush(SelectionColor);
+                SolidColorBrush ApplyCaretColor = ToSolidColorBrush(CaretColor);
                 foreach(KeyValuePair<string, TextBox> UITextfield in MainWindow.UITextfieldElements)
                 {
                     UITextfield.Value.Foreground = ApplyFontColor;
@@ -201,12 +201,12 @@ namespace LC_Localization_Task_Absolute
 
                 MainControl.Editor.FontSize = FontSize;
                 MainControl.Editor.FontWeight = WeightFrom(FontWeight);
-                MainControl.Editor.Foreground = ToColor(FontColor);
-                MainControl.Editor.CaretBrush = ToColor(CaretColor);
-                MainControl.Editor.SelectionBrush = ToColor(SelectionColor);
+                MainControl.Editor.Foreground = ToSolidColorBrush(FontColor);
+                MainControl.Editor.CaretBrush = ToSolidColorBrush(CaretColor);
+                MainControl.Editor.SelectionBrush = ToSolidColorBrush(SelectionColor);
 
-                MainControl.Editor_Background.Background = ToColor(Background);
-                MainControl.Editor_Background.BorderBrush = ToColor(Border);
+                MainControl.Editor_Background.Background = ToSolidColorBrush(Background);
+                MainControl.Editor_Background.BorderBrush = ToSolidColorBrush(Border);
                 MainControl.Editor_Background.CornerRadius = new CornerRadius(CornerRadius);
             }
         }
@@ -249,24 +249,26 @@ namespace LC_Localization_Task_Absolute
             if (File.Exists(@$"{FolderName}\Background.png"))
             {
                 MainControl.BackgroundImage.Source = GenerateBitmapFromFile(@$"{FolderName}\Background.png");
+                MainControl.BackgroundImage.Visibility = Visibility.Visible;
             }
             else
             {
                 MainControl.BackgroundImage.Source = new BitmapImage();
+                MainControl.BackgroundImage.Visibility = Visibility.Collapsed;
             }
 
-            MainControl.Resources["UITheme_NavigationPanelBackground"] = ToColor(LoadedTheme.NavigationPanelBackground);
-            MainControl.Resources["UITheme_DefaultTextColor"]          = ToColor(LoadedTheme.UITextFontColor);
+            MainControl.Resources["UITheme_NavigationPanelBackground"] = ToSolidColorBrush(LoadedTheme.NavigationPanelBackground);
+            MainControl.Resources["UITheme_DefaultTextColor"]          = ToSolidColorBrush(LoadedTheme.UITextFontColor);
 
             if (LoadedTheme.ButtonsThemeControl != null)
             {
-                MainControl.Resources["UITheme_ButtonsBackground"]            = ToColor(LoadedTheme.ButtonsThemeControl.Background);
-                MainControl.Resources["UITheme_ButtonsBorder"]                = ToColor(LoadedTheme.ButtonsThemeControl.Border);
-                MainControl.Resources["UITheme_ButtonsBackgroundHighlighted"] = ToColor(LoadedTheme.ButtonsThemeControl.BackgroundHighlighted);
-                MainControl.Resources["UITheme_ButtonsDisableCover"]          = ToColor(LoadedTheme.ButtonsThemeControl.DisableCover);
+                MainControl.Resources["UITheme_ButtonsBackground"]            = ToSolidColorBrush(LoadedTheme.ButtonsThemeControl.Background);
+                MainControl.Resources["UITheme_ButtonsBorder"]                = ToSolidColorBrush(LoadedTheme.ButtonsThemeControl.Border);
+                MainControl.Resources["UITheme_ButtonsBackgroundHighlighted"] = ToSolidColorBrush(LoadedTheme.ButtonsThemeControl.BackgroundHighlighted);
+                MainControl.Resources["UITheme_ButtonsDisableCover"]          = ToSolidColorBrush(LoadedTheme.ButtonsThemeControl.DisableCover);
 
-                MainControl.Resources["UITheme_DefaultButtonIconsColor"] = ToColor(LoadedTheme.ButtonsThemeControl.IconsColor);
-                MainControl.Resources["UITheme_DefaultShadowTextColor"]  = ToColor(LoadedTheme.TextfieldsShadowFontColor);
+                MainControl.Resources["UITheme_DefaultButtonIconsColor"] = ToSolidColorBrush(LoadedTheme.ButtonsThemeControl.IconsColor);
+                MainControl.Resources["UITheme_DefaultShadowTextColor"]  = ToSolidColorBrush(LoadedTheme.TextfieldsShadowFontColor);
 
                 MainControl.Resources["UITheme_ButtonsCornerRadius"]    = new CornerRadius(LoadedTheme.ButtonsThemeControl.CornerRadius);
                 MainControl.Resources["UITheme_ButtonsBorderThickness"] = new Thickness(LoadedTheme.ButtonsThemeControl.BorderThickness);
@@ -274,8 +276,8 @@ namespace LC_Localization_Task_Absolute
 
             if (LoadedTheme.BordersThemeControl != null)
             {
-                MainControl.Resources["UITheme_BordersBackground"]  = ToColor(LoadedTheme.BordersThemeControl.Background);
-                MainControl.Resources["UITheme_BordersBorderColor"] = ToColor(LoadedTheme.BordersThemeControl.Border);
+                MainControl.Resources["UITheme_BordersBackground"]  = ToSolidColorBrush(LoadedTheme.BordersThemeControl.Background);
+                MainControl.Resources["UITheme_BordersBorderColor"] = ToSolidColorBrush(LoadedTheme.BordersThemeControl.Border);
 
                 MainControl.Resources["UITheme_BordersCornerRadius"]    = new CornerRadius(LoadedTheme.BordersThemeControl.CornerRadius);
                 MainControl.Resources["UITheme_BordersBorderThickness"] = new Thickness(LoadedTheme.BordersThemeControl.BorderThickness);
@@ -283,10 +285,10 @@ namespace LC_Localization_Task_Absolute
 
             if (LoadedTheme.EditorContextMenu != null)
             {
-                MainControl.Resources["UITheme_EditorContextMenu_Border"]                = ToColor(LoadedTheme.EditorContextMenu.Border);
-                MainControl.Resources["UITheme_EditorContextMenu_Background"]            = ToColor(LoadedTheme.EditorContextMenu.Background);
-                MainControl.Resources["UITheme_EditorContextMenu_BackgroundHighlighted"] = ToColor(LoadedTheme.EditorContextMenu.BackgroundHighlighted);
-                MainControl.Resources["UITheme_EditorContextMenu_FontColor"]             = ToColor(LoadedTheme.EditorContextMenu.FontColor);
+                MainControl.Resources["UITheme_EditorContextMenu_Border"]                = ToSolidColorBrush(LoadedTheme.EditorContextMenu.Border);
+                MainControl.Resources["UITheme_EditorContextMenu_Background"]            = ToSolidColorBrush(LoadedTheme.EditorContextMenu.Background);
+                MainControl.Resources["UITheme_EditorContextMenu_BackgroundHighlighted"] = ToSolidColorBrush(LoadedTheme.EditorContextMenu.BackgroundHighlighted);
+                MainControl.Resources["UITheme_EditorContextMenu_FontColor"]             = ToSolidColorBrush(LoadedTheme.EditorContextMenu.FontColor);
                 MainControl.Resources["UITheme_EditorContextMenu_CornerRadius"]          = new CornerRadius(LoadedTheme.EditorContextMenu.CornerRadius);
 
                 if (UILanguageLoader.LoadedFontFamilies.ContainsKey(LoadedTheme.EditorContextMenu.Font))
@@ -298,7 +300,7 @@ namespace LC_Localization_Task_Absolute
                     MainControl.Resources["UITheme_EditorContextMenu_FontFamily"] = FindFontFamilyThere(LoadedTheme.EditorContextMenu.Font);
                 }
 
-                MainControl.Resources["UITheme_EditorContextMenu_Font"]       = ToColor(LoadedTheme.EditorContextMenu.Font);
+                MainControl.Resources["UITheme_EditorContextMenu_Font"]       = ToSolidColorBrush(LoadedTheme.EditorContextMenu.Font);
                 MainControl.Resources["UITheme_EditorContextMenu_FontWeight"] = WeightFrom(LoadedTheme.EditorContextMenu.FontWeight);
             }
 
@@ -310,7 +312,7 @@ namespace LC_Localization_Task_Absolute
                     {
                         if (AbleToSetForegroundByTheme.ContainsKey(IndividualFontColor.ElementID))
                         {
-                            AbleToSetForegroundByTheme[IndividualFontColor.ElementID].Foreground = ToColor(IndividualFontColor.FontColor);
+                            AbleToSetForegroundByTheme[IndividualFontColor.ElementID].Foreground = ToSolidColorBrush(IndividualFontColor.FontColor);
                         }
                     }
                 }

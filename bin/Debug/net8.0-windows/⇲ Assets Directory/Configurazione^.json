@@ -196,7 +196,7 @@
   },
   "Scan Parameters": {
     "Skills Area Width": 700,
-    "Scale Factor": 5,
+    "Scale Factor": 3,
     "Background Color": "#00000000",
     "Comments": [
       "'Skills Area Width' as 0 means default width",

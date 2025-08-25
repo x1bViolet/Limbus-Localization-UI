@@ -67,7 +67,7 @@ namespace RichText
                     switch (TagBody[0])
                     {
                         case "TextColor":
-                            TargetRun.Foreground = ToColor($"#{TagBody[1]}");
+                            TargetRun.Foreground = ToSolidColorBrush($"#{TagBody[1]}");
                             break;
 
                         case "FontFamily":
@@ -110,7 +110,7 @@ namespace RichText
                             break;
 
                         case "UptieHighlight":
-                            TargetRun.Foreground = ToColor($"#fff8c200");
+                            TargetRun.Foreground = ToSolidColorBrush($"#fff8c200");
                             break;
 
                         case "TextStyle":

@@ -35,9 +35,9 @@ namespace LC_Localization_Task_Absolute
                         }
                     
                         MainControl.ScanAreaView_Skills.BorderThickness = new Thickness(2);
-                        MainControl.ScanAreaView_Skills.Background = ToColor("#E1121212");
+                        MainControl.ScanAreaView_Skills.Background = ToSolidColorBrush("#E1121212");
 
-                        MainControl.PreviewScanButtonIndicator.Foreground = ToColor("#FF383838");
+                        MainControl.PreviewScanButtonIndicator.Foreground = ToSolidColorBrush("#FF383838");
                         MainControl.MakeLimbusPreviewScan.IsHitTestVisible = false;
 
                         SettingsWindow.SettingsControl.ToggleScansPreview_I.Visibility = Visible;
@@ -52,9 +52,9 @@ namespace LC_Localization_Task_Absolute
                         MainControl.PreviewLayoutGrid_Skills_ContentControlStackPanel.Width = Mode_Skills.LastRegisteredWidth;
 
                         MainControl.ScanAreaView_Skills.BorderThickness = new Thickness(0);
-                        MainControl.ScanAreaView_Skills.Background = ToColor("#00121212");
+                        MainControl.ScanAreaView_Skills.Background = ToSolidColorBrush("#00121212");
 
-                        MainControl.PreviewScanButtonIndicator.Foreground = ToColor("#FF9D9D9D");
+                        MainControl.PreviewScanButtonIndicator.Foreground = ToSolidColorBrush("#FF9D9D9D");
                         MainControl.MakeLimbusPreviewScan.IsHitTestVisible = true;
 
                         SettingsWindow.SettingsControl.ToggleScansPreview_I.Visibility = Collapsed;
