@@ -82,7 +82,7 @@ namespace LC_Localization_Task_Absolute
         /// <summary>
         /// For context menu in identity preview creator columns (Unable to normally get parent of ContextMenu with this RichTextBox as MenuItem Header)
         /// </summary>
-        public Grid SpecProperty_ContextMenuParent { get; set; }
+        internal ItemRepresenter SpecProperty_ContextMenuParent { get; set; }
 
         public TextAlignment TextAlignment
         {

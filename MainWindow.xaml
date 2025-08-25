@@ -490,7 +490,7 @@
 		<SolidColorBrush x:Key="UITheme_SliderLine_Border" Color="#a6a09e"/>
 		<!-- Slider line border color -->
 
-		<SolidColorBrush x:Key="SliderThumb.Static.Foreground" Color="Green"/>
+		<SolidColorBrush x:Key="SliderThumb.Static.Foreground" Color="#a6a09e"/>
 		<SolidColorBrush x:Key="SliderThumb.Disabled.Background" Color="#FFF0F0F0"/>
 		<SolidColorBrush x:Key="SliderThumb.Disabled.Border" Color="#FFD9D9D9"/>
 		<!--#endregion-->
@@ -3815,7 +3815,28 @@
 
 																					<Border Visibility="Collapsed" x:Name="KeywordBoxesWidthBinder" Width="315"/>
 																				</Grid>
+																				
+																				<Grid Margin="0 8 0 0">
+																					<StackPanel>
+																						<Slider x:Name="UnifiedTextSizeController"
+																								ValueChanged="UnifiedTextSize"
+																								IsSelectionRangeEnabled="True"
+																								Value="21"
+																								Minimum="15"
+																								TickFrequency="0.5" 
+																								IsSnapToTickEnabled="True"
+																								TickPlacement="BottomRight"
+																								Maximum="35"/>
+																						<local:UILocalization_Grocerius
+																							x:Name="UnifiedTextSize_Label"
+																							Margin="0 1 0 0"
+																							Text="Unified text size [&lt;color=#fc5a03&gt;21&lt;/color&gt;]                                  (Save and reload project or refresh text size via context menu for text item to apply)"
+																							FontFamily="GOST Type BU"/>
+																					</StackPanel>
 
+																					<RichTextBox x:Name="UnifiedTextSizeBinder" Visibility="Collapsed" />
+																				</Grid>
+																				
 
 
 

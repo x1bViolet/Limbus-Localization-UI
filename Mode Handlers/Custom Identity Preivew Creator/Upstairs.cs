@@ -184,7 +184,7 @@ public partial class MainWindow
 
     void GeneratePassiveDisplayerForFocusedItem(Passive TextInfo)
     {
-        Grid Name = GetNameWithBackground(TextInfo.Name);
+        Grid Name = GetNameWithBackground(TextInfo.Name, ReversedDropdownShadow: true);
 
         Name.LayoutTransform = new ScaleTransform()
         {
@@ -192,26 +192,28 @@ public partial class MainWindow
             ScaleY = 0.48
         };
 
-        RichTextBox PassiveDescription = new RichTextBox
+        RichTextBox PassiveDescription = new RichTextBox()
         {
             LayoutTransform = new ScaleTransform(0.48, 0.48),
-            FontSize = PreviewLayout_Passives.FontSize,
+            FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
             Foreground = ToSolidColorBrush("#ebcaa2"),
             HorizontalAlignment = HorizontalAlignment.Left,
             Width = FocusedColumnItem.ItemInfo.PassiveDescriptionWidth,
             Margin = new Thickness(-2.4, 5, 0, 0),
-        }.SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", PreviewLayout_Passives) as RichTextBox;
+        }
+        .SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", PreviewLayout_Passives)
+        as RichTextBox;
 
-        PassiveDescription.SetValue(Paragraph.LineHeightProperty, 27.0);
+        PassiveDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh);
         PassiveDescription.SetLimbusRichText(TextInfo.Description, "Passives");
 
         FocusedColumnItem.PassiveDescriptionLink = PassiveDescription;
 
         //TextBlock ItemSignature = GenerateItemSignature(FocusedColumnItem.ColumnNumber);
-        
+
         Grid BuildedPassiveBox = new Grid()
         {
-            Margin = new Thickness(42, FocusedColumnItem.ItemInfo.VerticalOffset, 0, 0),
+            Margin = new Thickness(42, 0, 0, 0),
             HorizontalAlignment = HorizontalAlignment.Left,
             Children =
             {
@@ -219,7 +221,7 @@ public partial class MainWindow
                 {
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Width = 400,
-                    Margin = new Thickness(-71, -60, 0, 0),
+                    Margin = new Thickness(-71, -20, 0, 0),
                     Children =
                     {
                         GenerateItemSignature(FocusedColumnItem.ColumnNumber),
@@ -227,6 +229,7 @@ public partial class MainWindow
                 },
                 new StackPanel()
                 {
+                    Margin = new Thickness(0, 40, 0, 0),
                     RenderTransform = new TranslateTransform(FocusedColumnItem.ItemInfo.HorizontalOffset, 0),
                     HorizontalAlignment = HorizontalAlignment.Left,
                     Children =
@@ -270,14 +273,14 @@ public partial class MainWindow
         RichTextBox KeywordDescription = new RichTextBox()
         {
             LayoutTransform = new ScaleTransform(0.48, 0.48),
-            FontSize = PreviewLayout_Passives.FontSize, // Keep same as passives
+            FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
             Foreground = ToSolidColorBrush("#ebcaa2"),
             HorizontalAlignment = HorizontalAlignment.Left,
             Margin = new Thickness(2),
 
         }.SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", Special_PreviewLayout_Keywords_BattleKeywords_Desc) as RichTextBox;
 
-        KeywordDescription.SetValue(Paragraph.LineHeightProperty, 27.0);
+        KeywordDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh);
         KeywordDescription.SetLimbusRichText(TextInfo.Description, "Keywords");
 
         FocusedColumnItem.KeywordIcon = KeywordIcon;

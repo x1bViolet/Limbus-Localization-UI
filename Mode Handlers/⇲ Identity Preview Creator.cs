@@ -55,6 +55,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
     internal abstract class CustomIdentityPreviewCreator
     {
+        internal protected static double SharedParagraphLineHeigh = 27;
+
         internal abstract class ProjectFile
         {
             // Used to specify a relative path to files located in the same(or sub) folder as the project file through StreamingContext string in OnSerializing or OnDeserialized events
@@ -198,6 +200,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                     public string ItemSignaturesAnotherFont { get; set; } = ""; // PATH
                     public double KeywordBoxesWidth { get; set; } = 315;
+                    public double UnifiedTextSize { get; set; } = 22;
 
                     public double FirstColumnOffset { get; set; } = 0;
                     public double FirstColumnItemSignaturesOffset { get; set; } = 0;
@@ -344,7 +347,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         /// <summary>
         /// Generates skill or passive name with affinity-colored background
         /// </summary>
-        internal protected static Grid GetNameWithBackground(string Name, string AffinityName = "None", double DefinedMaxWidth = 600)
+        internal protected static Grid GetNameWithBackground(string Name, string AffinityName = "None", bool ReversedDropdownShadow = false)
         {
             /*/
              * 
@@ -376,7 +379,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             Grid Name_MainGrid = new Grid()
             {
-                Effect = new DropShadowEffect() { ShadowDepth = 4, BlurRadius = 0, Direction = 230 },
+                Effect = new DropShadowEffect() { ShadowDepth = 4, BlurRadius = 0, Direction = ReversedDropdownShadow ? -40 : 230 },
                 Children =
                 {
                     new StackPanel()
@@ -536,8 +539,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                             },
                             new Grid() // Damege icon
                             {
-                                Margin = new Thickness(1, 2, 2, 2),
-                                Width = 25,
+                                Margin =  DisplayInformation.Specific.DamageType switch {
+                                    "Pierce" => new Thickness(3.66, 2, 2, 2),
+                                    "Blunt" => new Thickness(4, -0.7, 2, 2),
+                                    "Slash" => new Thickness(0.7, 2, 2, 2),
+                                    _ => new Thickness(2, 2, 2, 2),
+                                },
+                                Width = 20,
                                 Children =
                                 {
                                     new Image() { Source = ImageFromResource($"UI/Limbus/Skills/Damage Types/{DisplayInformation.Specific.DamageType}.png") }
@@ -618,7 +626,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 {
                     RichTextBox MainSkillDescription = new RichTextBox()
                     {
-                        FontSize = MainControl.PreviewLayout_Skills_MainDesc.FontSize,
+                        FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
                         Foreground = ToSolidColorBrush("#ebcaa2"),
                         HorizontalAlignment = HorizontalAlignment.Left,
                         Width = FormationParameters.MainDescWidth,
@@ -626,8 +634,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     }.ApplyLimbusRichText(
                         RichTextString: TextInfo.Description,
                         SpecifiedTextProcessingMode: "Skills"
-                    ).SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", MainControl.PreviewLayout_Skills_MainDesc) as RichTextBox;
-                    MainSkillDescription.SetValue(Paragraph.LineHeightProperty, 27.0);
+                    )
+                    .SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", MainControl.PreviewLayout_Skills_MainDesc)
+                    as RichTextBox;
+
+                    MainSkillDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh);
+
+
                     MainWindow.FocusedColumnItem.SkillMainDescriptionLink = MainSkillDescription;
                     SkillDescription.Children.Add(MainSkillDescription);
                 }
@@ -664,11 +677,15 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                             RichTextBox SingleCoinDescription = new RichTextBox() { // Coin desc
                                 Margin = new Thickness(50, 15, 0, 0),
                                 Focusable = false,
+                                FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
                                 Style = MainControl.FindResource("CoinDesc") as Style
                             }.ApplyLimbusRichText(
                                 RichTextString: CollectedCoinDescriptions.TrimEnd('\n'),
                                 SpecifiedTextProcessingMode: "Skills"
-                            ).SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", MainControl.PreviewLayout_Skills_MainDesc) as RichTextBox;
+                            )
+                            .SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", MainControl.PreviewLayout_Skills_MainDesc)
+                            as RichTextBox;
+
                             SingleCoinDescription.SetValue(Paragraph.LineHeightProperty, 27.0);
 
                             CoinDescs.Children.Add(new Grid()
@@ -679,7 +696,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                     new Image() // Coin Icon
                                     {
                                         Source = ImageFromResource($"UI/Limbus/Coins/Coin {CoinEnumerator}.png"),
-                                        Width = 43.6,
+                                        Width = 43.6 + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 20),
                                         HorizontalAlignment = HorizontalAlignment.Left,
                                         VerticalAlignment = VerticalAlignment.Top,
                                     },

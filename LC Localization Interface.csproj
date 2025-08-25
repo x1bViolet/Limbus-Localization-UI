@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>LC_Localization_Task_Absolute</RootNamespace>
     <Nullable>enable</Nullable>
@@ -27,7 +27,6 @@
     <None Remove="UI\Fonts\ExcelsiorSans.ttf" />
     <None Remove="UI\Fonts\GOST Type BU.ttf" />
     <None Remove="UI\Fonts\Mikodacs.otf" />
-    <None Remove="UI\Fonts\ofont.ru_Bebas Neue.ttf" />
     <None Remove="UI\Fonts\SCDream5.otf" />
     <None Remove="UI\Fonts\Segoe Fluent Icons.ttf" />
     <None Remove="UI\Images\Floor of Literature.png" />
@@ -135,14 +134,6 @@
     <None Remove="UI\Limbus\Skills\Name Background\Cut\Pride.png" />
     <None Remove="UI\Limbus\Skills\Name Background\Cut\Sloth.png" />
     <None Remove="UI\Limbus\Skills\Name Background\Cut\Wrath.png" />
-    <None Remove="UI\Limbus\Skills\Name Background\Envy.png" />
-    <None Remove="UI\Limbus\Skills\Name Background\Gloom.png" />
-    <None Remove="UI\Limbus\Skills\Name Background\Gluttony.png" />
-    <None Remove="UI\Limbus\Skills\Name Background\Lust.png" />
-    <None Remove="UI\Limbus\Skills\Name Background\None.png" />
-    <None Remove="UI\Limbus\Skills\Name Background\Pride.png" />
-    <None Remove="UI\Limbus\Skills\Name Background\Sloth.png" />
-    <None Remove="UI\Limbus\Skills\Name Background\Wrath.png" />
     <None Remove="UI\Limbus\Skills\Name Left Mask.png" />
     <None Remove="UI\Limbus\Skills\Name Opacity Mask.png" />
     <None Remove="UI\Limbus\Skills\Offense Level.png" />
@@ -163,7 +154,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <Resource Include="UI\Fonts\ofont.ru_Bebas Neue.ttf">
+    <Resource Include="UI\Fonts\Bebas Neue Cyrillic.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
   </ItemGroup>
@@ -419,30 +410,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Skills\Name Background\Cut\Wrath.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Skills\Name Background\Envy.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Skills\Name Background\Gloom.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Skills\Name Background\Gluttony.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Skills\Name Background\Lust.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Skills\Name Background\None.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Skills\Name Background\Pride.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Skills\Name Background\Sloth.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Skills\Name Background\Wrath.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Skills\Name Left Mask.png">

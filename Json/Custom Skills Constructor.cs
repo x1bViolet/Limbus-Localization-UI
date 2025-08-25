@@ -81,7 +81,6 @@ namespace LC_Localization_Task_Absolute.Json
                 if (IconID != null)
                 {
                     IconID = IconID.Replace(":Constructor:", $"{context.Context}");
-                    rin(context.Context);
                 }
 
                 if (ID != null & Configurazione.SettingsLoadingEvent)

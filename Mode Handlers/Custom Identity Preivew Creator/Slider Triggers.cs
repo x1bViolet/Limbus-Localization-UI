@@ -1,5 +1,7 @@
-﻿using System.Windows;
+﻿using Newtonsoft.Json.Linq;
+using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using static LC_Localization_Task_Absolute.Mode_Handlers.CustomIdentityPreviewCreator;
 
@@ -296,6 +298,19 @@ public partial class MainWindow
             IdentityPreviewCreator_TextBackgroundFadeoutSoftness.Width
                 = ProjectFile.LoadedProject.ImageParameters.TextBackgroundFadeoutSoftness
                 = EventArgs.NewValue;
+        });
+    }
+
+    void UnifiedTextSize(object RequestSender /* Slider */, RoutedPropertyChangedEventArgs<double> EventArgs)
+    {
+        Flow(() =>
+        {
+            UnifiedTextSizeBinder.FontSize
+                = ProjectFile.LoadedProject.Text.UnifiedTextSize
+                = EventArgs.NewValue;
+
+            string ValueInsert = $"{EventArgs.NewValue}"; if (ValueInsert.Length == 2) ValueInsert += ",0";
+            UnifiedTextSize_Label.Text = $"Unified text size [<color=#fc5a03>{EventArgs.NewValue}</color>]\n(Save and reload project or refresh text size via context menu for text item to apply)";
         });
     }
 

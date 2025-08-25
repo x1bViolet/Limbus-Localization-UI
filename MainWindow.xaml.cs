@@ -2552,7 +2552,7 @@ public partial class MainWindow : Window
         {
             Items =
             {
-                new MenuItem()
+                new MenuItem() // 0
                 {
                     Header = new UILocalization_Grocerius()
                     {
@@ -2565,8 +2565,8 @@ public partial class MainWindow : Window
                         
                     }
                 },
-                new Separator() { Margin = new Thickness(-30, 2, 0, 2) },
-                new MenuItem()
+                new Separator() { Margin = new Thickness(-30, 2, 0, 2) }, // 1
+                new MenuItem() // 2
                 {
                     Header = new UILocalization_Grocerius()
                     {
@@ -2578,7 +2578,19 @@ public partial class MainWindow : Window
                         FontFamily = new FontFamily("GOST Type BU")
                     }
                 },
-                new MenuItem()
+                new MenuItem() // 3
+                {
+                    Header = new UILocalization_Grocerius()
+                    {
+                        SpecProperty_ContextMenuParent = ColumnItemAdd,
+                        FontSize = 14,
+                        Width = 145,
+                        Margin = new Thickness(-7.2, 2, 0, 2),
+                        Text = "↪ Refresh text size",
+                        FontFamily = new FontFamily("GOST Type BU")
+                    }
+                },
+                new MenuItem() // 4
                 {
                     Header = new UILocalization_Grocerius()
                     {
@@ -2590,8 +2602,8 @@ public partial class MainWindow : Window
                         FontFamily = new FontFamily("GOST Type BU")
                     }
                 },
-                new Separator() { Margin = new Thickness(-30, 2, 0, 2) },
-                new MenuItem()
+                new Separator() { Margin = new Thickness(-30, 2, 0, 2) }, // 5
+                new MenuItem() // 6
                 {
                     Header = new UILocalization_Grocerius()
                     {
@@ -2609,8 +2621,9 @@ public partial class MainWindow : Window
         ColumnItemAdd.PreviewMouseLeftButtonDown += SetFocusOnColumnElement_Link;
 
         (ColumnItemAdd.ContextMenu.Items[2] as MenuItem).Click += MoveColumnItemUp;
-        (ColumnItemAdd.ContextMenu.Items[3] as MenuItem).Click += MoveColumnItemDown;
-        (ColumnItemAdd.ContextMenu.Items[5] as MenuItem).Click += RemoveColumnItem;
+        (ColumnItemAdd.ContextMenu.Items[3] as MenuItem).Click += RefreshTextSize;
+        (ColumnItemAdd.ContextMenu.Items[4] as MenuItem).Click += MoveColumnItemDown;
+        (ColumnItemAdd.ContextMenu.Items[6] as MenuItem).Click += RemoveColumnItem;
 
         return ColumnItemAdd;
     }
@@ -2631,6 +2644,14 @@ public partial class MainWindow : Window
         MoveColumnItemMaster(sender, "Down");
     }
 
+    private void RefreshTextSize(object sender, RoutedEventArgs e)
+    {
+        SetFocusOnColumnItem(((sender as MenuItem).Header as UILocalization_Grocerius).SpecProperty_ContextMenuParent as ItemRepresenter);
+
+        CheckKeywordSelectorAndGenerateKeywordDisplayer();
+        CheckPassiveSelectorAndGeneratePassiveDisplayer();
+        CheckSkillSelectorsAndGenerateSkillDisplayer();
+    }
 
     private protected void MoveColumnItemMaster(object ContextMenuItemSender, string Direction)
     {
@@ -2849,8 +2870,6 @@ public partial class MainWindow : Window
                 IdentityPreviewCreator_CreateNewProject();
 
                 CustomIdentityPreviewCreator.ProjectFile.LoadedProject = LoadedProject;
-                
-               
 
                 #region Image parameters
                 {
@@ -2994,6 +3013,8 @@ public partial class MainWindow : Window
                 #region Text info
                 {
                     var q = LoadedProject.Text;
+
+                    UnifiedTextSizeController.Value = q.UnifiedTextSize;
 
                     IdentityPreviewCreator_TextInfo_FirstColumnOffsetController.Value = q.FirstColumnOffset;
                     IdentityPreviewCreator_TextInfo_SecondColumnOffsetController.Value = q.SecondColumnOffset;

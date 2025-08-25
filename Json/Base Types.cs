@@ -270,7 +270,7 @@ namespace LC_Localization_Task_Absolute.Json
             {
                 return FileHeader.ManualFileType switch
                 {
-                    "Skills" => "Skills", 
+                    "Skills"   => "Skills", 
                     "Passives" => "Passive",
                     "Keywords" => "BattleKeywords",
                     "Keywords (Bufs)" => "Bufs",

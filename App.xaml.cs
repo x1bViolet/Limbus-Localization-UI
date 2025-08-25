@@ -51,13 +51,11 @@ public partial class App : Application
             {
                 LogoPath = "UI/Logo (CN).png";
             }
-
-
         }
         catch (Exception ex) { rin(ex.ToString()); }
 
         SplashScreen StartupSplash = new SplashScreen(LogoPath);
-        StartupSplash.Show(true, topMost: true);
+        StartupSplash.Show(autoClose: true, topMost: false);
 
         Dispatcher.BeginInvoke(new Action(() =>
         {
@@ -91,14 +89,9 @@ public partial class App : Application
         string message = $"Unhandled exception ({source})";
         try
         {
-            System.Reflection.AssemblyName assemblyName = System.Reflection.Assembly.GetExecutingAssembly().GetName();
-            message = string.Format("Unhandled exception in {0} v{1}", assemblyName.Name, assemblyName.Version);
-
             try
             {
                 rin(exception.ToString());
-
-                //File.AppendAllText(@"[Ресурсы]\& Stringtypes\Error Log.txt", $"[{DateTime.Now.ToString("HH:mm:ss")}] Ещё один на доске позора для злодеев:\n{exception.ToString()}\n---------------------------------------------------------------------------------\n\n\n");
             }
             catch { }
         }
