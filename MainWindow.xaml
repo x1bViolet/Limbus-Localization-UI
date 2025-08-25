@@ -2584,7 +2584,7 @@
 														</TextBlock>
 														<TextBlock Foreground="#c6c3bd" Text="※" FontWeight="Light" Style="{StaticResource TextBlockDefaultDesk}" FontSize="28" FontFamily="UI/Fonts/#GOST Type BU" Margin="5"/>
 														<TextBlock Foreground="#c6c3bd" FontWeight="Black" Style="{StaticResource TextBlockDefaultDesk}" FontSize="28" FontFamily="UI/Fonts/#GOST Type BU" Margin="5">
-                                                           1.1:5
+                                                           1.2:0
 														</TextBlock>
 													</StackPanel>
 												</StackPanel>

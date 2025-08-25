@@ -240,7 +240,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            Editor.Text = "               <spritessize=+30><font=\"BebasKai SDF\"><size=140%><sprite name=\"9202\"> <u>Limbus Company Localization Interface</u> <color=#f8c200>'1.1:5</color></size></font></spritessize>\n\nЧерти вышли из омута";
+            Editor.Text = "               <spritessize=+30><font=\"BebasKai SDF\"><size=140%><sprite name=\"9202\"> <u>Limbus Company Localization Interface</u> <color=#f8c200>'1.2:0</color></size></font></spritessize>\n\nЧерти вышли из омута";
         }
 
         RichText.InternalModel.InitializingEvent = false;

@@ -1,4 +1,4 @@
-               <spritessize=+30><font="BebasKai SDF"><size=140%><sprite name="9202"> <u>Limbus Company Localization Interface</u> <color=#f8c200>'1.1:5</color></size></font></spritessize>
+               <spritessize=+30><font="BebasKai SDF"><size=140%><sprite name="9202"> <u>Limbus Company Localization Interface</u> <color=#f8c200>'1.2:0</color></size></font></spritessize>
 
 <font="EN/Pretendard/Pretendard-Regular SDF">What the <sprite name="AaCePaBa"><u><color=#c1d7e2>White whale</color></u> was to <sprite name="HeatedGasHarpoon"><color=#ff6100><u>Ahab</u></color>, has been hinted; what, at times, he was to me, as yet remains unsaid.
 
