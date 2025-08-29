@@ -159,6 +159,14 @@ namespace LC_Localization_Task_Absolute
                             KeywordsDirectory: Configurazione.SelectedAssociativePropery_Shared.Properties.KeywordsDirectory,
                             WriteOverFallback: true
                         );
+                        if (Directory.Exists(Configurazione.DeltaConfig.PreviewSettings.CustomLanguageProperties.AdditionalKeywordsDirectory))
+                        {
+                            KeywordsInterrogate.InitializeGlossaryFrom
+                            (
+                                KeywordsDirectory: Configurazione.DeltaConfig.PreviewSettings.CustomLanguageProperties.AdditionalKeywordsDirectory,
+                                WriteOverFallback: true
+                            );
+                        }
                         RichTextBoxApplicator.UpdateLast();
                     }
                     break;
