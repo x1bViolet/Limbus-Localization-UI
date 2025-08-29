@@ -261,7 +261,7 @@ public partial class MainWindow : Window
             IdentityPreviewCreator_CautionTypeSelector.SelectedIndex = 0;
             IdentityPreviewCreator_CreateNewProject();
 
-            SwitchUI_Activate();
+            SwitchUI_Activate(DisableTopmost: false);
 
             SwitchUI_Deactivate();
 
