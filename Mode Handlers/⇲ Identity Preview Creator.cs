@@ -21,6 +21,7 @@ using static LC_Localization_Task_Absolute.MainWindow;
 using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.Mode_Handlers.CustomIdentityPreviewCreator;
 using System.Runtime.Serialization;
+using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
 
 
 
@@ -41,7 +42,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         internal int SelectedLocalizationItemIndex { get; set; } = -1;
         internal int SelectedSkillDisplayInfoConstructorIndex { get; set; } = -1;
-        internal Image KeywordIcon { get; set; }
+        internal Image KeywordIcon { get; set; } = new Image() { Source = new BitmapImage() };
 
         // Store links to generated text items
         internal TextBlock ItemSignaruteTextBlockLink { get; set; } = null;
@@ -347,7 +348,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         /// <summary>
         /// Generates skill or passive name with affinity-colored background
         /// </summary>
-        internal protected static Grid GetNameWithBackground(string Name, string AffinityName = "None", bool ReversedDropdownShadow = false)
+        internal protected static Grid GetNameWithBackground(string Name, string AffinityName = "None", bool ReversedDropdownShadow = false, double FontSizeModifier = 0)
         {
             /*/
              * 
@@ -364,7 +365,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 MaxWidth = FocusedColumnItem.ItemInfo.NameMaxWidth,
                 HorizontalAlignment = HorizontalAlignment.Left,
                 Foreground = ToSolidColorBrush("#EBCAA2"),
-                FontSize = 27,
+                FontSize = 27 + FontSizeModifier,
                 TextWrapping = TextWrapping.Wrap,
                 LineStackingStrategy = LineStackingStrategy.BlockLineHeight,
                 LineHeight = 25,
@@ -557,7 +558,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             };
 
             // Skill name with background
-            Grid SkillName_MainGrid = GetNameWithBackground(TextInfo.Name, DisplayInformation.Specific.Affinity);
+            Grid SkillName_MainGrid = GetNameWithBackground(TextInfo.Name, DisplayInformation.Specific.Affinity, FontSizeModifier: ProjectFile.LoadedProject.Text.UnifiedTextSize - 22);
 
             // Coin icons above skill name
             StackPanel CoinsTab = new StackPanel()
@@ -597,12 +598,12 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                         Children =
                         {
                             CoinsTab, // Coin icons
-                            new Border() // Grid for skill name (Created above — SkillName_MainGrid)
+                            new Border() // Grid for skill name (Created above — SkillName_MainGrid)  <--- Skill name
                             {
                                 HorizontalAlignment = HorizontalAlignment.Left,
                                 VerticalAlignment = VerticalAlignment.Top,
                                 Margin = new Thickness(4, 35.8, 0, 0),
-                                Child = SkillName_MainGrid
+                                Child = SkillName_MainGrid //                 <--- Skill name
                             }
                         }
                     }
@@ -638,7 +639,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     .SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", MainControl.PreviewLayout_Skills_MainDesc)
                     as RichTextBox;
 
-                    MainSkillDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh);
+                    MainSkillDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22));
+                    
+                    //////////////////////////////////////////////////////////////////////////////////////
+                    //MainSkillDescription.SetValue(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
 
 
                     MainWindow.FocusedColumnItem.SkillMainDescriptionLink = MainSkillDescription;
@@ -672,10 +676,11 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                 }
                             }
                         }
-                        if (!CollectedCoinDescriptions.Equals(""))
+
+                        if (!CollectedCoinDescriptions.TrimEnd('\r', '\n').Equals(""))
                         {
                             RichTextBox SingleCoinDescription = new RichTextBox() { // Coin desc
-                                Margin = new Thickness(50, 15, 0, 0),
+                                Margin = new Thickness(50 + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22), 15, 0, 0),
                                 Focusable = false,
                                 FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
                                 Style = MainControl.FindResource("CoinDesc") as Style
@@ -686,7 +691,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                             .SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", MainControl.PreviewLayout_Skills_MainDesc)
                             as RichTextBox;
 
-                            SingleCoinDescription.SetValue(Paragraph.LineHeightProperty, 27.0);
+                            ////////////////////////////////////////////////////////////////////////////////////////
+                            //SingleCoinDescription.SetValue(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
+
+                            SingleCoinDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22));
 
                             CoinDescs.Children.Add(new Grid()
                             {
@@ -696,7 +704,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                     new Image() // Coin Icon
                                     {
                                         Source = ImageFromResource($"UI/Limbus/Coins/Coin {CoinEnumerator}.png"),
-                                        Width = 43.6 + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 20),
+                                        Width = 43.6 + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22),
                                         HorizontalAlignment = HorizontalAlignment.Left,
                                         VerticalAlignment = VerticalAlignment.Top,
                                     },
@@ -729,6 +737,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     },
                     new Grid()
                     {
+                        RenderTransform = new TranslateTransform(FocusedColumnItem.ItemInfo.HorizontalOffset, 0),
                         Children =
                         {
                             SkillIconSite, // Skill icon, frame, affinity icon, name

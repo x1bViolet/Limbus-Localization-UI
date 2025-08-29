@@ -39,9 +39,9 @@ public partial class MainWindow
         int ColumnNumber = 1;
         foreach (Dictionary<string, AddedTextItems_Single> ColumnItemsData in Columns)
         {
-            StackPanel TargetColumn = ColumnNumber == 1 ? IdentityPreviewItems_FirstColumn : IdentityPreviewItems_SecondColumn;
+            StackPanel TargetColumnAtUI = ColumnNumber == 1 ? IdentityPreviewItems_FirstColumn : IdentityPreviewItems_SecondColumn;
 
-             rin($"Column {ColumnNumber}:");
+            // rin($"Column {ColumnNumber}:");
             foreach (KeyValuePair<string, AddedTextItems_Single> ColumnItemData in ColumnItemsData)
             {
                 string ItemUID = ColumnItemData.Key;
@@ -49,12 +49,12 @@ public partial class MainWindow
 
                 if (ItemData.Type != null && ItemData.Type is string ItemType)
                 {
-                     rin($"- Item {ItemUID} ({ItemType}), ID {ItemData.SelectedTextIDFromLocalizationFile}");
+                    // rin($"- Item {ItemUID} ({ItemType}), ID {ItemData.SelectedTextIDFromLocalizationFile}");
 
                     ItemRepresenter CreatedColumnItem = CreatePlaceholder(ItemType,   ManualUID: ItemUID,   ManualInfoInsert: ItemData);
-                    CreatedColumnItem.ColumnNumber = TargetColumn.Uid;
+                    CreatedColumnItem.ColumnNumber = TargetColumnAtUI.Uid;
 
-                    TargetColumn.Children.Add(CreatedColumnItem);
+                    TargetColumnAtUI.Children.Add(CreatedColumnItem);
 
                     SetFocusOnColumnItem(CreatedColumnItem, UpdateSelectorsAndSliders: false); // Manually do all stuff there..
 
@@ -118,7 +118,7 @@ public partial class MainWindow
 
                                 break;
                         }
-                        rin($" СВЕРХУ:{ItemData.VerticalOffset}");
+
                         ColumnItemVerticalOffsetControllder.Value = ItemData.VerticalOffset;
                         ColumnItemHorizontalOffsetControllder.Value = ItemData.HorizontalOffset;
 
@@ -126,15 +126,8 @@ public partial class MainWindow
 
                         SelectedItemSignature.Text = ItemData.TextItemSignature;
                     }
-
-
-
-                    //#warning Slider values
-                    //#warning Text signature last after displaying add
                 }
             }
-
-            rin();
 
             ColumnNumber++;
         }

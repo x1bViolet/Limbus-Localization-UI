@@ -22,8 +22,10 @@ public partial class MainWindow
     {
         Flow(() =>
         {
-            if ((PortraitTypeSelector.SelectedItem as TextBlock).Text.Equals("E.G.O"))
+            if ((PortraitTypeSelector.SelectedItem as UIElement).Uid.Equals("E.G.O"))
             {
+                Mark_NotAnOfficial.Text = "※This is an unofficial E.G.O Preview image created by using Limbus Company Localization Interface";
+
                 IdentityPortraitImage_ParentGrid.Visibility = Collapsed;
                 EGOPortraitImage_ParentGrid.Visibility = Visible;
 
@@ -34,13 +36,15 @@ public partial class MainWindow
             }
             else
             {
+                Mark_NotAnOfficial.Text = "※This is an unofficial Identity Preview image created by using Limbus Company Localization Interface";
+
                 IdentityPortraitImage_ParentGrid.Visibility = Visible;
                 EGOPortraitImage_ParentGrid.Visibility = Collapsed;
 
                 MakeAvailable(IdentityPortraitScaleController_ParentGrid);
                 MakeUnavailable(EGOPortraitScaleController_ParentGrid);
 
-                ProjectFile.LoadedProject.ImageParameters.Type = "E.G.O";
+                ProjectFile.LoadedProject.ImageParameters.Type = "Identity";
             }
         });
     }
@@ -108,7 +112,7 @@ public partial class MainWindow
 
     void SelectCautionsType(object RequestSender /* ComboBox */, SelectionChangedEventArgs EventArgs)
     {
-        string Selected = ((RequestSender as ComboBox).SelectedItem as TextBlock).Text;
+        string Selected = ((RequestSender as ComboBox).SelectedItem as UIElement).Uid;
         
         IdentityPreviewCreator_DecorativeCautions.Visibility = Selected.Equals("None") ? Collapsed : Visible;
         IdentityPreviewCreator_CautionType_SubCategory_CustomCaution.Visibility = Selected.Equals("Custom text") ? Visible : Collapsed;

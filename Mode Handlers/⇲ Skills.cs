@@ -840,7 +840,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             if (DelegateSkills_IDList.Count > 0)
             {
                 Mode_Skills.TriggerSwitch(
-                           EnableUptieLevels: JsonFile.Name.ContainsOneOf(["Skills_Ego_Personality-", "Skills_personality-", "Skills.json", "Skills_Ego.json"]),
+                           EnableUptieLevels: JsonFile.Name.ContainsOneOf(["Skills_Ego_Personality-", "Skills_personality-", "Skills.json", "Skills_Ego.json", "Skills_Assist.json"]),
                     EnableEGOAbnormalityName: JsonFile.Name.ContainsOneOf(["Skills_Ego_Personality-", "Skills_Ego.json"])
                 );
                 TransformToSkill(DelegateSkills_IDList[0]);
@@ -861,6 +861,15 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 -1 => DelegateSkills[SkillID].Keys.ToList()[0],
                 _  => TranzUptieLevel
             };
+
+            if (DelegateSkills[SkillID].Keys.Count == 5)
+            {
+                MainControl.SpecialFifthUptie.Visibility = Visible;
+            }
+            else
+            {
+                MainControl.SpecialFifthUptie.Visibility = Collapsed;
+            }
 
             CurrentSkillID = SkillID;
             CurrentSkillUptieLevel = SwitchingUptieLevel;
@@ -890,10 +899,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             foreach (int UptieLevelNumber in DelegateSkills[CurrentSkillID].Keys.ToList())
             {
-                (MainControl.FindName($"NavigationPanel_Skills_UptieLevelSwitch_DisableCover_{UptieLevelNumber}") as Border).Visibility = Collapsed;
+                if (UptieLevelNumber <= 4)
+                {
+                    (MainControl.FindName($"NavigationPanel_Skills_UptieLevelSwitch_DisableCover_{UptieLevelNumber}") as Border).Visibility = Collapsed;
+                }
             }
 
-            (MainControl.FindName($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{CurrentSkillUptieLevel}") as Image).Visibility = Visible;
+            if (CurrentSkillUptieLevel <= 4) (MainControl.FindName($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{CurrentSkillUptieLevel}") as Image).Visibility = Visible;
 
             //////////////////////////////////////////////////
             var FullLink = DelegateSkills[CurrentSkillID][CurrentSkillUptieLevel];

@@ -1,8 +1,8 @@
 {
   "Internal": {
-    "UI Language": "⇲ Assets Directory/[+] Languages/English.json",
+    "UI Language": "⇲ Assets Directory/[+] Languages/Russian.json",
     "UI Theme": "⇲ Assets Directory/[+] Themes/Limbus Localization UI",
-    "Topmost Window": true,
+    "Topmost Window": false,
     "Show Load Warnings": true
   },
   "Preview Settings": {
@@ -11,7 +11,7 @@
       "Highlight <style>": true,
       "Highlight Coin Descs on right click": true,
       "Highlight Coin Descs on manual switch": false,
-      "Enable Skill Names Replication": true
+      "Enable Skill Names Replication": false
     },
     "Custom Language Properties": {
       "Keywords Ignore": [
@@ -70,7 +70,7 @@
               "Keywords Sprite Vertical Offset": -4,
 
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-mtl/Font/Title/Title.ttf",
-              "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-mtl/Font/Context/Context.ttf",
+              "Context Font": "C:/Dream-Devouring Siltcurrent/Pretendard-Light.otf",
               "Context Font (Font Weight)": "Light"
             }
           },
@@ -191,7 +191,7 @@
           }
         ]
       },
-      "Additional Keywords Directory": "Something here (Loads after custom language)"
+      "Additional Keywords Directory": "C:/Users/javas/OneDrive/Документы/Графика/Новая папка (2)/Bufs"
     }
   },
   "Scan Parameters": {

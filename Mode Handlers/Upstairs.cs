@@ -43,7 +43,9 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                 case "Keywords": Mode_Keywords.TriggerSwitch(); break;
                 case "Passives": Mode_Passives.TriggerSwitch(); break;
-                case "Skills": Mode_Skills.TriggerSwitch(Mode_Skills.EnableUptieLevels_Recent, Mode_Skills.EnableEGOAbnormalityName_Recent); break;
+                case "Skills": Mode_Skills.TriggerSwitch(
+                    Mode_Skills.EnableUptieLevels_Recent, Mode_Skills.EnableEGOAbnormalityName_Recent
+                ); break;
             }
         }
 
