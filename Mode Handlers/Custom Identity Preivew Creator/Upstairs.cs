@@ -58,13 +58,16 @@ public partial class MainWindow
 
     private bool ReturnToTopmost = false;
 
-    void SwitchUI_Activate()
+    void SwitchUI_Activate(bool DisableTopmost = true)
     {
-        if (Configurazione.DeltaConfig.Internal.AlwaysOnTop)  // Disable topmost state for session
+        if (DisableTopmost)
         {
-            SettingsControl.ChangeConfigOnOptionToggle = false;
-            SettingsControl.OptionToggle(SettingsControl.ToggleTopmostState, null);
-            SettingsControl.ChangeConfigOnOptionToggle = true;
+            if (Configurazione.DeltaConfig.Internal.AlwaysOnTop)  // Disable topmost state for session
+            {
+                SettingsControl.ChangeConfigOnOptionToggle = false;
+                SettingsControl.OptionToggle(SettingsControl.ToggleTopmostState, null);
+                SettingsControl.ChangeConfigOnOptionToggle = true;
+            }
         }
 
         LimbusEditorsGrid.Visibility = Collapsed;
