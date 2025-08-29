@@ -215,13 +215,13 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                             if (!SkillTag.ID.Equals(""))
                             {
                                 string DefinedColor = "#93f03f";
-                                if (SkillTagColors.ContainsKey(SkillTag.ID))
-                                {
-                                    DefinedColor = SkillTagColors[SkillTag.ID];
-                                }
-                                else if (SkillTag.Color != null)
+                                if (SkillTag.Color != null)
                                 {
                                     DefinedColor = SkillTag.Color;
+                                }
+                                else if (SkillTagColors.ContainsKey(SkillTag.ID))
+                                {
+                                    DefinedColor = SkillTagColors[SkillTag.ID];
                                 }
 
                                 SkillTags[$"[{SkillTag.ID}]"] = $"<color={DefinedColor}>{SkillTag.Tag}</color>";
