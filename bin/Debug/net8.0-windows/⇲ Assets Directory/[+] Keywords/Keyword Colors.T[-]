@@ -765,7 +765,6 @@ FullReload ¤ #9f6a3a
 ReleaseBreath ¤ #9f6a3a
 NebulizerExhale ¤ #f8c200
 FellBulletMark ¤ #e30000
-DianxueDonQuixote ¤ #e30000
 FirePunchFuel ¤ #9f6a3a
 FirePunchFuelOverheated ¤ #9f6a3a
 LegStrength ¤ #f8c200
@@ -780,8 +779,9 @@ VendettaMark ¤ #e30000
 RetaliationBookFamily ¤ #e30000
 BirdCage ¤ #e30000
 WideAreaRampage ¤ #9f6a3a
-SnakeStance ¤ #f8c200
+DianxueDonQuixote ¤ #e30000
 BurstPoison ¤ #e30000
+SnakeStance ¤ #f8c200
 SipOfAlcohol ¤ #f8c200
 SupportProtect ¤ #9f6a3a
 BurstZilu ¤ #e30000
@@ -827,6 +827,14 @@ Obedient ¤ #e30000
 PileObedient ¤ #e30000
 OutpouringAnger ¤ #f8c200
 FamilyTreasure ¤ #e30000
+DuelDeclaration ¤ #9f6a3a
+RepressedMurderousIntendTwo ¤ #e30000
+DisengageCombat ¤ #9f6a3a
+BudgetBulletPropellant ¤ #9f6a3a
+WaitingXichun ¤ #9f6a3a
+StartXichun ¤ #9f6a3a
+CheerUpXichun ¤ #f8c200
+RetreatForCommon ¤ #9f6a3a
 FireBulletPropellant ¤ #f8c200
 SingBulletSupport ¤ #f8c200
 BulletPropellantAlly ¤ #9f6a3a
@@ -836,10 +844,9 @@ HugeIrritationAlly ¤ #f8c200
 BeastEyesAlly ¤ #f8c200
 FellBulletPersonality ¤ #f8c200
 RoseThorn ¤ #e30000
-WaveSinking ¤ #e30000
-ShareCharge ¤ #f8c200
 ChoSuperCharge ¤ #f8c200
-
+ShareCharge ¤ #f8c200
+WaveSinking ¤ #e30000
 HystericGauge ¤ #e30000
 MagicalGirlAppear ¤ #f8c200
 NoVillain ¤ #e30000
@@ -847,14 +854,12 @@ VillainMark ¤ #e30000
 ArcanaQueenOfHate ¤ #f8c200
 ThePowerOfLoveAndHate ¤ #f8c200
 MagicalGirlResponse ¤ #f8c200
-
 BlessingAlly ¤ #f8c200
 ProtectiveSword ¤ #f8c200
 DespairAlly ¤ #f8c200
 PenetratingSword ¤ #f8c200
 SwordCutwithTear ¤ #f8c200
 BlackTearsAlly ¤ #f8c200
-
 ColdBlackTear ¤ #e30000
 HelplessTear ¤ #f8c200
 WornOutKnight ¤ #e30000
@@ -869,3 +874,21 @@ CentralCommandTeamCaptain ¤ #9f6a3a
 BestWelfareTeamMember ¤ #9f6a3a
 KnightBless ¤ #f8c200
 TraumaShield ¤ #f8c200
+
+AccumulatedPastSinner ¤ #f8c200
+OutisNoHat ¤ #f8c200
+UltraPrecisionTimeAcceleration ¤ #f8c200
+
+HeishouDeathCount ¤ #f8c200
+HeishouCombo ¤ #9f6a3a
+HeishouComboCount ¤ #f8c200
+HeishouAttack ¤ #9f6a3a
+HeishouSupportProtect ¤ #9f6a3a
+HeishouSynergy ¤ #f8c200
+HeishouComboCountHonglu ¤ #f8c200
+
+ChickenStance ¤ #f8c200
+LegStrengthHorseYisang ¤ #f8c200
+ConcussionYisang ¤ #e30000
+BreakthroughHorse ¤ #f8c200
+BattlefieldHorse ¤ #f8c200
