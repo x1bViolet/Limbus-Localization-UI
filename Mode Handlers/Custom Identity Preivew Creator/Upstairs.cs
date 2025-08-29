@@ -31,9 +31,13 @@ public partial class MainWindow
 
     void SwitchUIQuestion(object RequestSender, MouseButtonEventArgs EventArgs)
     {
+        string Tilte = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] [!] [&] * UI switch dialog", "Message window title");
+        string Forward = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] [!] [&] * UI switch dialog", "Switch to");
+        string Back = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] [!] [&] * UI switch dialog", "Return back");
+
         if (CustomIdentityPreviewCreator.IsActive)
         {
-            MessageBoxResult UISwitchQuestionResult = MessageBox.Show("Switch UI to regular editor?", "UI Switch", MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
+            MessageBoxResult UISwitchQuestionResult = MessageBox.Show(Back, Tilte, MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
             if (UISwitchQuestionResult == MessageBoxResult.Yes)
             {
                 SwitchUI_Deactivate();
@@ -41,7 +45,7 @@ public partial class MainWindow
         }
         else
         {
-            MessageBoxResult UISwitchQuestion = MessageBox.Show("Switch UI to Identity/E.G.O preview creator?", "UI Switch", MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
+            MessageBoxResult UISwitchQuestion = MessageBox.Show(Forward, Tilte, MessageBoxButton.YesNo, MessageBoxImage.Asterisk);
             if (UISwitchQuestion == MessageBoxResult.Yes)
             {
                 SwitchUI_Activate();
@@ -62,10 +66,6 @@ public partial class MainWindow
             SettingsControl.OptionToggle(SettingsControl.ToggleTopmostState, null);
             SettingsControl.ChangeConfigOnOptionToggle = true;
         }
-
-        if (Configurazione.Spec_EnableKeywordIDSprite) SettingsControl.OptionToggle(SettingsControl.ToggleKeywordSprites, null);
-        if (Configurazione.Spec_EnableKeywordIDUnderline) SettingsControl.OptionToggle(SettingsControl.ToggleKeywordUnderline, null);
-
 
         LimbusEditorsGrid.Visibility = Collapsed;
 
@@ -171,9 +171,6 @@ public partial class MainWindow
         Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightStyle = HighlightStyleStoredCurrentSetting;
 
         FocusedColumnItem.Children[0].Visibility = Collapsed; // Hide 'Text Control' sign
-        //FocusedColumnItem.ItemSignaruteTextBlockLink = BuildedSkill.Children[0] as TextBlock;
-
-        //SelectedItemSignature.Text = FocusedColumnItem.ItemInfo.TextItemSignature;
 
         if (FocusedColumnItem.Children.Count == 2)
         {
@@ -184,7 +181,7 @@ public partial class MainWindow
 
     void GeneratePassiveDisplayerForFocusedItem(Passive TextInfo)
     {
-        Grid Name = GetNameWithBackground(TextInfo.Name, ReversedDropdownShadow: true);
+        Grid Name = GetNameWithBackground(TextInfo.Name, ReversedDropdownShadow: true, FontSizeModifier: ProjectFile.LoadedProject.Text.UnifiedTextSize - 22);
 
         Name.LayoutTransform = new ScaleTransform()
         {
@@ -204,7 +201,10 @@ public partial class MainWindow
         .SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", PreviewLayout_Passives)
         as RichTextBox;
 
-        PassiveDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh);
+        ////////////////////////////////////////////////////////////////////////////////////
+        //PassiveDescription.SetValue(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
+
+        PassiveDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22));
         PassiveDescription.SetLimbusRichText(TextInfo.Description, "Passives");
 
         FocusedColumnItem.PassiveDescriptionLink = PassiveDescription;
@@ -254,6 +254,7 @@ public partial class MainWindow
     {
         Image KeywordIcon = new Image()
         {
+            Source = FocusedColumnItem.KeywordIcon.Source,
             VerticalAlignment = VerticalAlignment.Top,
             Height = 25,
         };
@@ -280,7 +281,10 @@ public partial class MainWindow
 
         }.SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", Special_PreviewLayout_Keywords_BattleKeywords_Desc) as RichTextBox;
 
-        KeywordDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh);
+        ////////////////////////////////////////////////////////////////////////////////////
+        //KeywordDescription.SetValue(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
+
+        KeywordDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22));
         KeywordDescription.SetLimbusRichText(TextInfo.Description, "Keywords");
 
         FocusedColumnItem.KeywordIcon = KeywordIcon;

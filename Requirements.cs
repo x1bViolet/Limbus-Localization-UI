@@ -108,6 +108,16 @@ namespace LC_Localization_Task_Absolute
             }
         }
 
+        internal static List<FileInfo> GetFileInfos(this IEnumerable<string> Paths)
+        {
+            List<FileInfo> Output = new List<FileInfo>();
+            foreach(var i in Paths)
+            {
+                Output.Add(new FileInfo(i));
+            }
+            return Output;
+        }
+
         internal static void MoveItemUp(this StackPanel ParentStackPanel, UIElement TargetElement)
         {
             int CurrentIndex = ParentStackPanel.Children.IndexOf(TargetElement);
@@ -642,7 +652,7 @@ namespace LC_Localization_Task_Absolute
                 "UltraBlack" => FontWeights.UltraBlack,
                  "UltraBold" => FontWeights.UltraBold,
                 "UltraLight" => FontWeights.UltraLight,
-                           _ => FontWeights.Regular,
+                           _ => FontWeights.Normal,
             };
         }
 

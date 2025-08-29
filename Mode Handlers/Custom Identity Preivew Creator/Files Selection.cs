@@ -30,7 +30,7 @@ public partial class MainWindow
     {
         IdentityPreviewCreator_IdentityPortrait.Source = GenerateBitmapFromFile(Filepath);
 
-        IdentityPreviewCreator_IdentityCustomPortraitSelector__DisplayingSign.Text = $"Portrait Image: <color=#fc5a03>{Filepath.GetName()}</color>";
+        IdentityPreviewCreator_IdentityCustomPortraitSelector__DisplayingSign.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Image parameters] Portrait image").Extern(Filepath.GetName());
     }
     #endregion
 
@@ -52,7 +52,8 @@ public partial class MainWindow
     {
         string FontName;
         CustomIdentityPreviewCreator_ImageTypeText.FontFamily = FileToFontFamily_WithNameReturn(Filepath, out FontName);
-        SelectImageTypeSignFont_Label.Text = $"Another image type font\n<size=78%><color=#fc5a03>{FontName}</color></size>";
+
+        SelectImageTypeSignFont_Label.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Image parameters] Another image type font", "Selected").Extern(FontName);
     }
     #endregion
 
@@ -115,7 +116,7 @@ public partial class MainWindow
         string FontName;
         CustomCautionsParamBinder.FontFamily = FileToFontFamily_WithNameReturn(Filepath, out FontName);
 
-        IdentityPreviewCreator_CautionType_CustomCautionFontTitle.Text = $"Another font\n<size=78%><color=#fc5a03>{FontName}</color></size>";
+        IdentityPreviewCreator_CautionType_CustomCautionFontTitle.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Decorative cautions] Another font", "Selected").Extern(FontName);
     }
     #endregion
 
@@ -137,7 +138,8 @@ public partial class MainWindow
     {
         string FontName;
         ItemSignaturesFontBinder.FontFamily = FileToFontFamily_WithNameReturn(Filepath, out FontName);
-        IdentityPreviewCreator_AnotherItemSignsFont_Label.Text = $"Another font for item signatures\n<size=78%><color=#fc5a03>{FontName}</color></size>";
+
+        IdentityPreviewCreator_AnotherItemSignsFont_Label.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Column settings] Another font for item signatures", "Selected").Extern(FontName);
     }
 
     void SelectSkillsLocalizationFile(object RequestSender /* Border {ButtonDefaultDeskHighlightable} */, MouseButtonEventArgs EventArgs)
@@ -202,7 +204,8 @@ public partial class MainWindow
     {
         FocusedColumnItem.ItemInfo.KeywordIconImage = Filepath.Replace("\\", "/");
         FocusedColumnItem.KeywordIcon.Source = GenerateBitmapFromFile(Filepath);
-        KeywordIconSelectionLabel.Text = $"Keyword icon image\n<size=78%><color=#fc5a03>{Filepath.GetName()}</color></size>";
+
+        KeywordIconSelectionLabel.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Keyword icon image", "Selected").Extern(Filepath.GetName());
     }
     #endregion
 }

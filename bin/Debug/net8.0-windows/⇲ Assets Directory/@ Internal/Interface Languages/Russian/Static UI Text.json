@@ -1,0 +1,562 @@
+{
+  "Font Defaults": {
+    "Font": "GOST Type BU",
+    "Font Weight": "Regular"
+  },
+  "Readme": [
+    "[C] — Custom Identity/E.G.O Preview creator",
+    
+    "[0, 0, 0, 0] Margin — [Left, Top, Right, Bottom]  or  [Single number for each 4 values]",
+    
+    "[!] — Does not support rich text",
+    "[^] — Text cannot be edited, propertires adjsutment only",
+    "[&] — Supports text only"
+  ],
+  "List<Translation>": [
+    [
+      {
+        "UID": {"[C] * Title bar button tooltip":null},
+        "Text": "Переключиться на режим создания предпросмотров Идентичностей/ЭГО",
+        "Foreground": "#ffffff",
+        "Margin": [-5, -3, -5, 0],
+        "Width": 255
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * Open project":null},
+        "Text": "Открыть проект",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * Save project":null},
+        "Text": "Сохранить проект",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * [Section Title] Image parameters":null},
+        "Text": "<u>Параметры изображения</u>",
+        "Font Size": 20,
+        "Margin": [3, 0, 0, 6]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Height adjustment (Switch to auto)":null},
+        "Text": "Автоматическая высота по изображению",
+        "Margin": [-240, 0, 0, 0],
+        "Width": 243
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Height adjustment":null},
+        "Width": 500,
+        "Variable": {
+          "Auto": "Высота [<color=#fc5a03>Авто</color>]",
+          "Manual": "Высота [<color=#fc5a03>Вручную</color>]"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Width adjustment (First step)":null},
+        "Text": "Ширина (Первый шаг)"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Width adjustment (Second step)":null},
+        "Text": "Ширина (Второй шаг)"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait type":null},
+        "Text": "Тип портрета"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait type — Identity":null},
+        "Text": "Идентичность",
+        "Font Size": 14,
+        "Margin": [-4, 0, 0, 0],
+        "Width": 120
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait type — E.G.O":null},
+        "Text": "ЭГО",
+        "Font Size": 14,
+        "Margin": [-4, 0, 0, 0],
+        "Width": 120
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait image":null},
+        "Text": "Изображение портрета: <color=#fc5a03>[$]</color>",
+        "Font Weight": "Bold",
+        "Width": 200
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait image — Select":null},
+        "Text": "Выбрать",
+        "Text Alignment": "Center",
+        "Margin": [0, 0, 0, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Allocated width for portrait":null},
+        "Text": "Выделенная ширина для портрета"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] E.G.O portrait scale":null},
+        "Text": "Размер портрета ЭГО"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Identity portrait scale":null},
+        "Text": "Размер портрета Идентичности"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait horizontal offset":null},
+        "Text": "Горизонтальное смещение портрета"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait vertical offset":null},
+        "Text": "Вертикальное смещение портрета"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Header offset":null},
+        "Text": "Смещение заголовка"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Identity/E.G.O name offset":null},
+        "Text": "Смещение имени Идентичности/ЭГО"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Sinner name offset":null},
+        "Text": "Смещение имени Грешника"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Rarity/E.G.O Risk level horizontal offset":null},
+        "Text": "Гориз. смещение редкости/уровня риска ЭГО"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Rarity/E.G.O Risk level vertical offset":null},
+        "Text": "Верт. смещение редкости/уровня риска ЭГО"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Text background fadeout softness":null},
+        "Text": "Плавность перехода фона текста к портрету"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Vignette strength":null},
+        "Text": "Виньетка"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Top vignette offset":null},
+        "Text": "Смещение верхней виньетки"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Left vignette offset":null},
+        "Text": "Смещение левой виньетки"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Bottom vignette offset":null},
+        "Text": "Смещение нижней виньетки"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type text":null},
+        "Text": "Подпись типа изображения",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Another image type font":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "Другой шрифт для подписи типа изображения",
+          "Selected": "Другой шрифт для подписи типа изображения\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Another image type font — Select":null},
+        "Text": "Выбрать шрифт",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type vertical offset":null},
+        "Text": "Вертикальное смещение типа изображения",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type text size":null},
+        "Text": "Размер типа изображения",
+        "Font Size": 18
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Specific of the sinner and Identity/E.G.O":null},
+        "Text": "<u>Специфика Грешника и Идентичности/ЭГО</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Sinner icon":null},
+        "Text": "Иконка Грешника",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] [!] * Sinner icon selection (Custom)":null},
+        "Text": "[Из файла]",
+        "Font Size": 18,
+        "Foreground": "#c4b0b6"
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Icon brightness":null},
+        "Text": "Яркость иконки",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Icon size":null},
+        "Text": "Размер иконки",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Sinner name":null},
+        "Text": "Имя Грешника",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Name of Identity/E.G.O":null},
+        "Text": "Название Идентичности/ЭГО",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Ambience color":null},
+        "Text": "Цвет окружения",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Rarity/E.G.O Risk level":null},
+        "Text": "Редкость/Уровень риска ЭГО",
+        "Font Size": 18
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Decorative cautions":null},
+        "Text": "<u>Декоративные предупреждения</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Caution type":null},
+        "Text": "Тип",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] [!] * [Section:Decorative cautions] Caution type — SEASON":null},
+        "Text": "SEASON",
+        "Font Size": 18,
+        "Foreground": "#c4b0b6",
+        "Margin": [1, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] [!] * [Section:Decorative cautions] Caution type — CAUTION":null},
+        "Text": "CAUTION",
+        "Font Size": 18,
+        "Foreground": "#c4b0b6",
+        "Margin": [1, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] [!] * [Section:Decorative cautions] Caution type — None":null},
+        "Text": "Пусто",
+        "Font Size": 18,
+        "Foreground": "#c4b0b6",
+        "Margin": [1, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] [!] * [Section:Decorative cautions] Caution type — Custom text":null},
+        "Text": "Другой текст",
+        "Font Size": 18,
+        "Foreground": "#c4b0b6",
+        "Margin": [1, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Caution bloom radius":null},
+        "Text": "Радиус засвета",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Caution opacity":null},
+        "Text": "Непрозрачность",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Custom text string":null},
+        "Text": "Другой текст",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Another font":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "Иной шрифт для декоративных предупреждений",
+          "Selected": "Иной шрифт для декоративных предупреждений\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Another font — Select":null},
+        "Text": "Выбрать шрифт",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Text vertical offset":null},
+        "Text": "Вертикальное смещение текста",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Text size":null},
+        "Text": "Размер текста",
+        "Font Size": 18
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Text info":null},
+        "Text": "<u>Текстовая информация</u>",
+        "Font Size": 20
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Column settings":null},
+        "Text": "<u>Общие настройки столбцов</u>",
+        "Font Size": 20,
+        "Margin": [0, 5, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Add item to Column 1":null},
+        "Text": "[Столбец №1] Добавить..",
+        "Font Size": 16,
+        "Width": 200,
+        "Margin": [0, 8, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Add item to Column 2":null},
+        "Text": "[Столбец №2] Добавить..",
+        "Font Size": 16,
+        "Width": 200,
+        "Margin": [0, 8, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Add item to Column — Skill":null},
+        "Text": "Навык",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Add item to Column — Passive":null},
+        "Text": "Пассивное умение",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Add item to Column — Keyword":null},
+        "Text": "Ключевое слово",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] First column offset":null},
+        "Text": "Смещение первого столбца",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] First column item signatures offset":null},
+        "Text": "Смещение подписей в первом столбце",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Second column offset":null},
+        "Text": "Смещение второго столбца",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Second column item signatures offset":null},
+        "Text": "Смещение подписей во втором столбце",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Another font for item signatures":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "Иной шрифт для подписей элементов",
+          "Selected": "Иной шрифт для подписей элементов\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Another font for item signatures — Select":null},
+        "Text": "Выбрать шрифт",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Keyword boxes width":null},
+        "Text": "Ширина контейнеров ключевых слов"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Unified text size":null},
+        "Text": "Размер шрифта [<color=#fc5a03>[$]</color>]\n(Сохраните и заново загрузите проект или используйте опцию 'Обновить текст' в контекстном меню для элемента, чтобы применть изменения)",
+        "Margin": [0, 1, 0, 0]
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Text info sources":null},
+        "Text": "<u>Источники текстовой информации</u>",
+        "Font Size": 20,
+        "Margin": [0, 5, 0, 0]
+      },
+
+
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Skills localization":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "Файл локализации скиллов",
+          "Selected": "Файл локализации скиллов\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Skills localization — Select":null},
+        "Text": "Выбрать файл",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+
+
+
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Skills Display Info":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "Файл информации отображения скиллов (Display Info)",
+          "Selected": "Файл информации отображения скиллов (Display Info)\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Skills Display Info — Select":null},
+        "Text": "Выбрать файл",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+
+
+
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Passives localization":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "Файл локализации пассивных умений",
+          "Selected": "Файл локализации пассивных умений\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Passives localization — Select":null},
+        "Text": "Выбрать файл",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+
+
+
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Keywords localization":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "Файл локализации ключевых слов",
+          "Selected": "Файл локализации ключевых слов\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Keywords localization — Select":null},
+        "Text": "Выбрать файл",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Selected item settings":null},
+        "Text": "<u>Настройки выбранного элемента</u>",
+        "Font Size": 20,
+        "Margin": [0, 5, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Editing item header":null},
+        "Text": "| Элемент: <b>#[$]</b>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Item signature":null},
+        "Text": "Подпись элемента",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Skill ID from localization file":null},
+        "Text": "ID навыка из выбранного файла локализации",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Passive ID from localization file":null},
+        "Text": "ID пассивного умения из выбранного файла локализации",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Keyword ID from localization file":null},
+        "Text": "ID ключевого слова из выбранного файла локализации",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Skill constructor from Display Info":null},
+        "Text": "ID конструктора навыка из выбранного Display Info-файла",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Keyword icon image":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "Иконка ключевого слова",
+          "Selected": "Иконка ключевого слова\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Keyword icon image — Select":null},
+        "Text": "Выбрать картинку",
+        "Text Alignment": "Center",
+        "Font Size": 14,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Vertical offset":null},
+        "Text": "Вертикальное смещение"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Horizontal offset":null},
+        "Text": "Горизонтальное смещение (Только добавленный текст)"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Name max width":null},
+        "Text": "Максимальная длина имени"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Passive description width":null},
+        "Text": "Ширина описания пассивного умения"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Skill main description width":null},
+        "Text": "Ширина главного описания навыка"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Skill coin descriptions width":null},
+        "Text": "Ширина описания монет навыка"
+      }
+    ]
+  ]
+}

@@ -1,0 +1,1 @@
+Test interface localization method, affects only the new Identity/E.G.O Preview creator mode.

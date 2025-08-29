@@ -968,7 +968,7 @@
 					<Grid x:Name="TitleBar">
 						<StackPanel Orientation="Horizontal" HorizontalAlignment="Left">
 							<RichTextBox x:Name="STE_Title" Width="500" Foreground="#473131" VerticalAlignment="Top" FontSize="23">
-
+								
 							</RichTextBox>
 						</StackPanel>
 					</Grid>
@@ -986,13 +986,7 @@
 						</TextBlock>
 						<Border.ToolTip>
 							<ToolTip HorizontalOffset="20" Background="#E0676767">
-								<RichTextBox Width="239" Foreground="White">
-									<FlowDocument>
-										<Paragraph>
-											Switch UI to Identity/E.G.O preview creator
-										</Paragraph>
-									</FlowDocument>
-								</RichTextBox>
+								<local:UILocalization_Grocerius UID="[C] * Title bar button tooltip" Text="Switch UI to Identity/E.G.O Preview creator" Width="255" Margin="-5 -3 -5 0" Foreground="White"/>
 							</ToolTip>
 						</Border.ToolTip>
 					</Border>
@@ -1002,7 +996,7 @@
 						</TextBlock>
 						<Border.ToolTip>
 							<ToolTip HorizontalOffset="20" Background="#E0676767">
-								<RichTextBox x:Name="MakePreviewScan_Tooltip" Width="296" Foreground="White">
+								<RichTextBox x:Name="MakePreviewScan_Tooltip" Width="296" Margin="-5 -3 -5 0" Foreground="White">
 									<FlowDocument>
 										<Paragraph>
 											Export preview to PNG (⇲ Assets Directory\[⇲] Scans)
@@ -1908,6 +1902,23 @@
 									<Grid Margin="2" HorizontalAlignment="Left" VerticalAlignment="Top" Width="281.4">
 										<Image Source="/UI/Limbus/Uptie leves/Background.png" HorizontalAlignment="Left" Stretch="UniformToFill"/>
 										<Grid HorizontalAlignment="Right" Width="281.4">
+											<Border HorizontalAlignment="Left"
+													x:Name="SpecialFifthUptie"
+													Visibility="Collapsed"
+													Width="41"
+													Height="41"
+													Margin="37 0 0 0"
+													BorderThickness="1"
+													PreviewMouseLeftButtonUp="SwitchToFifthUptie"
+													Style="{StaticResource ButtonDefaultDeskHighlightable}">
+												<TextBlock Foreground="#fcc700" FontSize="40" Margin="0 5 0 0" VerticalAlignment="Center" FontFamily="/UI/Fonts/#Bebas Neue Regular" HorizontalAlignment="Center">
+													V
+													<TextBlock.Effect>
+														<DropShadowEffect BlurRadius="6" ShadowDepth="0" Color="#FFFC2C00"/>
+													</TextBlock.Effect>
+												</TextBlock>
+											</Border>
+
 											<Grid x:Name="NavigationPanel_Skills_UptieLevelSwitches_1" Margin="2 2.5 126.6 2" HorizontalAlignment="Right" Width="41">
 												<Image x:Name="NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_1" Source="/UI/Limbus/Uptie leves/Uptie 1.png" Visibility="Collapsed" Width="41"/>
 												<Border x:Name="NavigationPanel_Skills_UptieLevelSwitch_SwitchAction_1" MouseEnter="Skills_HighlightUptieLevel" MouseLeave="Skills_DeHighlightUptieLevel" PreviewMouseLeftButtonDown="NavigationPanel_Skills_SwitchToUptieLevel" Visibility="Visible" Background="Transparent" Width="41"/>
@@ -2125,7 +2136,7 @@
 													</RichTextBox>
 													<Grid HorizontalAlignment="Left" Width="275.6" Margin="0 4 0 0">
 														<Border x:Name="NavigationPanel_Skills_CoinDesc_Previous" PreviewMouseLeftButtonDown="NavigationPanel_Skills_SwitchToCoinDesc" Style="{StaticResource ButtonDefaultDeskHighlightable}" HorizontalAlignment="Left"  Width="62" Height="{Binding Path=ActualHeight, ElementName=NavigationPanel_Skills_CoinDesc_Display}" VerticalAlignment="Top">
-															<TextBlock Margin="0 -1 0 0" FontFamily="UI/Fonts/#Segoe Fluent Icons" Foreground="#C4B0B6" RenderTransformOrigin="0.5 0.5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
+															<TextBlock Margin="0 -1 0 0" FontFamily="UI/Fonts/#Segoe Fluent Icons" Foreground="{StaticResource UITheme_DefaultButtonIconsColor}" RenderTransformOrigin="0.5 0.5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
                                                                 
 																<TextBlock.RenderTransform>
 																	<ScaleTransform ScaleX="-1"/>
@@ -2148,7 +2159,7 @@
 														<Border x:Name="NavigationPanel_Skills_CoinDesc_Display_DisableCover" CornerRadius="2.85" Style="{StaticResource Button_DisableCover}" HorizontalAlignment="Center" VerticalAlignment="Top" Height="{Binding Path=Height, ElementName=NavigationPanel_Skills_CoinDesc_Display}" Width="{Binding Path=Width, ElementName=NavigationPanel_Skills_CoinDesc_Display}"/>
 
 														<Border x:Name="NavigationPanel_Skills_CoinDesc_Next" PreviewMouseLeftButtonDown="NavigationPanel_Skills_SwitchToCoinDesc" Style="{StaticResource ButtonDefaultDeskHighlightable}" HorizontalAlignment="Right" Width="62" Height="{Binding Path=ActualHeight, ElementName=NavigationPanel_Skills_CoinDesc_Display}" VerticalAlignment="Top">
-															<TextBlock Margin="0 -1 0 0" FontFamily="UI/Fonts/#Segoe Fluent Icons" Foreground="#C4B0B6" RenderTransformOrigin="0.5 0.5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
+															<TextBlock Margin="0 -1 0 0" FontFamily="UI/Fonts/#Segoe Fluent Icons" Foreground="{StaticResource UITheme_DefaultButtonIconsColor}" RenderTransformOrigin="0.5 0.5" HorizontalAlignment="Center" VerticalAlignment="Center" FontSize="16">
                                                                 
 																<TextBlock.RenderTransform>
 																	<ScaleTransform ScaleX="+1"/>
@@ -2185,7 +2196,7 @@
 														<Grid HorizontalAlignment="Right">
 															<Border MinWidth="{Binding ActualHeight, RelativeSource={RelativeSource Self}}" Height="33.5" VerticalAlignment="Center" HorizontalAlignment="Right"
                                                                     Style="{StaticResource ButtonDefaultDeskHighlightable}" PreviewMouseLeftButtonUp="ChangeObjectName">
-																<TextBlock FontFamily="UI\Fonts\#Segoe Fluent Icons" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="#FFC4B0B6" FontSize="21">
+																<TextBlock FontFamily="UI\Fonts\#Segoe Fluent Icons" HorizontalAlignment="Center" VerticalAlignment="Center" Foreground="{StaticResource UITheme_DefaultButtonIconsColor}" FontSize="21">
                                                                     
 																</TextBlock>
 															</Border>
@@ -2611,7 +2622,7 @@
 				</Grid>
 
 				<!-- ViewBox for dynamic scaling on different resolutions and ui scale factors because its a fullcreen mode -->
-				<Viewbox x:Name="IdentityPreviewTemplateCreatorGrid" Grid.Row="1" VerticalAlignment="Center" HorizontalAlignment="Center">
+				<Viewbox x:Name="IdentityPreviewTemplateCreatorGrid" Grid.Row="1" Visibility="Visible" VerticalAlignment="Center" HorizontalAlignment="Center">
 					<Grid
 						  Height="780"
 						  Background="{Binding ElementName=BackgroundImageShadowingColor, Path=Background}">
@@ -2653,10 +2664,11 @@
 											Grid.Column="0"
 											Margin="8 0 8 0"
 											VerticalAlignment="Top"
-											PreviewMouseLeftButtonDown="IdentityPreviewCreator_LoadProjectFile"
-										Style="{StaticResource ButtonDefaultDeskHighlightable}">
-										<local:UILocalization_Grocerius 
-											Margin="3 1 3 1"
+											PreviewMouseLeftButtonUp="IdentityPreviewCreator_LoadProjectFile"
+											Style="{StaticResource ButtonDefaultDeskHighlightable}">
+										<local:UILocalization_Grocerius
+											UID = "[C] * Open project"
+											Margin="3 0 3 1"
 											FontSize="18"
 											Text="Open project"
 											TextAlignment="Center"
@@ -2665,14 +2677,15 @@
 											FontFamily="GOST Type BU"/>
 									</Border>
 									<Border x:Name="IdentityPreviewCreator_SaveProjectToFileButton"
-											PreviewMouseLeftButtonDown="IdentityPreviewCreator_SaveProjectToFile"
+											PreviewMouseLeftButtonUp="IdentityPreviewCreator_SaveProjectToFile"
 											Grid.Column="1"
 											Height="26.963"
 											Margin="8 0 0 0"
 											VerticalAlignment="Top"
 											Style="{StaticResource ButtonDefaultDeskHighlightable}">
-										<local:UILocalization_Grocerius 
-											Margin="3 1 3 1"
+										<local:UILocalization_Grocerius
+											UID = "[C] * Save project"
+											Margin="3 0 3 1"
 											FontSize="18"
 											Text="Save project"
 											TextAlignment="Center"
@@ -2691,12 +2704,14 @@
 									  VerticalAlignment="Top">
 									<StackPanel>
 
-										<local:UILocalization_Grocerius FontSize="20"
-																		Text="&lt;u&gt;Image parameters"
-																		FontFamily="GOST Type BU"
-																		Margin="3 0 0 6"
-																		HorizontalAlignment="Left"
-																		PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"/>
+										<local:UILocalization_Grocerius
+											UID = "[C] * [Section Title] Image parameters"
+											FontSize="20"
+											Text="&lt;u&gt;Image parameters"
+											FontFamily="GOST Type BU"
+											Margin="3 0 0 6"
+											HorizontalAlignment="Left"
+											PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"/>
 
 										<Grid x:Name="IdentityPreviewCreator_SectionHosts_ImageParameters" 
 											  Visibility="Visible"
@@ -2726,11 +2741,13 @@
 																HorizontalAlignment="Right"
 																Orientation="Horizontal">
 
-														<local:UILocalization_Grocerius Text="Auto height by the image"
-																						Width="150"
-																						Margin="-145 0 0 0"
-																						VerticalAlignment="Center"
-																						FontFamily="GOST Type BU"/>
+														<local:UILocalization_Grocerius
+															UID = "[C] * [Section:Image parameters] Height adjustment (Switch to auto)"
+															Text="Auto height by the image"
+															Width="150"
+															Margin="-145 0 0 0"
+															VerticalAlignment="Center"
+															FontFamily="GOST Type BU"/>
 
 														<CheckBox x:Name="IdentityPreviewHeight_IsAuto"
 																  Checked="ImageAutoHeightToggle_SidedLink"
@@ -2745,11 +2762,12 @@
 												</Canvas>
 
 												<Canvas VerticalAlignment="Bottom">
-													<local:UILocalization_Grocerius x:Name="IdentityPreviewCreator_HeightController_TextIndicator"
-																					Text="Height adjustment (Auto)"
-																					Width="300"
-																					HorizontalAlignment="Left"
-																					FontFamily="GOST Type BU">
+													<local:UILocalization_Grocerius
+														UID = "[C] * [Section:Image parameters] Height adjustment"
+														Text="Height adjustment (Auto)"
+														x:Name="IdentityPreviewCreator_HeightController_TextIndicator"
+														Width="500"
+														FontFamily="GOST Type BU">
 													</local:UILocalization_Grocerius>
 													<Canvas.RenderTransform>
 														<RotateTransform Angle="-90"/>
@@ -2760,23 +2778,26 @@
 
 
 											<StackPanel HorizontalAlignment="Center"
-														Margin="35 0 0 0">
+														Margin="45 0 0 0">
 
 												<StackPanel>
 													<Slider x:Name="IdentityPreviewCreator_WidthController_FirstStep"
+															Margin="-10 0 0 0"
 															ValueChanged="ImageWidth_FirstStep"
 															IsSelectionRangeEnabled="True"
 															Width="333"
 															Value="1084"
 															Minimum="831"
 															Maximum="1084"/>
-													<local:UILocalization_Grocerius Text="Width adjustment (First step)"
-																					FontFamily="GOST Type BU"
-																					Margin="10 0 0 0"/>
+													<local:UILocalization_Grocerius
+														UID = "[C] * [Section:Image parameters] Width adjustment (First step)"	
+														Text="Width adjustment (First step)"
+														FontFamily="GOST Type BU"/>
 												</StackPanel>
 
 												<StackPanel Margin="0 5 0 0">
 													<Slider x:Name="IdentityPreviewCreator_WidthController_SecondStep"
+															Margin="-10 0 0 0"
 															ValueChanged="ImageWidth_SecondStep"
 															IsSelectionRangeEnabled="True"
 															Width="333"
@@ -2784,20 +2805,21 @@
 															Minimum="1084"
 															Maximum="1391"
 															Opacity="1"/>
-													<local:UILocalization_Grocerius Text="Width adjustment (Second step)"
-																					FontFamily="GOST Type BU"
-																					Margin="10 0 0 0"/>
+													<local:UILocalization_Grocerius
+														UID = "[C] * [Section:Image parameters] Width adjustment (Second step)"
+														Text="Width adjustment (Second step)"
+														FontFamily="GOST Type BU"/>
 												</StackPanel>
 
 
-												<Grid Margin="0 5 0 0">
+												<Grid Margin="0 18 0 0">
 													<Grid.ColumnDefinitions>
 														<ColumnDefinition/>
 														<ColumnDefinition Width="0.8*"/>
 													</Grid.ColumnDefinitions>
 
 													<local:UILocalization_Grocerius
-														Margin="10 0 0 0"
+														UID = "[C] * [Section:Image parameters] Portrait type"
 														Grid.Column="0"
 														Text="Portrait Type"
 														VerticalAlignment="Center"
@@ -2813,11 +2835,11 @@
 															  SelectedIndex="0"
 															  Margin="0 0 15 0"
 															  HorizontalContentAlignment="Left"
-															  Width="90"
+															  Width="120"
 															  Height="20.97">
 														<ComboBox.Items>
-															<TextBlock Text="Identity" FontSize="14" VerticalAlignment="Center"/>
-															<TextBlock Text="E.G.O" FontSize="14" VerticalAlignment="Center"/>
+															<local:UILocalization_Grocerius UID="[C] * [Section:Image parameters] Portrait type — Identity" Margin="-4 0 0 0" Width="120" x:Uid="Identity" Text="Identity" FontSize="14" VerticalAlignment="Center"/>
+															<local:UILocalization_Grocerius UID="[C] * [Section:Image parameters] Portrait type — E.G.O"    Margin="-4 0 0 0" Width="120" x:Uid="E.G.O"    Text="E.G.O"    FontSize="14" VerticalAlignment="Center"/>
 														</ComboBox.Items>
 													</ComboBox>
 												</Grid>
@@ -2825,23 +2847,26 @@
 
 												<StackPanel Margin="0 10 0 0">
 													<Grid>
-														<local:UILocalization_Grocerius x:Name="IdentityPreviewCreator_IdentityCustomPortraitSelector__DisplayingSign"
-																						MaxWidth="230"
-																						Margin="10 0 0 0"
-																						HorizontalAlignment="Left"
-																						Text="Portrait Image: &lt;color=#fc5a03&gt;None&lt;/color&gt;"
-																						FontWeight="Bold"
-																						FontFamily="GOST Type BU"/>
-
+														<local:UILocalization_Grocerius
+															UID="[C] * [Section:Image parameters] Portrait image"
+															x:Name="IdentityPreviewCreator_IdentityCustomPortraitSelector__DisplayingSign"
+															Width="200"
+															HorizontalAlignment="Left"
+															VerticalAlignment="Center"
+															Text="Portrait Image: &lt;color=#fc5a03&gt;None&lt;/color&gt;"
+															FontWeight="Bold"
+															FontFamily="GOST Type BU"/>
+														
 														<!-- PreviewMouseLeftButtonDown="" -->
 														<Border PreviewMouseLeftButtonUp="SelectIdentityOrEGOPortrait"
 																Style="{StaticResource ButtonDefaultDeskHighlightable}"
 																MaxHeight="20.97"
-																Width="90"
+																Width="120"
 																HorizontalAlignment="Right"
 																Margin="0 -3 15 0">
-															<local:UILocalization_Roseum
-																Margin="1 1 1 1"
+															<local:UILocalization_Grocerius
+																UID="[C] * [Section:Image parameters] Portrait image — Select"
+																Margin="1"
 																Text="Select image"
 																TextAlignment="Center"
 																FontFamily="GOST Type BU"/>
@@ -2850,45 +2875,52 @@
 													<Slider x:Name="IdentityPreviewCreator_AllocatedWidthForPortraitController"
 															ValueChanged="AllocatedWidthForPortrait"
 															IsSelectionRangeEnabled="True"
+															Margin="-10 5 0 0"
 															Width="333"
 															Value="450"
 															Minimum="0"
 															Maximum="1010"/>
-													<local:UILocalization_Grocerius Text="Allocated width for portrait"
-																					FontFamily="GOST Type BU"
-																					Margin="10 0 0 0"/>
+													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Image parameters] Allocated width for portrait"
+														Text="Allocated width for portrait"
+														FontFamily="GOST Type BU"/>
 												</StackPanel>
 												<StackPanel Margin="0 18 0 0" x:Name="EGOPortraitScaleController_ParentGrid" Opacity="0.55" IsHitTestVisible="False">
 													<Slider x:Name="IdentityPreviewCreator_EGOPortraitScaleController"
 															ValueChanged="EGOPortraitScale"
 															IsSelectionRangeEnabled="True"
 															Width="333"
+															Margin="-10 0 0 0"
 															Value="100"
 															Minimum="0"
 															Maximum="600"/>
-													<local:UILocalization_Grocerius Text="E.G.O portrait scale"
-																					FontFamily="GOST Type BU"
-																					Margin="10 0 0 0"/>
+													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Image parameters] E.G.O portrait scale"
+														Text="E.G.O portrait scale"
+														FontFamily="GOST Type BU"/>
 												</StackPanel>
 												<StackPanel Margin="0 5 0 0" x:Name="IdentityPortraitScaleController_ParentGrid">
 													<Slider x:Name="IdentityPreviewCreator_IdentityPortraitScaleController"
 															ValueChanged="IdentityPortraitScale"
 															IsSelectionRangeEnabled="True"
+															Margin="-10 0 0 0"
 															Width="333"
 															Value="742"
 															Minimum="0"
 															Maximum="2000"/>
-													<local:UILocalization_Grocerius Text="Identity portrait scale"
-																					FontFamily="GOST Type BU"
-																					Margin="10 0 0 0"/>
+													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Image parameters] Identity portrait scale"
+														Text="Identity portrait scale"
+														FontFamily="GOST Type BU"/>
 												</StackPanel>
-												<Grid Margin="0 5 0 0"
+												<Grid Margin="-10 5 0 0"
 														HorizontalAlignment="Center"
 														Width="{Binding ElementName=IdentityPreviewCreator_IdentityPortraitScaleController, Path=ActualWidth}">
 													<Grid.ColumnDefinitions>
 														<ColumnDefinition/>
 														<ColumnDefinition/>
 													</Grid.ColumnDefinitions>
+													
 													<StackPanel Grid.Column="0">
 														<Slider x:Name="IdentityPreviewCreator_IdentityPortraitHorizontalOffsetController"
 																ValueChanged="PortraitOffset_Horizontal"
@@ -2896,9 +2928,12 @@
 																Value="0"
 																Minimum="-1000"
 																Maximum="1500"/>
-														<local:UILocalization_Grocerius Text="Portrait horizontal offset"
-																						FontFamily="GOST Type BU"/>
+														<local:UILocalization_Grocerius
+															UID="[C] * [Section:Image parameters] Portrait horizontal offset"
+															Text="Portrait horizontal offset"
+															FontFamily="GOST Type BU"/>
 													</StackPanel>
+													
 													<StackPanel Grid.Column="1">
 														<Slider x:Name="IdentityPreviewCreator_IdentityPortraitVerticalOffsetController"
 																ValueChanged="PortraitOffset_Vertical"
@@ -2906,9 +2941,12 @@
 																Value="0"
 																Minimum="-1000"
 																Maximum="1500"/>
-														<local:UILocalization_Grocerius Text="Portrait vertical offset"
-																						FontFamily="GOST Type BU"/>
+														<local:UILocalization_Grocerius
+															UID="[C] * [Section:Image parameters] Portrait vertical offset"
+															Text="Portrait vertical offset"
+															FontFamily="GOST Type BU"/>
 													</StackPanel>
+													
 												</Grid>
 
 												<StackPanel Margin="0 18 0 0">
@@ -2917,14 +2955,16 @@
 															IsSelectionRangeEnabled="True"
 															Width="333"
 															Value="0"
+															Margin="-10 0 0 0"
 															Minimum="-755"
 															Maximum="500"/>
-													<local:UILocalization_Grocerius Text="Header offset"
-																					FontFamily="GOST Type BU"
-																					Margin="10 0 0 0"/>
+													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Image parameters] Header offset"
+														Text="Header offset"
+														FontFamily="GOST Type BU"/>
 												</StackPanel>
 
-												<Grid Margin="0 5 0 0"
+												<Grid Margin="-10 5 0 0"
 														HorizontalAlignment="Center"
 														Width="{Binding ElementName=IdentityPreviewCreator_IdentityHeader_ParentGridMarginController, Path=ActualWidth}">
 													<Grid.ColumnDefinitions>
@@ -2940,8 +2980,10 @@
 																Value="0"
 																Minimum="-500"
 																Maximum="500"/>
-														<local:UILocalization_Grocerius Text="Identity/E.G.O name offset"
-																						FontFamily="GOST Type BU"/>
+														<local:UILocalization_Grocerius
+															UID="[C] * [Section:Image parameters] Identity/E.G.O name offset"
+															Text="Identity/E.G.O name offset"
+															FontFamily="GOST Type BU"/>
 													</StackPanel>
 
 													<StackPanel Grid.Column="1">
@@ -2951,8 +2993,10 @@
 																Value="0"
 																Minimum="-500"
 																Maximum="500"/>
-														<local:UILocalization_Grocerius Text="Sinner name offset"
-																						FontFamily="GOST Type BU"/>
+														<local:UILocalization_Grocerius
+															UID="[C] * [Section:Image parameters] Sinner name offset"
+															Text="Sinner name offset"
+															FontFamily="GOST Type BU"/>
 													</StackPanel>
 
 													<StackPanel Grid.Column="2">
@@ -2963,8 +3007,10 @@
 																	Value="0"
 																	Minimum="-500"
 																	Maximum="500"/>
-															<local:UILocalization_Grocerius Text="Rarity/E.G.O Risk level hor. offset"
-																							FontFamily="GOST Type BU"/>
+															<local:UILocalization_Grocerius
+																UID="[C] * [Section:Image parameters] Rarity/E.G.O Risk level horizontal offset"
+																Text="Rarity/E.G.O Risk level hor. offset"
+																FontFamily="GOST Type BU"/>
 														</StackPanel>
 														<StackPanel Margin="0 5 0 0">
 															<Slider x:Name="IdentityPreviewCreator_IdentityHeader_IdentityRarityVerticalOffsetController"
@@ -2973,8 +3019,10 @@
 																	Value="0"
 																	Minimum="-40"
 																	Maximum="40"/>
-															<local:UILocalization_Grocerius Text="Rarity/E.G.O Risk level vert. offset"
-																						FontFamily="GOST Type BU"/>
+															<local:UILocalization_Grocerius
+																UID="[C] * [Section:Image parameters] Rarity/E.G.O Risk level vertical offset"
+																Text="Rarity/E.G.O Risk level vert. offset"
+																FontFamily="GOST Type BU"/>
 														</StackPanel>
 													</StackPanel>
 												</Grid>
@@ -2984,13 +3032,15 @@
 													<Slider x:Name="IdentityPreviewCreator_TextBackgroundFadeoutSoftnessController"
 															ValueChanged="TextBackgroundFadeoutSoftness"
 															IsSelectionRangeEnabled="True"
+															Margin="-10 0 0 0"
 															Width="333"
 															Value="200"
 															Minimum="0"
 															Maximum="1300"/>
-													<local:UILocalization_Grocerius Text="Text background fadeout softness"
-																					FontFamily="GOST Type BU"
-																					Margin="10 0 0 0"/>
+													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Image parameters] Text background fadeout softness"
+														Text="Text background fadeout softness"
+														FontFamily="GOST Type BU"/>
 												</StackPanel>
 
 												<StackPanel Margin="0 5 0 0"
@@ -2998,16 +3048,18 @@
 													<Slider x:Name="IdentityPreviewCreator_VignetteSoftnessController"
 															ValueChanged="ChangeVignetteStrength"
 															IsSelectionRangeEnabled="True"
+															Margin="-10 0 0 0"
 															Width="333"
 															Value="35"
 															Minimum="0"
 															Maximum="400"/>
-													<local:UILocalization_Grocerius Text="Vignette strength"
-																					FontFamily="GOST Type BU"
-																					Margin="10 0 0 0"/>
+													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Image parameters] Vignette strength"
+														Text="Vignette strength"
+														FontFamily="GOST Type BU"/>
 												</StackPanel>
 
-												<Grid Margin="0 5 0 0"
+												<Grid Margin="-10 5 0 0"
 														HorizontalAlignment="Center"
 														Width="{Binding ElementName=IdentityPreviewCreator_VignetteSoftnessController, Path=ActualWidth}">
 													<Grid.ColumnDefinitions>
@@ -3022,7 +3074,10 @@
 																Value="0"
 																Minimum="-500"
 																Maximum="500"/>
-														<local:UILocalization_Grocerius Text="Top viniette offset" FontFamily="GOST Type BU"/>
+														<local:UILocalization_Grocerius
+															UID="[C] * [Section:Image parameters] Top vignette offset"
+															Text="Top viniette offset"
+															FontFamily="GOST Type BU"/>
 													</StackPanel>
 													<StackPanel Grid.Column="1">
 														<Slider x:Name="IdentityPreviewCreator_LeftVignetteOffsetController"
@@ -3031,7 +3086,10 @@
 																Value="0"
 																Minimum="-500"
 																Maximum="500"/>
-														<local:UILocalization_Grocerius Text="Left viniette offset" FontFamily="GOST Type BU"/>
+														<local:UILocalization_Grocerius
+															UID="[C] * [Section:Image parameters] Left vignette offset"
+															Text="Left viniette offset"
+															FontFamily="GOST Type BU"/>
 													</StackPanel>
 													<StackPanel Grid.Column="2">
 														<Slider x:Name="IdentityPreviewCreator_BottomVignetteOffsetController"
@@ -3040,18 +3098,22 @@
 																Value="0"
 																Minimum="-500"
 																Maximum="500"/>
-														<local:UILocalization_Grocerius Text="Bottom viniette offset" FontFamily="GOST Type BU"/>
+														<local:UILocalization_Grocerius
+															UID="[C] * [Section:Image parameters] Bottom vignette offset"
+															Text="Bottom viniette offset"
+															FontFamily="GOST Type BU"/>
 													</StackPanel>
 
 												</Grid>
 												
-												<Grid Margin="11 8 16 0">
+												<Grid Margin="0 8 16 0">
 													<Grid.ColumnDefinitions>
 														<ColumnDefinition/>
 														<ColumnDefinition Width="0.92*"/>
 													</Grid.ColumnDefinitions>
 
 													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Image parameters] Image type text"
 														Grid.Column="0"
 														VerticalAlignment="Center"
 														FontSize="18"
@@ -3065,6 +3127,7 @@
 																 TextChanged="ChangeImageTypeText"
 																 Style="{StaticResource TextBoxDefaultDesk}"
 																 Text="IDENTITY INFO"
+																 FontWeight="Bold"
 																 FontSize="18"
 																 Margin="0 1 2 1"
 																 FontFamily="GOST Type BU">
@@ -3072,13 +3135,14 @@
 													</Border>
 												</Grid>
 
-												<Grid Margin="11 8 17 0">
+												<Grid Margin="0 8 17 0">
 													<Grid.ColumnDefinitions>
 														<ColumnDefinition/>
 														<ColumnDefinition Width="0.92*"/>
 													</Grid.ColumnDefinitions>
 
 													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Image parameters] Another image type font"
 														x:Name="SelectImageTypeSignFont_Label"
 														Grid.Column="0"
 														VerticalAlignment="Center"
@@ -3091,8 +3155,9 @@
 															Height="26.963"
 															Style="{StaticResource ButtonDefaultDeskHighlightable}">
 														<local:UILocalization_Grocerius
+															UID="[C] * [Section:Image parameters] Another image type font — Select"
 															HorizontalAlignment="Center"
-															Margin="3 1 3 1"
+															Margin="3 0 3 1"
 															FontSize="18"
 															Text="Select font"
 															TextAlignment="Center"
@@ -3101,17 +3166,19 @@
 													</Border>
 												</Grid>
 
-												<Grid Margin="11 8 11 0">
+												<Grid Margin="0 8 11 0">
 													<Grid.ColumnDefinitions>
 														<ColumnDefinition/>
 														<ColumnDefinition Width="1.04*"/>
 													</Grid.ColumnDefinitions>
 
-													<local:UILocalization_Grocerius Grid.Column="0"
-																					FontSize="18"
-																					Text="Image type vertical offset"
-																					VerticalAlignment="Center"
-																					FontFamily="GOST Type BU"/>
+													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Image parameters] Image type vertical offset"
+														Grid.Column="0"
+														FontSize="18"
+														Text="Image type vertical offset"
+														VerticalAlignment="Center"
+														FontFamily="GOST Type BU"/>
 
 													<Slider x:Name="ImageTypeVerticalOffsetController"
 															ValueChanged="ImageTypeVerticalOffset"
@@ -3122,17 +3189,19 @@
 															Maximum="20"/>
 												</Grid>
 												
-												<Grid Margin="11 8 11 0">
+												<Grid Margin="0 8 11 0">
 													<Grid.ColumnDefinitions>
 														<ColumnDefinition/>
 														<ColumnDefinition Width="1.04*"/>
 													</Grid.ColumnDefinitions>
 
-													<local:UILocalization_Grocerius Grid.Column="0"
-																					FontSize="18"
-																					Text="Image type text size"
-																					VerticalAlignment="Center"
-																					FontFamily="GOST Type BU"/>
+													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Image parameters] Image type text size"
+														Grid.Column="0"
+														FontSize="18"
+														Text="Image type text size"
+														VerticalAlignment="Center"
+														FontFamily="GOST Type BU"/>
 
 													<Slider x:Name="ImageTypeTextSizeController"
 															ValueChanged="ImageTypeTextSize"
@@ -3149,10 +3218,12 @@
 										<Grid Margin="2.5 4 16.7 0">
 											<StackPanel>
 												<StackPanel Margin="0 0 0 10">
-													<local:UILocalization_Grocerius FontSize="20"
-																					Text="&lt;u&gt;Specific of the sinner and Identity/E.G.O"
-																					FontFamily="GOST Type BU"
-																					PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"/>
+													<local:UILocalization_Grocerius
+														UID = "[C] * [Section Title] Specific of the sinner and Identity/E.G.O"
+														FontSize="20"
+														Text="&lt;u&gt;Specific of the sinner and Identity/E.G.O"
+														FontFamily="GOST Type BU"
+														PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"/>
 
 													<Grid Visibility="Visible">
 														<Grid.ColumnDefinitions>
@@ -3175,11 +3246,13 @@
 																	<ColumnDefinition Width="0.8*"/>
 																</Grid.ColumnDefinitions>
 
-																<local:UILocalization_Grocerius Grid.Column="0"
-																								FontSize="18"
-																								Text="Sinner icon"
-																								VerticalAlignment="Center"
-																								FontFamily="GOST Type BU"/>
+																<local:UILocalization_Grocerius
+																	UID="[C] * [Section:Specific] Sinner icon"
+																	Grid.Column="0"
+																	FontSize="18"
+																	Text="Sinner icon"
+																	VerticalAlignment="Center"
+																	FontFamily="GOST Type BU"/>
 
 																<ComboBox x:Name="IdentityPreviewCreator_SinnerIconSelector"
 																		  SelectionChanged="SelectSinnerIcon"
@@ -3190,56 +3263,56 @@
 																	<ComboBox.Items>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Yi Sang" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Yi Sang.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Yi Sang" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Yi Sang" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Faust" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Faust.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Faust" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Faust" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Don Quixote" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Don Quixote.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Don Quixote" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Don Quixote" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Ryōshū" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Ryōshū.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Ryōshū" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Ryōshū" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Meursault" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Meursault.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Meursault" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Meursault" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Hong Lu" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Hong Lu.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Hong Lu" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Hong Lu" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Heathcliff" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Heathcliff.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Heathcliff" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Heathcliff" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Ishmael" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Ishmael.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Ishmael" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Ishmael" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Rodion" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Rodion.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Rodion" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Rodion" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Sinclair" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Sinclair.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Sinclair" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Sinclair" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Outis" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Outis.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Outis" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Outis" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 																		<StackPanel Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Uid="Gregor" Height="20" Source="/UI/Limbus/Custom Identity Preview/Sinner Icons/Gregor.png"/>
-																			<TextBlock Margin="6 0 0 0" Text="Gregor" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum Margin="6 0 0 0" Text="Gregor" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 
 																		<StackPanel PreviewMouseLeftButtonUp="SelectCustomSinnerIcon_ManualTrigger" Margin="0 -1 0 0" Orientation="Horizontal">
 																			<Image Margin="0 0 6 0" Visibility="Collapsed" x:Name="IdentityPreviewCreator_SinnerIconSelector_CustomSinnerIcon_Image" Height="20"/>
-																			<TextBlock Text="[Custom]" FontSize="18" VerticalAlignment="Center"/>
+																			<local:UILocalization_Roseum UID="[C] [!] * Sinner icon selection (Custom)" Text="[Custom]" FontSize="18" Foreground="{StaticResource UITheme_DefaultTextColor}" VerticalAlignment="Center"/>
 																		</StackPanel>
 
 																	</ComboBox.Items>
@@ -3253,11 +3326,13 @@
 																	<ColumnDefinition Width="0.8*"/>
 																</Grid.ColumnDefinitions>
 
-																<local:UILocalization_Grocerius Grid.Column="0"
-																						FontSize="18"
-																						Text="Icon brightness"
-																						VerticalAlignment="Center"
-																						FontFamily="GOST Type BU"/>
+																<local:UILocalization_Grocerius
+																	UID="[C] * [Section:Specific] Icon brightness"
+																	Grid.Column="0"
+																	FontSize="18"
+																	Text="Icon brightness"
+																	VerticalAlignment="Center"
+																	FontFamily="GOST Type BU"/>
 
 																<Slider x:Name="IdentityPreviewCreator_SinnerIconBrightnessController"
 																		ValueChanged="SinnerIconBrightness"
@@ -3274,11 +3349,13 @@
 																	<ColumnDefinition Width="0.8*"/>
 																</Grid.ColumnDefinitions>
 
-																<local:UILocalization_Grocerius Grid.Column="0"
-																						FontSize="18"
-																						Text="Icon size"
-																						VerticalAlignment="Center"
-																						FontFamily="GOST Type BU"/>
+																<local:UILocalization_Grocerius
+																	UID="[C] * [Section:Specific] Icon size"
+																	Grid.Column="0"
+																	FontSize="18"
+																	Text="Icon size"
+																	VerticalAlignment="Center"
+																	FontFamily="GOST Type BU"/>
 
 																<Slider x:Name="IdentityPreviewCreator_SinnerIconSizeController"
 																		ValueChanged="SinnerIconSize"
@@ -3295,11 +3372,13 @@
 																	<ColumnDefinition Width="0.8*"/>
 																</Grid.ColumnDefinitions>
 
-																<local:UILocalization_Grocerius Grid.Column="0"
-																								FontSize="18"
-																								Text="Sinner name"
-																								VerticalAlignment="Center"
-																								FontFamily="GOST Type BU"/>
+																<local:UILocalization_Grocerius
+																	UID="[C] * [Section:Specific] Sinner name"
+																	Grid.Column="0"
+																	FontSize="18"
+																	Text="Sinner name"
+																	VerticalAlignment="Center"
+																	FontFamily="GOST Type BU"/>
 
 																<Border Grid.Column="1"
 																		Style="{StaticResource BorderDefaultDesk}"
@@ -3320,11 +3399,13 @@
 																	<ColumnDefinition Width="0.8*"/>
 																</Grid.ColumnDefinitions>
 
-																<local:UILocalization_Grocerius Grid.Column="0"
-																								FontSize="18"
-																								VerticalAlignment="Center"
-																								Text="Name of Identity/E.G.O"
-																								FontFamily="GOST Type BU"/>
+																<local:UILocalization_Grocerius
+																	UID="[C] * [Section:Specific] Name of Identity/E.G.O"
+																	Grid.Column="0"
+																	FontSize="18"
+																	VerticalAlignment="Center"
+																	Text="Name of Identity/E.G.O"
+																	FontFamily="GOST Type BU"/>
 
 																<Border Grid.Column="1"
 																		Style="{StaticResource BorderDefaultDesk}"
@@ -3345,11 +3426,13 @@
 																	<ColumnDefinition Width="0.8*"/>
 																</Grid.ColumnDefinitions>
 
-																<local:UILocalization_Grocerius Grid.Column="0"
-																								FontSize="18"
-																								Text="Ambience color"
-																								VerticalAlignment="Center"
-																								FontFamily="GOST Type BU"/>
+																<local:UILocalization_Grocerius
+																	UID="[C] * [Section:Specific] Ambience color"
+																	Grid.Column="0"
+																	FontSize="18"
+																	Text="Ambience color"
+																	VerticalAlignment="Center"
+																	FontFamily="GOST Type BU"/>
 
 																<Border Grid.Column="1"
 																		Style="{StaticResource BorderDefaultDesk}"
@@ -3386,11 +3469,13 @@
 																	<ColumnDefinition Width="0.8*"/>
 																</Grid.ColumnDefinitions>
 
-																<local:UILocalization_Grocerius Grid.Column="0"
-																								FontSize="18"
-																								Text="Rarity/E.G.O risk level"
-																								VerticalAlignment="Center"
-																								FontFamily="GOST Type BU"/>
+																<local:UILocalization_Grocerius
+																	UID="[C] * [Section:Specific] Rarity/E.G.O Risk level"
+																	Grid.Column="0"
+																	FontSize="18"
+																	Text="Rarity/E.G.O Risk level"
+																	VerticalAlignment="Center"
+																	FontFamily="GOST Type BU"/>
 
 																<ComboBox x:Name="IdentityPreviewCreator_IdentityHeader_RarityOrEGORiskLevelSelector"
 																		  SelectionChanged="SelectRarityOrEGORiskLevel"
@@ -3418,10 +3503,12 @@
 												</StackPanel>
 
 												<StackPanel Margin="0 0 0 10">
-													<local:UILocalization_Grocerius FontSize="20"
-																					Text="&lt;u&gt;Decorative cautions"
-																					FontFamily="GOST Type BU"
-																					PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"/>
+													<local:UILocalization_Grocerius
+														UID = "[C] * [Section Title] Decorative cautions"
+														FontSize="20"
+														Text="&lt;u&gt;Decorative cautions"
+														FontFamily="GOST Type BU"
+														PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"/>
 
 													<Grid Visibility="Visible">
 														<Grid.ColumnDefinitions>
@@ -3444,24 +3531,55 @@
 																	<ColumnDefinition Width="0.8*"/>
 																</Grid.ColumnDefinitions>
 
-																<local:UILocalization_Grocerius Grid.Column="0"
-																						FontSize="18"
-																						Text="Caution type"
-																						VerticalAlignment="Center"
-																						FontFamily="GOST Type BU"/>
+																<local:UILocalization_Grocerius
+																	UID="[C] * [Section:Decorative cautions] Caution type"
+																	Grid.Column="0"
+																	FontSize="18"
+																	Padding="2 0 0 0"
+																	Text="Caution type"
+																	VerticalAlignment="Center"
+																	FontFamily="GOST Type BU"/>
 
 																<ComboBox x:Name="IdentityPreviewCreator_CautionTypeSelector"
 																		  SelectionChanged="SelectCautionsType"
 																		  Grid.Column="1"
+																		  Padding="3 2 0 0"
 																		  Foreground="{StaticResource UITheme_DefaultTextColor}"
 																		  FontFamily="GOST Type BU"
-																		  Padding="3 2.5 2 2"
 																		  Height="26.963">
 																	<ComboBox.Items>
-																		<TextBlock Text="SEASON" FontSize="18" VerticalAlignment="Center"/>
-																		<TextBlock Text="CAUTION" FontSize="18" VerticalAlignment="Center"/>
-																		<TextBlock Text="None" FontSize="18" VerticalAlignment="Center"/>
-																		<TextBlock Text="Custom text" FontSize="18" VerticalAlignment="Center"/>
+																		<local:UILocalization_Roseum
+																			UID="[C] [!] * [Section:Decorative cautions] Caution type — SEASON"
+																			Margin="-1 0 0 0"
+																			Foreground="{StaticResource UITheme_DefaultTextColor}"
+																			Text="SEASON"
+																			x:Uid="SEASON"
+																			FontSize="18"
+																			VerticalAlignment="Center"/>
+																		<local:UILocalization_Roseum
+																			UID="[C] [!] * [Section:Decorative cautions] Caution type — CAUTION"
+																			Margin="-1 0 0 0"
+																			Foreground="{StaticResource UITheme_DefaultTextColor}"
+																			Text="CAUTION"
+																			x:Uid="CAUTION"
+																			FontSize="18"
+																			VerticalAlignment="Center"/>
+																		<local:UILocalization_Roseum
+																			UID="[C] [!] * [Section:Decorative cautions] Caution type — None"
+																			Margin="-1 0 0 0"
+																			Foreground="{StaticResource UITheme_DefaultTextColor}"
+																			Text="None"
+																			x:Uid="None"
+																			FontSize="18"
+																			VerticalAlignment="Center"/>
+																		<local:UILocalization_Roseum
+																			UID="[C] [!] * [Section:Decorative cautions] Caution type — Custom text"
+																			Margin="-1 0 0 0"
+																			Foreground="{StaticResource UITheme_DefaultTextColor}"
+																			Text="Custom text"
+																			x:Uid="Custom text"
+																			FontSize="18"
+																			VerticalAlignment="Center"/>
 																	</ComboBox.Items>
 																</ComboBox>
 															</Grid>
@@ -3472,17 +3590,20 @@
 																	<ColumnDefinition Width="0.8*"/>
 																</Grid.ColumnDefinitions>
 
-																<local:UILocalization_Grocerius Grid.Column="0"
-																								FontSize="18"
-																								Text="Caution bloom radius"
-																								VerticalAlignment="Center"
-																								FontFamily="GOST Type BU"/>
+																<local:UILocalization_Grocerius
+																	UID="[C] * [Section:Decorative cautions] Caution bloom radius"
+																	Grid.Column="0"
+																	FontSize="18"
+																	Text="Caution bloom radius"
+																	VerticalAlignment="Center"
+																	FontFamily="GOST Type BU"/>
 
 																<Slider x:Name="IdentityPreviewCreator_Cautions_BoomRadiusController"
 																		ValueChanged="CautionsBloomRadius"
 																		Grid.Column="1"
 																		IsSelectionRangeEnabled="True"
 																		Value="5"
+																		Margin="-2.5 0 0 0"
 																		Minimum="0"
 																		Maximum="20"/>
 															</Grid>
@@ -3493,22 +3614,25 @@
 																	<ColumnDefinition Width="0.8*"/>
 																</Grid.ColumnDefinitions>
 
-																<local:UILocalization_Grocerius Grid.Column="0"
-																								FontSize="18"
-																								Text="Caution opacity"
-																								VerticalAlignment="Center"
-																								FontFamily="GOST Type BU"/>
+																<local:UILocalization_Grocerius
+																	UID="[C] * [Section:Decorative cautions] Caution opacity"
+																	Grid.Column="0"
+																	FontSize="18"
+																	Text="Caution opacity"
+																	VerticalAlignment="Center"
+																	FontFamily="GOST Type BU"/>
 
 																<Slider x:Name="IdentityPreviewCreator_Cautions_OpacityController"
 																		ValueChanged="CautionsOpacity"
 																		Grid.Column="1"
 																		IsSelectionRangeEnabled="True"
 																		Value="35"
+																		Margin="-2.5 0 0 0"
 																		Minimum="0"
 																		Maximum="100"/>
 															</Grid>
 
-															<Grid x:Name="IdentityPreviewCreator_CautionType_SubCategory_CustomCaution" Visibility="Collapsed">
+															<Grid x:Name="IdentityPreviewCreator_CautionType_SubCategory_CustomCaution" Visibility="Visible">
 																<StackPanel>
 																	<Grid>
 
@@ -3533,6 +3657,7 @@
 																				</Grid.ColumnDefinitions>
 
 																				<local:UILocalization_Grocerius
+																					UID="[C] * [Section:Decorative cautions] Custom text string"
 																					Grid.Column="0"
 																					FontSize="18"
 																					Text="Custom text string"
@@ -3559,6 +3684,7 @@
 																				</Grid.ColumnDefinitions>
 
 																				<local:UILocalization_Grocerius
+																					UID="[C] * [Section:Decorative cautions] Another font"
 																					x:Name="IdentityPreviewCreator_CautionType_CustomCautionFontTitle"
 																					VerticalAlignment="Center"
 																					Grid.Column="0"
@@ -3571,6 +3697,7 @@
 																						PreviewMouseLeftButtonUp="SelectDecorativeCautionsCustomFont"
 																						Style="{StaticResource ButtonDefaultDeskHighlightable}">
 																					<local:UILocalization_Grocerius
+																						UID="[C] * [Section:Decorative cautions] Another font — Select"
 																						HorizontalAlignment="Center"
 																						Margin="3 1 3 1"
 																						FontSize="18"
@@ -3587,7 +3714,8 @@
 																					<ColumnDefinition Width="0.92*"/>
 																				</Grid.ColumnDefinitions>
 
-																				<local:UILocalization_Grocerius 
+																				<local:UILocalization_Grocerius
+																					UID="[C] * [Section:Decorative cautions] Text vertical offset"
 																					Grid.Column="0"
 																					FontSize="18"
 																					Text="Text vertical offset"
@@ -3610,7 +3738,8 @@
 																					<ColumnDefinition Width="0.92*"/>
 																				</Grid.ColumnDefinitions>
 
-																				<local:UILocalization_Grocerius 
+																				<local:UILocalization_Grocerius
+																					UID="[C] * [Section:Decorative cautions] Text size"
 																					Grid.Column="0"
 																					FontSize="18"
 																					Text="Text size"
@@ -3621,7 +3750,7 @@
 																						ValueChanged="CautionsCustomTextSize"
 																						Grid.Column="1"
 																						IsSelectionRangeEnabled="True"
-																						Value="1000.6"
+																						Value="1060"
 																						SmallChange="0.01"
 																						Minimum="0"
 																						Maximum="2000"/>
@@ -3638,6 +3767,7 @@
 												<StackPanel>
 
 													<local:UILocalization_Grocerius
+														UID = "[C] * [Section Title] Text info"
 														FontSize="20"
 														Text="&lt;u&gt;Text info"
 														FontFamily="GOST Type BU"
@@ -3663,6 +3793,7 @@
 																<StackPanel>
 																	<StackPanel>
 																		<local:UILocalization_Grocerius
+																			UID = "[C] * [Section Title] Column settings"
 																			FontSize="20"
 																			Margin="0 5 0 0"
 																			Text="&lt;u&gt;Column settings"
@@ -3685,7 +3816,8 @@
 																						<ColumnDefinition Width="0.92*"/>
 																					</Grid.ColumnDefinitions>
 
-																					<local:UILocalization_Grocerius 
+																					<local:UILocalization_Grocerius
+																						UID="[C] * [Section:Text info/Column settings] First column offset"
 																						Grid.Column="0"
 																						FontSize="18"
 																						Text="First column offset"
@@ -3697,8 +3829,8 @@
 																							Grid.Column="1"
 																							IsSelectionRangeEnabled="True"
 																							Value="0"
-																							Minimum="-1500"
-																							Maximum="1500"/>
+																							Minimum="-500"
+																							Maximum="500"/>
 																				</Grid>
 																				<Grid Margin="0 8 0 0">
 																					<Grid.ColumnDefinitions>
@@ -3706,20 +3838,21 @@
 																						<ColumnDefinition Width="0.92*"/>
 																					</Grid.ColumnDefinitions>
 
-																					<local:UILocalization_Grocerius 
-																					Grid.Column="0"
-																					FontSize="18"
-																					Text="First column item signatures offset"
-																					VerticalAlignment="Center"
-																					FontFamily="GOST Type BU"/>
+																					<local:UILocalization_Grocerius
+																						UID="[C] * [Section:Text info/Column settings] First column item signatures offset"
+																						Grid.Column="0"
+																						FontSize="18"
+																						Text="First column item signatures offset"
+																						VerticalAlignment="Center"
+																						FontFamily="GOST Type BU"/>
 
 																					<Slider x:Name="FirstColumnItemSignaturesOffsetController"
-																						ValueChanged="FirstColumn_ItemsSignaturesOffset"
-																						Grid.Column="1"
-																						IsSelectionRangeEnabled="True"
-																						Value="0"
-																						Minimum="-500"
-																						Maximum="500"/>
+																							ValueChanged="FirstColumn_ItemsSignaturesOffset"
+																							Grid.Column="1"
+																							IsSelectionRangeEnabled="True"
+																							Value="0"
+																							Minimum="-500"
+																							Maximum="500"/>
 
 																					<Canvas x:Name="FirstColumn_ItemsSignaturesOffsetBinder" Visibility="Collapsed" Margin="323 40 0 0"/>
 																				</Grid>
@@ -3731,7 +3864,8 @@
 																						<ColumnDefinition Width="0.92*"/>
 																					</Grid.ColumnDefinitions>
 
-																					<local:UILocalization_Grocerius 
+																					<local:UILocalization_Grocerius
+																						UID="[C] * [Section:Text info/Column settings] Second column offset"
 																						Grid.Column="0"
 																						FontSize="18"
 																						Text="Second column offset"
@@ -3739,12 +3873,12 @@
 																						FontFamily="GOST Type BU"/>
 
 																					<Slider	x:Name="IdentityPreviewCreator_TextInfo_SecondColumnOffsetController"
-																						ValueChanged="SecondColumn_SelfOffset"
-																						Grid.Column="1"
-																						IsSelectionRangeEnabled="True"
-																						Value="0"
-																						Minimum="-1500"
-																						Maximum="1500"/>
+																							ValueChanged="SecondColumn_SelfOffset"
+																							Grid.Column="1"
+																							IsSelectionRangeEnabled="True"
+																							Value="0"
+																							Minimum="-500"
+																							Maximum="500"/>
 																				</Grid>
 																				<Grid Margin="0 8 0 0">
 																					<Grid.ColumnDefinitions>
@@ -3752,7 +3886,8 @@
 																						<ColumnDefinition Width="0.92*"/>
 																					</Grid.ColumnDefinitions>
 
-																					<local:UILocalization_Grocerius 
+																					<local:UILocalization_Grocerius
+																						UID="[C] * [Section:Text info/Column settings] Second column item signatures offset"
 																						Grid.Column="0"
 																						FontSize="18"
 																						Text="Second column item signatures offset"
@@ -3760,12 +3895,12 @@
 																						FontFamily="GOST Type BU"/>
 
 																					<Slider	x:Name="SecondColumnItemSignaturesOffsetController"
-																						ValueChanged="SecondColumn_ItemsSignaturesOffset"
-																						Grid.Column="1"
-																						IsSelectionRangeEnabled="True"
-																						Value="0"
-																						Minimum="-500"
-																						Maximum="500"/>
+																							ValueChanged="SecondColumn_ItemsSignaturesOffset"
+																							Grid.Column="1"
+																							IsSelectionRangeEnabled="True"
+																							Value="0"
+																							Minimum="-500"
+																							Maximum="500"/>
 
 																					<Canvas x:Name="SecondColumn_ItemsSignaturesOffsetBinder" Visibility="Collapsed" Margin="323 40 0 0"/>
 																				</Grid>
@@ -3777,6 +3912,7 @@
 																					</Grid.ColumnDefinitions>
 
 																					<local:UILocalization_Grocerius
+																						UID="[C] * [Section:Text info/Column settings] Another font for item signatures"
 																						x:Name="IdentityPreviewCreator_AnotherItemSignsFont_Label"
 																						Grid.Column="0"
 																						FontSize="18"
@@ -3789,8 +3925,9 @@
 																							PreviewMouseLeftButtonUp="SelectAnotherItemSignsFont"
 																							Style="{StaticResource ButtonDefaultDeskHighlightable}">
 																						<local:UILocalization_Grocerius
+																							UID="[C] * [Section:Text info/Column settings] Another font for item signatures — Select"
 																							HorizontalAlignment="Center"
-																							Margin="3 1 3 1"
+																							Margin="3 0 3 1"
 																							FontSize="18"
 																							Text="Select font"
 																							TextAlignment="Center"
@@ -3809,6 +3946,7 @@
 																								Minimum="100"
 																								Maximum="640"/>
 																						<local:UILocalization_Grocerius
+																							UID="[C] * [Section:Text info/Column settings] Keyword boxes width"
 																							Text="Keyword boxes width"
 																							FontFamily="GOST Type BU"/>
 																					</StackPanel>
@@ -3821,16 +3959,17 @@
 																						<Slider x:Name="UnifiedTextSizeController"
 																								ValueChanged="UnifiedTextSize"
 																								IsSelectionRangeEnabled="True"
-																								Value="21"
-																								Minimum="15"
+																								Value="22"
+																								Minimum="18"
 																								TickFrequency="0.5" 
 																								IsSnapToTickEnabled="True"
 																								TickPlacement="BottomRight"
-																								Maximum="35"/>
+																								Maximum="28"/>
 																						<local:UILocalization_Grocerius
+																							UID="[C] * [Section:Text info/Column settings] Unified text size"
 																							x:Name="UnifiedTextSize_Label"
 																							Margin="0 1 0 0"
-																							Text="Unified text size [&lt;color=#fc5a03&gt;21&lt;/color&gt;]                                  (Save and reload project or refresh text size via context menu for text item to apply)"
+																							Text="Unified text size [&lt;color=#fc5a03&gt;22&lt;/color&gt;]                                  (Save and reload project or use 'Refresh text' via context menu for text item to apply)"
 																							FontFamily="GOST Type BU"/>
 																					</StackPanel>
 
@@ -3846,8 +3985,9 @@
 																	</StackPanel>
 
 																	<StackPanel>
-																		
+
 																		<local:UILocalization_Grocerius
+																			UID = "[C] * [Section Title] Text info sources"
 																			FontSize="20"
 																			Margin="0 5 0 0"
 																			Text="&lt;u&gt;Text info sources"
@@ -3871,6 +4011,7 @@
 																					</Grid.ColumnDefinitions>
 
 																					<local:UILocalization_Grocerius
+																						UID="[C] * [Section:Text info/Text info sources] Skills localization"
 																						x:Name="SelectSkillsLocalizationFile_Label"
 																						Grid.Column="0"
 																						FontSize="18"
@@ -3883,7 +4024,8 @@
 																							PreviewMouseLeftButtonUp="SelectSkillsLocalizationFile"
 																							Style="{StaticResource ButtonDefaultDeskHighlightable}"
 																							HorizontalAlignment="Right">
-																						<local:UILocalization_Grocerius 
+																						<local:UILocalization_Grocerius
+																							UID="[C] * [Section:Text info/Text info sources] Skills localization — Select"
 																							Margin="3 1 3 1"
 																							FontSize="18"
 																							Text="Select file"
@@ -3901,6 +4043,7 @@
 																					</Grid.ColumnDefinitions>
 
 																					<local:UILocalization_Grocerius
+																						UID="[C] * [Section:Text info/Text info sources] Skills Display Info"
 																						x:Name="SelectSkillsDisplayInfoFile_Label"
 																						Grid.Column="0"
 																						FontSize="18"
@@ -3913,6 +4056,7 @@
 																							PreviewMouseLeftButtonUp="SelectSkillsDisplayInfoFile"
 																							Style="{StaticResource ButtonDefaultDeskHighlightable}">
 																						<local:UILocalization_Grocerius 
+																							UID="[C] * [Section:Text info/Text info sources] Skills Display Info — Select"
 																							Margin="3 1 3 1"
 																							FontSize="18"
 																							Text="Select file"
@@ -3931,6 +4075,7 @@
 																					</Grid.ColumnDefinitions>
 
 																					<local:UILocalization_Grocerius
+																						UID="[C] * [Section:Text info/Text info sources] Passives localization"
 																						x:Name="SelectPassivesLocalizationFile_Label"
 																						Grid.Column="0"
 																						FontSize="18"
@@ -3942,7 +4087,8 @@
 																							Height="26.963"
 																							PreviewMouseLeftButtonUp="SelectPassivesLocalizationFile"
 																							Style="{StaticResource ButtonDefaultDeskHighlightable}">
-																						<local:UILocalization_Grocerius 
+																						<local:UILocalization_Grocerius
+																							UID="[C] * [Section:Text info/Text info sources] Passives localization — Select"
 																							Margin="3 1 3 1"
 																							FontSize="18"
 																							Text="Select file"
@@ -3960,6 +4106,7 @@
 																					</Grid.ColumnDefinitions>
 
 																					<local:UILocalization_Grocerius
+																						UID="[C] * [Section:Text info/Text info sources] Keywords localization"
 																						x:Name="SelectKeywordsLocalizationFile_Label"
 																						Grid.Column="0"
 																						FontSize="18"
@@ -3971,7 +4118,8 @@
 																							Height="26.963"
 																							PreviewMouseLeftButtonUp="SelectKeywordsLocalizationFile"
 																							Style="{StaticResource ButtonDefaultDeskHighlightable}">
-																						<local:UILocalization_Grocerius 
+																						<local:UILocalization_Grocerius
+																							UID="[C] * [Section:Text info/Text info sources] Keywords localization — Select"
 																							Margin="3 1 3 1"
 																							FontSize="18"
 																							Text="Select file"
@@ -3986,8 +4134,11 @@
 																	</StackPanel>
 
 
-																	<StackPanel x:Name="ItemEditor_ParentGrid" Opacity="0.55" IsHitTestVisible="False">
+																	<StackPanel x:Name="ItemEditor_ParentGrid"
+																				Opacity="0.55"
+																				IsHitTestVisible="False">
 																		<local:UILocalization_Grocerius
+																			UID = "[C] * [Section Title] Selected item settings"
 																			FontSize="20"
 																			Margin="0 5 0 0"
 																			Text="&lt;u&gt;Selected item settings"
@@ -4005,12 +4156,11 @@
 																			<StackPanel Grid.Column="1" Margin="-7 5 0 0">
 
 																				<local:UILocalization_Grocerius
-																					Uid="Template item header"
+																					UID="[C] * [Section:Text info/Selected item settings] Editing item header"
 																					x:Name="IdentityPreviewCreator_EditingItemHeader"				
 																					FontSize="20"
-																					Text="&lt;b&gt;| Editing item:&lt;/b&gt; no items added"
-																					FontFamily="GOST Type BU">
-																				</local:UILocalization_Grocerius>
+																					Text="&lt;b&gt;| Editing item:&lt;/b&gt;"
+																					FontFamily="GOST Type BU"/>
 
 																				<StackPanel Margin="0 8 0 0">
 
@@ -4020,7 +4170,8 @@
 																							<ColumnDefinition Width="0.92*"/>
 																						</Grid.ColumnDefinitions>
 
-																						<local:UILocalization_Grocerius 
+																						<local:UILocalization_Grocerius
+																							UID="[C] * [Section:Text info/Selected item settings] Item signature"
 																							Grid.Column="0"
 																							FontSize="18"
 																							VerticalAlignment="Center"
@@ -4040,43 +4191,7 @@
 																						</Border>
 																					</Grid>
 
-																					<Grid Margin="0 8 0 0" Visibility="Collapsed">
-																						<Grid.ColumnDefinitions>
-																							<ColumnDefinition/>
-																							<ColumnDefinition Width="0.92*"/>
-																						</Grid.ColumnDefinitions>
-
-																						<local:UILocalization_Grocerius
-																							x:Name="AnotherItemSignaturesFont_Label"
-																							Grid.Column="0"
-																							FontSize="18"
-																							Text="Another item signatures font"
-																							VerticalAlignment="Center"
-																							FontFamily="GOST Type BU"/>
-
-																						<Border Grid.Column="1"
-																								Height="26.963"
-																								PreviewMouseLeftButtonUp="SelectAnotherItemSignsFont"
-																								Style="{StaticResource ButtonDefaultDeskHighlightable}">
-																							<local:UILocalization_Grocerius 
-																								Margin="3 1 3 1"
-																								FontSize="18"
-																								Text="Select font"
-																								TextAlignment="Center"
-																								HorizontalAlignment="Center"
-																								VerticalAlignment="Center"
-																								FontFamily="GOST Type BU"/>
-																						</Border>
-
-																						<TextBlock Visibility="Collapsed"
-																								   x:Name="ItemSignaturesFirstColumnParamBinder"
-																								   Margin="0 0 0 0"/>
-																						
-																						<TextBlock Visibility="Collapsed"
-																								   x:Name="ItemSignaturesSecondColumnParamBinder"
-																								   Margin="0 0 0 0"/>
-																						
-																					</Grid>
+																					
 
 																					<Grid Margin="0 12 0 0" Uid="!! Text ID multiple selectors !!  (!! only one visible based on item type !!)">
 
@@ -4087,6 +4202,7 @@
 																							</Grid.ColumnDefinitions>
 
 																							<local:UILocalization_Grocerius
+																								UID="[C] * [Section:Text info/Selected item settings] Skill ID from localization file"
 																								Grid.Column="0"
 																								FontSize="18"
 																								Text="Skill ID from localization file"
@@ -4111,6 +4227,7 @@
 																							</Grid.ColumnDefinitions>
 
 																							<local:UILocalization_Grocerius
+																								UID="[C] * [Section:Text info/Selected item settings] Passive ID from localization file"
 																								Grid.Column="0"
 																								FontSize="18"
 																								Text="Passive ID from localization file"
@@ -4135,6 +4252,7 @@
 																							</Grid.ColumnDefinitions>
 
 																							<local:UILocalization_Grocerius
+																								UID="[C] * [Section:Text info/Selected item settings] Keyword ID from localization file"
 																								Grid.Column="0"
 																								FontSize="18"
 																								Text="Keyword ID from localization file"
@@ -4164,6 +4282,7 @@
 																						</Grid.ColumnDefinitions>
 
 																						<local:UILocalization_Grocerius
+																							UID="[C] * [Section:Text info/Selected item settings] Skill constructor from Display Info"
 																							Grid.Column="0"
 																							FontSize="18"
 																							Text="Skill constructor from Display Info"
@@ -4188,6 +4307,7 @@
 																						</Grid.ColumnDefinitions>
 
 																						<local:UILocalization_Grocerius
+																							UID="[C] * [Section:Text info/Selected item settings] Keyword icon image"
 																							Grid.Column="0"
 																							FontSize="18"
 																							x:Name="KeywordIconSelectionLabel"
@@ -4199,7 +4319,8 @@
 																								PreviewMouseLeftButtonUp="SelectKeywordIconImage"
 																								Height="26.963"
 																								Style="{StaticResource ButtonDefaultDeskHighlightable}">
-																							<local:UILocalization_Grocerius 
+																							<local:UILocalization_Grocerius
+																								UID="[C] * [Section:Text info/Selected item settings] Keyword icon image — Select"
 																								Margin="3 1 3 1"
 																								FontSize="18"
 																								Text="Select image"
@@ -4221,6 +4342,7 @@
 																									Minimum="-800"
 																									Maximum="800"/>
 																							<local:UILocalization_Grocerius
+																								UID="[C] * [Section:Text info/Selected item settings] Vertical offset"
 																								Text="Vertical offset"
 																								FontFamily="GOST Type BU"/>
 																						</StackPanel>
@@ -4235,7 +4357,8 @@
 																									Minimum="-800"
 																									Maximum="800"/>
 																							<local:UILocalization_Grocerius
-																								Text="Horizontal offset (Added content only)"
+																								UID="[C] * [Section:Text info/Selected item settings] Horizontal offset"
+																								Text="Horizontal offset (Added text info only)"
 																								FontFamily="GOST Type BU"/>
 																						</StackPanel>
 																					</Grid>
@@ -4250,6 +4373,7 @@
 																									Minimum="100"
 																									Maximum="640"/>
 																							<local:UILocalization_Grocerius
+																								UID="[C] * [Section:Text info/Selected item settings] Name max width"
 																								Text="Name max width"
 																								FontFamily="GOST Type BU"/>
 																						</StackPanel>
@@ -4266,6 +4390,7 @@
 																									Minimum="100"
 																									Maximum="1500"/>
 																							<local:UILocalization_Grocerius
+																								UID="[C] * [Section:Text info/Selected item settings] Passive description width"
 																								Text="Passive description width"
 																								FontFamily="GOST Type BU"/>
 																						</StackPanel>
@@ -4285,6 +4410,7 @@
 																									Minimum="100"
 																									Maximum="1500"/>
 																							<local:UILocalization_Grocerius
+																								UID="[C] * [Section:Text info/Selected item settings] Skill main description width"
 																								Text="Skill main description width"
 																								FontFamily="GOST Type BU"/>
 																						</StackPanel>
@@ -4296,6 +4422,7 @@
 																									Minimum="100"
 																									Maximum="1500"/>
 																							<local:UILocalization_Grocerius
+																								UID="[C] * [Section:Text info/Selected item settings] Skill coin descriptions width"
 																								Text="Skill coins descriptions width"
 																								FontFamily="GOST Type BU"/>
 																						</StackPanel>
@@ -4414,7 +4541,7 @@
 											<Border x:Name="IdentityPreviewCreator_TopVignette" Margin="0 -1 0 0" VerticalAlignment="Top" Height="{Binding ElementName=IdentityPreviewCreator_VignetteStrength_SharedBinder, Path=Width}" Visibility="Visible">
 												<Border.Background>
 													<LinearGradientBrush EndPoint="0.5 1" StartPoint="0.5 0">
-														<GradientStop Color="Black"/>
+														<GradientStop Color="#000000"/>
 														<GradientStop Color="#00000000" Offset="1"/>
 													</LinearGradientBrush>
 												</Border.Background>
@@ -4437,7 +4564,7 @@
 											<Border x:Name="IdentityPreviewCreator_BottomVignette" Margin="0 0 0 -1" VerticalAlignment="Bottom" Height="{Binding ElementName=IdentityPreviewCreator_VignetteStrength_SharedBinder, Path=Width}" Visibility="Visible">
 												<Border.Background>
 													<LinearGradientBrush EndPoint="0 0" StartPoint="0 1">
-														<GradientStop Color="Black"/>
+														<GradientStop Color="#000000"/>
 														<GradientStop Color="#00000000" Offset="1"/>
 													</LinearGradientBrush>
 												</Border.Background>
@@ -4479,7 +4606,7 @@
 															<TranslateTransform/>
 														</TransformGroup>
 													</LinearGradientBrush.RelativeTransform>
-													<GradientStop Color="Black"/>
+													<GradientStop Color="#000000"/>
 													<GradientStop Color="#00000000" Offset="1"/>
 												</LinearGradientBrush>
 											</Border.Background>
@@ -4499,7 +4626,7 @@
 														   TextWrapping="Wrap"
 														   FontFamily="UI/Fonts/#S-Core Dream 5 Medium"
 														   VerticalAlignment="Top">
-													※This is an unofficial identity preview image created by using Limbus Company Localization Interface.
+													※This is an unofficial Identity Preview image created by using Limbus Company Localization Interface
 												</TextBlock>
 
 												<TextBlock x:Name="CustomIdentityPreviewCreator_ImageTypeText"
@@ -4606,7 +4733,7 @@
 													   VerticalAlignment="Bottom"
 													   Source="/UI/Limbus/Custom Identity Preview/Name Background (Identity).png"/>
 												<TextBlock x:Name="IdentityPreviewCreator_IdentityHeader_IdentityName_Text"
-														   Margin="4 5 0 12"
+														   Margin="4 5 0 13.5"
 														   HorizontalAlignment="Center"
 														   VerticalAlignment="Bottom"
 														   LineHeight="16"
@@ -4693,16 +4820,35 @@
 														  HorizontalAlignment="Left"
 														  Height="26.963">
 														<ComboBoxItem PreviewMouseLeftButtonDown="IdentityPreviewCreator_AddSkillToColumn">
-															<TextBlock Text="Skill" FontSize="18" VerticalAlignment="Center"/>
+															<local:UILocalization_Roseum
+																x:Name="IdentityPreviewCreator_AddSkillToColumn_Text"
+																UID="[C] * [Section:Text info/Column settings] Add item to Column — Skill"
+																Foreground="{StaticResource UITheme_DefaultTextColor}"
+																Text="Skill"
+																FontSize="18" 
+																VerticalAlignment="Center"/>
 														</ComboBoxItem>
 														<ComboBoxItem PreviewMouseLeftButtonDown="IdentityPreviewCreator_AddPassiveToColumn">
-															<TextBlock Text="Passive" FontSize="18" VerticalAlignment="Center"/>
+															<local:UILocalization_Roseum
+																x:Name="IdentityPreviewCreator_AddPassiveToColumn_Text"
+																UID="[C] * [Section:Text info/Column settings] Add item to Column — Passive"
+																Foreground="{StaticResource UITheme_DefaultTextColor}"
+																Text="Passive"
+																FontSize="18"
+																VerticalAlignment="Center"/>
 														</ComboBoxItem>
 														<ComboBoxItem PreviewMouseLeftButtonDown="IdentityPreviewCreator_AddKeywordToColumn">
-															<TextBlock Text="Keyword" FontSize="18" VerticalAlignment="Center"/>
+															<local:UILocalization_Roseum
+																x:Name="IdentityPreviewCreator_AddKeywordToColumn_Text"
+																UID="[C] * [Section:Text info/Column settings] Add item to Column — Keyword"
+																Foreground="{StaticResource UITheme_DefaultTextColor}"
+																Text="Keyword"
+																FontSize="18"
+																VerticalAlignment="Center"/>
 														</ComboBoxItem>
 													</ComboBox>
 													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Text info/Column settings] Add item to Column 1"
 														x:Name="IdentityPreviewItems_FirstColumn_AddItemText"
 														FontSize="18"
 														Width="200"
@@ -4728,24 +4874,37 @@
 													  Margin="50 0 0 0"
 													  Width="{Binding ElementName=IdentityPreviewItems_FirstColumn_AddItemText, Path=Width}">
 													<ComboBox x:Name="IdentityPreviewCreator_IdentityTextManager_SecondColumnHost"
-																Foreground="{StaticResource UITheme_DefaultTextColor}"
-																FontFamily="GOST Type BU"
-																Margin="0 8 0 0"
-																Padding="300"
-																HorizontalContentAlignment="Center"
-																HorizontalAlignment="Left"
-																Height="26.963">
+															  Foreground="{StaticResource UITheme_DefaultTextColor}"
+															  FontFamily="GOST Type BU"
+															  Margin="0 8 0 0"
+															  Padding="300"
+															  HorizontalContentAlignment="Center"
+															  HorizontalAlignment="Left"
+															  Height="26.963">
 														<ComboBoxItem PreviewMouseLeftButtonDown="IdentityPreviewCreator_AddSkillToColumn">
-															<TextBlock Text="Skill" FontSize="18" VerticalAlignment="Center"/>
+															<local:UILocalization_Roseum
+																Foreground="{StaticResource UITheme_DefaultTextColor}"
+																Text="{Binding ElementName=IdentityPreviewCreator_AddSkillToColumn_Text, Path=Text}"
+																FontSize="{Binding ElementName=IdentityPreviewCreator_AddSkillToColumn_Text, Path=FontSize}"
+																VerticalAlignment="Center"/>
 														</ComboBoxItem>
 														<ComboBoxItem PreviewMouseLeftButtonDown="IdentityPreviewCreator_AddPassiveToColumn">
-															<TextBlock Text="Passive" FontSize="18" VerticalAlignment="Center"/>
+															<local:UILocalization_Roseum
+																Foreground="{StaticResource UITheme_DefaultTextColor}"
+																Text="{Binding ElementName=IdentityPreviewCreator_AddPassiveToColumn_Text, Path=Text}"
+																FontSize="{Binding ElementName=IdentityPreviewCreator_AddPassiveToColumn_Text, Path=FontSize}"
+																VerticalAlignment="Center"/>
 														</ComboBoxItem>
 														<ComboBoxItem PreviewMouseLeftButtonDown="IdentityPreviewCreator_AddKeywordToColumn">
-															<TextBlock Text="Keyword" FontSize="18" VerticalAlignment="Center"/>
+															<local:UILocalization_Roseum
+																Foreground="{StaticResource UITheme_DefaultTextColor}"
+																Text="{Binding ElementName=IdentityPreviewCreator_AddKeywordToColumn_Text, Path=Text}"
+																FontSize="{Binding ElementName=IdentityPreviewCreator_AddKeywordToColumn_Text, Path=FontSize}"
+																VerticalAlignment="Center"/>
 														</ComboBoxItem>
 													</ComboBox>
 													<local:UILocalization_Grocerius
+														UID="[C] * [Section:Text info/Column settings] Add item to Column 2"
 														x:Name="IdentityPreviewItems_SecondColumn_AddItemText"
 														FontSize="18"
 														Width="200"

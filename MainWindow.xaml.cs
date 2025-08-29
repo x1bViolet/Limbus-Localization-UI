@@ -14,6 +14,7 @@ using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
+using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using static LC_Localization_Task_Absolute.Configurazione;
 using static LC_Localization_Task_Absolute.Json.BaseTypes;
@@ -27,6 +28,8 @@ using static LC_Localization_Task_Absolute.Mode_Handlers.CustomIdentityPreviewCr
 using static LC_Localization_Task_Absolute.Requirements;
 using static System.Globalization.NumberStyles;
 using static System.Windows.Visibility;
+using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
+using static LC_Localization_Task_Absolute.InterfaceLocalizationModifiers.Frames.Static_UI_Text;
 
 namespace LC_Localization_Task_Absolute;
 
@@ -210,6 +213,8 @@ public partial class MainWindow : Window
 
         ProcessLogicalTree(this);
 
+        //ᐁ_Interface_Localization_Loader.ExportConverted();
+
         InitMain();
     }
 
@@ -232,6 +237,8 @@ public partial class MainWindow : Window
 
         Mode_Skills.LoadDefaultResources();
 
+        ModifyUI(@"⇲ Assets Directory\@ Internal\Interface Languages\English"); // Load english for new mode by default
+
         Configurazione.PullLoad();
 
         if (File.Exists(@"⇲ Assets Directory\Default Text.txt"))
@@ -248,8 +255,6 @@ public partial class MainWindow : Window
         {
             InitializeIdentityPreviewCreatorProperties();
 
-
-
             // Switch ui back to regular on startup (i dont want to change xaml back)
             IdentityPreviewCreator_TextEntries_ElementsColor.Text = "#abcdef";
 
@@ -260,6 +265,7 @@ public partial class MainWindow : Window
 
             SwitchUI_Deactivate();
 
+            // To center
             this.Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
             this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
         }
@@ -670,6 +676,11 @@ public partial class MainWindow : Window
         string UptieLevelNumber = $"{Sender.Name[^1]}";
 
         Mode_Skills.TransformToSkill(Mode_Skills.CurrentSkillID, int.Parse(UptieLevelNumber));
+    }
+
+    private void SwitchToFifthUptie(object sender, MouseButtonEventArgs e)
+    {
+        Mode_Skills.TransformToSkill(Mode_Skills.CurrentSkillID, 5);
     }
 
     private void Actions_Skills_SwitchToDesc(object sender, MouseButtonEventArgs e) => Mode_Skills.SwitchToDesc();
@@ -1723,6 +1734,10 @@ public partial class MainWindow : Window
             }
         }
 
+        if (current is UILocalization_Grocerius Item)
+        {
+            ᐁ_Interface_Localization_Loader.XAMLConvertExport(Item);
+        }
 
         DependencyObject dependencyObject = current as DependencyObject;
 
@@ -2348,6 +2363,7 @@ public partial class MainWindow : Window
             {
                 ManualPath = OutputPathSelector.FileName;
             }
+            else CurrentTarget = null;
         }
         else
         {
@@ -2498,7 +2514,7 @@ public partial class MainWindow : Window
 
     public static string RandomString(int length)
     {
-        return new string(Enumerable.Repeat("ЙУABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", length)
+        return new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", length)
             .Select(s => s[random.Next(s.Length)]).ToArray());
     }
 
@@ -2537,16 +2553,31 @@ public partial class MainWindow : Window
                 {
                     Foreground = Brushes.White,
                     Opacity = 0.4,
-                    FontSize = 25,
+
+                    FontSize = SpecializedDefs.DefaultFontSizeForPlaceholder,
+                    FontFamily = SpecializedDefs.DefaultFontFamilyForPlaceholder,
+                    FontWeight = SpecializedDefs.DefaultFontWightForPlaceholder,
+                    Text = (NewItemType switch
+                    {
+                        "Skill" => SpecializedDefs.DefaultTextForPlaceholder_Skill,
+                        "Passive" => SpecializedDefs.DefaultTextForPlaceholder_Passive,
+                        "Keyword" => SpecializedDefs.DefaultTextForPlaceholder_Keyword,
+                        _ => SpecializedDefs.DefaultTextForPlaceholder_Keyword,
+                    }).Extern(UID),
+
                     TextAlignment = TextAlignment.Center,
                     Effect = new DropShadowEffect() { BlurRadius = 0, ShadowDepth = 3 },
-                    FontFamily = MainControl.FindResource("BebasKaiUniversal") as FontFamily,
                     HorizontalAlignment = HorizontalAlignment.Center,
                     VerticalAlignment = VerticalAlignment.Center,
-                    Text = $"TEXT CONTROL\n({NewItemType}, [Item #{UID}]) "
                 }
             },
         };
+
+        InterfaceTranslationParameter MenuItem_Title   = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Title;
+        InterfaceTranslationParameter MenuItem_Up      = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_MoveUp;
+        InterfaceTranslationParameter MenuItem_Down    = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_MoveDown;
+        InterfaceTranslationParameter MenuItem_Remove  = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Remove;
+        InterfaceTranslationParameter MenuItem_Refresh = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Refresh;
 
         ColumnItemAdd.ContextMenu = new ContextMenu()
         {
@@ -2556,13 +2587,13 @@ public partial class MainWindow : Window
                 {
                     Header = new UILocalization_Grocerius()
                     {
-                        Text = $"Item #{UID}",
-                        FontSize = 14,
-                        Width = 145,
-                        Margin = new Thickness(-7.2, 2, 0, 2),
-                        FontFamily = new FontFamily("GOST Type BU"),
+                        Text = MenuItem_Title.Text.Extern(UID),
+                        FontSize = (double)MenuItem_Title.Font_Size,
+                        Width =  (double)MenuItem_Title.Width,
+                        Margin = (Thickness)MenuItem_Title.Margin_Loaded,
+                        FontFamily = (FontFamily)MenuItem_Title.Font_Loaded,
+                        FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
                         IsHitTestVisible = false
-                        
                     }
                 },
                 new Separator() { Margin = new Thickness(-30, 2, 0, 2) }, // 1
@@ -2571,11 +2602,13 @@ public partial class MainWindow : Window
                     Header = new UILocalization_Grocerius()
                     {
                         SpecProperty_ContextMenuParent = ColumnItemAdd, // ContextMenu parent link because i somehow cant access it through MenuItem.parent.parent.parent
-                        FontSize = 14,
-                        Width = 145,
-                        Margin = new Thickness(-7.2, 2, 0, 2),
-                        Text = "▲ Move up",
-                        FontFamily = new FontFamily("GOST Type BU")
+                        
+                        Text = MenuItem_Up.Text.Extern(UID),
+                        FontSize = (double)MenuItem_Up.Font_Size,
+                        Width =  (double)MenuItem_Up.Width,
+                        Margin = (Thickness)MenuItem_Up.Margin_Loaded,
+                        FontFamily = (FontFamily)MenuItem_Up.Font_Loaded,
+                        FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
                     }
                 },
                 new MenuItem() // 3
@@ -2583,11 +2616,13 @@ public partial class MainWindow : Window
                     Header = new UILocalization_Grocerius()
                     {
                         SpecProperty_ContextMenuParent = ColumnItemAdd,
-                        FontSize = 14,
-                        Width = 145,
-                        Margin = new Thickness(-7.2, 2, 0, 2),
-                        Text = "↪ Refresh text size",
-                        FontFamily = new FontFamily("GOST Type BU")
+                        
+                        Text = MenuItem_Refresh.Text.Extern(UID),
+                        FontSize = (double)MenuItem_Refresh.Font_Size,
+                        Width =  (double)MenuItem_Refresh.Width,
+                        Margin = (Thickness)MenuItem_Refresh.Margin_Loaded,
+                        FontFamily = (FontFamily)MenuItem_Refresh.Font_Loaded,
+                        FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
                     }
                 },
                 new MenuItem() // 4
@@ -2595,11 +2630,13 @@ public partial class MainWindow : Window
                     Header = new UILocalization_Grocerius()
                     {
                         SpecProperty_ContextMenuParent = ColumnItemAdd,
-                        FontSize = 14,
-                        Width = 145,
-                        Margin = new Thickness(-7.2, 2, 0, 2),
-                        Text = "▼ Move down",
-                        FontFamily = new FontFamily("GOST Type BU")
+                        
+                        Text = MenuItem_Down.Text.Extern(UID),
+                        FontSize = (double)MenuItem_Down.Font_Size,
+                        Width =  (double)MenuItem_Down.Width,
+                        Margin = (Thickness)MenuItem_Down.Margin_Loaded,
+                        FontFamily = (FontFamily)MenuItem_Down.Font_Loaded,
+                        FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
                     }
                 },
                 new Separator() { Margin = new Thickness(-30, 2, 0, 2) }, // 5
@@ -2608,11 +2645,13 @@ public partial class MainWindow : Window
                     Header = new UILocalization_Grocerius()
                     {
                         SpecProperty_ContextMenuParent = ColumnItemAdd,
-                        FontSize = 14,
-                        Width = 145,
-                        Margin = new Thickness(-7.2, 2, 0, 2),
-                        Text = "✕ Remove",
-                        FontFamily = new FontFamily("GOST Type BU")
+
+                        Text = MenuItem_Remove.Text.Extern(UID),
+                        FontSize = (double)MenuItem_Remove.Font_Size,
+                        Width =  (double)MenuItem_Remove.Width,
+                        Margin = (Thickness)MenuItem_Remove.Margin_Loaded,
+                        FontFamily = (FontFamily)MenuItem_Remove.Font_Loaded,
+                        FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
                     }
                 }
             }
@@ -2765,7 +2804,7 @@ public partial class MainWindow : Window
 
         SelectedItemSignature.Text = FocusedColumnItem.ItemInfo.TextItemSignature;
 
-        if (UpdateSelectorsAndSliders) KeywordIconSelectionLabel.Text = "Keyword icon image";
+        if (UpdateSelectorsAndSliders) KeywordIconSelectionLabel.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Keyword icon image", "Default");
 
         if (UpdateSelectorsAndSliders)
         {
@@ -2811,7 +2850,7 @@ public partial class MainWindow : Window
 
                     if (File.Exists(FocusedColumnItem.ItemInfo.KeywordIconImage))
                     {
-                        KeywordIconSelectionLabel.Text = $"Keyword icon image\n<size=78%><color=#fc5a03>{FocusedColumnItem.ItemInfo.KeywordIconImage.GetName()}</color></size>";
+                        KeywordIconSelectionLabel.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Keyword icon image", "Selected").Extern(FocusedColumnItem.ItemInfo.KeywordIconImage.GetName());
                     }
                 }
 
@@ -2826,7 +2865,7 @@ public partial class MainWindow : Window
 
         if (UpdateSelectorsAndSliders) ChangeSliderValuesOnFocus();
 
-        IdentityPreviewCreator_EditingItemHeader.Text = $"> Editing item: <b>#{Target.Uid}</b> ({Target.ItemInfo.Type})";
+        IdentityPreviewCreator_EditingItemHeader.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Editing item header").Extern(FocusedColumnItem.Uid);
 
         ColumnItemFocusingEvent = false;
     }
@@ -2854,13 +2893,9 @@ public partial class MainWindow : Window
     // LOAD EVERYTHING
     private void IdentityPreviewCreator_LoadProjectFile(object sender, MouseButtonEventArgs e)
     {
-        OpenFileDialog ProjectSelectorDialog = new OpenFileDialog();
-        ProjectSelectorDialog.DefaultExt = ".json";
-        ProjectSelectorDialog.Filter = "Saved project file |*.json";
+        OpenFileDialog ProjectSelectorDialog = NewOpenFileDialog("Saved project file", ["json"]);
 
-        bool? Result = ProjectSelectorDialog.ShowDialog();
-
-        if (Result == true)
+        if (ProjectSelectorDialog.ShowDialog() == true)
         {
             FileInfo Target = LoadedProjectFile = new FileInfo(ProjectSelectorDialog.FileName);
             CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject LoadedProject = Target.Deserealize<CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject>(Context: Target.Directory.FullName.Replace("\\", "/"));
@@ -2884,10 +2919,8 @@ public partial class MainWindow : Window
                         IdentityPreviewCreator_HeightController.Value = ImageParameters.HeightAdjustment;
                     }
                 
-                    if (File.Exists(ImageParameters.PortraitImage))
-                    {
-                        SelectIdentityOrEGOPortrait_Action(ImageParameters.PortraitImage);
-                    }
+                    if (File.Exists(ImageParameters.PortraitImage)) SelectIdentityOrEGOPortrait_Action(ImageParameters.PortraitImage);
+
                     IdentityPreviewCreator_AllocatedWidthForPortraitController.Value = ImageParameters.AllocatedWidthForPortrait;
 
                     if (ImageParameters.Type.Equals("E.G.O"))
@@ -2922,21 +2955,21 @@ public partial class MainWindow : Window
 
                 #region Specific of the sinner and Identity/E.G.O
                 {
-                    var q = LoadedProject.Specific;
+                    var @Specific = LoadedProject.Specific;
 
-                    string StoredSinnerName = q.SinnerName; // Changing icon also changes default sinner name
-                    string StoredAmbienceColor = q.AmbienceColor; // Same
+                    string StoredSinnerName = Specific.SinnerName; // Changing icon also changes default sinner name
+                    string StoredAmbienceColor = Specific.AmbienceColor; // Same
 
-                    if (q.SinnerIcon != null)
+                    if (Specific.SinnerIcon != null)
                     {
-                        if (File.Exists(q.SinnerIcon))
+                        if (File.Exists(Specific.SinnerIcon))
                         {
                             // Custom
-                            SelectCustomSinnerIcon_Action(q.SinnerIcon);
+                            SelectCustomSinnerIcon_Action(Specific.SinnerIcon);
                         }
                         else
                         {
-                            IdentityPreviewCreator_SinnerIconSelector.SelectedIndex = q.SinnerIcon switch
+                            IdentityPreviewCreator_SinnerIconSelector.SelectedIndex = Specific.SinnerIcon switch
                             {
                                 "Yi Sang"     => 0,
                                 "Faust"       => 1,
@@ -2955,20 +2988,20 @@ public partial class MainWindow : Window
                         }
                     }
 
-                    IdentityPreviewCreator_SinnerIconBrightnessController.Value = q.IconBrightness;
-                    IdentityPreviewCreator_SinnerIconSizeController.Value = q.IconSize;
+                    IdentityPreviewCreator_SinnerIconBrightnessController.Value = Specific.IconBrightness;
+                    IdentityPreviewCreator_SinnerIconSizeController.Value = Specific.IconSize;
 
                     IdentityPreviewCreator_TextEntries_ElementsColor.Text = StoredAmbienceColor;
                     if (StoredSinnerName != null) IdentityPreviewCreator_TextEntries_SinnerName.Text = StoredSinnerName;
-                    if (q.IdentityOrEGOName != null) IdentityPreviewCreator_TextEntries_IdentityOrEGOName.Text = q.IdentityOrEGOName;
+                    if (Specific.IdentityOrEGOName != null) IdentityPreviewCreator_TextEntries_IdentityOrEGOName.Text = Specific.IdentityOrEGOName;
 
                     CanOverwriteProjectCautionsType = false;
-                    IdentityPreviewCreator_TextEntries_ElementsColor.Text = q.AmbienceColor;
+                    IdentityPreviewCreator_TextEntries_ElementsColor.Text = Specific.AmbienceColor;
                     CanOverwriteProjectCautionsType = true;
 
-                    if (q.RarityOrEGORiskLevel != null)
+                    if (Specific.RarityOrEGORiskLevel != null)
                     {
-                        IdentityPreviewCreator_IdentityHeader_RarityOrEGORiskLevelSelector.SelectedIndex = q.RarityOrEGORiskLevel switch
+                        IdentityPreviewCreator_IdentityHeader_RarityOrEGORiskLevelSelector.SelectedIndex = Specific.RarityOrEGORiskLevel switch
                         {
                             "000" => 0,
                             "00"  => 1,
@@ -2979,6 +3012,8 @@ public partial class MainWindow : Window
                             "TETH"  => 5,
                             "WAW"   => 6,
                             "ALEPH" => 7,
+
+                            _ => -1
                         };
                     }
                 }
@@ -2986,51 +3021,48 @@ public partial class MainWindow : Window
 
                 #region Decorative cautions
                 {
-                    var q = LoadedProject.DecorativeCautions;
+                    var @Cautions = LoadedProject.DecorativeCautions;
 
-                    IdentityPreviewCreator_Cautions_BoomRadiusController.Value = q.CautionBloomRadius;
-                    IdentityPreviewCreator_Cautions_OpacityController.Value = q.CautionOpacity;
+                    IdentityPreviewCreator_Cautions_BoomRadiusController.Value = Cautions.CautionBloomRadius;
+                    IdentityPreviewCreator_Cautions_OpacityController.Value = Cautions.CautionOpacity;
 
-                    IdentityPreviewCreator_TextEntries_CustomCautionString.Text = q.CustomText.CustomCautionString;
-                    if (File.Exists(q.CustomText.AnotherFont)) SelectDecorativeCautionsCustomFont_Action(q.CustomText.AnotherFont);
-                    //IdentityPreviewCreator_CautionSettings_CustomCautionsParamBinder.Margin = new Thickness(0, q.CustomText.TextVerticalOffset, 0, 0);
-                    //IdentityPreviewCreator_CautionSettings_CustomCautionsParamBinder.FontSize = q.CustomText.TextSize;
+                    IdentityPreviewCreator_TextEntries_CustomCautionString.Text = Cautions.CustomText.CustomCautionString;
+                    if (File.Exists(Cautions.CustomText.AnotherFont)) SelectDecorativeCautionsCustomFont_Action(Cautions.CustomText.AnotherFont);
 
-                    CautionsCustomTextVerticalOffsetController.Value = q.CustomText.TextVerticalOffset * 100;
-                    CautionsCustomTextSizeController.Value = q.CustomText.TextSize * 100;
+                    CautionsCustomTextVerticalOffsetController.Value = Cautions.CustomText.TextVerticalOffset * 100;
+                    CautionsCustomTextSizeController.Value = Cautions.CustomText.TextSize * 100;
 
-
-                    IdentityPreviewCreator_CautionTypeSelector.SelectedIndex = q.CautionType switch
+                    IdentityPreviewCreator_CautionTypeSelector.SelectedIndex = Cautions.CautionType switch
                     {
                         "SEASON" => 0,
                         "CAUTION" => 1,
                         "None" => 2,
-                        "Custom text" => 3
+                        "Custom text" => 3,
+                        _ => -1
                     };
                 }
                 #endregion
 
                 #region Text info
                 {
-                    var q = LoadedProject.Text;
+                    var @TextInfo = LoadedProject.Text;
 
-                    UnifiedTextSizeController.Value = q.UnifiedTextSize;
+                    UnifiedTextSizeController.Value = TextInfo.UnifiedTextSize;
 
-                    IdentityPreviewCreator_TextInfo_FirstColumnOffsetController.Value = q.FirstColumnOffset;
-                    IdentityPreviewCreator_TextInfo_SecondColumnOffsetController.Value = q.SecondColumnOffset;
+                    IdentityPreviewCreator_TextInfo_FirstColumnOffsetController.Value = TextInfo.FirstColumnOffset;
+                    IdentityPreviewCreator_TextInfo_SecondColumnOffsetController.Value = TextInfo.SecondColumnOffset;
 
-                    FirstColumnItemSignaturesOffsetController.Value = q.FirstColumnItemSignaturesOffset;
-                    SecondColumnItemSignaturesOffsetController.Value = q.SecondColumnItemSignaturesOffset;
-                    if (File.Exists(q.ItemSignaturesAnotherFont)) SelectAnotherItemSignsFont_Action(q.ItemSignaturesAnotherFont);
+                    FirstColumnItemSignaturesOffsetController.Value = TextInfo.FirstColumnItemSignaturesOffset;
+                    SecondColumnItemSignaturesOffsetController.Value = TextInfo.SecondColumnItemSignaturesOffset;
+                    if (File.Exists(TextInfo.ItemSignaturesAnotherFont)) SelectAnotherItemSignsFont_Action(TextInfo.ItemSignaturesAnotherFont);
                     
-                    KeywordBoxesWidthController.Value = q.KeywordBoxesWidth;
+                    KeywordBoxesWidthController.Value = TextInfo.KeywordBoxesWidth;
 
                     // Update ID selectors
-                    if (File.Exists(q.SkillsLocalizationFile)) UpdateSelector__SkillLocalizationIDSelector();
-                    if (File.Exists(q.SkillsDisplayInfoConstructorFile)) UpdateSelector__SkillsDisplayInfoIDSelector();
-                    if (File.Exists(q.PassivesLocalizationFile)) UpdateSelector__PassivesLocalizationIDSelector();
-                    if (File.Exists(q.KeywordsLocalizationFile)) UpdateSelector__KeywordsLocalizationIDSelector();
-
+                    if (File.Exists(TextInfo.SkillsLocalizationFile)) UpdateSelector__SkillLocalizationIDSelector();
+                    if (File.Exists(TextInfo.SkillsDisplayInfoConstructorFile)) UpdateSelector__SkillsDisplayInfoIDSelector();
+                    if (File.Exists(TextInfo.PassivesLocalizationFile)) UpdateSelector__PassivesLocalizationIDSelector();
+                    if (File.Exists(TextInfo.KeywordsLocalizationFile)) UpdateSelector__KeywordsLocalizationIDSelector();
 
                     ReconstructColumnItems();
                 }
@@ -3044,6 +3076,8 @@ public partial class MainWindow : Window
     {
         CustomIdentityPreviewCreator.ProjectFile.LoadedProject = new CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject();
         CustomIdentityPreviewCreator.ProjectFile.LoadedProject.ActualProject = true;
+
+        IdentityPreviewCreator_IdentityPortrait.Source = new BitmapImage();
 
         IdentityPreviewItems_FirstColumn.Children.Clear();
         IdentityPreviewItems_SecondColumn.Children.Clear();
@@ -3095,7 +3129,6 @@ public partial class MainWindow : Window
                     UptieLevel TargetUptieWithDesc = SkillItem.UptieLevels[^1]; // Last uptie
 
                     string SkillName = TargetUptieWithDesc.Name.nullHandle(NullText: "<i>No name</i>");
-
                     
                     if (TargetUptieWithDesc.OptionalAffinity != null)
                     {
@@ -3103,14 +3136,10 @@ public partial class MainWindow : Window
                         SkillName = $"<color={AffinityColor}>{SkillName}</color>";
                     }
 
-                    string ItemName = $"{ItemEnumerator} — {SkillItem.ID} {SkillName}";
+                    string ItemName = $"№{ItemEnumerator} — ID {SkillItem.ID} {SkillName}";
 
-                    if (!TargetUptieWithDesc.Description.IsNullOrEmpty())
-                    {
-                        AddSpecItemToSelector(SkillsLocalizationIDSelector, ItemName, TargetUptieWithDesc, SkillItem.ID);
-
-                        ID_And_Index__Links_Skills[(int)SkillItem.ID] = ItemEnumerator - 1;
-                    }
+                    AddSpecItemToSelector(SkillsLocalizationIDSelector, ItemName, TargetUptieWithDesc, SkillItem.ID);
+                    ID_And_Index__Links_Skills[(int)SkillItem.ID] = ItemEnumerator - 1;
                 }
 
                 ItemEnumerator++;
@@ -3119,7 +3148,7 @@ public partial class MainWindow : Window
 
         if (SkillsLocalizationIDSelector.Items.Count > 0)
         {
-            SelectSkillsLocalizationFile_Label.Text = $"Skills localization\n<size=78%><color=#fc5a03>{TargetFile.GetName()}</color></size>";
+            SelectSkillsLocalizationFile_Label.Text = ExternTextFor("[C] * [Section:Text info/Text info sources] Skills localization", "Selected").Extern(TargetFile.GetName());
         }
     }
 
@@ -3140,7 +3169,7 @@ public partial class MainWindow : Window
             {
                 if (PassiveItem.ID != null & PassiveItem.Description != null)
                 {
-                    string ItemName = $"{ItemEnumerator} — {PassiveItem.ID} {PassiveItem.Name.nullHandle(NullText: "<i>No name</i>")}";
+                    string ItemName = $"№{ItemEnumerator} — ID {PassiveItem.ID} {PassiveItem.Name.nullHandle(NullText: "<i>No name</i>")}";
 
                     AddSpecItemToSelector(PassivesLocalizationIDSelector, ItemName, PassiveItem, PassiveItem.ID);
 
@@ -3153,7 +3182,7 @@ public partial class MainWindow : Window
 
         if (PassivesLocalizationIDSelector.Items.Count > 0)
         {
-            SelectPassivesLocalizationFile_Label.Text = $"Passives localization\n<size=78%><color=#fc5a03>{TargetFile.GetName()}</color></size>";
+            SelectPassivesLocalizationFile_Label.Text = ExternTextFor("[C] * [Section:Text info/Text info sources] Passives localization", "Selected").Extern(TargetFile.GetName());
         }
     }
 
@@ -3174,7 +3203,7 @@ public partial class MainWindow : Window
             {
                 if (KeywordItem.ID != null & KeywordItem.Description != null)
                 {
-                    string ItemName = $"{ItemEnumerator} — {KeywordItem.ID} {KeywordItem.Name.nullHandle(NullText: "<i>No name</i>")}";
+                    string ItemName = $"№{ItemEnumerator} — ID {KeywordItem.ID} {KeywordItem.Name.nullHandle(NullText: "<i>No name</i>")}";
 
                     AddSpecItemToSelector(KeywordsLocalizationIDSelector, ItemName, KeywordItem, KeywordItem.ID);
 
@@ -3187,7 +3216,7 @@ public partial class MainWindow : Window
 
         if (KeywordsLocalizationIDSelector.Items.Count > 0)
         {
-            SelectKeywordsLocalizationFile_Label.Text = $"Keywords localization\n<size=78%><color=#fc5a03>{TargetFile.GetName()}</color></size>";
+            SelectKeywordsLocalizationFile_Label.Text = ExternTextFor("[C] * [Section:Text info/Text info sources] Keywords localization", "Selected").Extern(TargetFile.GetName());
         }
     }
 
@@ -3210,7 +3239,7 @@ public partial class MainWindow : Window
                 {
                     string AffinityColor = CustomIdentityPreviewCreator.GetAffinityColor(Constructor.Specific.Affinity).ToString().Replace("#FF", "#");
 
-                    string TargetName = $"{ItemEnumerator} — {Constructor.ID} <color={AffinityColor}>{Constructor.SkillName.nullHandle(NullText: "<i>No name</i>")}</color>";
+                    string TargetName = $"№{ItemEnumerator} — ID {Constructor.ID} <color={AffinityColor}>{Constructor.SkillName.nullHandle(NullText: "<i>No name</i>")}</color>";
 
                     AddSpecItemToSelector(SkillsDisplayInfoIDSelector, TargetName, Constructor, Constructor.ID);
 
@@ -3223,7 +3252,7 @@ public partial class MainWindow : Window
 
         if (SkillsDisplayInfoIDSelector.Items.Count > 0)
         {
-            SelectSkillsDisplayInfoFile_Label.Text = $"Skills Display Info\n<size=78%><color=#fc5a03>{TargetFile.Name}</color></size>";
+            SelectSkillsDisplayInfoFile_Label.Text = ExternTextFor("[C] * [Section:Text info/Text info sources] Skills Display Info", "Selected").Extern(TargetFile.Name);
         }
     }
 
@@ -3240,7 +3269,6 @@ public partial class MainWindow : Window
             UniversalDataBindings = new Dictionary<string, dynamic>() { ["Attached item"] = AttachedItem, ["Attached item ID"] = AttachedItemID }
         });
     }
-
 }
 
 

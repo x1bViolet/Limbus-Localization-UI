@@ -1,4 +1,5 @@
 {
+  "FutureLink": "⇲ Assets Directory/@ Internal/Interface Languages/Russian",
   "Default Font": "GOST Type BU",
   "UI Static": [
     {
@@ -179,8 +180,7 @@
     },
     {
       "Element ID": "E.G.O Gifts Preview 'View Desc.' Text",
-      "Text": "См. описание",
-      "Font": "Mikodacs"
+      "Text": "См. описание"
     },
     {
       "Element ID": "Skills Name Replication 'Atk Weight'",
@@ -594,10 +594,6 @@
       {
         "File": "GOST Type BU.ttf",
         "Name": "GOST Type BU"
-      },
-      {
-        "File": "Mikodacs.otf",
-        "Name": "Mikodacs"
       },
       {
         "File": "Unispace (Ru).ttf",

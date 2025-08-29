@@ -52,13 +52,13 @@ public partial class MainWindow
             if (Value == true)
             {
                 MakeUnavailable(IdentityPreviewCreator_HeightController);
-                IdentityPreviewCreator_HeightController_TextIndicator.Text = "Height adjustment (Auto)";
+                IdentityPreviewCreator_HeightController_TextIndicator.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Image parameters] Height adjustment", "Auto");
                 IdentityPreviewCreator_ParentGrid.Height = double.NaN;
             }
             else
             {
                 MakeAvailable(IdentityPreviewCreator_HeightController);
-                IdentityPreviewCreator_HeightController_TextIndicator.Text = "Height adjustment (Manual)";
+                IdentityPreviewCreator_HeightController_TextIndicator.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Image parameters] Height adjustment", "Manual");
                 IdentityPreviewCreator_ParentGrid.Height = IdentityPreviewCreator_HeightController.Value;
             }
 
@@ -274,9 +274,9 @@ public partial class MainWindow
     void SinnerIconBrightness(object RequestSender /* Slider */, RoutedPropertyChangedEventArgs<double> EventArgs)
     {
         Flow(() => {
-            IdentityPreviewCreator_SinnerIcon.Opacity
-                = ProjectFile.LoadedProject.Specific.IconBrightness
-                = (double)(EventArgs.NewValue / 100);
+            IdentityPreviewCreator_SinnerIcon.Opacity = EventArgs.NewValue / 100;
+
+            ProjectFile.LoadedProject.Specific.IconBrightness = EventArgs.NewValue;
         });
     }
     void SinnerIconSize(object RequestSender /* Slider */, RoutedPropertyChangedEventArgs<double> EventArgs)
@@ -310,7 +310,7 @@ public partial class MainWindow
                 = EventArgs.NewValue;
 
             string ValueInsert = $"{EventArgs.NewValue}"; if (ValueInsert.Length == 2) ValueInsert += ",0";
-            UnifiedTextSize_Label.Text = $"Unified text size [<color=#fc5a03>{EventArgs.NewValue}</color>]\n(Save and reload project or refresh text size via context menu for text item to apply)";
+            UnifiedTextSize_Label.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Column settings] Unified text size").Extern(ValueInsert);
         });
     }
 

@@ -23,6 +23,8 @@ namespace LC_Localization_Task_Absolute
 
         internal protected class Language
         {
+            public string FutureLink { get; set; } = ""; // Link to new format of languages
+
             [JsonProperty("Default Font")]
             public string DefaultUIFont { get; set; } = "";
 
@@ -240,6 +242,8 @@ namespace LC_Localization_Task_Absolute
         internal protected static void InitializeUILanguage(string SourceFile)
         {
             UILanguageLoadingEvent = true;
+
+
             string LanugageFile;
             if (File.Exists(SourceFile))
             {
@@ -250,8 +254,15 @@ namespace LC_Localization_Task_Absolute
                 LanugageFile = MainWindow.DefaultLanguage;
             }
 
+
+
             LoadedFontFamilies.Clear();
             LoadedLanguage = JsonConvert.DeserializeObject<Language>(LanugageFile);
+
+            if (Directory.Exists(LoadedLanguage.FutureLink))
+            {
+                ᐁ_Interface_Localization_Loader.ModifyUI(LoadedLanguage.FutureLink);
+            }
 
             LastSeenDefaultInsertion = LoadedLanguage.DefaultInsertionText;
 
