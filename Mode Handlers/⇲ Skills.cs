@@ -123,21 +123,29 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 foreach(FileInfo SkillDataFile in new DirectoryInfo(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json").GetFiles("*.json", SearchOption.AllDirectories))
                 {
-                    var Deserialized = SkillDataFile.Deserealize<BaseTypes.Type_RawSkillsDisplayInfo.SkillsDetailedInfo>();
-
-                    if (Deserialized != null)
+                    try
                     {
-                        if (Deserialized.List != null)
+                        var Deserialized = SkillDataFile.Deserealize<BaseTypes.Type_RawSkillsDisplayInfo.SkillsDetailedInfo>();
+
+                        if (Deserialized != null)
                         {
-                            foreach(BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem SkillData in Deserialized.List)
+                            if (Deserialized.List != null)
                             {
-                                if (SkillData.ID != null & SkillData.UptieLevelsDictionary != null)
+                                foreach(BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem SkillData in Deserialized.List)
                                 {
-                                    OrganizedDisplayInfo[(BigInteger)SkillData.ID] = SkillData;
+                                    if (SkillData.ID != null && SkillData.UptieLevelsDictionary != null)
+                                    {
+                                        try
+                                        {
+                                            OrganizedDisplayInfo[(BigInteger)SkillData.ID] = SkillData;
+                                        }
+                                        catch { }
+                                    }
                                 }
                             }
                         }
                     }
+                    catch { }
                 }
             }
         }
