@@ -165,6 +165,30 @@ namespace LC_Localization_Task_Absolute
             return Target;
         }
 
+        internal static TextBlock ImposedClone(this TextBlock TargetTextBlock, Inline Content = null)
+        {
+            TextBlock Output = new TextBlock()
+            {
+                FontSize = TargetTextBlock.FontSize,
+                FontFamily = TargetTextBlock.FontFamily,
+                FontWeight = TargetTextBlock.FontWeight,
+                FontStyle = TargetTextBlock.FontStyle,
+                Foreground = TargetTextBlock.Foreground,
+                Background = TargetTextBlock.Background,
+                TextAlignment = TargetTextBlock.TextAlignment,
+                TextWrapping = TargetTextBlock.TextWrapping,
+                LineHeight = TargetTextBlock.LineHeight,
+                LineStackingStrategy = TargetTextBlock.LineStackingStrategy,
+                TextTrimming = TargetTextBlock.TextTrimming,
+            };
+            if (Content != null)
+            {
+                Output.Inlines.Add(Content);
+            }
+
+            return Output;
+        }
+
         internal static void MoveItemUp(this List<string> TargetList, string Element)
         {
             int CurrentIndex = TargetList.IndexOf(Element);
@@ -242,12 +266,9 @@ namespace LC_Localization_Task_Absolute
             return TargetString;
         }
 
-        internal static void RegexRemove(this string TargetString, Regex PartPattern, bool s = false)
+        internal static string RegexRemove(this string Target, string Pattern)
         {
-            TargetString = PartPattern.Replace(TargetString, Match =>
-            {
-                return "";
-            });
+            return Regex.Replace(Target, Pattern, Match => { return ""; });
         }
         internal static string RemoveMany(this string TargetString, params string[] RemoveItems)
         {
@@ -263,6 +284,15 @@ namespace LC_Localization_Task_Absolute
             foreach (var Check in CheckSource)
             {
                 if (CheckString.Equals(Check)) return true;
+            }
+
+            return false;
+        }
+        internal static bool MatchesWidthOneOf(this string CheckString, params string[] Patterns)
+        {
+            foreach (string Checkpattern in Patterns)
+            {
+                if (Regex.Match(CheckString, Checkpattern).Success) return true;
             }
 
             return false;
@@ -302,7 +332,7 @@ namespace LC_Localization_Task_Absolute
 
             return false;
         }
-        internal static bool ContainsOneOf(this string CheckString, IEnumerable<string> CheckSource)
+        internal static bool ContainsOneOf(this string CheckString, params string[] CheckSource)
         {
             foreach (var Check in CheckSource)
             {
@@ -583,15 +613,24 @@ namespace LC_Localization_Task_Absolute
         }
 
         /// <summary>
+        /// Remove string parts
+        /// </summary>
+        public static string Del(this string Target, params string[] FragmentsToRemove)
+        {
+            foreach (string Fragment in FragmentsToRemove) Target = Target.Replace(Fragment, "");
+            return Target;
+        }
+
+        /// <summary>
         /// BitmapImage from application resources by <c>new Uri($"pack://application:,,,/{ResourecImageName}")</c>
         /// </summary>
         internal static BitmapImage ImageFromResource(string ResourecImageName)
         {
             return new BitmapImage(new Uri($"pack://application:,,,/{ResourecImageName}"));
         }
-        internal static FontFamily FontFromResource(string ResourecImageName)
+        internal static FontFamily FontFromResource(string FontResourceLocation, string FontFamilyName)
         {
-            return new FontFamily($"pack://application:,,,/{ResourecImageName}");
+            return new FontFamily(new Uri($"pack://application:,,,/{FontResourceLocation}"), $"./#{FontFamilyName}");
         }
 
         internal static BitmapImage GenerateBitmapFromFile(string ImageFilepath)

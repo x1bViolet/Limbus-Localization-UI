@@ -268,7 +268,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                         {
                             if (!KeywordItem.ID.Equals(""))
                             {
-                                if (!KeywordItem.ID.ContainsOneOf(DeltaConfig.PreviewSettings.CustomLanguageProperties.KeywordsIgnore))
+                                if (!KeywordItem.ID.ContainsOneOf(DeltaConfig.PreviewSettings.CustomLanguageProperties.KeywordsIgnore.ToArray()))
                                 {
                                     string DefinedColor = "#9f6a3a";
 
