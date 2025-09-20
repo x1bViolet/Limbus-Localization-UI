@@ -1,6 +1,7 @@
 ﻿using ICSharpCode.AvalonEdit.Editing;
 using ICSharpCode.AvalonEdit.Highlighting;
 using ICSharpCode.AvalonEdit.Rendering;
+using System;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
@@ -306,11 +307,12 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 //        Foreground = new DefHighlightionBrush(ToSolidColorBrush("#f8c200"))
                 //    }
                 //});
-                MainRuleSet.Spans.Add(new HighlightingSpan()
+                if (!Mode_Handlers.Upstairs.ActiveProperties.Key.Equals("Keywords")) MainRuleSet.Spans.Add(new HighlightingSpan()
                 {
                     RuleSet = MainRuleSet, // Copy all highlight rules
 
-                    StartExpression = new Regex(@"<style=""(upgradeHighlight|highlight)"">"),
+                    //StartExpression = new Regex(@"<style=""(upgradeHighlight|highlight)"">"),
+                    StartExpression = Mode_Handlers.Upstairs.ActiveProperties.Key.EqualsOneOf("Passives", "Skills") ? new Regex(@"<style=""highlight"">") : new Regex(@"<style=""upgradeHighlight"">"),
                     EndExpression = new Regex(@"</style>"),
 
                     StartColor = new HighlightingColor() { Foreground = new DefHighlightionBrush(ToSolidColorBrush("#f8c200")) },
@@ -423,7 +425,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             public static string AutoKeywordsDetection = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-_<'"":\+]|$)").ToString();
             public static Regex StyleMarker = new Regex(@"<style=""\w+"">|</style>");
             public static Regex HexColor = new Regex(@"(#[a-fA-F0-9]{6})", RegexOptions.Compiled);
-            public static Regex TMProKeyword = new Regex(@"<sprite name=""(?<ID>\w+)""><color=(?<Color>#[a-fA-F0-9]{6})><u><link=""\w+"">(?<Name>.*?)</link></u></color>", RegexOptions.Compiled);
+            public static Regex TMProKeyword = new Regex(@"<sprite name=""(?<ID>\w+)""><color=(?<Color>#[a-fA-F0-9]{6})><u><link=""\w+"">(?<Name>.*?)</color></link></u>", RegexOptions.Compiled);
             public static Regex SquareBracketLike = new Regex(@"\[(?<ID>.*?)\](?<Color>\(#[a-fA-F0-9]{6}\))?", RegexOptions.Compiled);
             public static Regex TMProLinks = new Regex(@"(<link=""\w+"">)|(</link>)", RegexOptions.Compiled);
         }
@@ -464,13 +466,13 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                         if (KeywordColor.Equals("")) KeywordColor = "#9f6a3a";
                     }
 
-                    return 
+                    return
                     (Configurazione.Spec_EnableKeywordIDSprite ? $"<sprite name=\"{KeywordID}\">" : "") +
                     $"<color={KeywordColor}>" +
                     (Configurazione.Spec_EnableKeywordIDUnderline ? $"<u>" : "") +
-                    $"<link=\"{KeywordID}\">{KeywordName}</link>" +
-                    (Configurazione.Spec_EnableKeywordIDUnderline? $"</u>" : "") +
-                    $"</color>";
+                    $"<link=\"{KeywordID}\">{KeywordName}</color>" +
+                    $"</link>" +
+                    (Configurazione.Spec_EnableKeywordIDUnderline ? $"</u>" : "");
                 }
                 else
                 {
@@ -483,7 +485,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             {
                 PreviewText = RemoteRegexPatterns.SquareBracketLike.Replace(PreviewText, Match =>
                 {
-                    return $"[{Match.Groups["ID"].Value}]\0{Match.Groups["Color"].Value}"; // To avoid color error [abcdeID](#color), get out, that must be converted at line 150 after shorthands (Jia Qui skill jumpscare in release with 'Dialogues(#c8e7d9)' in desc)
+                    return $"[{Match.Groups["ID"].Value}]\0{Match.Groups["Color"].Value}"; // To avoid color error [abcdeID](#color), get out, that must be converted after shorthands (Jia Qui skill jumpscare in release with 'Dialogues(#c8e7d9)' in desc)
                 });
 
                 // Collapse all TMPro evident keywords with default names into links for safe unevident keywords conversion
@@ -527,13 +529,13 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                         string KeywordColor = RemoteRegexPatterns.HexColor.Match(Match.Groups["Color"].Value).Groups[1].Value;
                         if (KeywordColor.Equals("")) KeywordColor = KeywordsGlossary[KeywordID].StringColor;
 
-                        return 
+                        return
                         (Configurazione.Spec_EnableKeywordIDSprite ? $"<sprite name=\"{KeywordID}\">" : "") +
                         $"<color={KeywordColor}>" +
                         (Configurazione.Spec_EnableKeywordIDUnderline ? $"<u>" : "") +
-                        $"<link=\"{KeywordID}\">{KeywordName}</link>" +
-                        (Configurazione.Spec_EnableKeywordIDUnderline ? $"</u>" : "") +
-                        $"</color>";
+                        $"<link=\"{KeywordID}\">{KeywordName}</color>" +
+                        $"</link>" +
+                        (Configurazione.Spec_EnableKeywordIDUnderline ? $"</u>" : "");
                     }
                     else if ( // Return skill tag or empty TabExplain if skills, or return default if ego gifts (keywords already excluded)
                            (SpecifiedTextProcessingMode.EqualsOneOf("Skills", "Passives") & SkillTags.ContainsKey(Match.Groups[0].Value))
@@ -553,14 +555,22 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                     PreviewText = PreviewText.RegexRemove(RemoteRegexPatterns.StyleMarker);
                 }
 
-                // Skill tags
+                // Skill tags and <style> fixation
                 if (SpecifiedTextProcessingMode.EqualsOneOf("Skills", "Passives"))
                 {
+                    // Style only for E.G.O Gifts
+                    PreviewText = PreviewText.Replace("<style=\"upgradeHighlight\">", "<style=\u0001\"upgradeHighlight\">");
+
                     PreviewText = PreviewText.Replace("[TabExplain]", "");
                     foreach (KeyValuePair<string, string> SkillTag in SkillTags)
                     {
                         PreviewText = PreviewText.Replace(SkillTag.Key, SkillTag.Value);
                     }
+                }
+                else if (SpecifiedTextProcessingMode.Equals("E.G.O Gifts"))
+                {
+                    // Style only for Passives/Skills
+                    PreviewText = PreviewText.Replace("<style=\"highlight\">", "<style=\u0001\"highlight\">");
                 }
             }
 
