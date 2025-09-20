@@ -104,7 +104,7 @@ namespace LC_Localization_Task_Absolute
     public static class Requirements
     {
         #region WPF
-        public static ResourceType Resource<ResourceType>(string Name) where ResourceType : class => MainWindow.MainControl.FindResource(Name) as ResourceType;
+        public static ResourceType Resource<ResourceType>(string xKey) where ResourceType : class => MainWindow.MainControl.FindResource(xKey) as ResourceType;
         public static ObjectType InterfaceObject<ObjectType>(string xName) where ObjectType : class => MainWindow.MainControl.FindName(xName) as ObjectType;
 
         public static FontFamily FontFromResource(string FontResourceLocation, string FontFamilyName)
