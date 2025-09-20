@@ -363,13 +363,13 @@
       },
       {
         "UID": {"[Settings / Limbus Preview] * Toggle Syntax Highlight":null},
-        "Text": "Enable Syntax Highlight",
+        "Text": "啟用語法高亮",
         "Font Size": 16,
         "Font": "Linotype Syntax Com"
       },
       {
         "UID": {"[Settings / Limbus Preview] * Hide Limbus Text Preview":null},
-        "Text": "Hide Limbus Text Preview",
+        "Text": "隱藏 Limbus 文字預覽介面",
         "Font Size": 16,
         "Font": "Linotype Syntax Com"
       },
@@ -381,13 +381,13 @@
       },
       {
         "UID": {"[Settings / Limbus Preview] * Highlight Skill Descs on click":null},
-        "Text": "Highlight Skill Descs on right click",
+        "Text": "右鍵技能描述時高亮顯示",
         "Font Size": 16,
         "Font": "Linotype Syntax Com"
       },
       {
         "UID": {"[Settings / Limbus Preview] * Highlight Skill Descs on manual switch":null},
-        "Text": "Highlight Skill Descs on manual switch",
+        "Text": "切換技能描述時高亮顯示",
         "Font Size": 16,
         "Font": "Linotype Syntax Com"
       },
@@ -398,7 +398,7 @@
       },
       {
         "UID": {"[Settings / Limbus Preview] * Enable Keyword tooltips":null},
-        "Text": "Enable Keyword Tooltips",
+        "Text": "啟用關鍵詞提示(滑鼠預覽)",
         "Font Size": 16,
         "Font": "Linotype Syntax Com"
       },
