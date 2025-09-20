@@ -1873,7 +1873,7 @@
 																		<Terminus:UITranslation_Rose
 																			x:Name="AtkWeightText_sub"
 																			UID="[Skills] * 'Atk Weight' text"
-																			RichText="Кол-во целей"
+																			RichText="Atk Weight"
 																			FontFamily="{Binding ElementName=PreviewLayout_Skills_MainDesc, Path=FontFamily}"
 																			FontSize="15"
 																			Foreground="#f8c200">
@@ -2283,7 +2283,7 @@
 												<Terminus:UITranslation_Rose
 													x:Name="STE_EGOGifts_LivePreview_ViewDescButtons"
 													UID="[E.G.O Gifts] * 'View Desc.' text"
-													RichText="См. описание"
+													RichText="View Desc."
 													Width="125"
 													FontSize="20"
 													HorizontalAlignment="Left"

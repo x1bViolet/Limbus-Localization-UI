@@ -131,13 +131,6 @@
     ],
     [
       {
-        "UID": {"[Skills] * 'Atk Weight' text":null},
-        "Text": "Кол-во целей",
-        "Font Size": 15,
-        "Font": "$Ignore-default",
-        "Font Weight": "$Ignore-default"
-      },
-      {
         "UID": {"[Skills / Right menu] * Skill main name (Background text)":null},
         "Text": "Имя навыка",
         "Font Size": 22
@@ -297,14 +290,6 @@
       }
     ],
     [
-      {
-        "UID": {"[E.G.O Gifts] * 'View Desc.' text":null},
-        "Text": "См. описание",
-        "Width": 125,
-        "Font Size": 20,
-        "Font": "$Ignore-default",
-        "Font Weight": "$Ignore-default"
-      },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Name (Shadow Text)":null},
         "Text": "Название ЭГО Дара",

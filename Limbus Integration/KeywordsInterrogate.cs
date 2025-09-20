@@ -318,7 +318,10 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
             if (Directory.Exists(KeywordsDirectory))
             {
-                rin($" {(WriteOverFallback ? " " : "[Fallback] ")}Loading Keywords from \"{KeywordsDirectory}\"{(!FilesPrefix.Equals("") ? $" with files prefix \"{FilesPrefix}\"" : "")}");
+                DirectoryInfo MainSite = new DirectoryInfo(KeywordsDirectory);
+
+
+                rin($"\n {(WriteOverFallback ? " " : "[Fallback] ")}Loading Keywords from \"{KeywordsDirectory}\"{(!FilesPrefix.Equals("") ? $" with files prefix \"{FilesPrefix}\"" : "")}");
                 Dictionary<string, string> SkillTagColors = new Dictionary<string, string>();
                 if (File.Exists(@"[⇲] Assets Directory\[+] Keywords\SkillTag Colors.T[-]"))
                 {
@@ -336,7 +339,26 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                     }
                 }
 
-                FileInfo[] SkillTag_Found = new DirectoryInfo(KeywordsDirectory).GetFiles("*SkillTag.Json", SearchOption.AllDirectories);
+                // File with skills 'Atk Weight' label
+                FileInfo[] AtkWeightLabelFile = MainSite.GetFiles("*MainUIText_UPDATE_ON_0720.json", SearchOption.AllDirectories);
+                if (AtkWeightLabelFile.Length > 0)
+                {
+                    string JsonText = File.ReadAllText(AtkWeightLabelFile[0].FullName);
+
+                    string FoundText = Regex.Match(JsonText, @"""id"": ""mainui_target_num_label"",(\r)?\n.*?""content"": ""(?<AtkWeightText>.*?)""", RegexOptions.Singleline).Groups["AtkWeightText"].Value;
+                    if (!FoundText.Equals("")) MainControl.AtkWeightText_sub.Text = FoundText;
+                }
+
+                // File with 'View Desc.' label
+                FileInfo[] ViewDescLabelFile = MainSite.GetFiles("*MirrorDungeonUI_3.json", SearchOption.AllDirectories);
+                if (ViewDescLabelFile.Length > 0)
+                {
+                    string JsonText = File.ReadAllText(ViewDescLabelFile[0].FullName);
+                    string FoundText = Regex.Match(JsonText, @"""id"": ""mirror_dungoen_ego_gift_history_view_desc"",(\r)?\n.*?""content"": ""(?<ViewDescText>.*?)""", RegexOptions.Singleline).Groups["ViewDescText"].Value;
+                    if (!FoundText.Equals("")) MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.Text = FoundText;
+                }
+
+                FileInfo[] SkillTag_Found = MainSite.GetFiles("*SkillTag.Json", SearchOption.AllDirectories);
                 if (SkillTag_Found.Length > 0)
                 {
                     BaseTypes.Type_SkillTag.SkillTags SkillTagsJson = SkillTag_Found[0].Deserealize<SkillTags>();
@@ -386,7 +408,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 //rin($"\n$ Loading keywords");
                 Counter = 0;
 
-                FileInfo[] LoadSite_Bufs = new DirectoryInfo(KeywordsDirectory).GetFiles(
+                FileInfo[] LoadSite_Bufs = MainSite.GetFiles(
                     searchPattern: "*Bufs*.json",
                     searchOption: SearchOption.AllDirectories
                 );
@@ -443,6 +465,10 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                             }
                         }
                     }
+                    else
+                    {
+                        rin($"  [!] Null dataList or 0 items at the {KeywordFileInfo.Name} file");
+                    }
                 }
 
                 Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter = Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter.OrderBy(obj => obj.Key.Length).ToDictionary(obj => obj.Key, obj => obj.Value).Reverse().ToDictionary();
@@ -451,7 +477,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
 
 
-                FileInfo[] LoadSite_BattleKeywords = new DirectoryInfo(KeywordsDirectory).GetFiles(
+                FileInfo[] LoadSite_BattleKeywords = MainSite.GetFiles(
                     searchPattern: "*BattleKeywords*.json",
                     searchOption: SearchOption.AllDirectories
                 );
@@ -468,6 +494,10 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                                 BattleKeywordsDescriptions[KeywordItem.ID] = new Tuple<string, string>(KeywordItem.Name, KeywordItem.Description);
                             }
                         }
+                    }
+                    else
+                    {
+                        rin($"  [!] Null dataList or 0 items at the {KeywordFileInfo.Name} file");
                     }
                 }
 

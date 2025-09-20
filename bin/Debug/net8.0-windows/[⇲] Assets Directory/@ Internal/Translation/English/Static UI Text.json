@@ -131,13 +131,6 @@
     ],
     [
       {
-        "UID": {"[Skills] * 'Atk Weight' text":null},
-        "Text": "Atk Weight",
-        "Font Size": 15,
-        "Font": "$Ignore-default",
-        "Font Weight": "$Ignore-default"
-      },
-      {
         "UID": {"[Skills / Right menu] * Skill main name (Background text)":null},
         "Text": "Skill name",
         "Font Size": 22
@@ -297,14 +290,6 @@
       }
     ],
     [
-      {
-        "UID": {"[E.G.O Gifts] * 'View Desc.' text":null},
-        "Text": "View Desc.",
-        "Width": 125,
-        "Font Size": 20,
-        "Font": "$Ignore-default",
-        "Font Weight": "$Ignore-default"
-      },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Name (Shadow Text)":null},
         "Text": "E.G.O Gift name",

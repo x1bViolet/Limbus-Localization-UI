@@ -132,13 +132,6 @@
     ],
     [
       {
-        "UID": {"[Skills] * 'Atk Weight' text":null},
-        "Text": "攻擊容量",
-        "Font Size": 15,
-        "Font": "$Ignore-default",
-        "Font Weight": "$Ignore-default"
-      },
-      {
         "UID": {"[Skills / Right menu] * Skill main name (Background text)":null},
         "Text": "技能名稱",
         "Font Size": 22
@@ -298,14 +291,6 @@
       }
     ],
     [
-      {
-        "UID": {"[E.G.O Gifts] * 'View Desc.' text":null},
-        "Text": "查看描述",
-        "Width": 125,
-        "Font Size": 20,
-        "Font": "$Ignore-default",
-        "Font Weight": "$Ignore-default"
-      },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Name (Shadow Text)":null},
         "Text": "E.G.O飾品名稱",

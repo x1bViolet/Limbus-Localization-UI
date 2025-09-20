@@ -7,5 +7,3 @@ If you are creating a new translation, copy the `English` folder as a reference 
 
 "Margin" property is element offset from the following sides: [Left, Top, Right, Bottom].
 - It can also have a single value that will be common to all sides (Just [5] as example).
-
-"$Ignore-default" at "Font" or "Font Weight" properties means that default font will be ignored for element (It is only used for ui elements "Atk Weight" and "View Desc." that are part of the limbus preview in order to save a binded custom language font for them).
