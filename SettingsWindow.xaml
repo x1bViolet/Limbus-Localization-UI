@@ -1059,7 +1059,7 @@
 												x:Name="STE_Settings_Internal_Readme"
 												UID="[Settings / Internal] * Dropdown lists Readme"
 												FontSize="14"
-												RichText="Drop-down lists only consider files and folders from «⇲ Assets Directory\[+] Languages» and «⇲ Assets Directory\[+] Themes» respectively"
+												RichText="Drop-down lists only consider files and folders from «[⇲] Assets Directory\[+] Languages» and «[⇲] Assets Directory\[+] Themes» respectively"
 												Style="{StaticResource CommentSection_r}"/>
 										</StackPanel>
 									</StackPanel>
@@ -1418,7 +1418,7 @@
 															<local:UITranslation_Rose
 																x:Name="STE_Settings_PreviewScans_Readme_1"
 																UID="[Settings / Preview Scans] * Readme 1"
-																RichText="«Universal Template.json» (Skills .json file) file in «⇲ Assets Directory\[⇲] Scans» can be used for translating new Identities preview Skills and Passives both, Status Effects as well if you adjust this width to appropriate value. So it counts as Skills for viewer only if you write something in coins and they will be visible. Type 0 to reset to default width, all text even outside of window still being rendered and scanned."
+																RichText="«Universal Template.json» (Skills .json file) file in «[⇲] Assets Directory\[⇲] Scans» can be used for translating new Identities preview Skills and Passives both, Status Effects as well if you adjust this width to appropriate value. So it counts as Skills for viewer only if you write something in coins and they will be visible. Type 0 to reset to default width, all text even outside of window still being rendered and scanned."
 																FontSize="14"
 																Style="{StaticResource CommentSection_r}"/>
 															<local:UITranslation_Rose

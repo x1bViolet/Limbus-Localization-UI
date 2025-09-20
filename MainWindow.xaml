@@ -201,10 +201,10 @@
 
 		<!-- 
 			Special font that turns all text into squares to prevent usage of fonts that are not unity font asset from Limbus Company if attaching <font> tag at limbus text
-			(`⇲ Assets Directory\[⇲] Limbus Embedded Fonts` folder)
+			(`[⇲] Assets Directory\[⇲] Limbus Embedded Fonts` folder)
 			
 			Allowed only fonts like <font="EN/cur)Caveat-SemiBold/Caveat-SemiBold SDF">, <font="EN/title)mikodacs/Mikodacs SDF"> and etc.
-			See `⇲ Assets Directory\[⇲] Limbus Embedded Fonts\Usage.txt` for full list of supported game fonts.
+			See `[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\Usage.txt` for full list of supported game fonts.
 		-->
 		<FontFamily x:Key="SegoeFluentIcons_MakeLimbusPreviewInvalid">pack://application:,,,/UI/Fonts/#Segoe Fluent Icons</FontFamily>
 
@@ -1217,7 +1217,7 @@
 							<ToolTip Background="#E0676767" HorizontalOffset="20">
 								<Terminus:UITranslation_Rose
 									UID="[Main UI] * Export Preview as PNG Tooltip"
-									RichText="Export preview to PNG (⇲ Assets Directory\[⇲] Scans)"
+									RichText="Export preview to PNG ([⇲] Assets Directory\[⇲] Scans)"
 									x:Name="MakePreviewScan_Tooltip"
 									Foreground="White"/>
 							</ToolTip>

@@ -85,7 +85,7 @@ public partial class MainWindow : Window
             {
                 System.IO.Compression.ZipFile.ExtractToDirectory(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip", @"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json");
 
-                File.Delete(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip");
+                //File.Delete(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip");
             }
             catch { }
         }
