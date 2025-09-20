@@ -1,0 +1,1127 @@
+{
+  "Font Defaults": {
+    "Font": "GOST Type BU",
+    "Font Weight": "Black"
+  },
+  "Custom Logo": "[⇲] Assets Directory/@ Internal/Translation/繁體中文/繁體中文.png", // This image by default used only in main menu, to make appear as splash screen it need to be inserted into program resources..
+  "Readme": [
+    "[C] — 自訂人格／E.G.O 預覽建立器"
+  ],
+  "List<Translation>": [
+    [
+      {
+        "UID": {"[Main UI] * Program Title":null},
+        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">Limbus Company <size=86%><font-weight=\"500\">介面化技能描述編輯器</font-weight></size>",
+        "Font": "Bookman Old Style", "Font Weight": "Regular",
+        "Margin": [1.8, 3.5, 0, 0],
+        "Font Size": 23,
+        "Foreground": "#473131"
+      },
+      {
+        "UID": {"[Main UI] * Json Path (Shadow Text)":null},
+        "Text": "JSON 檔案路徑",
+        "Font Size": 24,
+        "Margin": [5, 0, 0, 0]
+      },
+      {
+        "UID": {"[Main UI] * Export Preview as PNG Tooltip":null},
+        "Text": "將預覽匯出為PNG圖片（到路徑 <font=\"Consolas\"><b><u>[⇲] Assets Directory\\[⇲] Scans</u><b></font>）"
+      },
+      {
+        "UID": {"[Main UI] * ID Copy Button":null},
+        "Text": "[$]", // Do not change this text
+        "Font": "Bookman Old Style", "Font Weight": "Regular",
+        "Height": 14,
+        "Width": 141,
+        "Margin": [0, -2, 0, 0]
+      },
+      {
+        "UID": {"[Main UI] * ID Copy Button (Copied)":null},
+        "Text": "已複製 ID",
+        "Font": "Bookman Old Style", "Font Weight": "Regular",
+        "Height": 14,
+        "Width": 141,
+        "Margin": [0, -2, 0, 0]
+      },
+      {
+        "UID": {"[Main UI] * Version title":null},
+        "Text": "版本",
+        "Margin": [5],
+        "Font Size": 28,
+        "Font Weight": "Black"
+      }
+    ],
+    [
+      // You can hide context menu options via `Visible` property
+      {
+        "UID": {"[Context Menu] * Insert Style":null},
+        "Width": 300, // This width value can expand context menu width
+
+        "Text": "※ 插入 <color=#f8c200><\u0000style> 高亮文字</color>", // <style> is override yellow highlight tag at internal rich text system
+        "Font Size": 13.8,
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * TextMeshPro to [KeywordID]":null},
+
+        "Text": "<images-yoffset=-3><images-size=22><image id=\"2038\"><u>TextMeshPro</u> 轉換為 <image id=\"9732\"><u>[關鍵詞ID]</u>",
+        "Font Size": 13.8,
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * TextMeshPro to Shorthands":null},
+
+        "Text": "<images-yoffset=-3><images-size=22><image id=\"2038\"><u>TextMeshPro</u> 轉換為 <image id=\"9202\"><u>關鍵詞縮寫</u>",
+        "Font Size": 13.8,
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * Unevident to [KeywordID]":null},
+
+        "Text": "<images-yoffset=-3><images-size=22><image id=\"9085\"><u>不明顯的關鍵詞文字</u> 轉換為 <image id=\"9732\"><u>[關鍵詞ID]</u>",
+        "Font Size": 13.8,
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * Unevident to Shorthands":null},
+
+        "Text": "<images-yoffset=-3><images-size=22><image id=\"9085\"><u>不明顯的關鍵詞文字</u> 轉換為 <image id=\"9202\"><u>關鍵詞縮寫</u>",
+        "Font Size": 13.8,
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * [KeywordID] to Shorthands":null},
+
+        "Text": "<images-yoffset=-3><images-size=22><image id=\"9732\"><u>[關鍵詞ID]</u> 轉換為 <image id=\"9202\"><u>關鍵詞縮寫</u>",
+        "Font Size": 13.8,
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * [KeywordID] to TextMeshPro":null},
+
+        "Text": "<images-yoffset=-3><images-size=22><image id=\"9732\"><u>[關鍵詞ID]</u> 轉換為 <image id=\"2038\"><u>TextMeshPro</u>",
+        "Font Size": 13.8,
+        "Visible": true
+      }
+    ],
+    [
+      {
+        "UID": {"[Unsaved Changes] * Title":null},
+        "Text": "未儲存的變更",
+        "Margin": [0, 1, 0, 0],
+        "Foreground": "#CFCFCF",
+        "Font Size": 40
+      },
+      {
+        "UID": {"[Unsaved Changes] * Confirm Exit":null},
+        "Text": "繼續",
+        "Foreground": "#CFCFCF",
+        "Font Size": 25
+      },
+      {
+        "UID": {"[Unsaved Changes] * Cancel":null},
+        "Text": "取消",
+        "Foreground": "#CFCFCF",
+        "Font Size": 25
+      },
+      {
+        "UID": {"[Unsaved Changes] [^] * Information Text":null},
+        "Foreground": "#D2D2D2",
+        "Font Size": 21
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills] * 'Atk Weight' text":null},
+        "Text": "攻擊容量",
+        "Font Size": 15,
+        "Font": "$Ignore-default",
+        "Font Weight": "$Ignore-default"
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill main name (Background text)":null},
+        "Text": "技能名稱",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * E.G.O Skill abnormality name (Background text)":null},
+        "Text": "E.G.O 異想體名稱",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill main desc":null},
+        "Text": "主要描述",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 1":null},
+        "Text": "技能硬幣 №1",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 2":null},
+        "Text": "技能硬幣 №2",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 3":null},
+        "Text": "技能硬幣 №3",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 4":null},
+        "Text": "技能硬幣 №4",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 5":null},
+        "Text": "技能硬幣 №5",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 6":null},
+        "Text": "技能硬幣 №6",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin descs title":null},
+        "Text": "硬幣 <b>№[$]</b> 描述",
+        "Margin": [0, 4, 0, 0],
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin desc number":null},
+        "Text": "№[$]",
+        "Font Size": 18
+      }
+    ],
+    [
+      {
+        "UID": {"[Passives / Right menu] * Passive name (Shadow Text)":null},
+        "Text": "被動名稱",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Passives / Right menu] * Passive desc":null},
+        "Text": "主要描述",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Passives / Right menu] * Passive summary":null},
+        "Text": "被動摘要",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Passives / Right menu] * Add Passive summary description tooltip":null},
+        "Text": "新增摘要",
+        "Font Size": 18,
+        "Width": 268,
+        "Height": 26,
+        "Margin": [0, 1.6, 0, 0]
+      }
+    ],
+    [
+      {
+        "UID": {"[Keywords / Right Menu] * Keyword name (Shadow Text)":null},
+        "Text": "關鍵詞(Keyword)",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Keyword desc":null},
+        "Text": "主要描述",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Keyword summary":null},
+        "Text": "關鍵詞摘要",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Keywords format insertions button":null},
+        "Text": "<b>插入項目</b>",
+        "Margin": [15, 0.7, 0, 0],
+        "Width": 139
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {0} (Shadow Text)":null},
+        "Text": "插入項目 {0}",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {1} (Shadow Text)":null},
+        "Text": "插入項目 {1}",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {2} (Shadow Text)":null},
+        "Text": "插入項目 {2}",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {3} (Shadow Text)":null},
+        "Text": "插入項目 {3}",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {4} (Shadow Text)":null},
+        "Text": "插入項目 {4}",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {5} (Shadow Text)":null},
+        "Text": "插入項目 {5}",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {6} (Shadow Text)":null},
+        "Text": "插入項目 {6}",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      }
+    ],
+    [
+      {
+        "UID": {"[E.G.O Gifts] * 'View Desc.' text":null},
+        "Text": "查看描述",
+        "Width": 125,
+        "Font Size": 20,
+        "Font": "$Ignore-default",
+        "Font Weight": "$Ignore-default"
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Name (Shadow Text)":null},
+        "Text": "E.G.O飾品名稱",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Desc":null},
+        "Text": "主要描述",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 1":null},
+        "Text": "簡要描述 №1",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 2":null},
+        "Text": "簡要描述 №2",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 3":null},
+        "Text": "簡要描述 №3",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 4":null},
+        "Text": "簡要描述 №4",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 5":null},
+        "Text": "簡要描述 №5",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 6":null},
+        "Text": "簡要描述 №6",
+        "Font Size": 22,
+        "Margin": [5, 4, 3, 2]
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Limbus Preview] * Section Name":null},
+        "Text": "⦁ Limbus 預覽設定",
+        "Font Size": 26,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Toggle Syntax Highlight":null},
+        "Text": "Enable Syntax Highlight",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Hide Limbus Text Preview":null},
+        "Text": "Hide Limbus Text Preview",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Highlight style":null},
+        "Text": "預覽高亮文字 <\u0000style>",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Highlight Skill Descs on click":null},
+        "Text": "Highlight Skill Descs on right click",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Highlight Skill Descs on manual switch":null},
+        "Text": "Highlight Skill Descs on manual switch",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Enable Skill Names Replication":null},
+        "Text": "啟用技能名稱同步顯示",
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Enable Keyword tooltips":null},
+        "Text": "Enable Keyword Tooltips",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Preview update delay":null},
+        "Text": "預覽更新延遲（秒）",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Custom Lanugage] * Section Name":null},
+        "Text": "⦁ 自訂語言",
+        "Font Size": 26,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Lanugage] * Selected Properties":null},
+        "Text": "已選擇",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Lanugage] * Keywords Directory":null},
+        "Text": "關鍵詞(Keyword)資料夾路徑",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Lanugage] * Title Font":null},
+        "Text": "標題字型(Title font)路徑",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Lanugage] * Context Font":null},
+        "Text": "內文字型(Context font)路徑",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Internal] * Section Name":null},
+        "Text": "⦁ 內部設定",
+        "Font Size": 26,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Internal] * Selected UI Lanugage":null},
+        "Text": "介面語言",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Internal] * Selected UI Theme":null},
+        "Text": "介面主題",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Internal] * Toggle Topmost state":null},
+        "Text": "置頂視窗",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Internal] * Enable Load Warnings":null},
+        "Text": "啟用載入時的警告提示",
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Internal] * Dropdown lists Readme":null},
+        "Text": "下拉選單僅會考慮來自以下資料夾的檔案與資料夾：\n<font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\@ Internal\\Translation</color></b></font> 以及 \n<font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\@ Internal\\Themes</color></b></font>",
+        "Font Size": 14,
+        "Font": "Linotype Syntax Com"
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Resourecs Reload] * Section Name":null},
+        "Text": "⦁ 重新載入資源",
+        "Font Size": 26,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Resourecs Reload] * Custom Language Keywords":null},
+        "Text": "自訂語言關鍵詞",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Resourecs Reload] * Keyword Icons":null},
+        "Text": "關鍵詞圖示",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Resourecs Reload] * Skills Icons and Display Info":null},
+        "Text": "技能顯示資訊與圖示",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Resourecs Reload] * E.G.O Gifts Icons and Display Info":null},
+        "Text": "E.G.O飾品顯示資訊與圖示",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Preview Scans] * Section Name":null},
+        "Text": "⦁ 預覽輸出圖片",
+        "Font Size": 26,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Toggle Skills scan area view":null},
+        "Text": "切換輸出區域顯示",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Width of Skills Preview":null},
+        "Text": "技能面板寬度(像素)",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Scale Factor":null},
+        "Text": "縮放係數",
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Background Color":null},
+        "Text": "Exports Background Color (<i>Hex</i> <u>RGB</u> / <u>ARGB</u>)",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Display Keyword Sprites":null},
+        "Text": "顯示 [KeywordID] 圖示 (每次啟動程式時會預設為開啟)",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Display Keyword Underline":null},
+        "Text": "顯示 [KeywordID] 底線 (每次啟動程式時會預設為開啟)",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Readme Title":null},
+        "Text": "使用說明（為什麼只提供技能面板寬度調整功能）",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Readme 1":null},
+        "Text": "位於<font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\[⇲] Scans</color></b></font>\n的<font=\"Consolas\"><b><color=#7177ff>Universal Template.json</color></b></font>（空白技能 .json 檔案）\n可用於翻譯新人格預覽的技能與被動，以及狀態效果（前提是你將面板寬度調整到合適的值）\n只有當你在硬幣（coins）欄位填寫內容時，這些才會被視為技能並在檢視器中顯示。\n輸入 0 即可重置為預設寬度，即使文字超出視窗範圍，仍會被渲染和輸出。",
+        "Font Size": 14,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Readme 2":null},
+        "Text": "如果你複製並重新命名這個檔案，只要檔案內包含特殊行<font=\"Consolas\"><b><color=#aaace7>\"Template Marker\": \"(Don't remove)\"</color></b></font>\n程式仍會自動識別它。",
+        "Font Size": 14,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Readme 3":null},
+        "Text": "直接使用就好。",
+        "Font Size": 14,
+        "Font": "Linotype Syntax Com"
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * Title bar button tooltip":null},
+        "Text": "切換介面到人格/E.G.O 預覽建立器",
+        "Foreground": "#ffffff"
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * Open project":null},
+        "Text": "開啟專案",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * Save project":null},
+        "Text": "儲存專案",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * [Section Title] Image parameters":null},
+        "Text": "<u>圖片參數</u>",
+        "Font Size": 20,
+        "Margin": [5, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Height adjustment (Switch to auto)":null},
+        "Text": "依圖片自動調整高度",
+        "Margin": [-145, 0, 0, 0],
+        "Width": 130
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Height adjustment":null},
+        "Width": 500,
+        "Variable": {
+          "Auto": "高度調整 [<color=#fc5a03>自動</color>]",
+          "Manual": "高度調整 [<color=#fc5a03>手動</color>]"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Width adjustment (First step)":null},
+        "Text": "寬度調整（第一步）"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Width adjustment (Second step)":null},
+        "Text": "寬度調整（第二步）"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait type":null},
+        "Text": "主要圖片類型"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait type — Identity":null},
+        "Text": "人格",
+        "Font Size": 14,
+        "Margin": [0],
+        "Width": 120
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait type — E.G.O":null},
+        "Text": "E.G.O",
+        "Font Size": 14,
+        "Margin": [0],
+        "Width": 120
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait image":null},
+        "Text": "設置主要圖片: <color=#fc5a03>[$]</color>",
+        "Font Weight": "Bold",
+        "Width": 230
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait image — Select":null},
+        "Text": "選擇圖片",
+        "Text Alignment": "Center",
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Allocated width for portrait":null},
+        "Text": "主要圖片寬度"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] E.G.O portrait scale":null},
+        "Text": "E.G.O 圖片縮放"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Identity portrait scale":null},
+        "Text": "人格圖片縮放"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait horizontal offset":null},
+        "Text": "主要圖片水平偏移",
+        "Margin": [1.5, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Portrait vertical offset":null},
+        "Text": "主要圖片垂直偏移",
+        "Margin": [4, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Header offset":null},
+        "Text": "頭像偏移"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Identity/E.G.O name offset":null},
+        "Text": "人格/E.G.O 名稱偏移",
+        "Margin": [2.2, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Sinner name offset":null},
+        "Text": "罪人名稱偏移",
+        "Margin": [4, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Rarity/E.G.O Risk level horizontal offset":null},
+        "Text": "稀有度/E.G.O 危險等級水平偏移",
+        "Margin": [4, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Rarity/E.G.O Risk level vertical offset":null},
+        "Text": "稀有度/E.G.O 危險等級垂直偏移",
+        "Margin": [4, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Text background fadeout softness":null},
+        "Text": "文字背景淡出柔化程度"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Vignette strength":null},
+        "Text": "暗角強度"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Top vignette offset":null},
+        "Text": "暗角上方偏移"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Left vignette offset":null},
+        "Text": "暗角左側偏移"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Bottom vignette offset":null},
+        "Text": "暗角下方偏移"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type text":null},
+        "Text": "圖片類型文字",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Another image type font":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "另一種圖片類型字型",
+          "Selected": "另一種圖片類型字型\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Another image type font — Select":null},
+        "Text": "選擇字型",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type vertical offset":null},
+        "Text": "圖片類型垂直偏移",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type text size":null},
+        "Text": "圖片類型文字大小",
+        "Font Size": 18
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Specific of the sinner and Identity/E.G.O":null},
+        "Text": "<u>罪人與人格/E.G.O 的細節</u>",
+        "Font Size": 20,
+        "Margin": [5, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Sinner icon":null},
+        "Text": "罪人圖示",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * Sinner icon selection (Custom)":null},
+        "Text": "[自訂]",
+        "Font Size": 18,
+        "Foreground": "#c4b0b6"
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Icon brightness":null},
+        "Text": "圖示亮度",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Icon size":null},
+        "Text": "圖示大小",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Sinner name":null},
+        "Text": "罪人名稱",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Name of Identity/E.G.O":null},
+        "Text": "人格/E.G.O 名稱",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Ambience color":null},
+        "Text": "環境色",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Rarity/E.G.O Risk level":null},
+        "Text": "稀有度/E.G.O 危險等級",
+        "Font Size": 18
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Decorative cautions":null},
+        "Text": "<u>裝飾性警告</u>",
+        "Font Size": 20,
+        "Margin": [5, 4, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Caution type":null},
+        "Text": "警告類型",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Caution type — SEASON":null},
+        "Text": "賽季警告樣式",
+        "Font Size": 18,
+        "Foreground": "#c4b0b6",
+        "Margin": [1, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Caution type — CAUTION":null},
+        "Text": "常駐警告樣式",
+        "Font Size": 18,
+        "Foreground": "#c4b0b6",
+        "Margin": [1, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Caution type — None":null},
+        "Text": "無",
+        "Font Size": 18,
+        "Foreground": "#c4b0b6",
+        "Margin": [1, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Caution type — Custom text":null},
+        "Text": "自訂文字",
+        "Font Size": 18,
+        "Foreground": "#c4b0b6",
+        "Margin": [1, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Caution bloom radius":null},
+        "Text": "警告光暈半徑",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Caution opacity":null},
+        "Text": "警告不透明度",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Custom text string":null},
+        "Text": "自訂文字字串",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Another font":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "另一種字型",
+          "Selected": "另一種字型\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Another font — Select":null},
+        "Text": "選擇字型",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Text vertical offset":null},
+        "Text": "文字垂直偏移",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Text size":null},
+        "Text": "文字大小",
+        "Font Size": 18
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Text info":null},
+        "Text": "<u>文字資訊</u>",
+        "Font Size": 20,
+        "Margin": [5, 4, 0, 0]
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Column settings":null},
+        "Text": "<u>欄位設定</u>",
+        "Font Size": 20,
+        "Margin": [5, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Add item to Column 1":null},
+        "Text": "[欄位 №1] 新增項目..",
+        "Font Size": 18,
+        "Width": 200,
+        "Margin": [4, 8, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Add item to Column 2":null},
+        "Text": "[欄位 №2] 新增項目..",
+        "Font Size": 18,
+        "Width": 200,
+        "Margin": [4, 8, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Add item to Column — Skill":null},
+        "Text": "技能",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Add item to Column — Passive":null},
+        "Text": "能力",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Add item to Column — Keyword":null},
+        "Text": "關鍵詞",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] First column offset":null},
+        "Text": "欄位1偏移",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] First column item signatures offset":null},
+        "Text": "欄位1物件名稱偏移",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Second column offset":null},
+        "Text": "欄位2偏移",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Second column item signatures offset":null},
+        "Text": "欄位2物件名稱偏移",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Another font for item signatures":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "物件名稱的另一種字型",
+          "Selected": "物件名稱的另一種字型\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Another font for item signatures — Select":null},
+        "Text": "選擇字型",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Keyword boxes width":null},
+        "Text": "關鍵詞框寬度"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Column settings] Unified text size":null},
+        "Text": "統一文字大小 [<color=#fc5a03>[$]</color>]\n（儲存並重新載入專案，或在文字項目上使用右鍵選單的「重新整理文字」以套用）",
+        "Margin": [0, 1, 0, 0]
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Text info sources":null},
+        "Text": "<u>文字資訊來源json</u>",
+        "Font Size": 20,
+        "Margin": [5, 0, 0, 0]
+      },
+
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Skills localization":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "技能json",
+          "Selected": "技能json\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Skills localization — Select":null},
+        "Text": "選擇文件",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Skills Display Info":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "技能顯示json",
+          "Selected": "技能顯示json\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Skills Display Info — Select":null},
+        "Text": "選擇文件",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Passives localization":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "能力json",
+          "Selected": "能力json\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Passives localization — Select":null},
+        "Text": "選擇文件",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Keywords localization":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "關鍵詞json",
+          "Selected": "關鍵詞json\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Text info sources] Keywords localization — Select":null},
+        "Text": "選擇文件",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section Title] Selected item settings":null},
+        "Text": "<u>選擇物件設定</u>",
+        "Font Size": 20,
+        "Margin": [5, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Editing item header":null},
+        "Text": "| 編輯項目: <b>#[$]</b>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Item signature":null},
+        "Text": "物件名稱",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Skill ID from localization file":null},
+        "Text": "選擇來源技能 ID",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Passive ID from localization file":null},
+        "Text": "選擇來源能力 ID",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Keyword ID from localization file":null},
+        "Text": "選擇來源關鍵詞 ID",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Skill constructor from Display Info":null},
+        "Text": "選擇來源技能顯示樣式",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Keyword icon image":null},
+        "Font Size": 18,
+        "Variable": {
+          "Default": "關鍵詞圖示圖片",
+          "Selected": "關鍵詞圖示圖片\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Keyword icon image — Select":null},
+        "Text": "選擇圖片",
+        "Text Alignment": "Center",
+        "Font Size": 18,
+        "Margin": [3, 0, 3, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Vertical offset":null},
+        "Text": "垂直偏移"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Horizontal offset":null},
+        "Text": "水平偏移（僅添加文字訊息）"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Name max width":null},
+        "Text": "名稱最大長度"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Passive description width":null},
+        "Text": "能力描述寬度"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Skill main description width": null},
+        "Text": "技能主要描述寬度"
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Skill coin descriptions width":null},
+        "Text": "技能硬幣描述寬度",
+        "Margin": [4, 0, 0, 0]
+      }
+    ]
+  ]
+}

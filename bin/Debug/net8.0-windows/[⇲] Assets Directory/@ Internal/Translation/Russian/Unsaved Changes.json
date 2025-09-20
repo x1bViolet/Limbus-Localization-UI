@@ -1,0 +1,21 @@
+{
+  "Passives": {
+    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "Main Desc": "\n  > Главное описание",
+    "Summary Desc": "\n  > Суммарное описание"
+  },
+  "Keywords": {
+    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "Main Desc": "\n  > Главное описание",
+    "Summary Desc": "\n  > Суммарное описание"
+  },
+  "E.G.O Gifts": {
+    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "Main Desc": "\n  > Главное описание",
+    "Simple Desc": "\n  > Простое описание №[$]"
+  },
+  "Skills": {
+    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "Uptie Level": "\n  > Уровень связи [$]"
+  }
+}

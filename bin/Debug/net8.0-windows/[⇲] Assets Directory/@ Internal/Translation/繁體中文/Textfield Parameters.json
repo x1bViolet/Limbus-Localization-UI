@@ -1,0 +1,168 @@
+{
+  "Font Defaults": {
+    "Font": "GOST Type BU",
+    "Font Weight": "Black"
+  },
+  "Readme": [
+    "Probably only for margin and font adjustments"
+  ],
+  "List<Parametre>": [
+    [
+      {
+        "UID": {"[Main UI] * Json Path":null},
+        "Margin": [1, 5, 4, 1],
+        "Font Size": 24
+      },
+      {
+        "UID": {"[Main UI] * Manual ID Input":null},
+        "Font": "Bookman Old Style",
+        "Font Weight": "Regular",
+        "Foreground": "#E4E4E4", // Shared for caret and selection color
+        "Font Size": 13,
+        "Margin": [4, 1, 4, 2]
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills / Right menu] * Skill main name":null},
+        "Font Size": 22,
+        "Margin": [0, 2, 0, 0]
+      },
+      {
+        "UID": {"[Skills / Right menu] * E.G.O Skill abnormality name":null},
+        "Font Size": 22,
+        "Margin": [0, 2, 0, 0]
+      }
+    ],
+    [
+      {
+        "UID": {"[Passives / Right menu] * Passive name":null},
+        "Font Size": 22,
+        "Margin": [0, 2, 0, 0]
+      }
+    ],
+    [
+      {
+        "UID": {"[Keywords / Right menu] * Keyword name":null},
+        "Font Size": 22,
+        "Margin": [0, 2, 0, 0]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {0}":null},
+        "Font Size": 22,
+        "Margin": [0, 2, 0, 0]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {1}":null},
+        "Font Size": 22,
+        "Margin": [0, 2, 0, 0]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {2}":null},
+        "Font Size": 22,
+        "Margin": [0, 2, 0, 0]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {3}":null},
+        "Font Size": 22,
+        "Margin": [0, 2, 0, 0]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {4}":null},
+        "Font Size": 22,
+        "Margin": [0, 2, 0, 0]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {5}":null},
+        "Font Size": 22,
+        "Margin": [0, 2, 0, 0]
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {6}":null},
+        "Font Size": 22,
+        "Margin": [0, 2, 0, 0]
+      }
+    ],
+    [
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Name":null},
+        "Font Size": 22
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Limbus Preview] * Preview update delay":null},
+        "Font": "Linotype Syntax Com",
+        "Font Size": 18
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Custom Lanugage] * Keywords Directory":null},
+        "Font": "Linotype Syntax Com",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[Settings / Custom Lanugage] * Title Font":null},
+        "Font": "Linotype Syntax Com",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[Settings / Custom Lanugage] * Context Font":null},
+        "Font": "Linotype Syntax Com",
+        "Font Size": 18
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Preview Scans] * Width of Skills Preview":null},
+        "Font": "Linotype Syntax Com",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Scale Factor":null},
+        "Font": "Linotype Syntax Com",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Background Color":null},
+        "Font": "Linotype Syntax Com",
+        "Font Size": 18,
+        "Width": 115,
+        "Margin": [0, 1.9, 21.6, 0]
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type text":null},
+        "Font Size": 18,
+        "Margin": [0, 1, 2, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Sinner name":null},
+        "Font Size": 18,
+        "Margin": [0, 1, 2, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Name of Identity/E.G.O":null},
+        "Font Size": 18,
+        "Margin": [0, 1, 2, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Specific] Ambience color":null},
+        "Font Size": 18,
+        "Margin": [0, 1, 2, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Custom text string":null},
+        "Font Size": 18,
+        "Margin": [0, 1, 2, 1]
+      },
+      {
+        "UID": {"[C] * [Section:Text info/Selected item settings] Item signature":null},
+        "Font Size": 18,
+        "Margin": [0, 1, 2, 1]
+      }
+    ]
+  ]
+}

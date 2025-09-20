@@ -1,0 +1,10 @@
+{
+  "Fallback Keywords Directory not found": "¤ Cannot find fallback keywords directory \"[$]\" (Can it be on disk D:\\ or E:\\??)\n\n",
+  "Selected Custom Language not found in list": "¤ Cannot find Custom Language property named \"[$]\"\n\n",
+  "Custom Language Keywords Directory not found": "¤ Cannot find Custom Language keywords directory \"[$]\"\n\n",
+  "Custom Language Context Font not found": "¤ Cannot find Context Font file \"[$]\"\n\n",
+  "Custom Language Title Font not found": "¤ Cannot find Title Font file \"[$]\"\n\n",
+  "Custom Language Keywords Multiple Meanings Dictionary not found": "¤ Cannot find Keywords Multiple Meanings Dictionary \"[$]\"\n\n",
+  "Warnings disabling notice": "\n\n(You can disable this warning in Settings at 'Internal' section)",
+  "Warnings window title": "Loading exceptions @ [$]"
+}

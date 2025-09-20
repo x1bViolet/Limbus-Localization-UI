@@ -1,0 +1,18 @@
+<font="BebasKai SDF">
+<font="ExcelsiorSans SDF">
+<font="EN/cur)Caveat-SemiBold/Caveat-SemiBold SDF">
+
+
+<font="EN/title)mikodacs/Mikodacs SDF">
+<font="EN/Pretendard/Pretendard-Regular SDF">
+
+<font="KR/title)KOTRA_BOLD/KOTRA_BOLD SDF">
+<font="KR/p)SCDream(light)/SCDream5 SDF">
+
+<font="JP/title)corporate logo(bold)/Corporate-Logo-Bold-ver2 SDF">
+<font="JP/HigashiOme/HigashiOme-Gothic-C-1">
+
+
+
+Limbus supports only these font assets within <font> tags.
+These files are also used in custom language properties of the original game translations.

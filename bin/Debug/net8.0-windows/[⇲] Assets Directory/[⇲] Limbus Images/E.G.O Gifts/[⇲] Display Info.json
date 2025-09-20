@@ -1,0 +1,3390 @@
+{
+  "Readme": "There are no IDs of upgraded ego gifts versions, only basic",
+  "E.G.O Gifts Info": [
+    {
+      "ID": 1001,
+      "Image": "Mask of a Devotee",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1002,
+      "Image": "Shoddy Dressing",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1003,
+      "Image": "Festered Fragment",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1004,
+      "Image": "Bloodied Mask of a Devotee",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1005,
+      "Image": "Ebony Brooch",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1006,
+      "Image": "Etched Doomsday",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1011,
+      "Image": "Toy Fist",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1012,
+      "Image": "Toy Foot",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1013,
+      "Image": "Toy Screw",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1014,
+      "Image": "Rainbow Mainspring",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1015,
+      "Image": "Rusty Mainspring",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1016,
+      "Image": "Emergency Surgical Kit",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1018,
+      "Image": "Writhing Ribbon",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1021,
+      "Image": "A Sign (1021)",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1022,
+      "Image": "A Sign (1022)",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1023,
+      "Image": "A Sign (1023)",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1024,
+      "Image": "A Sign (1024)",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1032,
+      "Image": "Torch Stack",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1033,
+      "Image": "Old Warehouse’s Key",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1034,
+      "Image": "Blood-red Mane",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1037,
+      "Image": "N Corp. Seal",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1038,
+      "Image": "Token of Innocence",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1039,
+      "Image": "Token of Tears",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1040,
+      "Image": "Sparkling Skull",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1041,
+      "Image": "Hemorrhagic Hand",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1042,
+      "Image": "Sniggering Tongue",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1043,
+      "Image": "Token of Atonement",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1044,
+      "Image": "Ritualist’s Right",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1046,
+      "Image": "Green Skin",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1048,
+      "Image": "Topfhelm",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1049,
+      "Image": "Hammer",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1050,
+      "Image": "Nagel",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1051,
+      "Image": "Nagel und Hammer Scriptures",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2001,
+      "Image": "Small Ampule",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2002,
+      "Image": "Piece of Crumbled Egg",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2003,
+      "Image": "Cold Illusion",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2004,
+      "Image": "Sharp Illusion",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2005,
+      "Image": "Fragrant Illusion",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2006,
+      "Image": "Trace of Stars",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2007,
+      "Image": "Pungent Bud",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2008,
+      "Image": "Hot Tears",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2009,
+      "Image": "Cooled Tear",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2010,
+      "Image": "Memories of Fragments",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2011,
+      "Image": "Piece of a Torn Spring",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2012,
+      "Image": "Piece of a Torn Summer",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2013,
+      "Image": "Piece of a Torn Autumn",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2014,
+      "Image": "Piece of a Torn Winter",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2015,
+      "Image": "Piece of a Broken Bond",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2016,
+      "Image": "Piece of Reversing Memories",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2017,
+      "Image": "Noose",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2018,
+      "Image": "Reverse Knot",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2019,
+      "Image": "Melted LCCB Employee Badge",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2020,
+      "Image": "Desperate's Knot",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2021,
+      "Image": "Mermaid Oil",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2022,
+      "Image": "Crossed Knot",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2023,
+      "Image": "Compulsive's Knot",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2024,
+      "Image": "Rusted Hook",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2025,
+      "Image": "Standard Issue Mag",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2026,
+      "Image": "Unbreakable Knot",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2047,
+      "Image": "A Broken Dream",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2048,
+      "Image": "La Manchaland All-day Pass",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2049,
+      "Image": "La Manchaland Standard Pass",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2050,
+      "Image": "Token of Victory",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2051,
+      "Image": "Self-flagellation Whip",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2052,
+      "Image": "Mask of the Parade",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2053,
+      "Image": "Devouring Cube",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2054,
+      "Image": "Endless Hunger",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2055,
+      "Image": "A Little Dream",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2056,
+      "Image": "A Hollow Dream",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2057,
+      "Image": "The Dream Begins Anew",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1052,
+      "Image": "Hot ‘n Juicy Drumstick",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "-"
+    },
+    {
+      "ID": 1053,
+      "Image": "Dry-to-the-Bone Breast",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "-"
+    },
+    {
+      "ID": 1054,
+      "Image": "Tango Marinade",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 1055,
+      "Image": "Contaminated Needle & Thread",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "-"
+    },
+    {
+      "ID": 1056,
+      "Image": "Sharp Needle & Thread",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2061,
+      "Image": "Coin",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2062,
+      "Image": "Worn Entry Card",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2063,
+      "Image": "Heavenly King's Heartmending Pill",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2064,
+      "Image": "Tranquil Lotus Bolus",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2065,
+      "Image": "Sanguine Blossom Bolus",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2066,
+      "Image": "Tenacity Bolus",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2067,
+      "Image": "Flower in the Mirror",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2068,
+      "Image": "Accursed Codex",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2069,
+      "Image": "Madness-inscribed Codex",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2070,
+      "Image": "Moon in the Water",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2071,
+      "Image": "Flower Mound",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2072,
+      "Image": "Lightening Axe",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2073,
+      "Image": "Heartrender Talisman",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2074,
+      "Image": "Bloodsevering Blade",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2075,
+      "Image": "Jin Gang Bolus",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2076,
+      "Image": "Faded Poster",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2077,
+      "Image": "Deep Claw Marks",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2078,
+      "Image": "The Memory of Kong Family Annihilation",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2079,
+      "Image": "Red Entry Card",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 9001,
+      "Image": "Hellterfly’s Dream",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "2"
+    },
+    {
+      "ID": 9002,
+      "Image": "Perversion",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9003,
+      "Image": "Ashes to Ashes",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "1"
+    },
+    {
+      "ID": 9004,
+      "Image": "Phlebotomy Pack",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9005,
+      "Image": "Wound Clerid",
+      "Affinity": "Wrath",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9006,
+      "Image": "Coffee and Cranes",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9007,
+      "Image": "Eclipse of Scarlet Moths",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9008,
+      "Image": "Grimy Iron Stake",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "1"
+    },
+    {
+      "ID": 2058,
+      "Image": "Grimy Iron Stake",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "-"
+    },
+    {
+      "ID": 9009,
+      "Image": "Fiery Down",
+      "Affinity": "Lust",
+      "Keyword": "Burn",
+      "Tier": "2"
+    },
+    {
+      "ID": 9010,
+      "Image": "Bloody Gadget",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9011,
+      "Image": "Sunshower",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9012,
+      "Image": "Today’s Expression",
+      "Affinity": "Sloth",
+      "Keyword": "Blunt",
+      "Tier": "2"
+    },
+    {
+      "ID": 9013,
+      "Image": "Talisman Bundle",
+      "Affinity": "Sloth",
+      "Keyword": "Rupture",
+      "Tier": "1"
+    },
+    {
+      "ID": 9014,
+      "Image": "Rusty Commemorative Coin",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9015,
+      "Image": "Blood, Sweat, and Tears",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9016,
+      "Image": "Green Spirit",
+      "Affinity": "Gluttony",
+      "Keyword": "Tremor",
+      "Tier": "1"
+    },
+    {
+      "ID": 9017,
+      "Image": "Lithograph",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9018,
+      "Image": "Crown of Roses",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "1"
+    },
+    {
+      "ID": 9019,
+      "Image": "Sticky Muck",
+      "Affinity": "Gluttony",
+      "Keyword": "Pierce",
+      "Tier": "1"
+    },
+    {
+      "ID": 9020,
+      "Image": "White Gossypium",
+      "Affinity": "Gluttony",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9021,
+      "Image": "Blue Zippo Lighter",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9022,
+      "Image": "Phantom Pain",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9023,
+      "Image": "Thunderbranch",
+      "Affinity": "Gloom",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9024,
+      "Image": "Melted Eyeball",
+      "Affinity": "Gloom",
+      "Keyword": "Tremor",
+      "Tier": "3"
+    },
+    {
+      "ID": 9025,
+      "Image": "Grey Coat",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9026,
+      "Image": "Late-bloomer’s Tattoo",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9027,
+      "Image": "Lowest Star",
+      "Affinity": "Pride",
+      "Keyword": "Blunt",
+      "Tier": "2"
+    },
+    {
+      "ID": 9028,
+      "Image": "Prejudice",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9029,
+      "Image": "Little and To-be-Naughty Plushie",
+      "Affinity": "Pride",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9030,
+      "Image": "Gathering Skulls",
+      "Affinity": "Pride",
+      "Keyword": "Pierce",
+      "Tier": "2"
+    },
+    {
+      "ID": 9031,
+      "Image": "Nixie Divergence",
+      "Affinity": "Envy",
+      "Keyword": "Tremor",
+      "Tier": "1"
+    },
+    {
+      "ID": 9032,
+      "Image": "Dreaming Electric Sheep",
+      "Affinity": "Envy",
+      "Keyword": "Slash",
+      "Tier": "2"
+    },
+    {
+      "ID": 9033,
+      "Image": "Standard-duty Battery",
+      "Affinity": "Envy",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9034,
+      "Image": "Pinpoint Logic Circuit",
+      "Affinity": "Envy",
+      "Keyword": "Burn",
+      "Tier": "2"
+    },
+    {
+      "ID": 9035,
+      "Image": "Voodoo Doll",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9036,
+      "Image": "Carmilla",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 2060,
+      "Image": "Carmilla",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 9037,
+      "Image": "Child within a Flask",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9038,
+      "Image": "Illusory Hunt",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9039,
+      "Image": "Homeward",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9040,
+      "Image": "Tomorrow’s Fortune",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9041,
+      "Image": "Red Order",
+      "Affinity": "Wrath",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9042,
+      "Image": "Smokes and Wires",
+      "Affinity": "Wrath",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9043,
+      "Image": "Employee Card",
+      "Affinity": "Wrath",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9044,
+      "Image": "Oscillating Bracelet",
+      "Affinity": "Wrath",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9045,
+      "Image": "Glimpse of Flames",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "4"
+    },
+    {
+      "ID": 9046,
+      "Image": "Cigarette Holder",
+      "Affinity": "Lust",
+      "Keyword": "Poise",
+      "Tier": "2"
+    },
+    {
+      "ID": 9047,
+      "Image": "Barbed Lasso",
+      "Affinity": "Lust",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 2059,
+      "Image": "Barbed Lasso",
+      "Affinity": "Lust",
+      "Keyword": "Rupture",
+      "Tier": "-"
+    },
+    {
+      "ID": 9048,
+      "Image": "Rusted Cutting Knife",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9049,
+      "Image": "Thorny Path",
+      "Affinity": "Lust",
+      "Keyword": "Sinking",
+      "Tier": "1"
+    },
+    {
+      "ID": 9050,
+      "Image": "Red-stained Gossypium",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9051,
+      "Image": "Stone Tomb",
+      "Affinity": "Sloth",
+      "Keyword": "Poise",
+      "Tier": "2"
+    },
+    {
+      "ID": 9052,
+      "Image": "Portable Battery Socket",
+      "Affinity": "Sloth",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9053,
+      "Image": "Dust to Dust",
+      "Affinity": "Sloth",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9054,
+      "Image": "Melted Spring",
+      "Affinity": "Sloth",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9055,
+      "Image": "Downpour",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9056,
+      "Image": "Four-leaf Clover",
+      "Affinity": "Gluttony",
+      "Keyword": "Poise",
+      "Tier": "3"
+    },
+    {
+      "ID": 9057,
+      "Image": "Nightvision Goggles",
+      "Affinity": "Gluttony",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9058,
+      "Image": "Disk Fragment",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9059,
+      "Image": "Midwinter Nightmare",
+      "Affinity": "Gluttony",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9060,
+      "Image": "Thrill",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "4"
+    },
+    {
+      "ID": 9061,
+      "Image": "Skeletal Crumbs",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9062,
+      "Image": "Curriculum Vitae",
+      "Affinity": "Gloom",
+      "Keyword": "Charge",
+      "Tier": "1"
+    },
+    {
+      "ID": 9063,
+      "Image": "Pendant of Nostalgia",
+      "Affinity": "Gloom",
+      "Keyword": "Poise",
+      "Tier": "1"
+    },
+    {
+      "ID": 9064,
+      "Image": "Broken Revolver",
+      "Affinity": "Gloom",
+      "Keyword": "Rupture",
+      "Tier": "1"
+    },
+    {
+      "ID": 9065,
+      "Image": "Artistic Sense",
+      "Affinity": "Pride",
+      "Keyword": "Sinking",
+      "Tier": "4"
+    },
+    {
+      "ID": 9066,
+      "Image": "Nebulizer",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "2"
+    },
+    {
+      "ID": 9067,
+      "Image": "Special Contract",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9068,
+      "Image": "Grand Welcome",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9069,
+      "Image": "Wrist Guards",
+      "Affinity": "Pride",
+      "Keyword": "Charge",
+      "Tier": "1"
+    },
+    {
+      "ID": 9070,
+      "Image": "Clear Mirror, Calm Water",
+      "Affinity": "Envy",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 9071,
+      "Image": "Charred Disk",
+      "Affinity": "Envy",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9072,
+      "Image": "Lightning Rod",
+      "Affinity": "Envy",
+      "Keyword": "Charge",
+      "Tier": "3"
+    },
+    {
+      "ID": 9073,
+      "Image": "Endorphin Kit",
+      "Affinity": "Envy",
+      "Keyword": "Poise",
+      "Tier": "3"
+    },
+    {
+      "ID": 9074,
+      "Image": "Headless Portrait",
+      "Affinity": "Envy",
+      "Keyword": "Sinking",
+      "Tier": "1"
+    },
+    {
+      "ID": 9075,
+      "Image": "Charge-type Gloves",
+      "Affinity": "Envy",
+      "Keyword": "Charge",
+      "Tier": "4"
+    },
+    {
+      "ID": 9076,
+      "Image": "First-aid Kit",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9077,
+      "Image": "Painkiller",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9078,
+      "Image": "Voracious Hammer",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9079,
+      "Image": "Golden Urn",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9080,
+      "Image": "Milepost of Survival",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9081,
+      "Image": "Faith",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9082,
+      "Image": "Piece of Relationship",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9083,
+      "Image": "Lunar Memory",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "5"
+    },
+    {
+      "ID": 9084,
+      "Image": "Ancient Effigy",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9085,
+      "Image": "Non-disclosure Agreement",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9086,
+      "Image": "Reverberation",
+      "Affinity": "Gloom",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9087,
+      "Image": "Burning Intellect",
+      "Affinity": "Sloth",
+      "Keyword": "Burn",
+      "Tier": "1"
+    },
+    {
+      "ID": 9088,
+      "Image": "Soothe the Dead",
+      "Affinity": "Pride",
+      "Keyword": "Burn",
+      "Tier": "4"
+    },
+    {
+      "ID": 9089,
+      "Image": "Rusted Muzzle",
+      "Affinity": "Envy",
+      "Keyword": "Bleed",
+      "Tier": "1"
+    },
+    {
+      "ID": 9090,
+      "Image": "Bloody Mist",
+      "Affinity": "Sloth",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9091,
+      "Image": "Bell of Truth",
+      "Affinity": "Envy",
+      "Keyword": "Tremor",
+      "Tier": "3"
+    },
+    {
+      "ID": 9092,
+      "Image": "Coupled Oscillation",
+      "Affinity": "Lust",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9093,
+      "Image": "Fluorescent Lamp",
+      "Affinity": "Pride",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9094,
+      "Image": "Enrapturing Trance",
+      "Affinity": "Wrath",
+      "Keyword": "Rupture",
+      "Tier": "4"
+    },
+    {
+      "ID": 9095,
+      "Image": "Broken Compass",
+      "Affinity": "Pride",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9096,
+      "Image": "Black Sheet Music",
+      "Affinity": "Gluttony",
+      "Keyword": "Sinking",
+      "Tier": "4"
+    },
+    {
+      "ID": 9097,
+      "Image": "Ornamental Horseshoe",
+      "Affinity": "Wrath",
+      "Keyword": "Poise",
+      "Tier": "1"
+    },
+    {
+      "ID": 9098,
+      "Image": "Lucky Pouch",
+      "Affinity": "Gloom",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 9099,
+      "Image": "Material Interference Force Field",
+      "Affinity": "Sloth",
+      "Keyword": "Charge",
+      "Tier": "3"
+    },
+    {
+      "ID": 9100,
+      "Image": "T-1 Perpetual Motion Machine",
+      "Affinity": "Lust",
+      "Keyword": "Charge",
+      "Tier": "4"
+    },
+    {
+      "ID": 9101,
+      "Image": "Melted Paraffin",
+      "Affinity": "Lust",
+      "Keyword": "Burn",
+      "Tier": "1"
+    },
+    {
+      "ID": 9102,
+      "Image": "Polarization",
+      "Affinity": "Gloom",
+      "Keyword": "Burn",
+      "Tier": "1"
+    },
+    {
+      "ID": 9103,
+      "Image": "Pain of Stifled Rage",
+      "Affinity": "Gluttony",
+      "Keyword": "Burn",
+      "Tier": "2"
+    },
+    {
+      "ID": 9104,
+      "Image": "Ardent Flower",
+      "Affinity": "Pride",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9105,
+      "Image": "Fragment of Hellfire",
+      "Affinity": "Lust",
+      "Keyword": "Burn",
+      "Tier": "4"
+    },
+    {
+      "ID": 9106,
+      "Image": "Arrested Hymn",
+      "Affinity": "Sloth",
+      "Keyword": "Bleed",
+      "Tier": "1"
+    },
+    {
+      "ID": 9107,
+      "Image": "Tangled Bundle",
+      "Affinity": "Gloom",
+      "Keyword": "Bleed",
+      "Tier": "1"
+    },
+    {
+      "ID": 9108,
+      "Image": "Awe",
+      "Affinity": "Envy",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9109,
+      "Image": "Respite",
+      "Affinity": "Envy",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9110,
+      "Image": "Fragment of Allurement",
+      "Affinity": "Pride",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9111,
+      "Image": "Bio-venom Vial",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "3"
+    },
+    {
+      "ID": 9112,
+      "Image": "Venomous Skin",
+      "Affinity": "Pride",
+      "Keyword": "Tremor",
+      "Tier": "1"
+    },
+    {
+      "ID": 9113,
+      "Image": "Sour Liquor Aroma",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9114,
+      "Image": "Mirror Tactile Synaesthesia",
+      "Affinity": "Pride",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9115,
+      "Image": "Clockwork Spring",
+      "Affinity": "Pride",
+      "Keyword": "Tremor",
+      "Tier": "3"
+    },
+    {
+      "ID": 9116,
+      "Image": "Fragment of Inertia",
+      "Affinity": "Gluttony",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9117,
+      "Image": "Smoking Gunpowder",
+      "Affinity": "Pride",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9118,
+      "Image": "Bone Stake",
+      "Affinity": "Envy",
+      "Keyword": "Rupture",
+      "Tier": "1"
+    },
+    {
+      "ID": 9119,
+      "Image": "Ragged Umbrella",
+      "Affinity": "Sloth",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9120,
+      "Image": "Deathseeker",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9121,
+      "Image": "Fragment of Desire",
+      "Affinity": "Sloth",
+      "Keyword": "Rupture",
+      "Tier": "4"
+    },
+    {
+      "ID": 9122,
+      "Image": "Eldtree Snare",
+      "Affinity": "Gluttony",
+      "Keyword": "Sinking",
+      "Tier": "1"
+    },
+    {
+      "ID": 9123,
+      "Image": "Rags",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "1"
+    },
+    {
+      "ID": 9124,
+      "Image": "Grandeur",
+      "Affinity": "Lust",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9125,
+      "Image": "Distant Star",
+      "Affinity": "Envy",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9126,
+      "Image": "Fragment of Decay",
+      "Affinity": "Sloth",
+      "Keyword": "Sinking",
+      "Tier": "4"
+    },
+    {
+      "ID": 9127,
+      "Image": "Devil's Share",
+      "Affinity": "Lust",
+      "Keyword": "Poise",
+      "Tier": "1"
+    },
+    {
+      "ID": 9128,
+      "Image": "Emerald Elytra",
+      "Affinity": "Envy",
+      "Keyword": "Poise",
+      "Tier": "1"
+    },
+    {
+      "ID": 9129,
+      "Image": "Old Wooden Doll",
+      "Affinity": "Wrath",
+      "Keyword": "Poise",
+      "Tier": "2"
+    },
+    {
+      "ID": 9130,
+      "Image": "Finifugality",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "3"
+    },
+    {
+      "ID": 9131,
+      "Image": "Fragment of Conceit",
+      "Affinity": "Lust",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 9132,
+      "Image": "UPS System",
+      "Affinity": "Wrath",
+      "Keyword": "Charge",
+      "Tier": "1"
+    },
+    {
+      "ID": 9133,
+      "Image": "Uncapped Defibrilator",
+      "Affinity": "Gluttony",
+      "Keyword": "Charge",
+      "Tier": "1"
+    },
+    {
+      "ID": 9134,
+      "Image": "Patrolling Flashlight",
+      "Affinity": "Envy",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9135,
+      "Image": "Imitative Generator",
+      "Affinity": "Wrath",
+      "Keyword": "Charge",
+      "Tier": "3"
+    },
+    {
+      "ID": 9136,
+      "Image": "Fragment of Friction",
+      "Affinity": "Gloom",
+      "Keyword": "Charge",
+      "Tier": "4"
+    },
+    {
+      "ID": 9137,
+      "Image": "Scalpel",
+      "Affinity": "Wrath",
+      "Keyword": "Slash",
+      "Tier": "1"
+    },
+    {
+      "ID": 9138,
+      "Image": "Deceptive Accord",
+      "Affinity": "Sloth",
+      "Keyword": "Slash",
+      "Tier": "1"
+    },
+    {
+      "ID": 9139,
+      "Image": "Tailor's Scissors",
+      "Affinity": "Gluttony",
+      "Keyword": "Slash",
+      "Tier": "2"
+    },
+    {
+      "ID": 9140,
+      "Image": "Resolution",
+      "Affinity": "Gloom",
+      "Keyword": "Slash",
+      "Tier": "2"
+    },
+    {
+      "ID": 9141,
+      "Image": "Moment of Sentencing",
+      "Affinity": "Lust",
+      "Keyword": "Slash",
+      "Tier": "3"
+    },
+    {
+      "ID": 9142,
+      "Image": "Sundered Memory",
+      "Affinity": "Pride",
+      "Keyword": "Slash",
+      "Tier": "4"
+    },
+    {
+      "ID": 9143,
+      "Image": "Carpenter's Nail",
+      "Affinity": "Sloth",
+      "Keyword": "Pierce",
+      "Tier": "1"
+    },
+    {
+      "ID": 9144,
+      "Image": "Once, A Blessing",
+      "Affinity": "Envy",
+      "Keyword": "Pierce",
+      "Tier": "2"
+    },
+    {
+      "ID": 9145,
+      "Image": "Torn Bandolier",
+      "Affinity": "Gloom",
+      "Keyword": "Pierce",
+      "Tier": "2"
+    },
+    {
+      "ID": 9146,
+      "Image": "Keenbranch",
+      "Affinity": "Lust",
+      "Keyword": "Pierce",
+      "Tier": "3"
+    },
+    {
+      "ID": 9147,
+      "Image": "Punctured Memory",
+      "Affinity": "Wrath",
+      "Keyword": "Pierce",
+      "Tier": "4"
+    },
+    {
+      "ID": 9148,
+      "Image": "Burial Curse",
+      "Affinity": "Lust",
+      "Keyword": "Blunt",
+      "Tier": "1"
+    },
+    {
+      "ID": 9149,
+      "Image": "Compression Bandage",
+      "Affinity": "Gloom",
+      "Keyword": "Blunt",
+      "Tier": "2"
+    },
+    {
+      "ID": 9150,
+      "Image": "Temporal Bridle",
+      "Affinity": "Gluttony",
+      "Keyword": "Blunt",
+      "Tier": "2"
+    },
+    {
+      "ID": 9151,
+      "Image": "Clasped Sculpture",
+      "Affinity": "Wrath",
+      "Keyword": "Blunt",
+      "Tier": "3"
+    },
+    {
+      "ID": 9152,
+      "Image": "Crushed Memory",
+      "Affinity": "Envy",
+      "Keyword": "Blunt",
+      "Tier": "4"
+    },
+    {
+      "ID": 9153,
+      "Image": "Oracle",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9154,
+      "Image": "Imposed Weight",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9407,
+      "Image": "Made-to-Order",
+      "Affinity": "Pride",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9408,
+      "Image": "Haunted Shoes",
+      "Affinity": "Lust",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9409,
+      "Image": "Frozen Cries",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9410,
+      "Image": "Hoarfrost Footprint",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "4"
+    },
+    {
+      "ID": 9415,
+      "Image": "Squalidity",
+      "Affinity": "Sloth",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9416,
+      "Image": "Wholeness",
+      "Affinity": "Pride",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9419,
+      "Image": "Spicebush Branch",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9420,
+      "Image": "Kaleidoscope",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9429,
+      "Image": "Harpoon Prosthetic Leg",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "2"
+    },
+    {
+      "ID": 9430,
+      "Image": "Guiding Gas Lamp",
+      "Affinity": "Gluttony",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 9433,
+      "Image": "Chief Butler's Secret Arts",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9434,
+      "Image": "Handheld Mirror",
+      "Affinity": "Gluttony",
+      "Keyword": "Tremor",
+      "Tier": "3"
+    },
+    {
+      "ID": 9703,
+      "Image": "Tango Marinade",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9704,
+      "Image": "Contaminated Needle & Thread",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9705,
+      "Image": "Sharp Needle & Thread",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9708,
+      "Image": "Trash Crab Brain Wine",
+      "Affinity": "Lust",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9709,
+      "Image": "Pom-pom Hat",
+      "Affinity": "Sloth",
+      "Keyword": "Poise",
+      "Tier": "1"
+    },
+    {
+      "ID": 9710,
+      "Image": "Huge Gift Sack",
+      "Affinity": "Gluttony",
+      "Keyword": "Poise",
+      "Tier": "2"
+    },
+    {
+      "ID": 9711,
+      "Image": "Sad Plushie",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9715,
+      "Image": "Broken Blade",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "3"
+    },
+    {
+      "ID": 9716,
+      "Image": "Red Tassel",
+      "Affinity": "Wrath",
+      "Keyword": "Slash",
+      "Tier": "3"
+    },
+    {
+      "ID": 9717,
+      "Image": "Sublimity",
+      "Affinity": "Lust",
+      "Keyword": "Slash",
+      "Tier": "4"
+    },
+    {
+      "ID": 9718,
+      "Image": "Unbending",
+      "Affinity": "Pride",
+      "Keyword": "Slash",
+      "Tier": "4"
+    },
+    {
+      "ID": 9719,
+      "Image": "Ragged Bamboo Hat",
+      "Affinity": "Gloom",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 9720,
+      "Image": "Old Dopo Robe",
+      "Affinity": "Sloth",
+      "Keyword": "Slash",
+      "Tier": "4"
+    },
+    {
+      "ID": 9721,
+      "Image": "Silver Watch Case",
+      "Affinity": "Lust",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9722,
+      "Image": "Faded Watch Case",
+      "Affinity": "Gloom",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9723,
+      "Image": "Warning Notice",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9724,
+      "Image": "Etched Clock Hands",
+      "Affinity": "Gluttony",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9725,
+      "Image": "Rusted Clock Hands",
+      "Affinity": "Envy",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9726,
+      "Image": "Chalice of Trickle-down",
+      "Affinity": "Envy",
+      "Keyword": "Tremor",
+      "Tier": "3"
+    },
+    {
+      "ID": 9727,
+      "Image": "Prepaid Time Receipt",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9728,
+      "Image": "Pocket Watch Type L",
+      "Affinity": "Lust",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9729,
+      "Image": "Pocket Watch Type E",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9730,
+      "Image": "Pocket Watch Type Y",
+      "Affinity": "Envy",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9731,
+      "Image": "Pocket Watch Type P",
+      "Affinity": "Gloom",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9732,
+      "Image": "Economy Class Discount Voucher",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9733,
+      "Image": "Canned Ice Cream",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9734,
+      "Image": "E-Type Dimensional Dagger",
+      "Affinity": "Gloom",
+      "Keyword": "Charge",
+      "Tier": "3"
+    },
+    {
+      "ID": 9735,
+      "Image": "Portable Barrier Battery",
+      "Affinity": "Pride",
+      "Keyword": "Charge",
+      "Tier": "3"
+    },
+    {
+      "ID": 9736,
+      "Image": "Biogenerative Battery",
+      "Affinity": "Lust",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9737,
+      "Image": "Cardiovascular Reactive Module",
+      "Affinity": "Gluttony",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9738,
+      "Image": "Prosthetic Joint Servos",
+      "Affinity": "Envy",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9739,
+      "Image": "Crystallized Blood",
+      "Affinity": "Wrath",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9740,
+      "Image": "Automated Joints",
+      "Affinity": "Gloom",
+      "Keyword": "Charge",
+      "Tier": "4"
+    },
+    {
+      "ID": 9741,
+      "Image": "Overcharged Battery",
+      "Affinity": "Pride",
+      "Keyword": "Charge",
+      "Tier": "4"
+    },
+    {
+      "ID": 9742,
+      "Image": "Perpetual Generator Servos",
+      "Affinity": "Gloom",
+      "Keyword": "Charge",
+      "Tier": "4"
+    },
+    {
+      "ID": 9743,
+      "Image": "Hearts-powered Jewel",
+      "Affinity": "Pride",
+      "Keyword": "Charge",
+      "Tier": "4"
+    },
+    {
+      "ID": 9991,
+      "Image": "Dark Vestige",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9992,
+      "Image": "Faint Vestige",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9993,
+      "Image": "Twinkling Vestige",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9994,
+      "Image": "Brilliant Vestige",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9995,
+      "Image": "Lunar Vestige",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "5"
+    },
+    {
+      "ID": 9155,
+      "Image": "Decamillennial Stewpot",
+      "Affinity": "Lust",
+      "Keyword": "Burn",
+      "Tier": "2"
+    },
+    {
+      "ID": 9157,
+      "Image": "Secret Cookbook",
+      "Affinity": "Lust",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9159,
+      "Image": "Millarca",
+      "Affinity": "Wrath",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9161,
+      "Image": "Devotion",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9165,
+      "Image": "Interlocked Cogs",
+      "Affinity": "Envy",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9169,
+      "Image": "Thorny Rope Cuffs",
+      "Affinity": "Wrath",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9174,
+      "Image": "Tangled Bones",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9177,
+      "Image": "Recollection of a Certain Day",
+      "Affinity": "Gloom",
+      "Keyword": "Poise",
+      "Tier": "2"
+    },
+    {
+      "ID": 9179,
+      "Image": "Reminiscence",
+      "Affinity": "Gloom",
+      "Keyword": "Poise",
+      "Tier": "3"
+    },
+    {
+      "ID": 9182,
+      "Image": "T-1B Octagonal Bolt",
+      "Affinity": "Sloth",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9185,
+      "Image": "Rebate Token",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9186,
+      "Image": "New Release Pamphlet",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9187,
+      "Image": "Special Catalogue",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9188,
+      "Image": "Pre-order Discount",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9189,
+      "Image": "Renewed Merch",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9190,
+      "Image": "Trial Plan Guide",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9191,
+      "Image": "Prestige Card",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9192,
+      "Image": "Layered Bandages",
+      "Affinity": "Gloom",
+      "Keyword": "Bleed",
+      "Tier": "1"
+    },
+    {
+      "ID": 9156,
+      "Image": "Decamillennial Hearthflame",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "2"
+    },
+    {
+      "ID": 9158,
+      "Image": "Purloined Flame",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "4"
+    },
+    {
+      "ID": 9160,
+      "Image": "Ruptured Blood Sac",
+      "Affinity": "Gloom",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9162,
+      "Image": "Hemorrhagic Shock",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9163,
+      "Image": "Gemstone Oscillator",
+      "Affinity": "Gloom",
+      "Keyword": "Tremor",
+      "Tier": "1"
+    },
+    {
+      "ID": 9164,
+      "Image": "Wobbling Keg",
+      "Affinity": "Pride",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9166,
+      "Image": "Epicenter",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "3"
+    },
+    {
+      "ID": 9167,
+      "Image": "Omnivibro-octovecti-bell",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9168,
+      "Image": "Shard of Apocalypse",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9170,
+      "Image": "Eerie Effigy",
+      "Affinity": "Sloth",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9171,
+      "Image": "Ruin",
+      "Affinity": "Sloth",
+      "Keyword": "Rupture",
+      "Tier": "4"
+    },
+    {
+      "ID": 9172,
+      "Image": "Cantabile",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "1"
+    },
+    {
+      "ID": 9173,
+      "Image": "Faded Overcoat",
+      "Affinity": "Wrath",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9175,
+      "Image": "Surging Globe",
+      "Affinity": "Envy",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9176,
+      "Image": "Impending Wave",
+      "Affinity": "Envy",
+      "Keyword": "Sinking",
+      "Tier": "4"
+    },
+    {
+      "ID": 9178,
+      "Image": "Angel's Cut",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "2"
+    },
+    {
+      "ID": 9180,
+      "Image": "Cask Spirits",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 9181,
+      "Image": "Miniature Telepole",
+      "Affinity": "Pride",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9183,
+      "Image": "Insulator",
+      "Affinity": "Lust",
+      "Keyword": "Charge",
+      "Tier": "3"
+    },
+    {
+      "ID": 9184,
+      "Image": "T-5 Perpetual Motion Machine",
+      "Affinity": "Lust",
+      "Keyword": "Charge",
+      "Tier": "4"
+    },
+    {
+      "ID": 9427,
+      "Image": "Town-protecting Harpoon",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9428,
+      "Image": "Cetacean Heart",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 9431,
+      "Image": "Broken Violin",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9432,
+      "Image": "Manor-shaped Music Box",
+      "Affinity": "Lust",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9435,
+      "Image": "Butler Style Binding Arts",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9436,
+      "Image": "Refraction Glass Pod",
+      "Affinity": "Envy",
+      "Keyword": "Sinking",
+      "Tier": "4"
+    },
+    {
+      "ID": 9437,
+      "Image": "La Manchaland All-day Pass",
+      "Affinity": "Sloth",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9438,
+      "Image": "Token of Victory",
+      "Affinity": "Pride",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9439,
+      "Image": "Devouring Cube",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9440,
+      "Image": "Mask of the Parade",
+      "Affinity": "Envy",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9751,
+      "Image": "Snake Slough",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9752,
+      "Image": "False Halo",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9753,
+      "Image": "Metronome",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9758,
+      "Image": "Vestiges of the King",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9757,
+      "Image": "Anti-Ovine Grounding Plug",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9756,
+      "Image": "Unhatched Embers",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "4"
+    },
+    {
+      "ID": 9755,
+      "Image": "Contempt of the Gaze of Contempt",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9754,
+      "Image": "Bridle",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9193,
+      "Image": "Overused Whetstone",
+      "Affinity": "Envy",
+      "Keyword": "Slash",
+      "Tier": "1"
+    },
+    {
+      "ID": 9194,
+      "Image": "Short Cane Sword",
+      "Affinity": "Gluttony",
+      "Keyword": "Slash",
+      "Tier": "2"
+    },
+    {
+      "ID": 9195,
+      "Image": "Cloudpattern Gourd Bottle",
+      "Affinity": "Gluttony",
+      "Keyword": "Slash",
+      "Tier": "3"
+    },
+    {
+      "ID": 9196,
+      "Image": "Broken Greatsword",
+      "Affinity": "Gloom",
+      "Keyword": "Slash",
+      "Tier": "4"
+    },
+    {
+      "ID": 9197,
+      "Image": "High-tensility Shoes",
+      "Affinity": "Sloth",
+      "Keyword": "Pierce",
+      "Tier": "1"
+    },
+    {
+      "ID": 9198,
+      "Image": "Plume of Proof",
+      "Affinity": "Pride",
+      "Keyword": "Pierce",
+      "Tier": "2"
+    },
+    {
+      "ID": 9199,
+      "Image": "Torn Hems",
+      "Affinity": "Gluttony",
+      "Keyword": "Pierce",
+      "Tier": "3"
+    },
+    {
+      "ID": 9200,
+      "Image": "Dueling Manual Book 3",
+      "Affinity": "Lust",
+      "Keyword": "Pierce",
+      "Tier": "4"
+    },
+    {
+      "ID": 9201,
+      "Image": "Dimensional Recycle Bin",
+      "Affinity": "Wrath",
+      "Keyword": "Blunt",
+      "Tier": "1"
+    },
+    {
+      "ID": 9202,
+      "Image": "Pocket Flashcards",
+      "Affinity": "Gloom",
+      "Keyword": "Blunt",
+      "Tier": "2"
+    },
+    {
+      "ID": 9203,
+      "Image": "Dimensional Perception Modifier",
+      "Affinity": "Sloth",
+      "Keyword": "Blunt",
+      "Tier": "3"
+    },
+    {
+      "ID": 9204,
+      "Image": "The Book of Vengeance",
+      "Affinity": "Envy",
+      "Keyword": "Blunt",
+      "Tier": "4"
+    },
+    {
+      "ID": 9786,
+      "Image": "Enh. Tattoos - The Middle",
+      "Affinity": "Envy",
+      "Keyword": "Blunt",
+      "Tier": "2"
+    },
+    {
+      "ID": 9787,
+      "Image": "Strange Glyph Talisman",
+      "Affinity": "Wrath",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9788,
+      "Image": "Harestride",
+      "Affinity": "Pride",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9789,
+      "Image": "Chains of Loyalty",
+      "Affinity": "Lust",
+      "Keyword": "Blunt",
+      "Tier": "3"
+    },
+    {
+      "ID": 9790,
+      "Image": "Strange Glyph Inscriptions",
+      "Affinity": "Gloom",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9791,
+      "Image": "Shadow Bamboo Hat",
+      "Affinity": "Gluttony",
+      "Keyword": "Slash",
+      "Tier": "3"
+    },
+    {
+      "ID": 9792,
+      "Image": "Everlasting Chains of Bond",
+      "Affinity": "Envy",
+      "Keyword": "Blunt",
+      "Tier": "4"
+    },
+    {
+      "ID": 9793,
+      "Image": "Glyph of Glass Shards",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "4"
+    },
+    {
+      "ID": 9794,
+      "Image": "Swishing Fuel Tank",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9759,
+      "Image": "Snuffed Lantern",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "1"
+    },
+    {
+      "ID": 9760,
+      "Image": "Snuffed Candlestick",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9761,
+      "Image": "Shadow Monster",
+      "Affinity": "Wrath",
+      "Keyword": "Tremor",
+      "Tier": "3"
+    },
+    {
+      "ID": 9762,
+      "Image": "Packaging Box",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9763,
+      "Image": "Packaging Ribbon",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9764,
+      "Image": "Gift",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9765,
+      "Image": "Jolly Plushie",
+      "Affinity": "Sloth",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 9772,
+      "Image": "Combustion Gloves",
+      "Affinity": "Envy",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9773,
+      "Image": "Spiked Combat Boots",
+      "Affinity": "Gloom",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9774,
+      "Image": "Re-ignition Plug",
+      "Affinity": "Lust",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9775,
+      "Image": "Enhancer Mk.4",
+      "Affinity": "Wrath",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9776,
+      "Image": "Embers",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9777,
+      "Image": "Twigs",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9778,
+      "Image": "Regular Operational Gear",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9779,
+      "Image": "Operation Authorization Card",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9780,
+      "Image": "High-risk Operational Gear",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9799,
+      "Image": "A Certain Philosophy",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "EX"
+    },
+    {
+      "ID": 9800,
+      "Image": "Wealth",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "EX"
+    },
+    {
+      "ID": 9801,
+      "Image": "Tenacity Bolus",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9802,
+      "Image": "Lightening Axe",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9803,
+      "Image": "Flower in the Mirror",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9804,
+      "Image": "Moon in the Water",
+      "Affinity": "Gluttony",
+      "Keyword": "Poise",
+      "Tier": "3"
+    },
+
+
+
+
+
+    {
+      "ID": 9805,
+      "Image": "Ashen Constellation's Blessing",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9806,
+      "Image": "The Unchosen",
+      "Affinity": "Envy",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9807,
+      "Image": "Sword Sharpened with Tears",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9808,
+      "Image": "Magical Girl's Lovely Gift",
+      "Affinity": "Lust",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9809,
+      "Image": "Spent Use, Forming Hate",
+      "Affinity": "Wrath",
+      "Keyword": "Charge",
+      "Tier": "3"
+    },
+    {
+      "ID": 9810,
+      "Image": "Trauma Shield",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9811,
+      "Image": "Value Disposal",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+
+
+
+
+    {
+      "ID": 9819,
+      "Image": "Bloodflame Sword",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "2"
+    },
+    {
+      "ID": 9820,
+      "Image": "Blackiron Barding",
+      "Affinity": "Gluttony",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9821,
+      "Image": "Red Cloth that Closes the Heart",
+      "Affinity": "Pride",
+      "Keyword": "Slash",
+      "Tier": "3"
+    },
+    {
+      "ID": 9822,
+      "Image": "Virtue - Zhi (智)",
+      "Affinity": "Gloom",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9823,
+      "Image": "Virtue - Yong (勇)",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9824,
+      "Image": "Virtue - Ren (仁)",
+      "Affinity": "Envy",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9825,
+      "Image": "Cultivationː Cut, File, Carve, Polish",
+      "Affinity": "Gloom",
+      "Keyword": "Rupture",
+      "Tier": "4"
+    },
+    {
+      "ID": 9826,
+      "Image": "Shaoxing Wine",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+
+
+    {
+      "ID": 9827,
+      "Image": "The Family's Resentment",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9828,
+      "Image": "For the Capo",
+      "Affinity": "Wrath",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9829,
+      "Image": "Rules of the Middle",
+      "Affinity": "Envy",
+      "Keyword": "Blunt",
+      "Tier": "4"
+    },
+    {
+      "ID": 9830,
+      "Image": "Kkomi's Mini-Gift",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+
+
+
+
+
+
+
+    {
+      "ID": 9795,
+      "Image": "A Drop",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9796,
+      "Image": "Sorrowful Exhale",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 9797,
+      "Image": "Shatterbound Cannon",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9798,
+      "Image": "Coveting Thorn",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9403,
+      "Image": "Ebony Brooch",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9404,
+      "Image": "Contained Maggots",
+      "Affinity": "Sloth",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9413,
+      "Image": "Nagel und Hammer Scriptures",
+      "Affinity": "Wrath",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9414,
+      "Image": "Blood-red Mane",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9423,
+      "Image": "Broken Glasses",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9424,
+      "Image": "Unmailed Letter",
+      "Affinity": "Envy",
+      "Keyword": "Rupture",
+      "Tier": "4"
+    },
+    {
+      "ID": 9701,
+      "Image": "Hot ‘n Juicy Drumstick",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9702,
+      "Image": "Dry-to-the-Bone Breast",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9706,
+      "Image": "Oil-gunked Spanner",
+      "Affinity": "Wrath",
+      "Keyword": "Tremor",
+      "Tier": "1"
+    },
+    {
+      "ID": 9707,
+      "Image": "Twinkling Scrap",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9712,
+      "Image": "Black Ledger",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9713,
+      "Image": "Rusted Hilt",
+      "Affinity": "Envy",
+      "Keyword": "Slash",
+      "Tier": "3"
+    },
+    {
+      "ID": 9714,
+      "Image": "Fractured Blade",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 2036,
+      "Image": "Silver Watch Case",
+      "Affinity": "Lust",
+      "Keyword": "Tremor",
+      "Tier": "-"
+    },
+    {
+      "ID": 2037,
+      "Image": "Faded Watch Case",
+      "Affinity": "Gloom",
+      "Keyword": "Tremor",
+      "Tier": "-"
+    },
+    {
+      "ID": 2038,
+      "Image": "Warning Notice",
+      "Affinity": "Pride",
+      "Keyword": "Tremor",
+      "Tier": "-"
+    },
+    {
+      "ID": 2039,
+      "Image": "Etched Clock Hands",
+      "Affinity": "Gluttony",
+      "Keyword": "Tremor",
+      "Tier": "-"
+    },
+    {
+      "ID": 2040,
+      "Image": "Rusted Clock Hands",
+      "Affinity": "Envy",
+      "Keyword": "Tremor",
+      "Tier": "-"
+    },
+    {
+      "ID": 2041,
+      "Image": "Chalice of Trickle-down",
+      "Affinity": "Envy",
+      "Keyword": "Tremor",
+      "Tier": "-"
+    },
+    {
+      "ID": 2042,
+      "Image": "Prepaid Time Receipt",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "-"
+    },
+    {
+      "ID": 2043,
+      "Image": "Pocket Watch Type L",
+      "Affinity": "Lust",
+      "Keyword": "Tremor",
+      "Tier": "-"
+    },
+    {
+      "ID": 2044,
+      "Image": "Pocket Watch Type E",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "-"
+    },
+    {
+      "ID": 2045,
+      "Image": "Pocket Watch Type Y",
+      "Affinity": "Envy",
+      "Keyword": "Tremor",
+      "Tier": "-"
+    },
+    {
+      "ID": 2046,
+      "Image": "Pocket Watch Type P",
+      "Affinity": "Gloom",
+      "Keyword": "Tremor",
+      "Tier": "-"
+    },
+    {
+      "ID": 9781,
+      "Image": "Hardwood Liquor Cup",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9782,
+      "Image": "Worn Hilt",
+      "Affinity": "Sloth",
+      "Keyword": "Slash",
+      "Tier": "3"
+    },
+    {
+      "ID": 9783,
+      "Image": "Resplendence",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9784,
+      "Image": "Cultivation",
+      "Affinity": "Pride",
+      "Keyword": "Slash",
+      "Tier": "4"
+    },
+    {
+      "ID": 9785,
+      "Image": "Swarmcloud",
+      "Affinity": "Lust",
+      "Keyword": "Slash",
+      "Tier": "4"
+    },
+    {
+      "ID": 2027,
+      "Image": "Black Ledger",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 2028,
+      "Image": "Rusted Hilt",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 2029,
+      "Image": "Fractured Blade",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 2030,
+      "Image": "Broken Blade",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "3"
+    },
+    {
+      "ID": 2031,
+      "Image": "Red Tassel",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 2032,
+      "Image": "Sublimity",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 2033,
+      "Image": "Unbending",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 2034,
+      "Image": "Ragged Bamboo Hat",
+      "Affinity": "Gloom",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 2035,
+      "Image": "Old Dopo Robe",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9744,
+      "Image": "Filial Love",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9745,
+      "Image": "Misaligned Transistor",
+      "Affinity": "Envy",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9746,
+      "Image": "Mental Corruption Boosting Gas",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9747,
+      "Image": "Leaked Enkephalin",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "2"
+    },
+    {
+      "ID": 9748,
+      "Image": "Hardship",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9749,
+      "Image": "Crown of Thorns",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9750,
+      "Image": "Rest",
+      "Affinity": "Pride",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9766,
+      "Image": "Implicit Contract Renewal",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9767,
+      "Image": "Darkflame Smoking Pipe",
+      "Affinity": "Pride",
+      "Keyword": "Pierce",
+      "Tier": "3"
+    },
+    {
+      "ID": 9768,
+      "Image": "Equalizer",
+      "Affinity": "Gloom",
+      "Keyword": "Pierce",
+      "Tier": "3"
+    },
+    {
+      "ID": 9769,
+      "Image": "Swift Command",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9770,
+      "Image": "Gear Shrapnel",
+      "Affinity": "Lust",
+      "Keyword": "Poise",
+      "Tier": "2"
+    },
+    {
+      "ID": 9771,
+      "Image": "CQC Manual",
+      "Affinity": "Wrath",
+      "Keyword": "Poise",
+      "Tier": "3"
+    },
+    {
+      "ID": 9812,
+      "Image": "Interlinked Time",
+      "Affinity": "Wrath",
+      "Keyword": "Tremor",
+      "Tier": "2"
+    },
+    {
+      "ID": 9813,
+      "Image": "Emergency Investigator Badge",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9814,
+      "Image": "Entanglement Override Sequencer",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "3"
+    },
+    {
+      "ID": 9816,
+      "Image": "Microprecision Time Accelerator",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    }
+  ]
+}

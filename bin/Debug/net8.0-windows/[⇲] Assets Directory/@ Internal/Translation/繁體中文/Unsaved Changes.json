@@ -1,0 +1,21 @@
+{
+  "Passives": {
+    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "Main Desc": "\n  > 主要描述",
+    "Summary Desc": "\n  > 被動摘要"
+  },
+  "Keywords": {
+    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "Main Desc": "\n  > 主要描述",
+    "Summary Desc": "\n  > 被動摘要"
+  },
+  "E.G.O Gifts": {
+    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "Main Desc": "\n  > 主要描述",
+    "Simple Desc": "\n  > 簡要描述 №[$]"
+  },
+  "Skills": {
+    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "Uptie Level": "\n  > 同步階段 [$]"
+  }
+}

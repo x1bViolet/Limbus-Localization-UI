@@ -1,0 +1,72 @@
+{
+  "Skills Info": [
+    {
+      "ID": null, // int, must match the localization skill item id, icon is also by default associated with icon as "ID.png"
+
+      "Icon ID": null,
+      // string (Name of the file from '[⇲] Assets Directory\[⇲] Limbus Images\Skills\Icons', not including .png extension)
+      // "1031104_4" as example
+      // Refers to: '[⇲] Assets Directory\[⇲] Limbus Images\Skills\Icons\Limbus\Sinners\Identities\Don Quixote\Cinq Assoc. East Section 3\1031104_4.png'
+      
+      "Specific": {
+        "Damage Type": "None", // string, Values: Blunt | Pierce | Slash
+        "Action": "Attack",    // string, Values: Attack | Guard | Evade | Counter
+
+        // Taken from here only if the skill does not have the "Upties" property!
+        "Affinity": "None",    // string, Values: Wrath | Lust | Sloth | Gluttony | Gloom | Pride | Envy | None
+        
+        "Rank": 1,     // int, Values: 1 | 2 | 3, affects on frame form and copies amount
+        "Copies": null // int, Custom copies amount, by default directly opposite to rank (Rank => Value: 1 => 3, 2 => 2, 3 => 1, other => 0)
+      },
+
+      "Characteristics": {
+        // Set only positive values, minus coins set by "Coins Type" property
+        "Coin Power": 0, // int, Taken from here only if the skill does not have the "Upties" property!
+        "Base Power": 0, // int, Taken from here only if the skill does not have the "Upties" property!
+
+        "Coins List": ["Regular"], // List with strings, represents a coins sequence, Values: "Regular" | "Unbreakable"
+        // Combined example: "Coins List": ["Regular", "Unbreakable", "Regular", "Unbreakable"]
+
+        "Coins Type": "Plus", // string, Values: "Plus" | "Minus", determines whether there should be a minus before the coin power number
+
+        "Attack Weight": 1,   // int, amount of squares after 'Atk Weight' label
+        "Base Level": 55,     // int, base level that is shown for the skill, 55 by default
+        "Level Correction": 0 // int, value that is added to or subtracted from the Base Level, set a negative number for subtraction
+      },
+
+      "Attributes": {
+        // bool is  true | false  values
+        "Unobservable": false, // bool, set true to hide Coin and Base Power under the '?' symbol, and set level as "???"
+
+        "Hide 'Copies'": false, // bool, disables copies amount displaying
+
+        "Hide 'Base Power'": false, // bool, disables Base Power displaying
+        "Hide 'Coin Power'": false, // bool, disables Coin Power displaying
+        "Hide 'Base Level'": false, // bool, disables Base Level displaying (Atk Weight still visible)
+
+        "Hide 'Attack Weight'": false, // bool, disables Atk Weight displaying
+
+        "Show Affinity Icon": false,   // bool, enables affinity icon display before skill name, shows icon if affinity is defined correctly
+
+        "Override 'Base Power'": null, // string, override text for 'Base Power'
+        "Override 'Coin Power'": null, // string, override text for 'Coin Power'
+        "Override 'Base Level'": null  // string, override text for 'Base Level'
+      },
+
+      "Upties": { // Dictionary, by default is null
+        // Values of each uptie is cascade. If you set any value on uptie, it will remain on the next upties or until it is overwritten in another
+
+        "-1": {   // Keys possible values: "1" | "2" | "3" | "4"
+
+          "Icon ID": null,  // string, explained above
+          
+          "Affinity": null, // string, explained above, Affinity of skill on cetrain uptie level (Some guard skills can gain affinity on uptie 3/4)
+          
+          "Base Power": null, // int, Base Power from uptie
+          "Coin Power": null  // int, Base Power from uptie
+
+        }
+      }
+    }
+  ]
+}
