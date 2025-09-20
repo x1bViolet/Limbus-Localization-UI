@@ -344,9 +344,8 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 if (AtkWeightLabelFile.Length > 0)
                 {
                     string JsonText = File.ReadAllText(AtkWeightLabelFile[0].FullName);
-
                     string FoundText = Regex.Match(JsonText, @"""id"": ""mainui_target_num_label"",(\r)?\n.*?""content"": ""(?<AtkWeightText>.*?)""", RegexOptions.Singleline).Groups["AtkWeightText"].Value;
-                    if (!FoundText.Equals("")) MainControl.AtkWeightText_sub.Text = FoundText;
+                    if (!FoundText.Equals("")) MainControl.AtkWeightText_sub.Text = FoundText.Replace("\\n", "\n").Replace("\\r", "\r").Trim();
                 }
 
                 // File with 'View Desc.' label
@@ -355,7 +354,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 {
                     string JsonText = File.ReadAllText(ViewDescLabelFile[0].FullName);
                     string FoundText = Regex.Match(JsonText, @"""id"": ""mirror_dungoen_ego_gift_history_view_desc"",(\r)?\n.*?""content"": ""(?<ViewDescText>.*?)""", RegexOptions.Singleline).Groups["ViewDescText"].Value;
-                    if (!FoundText.Equals("")) MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.Text = FoundText;
+                    if (!FoundText.Equals("")) MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.Text = FoundText.Replace("\\n", "\n").Replace("\\r", "\r").Trim();
                 }
 
                 FileInfo[] SkillTag_Found = MainSite.GetFiles("*SkillTag.Json", SearchOption.AllDirectories);
