@@ -30,13 +30,13 @@ namespace LC_Localization_Task_Absolute.Json
 
         public static OutputType? TranzitConvert<OutputType>(this object Target) => JsonConvert.DeserializeObject<OutputType>(JsonConvert.SerializeObject(Target));
 
-        public static TargetType? Deserealize<TargetType>(this FileInfo Target, string Context = "")
+        public static TargetType? Deserealize<TargetType>(this FileInfo Target, string Context = "") where TargetType : new()
         {
             try
             {
                 return JsonConvert.DeserializeObject<TargetType>(Target.GetText(), settings: new JsonSerializerSettings() { Context = new StreamingContext(StreamingContextStates.Other, Context) });
             }
-            catch { return default(TargetType); }
+            catch { return new TargetType(); }
         }
     }
 }
