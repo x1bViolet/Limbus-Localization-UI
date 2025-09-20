@@ -637,7 +637,7 @@ namespace LC_Localization_Task_Absolute
                                             SpecializedDefs.InsertionsDefaultValue = Param.Text;
                                             break;
 
-                                        case "[Main UI] * Default Object name":
+                                        case "[Main UI] [!] * Default Object name":
                                             MainWindow.MainControl.NavigationPanel_ObjectName_Display.Text = Param.Text;
                                             break;
 
