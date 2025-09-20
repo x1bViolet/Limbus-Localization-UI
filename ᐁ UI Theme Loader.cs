@@ -40,10 +40,7 @@ namespace LC_Localization_Task_Absolute
 {
     public abstract class ᐁ_Interface_Themes_Loader
     {
-       // private protected static ResourceType Resource<ResourceType>(string Name) where ResourceType : class => MainWindow.MainControl.FindResource(Name) as ResourceType;
         private static ResourceDictionary Resource = MainWindow.MainControl.Resources;
-
-        //private protected static Style Common = Resource<>
 
         public static InterfaceThemeModifiers.Visual LoadedTheme = new InterfaceThemeModifiers.Visual();
 
