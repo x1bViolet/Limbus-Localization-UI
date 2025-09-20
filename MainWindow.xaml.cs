@@ -2,7 +2,6 @@
 using LC_Localization_Task_Absolute.Limbus_Integration;
 using LC_Localization_Task_Absolute.Mode_Handlers;
 using Microsoft.Win32;
-using RichText;
 using System.IO;
 using System.Numerics;
 using System.Reflection;
@@ -10,9 +9,9 @@ using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
 using System.Windows.Threading;
@@ -26,179 +25,41 @@ using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
 using static LC_Localization_Task_Absolute.Json.FilesIntegration;
 using static LC_Localization_Task_Absolute.Mode_Handlers.CustomIdentityPreviewCreator.ProjectFile.Sections;
 using static LC_Localization_Task_Absolute.Requirements;
+using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
 using static System.Globalization.NumberStyles;
 using static System.Windows.Visibility;
-using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
-using static LC_Localization_Task_Absolute.InterfaceLocalizationModifiers.Frames.Static_UI_Text;
+
+#pragma warning disable IDE0079
+#pragma warning disable CS0169
+#pragma warning disable CA2211
 
 namespace LC_Localization_Task_Absolute;
 
 public partial class MainWindow : Window
 {
     #region Initials
-    internal protected static MainWindow MainControl;
-    internal protected static SettingsWindow SettingsControl = new SettingsWindow();
-    internal protected static bool ManualTextLoadEvent = false;
+    public static MainWindow MainControl;
+    public static bool ManualTextLoadEvent = false;
 
+    public static Dictionary<string, TMProEmitter> PreviewLayoutControls;
 
-    internal protected static Dictionary<string, RichTextBox> UILanguage;
-    internal protected static Dictionary<string, TextBox> UITextfieldElements;
-    internal protected static Dictionary<string, RichTextBox> PreviewLayoutControls;
-
-    internal protected static List<dynamic?> SwitchButtons_TextFieldsControl = [];
-    internal protected static List<RichTextBox?> PreviewLayoutsList = [];
-    internal protected static List<TextBox> FocusableTextBoxes = [];
+    public static List<TMProEmitter> PreviewLayoutsList = [];
+    public static Dictionary<TMProEmitter, double> PrimaryRegisteredFontSizes = [];
+    public static List<TextBox> FocusableTextBoxes = [];
     
-    internal protected static RichTextBox PreviewUpdate_TargetSite;
+    public static TMProEmitter PreviewUpdate_TargetSite; // = PreviewLayout_Default by default from InitMain()
 
-    internal protected static string DefaultTheme = "";
-    internal protected static string DefaultLanguage = "";
-
-    internal protected static FileInfo CurrentFile;
-    internal protected static Encoding CurrentFileEncoding = new UTF8Encoding();
-
-    public void InitializeUIInteractionLogic()
-    {
-        UILanguage = new()
-        {
-            ["Title"] = STE_Title,
-
-            ["Json Path [Shadow Text]"] = STE_JsonFile_Path_ShadowText,
-
-            ["Right Menu — Current ID Copy Button"] = STE_NavigationPanel_ObjectID_Display,
-            ["Right Menu — Current ID Copy Button (Copied)"] = STE_NavigationPanel_ObjectID_Display_IDCopied,
-            ["Skills Main Name [Shadow Text]"] = STE_Skills_MainSkillName_ShadowText,
-            ["Skills EGO Abnormality Name [Shadow Text]"] = STE_Skills_EGOAbnormalitySkillName_ShadowText,
-            ["Skills Name Replication 'Atk Weight'"] = STE_Skills_Replication_AtkWeightText,
-            ["Right Menu — Skill Desc"] = STE_Skills_MainDescription,
-            ["Right Menu — Skill Coin 1"] = STE_Skills_Coin_1,
-            ["Right Menu — Skill Coin 2"] = STE_Skills_Coin_2,
-            ["Right Menu — Skill Coin 3"] = STE_Skills_Coin_3,
-            ["Right Menu — Skill Coin 4"] = STE_Skills_Coin_4,
-            ["Right Menu — Skill Coin 5"] = STE_Skills_Coin_5,
-            ["Right Menu — Skill Coin 6"] = STE_Skills_Coin_6,
-            ["Right Menu — Skill Coin Descs Title"] = STE_CoinDescriptionsTitle,
-            ["Right Menu — Skill Coin Desc Number"] = STE_Skills_Coin_DescNumberDisplay,
-
-            ["Right Menu — Passive Name [Shadow Text]"] = STE_Passives_MainPassiveName_ShadowText,
-            ["Right Menu — Passive Desc"] = STE_Passives_MainDescription,
-            ["Right Menu — Passive Summary"] = STE_Passives_SummaryDescription,
-            ["Right Menu — Add Passive Summary Description Tooltip"] = STE_Passives_AddSummaryDescriptionButton,
-
-            ["Right Menu — Keyword Name [Shadow Text]"] = STE_Keywords_KeywordName_ShadowText,
-            ["Right Menu — Keyword Desc"] = STE_Keyword_MainDescription,
-            ["Right Menu — Keyword Summary"] = STE_Keyword_SummaryDescription,
-            ["Right Menu — Keywords Format Insertions Button"] = STE_Keywords_ToggleFormatInsertionsDropdown,
-            ["Right Menu — Keywords Format Insertion {0} [Shadow Text]"] = STE_Keywords_FormatInsertions_0_ShadowText,
-            ["Right Menu — Keywords Format Insertion {1} [Shadow Text]"] = STE_Keywords_FormatInsertions_1_ShadowText,
-            ["Right Menu — Keywords Format Insertion {2} [Shadow Text]"] = STE_Keywords_FormatInsertions_2_ShadowText,
-            ["Right Menu — Keywords Format Insertion {3} [Shadow Text]"] = STE_Keywords_FormatInsertions_3_ShadowText,
-            ["Right Menu — Keywords Format Insertion {4} [Shadow Text]"] = STE_Keywords_FormatInsertions_4_ShadowText,
-            ["Right Menu — Keywords Format Insertion {5} [Shadow Text]"] = STE_Keywords_FormatInsertions_5_ShadowText,
-            ["Right Menu — Keywords Format Insertion {6} [Shadow Text]"] = STE_Keywords_FormatInsertions_6_ShadowText,
-
-            ["Right Menu — E.G.O Gift Name [Shadow Text]"] = STE_EGOGifts_EGOGiftName_ShadowText,
-            ["Right Menu — E.G.O Gift Desc"] = STE_EGOGift_MainDescription,
-            ["Right Menu — E.G.O Gift Simple Desc 1"] = STE_EGOGift_SimpleDescription1,
-            ["Right Menu — E.G.O Gift Simple Desc 2"] = STE_EGOGift_SimpleDescription2,
-            ["Right Menu — E.G.O Gift Simple Desc 3"] = STE_EGOGift_SimpleDescription3,
-            ["Right Menu — E.G.O Gift Simple Desc 4"] = STE_EGOGift_SimpleDescription4,
-            ["Right Menu — E.G.O Gift Simple Desc 5"] = STE_EGOGift_SimpleDescription5,
-            ["Right Menu — E.G.O Gift Simple Desc 6"] = STE_EGOGift_SimpleDescription6,
-            ["E.G.O Gifts Preview 'View Desc.' Text"] = STE_EGOGifts_LivePreview_ViewDescButtons,
-
-            ["Editor Context Menu — Insert Style"] = STE_ContextMenu_InsertStyle,
-            ["Editor Context Menu — TextMeshPro to [KeywordID]"] = STE_ContextMenu_TMProToKeywordLinks,
-            ["Editor Context Menu — TextMeshPro to Shorthands"] = STE_ContextMenu_TMProToShorthands,
-            ["Editor Context Menu — Unevident to [KeywordID]"] = STE_ContextMenu_UnevidentKeywordsToKeywordLinks,
-            ["Editor Context Menu — Unevident to Shorthands"] = STE_ContextMenu_UnevidentKeywordsToShorthands,
-            ["Editor Context Menu — [KeywordID] to Shorthands"] = STE_ContextMenu_KeywordLinksToShorthand,
-            ["Editor Context Menu — [KeywordID] to TextMeshPro"] = STE_ContextMenu_KeywordLinksToTMPro,
-
-            ["Unsaved Changes Window — Title"] = STE_UnsavedChangesWindow_Title,
-            ["Unsaved Changes Window — Cancel"] = STE_UnsavedChangesWindow_Cancel,
-            ["Unsaved Changes Window — Confirm Exit"] = STE_UnsavedChangesWindow_ConfirmExit,
-            ["Unsaved Changes Window — Information Text"] = DTE_UnsavedChangesInfo,
-
-
-            ["[Settings] Limbus Preview — Section Name"] = SettingsControl.STE_Settings_LimbusPreview_SectionName,
-            ["[Settings] Limbus Preview — Highlight <style>"] = SettingsControl.STE_Settings_LimbusPreview_HighlightStyle,
-            ["[Settings] Limbus Preview — Highlight Coin Desc on click"] = SettingsControl.STE_Settings_LimbusPreview_HighlightCoinDescOnClick,
-            ["[Settings] Limbus Preview — Highlight Coin Desc on manual switch"] = SettingsControl.STE_Settings_LimbusPreview_HighlightCoinDescOnSwitch,
-            ["[Settings] Limbus Preview — Enable Skill Names Replication"] = SettingsControl.STE_Settings_LimbusPreview_EnableSkillNamesReplica,
-            ["[Settings] Limbus Preview — Preview update delay"] = SettingsControl.STE_Settings_LimbusPreview_UpdateDelay,
-
-            ["[Settings] Custom Lanugage — Section Name"] = SettingsControl.STE_Settings_CustomLanguage_SectionName,
-            ["[Settings] Custom Lanugage — Selected Properties"] = SettingsControl.STE_Settings_CustomLanguage_Selected,
-            ["[Settings] Custom Lanugage — Keywords Directory"] = SettingsControl.STE_Settings_CustomLanguage_KeywordsDirectory,
-            ["[Settings] Custom Lanugage — Title Font"] = SettingsControl.STE_Settings_CustomLanguage_TitleFont,
-            ["[Settings] Custom Lanugage — Context Font"] = SettingsControl.STE_Settings_CustomLanguage_ContextFont,
-
-
-            ["[Settings] Internal — Section Name"] = SettingsControl.STE_Settings_Internal_SectionName,
-            ["[Settings] Internal — Selected UI Lanugage"] = SettingsControl.STE_Settings_Internal_UILanguage,
-            ["[Settings] Internal — Selected UI Theme"] = SettingsControl.STE_Settings_Internal_UITheme,
-            ["[Settings] Internal — Toggle Topmost state"] = SettingsControl.STE_Settings_Internal_TopmostWindowState,
-            ["[Settings] Internal — Enable Load Warnings"] = SettingsControl.STE_Settings_Internal_EnableLoadWarnings,
-            ["[Settings] Internal — Dropdown lists Readme"] = SettingsControl.STE_Settings_Internal_Readme,
-
-
-            ["[Settings] Resourecs Reload — Secton Name"] = SettingsControl.STE_Settings_Resources_Reload_SectionName,
-            ["[Settings] Resourecs Reload — Custom Language Keywords"] = SettingsControl.STE_Settings_Resources_Reload__CustomLangKeywords,
-            ["[Settings] Resourecs Reload — Keyword Icons"] = SettingsControl.STE_Settings_Resources_Reload__KeywordImages,
-            ["[Settings] Resourecs Reload — Skills Icons and Display Info"] = SettingsControl.STE_Settings_Resources_Reload__ReloadSkillsDisplayInfo,
-            ["[Settings] Resourecs Reload — E.G.O Gifts Icons and Display Info"] = SettingsControl.STE_Settings_Resources_Reload__ResetEGOGiftsDisplayInfo,
-
-
-            ["[Settings] Preview Scans — Section Name"] = SettingsControl.STE_Settings_PreviewScans_SectionName,
-            ["[Settings] Preview Scans — Toggle Scan Area view"] = SettingsControl.STE_Settings_PreviewScans_ToggleAreaView,
-            ["[Settings] Preview Scans — Scale Factor"] = SettingsControl.STE_Settings_PreviewScans_ScansScaleFactor,
-            ["[Settings] Preview Scans — Background Color (Skills only)"] = SettingsControl.STE_Settings_PreviewScans_SkillsBackgroundColor,
-            ["[Settings] Preview Scans — Toggle Background Color View"] = SettingsControl.STE_Settings_PreviewScans_ToggleSkillsBackgroundColorView,
-            ["[Settings] Preview Scans — Width of Skills Preview"] = SettingsControl.STE_Settings_PreviewScans_SkillsAreaWidth,
-            ["[Settings] Preview Scans — Display Keyword Sprites"] = SettingsControl.STE_Settings_PreviewScans_DisplayKeywordSpritesToggle,
-            ["[Settings] Preview Scans — Display Keyword Underline"] = SettingsControl.STE_Settings_PreviewScans_DisplayKeywordUnderlineToggle,
-            ["[Settings] Preview Scans — Readme Title"] = SettingsControl.STE_Settings_PreviewScans_Readme_0,
-            ["[Settings] Preview Scans — Readme 1"] = SettingsControl.STE_Settings_PreviewScans_Readme_1,
-            ["[Settings] Preview Scans — Readme 2"] = SettingsControl.STE_Settings_PreviewScans_Readme_2,
-            ["[Settings] Preview Scans — Readme 3"] = SettingsControl.STE_Settings_PreviewScans_Readme_3,
-        };
-        UITextfieldElements = new()
-        {
-            ["Json File Path"] = JsonFilePath,
-            ["Right Menu — Manual ID Input"] = NavigationPanel_IDSwitch_ManualInput_Textfield,
-            ["Right Menu — Skills Main Name"] = SWBT_Skills_MainSkillName,
-            ["Right Menu — EGO Abnormality Name"] = SWBT_Skills_EGOAbnormalitySkillName,
-            ["Right Menu — Passive Name"] = SWBT_Passives_MainPassiveName,
-            ["Right Menu — Keyword Name"] = SWBT_Keywords_KeywordName,
-            ["Right Menu — E.G.O Gift Name"] = SWBT_EGOGifts_EGOGiftName,
-            ["Right Menu — Keywords Format Insertion {0}"] = SWBT_Keywords_FormatInsertion_0,
-            ["Right Menu — Keywords Format Insertion {1}"] = SWBT_Keywords_FormatInsertion_1,
-            ["Right Menu — Keywords Format Insertion {2}"] = SWBT_Keywords_FormatInsertion_2,
-            ["Right Menu — Keywords Format Insertion {3}"] = SWBT_Keywords_FormatInsertion_3,
-            ["Right Menu — Keywords Format Insertion {4}"] = SWBT_Keywords_FormatInsertion_4,
-            ["Right Menu — Keywords Format Insertion {5}"] = SWBT_Keywords_FormatInsertion_5,
-            ["Right Menu — Keywords Format Insertion {6}"] = SWBT_Keywords_FormatInsertion_6,
-
-            ["[Settings] Limbus Preview — Preview update delay"] = SettingsControl.InputPreviewUpdateDelay,
-            ["[Settings] Custom Lanugage — Keywords Directory"] = SettingsControl.CustomLang_KeywordsDir,
-            ["[Settings] Custom Lanugage — Title Font"] = SettingsControl.CustomLang_TitleFont,
-            ["[Settings] Custom Lanugage — Context Font"] = SettingsControl.CustomLang_ContextFont,
-            ["[Settings] Preview Scans — Width of Skills Preview"] = SettingsControl.InputSkillsPanelWidth,
-            ["[Settings] Preview Scans — Scale Factor"] = SettingsControl.InputScansScaleFactor,
-            ["[Settings] Preview Scans — Background Color (Skills only)"] = SettingsControl.InputSkillsScanBackgroundColor,
-        };
-    }
+    public static FileInfo CurrentFile;
+    public static Encoding CurrentFileEncoding = new UTF8Encoding();
     #endregion
 
 
     public MainWindow()
     {
         InitializeComponent();
-        MainControl = this;
 
-        InitializeUIInteractionLogic();
-        InitializeDefaultResource();
+        MainControl = this;
+        SettingsWindow.SettingsControl = new SettingsWindow(); // Init settings window
 
         InitSurfaceScroll(NavigationPanel_ObjectName_DisplayScrollViewer);
         InitSurfaceScroll(SurfaceScrollPreview_Skills);
@@ -213,44 +74,38 @@ public partial class MainWindow : Window
 
         ProcessLogicalTree(this);
 
-        //ᐁ_Interface_Localization_Loader.ExportConverted();
-
         InitMain();
     }
 
-    internal protected void InitMain()
-    {
-        if (File.Exists(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip"))
+    private void InitMain()
+    { 
+        if (File.Exists(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip"))
         {
             try
             {
-                System.IO.Compression.ZipFile.ExtractToDirectory(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip", @"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json");
+                System.IO.Compression.ZipFile.ExtractToDirectory(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip", @"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json");
 
-                File.Delete(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip");
+                File.Delete(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip");
             }
             catch { }
         }
 
-        PreviewUpdate_TargetSite = PreviewLayout_Default;
+        PreviewUpdate_TargetSite = PreviewLayoutDef_Default;
 
-        File.WriteAllText(@"⇲ Assets Directory\Latest loading.txt", "");
+        File.WriteAllText(@"[⇲] Assets Directory\Latest loading.txt", "");
 
         Mode_Skills.LoadDefaultResources();
 
-        ModifyUI(@"⇲ Assets Directory\@ Internal\Interface Languages\English"); // Load english for new mode by default
-
         Configurazione.PullLoad();
 
-        if (File.Exists(@"⇲ Assets Directory\Default Text.txt"))
+        if (File.Exists(@"[⇲] Assets Directory\Default Text.txt"))
         {
-            Editor.Text = File.ReadAllText(@"⇲ Assets Directory\Default Text.txt");
+            Editor.Text = File.ReadAllText(@"[⇲] Assets Directory\Default Text.txt");
         }
         else
         {
-            Editor.Text = "               <spritessize=+30><font=\"BebasKai SDF\"><size=140%><sprite name=\"9202\"> <u>Limbus Company Localization Interface</u> <color=#f8c200>'1.2:0</color></size></font></spritessize>\n\nЧерти вышли из омута";
+            Editor.Text = "                      <font=\"BebasKai SDF\"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'1.2:1</color></size></font>\n\nЧерти вышли из омута";
         }
-
-        RichText.InternalModel.InitializingEvent = false;
 
         {
             InitializeIdentityPreviewCreatorProperties();
@@ -259,13 +114,12 @@ public partial class MainWindow : Window
             IdentityPreviewCreator_TextEntries_ElementsColor.Text = "#abcdef";
 
             IdentityPreviewCreator_CautionTypeSelector.SelectedIndex = 0;
-            IdentityPreviewCreator_CreateNewProject();
+            IdentityPreviewCreator_LoadBlankProject();
 
             SwitchUI_Activate(DisableTopmost: false);
 
             SwitchUI_Deactivate();
 
-            // To center
             this.Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
             this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
         }
@@ -281,8 +135,8 @@ public partial class MainWindow : Window
 
 
     #region Limbus live preview
-    internal protected static bool IsPendingPreviewUpdate = false;
-    private void Editor_TextChanged(object sender, TextChangedEventArgs e)
+    public static bool IsPendingPreviewUpdate = false;
+    private void Editor_TextChanged(object RequestSender, EventArgs EventArgs)
     {
         if (!ManualTextLoadEvent)
         {
@@ -294,7 +148,7 @@ public partial class MainWindow : Window
                     DispatcherTimer Timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.PreviewUpdateDelay) };
                     Timer.Start();
 
-                    Timer.Tick += (sender, args) =>
+                    Timer.Tick += (RequestSender, EventArgs) =>
                     {
                         Timer.Stop();
                         PullUpdatePreview(Editor.Text);
@@ -323,18 +177,9 @@ public partial class MainWindow : Window
         //        }
         //    }
         //}
-
-        // Window_PreviewKeyDown() -> if ctrlv and \" -> Editor_TextChanged() -> here
-        // After pasting formatted clipboard return normal text to clipboard that was before
-        if (IsQuotesConvertedInClipboard)
-        {
-            Clipboard.SetText(QuotesClipboardOldText);
-            IsQuotesConvertedInClipboard = false;
-            QuotesClipboardOldText = "";
-        }
     }
 
-    internal protected static void PullUpdatePreview(string EditorText)
+    public static void PullUpdatePreview(string EditorText)
     {
         switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
         {
@@ -363,13 +208,19 @@ public partial class MainWindow : Window
                         if (!FullLink.Description
                             .Equals(FullLink.EditorDescription))
                         {
-                            UILanguage["Right Menu — Skill Desc"]
-                                .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker.Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Desc"]));
+                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill main desc"]
+                                .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker.Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill main desc"].Text);
+
+                            //UILanguage["Right Menu — Skill Desc"]
+                            //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker.Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Desc"]));
                         }
                         else
                         {
-                            UILanguage["Right Menu — Skill Desc"]
-                                .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Desc"]);
+                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill main desc"]
+                                .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill main desc"].Text;
+
+                            //UILanguage["Right Menu — Skill Desc"]
+                            //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Desc"]);
                         }
                     }
                     else
@@ -382,31 +233,48 @@ public partial class MainWindow : Window
                         if (!FullLink.Description
                             .Equals(FullLink.EditorDescription))
                         {
-                            MainControl.STE_Skills_Coin_DescNumberDisplay
-                                .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                                    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Coin Desc Number"].Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1)));
+                            //MainControl.STE_Skills_Coin_DescNumberDisplay
+                            //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                            //        .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Coin Desc Number"].Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1)));
+
+
+                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
+                                .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                                    .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text.Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1));
                         }
                         else
                         {
-                            if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
-                            {
-                                MainControl.STE_Skills_Coin_DescNumberDisplay
-                                    .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"]
-                                        .Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1));
-                            }
+                            //if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
+                            //{
+                            //    MainControl.STE_Skills_Coin_DescNumberDisplay
+                            //        .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"]
+                            //            .Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1));
+
+                            //}
+
+                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
+                                .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text
+                                    .Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1);
                         }
 
                         if (DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Coins[Mode_Skills.CurrentSkillCoinIndex].CoinDescriptions
                             .Where(x => x.Description != x.EditorDescription).Any())
                         {
-                            (MainControl.FindName($"STE_Skills_Coin_{Mode_Skills.CurrentSkillCoinIndex + 1}") as RichTextBox)
-                                .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                                    .Extern(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]));
+                            //(MainControl.FindName($"STE_Skills_Coin_{Mode_Skills.CurrentSkillCoinIndex + 1}") as UITranslator)
+                            //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                            //        .Extern(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]));
+
+                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]
+                                .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                                    .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"].Text);
                         }
                         else
                         {
-                            (MainControl.FindName($"STE_Skills_Coin_{Mode_Skills.CurrentSkillCoinIndex + 1}") as RichTextBox)
-                                .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]);
+                            //(MainControl.FindName($"STE_Skills_Coin_{Mode_Skills.CurrentSkillCoinIndex + 1}") as UITranslator)
+                            //    .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]);
+
+                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]
+                                .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"].Text;
                         }
 
 
@@ -417,11 +285,13 @@ public partial class MainWindow : Window
                         
                         if (CoinInfoFullLink.CoinDescriptions.Where(x => x.EditorDescription.EqualsOneOf("", "<style=\"highlight\"></style>")).Count() == CoinInfoFullLink.CoinDescriptions.Count)
                         {
-                            (MainControl.FindName($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}") as Grid).Visibility = Collapsed;
+                            //(MainControl.FindName($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}") as Grid).Visibility = Collapsed;
+                            InterfaceObject<Grid>($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}").Visibility = Collapsed;
                         }
                         else
                         {
-                            (MainControl.FindName($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}") as Grid).Visibility = Visible;
+                            //(MainControl.FindName($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}") as Grid).Visibility = Visible;
+                            InterfaceObject<Grid>($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}").Visibility = Visible;
                         }
                     }
                 }
@@ -449,28 +319,42 @@ public partial class MainWindow : Window
                         case "Main Description":
                             if (!FullLink.Description.Equals(FullLink.EditorDescription))
                             {
-                                MainControl.STE_Passives_MainDescription
-                                    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                                    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Desc"]));
+                                //MainControl.STE_Passives_MainDescription
+                                //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                                //    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Desc"]));
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive desc"].Text);
                             }
                             else
                             {
-                                MainControl.STE_Passives_MainDescription
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Desc"]);
+                                //MainControl.STE_Passives_MainDescription
+                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Desc"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive desc"].Text;
                             }
                             break;
 
                         case "Summary Description":
                             if (!FullLink.SummaryDescription.Equals(FullLink.EditorSummaryDescription))
                             {
-                                MainControl.STE_Passives_SummaryDescription
-                                    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                                    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]));
+                                //MainControl.STE_Passives_SummaryDescription
+                                //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                                //    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]));
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text);
                             }
                             else
                             {
-                                MainControl.STE_Passives_SummaryDescription
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
+                                //MainControl.STE_Passives_SummaryDescription
+                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text;
                             }
                             break;
                     }
@@ -500,28 +384,35 @@ public partial class MainWindow : Window
                         case "Main Description":
                             if (!FullLink.Description.Equals(FullLink.EditorDescription))
                             {
-                                MainControl.STE_Keyword_MainDescription
-                                    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                                    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]));
+                                //MainControl.STE_Keyword_MainDescription
+                                //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                                //    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]));
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword desc"].Text);
                             }
                             else
                             {
-                                MainControl.STE_Keyword_MainDescription
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]);
+                                //MainControl.STE_Keyword_MainDescription
+                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword desc"].Text;
                             }
                             break;
 
                         case "Summary Description":
                             if (!FullLink.SummaryDescription.Equals(FullLink.EditorSummaryDescription))
                             {
-                                MainControl.STE_Keyword_SummaryDescription
-                                    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                                    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]));
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text);
                             }
                             else
                             {
-                                MainControl.STE_Keyword_SummaryDescription
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text;
                             }
                             break;
                     }
@@ -547,14 +438,21 @@ public partial class MainWindow : Window
 
                             if (!FullLink.Description.Equals(FullLink.EditorDescription))
                             {
-                                MainControl.STE_EGOGift_MainDescription
-                                    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                                    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — E.G.O Gift Desc"]));
+                                //MainControl.STE_EGOGift_MainDescription
+                                //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                                //    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — E.G.O Gift Desc"]));
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].Text);
                             }
                             else
                             {
-                                MainControl.STE_EGOGift_MainDescription
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — E.G.O Gift Desc"]);
+                                //MainControl.STE_EGOGift_MainDescription
+                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — E.G.O Gift Desc"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].Text;
                             }
                             break;
 
@@ -569,14 +467,21 @@ public partial class MainWindow : Window
 
                             if (!FullLink.SimpleDescriptions[TargetSimpleDescIndex].Description.Equals(FullLink.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription))
                             {
-                                (MainControl.FindName($"STE_EGOGift_SimpleDescription{SimpleDescNumber}") as RichTextBox)
-                                    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                                    .Extern(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {SimpleDescNumber}"]));
+                                //(MainControl.FindName($"STE_EGOGift_SimpleDescription{SimpleDescNumber}") as UITranslator)
+                                //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                                //    .Extern(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {SimpleDescNumber}"]));
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].Text);;
                             }
                             else
                             {
-                                (MainControl.FindName($"STE_EGOGift_SimpleDescription{SimpleDescNumber}") as RichTextBox)
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {SimpleDescNumber}"]);
+                                //(MainControl.FindName($"STE_EGOGift_SimpleDescription{SimpleDescNumber}") as UITranslator)
+                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {SimpleDescNumber}"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].Text;
                             }
 
                             break;
@@ -588,74 +493,81 @@ public partial class MainWindow : Window
             default: break;
         }
 
-        if (PreviewUpdate_TargetSite != null) PreviewUpdate_TargetSite.SetLimbusRichText(EditorText);
+        if (PreviewUpdate_TargetSite != null)
+        {
+            PreviewUpdate_TargetSite.RichText = EditorText;
+        }
     }
     #endregion
 
 
 
     #region Surfacescroll
-    internal protected static void InitSurfaceScroll(ScrollViewer Target)
+    public static void InitSurfaceScroll(ScrollViewer Target)
     {
         Target.PreviewMouseLeftButtonDown += SurfaceScroll_MouseLeftButtonDown;
         Target.PreviewMouseMove += SurfaceScroll_MouseMove;
         Target.PreviewMouseLeftButtonUp += SurfaceScroll_MouseLeftButtonUp;
     }
-    internal protected static bool SurfaceScroll_isDragging = false;
-    internal protected static Point SurfaceScroll_lastMousePosition;
-    internal protected static void SurfaceScroll_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+    public static bool SurfaceScroll_isDragging = false;
+    public static Point SurfaceScroll_lastMousePosition;
+    public static ScrollViewer LastCapturedScrollViewer = null;
+    public static void SurfaceScroll_MouseLeftButtonDown(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         if (!MainControl.PreviewLayout_Keywords_Bufs_Name.IsMouseOver)
         {
+            LastCapturedScrollViewer = RequestSender as ScrollViewer;
             SurfaceScroll_isDragging = true;
-            SurfaceScroll_lastMousePosition = e.GetPosition(sender as ScrollViewer);
-            (sender as ScrollViewer).CaptureMouse();
+            SurfaceScroll_lastMousePosition = EventArgs.GetPosition(LastCapturedScrollViewer);
+            LastCapturedScrollViewer.CaptureMouse();
         }
     }
-    internal protected static void SurfaceScroll_MouseMove(object sender, MouseEventArgs e)
+    public static void SurfaceScroll_MouseMove(object RequestSender, MouseEventArgs EventArgs)
     {
         if (SurfaceScroll_isDragging)
         {
-            Point currentPosition = e.GetPosition(sender as ScrollViewer);
+            Point currentPosition = EventArgs.GetPosition(RequestSender as ScrollViewer);
             System.Windows.Vector diff = SurfaceScroll_lastMousePosition - currentPosition;
-            (sender as ScrollViewer).ScrollToVerticalOffset((sender as ScrollViewer).VerticalOffset + diff.Y);
-            (sender as ScrollViewer).ScrollToHorizontalOffset((sender as ScrollViewer).HorizontalOffset + diff.X);
+            (RequestSender as ScrollViewer).ScrollToVerticalOffset((RequestSender as ScrollViewer).VerticalOffset + diff.Y);
+            (RequestSender as ScrollViewer).ScrollToHorizontalOffset((RequestSender as ScrollViewer).HorizontalOffset + diff.X);
             SurfaceScroll_lastMousePosition = currentPosition;
         }
     }
-    internal protected static void SurfaceScroll_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+    public static void SurfaceScroll_MouseLeftButtonUp(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         SurfaceScroll_isDragging = false;
-        (sender as ScrollViewer).ReleaseMouseCapture();
+        (RequestSender as ScrollViewer).ReleaseMouseCapture();
     }
     #endregion
 
     
 
     #region Skills switches
-    private void Skills_HighlightUptieLevel(object sender, MouseEventArgs e)
+    private void Skills_HighlightUptieLevel(object RequestSender, MouseEventArgs EventArgs)
     {
-        Border Sender = sender as Border;
+        Border Sender = RequestSender as Border;
         int SenderNumber = int.Parse($"{Sender.Name[^1]}");
 
         if (Mode_Skills.CurrentSkillUptieLevel != SenderNumber)
         {
-            (FindName($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{SenderNumber}") as Image).Visibility = Visible;
+            //(FindName($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{SenderNumber}") as Image).Visibility = Visible;
+            InterfaceObject<Image>($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{SenderNumber}").Visibility = Visible;
         }
     }
-    private void Skills_DeHighlightUptieLevel(object sender, MouseEventArgs e)
+    private void Skills_DeHighlightUptieLevel(object RequestSender, MouseEventArgs EventArgs)
     {
-        Border Sender = sender as Border;
+        Border Sender = RequestSender as Border;
         int SenderNumber = int.Parse($"{Sender.Name[^1]}");
 
         if (Mode_Skills.CurrentSkillUptieLevel != SenderNumber)
         {
-            (FindName($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{SenderNumber}") as Image).Visibility = Collapsed;
+            //(FindName($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{SenderNumber}") as Image).Visibility = Collapsed;
+            InterfaceObject<Image>($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{SenderNumber}").Visibility = Collapsed;
         }
     }
 
 
-    private void ChangeSkillEGOAbnormalityName(object sender, MouseButtonEventArgs e)
+    private void ChangeSkillEGOAbnormalityName(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         /////////////////////////////////////////////////////////////////////////////////////////////
         var FullLink = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel];
@@ -670,38 +582,47 @@ public partial class MainWindow : Window
     }
 
 
-    private void NavigationPanel_Skills_SwitchToUptieLevel(object sender, MouseButtonEventArgs e)
+    private void NavigationPanel_Skills_SwitchToUptieLevel(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        Border Sender = sender as Border;
+        Border Sender = RequestSender as Border;
         string UptieLevelNumber = $"{Sender.Name[^1]}";
 
         Mode_Skills.TransformToSkill(Mode_Skills.CurrentSkillID, int.Parse(UptieLevelNumber));
     }
 
-    private void SwitchToFifthUptie(object sender, MouseButtonEventArgs e)
+    private void SwitchToFifthUptie(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         Mode_Skills.TransformToSkill(Mode_Skills.CurrentSkillID, 5);
     }
 
-    private void Actions_Skills_SwitchToDesc(object sender, MouseButtonEventArgs e) => Mode_Skills.SwitchToDesc();
-
-    private void Actions_Skills_SetCoinFocus(object sender, MouseButtonEventArgs e)
+    private void Actions_Skills_SwitchToMainDesc(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        Border Sender = sender as Border;
+        Mode_Skills.SwitchToDesc();
+
+        if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnManualSwitch)
+        {
+            FastSwitch_ToSkillMainDesc__Highlight();
+        }
+    }
+
+    private void Actions_Skills_SetCoinFocus(object RequestSender, MouseButtonEventArgs EventArgs)
+    {
+        Border Sender = RequestSender as Border;
         string CoinNumber = $"{Sender.Name[^1]}";
         Mode_Handlers.Mode_Skills.SetCoinFocus(int.Parse(CoinNumber));
 
-        if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnManualSwitch)
+        if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnManualSwitch)
         {
-            RichTextBox HighlightTarget = FindName($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}_Desc{Mode_Skills.CurrentSkillCoinDescIndex + 1}") as RichTextBox;
-            NavigationPanel_Skills_SwitchToCoinDesc_FastSwitch_CoinDescFocusHighlightEvent(HighlightTarget);
+            //TMProEmitter HighlightTarget = FindName($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}_Desc{Mode_Skills.CurrentSkillCoinDescIndex + 1}") as TMProEmitter;
+            TMProEmitter HighlightTarget = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}_Desc{Mode_Skills.CurrentSkillCoinDescIndex + 1}");
+            FastSwitch_ToSkillCoinDesc__Highlight(HighlightTarget);
             HighlightTarget.Focus();
         }
     }
 
-    private void NavigationPanel_Skills_SwitchToCoinDesc(object sender, MouseButtonEventArgs e)
+    private void NavigationPanel_Skills_SwitchToCoinDesc(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        Border Sender = sender as Border;
+        Border Sender = RequestSender as Border;
 
         string Direction = Sender.Name.Split("NavigationPanel_Skills_CoinDesc_")[^1];
         int IndexOfCurrentCoinDesc = Mode_Skills.CurrentCoinDescs_Avalible.IndexOf(Mode_Skills.CurrentSkillCoinDescIndex);
@@ -709,15 +630,16 @@ public partial class MainWindow : Window
 
         Mode_Skills.SwitchToCoinDesc(TargetSwitchIndex);
 
-        if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnManualSwitch)
+        if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnManualSwitch)
         {
-            RichTextBox HighlightTarget = FindName($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}_Desc{Mode_Skills.CurrentSkillCoinDescIndex + 1}") as RichTextBox;
-            NavigationPanel_Skills_SwitchToCoinDesc_FastSwitch_CoinDescFocusHighlightEvent(HighlightTarget);
+            //TMProEmitter HighlightTarget = FindName($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}_Desc{Mode_Skills.CurrentSkillCoinDescIndex + 1}") as TMProEmitter;
+            TMProEmitter HighlightTarget = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}_Desc{Mode_Skills.CurrentSkillCoinDescIndex + 1}");
+            FastSwitch_ToSkillCoinDesc__Highlight(HighlightTarget);
             HighlightTarget.Focus();
         }
     }
 
-    internal protected static void NavigationPanel_Skills_SwitchToCoinDesc_CheckAvalibles()
+    public static void NavigationPanel_Skills_SwitchToCoinDesc_CheckAvalibles()
     {
         int IndexOfCurrentCoinDesc = Mode_Skills.CurrentCoinDescs_Avalible.IndexOf(Mode_Skills.CurrentSkillCoinDescIndex);
 
@@ -742,11 +664,13 @@ public partial class MainWindow : Window
         }
     }
 
-    private void NavigationPanel_Skills_SwitchToCoinDesc_FastSwitch(object sender, MouseButtonEventArgs e)
+
+
+    private void FastSwitch_ToSkillCoinDesc(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         if (!CustomIdentityPreviewCreator.IsActive)
         {
-            RichTextBox Sender = sender as RichTextBox;
+            TMProEmitter Sender = RequestSender as TMProEmitter;
 
             string CoinNumber = $"{Sender.Name.Split("PreviewLayout_Skills_Coin")[1][0]}";
             string CoinDescNumber = $"{Sender.Name.Split("_Desc")[1]}";
@@ -754,34 +678,50 @@ public partial class MainWindow : Window
             Mode_Skills.SetCoinFocus(int.Parse(CoinNumber));
             Mode_Skills.SwitchToCoinDesc(int.Parse(CoinDescNumber) - 1);
 
-            if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnRightClick)
+            if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnRightClick)
             {
-                NavigationPanel_Skills_SwitchToCoinDesc_FastSwitch_CoinDescFocusHighlightEvent(Sender);
+                FastSwitch_ToSkillCoinDesc__Highlight(Sender);
             }
         }
     }
 
-    internal protected static async void NavigationPanel_Skills_SwitchToCoinDesc_FastSwitch_CoinDescFocusHighlightEvent(RichTextBox TargetDesc)
+    private void FastSwitch_ToSkillCoinDesc__Highlight(TMProEmitter TargetDesc)
     {
-        TargetDesc.Background = ToSolidColorBrush("#01303030");
+        TargetDesc.Background = ToSolidColorBrush("#FF262626");
 
-        for (int i = 255; i >= 0; i--)
+        TargetDesc.Background.BeginAnimation(SolidColorBrush.OpacityProperty, new DoubleAnimation()
         {
-            string TransperacyChange = i.ToString("X");
-            if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
+            From = 1, To = 0, Duration = new Duration(TimeSpan.FromSeconds(0.4))
+        });
+    }
 
-            TargetDesc.Background = ToSolidColorBrush($"#{TransperacyChange}{TargetDesc.Background.ToString()[3..]}");
-            if(i%3 == 0) await Task.Delay(1);
+    private void FastSwitch_ToSkillMainDesc(object RequestSender, MouseButtonEventArgs EventArgs)
+    {
+        Actions_Skills_SwitchToMainDesc(STE_Action_Skills_MainDescription, null);
+
+        if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnRightClick)
+        {
+            FastSwitch_ToSkillMainDesc__Highlight();
         }
+    }
+
+    private void FastSwitch_ToSkillMainDesc__Highlight()
+    {
+        PreviewLayout_Skills_MainDesc.Background = ToSolidColorBrush("#FF262626");
+
+        PreviewLayout_Skills_MainDesc.Background.BeginAnimation(SolidColorBrush.OpacityProperty, new DoubleAnimation()
+        {
+            From = 1, To = 0, Duration = new Duration(TimeSpan.FromSeconds(0.4))
+        });
     }
     #endregion
 
 
 
     #region Passive switches
-    private void Actions_Passives_SwitchToMainDesc(object sender, MouseButtonEventArgs e) => Mode_Passives.SwitchToMainDesc();
-    private void Actions_Passives_SwitchToSummaryDesc(object sender, MouseButtonEventArgs e) => Mode_Passives.SwitchToSummaryDesc();
-    private async void Passives_CreateSummaryDescription(object sender, MouseButtonEventArgs e)
+    private void Actions_Passives_SwitchToMainDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_Passives.SwitchToMainDesc();
+    private void Actions_Passives_SwitchToSummaryDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_Passives.SwitchToSummaryDesc();
+    private void Passives_CreateSummaryDescription(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         CanSwitchID = false;
 
@@ -792,31 +732,30 @@ public partial class MainWindow : Window
 
         Editor.Text = DelegatePassives[Mode_Passives.CurrentPassiveID].EditorSummaryDescription;
 
-        int TransperacyStartPoint = int.Parse(Resources["UITheme_ButtonsDisableCover"].ToString().Substring(1, 2), HexNumber);
-
-        for (int i = TransperacyStartPoint; i >= 0; i--)
+        STE_DisableCover_Passives_SummaryDescription.Background = ToSolidColorBrush("#00000000");
+        ColorAnimation DisableCoverFadeout = new ColorAnimation()
         {
-            string TransperacyChange = i.ToString("X");
-            if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
+            From = ToColorBrush(Resource<SolidColorBrush>("Theme_ElongatedButtons__DisabledButtonsShadowing").ToString()),
+            To = ToColorBrush("#00000000"),
+            Duration = new Duration(TimeSpan.FromSeconds(0.38))
+        };
+        DisableCoverFadeout.Completed += (s, e) =>
+        {
+            STE_DisableCover_Passives_SummaryDescription.Visibility = Collapsed;
+            STE_DisableCover_Passives_SummaryDescription.Background = Resource<SolidColorBrush>("Theme_ElongatedButtons__DisabledButtonsShadowing");
 
-            STE_DisableCover_Passives_SummaryDescription.Background = ToSolidColorBrush($"#{TransperacyChange}{STE_DisableCover_Passives_SummaryDescription.Background.ToString()[3..]}");
-
-            if (i % 2 == 0) await Task.Delay(1);
-        }
-
-        STE_DisableCover_Passives_SummaryDescription.Visibility = Collapsed;
-        STE_DisableCover_Passives_SummaryDescription.Background = Resources["UITheme_ButtonsDisableCover"] as SolidColorBrush;
-
-        CanSwitchID = true;
+            CanSwitchID = true;
+        };
+        STE_DisableCover_Passives_SummaryDescription.Background.BeginAnimation(SolidColorBrush.ColorProperty, DisableCoverFadeout);
     }
     #endregion
 
 
 
     #region Keywords switches
-    private void Actions_Keywords_SwitchToMainDesc(object sender, MouseButtonEventArgs e) => Mode_Keywords.SwitchToMainDesc();
-    private void Actions_Keywords_SwitchToSummaryDesc(object sender, MouseButtonEventArgs e) => Mode_Keywords.SwitchToSummaryDesc();
-    private void Actions_Keywords_ToggleFormatInsertions(object sender, MouseButtonEventArgs e)
+    private void Actions_Keywords_SwitchToMainDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_Keywords.SwitchToMainDesc();
+    private void Actions_Keywords_SwitchToSummaryDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_Keywords.SwitchToSummaryDesc();
+    private void Actions_Keywords_ToggleFormatInsertions(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         switch (Keywords_FormatInsertions_StackPanel.Visibility)
         {
@@ -831,75 +770,47 @@ public partial class MainWindow : Window
                 break;
         }
     }
-    private async void Actions_Keywords_CreateSummaryDescription(object sender, MouseButtonEventArgs e)
-    {
-        CanSwitchID = false;
-
-        DelegateKeywords[Mode_Keywords.CurrentKeywordID].SummaryDescription = "\0";
-        DelegateKeywords[Mode_Keywords.CurrentKeywordID].EditorSummaryDescription = "";
-
-        Mode_Keywords.TargetSite_StringLine = "Summary Description";
-
-        Editor.Text = DelegateKeywords[Mode_Keywords.CurrentKeywordID].EditorSummaryDescription;
-
-        int TransperacyStartPoint = int.Parse(Resources["UITheme_ButtonsDisableCover"].ToString().Substring(1, 2), HexNumber);
-
-        for (int i = TransperacyStartPoint; i >= 0; i--)
-        {
-            string TransperacyChange = i.ToString("X");
-            if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
-
-            STE_DisableCover_Keyword_SummaryDescription.Background = ToSolidColorBrush($"#{TransperacyChange}{STE_DisableCover_Keyword_SummaryDescription.Background.ToString()[3..]}");
-
-            if (i % 2 == 0) await Task.Delay(1);
-        }
-
-        STE_DisableCover_Keyword_SummaryDescription.Visibility = Collapsed;
-        STE_DisableCover_Keyword_SummaryDescription.Background = Resources["UITheme_ButtonsDisableCover"] as SolidColorBrush;
-
-        CanSwitchID = true;
-    }
 
     #region Bufs interactive button
-    bool AllowOpacityChange = true;
-    private async void Actions_Keywords_InteractiveBufsButton_Highlight(object sender, MouseEventArgs e)
+    private void Actions_Keywords_InteractiveBufsButton_Highlight(object RequestSender, MouseEventArgs EventArgs)
     {
-        AllowOpacityChange = true;
-        for (double i = 0; i <= 1; i += 0.114)
+        Actions_Keywords_InteractiveBufsButton_Image.BeginAnimation(Image.OpacityProperty, new DoubleAnimation()
         {
-            if (AllowOpacityChange)
-            {
-                Actions_Keywords_InteractiveBufsButton_Image.Opacity = i;
-                await Task.Delay(20);
-            }
-        }
+            From = 0, To = 1, Duration = TimeSpan.FromSeconds(0.265)
+        });
     }
 
-    private void Actions_Keywords_InteractiveBufsButton_StopHighlight(object sender, MouseEventArgs e)
+    private void Actions_Keywords_InteractiveBufsButton_StopHighlight(object RequestSender, MouseEventArgs EventArgs)
     {
-        Actions_Keywords_InteractiveBufsButton_Image.Opacity = 0;
+        Actions_Keywords_InteractiveBufsButton_Image.BeginAnimation(Image.OpacityProperty, new DoubleAnimation()
+        {
+            From = 1, To = 0, Duration = TimeSpan.FromSeconds(0.120)
+        });
         Keywords_InteractiveBufsButton_Scale.ScaleX = 1;
         Keywords_InteractiveBufsButton_Scale.ScaleY = 1;
-        AllowOpacityChange = false;
     }
 
-    private async void Actions_Keywords_InteractiveBufsButtonDown(object sender, MouseButtonEventArgs e)
+    private void Actions_Keywords_InteractiveBufsButtonDown(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        for (double i = 1; i >= 0.98; i -= 0.01)
+        Keywords_InteractiveBufsButton_Scale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation()
         {
-            Keywords_InteractiveBufsButton_Scale.ScaleX = i;
-            Keywords_InteractiveBufsButton_Scale.ScaleY = i;
-            await Task.Delay(40);
-        }
+            From = 1, To = 0.98, Duration = TimeSpan.FromSeconds(0.1)
+        });
+        Keywords_InteractiveBufsButton_Scale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation()
+        {
+            From = 1, To = 0.98, Duration = TimeSpan.FromSeconds(0.1)
+        });
     }
-    private async void Actions_Keywords_InteractiveBufsButtonUp(object sender, MouseButtonEventArgs e)
+    private void Actions_Keywords_InteractiveBufsButtonUp(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        for (double i = 0.98; i <= 1; i += 0.01)
+        Keywords_InteractiveBufsButton_Scale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation()
         {
-            Keywords_InteractiveBufsButton_Scale.ScaleX = i;
-            Keywords_InteractiveBufsButton_Scale.ScaleY = i;
-            await Task.Delay(40);
-        }
+            From = 0.98, To = 1, Duration = TimeSpan.FromSeconds(0.1)
+        });
+        Keywords_InteractiveBufsButton_Scale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation()
+        {
+            From = 0.98, To = 1, Duration = TimeSpan.FromSeconds(0.1)
+        });
 
         //////////////////////////////////////////////////////////////////////
         var FullLinkKeyword = DelegateKeywords[Mode_Keywords.CurrentKeywordID];
@@ -908,8 +819,12 @@ public partial class MainWindow : Window
         if (!FullLinkKeyword.Description.Equals(FullLinkKeyword.EditorDescription))
         {
             FullLinkKeyword.Description = FullLinkKeyword.EditorDescription;
-            MainControl.STE_Keyword_MainDescription
-                .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]);
+            //MainControl.STE_Keyword_MainDescription
+            //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]);
+
+            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"]
+                .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword desc"].Text;
+
             AnyChanges = true;
         }
 
@@ -918,8 +833,12 @@ public partial class MainWindow : Window
             if (!FullLinkKeyword.SummaryDescription.Equals(FullLinkKeyword.EditorSummaryDescription))
             {
                 FullLinkKeyword.SummaryDescription = FullLinkKeyword.EditorSummaryDescription;
-                STE_Keyword_SummaryDescription
-                        .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
+                //STE_Keyword_SummaryDescription
+                //        .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
+
+                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
+                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text;
+
                 AnyChanges = true;
             }
         }
@@ -934,7 +853,7 @@ public partial class MainWindow : Window
 
         if (AnyChanges) Mode_Keywords.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
     }
-    private void Actions_Keywords_BufsSpecialNameButton(object sender, MouseButtonEventArgs e)
+    private void Actions_Keywords_BufsSpecialNameButton(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         
     }
@@ -945,24 +864,24 @@ public partial class MainWindow : Window
 
 
     #region E.G.O Gifts switches
-    private void PreviewLayout_Keywords_Bufs_Name_TextChanged(object sender, TextChangedEventArgs e)
+    private void PreviewLayout_Keywords_Bufs_Name_TextChanged(object RequestSender, TextChangedEventArgs EventArgs)
     {
         SWBT_Keywords_KeywordName.Text = PreviewLayout_Keywords_Bufs_Name.Text;
     }
 
-    private void EGOGiftDisplay_HotSwitchToUpgradeLevel_MouseEnter(object sender, MouseEventArgs e)
+    private void EGOGiftDisplay_HotSwitchToUpgradeLevel_MouseEnter(object RequestSender, MouseEventArgs EventArgs)
     {
-        (sender as Grid).Children[2].Opacity = 1;
+        (RequestSender as Grid).Children[2].Opacity = 1;
     }
 
-    private void EGOGiftDisplay_HotSwitchToUpgradeLevel_MouseLeave(object sender, MouseEventArgs e)
+    private void EGOGiftDisplay_HotSwitchToUpgradeLevel_MouseLeave(object RequestSender, MouseEventArgs EventArgs)
     {
-        (sender as Grid).Children[2].Opacity = 0;
+        (RequestSender as Grid).Children[2].Opacity = 0;
     }
 
-    private void EGOGiftDisplay_HotSwitchToUpgradeLevel_SwitchButton(object sender, MouseButtonEventArgs e)
+    private void EGOGiftDisplay_HotSwitchToUpgradeLevel_SwitchButton(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        int TargetUpgradeLevel = int.Parse($"{(sender as Grid).Name[^1]}") - 1;
+        int TargetUpgradeLevel = int.Parse($"{(RequestSender as Grid).Name[^1]}") - 1;
 
         if (DelegateEGOGifts[Mode_EGOGifts.CurrentEGOGiftID].UpgradeLevelsAssociativeIDs.Count > 0)
         {
@@ -970,21 +889,21 @@ public partial class MainWindow : Window
         }
     }
 
-    private void Actions_EGOGifts_SwitchToMainDesc(object sender, MouseButtonEventArgs e) => Mode_EGOGifts.SwitchToMainDesc();
-    private void Actions_EGOGifts_SwitchToSimpleDesc(object sender, MouseButtonEventArgs e) => Mode_EGOGifts.SwitchToSimpleDesc($"{(sender as Border).Name[^1]}");
+    private void Actions_EGOGifts_SwitchToMainDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_EGOGifts.SwitchToMainDesc();
+    private void Actions_EGOGifts_SwitchToSimpleDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_EGOGifts.SwitchToSimpleDesc($"{(RequestSender as Border).Name[^1]}");
     #endregion
 
 
 
     #region ID Switch system
-    internal protected static bool SwitchToFirstItem = false;
-    internal protected static bool SwitchToLastItem = false;
-    internal protected static bool CanSwitchID = true;
-    private void NavigationPanel_IDSwitch(object sender, MouseButtonEventArgs e)
+    public static bool SwitchToFirstItem = false;
+    public static bool SwitchToLastItem = false;
+    public static bool CanSwitchID = true;
+    private void NavigationPanel_IDSwitch(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         if (CanSwitchID)
         {
-            Border Sender = sender as Border;
+            Border Sender = RequestSender as Border;
             string Direction = Sender.Name.Split("NavigationPanel_IDSwitch_")[^1];
 
             bool SuccessSwitch = false;
@@ -1076,7 +995,7 @@ public partial class MainWindow : Window
         }
     }
 
-    internal protected static void NavigationPanel_IDSwitch_CheckAvalibles()
+    public static void NavigationPanel_IDSwitch_CheckAvalibles()
     {
         void Check(int IndexOfCurrentID, int MaxID)
         {
@@ -1138,27 +1057,27 @@ public partial class MainWindow : Window
         }
     }
 
-    private void NavigationPanel_IDSwitch_ToLast(object sender, MouseButtonEventArgs e)
+    private void NavigationPanel_IDSwitch_ToLast(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         SwitchToLastItem = true;
-        NavigationPanel_IDSwitch(sender, e);
+        NavigationPanel_IDSwitch(RequestSender, EventArgs);
         SwitchToLastItem = false;
     }
 
-    private void NavigationPanel_IDSwitch_ToFirst(object sender, MouseButtonEventArgs e)
+    private void NavigationPanel_IDSwitch_ToFirst(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         SwitchToFirstItem = true;
-        NavigationPanel_IDSwitch(sender, e);
+        NavigationPanel_IDSwitch(RequestSender, EventArgs);
         SwitchToFirstItem = false;
     }
 
     /// <summary>
     /// -> action in 'Manual ID Switch' region
     /// </summary>
-    private void NavigationPanel_IDSwitch_ManualInput_Start(object sender, MouseButtonEventArgs e)
+    private void NavigationPanel_IDSwitch_ManualInput_Start(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        string IDText = STE_NavigationPanel_ObjectID_Display.GetText();
-        if (!IDText.Equals(UILanguageLoader.LoadedLanguage.DefaultInsertionText))
+        string IDText = STE_NavigationPanel_ObjectID_Display.CurrentRichText;
+        if (!IDText.Equals(ᐁ_Interface_Localization_Loader.SpecializedDefs.InsertionsDefaultValue))
         {
             STE_NavigationPanel_ObjectID_Display.Visibility = Collapsed;
             STE_NavigationPanel_ObjectID_Display_IDCopied.Visibility = Collapsed;
@@ -1170,75 +1089,80 @@ public partial class MainWindow : Window
         }
     }
 
-    internal protected static void NavigationPanel_IDSwitch_ManualInput_Stop()
+    public static void NavigationPanel_IDSwitch_ManualInput_Stop()
     {
         MainControl.STE_NavigationPanel_ObjectID_Display.Visibility = Visible;
         MainControl.STE_NavigationPanel_ObjectID_Display_IDCopied.Visibility = Visible;
         MainControl.NavigationPanel_IDSwitch_ManualInput_Textfield.Visibility = Collapsed;
 
-        UnfocusTextBox(MainControl.NavigationPanel_IDSwitch_ManualInput_Textfield);
+        UnfocusElement(MainControl.NavigationPanel_IDSwitch_ManualInput_Textfield);
 
         MainControl.NavigationPanel_IDSwitch_ManualInput_Textfield.Text = "";
     }
 
     bool AlreadyAnimatingCopiedInfo = false;
-    private async void CopyID(object sender, MouseButtonEventArgs e)
+    private void CopyID(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         if (!NavigationPanel_IDSwitch_ManualInput_Textfield.IsFocused)
         {
             try
             {
-                string IDText = STE_NavigationPanel_ObjectID_Display.GetText();
-                if (!IDText.Equals(UILanguageLoader.LoadedLanguage.DefaultInsertionText))
+                string IDText = STE_NavigationPanel_ObjectID_Display.CurrentRichText;
+                if (!IDText.Equals(ᐁ_Interface_Localization_Loader.SpecializedDefs.InsertionsDefaultValue))
                 {
-                    Clipboard.SetText(STE_NavigationPanel_ObjectID_Display.GetText());
+                    Clipboard.SetDataObject(STE_NavigationPanel_ObjectID_Display.CurrentRichText as string);
+
+                    double FadeInOutTime = 0.118;
+                    double PauseTime = 0.35;
 
                     if (!AlreadyAnimatingCopiedInfo)
                     {
                         AlreadyAnimatingCopiedInfo = true;
-                        for (int i = 255; i >= 0; i--)
+                        CanSwitchID = false;
+
+                        DoubleAnimation FadeIn_ID = new DoubleAnimation()
                         {
-                            string TransperacyChange = i.ToString("X");
-                            if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
-
-                            STE_NavigationPanel_ObjectID_Display.Foreground = ToSolidColorBrush($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display.Foreground.ToString()[3..]}");
-
-                            if (i % 3 == 0) await Task.Delay(1);
-                        }
-
-                        for (int i = 0; i <= 255; i++)
+                            From = 0, To = 1, Duration = new Duration(TimeSpan.FromSeconds(FadeInOutTime))
+                        };
+                        // Finish
+                        FadeIn_ID.Completed += (s, e) =>
                         {
-                            string TransperacyChange = i.ToString("X");
-                            if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
+                            AlreadyAnimatingCopiedInfo = false;
+                        };
 
-                            STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground = ToSolidColorBrush($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground.ToString()[3..]}");
-
-                            if (i % 3 == 0) await Task.Delay(1);
-                        }
-
-                        await Task.Delay(460);
-
-                        for (int i = 255; i >= 0; i--)
+                        DoubleAnimation FadeOut_InfoText = new DoubleAnimation()
                         {
-                            string TransperacyChange = i.ToString("X");
-                            if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
-
-                            STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground = ToSolidColorBrush($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display_IDCopied.Foreground.ToString()[3..]}");
-
-                            if (i % 3 == 0) await Task.Delay(1);
-                        }
-
-                        for (int i = 0; i <= 255; i++)
+                            From = 1, To = 0, Duration = new Duration(TimeSpan.FromSeconds(FadeInOutTime))
+                        };
+                        FadeOut_InfoText.Completed += (s, e) =>
                         {
-                            string TransperacyChange = i.ToString("X");
-                            if (TransperacyChange.Length == 1) TransperacyChange = $"0{TransperacyChange}";
+                            STE_NavigationPanel_ObjectID_Display.BeginAnimation(FrameworkElement.OpacityProperty, FadeIn_ID);
+                        };
 
-                            STE_NavigationPanel_ObjectID_Display.Foreground = ToSolidColorBrush($"#{TransperacyChange}{STE_NavigationPanel_ObjectID_Display.Foreground.ToString()[3..]}");
+                        DoubleAnimation FadeIn_InfoText = new DoubleAnimation()
+                        {
+                            From = 0, To = 1, Duration = new Duration(TimeSpan.FromSeconds(FadeInOutTime))
+                        };
+                        FadeIn_InfoText.Completed += (s, e) =>
+                        {
+                            Await(PauseTime, () =>
+                            {
+                                CanSwitchID = true;
+                                STE_NavigationPanel_ObjectID_Display_IDCopied.BeginAnimation(FrameworkElement.OpacityProperty, FadeOut_InfoText);
+                            });
+                        };
 
-                            if (i % 3 == 0) await Task.Delay(1);
-                        }
+                        DoubleAnimation FadeOut_ID = new DoubleAnimation()
+                        {
+                            From = 1, To = 0, Duration = new Duration(TimeSpan.FromSeconds(FadeInOutTime))
+                        };
+                        FadeOut_ID.Completed += (s, e) =>
+                        {
+                            STE_NavigationPanel_ObjectID_Display_IDCopied.BeginAnimation(FrameworkElement.OpacityProperty, FadeIn_InfoText);
+                        };
+                        // Timeline goes backwards
 
-                        AlreadyAnimatingCopiedInfo = false;
+                        STE_NavigationPanel_ObjectID_Display.BeginAnimation(FrameworkElement.OpacityProperty, FadeOut_ID);
                     }
                 }
             }
@@ -1250,7 +1174,7 @@ public partial class MainWindow : Window
 
 
     #region Shared
-    private void ChangeObjectName(object sender, MouseButtonEventArgs e)
+    private void ChangeObjectName(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
         {
@@ -1321,15 +1245,15 @@ public partial class MainWindow : Window
         }
     }
 
-    internal protected static void FocusOnFile(FileInfo Target)
+    public static void FocusOnFile(FileInfo Target)
     {
         CurrentFile = Target;
         CurrentFileEncoding = Target.GetFileEncoding();
         MainControl.JsonFilePath.Text = CurrentFile.FullName;
-        MainControl.JsonFilePath.CaretIndex = MainControl.JsonFilePath.Text.Length;
+        MainControl.JsonFilePath.ScrollToHorizontalOffset(10000) ;
     }
 
-    internal protected void Actions_FILE_SelectFile_Acutal()
+    public void Actions_FILE_SelectFile_Acutal()
     {
         OpenFileDialog JsonFileSelector = new OpenFileDialog();
         JsonFileSelector.DefaultExt = ".json";
@@ -1375,10 +1299,12 @@ public partial class MainWindow : Window
 
                 Mode_EGOGifts.LoadStructure(CurrentFile);
             }
+
+            SyntaxedTextEditor.RecompileEditorSyntax();
         }
     }
 
-    private void Actions_FILE_SelectFile(object sender, MouseButtonEventArgs e)
+    private void Actions_FILE_SelectFile(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         CheckUnsavedChanges(SelectFileOnEnd: true);
     }
@@ -1387,8 +1313,8 @@ public partial class MainWindow : Window
 
 
     #region Technical
-    internal protected static Assembly LCLocalizationTaskAbsolute = Assembly.GetExecutingAssembly();
-    internal protected static string LoadFromEmbeddedResources(string FullName)
+    public static Assembly LCLocalizationTaskAbsolute = Assembly.GetExecutingAssembly();
+    public static string LoadFromEmbeddedResources(string FullName)
     {
         using (Stream stream = LCLocalizationTaskAbsolute.GetManifestResourceStream(FullName))
         {
@@ -1399,22 +1325,16 @@ public partial class MainWindow : Window
         }
     }
 
-    internal protected static void InitializeDefaultResource()
-    {
-        DefaultTheme = LoadFromEmbeddedResources("LC_Localization_Task_Absolute.Default.Theme.Theme.json");
-        DefaultLanguage = LoadFromEmbeddedResources("LC_Localization_Task_Absolute.Default.Language.English.json");
-    }
-
     
 
-    private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
+    private void Window_SizeChanged(object RequestSender, SizeChangedEventArgs EventArgs)
     {
         //rin($"Autohide:{UIThemesLoader.LoadedTheme.AutoHideBackgroundOnMinWidth}; Width:{Width} (>{Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinWidth}), Height:{Height} (>{Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinHeight})");
 
         //if (WindowState == WindowState.Maximized) WindowState = WindowState.Normal;
 
         if ((Width <= Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinWidth + 2 & Height <= Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinHeight + 2)
-            | (((UIThemesLoader.LoadedTheme != null ? UIThemesLoader.LoadedTheme.AutoHideBackgroundOnMinWidth : false) & Width <= Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinWidth + 2)))
+            | (((ᐁ_Interface_Themes_Loader.LoadedTheme != null ? ᐁ_Interface_Themes_Loader.LoadedTheme.Common.HideBackgroundImageWithMinimumWindowWidth : false) & Width <= Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinWidth + 2)))
         {
             BackgroundImage.Visibility = Visibility.Collapsed;
         }
@@ -1422,11 +1342,11 @@ public partial class MainWindow : Window
         {
             BackgroundImage.Visibility = Visibility.Visible;
         }
-        NewWindowSizes.Rect = new Rect(0, 0, ActualWidth, ActualHeight);
+        //NewWindowSizes.Rect = new Rect(0, 0, ActualWidth, ActualHeight);
     }
 
 
-    internal protected void CheckUnsavedChanges(bool ExitOnEnd = false, bool SelectFileOnEnd = false)
+    public void CheckUnsavedChanges(bool ExitOnEnd = false, bool SelectFileOnEnd = false)
     {
         int UnsavedChangesCount = 0;
         string UnsavedChangesInfo = "";
@@ -1456,16 +1376,16 @@ public partial class MainWindow : Window
                     if (UnsavedChangesInPassiveDesc | UnsavedChangesInPassiveSummary)
                     {
                         //UnsavedChangesInfo += $"\n\n<b>ID</b> <color=#f8c200>{CheckPassive.Key}</color> 「<color=#afbff9>{CheckPassive.Value.Name}</color>」";
-                        UnsavedChangesInfo += UILanguageLoader.LangUnsavedChangesInfo.Passives.IDHeader.Exform(CheckPassive.Key, CheckPassive.Value.Name);
+                        UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Passives.IDHeader.Exform(CheckPassive.Key, CheckPassive.Value.Name);
                         if (UnsavedChangesInPassiveDesc)
                         {
                             //UnsavedChangesInfo += "\n  > Главное описание";
-                            UnsavedChangesInfo += UILanguageLoader.LangUnsavedChangesInfo.Passives.MainDesc;
+                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Passives.MainDesc;
                         }
                         if (UnsavedChangesInPassiveSummary)
                         {
                             //UnsavedChangesInfo += "\n  > Суммарное описание";
-                            UnsavedChangesInfo += UILanguageLoader.LangUnsavedChangesInfo.Passives.SummaryDesc;
+                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Passives.SummaryDesc;
                         }
                     }
                 }
@@ -1520,11 +1440,11 @@ public partial class MainWindow : Window
                             if (!AlreadyAddedThisID)
                             {
                                 //UnsavedChangesInfo += $"\n\n<b>ID</b> <color=#f8c200>{CheckSkill.Key}</color> 「<color=#afbff9>{SkillName}</color>」";
-                                UnsavedChangesInfo += UILanguageLoader.LangUnsavedChangesInfo.Skills.IDHeader.Exform(CheckSkill.Key, SkillName);
+                                UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Skills.IDHeader.Exform(CheckSkill.Key, SkillName);
                                 AlreadyAddedThisID = true;
                             }
                             //UnsavedChangesInfo += $"\n  > Уровень связи {UptieLevel.Uptie}";
-                            UnsavedChangesInfo += UILanguageLoader.LangUnsavedChangesInfo.Skills.UptieLevel.Extern($"{UptieLevel.Uptie}");
+                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Skills.UptieLevel.Extern($"{UptieLevel.Uptie}");
                         }
                     }
                 }
@@ -1554,16 +1474,16 @@ public partial class MainWindow : Window
                     if (UnsavedChangesInKeywordDesc | UnsavedChangesInKeywordSummary)
                     {
                         //UnsavedChangesInfo += $"\n\n<b>ID</b> <color=#f8c200>{CheckKeyword.Key}</color> 「<color=#afbff9>{CheckKeyword.Value.Name}</color>」";
-                        UnsavedChangesInfo += UILanguageLoader.LangUnsavedChangesInfo.Keywords.IDHeader.Exform(CheckKeyword.Key, CheckKeyword.Value.Name);
+                        UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Keywords.IDHeader.Exform(CheckKeyword.Key, CheckKeyword.Value.Name);
                         if (UnsavedChangesInKeywordDesc)
                         {
                             //UnsavedChangesInfo += "\n  > Главное описание";
-                            UnsavedChangesInfo += UILanguageLoader.LangUnsavedChangesInfo.Keywords.MainDesc;
+                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Keywords.MainDesc;
                         }
                         if (UnsavedChangesInKeywordSummary)
                         {
                             //UnsavedChangesInfo += "\n  > Суммарное описание";
-                            UnsavedChangesInfo += UILanguageLoader.LangUnsavedChangesInfo.Passives.MainDesc;
+                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Passives.MainDesc;
                         }
                     }
                 }
@@ -1589,7 +1509,7 @@ public partial class MainWindow : Window
                                 if (!SimpleDesc.Description.Equals(SimpleDesc.EditorDescription))
                                 {
                                     //ChangedSimpleDescs += $"\n  > Простое описание №{SimpleDescIndexer}\n";
-                                    ChangedSimpleDescs += UILanguageLoader.LangUnsavedChangesInfo.EGOGifts.SimpleDesc.Extern(SimpleDescIndexer);
+                                    ChangedSimpleDescs += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.EGOGifts.SimpleDesc.Extern(SimpleDescIndexer);
                                 }
 
                                 SimpleDescIndexer++;
@@ -1599,11 +1519,11 @@ public partial class MainWindow : Window
                         if (ChangedDesc | !ChangedSimpleDescs.Equals(""))
                         {
                             //UnsavedChangesInfo += $"\n<b>ID</b> <color=#f8c200>{CheckEGOGift.Key}</color> 「<color=#afbff9>{CheckEGOGift.Value.Name}</color>」";
-                            UnsavedChangesInfo += UILanguageLoader.LangUnsavedChangesInfo.EGOGifts.IDHeader.Exform(CheckEGOGift.Key, CheckEGOGift.Value.Name);
+                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.EGOGifts.IDHeader.Exform(CheckEGOGift.Key, CheckEGOGift.Value.Name);
                             if (ChangedDesc)
                             {
                                 //UnsavedChangesInfo += "\n  > Описание";
-                                UnsavedChangesInfo += UILanguageLoader.LangUnsavedChangesInfo.EGOGifts.MainDesc;
+                                UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.EGOGifts.MainDesc;
                             }
                             if (!ChangedSimpleDescs.Equals(""))
                             {
@@ -1616,7 +1536,7 @@ public partial class MainWindow : Window
         }
         if (!UnsavedChangesInfo.Equals(""))
         {
-            DTE_UnsavedChangesInfo.SetRichText(UnsavedChangesInfo.Trim());
+            DTE_UnsavedChangesInfo.RichText = UnsavedChangesInfo.Trim();
             BackgroundCover_UnsavedChanges.Visibility = Visible;
             if (SelectFileOnEnd) SelectFileInstead = true;
         }
@@ -1626,10 +1546,10 @@ public partial class MainWindow : Window
             if (SelectFileOnEnd) Actions_FILE_SelectFile_Acutal();
         }
     }
-    internal protected bool SelectFileInstead = false;
+    public bool SelectFileInstead = false;
 
     private bool CanDragMove = true;
-    private void Window_DragMove(object sender, MouseButtonEventArgs e)
+    private void Window_DragMove(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         if (CanDragMove)
         {
@@ -1662,12 +1582,12 @@ public partial class MainWindow : Window
             }
         }
     }
-    private void Minimize(object sender, MouseButtonEventArgs e) => WindowState = WindowState.Minimized;
-    private void Shutdown(object sender, MouseButtonEventArgs e)
+    private void Minimize(object RequestSender, MouseButtonEventArgs EventArgs) => WindowState = WindowState.Minimized;
+    private void Shutdown(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         CheckUnsavedChanges(ExitOnEnd: true);
     }
-    private void UnsavedChangesDialog_ConfirmProceed(object sender, MouseButtonEventArgs e)
+    private void UnsavedChangesDialog_ConfirmProceed(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         if (SelectFileInstead)
         {
@@ -1678,84 +1598,79 @@ public partial class MainWindow : Window
         else Application.Current.Shutdown();
     }
 
-    private void UnsavedChangesDialog_Cancel(object sender, MouseButtonEventArgs e)
+    private void UnsavedChangesDialog_Cancel(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         BackgroundCover_UnsavedChanges.Visibility = Collapsed;
     }
 
 
 
-    private void ProcessLogicalTree(object current)
+    private void ProcessLogicalTree(object Current)
     {
-        if (current is FrameworkElement)
+        if (Current is FrameworkElement)
         {
-            string ElementName = (current as FrameworkElement).Name;
-            if (ElementName.StartsWithOneOf(["SWBT"]))
+            // Setup line height on all tmproemitters based on type
+
+            string ElementName = (Current as FrameworkElement).Name;
+            if (ElementName.StartsWith("PreviewLayout_") && Current is TMProEmitter LimbusPreviewLayout)
             {
-                SwitchButtons_TextFieldsControl.Add(current);
-            }
-            else if (ElementName.StartsWith("PreviewLayout_") & current is RichTextBox)
-            {
-                PreviewLayoutsList.Add(current as RichTextBox);
+                PreviewLayoutsList.Add(LimbusPreviewLayout);
+                PrimaryRegisteredFontSizes[LimbusPreviewLayout] = LimbusPreviewLayout.FontSize;
 
                 if (ElementName.Equals("PreviewLayout_EGOGifts"))
                 {
-                    (current as RichTextBox).SetValue(Paragraph.LineHeightProperty, 24.9);
+                    LimbusPreviewLayout.LineHeight = 24.9;
                 }
                 else
                 {
-                    (current as RichTextBox).SetValue(Paragraph.LineHeightProperty, 27.0);
+                    LimbusPreviewLayout.LineHeight = 27.0;
                 }
             }
-            else if (ElementName.StartsWith("Special_PreviewLayout_") & current is RichTextBox)
+            else if (ElementName.StartsWith("Special_PreviewLayout_") && Current is TMProEmitter LimbusPreviewLayout2)
             {
-                PreviewLayoutsList.Add(current as RichTextBox);
+                PreviewLayoutsList.Add(LimbusPreviewLayout2);
+                PrimaryRegisteredFontSizes[LimbusPreviewLayout2] = LimbusPreviewLayout2.FontSize;
 
                 if (ElementName.Equals("Special_PreviewLayout_Keywords_BattleKeywords_Desc"))
                 {
-                    (current as RichTextBox).SetValue(Paragraph.LineHeightProperty, 25.0);
+                    LimbusPreviewLayout2.LineHeight = 25.0;
                 }
                 else
                 {
-                    (current as RichTextBox).SetValue(Paragraph.LineHeightProperty, 20.0);
+                    LimbusPreviewLayout2.LineHeight = 20.0;
                 }
             }
-            else if (!ElementName.StartsWith("SeriousScrollViewer") & current is ScrollViewer)
+            else if (!ElementName.StartsWith("SeriousScrollViewer") & Current is ScrollViewer)
             {
                 try
                 {
-                    (current as ScrollViewer).Resources.Add(SystemParameters.VerticalScrollBarWidthKey, 0.0);
+                    (Current as ScrollViewer).Resources.Add(SystemParameters.VerticalScrollBarWidthKey, 0.0);
                 }
                 catch { } // DISABLE SCROLLBAR
             }
-            else if (current is TextBox)
+            else if (Current is TextBox | Current is UITranslation_Mint)
             {
-                FocusableTextBoxes.Add(current as TextBox);
+                FocusableTextBoxes.Add(Current as TextBox);
             }
         }
 
-        if (current is UILocalization_Grocerius Item)
-        {
-            ᐁ_Interface_Localization_Loader.XAMLConvertExport(Item);
-        }
+        DependencyObject DependencyObjectParent = Current as DependencyObject;
 
-        DependencyObject dependencyObject = current as DependencyObject;
-
-        if (dependencyObject != null)
+        if (DependencyObjectParent != null)
         {
-            foreach (object child in LogicalTreeHelper.GetChildren(dependencyObject))
+            foreach (object Child in LogicalTreeHelper.GetChildren(DependencyObjectParent))
             {
-                ProcessLogicalTree(child);
+                ProcessLogicalTree(Child);
             }
         }
     }
 
     // Auto hide shadow text for textfields
-    private void SWBT_TextChanged_Shared(object sender, TextChangedEventArgs e)
+    private void SWBT_TextChanged_Shared(object RequestSender, TextChangedEventArgs EventArgs)
     {
-        TextBox Sender = sender as TextBox;
+        TextBox Sender = RequestSender as TextBox;
         Grid TagetSite = Sender.Parent as Grid;
-        RichTextBox ShadowText = TagetSite.Children[0] as RichTextBox;
+        FrameworkElement ShadowText = TagetSite.Children[0] as FrameworkElement;
 
         ShadowText.Visibility = Sender.Text switch
         {
@@ -1786,46 +1701,24 @@ public partial class MainWindow : Window
     }
 
     #region Mouse and Keyboard shortcuts
-    internal protected static bool IsAnyTextBoxFocused()
+    public static bool IsAnyTextBoxFocused()
     {
         if (FocusableTextBoxes.Where(textbox => textbox.IsFocused == true).Any()) return true;
         else return false;
     }
-    internal protected static void UnfocusAllTextBoxes()
+    public static void UnfocusAllTextBoxes()
     {
         IEnumerable<TextBox> FocusedTextBoxes = FocusableTextBoxes.Where(textbox => textbox.IsFocused == true);
-
+        UnfocusElement(MainControl.Editor.TextArea);
         if (FocusedTextBoxes.Any())
         {
-            foreach (TextBox FocusedTextBox in FocusedTextBoxes) UnfocusTextBox(FocusedTextBox);
+            foreach (TextBox FocusedTextBox in FocusedTextBoxes) UnfocusElement(FocusedTextBox);
         }
     }
 
-
-    internal protected static bool IsQuotesConvertedInClipboard = false;
-    internal protected static string QuotesClipboardOldText = "";
-    internal protected static bool IsCtrlSPressed = false;
-    private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+    private static bool IsCtrlSPressed = false;
+    private void Window_PreviewKeyDown(object RequestSender, KeyEventArgs EventArgs)
     {
-        // Automatically remove backslash from quotes when insert
-        if (Keyboard.IsKeyDown(Key.LeftCtrl) & Keyboard.IsKeyDown(Key.V) & Editor.IsFocused)
-        {
-            string ClipboardText = Clipboard.GetText();
-
-            //rin($"\n\n\nInput: {ClipboardText}");
-
-            if (ClipboardText.Contains(@"\""") | ClipboardText.Contains(@"\n"))
-            {
-                QuotesClipboardOldText = ClipboardText;
-                string Replaced = ClipboardText.Replace(@"\""", @"""").Replace(@"\n", "\n");
-                rin($"Replace: {Replaced}");
-                Clipboard.SetText(Replaced);
-                IsQuotesConvertedInClipboard = true;
-            }
-
-            // ... -> Editor_TextChanged()
-        }
-
         if (Keyboard.IsKeyDown(Key.LeftCtrl) & Keyboard.IsKeyDown(Key.P))
         {
             if (MakeLimbusPreviewScan.IsHitTestVisible) SavePreviewlayoutScan();
@@ -1848,11 +1741,11 @@ public partial class MainWindow : Window
         #region Files saving
         if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
         {
-            if (e.Key == Key.S && !IsCtrlSPressed)
+            if (EventArgs.Key == Key.S && !IsCtrlSPressed)
             {
                 IsCtrlSPressed = true;
 
-                if (PreviewUpdate_TargetSite != null)
+                if (PreviewUpdate_TargetSite != PreviewLayoutDef_Default)
                 {
                     switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
                     {
@@ -1862,7 +1755,10 @@ public partial class MainWindow : Window
                             {
                                 DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Description = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].EditorDescription;
 
-                                UILanguage["Right Menu — Skill Desc"].SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Desc"]);
+                               // UILanguage["Right Menu — Skill Desc"].SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Skill Desc"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill main desc"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill main desc"].Text;
 
                                 Mode_Skills.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
@@ -1876,14 +1772,21 @@ public partial class MainWindow : Window
 
                                 if (!FullLinkSkill.Where(x => !x.Description.Equals(x.EditorDescription)).Any())
                                 {
-                                    (MainControl.FindName($"STE_Skills_Coin_{Mode_Skills.CurrentSkillCoinIndex + 1}") as RichTextBox)
-                                        .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]);
+                                    //(MainControl.FindName($"STE_Skills_Coin_{Mode_Skills.CurrentSkillCoinIndex + 1}") as UITranslator)
+                                    //    .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]);
+
+                                    ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]
+                                        .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"].Text;
                                 }
 
-                                if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
-                                {
-                                    MainControl.STE_Skills_Coin_DescNumberDisplay.SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"].Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1));
-                                }
+                                //if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
+                                //{
+                                //    MainControl.STE_Skills_Coin_DescNumberDisplay.SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"].Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1));
+                                //}
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text
+                                        .Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1);
 
                                 Mode_Skills.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
@@ -1901,8 +1804,11 @@ public partial class MainWindow : Window
                             {
                                 FullLinkPassive.Description = FullLinkPassive.EditorDescription;
 
-                                MainControl.STE_Passives_MainDescription
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Desc"]);
+                                //MainControl.STE_Passives_MainDescription
+                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Desc"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive desc"].Text;
 
                                 Mode_Passives.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
@@ -1910,8 +1816,11 @@ public partial class MainWindow : Window
                             {
                                 FullLinkPassive.SummaryDescription = FullLinkPassive.EditorSummaryDescription;
 
-                                STE_Passives_SummaryDescription
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
+                                //STE_Passives_SummaryDescription
+                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text;
 
                                 Mode_Passives.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
@@ -1928,8 +1837,12 @@ public partial class MainWindow : Window
                             {
                                 FullLinkKeyword.Description = FullLinkKeyword.EditorDescription;
 
-                                MainControl.STE_Keyword_MainDescription
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]);
+                                //MainControl.STE_Keyword_MainDescription
+                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Desc"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword desc"].Text;
+
 
                                 Mode_Keywords.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
@@ -1937,8 +1850,11 @@ public partial class MainWindow : Window
                             {
                                 FullLinkKeyword.SummaryDescription = FullLinkKeyword.EditorSummaryDescription;
 
-                                STE_Keyword_SummaryDescription
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
+                                //STE_Keyword_SummaryDescription
+                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text;
 
                                 Mode_Keywords.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
@@ -1955,8 +1871,11 @@ public partial class MainWindow : Window
                             {
                                 FullLinkEGOGift.Description = FullLinkEGOGift.EditorDescription;
 
-                                MainControl.STE_EGOGift_MainDescription
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — E.G.O Gift Desc"]);
+                                //MainControl.STE_EGOGift_MainDescription
+                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — E.G.O Gift Desc"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].Text;
 
                                 Mode_EGOGifts.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
                             }
@@ -1968,8 +1887,11 @@ public partial class MainWindow : Window
 
                                 FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].Description = FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
 
-                                (MainControl.FindName($"STE_EGOGift_SimpleDescription{SimpleDescNumber}") as RichTextBox)
-                                    .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {SimpleDescNumber}"]);
+                                //(MainControl.FindName($"STE_EGOGift_SimpleDescription{SimpleDescNumber}") as UITranslator)
+                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {SimpleDescNumber}"]);
+
+                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"]
+                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].Text;
 
 
                                 Mode_EGOGifts.DeserializedInfo.SerializeFormatted(CurrentFile.FullName);
@@ -1982,18 +1904,18 @@ public partial class MainWindow : Window
         }
         #endregion
 
-        else if (e.Key == Key.Left | e.Key == Key.Right)
+        else if (EventArgs.Key == Key.Left | EventArgs.Key == Key.Right)
         {
-            if (e.Key == Key.Right)
+            if (EventArgs.Key == Key.Right)
             {
-                if (!IsAnyTextBoxFocused()) NavigationPanel_IDSwitch(NavigationPanel_IDSwitch_Next, null);
+                if (!IsAnyTextBoxFocused() & !Editor.TextArea.IsFocused) NavigationPanel_IDSwitch(NavigationPanel_IDSwitch_Next, null);
             }
-            else if (e.Key == Key.Left)
+            else if (EventArgs.Key == Key.Left)
             {
-                if (!IsAnyTextBoxFocused()) NavigationPanel_IDSwitch(NavigationPanel_IDSwitch_Previous, null);
+                if (!IsAnyTextBoxFocused() & !Editor.TextArea.IsFocused) NavigationPanel_IDSwitch(NavigationPanel_IDSwitch_Previous, null);
             }
         }
-        else if (e.Key == Key.Escape)
+        else if (EventArgs.Key == Key.Escape)
         {
             if (NavigationPanel_IDSwitch_ManualInput_Textfield.IsFocused)
             {
@@ -2003,7 +1925,7 @@ public partial class MainWindow : Window
         }
 
         #region Manual ID Switch
-        else if (e.Key == Key.Enter)
+        else if (EventArgs.Key == Key.Enter)
         {
             if (NavigationPanel_IDSwitch_ManualInput_Textfield.IsFocused)
             {
@@ -2080,7 +2002,7 @@ public partial class MainWindow : Window
         #endregion
     }
 
-    private void MakeLimbusPreviewScan_Do(object sender, MouseButtonEventArgs e)
+    private void MakeLimbusPreviewScan_Do(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         SurfaceScrollPreview_Skills.ReconnectAsChildTo(SkillsPreviewFreeBordersCanvas);
         if (Configurazione.DeltaConfig.ScanParameters.AreaWidth == 0)
@@ -2100,14 +2022,14 @@ public partial class MainWindow : Window
         PreviewLayoutGrid_Skills_ContentControlStackPanel.Width = Mode_Skills.LastRegisteredWidth;
     }
 
-    private void Window_PreviewKeyUp(object sender, KeyEventArgs e)
+    private void Window_PreviewKeyUp(object RequestSender, KeyEventArgs EventArgs)
     {
-        if (e.Key == Key.S) IsCtrlSPressed = false;
+        if (EventArgs.Key == Key.S) IsCtrlSPressed = false;
     }
 
-    private new async void MouseDownEvent(object sender, MouseButtonEventArgs e)
+    private new async void MouseDownEvent(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        switch (e.ChangedButton)
+        switch (EventArgs.ChangedButton)
         {
             case MouseButton.XButton1: //Back
                 PreviewLayout_Keywords_Bufs_Name.Focusable = false;
@@ -2183,28 +2105,28 @@ public partial class MainWindow : Window
     }
     #endregion
 
-    internal protected static void UnfocusTextBox(TextBox Target)
+    public static void UnfocusElement(DependencyObject Target)
     {
         FocusManager.SetFocusedElement(FocusManager.GetFocusScope(Target), null);
         Keyboard.ClearFocus();
         MainControl.Focus();
     }
 
-    internal protected static void LockEditorUndo()
+    public static void LockEditorUndo()
     {
-        MainControl.Editor.IsUndoEnabled = false;
-        MainControl.Editor.IsUndoEnabled = true;
+        //MainControl.Editor.Document = new(MainControl.Editor.Text);
+        MainControl.Editor.Document.UndoStack.ClearAll();
     }
     #endregion
 
 
 
     #region Editor context Menu
-    private void Actions_ContextMenu_Shared(object sender, RoutedEventArgs e)
+    private void Actions_ContextMenu_Shared(object RequestSender, RoutedEventArgs EventArgs)
     {
         string Editor_SelectedTextTemplate = Editor.SelectedText;
         
-        switch ((sender as MenuItem).Name.Split("ContextMenuItem_")[^1])
+        switch ((RequestSender as MenuItem).Name.Split("ContextMenuItem_")[^1])
         {
             case "InsertStyle":
                 Editor_SelectedTextTemplate = $"<style=\"{(Mode_Handlers.Upstairs.ActiveProperties.Key.Equals("Skills") ? "highlight" : "upgradeHighlight")}\">{Editor_SelectedTextTemplate}</style>";
@@ -2272,7 +2194,7 @@ public partial class MainWindow : Window
                 break;
 
             case "KeywordLinksToShorthand":
-                Editor_SelectedTextTemplate = LimbusPreviewFormatter.RemoteRegexPatterns.KeywordLink.Replace(Editor_SelectedTextTemplate, Match =>
+                Editor_SelectedTextTemplate = LimbusPreviewFormatter.RemoteRegexPatterns.SquareBracketLike.Replace(Editor_SelectedTextTemplate, Match =>
                 {
                     string ID = Match.Groups["ID"].Value;
                     if (KeywordsInterrogate.KeywordsGlossary.ContainsKey(ID))
@@ -2287,7 +2209,7 @@ public partial class MainWindow : Window
                 break;
 
             case "KeywordLinksToTMPro":
-                Editor_SelectedTextTemplate = LimbusPreviewFormatter.RemoteRegexPatterns.KeywordLink.Replace(Editor_SelectedTextTemplate, Match =>
+                Editor_SelectedTextTemplate = LimbusPreviewFormatter.RemoteRegexPatterns.SquareBracketLike.Replace(Editor_SelectedTextTemplate, Match =>
                 {
                     string ID = Match.Groups["ID"].Value;
                     if (KeywordsInterrogate.KeywordsGlossary.ContainsKey(ID))
@@ -2307,7 +2229,7 @@ public partial class MainWindow : Window
 
     #endregion
 
-    private void Window_Loaded(object sender, RoutedEventArgs e)
+    private void Window_Loaded(object RequestSender, RoutedEventArgs EventArgs)
     {
         if (!Configurazione.LoadErrors.Equals("") & Configurazione.DeltaConfig.Internal.ShowLoadWarnings)
         {
@@ -2329,20 +2251,20 @@ public partial class MainWindow : Window
         }
     }
 
-    private void ReloadConfig(object sender, MouseButtonEventArgs e) => ReloadConfig_Direct();
+    private void ReloadConfig(object RequestSender, MouseButtonEventArgs EventArgs) => ReloadConfig_Direct();
 
-    internal protected static void ReloadConfig_Direct()
+    public static void ReloadConfig_Direct()
     {
         Configurazione.PullLoad();
     }
     
-    async private void OpenSettings(object sender, MouseButtonEventArgs e)
+    async private void OpenSettings(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        if (!SettingsControl.IsActive)
+        if (!SettingsWindow.SettingsControl.IsActive)
         {
             await Task.Delay(50);
-            SettingsControl.Show();
-            SettingsControl.Focus();
+            SettingsWindow.SettingsControl.Show();
+            SettingsWindow.SettingsControl.Focus();
         }
     }
 
@@ -2373,7 +2295,7 @@ public partial class MainWindow : Window
                     CurrentTarget = SurfaceScrollPreview_Skills;
                     NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
                                $"ID {Mode_Skills.CurrentSkillID}" +
-                               (CurrentFile.Name.ToLower().Contains("personality") ? $", Uptie {Mode_Skills.CurrentSkillUptieLevel}" : "");
+                               (CurrentFile.Name.Contains("personality", comparisonType: StringComparison.OrdinalIgnoreCase) ? $", Uptie {Mode_Skills.CurrentSkillUptieLevel}" : "");
                     break;
 
                 case "Passives":
@@ -2403,9 +2325,9 @@ public partial class MainWindow : Window
 
                 default: break;
             }
-            if (!Directory.Exists(@"⇲ Assets Directory\[⇲] Scans"))
+            if (!Directory.Exists(@"[⇲] Assets Directory\[⇲] Scans"))
             {
-                Directory.CreateDirectory(@"⇲ Assets Directory\[⇲] Scans");
+                Directory.CreateDirectory(@"[⇲] Assets Directory\[⇲] Scans");
             }
         }
 
@@ -2444,66 +2366,12 @@ public partial class MainWindow : Window
 
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     /// <summary>
     /// THERE ARE LINKS CODELENS STOP LYING
     /// </summary>
-    private void IdentityPreviewCreator_ToggleSectionVisibilityMaster(object sender, MouseButtonEventArgs e)
+    private void IdentityPreviewCreator_ToggleSectionVisibilityMaster(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        Grid Target = ((sender as UILocalization_Grocerius).Parent as StackPanel).Children[1] as Grid;
-
+        Grid Target = ((RequestSender as UITranslation_Rose).Parent as StackPanel).Children[1] as Grid;
         Target.Visibility = Target.Visibility == Visible ? Collapsed : Visible;
     }
 
@@ -2512,13 +2380,13 @@ public partial class MainWindow : Window
 
     private static Random random = new Random();
 
-    public static string RandomString(int length)
+    private static string RandomString(int length)
     {
         return new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", length)
             .Select(s => s[random.Next(s.Length)]).ToArray());
     }
 
-    private protected List<string> DefinedUIDsForColumnItems = new List<string>();
+    private List<string> DefinedUIDsForColumnItems = new List<string>();
     private ItemRepresenter CreatePlaceholder(string NewItemType, string ManualUID = "", AddedTextItems_Single ManualInfoInsert = null)
     {
         string UID = ManualUID;
@@ -2573,11 +2441,11 @@ public partial class MainWindow : Window
             },
         };
 
-        InterfaceTranslationParameter MenuItem_Title   = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Title;
-        InterfaceTranslationParameter MenuItem_Up      = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_MoveUp;
-        InterfaceTranslationParameter MenuItem_Down    = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_MoveDown;
-        InterfaceTranslationParameter MenuItem_Remove  = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Remove;
-        InterfaceTranslationParameter MenuItem_Refresh = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Refresh;
+        var MenuItem_Title   = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Title;
+        var MenuItem_Up      = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_MoveUp;
+        var MenuItem_Down    = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_MoveDown;
+        var MenuItem_Remove  = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Remove;
+        var MenuItem_Refresh = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Refresh;
 
         ColumnItemAdd.ContextMenu = new ContextMenu()
         {
@@ -2585,9 +2453,9 @@ public partial class MainWindow : Window
             {
                 new MenuItem() // 0
                 {
-                    Header = new UILocalization_Grocerius()
+                    Header = new UITranslation_Rose()
                     {
-                        Text = MenuItem_Title.Text.Extern(UID),
+                        RichText = MenuItem_Title.Text.Extern(UID),
                         FontSize = (double)MenuItem_Title.Font_Size,
                         Width =  (double)MenuItem_Title.Width,
                         Margin = (Thickness)MenuItem_Title.Margin_Loaded,
@@ -2599,11 +2467,11 @@ public partial class MainWindow : Window
                 new Separator() { Margin = new Thickness(-30, 2, 0, 2) }, // 1
                 new MenuItem() // 2
                 {
-                    Header = new UILocalization_Grocerius()
+                    Header = new UITranslation_Rose()
                     {
                         SpecProperty_ContextMenuParent = ColumnItemAdd, // ContextMenu parent link because i somehow cant access it through MenuItem.parent.parent.parent
                         
-                        Text = MenuItem_Up.Text.Extern(UID),
+                        RichText = MenuItem_Up.Text.Extern(UID),
                         FontSize = (double)MenuItem_Up.Font_Size,
                         Width =  (double)MenuItem_Up.Width,
                         Margin = (Thickness)MenuItem_Up.Margin_Loaded,
@@ -2613,11 +2481,11 @@ public partial class MainWindow : Window
                 },
                 new MenuItem() // 3
                 {
-                    Header = new UILocalization_Grocerius()
+                    Header = new UITranslation_Rose()
                     {
                         SpecProperty_ContextMenuParent = ColumnItemAdd,
-                        
-                        Text = MenuItem_Refresh.Text.Extern(UID),
+
+                        RichText = MenuItem_Refresh.Text.Extern(UID),
                         FontSize = (double)MenuItem_Refresh.Font_Size,
                         Width =  (double)MenuItem_Refresh.Width,
                         Margin = (Thickness)MenuItem_Refresh.Margin_Loaded,
@@ -2627,11 +2495,11 @@ public partial class MainWindow : Window
                 },
                 new MenuItem() // 4
                 {
-                    Header = new UILocalization_Grocerius()
+                    Header = new UITranslation_Rose()
                     {
                         SpecProperty_ContextMenuParent = ColumnItemAdd,
                         
-                        Text = MenuItem_Down.Text.Extern(UID),
+                        RichText = MenuItem_Down.Text.Extern(UID),
                         FontSize = (double)MenuItem_Down.Font_Size,
                         Width =  (double)MenuItem_Down.Width,
                         Margin = (Thickness)MenuItem_Down.Margin_Loaded,
@@ -2642,11 +2510,11 @@ public partial class MainWindow : Window
                 new Separator() { Margin = new Thickness(-30, 2, 0, 2) }, // 5
                 new MenuItem() // 6
                 {
-                    Header = new UILocalization_Grocerius()
+                    Header = new UITranslation_Rose()
                     {
                         SpecProperty_ContextMenuParent = ColumnItemAdd,
 
-                        Text = MenuItem_Remove.Text.Extern(UID),
+                        RichText = MenuItem_Remove.Text.Extern(UID),
                         FontSize = (double)MenuItem_Remove.Font_Size,
                         Width =  (double)MenuItem_Remove.Width,
                         Margin = (Thickness)MenuItem_Remove.Margin_Loaded,
@@ -2667,34 +2535,34 @@ public partial class MainWindow : Window
         return ColumnItemAdd;
     }
 
-    private void SetFocusOnColumnElement_Link(object sender, MouseButtonEventArgs e)
+    private void SetFocusOnColumnElement_Link(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         SeriousScrollViewer_0.ScrollToBottom();
-        SetFocusOnColumnItem(sender as ItemRepresenter);
+        SetFocusOnColumnItem(RequestSender as ItemRepresenter);
     }
 
-    private void MoveColumnItemUp(object sender, RoutedEventArgs e)
+    private void MoveColumnItemUp(object RequestSender, RoutedEventArgs EventArgs)
     {
-        MoveColumnItemMaster(sender, "Up");
+        MoveColumnItemMaster(RequestSender, "Up");
     }
 
-    private void MoveColumnItemDown(object sender, RoutedEventArgs e)
+    private void MoveColumnItemDown(object RequestSender, RoutedEventArgs EventArgs)
     {
-        MoveColumnItemMaster(sender, "Down");
+        MoveColumnItemMaster(RequestSender, "Down");
     }
 
-    private void RefreshTextSize(object sender, RoutedEventArgs e)
+    private void RefreshTextSize(object RequestSender, RoutedEventArgs EventArgs)
     {
-        SetFocusOnColumnItem(((sender as MenuItem).Header as UILocalization_Grocerius).SpecProperty_ContextMenuParent as ItemRepresenter);
+        SetFocusOnColumnItem(((RequestSender as MenuItem).Header as UITranslation_Rose).SpecProperty_ContextMenuParent as ItemRepresenter);
 
         CheckKeywordSelectorAndGenerateKeywordDisplayer();
         CheckPassiveSelectorAndGeneratePassiveDisplayer();
         CheckSkillSelectorsAndGenerateSkillDisplayer();
     }
 
-    private protected void MoveColumnItemMaster(object ContextMenuItemSender, string Direction)
+    private void MoveColumnItemMaster(object ContextMenuItemSender, string Direction)
     {
-        ItemRepresenter Target = ((ContextMenuItemSender as MenuItem).Header as UILocalization_Grocerius).SpecProperty_ContextMenuParent as ItemRepresenter;
+        ItemRepresenter Target = ((ContextMenuItemSender as MenuItem).Header as UITranslation_Rose).SpecProperty_ContextMenuParent as ItemRepresenter;
 
         StackPanel TargetColumn = Target.Parent as StackPanel;
 
@@ -2704,9 +2572,9 @@ public partial class MainWindow : Window
         ReEnumerateColumnItemsInProject();
     }
 
-    private async void RemoveColumnItem(object sender, RoutedEventArgs e)
+    private async void RemoveColumnItem(object RequestSender, RoutedEventArgs EventArgs)
     {
-        ItemRepresenter Target = ((sender as MenuItem).Header as UILocalization_Grocerius).SpecProperty_ContextMenuParent as ItemRepresenter;
+        ItemRepresenter Target = ((RequestSender as MenuItem).Header as UITranslation_Rose).SpecProperty_ContextMenuParent as ItemRepresenter;
 
         StackPanel TargetColumn = Target.Parent as StackPanel;
 
@@ -2742,22 +2610,22 @@ public partial class MainWindow : Window
 
 
 
-    private protected StackPanel GetTargetColumn(object Sender)
+    private StackPanel GetTargetColumn(object Sender)
     {
         return ((((Sender as ComboBoxItem).Parent as ComboBox).Parent as Grid).Parent as StackPanel).Children[0] as StackPanel;
     }
 
-    private void IdentityPreviewCreator_AddSkillToColumn(object sender, MouseButtonEventArgs e)
+    private void IdentityPreviewCreator_AddSkillToColumn(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(sender), "Skill");
+        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(RequestSender), "Skill");
     }
-    private void IdentityPreviewCreator_AddPassiveToColumn(object sender, MouseButtonEventArgs e)
+    private void IdentityPreviewCreator_AddPassiveToColumn(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(sender), "Passive");
+        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(RequestSender), "Passive");
     }
-    private void IdentityPreviewCreator_AddKeywordToColumn(object sender, MouseButtonEventArgs e)
+    private void IdentityPreviewCreator_AddKeywordToColumn(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(sender), "Keyword");
+        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(RequestSender), "Keyword");
     }
 
 
@@ -2767,7 +2635,7 @@ public partial class MainWindow : Window
 
 
 
-    private protected void IdentityPreviewCreator_AddItemToColumnFromUIMaster(StackPanel TargetColumn, string Type)
+    private void IdentityPreviewCreator_AddItemToColumnFromUIMaster(StackPanel TargetColumn, string Type)
     {
         ItemRepresenter CreatedColumnItem = CreatePlaceholder(Type);
         CreatedColumnItem.ColumnNumber = TargetColumn.Uid;
@@ -2778,8 +2646,8 @@ public partial class MainWindow : Window
         SetFocusOnColumnItem(CreatedColumnItem);
     }
 
-    internal static ItemRepresenter FocusedColumnItem = null;
-    private protected void SetFocusOnColumnItem(ItemRepresenter Target, bool UpdateSelectorsAndSliders = true)
+    public static ItemRepresenter FocusedColumnItem = null;
+    private void SetFocusOnColumnItem(ItemRepresenter Target, bool UpdateSelectorsAndSliders = true)
     {
         MakeAvailable(ItemEditor_ParentGrid); // Unlock from startup state
 
@@ -2804,7 +2672,7 @@ public partial class MainWindow : Window
 
         SelectedItemSignature.Text = FocusedColumnItem.ItemInfo.TextItemSignature;
 
-        if (UpdateSelectorsAndSliders) KeywordIconSelectionLabel.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Keyword icon image", "Default");
+        if (UpdateSelectorsAndSliders) KeywordIconSelectionLabel.RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Keyword icon image", "Default");
 
         if (UpdateSelectorsAndSliders)
         {
@@ -2850,7 +2718,7 @@ public partial class MainWindow : Window
 
                     if (File.Exists(FocusedColumnItem.ItemInfo.KeywordIconImage))
                     {
-                        KeywordIconSelectionLabel.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Keyword icon image", "Selected").Extern(FocusedColumnItem.ItemInfo.KeywordIconImage.GetName());
+                        KeywordIconSelectionLabel.RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Keyword icon image", "Selected").Extern(FocusedColumnItem.ItemInfo.KeywordIconImage.GetName());
                     }
                 }
 
@@ -2865,11 +2733,11 @@ public partial class MainWindow : Window
 
         if (UpdateSelectorsAndSliders) ChangeSliderValuesOnFocus();
 
-        IdentityPreviewCreator_EditingItemHeader.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Editing item header").Extern(FocusedColumnItem.Uid);
+        IdentityPreviewCreator_EditingItemHeader.RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Editing item header").Extern(FocusedColumnItem.Uid);
 
         ColumnItemFocusingEvent = false;
     }
-    private protected void ChangeSliderValuesOnFocus()
+    private void ChangeSliderValuesOnFocus()
     {
         ColumnItemVerticalOffsetControllder.Value = FocusedColumnItem.ItemInfo.VerticalOffset;
         ColumnItemHorizontalOffsetControllder.Value = FocusedColumnItem.ItemInfo.HorizontalOffset;
@@ -2890,8 +2758,7 @@ public partial class MainWindow : Window
 
 
 
-    // LOAD EVERYTHING
-    private void IdentityPreviewCreator_LoadProjectFile(object sender, MouseButtonEventArgs e)
+    private void IdentityPreviewCreator_LoadProjectFile(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         OpenFileDialog ProjectSelectorDialog = NewOpenFileDialog("Saved project file", ["json"]);
 
@@ -2900,182 +2767,189 @@ public partial class MainWindow : Window
             FileInfo Target = LoadedProjectFile = new FileInfo(ProjectSelectorDialog.FileName);
             CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject LoadedProject = Target.Deserealize<CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject>(Context: Target.Directory.FullName.Replace("\\", "/"));
 
-            if (LoadedProject.ActualProject != null)
+            IdentityPreviewCreator_LoadBlankProject();
+            IdentityPreviewCreator_LoadProjectRecord(LoadedProject);
+        }
+    }
+
+    private bool CanSelectDecorativeCautions = true;
+    private void IdentityPreviewCreator_LoadProjectRecord(CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject LoadedProject)
+    {
+        if (LoadedProject.ActualProject != null)
+        {
+            CustomIdentityPreviewCreator.ProjectFile.LoadedProject = LoadedProject;
+
+            #region Image parameters
             {
-                IdentityPreviewCreator_CreateNewProject();
+                var @ImageParameters = LoadedProject.ImageParameters;
 
-                CustomIdentityPreviewCreator.ProjectFile.LoadedProject = LoadedProject;
+                IdentityPreviewCreator_WidthController_FirstStep.Value = ImageParameters.WidthAdjustment_FirstStep;
+                IdentityPreviewCreator_WidthController_SecondStep.Value = ImageParameters.WidthAdjustment_SecondStep;
 
-                #region Image parameters
+                IdentityPreviewHeight_IsAuto.IsChecked = ImageParameters.HeightAdjustment_IsAuto;
+                if (!ImageParameters.HeightAdjustment_IsAuto)
                 {
-                    var @ImageParameters = LoadedProject.ImageParameters;
+                    IdentityPreviewCreator_HeightController.Value = ImageParameters.HeightAdjustment;
+                }
 
-                    IdentityPreviewCreator_WidthController_FirstStep.Value = ImageParameters.WidthAdjustment_FirstStep;
-                    IdentityPreviewCreator_WidthController_SecondStep.Value = ImageParameters.WidthAdjustment_SecondStep;
+                if (File.Exists(ImageParameters.PortraitImage)) SelectIdentityOrEGOPortrait_Action(ImageParameters.PortraitImage);
+                else IdentityPreviewCreator_IdentityPortrait.Source = new BitmapImage();
 
-                    IdentityPreviewHeight_IsAuto.IsChecked = ImageParameters.HeightAdjustment_IsAuto;
-                    if (!ImageParameters.HeightAdjustment_IsAuto)
+                IdentityPreviewCreator_AllocatedWidthForPortraitController.Value = ImageParameters.AllocatedWidthForPortrait;
+
+                if (ImageParameters.Type.Equals("E.G.O"))
+                {
+                    PortraitTypeSelector.SelectedIndex = 1;
+                }
+                else
+                {
+                    PortraitTypeSelector.SelectedIndex = 0;
+                }
+
+                ImageTypeText_TextEntry.Text = ImageParameters.ImageTypeSign;
+                if (File.Exists(ImageParameters.ImageTypeSign_AnotherFont)) SelectImageTypeSignFont_Action(ImageParameters.ImageTypeSign_AnotherFont);
+
+                IdentityPreviewCreator_IdentityPortraitScaleController.Value = ImageParameters.IdentityPortraitScale;
+                IdentityPreviewCreator_IdentityPortraitHorizontalOffsetController.Value = ImageParameters.PortraitHorizontalOffset;
+                IdentityPreviewCreator_IdentityPortraitVerticalOffsetController.Value = ImageParameters.PortraitVerticalOffset;
+
+                IdentityPreviewCreator_IdentityHeader_ParentGridMarginController.Value = ImageParameters.HeaderOffset;
+                IdentityPreviewCreator_IdentityHeader_IdentityOrEGONameOffsetController.Value = ImageParameters.IdentityOrEGONameOffset;
+                IdentityPreviewCreator_IdentityHeader_SinnerNameOffsetController.Value = ImageParameters.SinnerNameOffset;
+                IdentityPreviewCreator_IdentityHeader_IdentityRarityHorizontalOffsetController.Value = ImageParameters.RarityOrEGORiskLevelHorizontalOffset;
+                IdentityPreviewCreator_IdentityHeader_IdentityRarityVerticalOffsetController.Value = ImageParameters.RarityOrEGORiskLevelVerticalOffset;
+
+                IdentityPreviewCreator_TextBackgroundFadeoutSoftnessController.Value = ImageParameters.TextBackgroundFadeoutSoftness;
+                IdentityPreviewCreator_VignetteSoftnessController.Value = ImageParameters.VignetteStrength;
+                IdentityPreviewCreator_TopVignetteOffsetController.Value = ImageParameters.TopVignetteOffset;
+                IdentityPreviewCreator_LeftVignetteOffsetController.Value = ImageParameters.LeftVignetteOffset;
+                IdentityPreviewCreator_BottomVignetteOffsetController.Value = ImageParameters.BottomVignetteOffset;
+            }
+            #endregion
+            #region Specific of the sinner and Identity/E.G.O
+            {
+                var @Specific = LoadedProject.Specific;
+
+                string StoredSinnerName = Specific.SinnerName; // Changing icon also changes default sinner name
+                string StoredAmbienceColor = Specific.AmbienceColor; // Same
+                if (Specific.SinnerIcon != null)
+                {
+                    if (File.Exists(Specific.SinnerIcon))
                     {
-                        IdentityPreviewCreator_HeightController.Value = ImageParameters.HeightAdjustment;
-                    }
-                
-                    if (File.Exists(ImageParameters.PortraitImage)) SelectIdentityOrEGOPortrait_Action(ImageParameters.PortraitImage);
-
-                    IdentityPreviewCreator_AllocatedWidthForPortraitController.Value = ImageParameters.AllocatedWidthForPortrait;
-
-                    if (ImageParameters.Type.Equals("E.G.O"))
-                    {
-                        PortraitTypeSelector.SelectedIndex = 1;
+                        // Custom
+                        SelectCustomSinnerIcon_Action(Specific.SinnerIcon);
                     }
                     else
                     {
-                        PortraitTypeSelector.SelectedIndex = 0;
-                    }
-
-                    ImageTypeText_TextEntry.Text = ImageParameters.ImageTypeSign;
-                    if (File.Exists(ImageParameters.ImageTypeSign_AnotherFont)) SelectImageTypeSignFont_Action(ImageParameters.ImageTypeSign_AnotherFont);
-
-                    IdentityPreviewCreator_IdentityPortraitScaleController.Value = ImageParameters.IdentityPortraitScale;
-                    IdentityPreviewCreator_IdentityPortraitHorizontalOffsetController.Value = ImageParameters.PortraitHorizontalOffset;
-                    IdentityPreviewCreator_IdentityPortraitVerticalOffsetController.Value = ImageParameters.PortraitVerticalOffset;
-
-                    IdentityPreviewCreator_IdentityHeader_ParentGridMarginController.Value = ImageParameters.HeaderOffset;
-                    IdentityPreviewCreator_IdentityHeader_IdentityOrEGONameOffsetController.Value = ImageParameters.IdentityOrEGONameOffset;
-                    IdentityPreviewCreator_IdentityHeader_SinnerNameOffsetController.Value = ImageParameters.SinnerNameOffset;
-                    IdentityPreviewCreator_IdentityHeader_IdentityRarityHorizontalOffsetController.Value = ImageParameters.RarityOrEGORiskLevelHorizontalOffset;
-                    IdentityPreviewCreator_IdentityHeader_IdentityRarityVerticalOffsetController.Value = ImageParameters.RarityOrEGORiskLevelVerticalOffset;
-
-                    IdentityPreviewCreator_TextBackgroundFadeoutSoftnessController.Value = ImageParameters.TextBackgroundFadeoutSoftness;
-                    IdentityPreviewCreator_VignetteSoftnessController.Value = ImageParameters.VignetteStrength;
-                    IdentityPreviewCreator_TopVignetteOffsetController.Value = ImageParameters.TopVignetteOffset;
-                    IdentityPreviewCreator_LeftVignetteOffsetController.Value = ImageParameters.LeftVignetteOffset;
-                    IdentityPreviewCreator_BottomVignetteOffsetController.Value = ImageParameters.BottomVignetteOffset;
-                }
-                #endregion
-
-                #region Specific of the sinner and Identity/E.G.O
-                {
-                    var @Specific = LoadedProject.Specific;
-
-                    string StoredSinnerName = Specific.SinnerName; // Changing icon also changes default sinner name
-                    string StoredAmbienceColor = Specific.AmbienceColor; // Same
-
-                    if (Specific.SinnerIcon != null)
-                    {
-                        if (File.Exists(Specific.SinnerIcon))
+                        CanSelectDecorativeCautions = false;
+                        IdentityPreviewCreator_SinnerIconSelector.SelectedIndex = Specific.SinnerIcon switch
                         {
-                            // Custom
-                            SelectCustomSinnerIcon_Action(Specific.SinnerIcon);
-                        }
-                        else
-                        {
-                            IdentityPreviewCreator_SinnerIconSelector.SelectedIndex = Specific.SinnerIcon switch
-                            {
-                                "Yi Sang"     => 0,
-                                "Faust"       => 1,
-                                "Don Quixote" => 2,
-                                "Ryōshū"      => 3,
-                                "Meursault"   => 4,
-                                "Hong Lu"     => 5,
-                                "Heathcliff"  => 6,
-                                "Ishmael"     => 7,
-                                "Rodion"      => 8,
-                                "Sinclair"    => 9,
-                                "Outis"       => 10,
-                                "Gregor"      => 11,
-                                _             => 0
-                            };
-                        }
-                    }
-
-                    IdentityPreviewCreator_SinnerIconBrightnessController.Value = Specific.IconBrightness;
-                    IdentityPreviewCreator_SinnerIconSizeController.Value = Specific.IconSize;
-
-                    IdentityPreviewCreator_TextEntries_ElementsColor.Text = StoredAmbienceColor;
-                    if (StoredSinnerName != null) IdentityPreviewCreator_TextEntries_SinnerName.Text = StoredSinnerName;
-                    if (Specific.IdentityOrEGOName != null) IdentityPreviewCreator_TextEntries_IdentityOrEGOName.Text = Specific.IdentityOrEGOName;
-
-                    CanOverwriteProjectCautionsType = false;
-                    IdentityPreviewCreator_TextEntries_ElementsColor.Text = Specific.AmbienceColor;
-                    CanOverwriteProjectCautionsType = true;
-
-                    if (Specific.RarityOrEGORiskLevel != null)
-                    {
-                        IdentityPreviewCreator_IdentityHeader_RarityOrEGORiskLevelSelector.SelectedIndex = Specific.RarityOrEGORiskLevel switch
-                        {
-                            "000" => 0,
-                            "00"  => 1,
-                            "0"   => 2,
-
-                            "ZAYIN" => 3,
-                            "HE"    => 4,
-                            "TETH"  => 5,
-                            "WAW"   => 6,
-                            "ALEPH" => 7,
-
-                            _ => -1
+                            "Yi Sang" => 0,
+                            "Faust" => 1,
+                            "Don Quixote" => 2,
+                            "Ryōshū" => 3,
+                            "Meursault" => 4,
+                            "Hong Lu" => 5,
+                            "Heathcliff" => 6,
+                            "Ishmael" => 7,
+                            "Rodion" => 8,
+                            "Sinclair" => 9,
+                            "Outis" => 10,
+                            "Gregor" => 11,
+                            _ => 0
                         };
+                        CanSelectDecorativeCautions = true;
                     }
                 }
-                #endregion
+                
 
-                #region Decorative cautions
+                IdentityPreviewCreator_SinnerIconBrightnessController.Value = Specific.IconBrightness;
+                IdentityPreviewCreator_SinnerIconSizeController.Value = Specific.IconSize;
+
+                IdentityPreviewCreator_TextEntries_ElementsColor.Text = StoredAmbienceColor;
+                if (StoredSinnerName != null) IdentityPreviewCreator_TextEntries_SinnerName.Text = StoredSinnerName;
+                if (Specific.IdentityOrEGOName != null) IdentityPreviewCreator_TextEntries_IdentityOrEGOName.Text = Specific.IdentityOrEGOName;
+
+                CanOverwriteProjectCautionsType = false;
+                IdentityPreviewCreator_TextEntries_ElementsColor.Text = Specific.AmbienceColor;
+                CanOverwriteProjectCautionsType = true;
+
+                if (Specific.RarityOrEGORiskLevel != null)
                 {
-                    var @Cautions = LoadedProject.DecorativeCautions;
-
-                    IdentityPreviewCreator_Cautions_BoomRadiusController.Value = Cautions.CautionBloomRadius;
-                    IdentityPreviewCreator_Cautions_OpacityController.Value = Cautions.CautionOpacity;
-
-                    IdentityPreviewCreator_TextEntries_CustomCautionString.Text = Cautions.CustomText.CustomCautionString;
-                    if (File.Exists(Cautions.CustomText.AnotherFont)) SelectDecorativeCautionsCustomFont_Action(Cautions.CustomText.AnotherFont);
-
-                    CautionsCustomTextVerticalOffsetController.Value = Cautions.CustomText.TextVerticalOffset * 100;
-                    CautionsCustomTextSizeController.Value = Cautions.CustomText.TextSize * 100;
-
-                    IdentityPreviewCreator_CautionTypeSelector.SelectedIndex = Cautions.CautionType switch
+                    IdentityPreviewCreator_IdentityHeader_RarityOrEGORiskLevelSelector.SelectedIndex = Specific.RarityOrEGORiskLevel switch
                     {
-                        "SEASON" => 0,
-                        "CAUTION" => 1,
-                        "None" => 2,
-                        "Custom text" => 3,
+                        "000" => 0,
+                        "00" => 1,
+                        "0" => 2,
+
+                        "ZAYIN" => 3,
+                        "HE" => 4,
+                        "TETH" => 5,
+                        "WAW" => 6,
+                        "ALEPH" => 7,
+
                         _ => -1
                     };
                 }
-                #endregion
-
-                #region Text info
-                {
-                    var @TextInfo = LoadedProject.Text;
-
-                    UnifiedTextSizeController.Value = TextInfo.UnifiedTextSize;
-
-                    IdentityPreviewCreator_TextInfo_FirstColumnOffsetController.Value = TextInfo.FirstColumnOffset;
-                    IdentityPreviewCreator_TextInfo_SecondColumnOffsetController.Value = TextInfo.SecondColumnOffset;
-
-                    FirstColumnItemSignaturesOffsetController.Value = TextInfo.FirstColumnItemSignaturesOffset;
-                    SecondColumnItemSignaturesOffsetController.Value = TextInfo.SecondColumnItemSignaturesOffset;
-                    if (File.Exists(TextInfo.ItemSignaturesAnotherFont)) SelectAnotherItemSignsFont_Action(TextInfo.ItemSignaturesAnotherFont);
-                    
-                    KeywordBoxesWidthController.Value = TextInfo.KeywordBoxesWidth;
-
-                    // Update ID selectors
-                    if (File.Exists(TextInfo.SkillsLocalizationFile)) UpdateSelector__SkillLocalizationIDSelector();
-                    if (File.Exists(TextInfo.SkillsDisplayInfoConstructorFile)) UpdateSelector__SkillsDisplayInfoIDSelector();
-                    if (File.Exists(TextInfo.PassivesLocalizationFile)) UpdateSelector__PassivesLocalizationIDSelector();
-                    if (File.Exists(TextInfo.KeywordsLocalizationFile)) UpdateSelector__KeywordsLocalizationIDSelector();
-
-                    ReconstructColumnItems();
-                }
-                #endregion
             }
+            #endregion
+            
+            #region Decorative cautions
+            {
+                var @Cautions = LoadedProject.DecorativeCautions;
+                IdentityPreviewCreator_Cautions_BoomRadiusController.Value = Cautions.CautionBloomRadius;
+                IdentityPreviewCreator_Cautions_OpacityController.Value = Cautions.CautionOpacity;
+
+                IdentityPreviewCreator_TextEntries_CustomCautionString.Text = Cautions.CustomText.CustomCautionString;
+                if (File.Exists(Cautions.CustomText.AnotherFont)) SelectDecorativeCautionsCustomFont_Action(Cautions.CustomText.AnotherFont);
+
+                CautionsCustomTextVerticalOffsetController.Value = Cautions.CustomText.TextVerticalOffset * 100;
+                CautionsCustomTextSizeController.Value = Cautions.CustomText.TextSize * 100;
+
+                IdentityPreviewCreator_CautionTypeSelector.SelectedIndex = Cautions.CautionType switch
+                {
+                    "SEASON" => 0,
+                    "CAUTION" => 1,
+                    "None" => 2,
+                    "Custom text" => 3,
+                    _ => -1
+                };
+            }
+            #endregion
+
+            #region Text info
+            {
+                var @TextInfo = LoadedProject.Text;
+
+                UnifiedTextSizeController.Value = TextInfo.UnifiedTextSize;
+
+                IdentityPreviewCreator_TextInfo_FirstColumnOffsetController.Value = TextInfo.FirstColumnOffset;
+                IdentityPreviewCreator_TextInfo_SecondColumnOffsetController.Value = TextInfo.SecondColumnOffset;
+
+                FirstColumnItemSignaturesOffsetController.Value = TextInfo.FirstColumnItemSignaturesOffset;
+                SecondColumnItemSignaturesOffsetController.Value = TextInfo.SecondColumnItemSignaturesOffset;
+                if (File.Exists(TextInfo.ItemSignaturesAnotherFont)) SelectAnotherItemSignsFont_Action(TextInfo.ItemSignaturesAnotherFont);
+
+                KeywordBoxesWidthController.Value = TextInfo.KeywordBoxesWidth;
+
+                // Update ID selectors
+                if (File.Exists(TextInfo.SkillsLocalizationFile)) UpdateSelector__SkillLocalizationIDSelector();
+                if (File.Exists(TextInfo.SkillsDisplayInfoConstructorFile)) UpdateSelector__SkillsDisplayInfoIDSelector();
+                if (File.Exists(TextInfo.PassivesLocalizationFile)) UpdateSelector__PassivesLocalizationIDSelector();
+                if (File.Exists(TextInfo.KeywordsLocalizationFile)) UpdateSelector__KeywordsLocalizationIDSelector();
+
+                ReconstructColumnItems();
+            }
+            #endregion
         }
     }
 
 
-    private void IdentityPreviewCreator_CreateNewProject()
+    private void IdentityPreviewCreator_LoadBlankProject()
     {
-        CustomIdentityPreviewCreator.ProjectFile.LoadedProject = new CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject();
-        CustomIdentityPreviewCreator.ProjectFile.LoadedProject.ActualProject = true;
+        //CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject BlankProject = new CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject();
+        //BlankProject.ActualProject = true;
+        IdentityPreviewCreator_LoadProjectRecord(new CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject() with { ActualProject = true});
 
         IdentityPreviewCreator_IdentityPortrait.Source = new BitmapImage();
 
@@ -3093,7 +2967,7 @@ public partial class MainWindow : Window
         );
     }
 
-    private void IdentityPreviewCreator_SaveProjectToFile(object sender, MouseButtonEventArgs e)
+    private void IdentityPreviewCreator_SaveProjectToFile(object RequestSender, MouseButtonEventArgs EventArgs)
     {
         SaveFileDialog SaveLocation = NewSaveFileDialog("Json files", ["json"], "Project.json");
 
@@ -3109,8 +2983,8 @@ public partial class MainWindow : Window
 
 
 
-    private protected Dictionary<int, int> ID_And_Index__Links_Skills = new Dictionary<int, int>();
-    private protected void UpdateSelector__SkillLocalizationIDSelector()
+    private Dictionary<int, int> ID_And_Index__Links_Skills = new Dictionary<int, int>();
+    private void UpdateSelector__SkillLocalizationIDSelector()
     {
         string TargetFile = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.SkillsLocalizationFile;
 
@@ -3148,12 +3022,12 @@ public partial class MainWindow : Window
 
         if (SkillsLocalizationIDSelector.Items.Count > 0)
         {
-            SelectSkillsLocalizationFile_Label.Text = ExternTextFor("[C] * [Section:Text info/Text info sources] Skills localization", "Selected").Extern(TargetFile.GetName());
+            SelectSkillsLocalizationFile_Label.RichText = ExternTextFor("[C] * [Section:Text info/Text info sources] Skills localization", "Selected").Extern(TargetFile.GetName());
         }
     }
 
-    private protected Dictionary<int, int> ID_And_Index__Links_Passives = new Dictionary<int, int>();
-    private protected void UpdateSelector__PassivesLocalizationIDSelector()
+    private Dictionary<int, int> ID_And_Index__Links_Passives = new Dictionary<int, int>();
+    private void UpdateSelector__PassivesLocalizationIDSelector()
     {
         string TargetFile = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.PassivesLocalizationFile;
 
@@ -3182,12 +3056,12 @@ public partial class MainWindow : Window
 
         if (PassivesLocalizationIDSelector.Items.Count > 0)
         {
-            SelectPassivesLocalizationFile_Label.Text = ExternTextFor("[C] * [Section:Text info/Text info sources] Passives localization", "Selected").Extern(TargetFile.GetName());
+            SelectPassivesLocalizationFile_Label.RichText = ExternTextFor("[C] * [Section:Text info/Text info sources] Passives localization", "Selected").Extern(TargetFile.GetName());
         }
     }
 
-    private protected Dictionary<string, int> ID_And_Index__Links_Keywords = new Dictionary<string, int>();
-    private protected void UpdateSelector__KeywordsLocalizationIDSelector()
+    private Dictionary<string, int> ID_And_Index__Links_Keywords = new Dictionary<string, int>();
+    private void UpdateSelector__KeywordsLocalizationIDSelector()
     {
         string TargetFile = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.KeywordsLocalizationFile;
 
@@ -3216,12 +3090,12 @@ public partial class MainWindow : Window
 
         if (KeywordsLocalizationIDSelector.Items.Count > 0)
         {
-            SelectKeywordsLocalizationFile_Label.Text = ExternTextFor("[C] * [Section:Text info/Text info sources] Keywords localization", "Selected").Extern(TargetFile.GetName());
+            SelectKeywordsLocalizationFile_Label.RichText = ExternTextFor("[C] * [Section:Text info/Text info sources] Keywords localization", "Selected").Extern(TargetFile.GetName());
         }
     }
 
-    private protected Dictionary<BigInteger, int> ID_And_Index__Links_SkillsDisplayInfo = new Dictionary<BigInteger, int>();
-    private protected void UpdateSelector__SkillsDisplayInfoIDSelector()
+    private Dictionary<BigInteger, int> ID_And_Index__Links_SkillsDisplayInfo = new Dictionary<BigInteger, int>();
+    private void UpdateSelector__SkillsDisplayInfoIDSelector()
     {
         FileInfo TargetFile = new FileInfo(CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.SkillsDisplayInfoConstructorFile);
 
@@ -3252,76 +3126,35 @@ public partial class MainWindow : Window
 
         if (SkillsDisplayInfoIDSelector.Items.Count > 0)
         {
-            SelectSkillsDisplayInfoFile_Label.Text = ExternTextFor("[C] * [Section:Text info/Text info sources] Skills Display Info", "Selected").Extern(TargetFile.Name);
+            SelectSkillsDisplayInfoFile_Label.RichText = ExternTextFor("[C] * [Section:Text info/Text info sources] Skills Display Info", "Selected").Extern(TargetFile.Name);
         }
     }
 
 
-    private protected void AddSpecItemToSelector(ComboBox Target, string ItemName, dynamic AttachedItem, dynamic AttachedItemID)
+    private void AddSpecItemToSelector(ComboBox Target, string ItemName, dynamic AttachedItem, dynamic AttachedItemID)
     {
-        Target.Items.Add(new UILocalization_Grocerius()
+        Target.Items.Add(new UITranslation_Rose()
         {
             FontFamily = new FontFamily("GOST Type BU"),
-            Text = ItemName,
+            RichText = ItemName,
             FontSize = 14,
-            Padding = new Thickness(0, 5, 0, 5),
+            Padding = new Thickness(5, 5, 0, 5),
             Width = 150,
             UniversalDataBindings = new Dictionary<string, dynamic>() { ["Attached item"] = AttachedItem, ["Attached item ID"] = AttachedItemID }
-        });
+        }.SetBindingWithReturn(UITranslation_Rose.FontFamilyProperty, "FontFamily", Target));
     }
-}
 
-
-// Used in preview exports to png as reconnection items to Canvas for displaying them over other elements
-public static class RemoveChildHelper
-{
-    public static void ReconnectAsChildTo(this UIElement TargetElement, dynamic NewParent)
+    private void ToggleWalpurgisFrame_SidedLink(object RequestSender, RoutedEventArgs EventArgs)
     {
-        DependencyObject TargetElement_Parent = (TargetElement as FrameworkElement).Parent;
-        TargetElement_Parent.RemoveChild(TargetElement);
-
-        NewParent.Children.Add(TargetElement);
-    } 
-
-    public static void RemoveChild(this DependencyObject parent, UIElement child)
-    {
-        var panel = parent as Panel;
-        if (panel != null)
+        if ((bool)ToggleWalpurgisFrame.IsChecked)
         {
-            panel.Children.Remove(child);
-            return;
+            WalpurgisNightFrames.Visibility = Visible;
+            IdentityPreviewCreator_DecorativeCautions_2.Visibility = Collapsed;
         }
-
-        var decorator = parent as Decorator;
-        if (decorator != null)
+        else
         {
-            if (decorator.Child == child)
-            {
-                decorator.Child = null;
-            }
-            return;
+            WalpurgisNightFrames.Visibility = Collapsed;
+            IdentityPreviewCreator_DecorativeCautions_2.Visibility = Visible;
         }
-
-        var contentPresenter = parent as ContentPresenter;
-        if (contentPresenter != null)
-        {
-            if (contentPresenter.Content == child)
-            {
-                contentPresenter.Content = null;
-            }
-            return;
-        }
-
-        var contentControl = parent as ContentControl;
-        if (contentControl != null)
-        {
-            if (contentControl.Content == child)
-            {
-                contentControl.Content = null;
-            }
-            return;
-        }
-
-        // maybe more
     }
 }

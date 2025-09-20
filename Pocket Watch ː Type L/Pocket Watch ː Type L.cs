@@ -1,37 +1,49 @@
 ﻿//#define DebugPrintInfo
 
+using LC_Localization_Task_Absolute.Limbus_Integration;
+using LC_Localization_Task_Absolute.Mode_Handlers;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
+using static LC_Localization_Task_Absolute.Pocket_Watch_ː_Type_L.Actions;
 using static LC_Localization_Task_Absolute.Requirements;
-using static LC_Localization_Task_Absolute.Reassangre_Tessal.Actions;
 
 namespace LC_Localization_Task_Absolute
 {
-    internal interface Reassangre_Tessal
+    internal interface Pocket_Watch_ː_Type_L
     {
-        internal abstract class @PostInfo
+        internal protected abstract class @Generic
         {
-            public static Dictionary<string, BitmapImage> InlineImages = new Dictionary<string, BitmapImage>()
+            internal protected static Dictionary<string, BitmapImage> SpriteImages = KeywordsInterrogate.KeywordImages;
+            internal protected static double SpritesVerticalOffset   = 0;
+            internal protected static double SpritesHorizontalOffset = 0;
+        }
+        internal protected abstract class @PostInfo
+        {
+            internal protected static readonly Dictionary<string, FontFamily> LoadedKnownFonts = new Dictionary<string, FontFamily>()
             {
-                ["Unknown"] = ImageFromResource(@"Default/Images/Unknown.png")
-            };
-            public static Dictionary<string, FontFamily> KnownFonts = new Dictionary<string, FontFamily>()
-            {
-                //["Pretendard"] = FontFromResource(@"Reassange Tessal/Fonts/", "Pretendard"),
-                //["SCDream5"] = FontFromResource(@"Reassange Tessal/Fonts/", "S-Core Dream 5 Medium")
+                ["BebasKai SDF"     ] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\BebasKai.otf"),
+                ["ExcelsiorSans SDF"] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\ExcelsiorSans.ttf"),
+               
+                ["KR/p)SCDream(light)/SCDream5 SDF"  ] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\SCDream5.otf"),
+                ["KR/title)KOTRA_BOLD/KOTRA_BOLD SDF"] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\KOTRA_BOLD.ttf", "KOTRA BOLD"),
+                
+                ["EN/title)mikodacs/Mikodacs SDF"      ] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\Mikodacs.otf"),
+                ["EN/Pretendard/Pretendard-Regular SDF"] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\Pretendard-Regular.ttf"),
+                ["EN/cur)Caveat-SemiBold/Caveat-SemiBold SDF"] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\Caveat SemiBold.ttf"),
+
+                ["JP/HigashiOme/HigashiOme-Gothic-C-1"                       ] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\HigashiOme-Gothic-C-1.3.ttf"),
+                ["JP/title)corporate logo(bold)/Corporate-Logo-Bold-ver2 SDF"] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\Corporate-Logo-Bold-ver2.otf"),
             };
 
-            public static double SpritesVerticalOffset = 0;
-            public static double SpritesHorizontalOffset = 0;
+            internal protected static readonly bool DoLineBreakWithSprites = true;
 
-            public static TagType[] IgnoreTags_Default = [];
-            public static TagType[] IgnoreTags_UnityTMProExclude =
-            [
-                TagType.Background,
+            internal protected static readonly TagType[] IgnoreTags_Default = [];
+            internal protected static readonly TagType[] IgnoreTags_UnityTMProExclude = [
+                TagType.Background, // <mark> but behind the text, not valid
                 TagType.FontStretch,
                 TagType.InlineImage,
                 TagType.InlineImages_Size,
@@ -39,7 +51,7 @@ namespace LC_Localization_Task_Absolute
                 TagType.InlineImages_YOffset,
             ];
 
-            public static readonly Dictionary<string, FontWeight> UnityTMProFontWeightValues = new Dictionary<string, FontWeight>()
+            internal protected static readonly Dictionary<string, FontWeight> UnityTMProFontWeightValues = new Dictionary<string, FontWeight>()
             {
                 ["100"] = FontWeights.Thin,
                 ["200"] = FontWeights.ExtraLight,
@@ -52,7 +64,7 @@ namespace LC_Localization_Task_Absolute
                 ["900"] = FontWeights.Black,
             };
 
-            public static readonly Dictionary<string, FontStretch> FontStretchValues = new Dictionary<string, FontStretch>()
+            internal protected static readonly Dictionary<string, FontStretch> FontStretchValues = new Dictionary<string, FontStretch>()
             {
                 ["Condensed"     ] = FontStretches.Condensed,
                 ["Expanded"      ] = FontStretches.Expanded,
@@ -65,32 +77,28 @@ namespace LC_Localization_Task_Absolute
                 ["UltraCondensed"] = FontStretches.UltraCondensed,
                 ["UltraExpanded" ] = FontStretches.UltraExpanded,
             };
+            internal protected abstract class FullStopDividers
+            {
+                internal protected static readonly List<Tuple<string, string>> FullStopDividers_TMPro = new List<Tuple<string, string>>()
+                {
+                    new Tuple<string, string>(@"<", @">"),
+                };
 
-            /* lang=regex */
-            public static readonly string DefaultString1 =
-@"Наносит на <style=""highlight"">15%</style> больше урона за каждый <sprite name=""DianxueDonQuixote""><color=#e30000><u><link=""DianxueDonQuixote"">Удар по меридианам - Дон Кихот</link></u></color> на цели (До <style=""highlight"">45%</style>)
-
-<style=""highlight"">Если быстрее цели</style>, +1 к Силе монет <style=""highlight"">за каждые 2 единицы разницы в скорости (До 2)</style>
-
-<color=#f95e00>[Победа в столкновении]</color> Получает 5 <sprite name=""Breath""><color=#f8c200><u><link=""Breath"">Дыхания</link></u></color>
-
-<color=#f95e00>[Победа в столкновении]</color> Если цели нанесён <sprite name=""DianxueDonQuixote""><color=#e30000><u><link=""DianxueDonQuixote"">Удар по меридианам - Дон Кихот</link></u></color>, получает ещё 3 <sprite name=""Breath""><color=#f8c200><u><link=""Breath"">Дыхания</link></u></color>,";
-
-            /* lang=regex */
-            public static readonly string DefaultString2 =
-@"Наносит на <style=""highlight"">15%</style> больше урона за каждый <nobr><sprite name=""DianxueDonQuixote""><color=#e30000><u><link=""DianxueDonQuixote"">Удар по меридианам - Дон Кихот</link></u></color></nobr> на цели
-
-<sprite name=""Breath""><color=#f8c200><u><link=""Breath"">Дыхание</link></u></color>, было";
+                internal protected static readonly List<Tuple<string, string>> FullStopDividers_Regular = new List<Tuple<string, string>>()
+                {
+                    new Tuple<string, string>(@"\[", @"\]"),
+                    new Tuple<string, string>(@"<", @">"),
+                };
+            }
         }
 
-
-        internal abstract class Actions
+        internal protected abstract class Actions
         {
-            private abstract class TagProcessors
+            private protected abstract class TagProcessors
             {
-                public static void OnFormatting(InlineTagData Tag, TagType TranzitType)
+                internal protected static void OnFormatting(InlineTagData Tag, TagType TranzitType)
                 {
-                    switch (TranzitType) // Simplify tag info based on type
+                    switch (TranzitType) // Simplify tag .Info based on type
                     {
                         case TagType.Link:
                             Tag.Info = Tag.Info.Del("link=\"")[0..^1];
@@ -149,7 +157,7 @@ namespace LC_Localization_Task_Absolute
                     }
                 }
 
-                public static void OnApplying(Run Target, KeyValuePair<TagType, InlineTagData> Tag)
+                internal protected static void OnApplying(Run Target, KeyValuePair<TagType, InlineTagData> Tag)
                 {
                     string TagInfo = Tag.Value.Info;
                     switch (Tag.Key) // Tag actions
@@ -163,18 +171,37 @@ namespace LC_Localization_Task_Absolute
                             break;
 
                         case TagType.Link:
-                            Target.Name = TagInfo; // Run.Name = id to text
-                            //Target.MouseLeftButtonDown += Target_MouseLeftButtonDown; // Add trigger to display keyword info window
+                            Target.Name = TagInfo; // Name = Keyword ID
+
+                            KeywordsInterrogate.KeywordInfoPopup.AttachToInline(Target);
+
                             break;
 
                         case TagType.Font:
-                            if (@PostInfo.KnownFonts.ContainsKey(TagInfo))
+                            if (@PostInfo.LoadedKnownFonts.ContainsKey(TagInfo))
                             {
-                                Target.FontFamily = @PostInfo.KnownFonts[TagInfo];
+                                Target.FontFamily = @PostInfo.LoadedKnownFonts[TagInfo];
                             }
-                            else
+                            else if (!MainWindow.PreviewUpdate_TargetSite.Name.StartsWith($"PreviewLayout_"))
                             {
-                                Target.FontFamily = new FontFamily(TagInfo);
+                                if (ᐁ_Interface_Localization_Loader.InterfaceLocalizationModifiers.Font_References_Loaded.ContainsKey(TagInfo))
+                                {
+                                    Target.FontFamily = ᐁ_Interface_Localization_Loader.InterfaceLocalizationModifiers.Font_References_Loaded[TagInfo];
+                                }
+                                else Target.FontFamily = new FontFamily(TagInfo);
+                            }
+                            else // if (MainWindow.PreviewUpdate_TargetSite.Name.StartsWith($"PreviewLayout_"))
+                            {
+                                /*/
+                                 * Special font that turns all text into squares to prevent usage of fonts that are not unity font asset from Limbus Company if attaching <font> tag at limbus text
+			                     * (`[⇲] Assets Directory\[⇲] Limbus Embedded Fonts` folder)
+			                     * 
+			                     * Allowed only fonts like <font="EN/cur)Caveat-SemiBold/Caveat-SemiBold SDF">, <font="EN/title)mikodacs/Mikodacs SDF"> and etc.
+			                     * See `[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\Usage.txt` for full list of supported game fonts.
+			                     * 
+			                     * P.S. It is used for button icons in program's UI
+                                /*/
+                                Target.FontFamily = Resource<FontFamily>("SegoeFluentIcons_MakeLimbusPreviewInvalid");
                             }
                             break;
 
@@ -197,24 +224,24 @@ namespace LC_Localization_Task_Absolute
                             {
                                 double ApplyValue = FontSizeMultiplyValue / (double)100;
                                 if (ApplyValue == 0) ApplyValue = 0.01;
-                                Target.FontSize = RecenetTextBlockTarget.FontSize * ApplyValue;
+                                Target.FontSize = @RecentInfo.TextBlockTarget.FontSize * ApplyValue;
                             }
                             break;
 
                         case TagType.Subscript:
-                            Target.FontSize = RecenetTextBlockTarget.FontSize * 0.7;
+                            Target.FontSize = @RecentInfo.TextBlockTarget.FontSize * 0.7;
                             Target.BaselineAlignment = BaselineAlignment.Subscript;
                             break;
 
                         case TagType.Superscript:
-                            Target.FontSize = RecenetTextBlockTarget.FontSize * 0.7;
+                            Target.FontSize = @RecentInfo.TextBlockTarget.FontSize * 0.7;
                             Target.BaselineAlignment = BaselineAlignment.Superscript;
                             break;
                     }
                 }
             }
 
-            private static void SetRunFormatting(ref Run Target, Dictionary<TagType, InlineTagData> AssignedTags, params TagType[] IgnoreTags)
+            private protected static void SetRunFormatting(Run Target, Dictionary<TagType, InlineTagData> AssignedTags, params TagType[] IgnoreTags)
             {
                 foreach (KeyValuePair<TagType, InlineTagData> Tag in AssignedTags)
                 {
@@ -232,7 +259,7 @@ namespace LC_Localization_Task_Absolute
                 }
             }
 
-            private static TagType EnumTransform(string From)
+            private protected static TagType EnumTransform(string From)
             {
                 if (Enum.TryParse<TagType>(From, out TagType result))
                 {
@@ -244,14 +271,7 @@ namespace LC_Localization_Task_Absolute
                 }
             }
 
-            /* lang=regex */                                        // Alternate divider options (Keep Regex syntax)
-            public static List<Tuple<string, string>> FullStopDividers = new List<Tuple<string, string>>()
-            {
-              //new Tuple<string, string>(@"\[", @"\]"),
-                new Tuple<string, string>(@"<", @">"),
-            };
-
-            public enum TagType
+            internal protected enum TagType
             {
                 CloseSequence, // BreakPoints automatically applied type
                 TechnicalNull, // Don't touch
@@ -278,7 +298,7 @@ namespace LC_Localization_Task_Absolute
                 InlineImages_YOffset,
             };
 
-            private record PatternAndTypeMatch
+            private protected sealed record PatternAndTypeMatch
             {
                 public TagType? MainTag { get; set; }
 
@@ -286,14 +306,14 @@ namespace LC_Localization_Task_Absolute
 
                 public PatternAndTypeMatch(TagType Main) { MainTag = Main; }
             }
-            private record FullStopTag
+            private protected sealed record FullStopTag
             {
                 // Regex patterns for tag endings (Modified to @"^String$")
                 public string[] BreakPoints { get; set; }
 
                 public DependencyProperty UnivocalPropertyKey { get; set; }
 
-                public dynamic UnivocalPropertyValue { get; set; }
+                public object UnivocalPropertyValue { get; set; }
 
                 public FullStopTag(string PatternToMatch, string[] BreakPoints, TagType Type)
                 {
@@ -313,15 +333,15 @@ namespace LC_Localization_Task_Absolute
                 }
             }
 
-            private static Dictionary<TagType, FullStopTag> RegisteredTags = new Dictionary<TagType, FullStopTag>();
+            private protected static Dictionary<TagType, FullStopTag> RegisteredTags = new Dictionary<TagType, FullStopTag>();
 
             /// <summary>
             /// To replace true tags in text with unique text construction 
             /// </summary>
-            private static Dictionary<string, PatternAndTypeMatch> RegisteredTags_PatternAndTypeMatch = new Dictionary<string, PatternAndTypeMatch>();
+            private protected static Dictionary<string, PatternAndTypeMatch> RegisteredTags_PatternAndTypeMatch = new Dictionary<string, PatternAndTypeMatch>();
 
             /* lang=regex  defines new instances of FullStopTag records that executes all further sequence */
-            private static List<FullStopTag> TagDefinitions = new List<FullStopTag>()
+            private protected static List<FullStopTag> TagDefinitions = new List<FullStopTag>()
             {
                                                         // Evident tag types, regardless of values like in <font> or <color>
                 new("b", ["/b"], TagType.Bold)          { UnivocalPropertyKey = Run.FontWeightProperty, UnivocalPropertyValue = FontWeights.Bold  },
@@ -329,11 +349,15 @@ namespace LC_Localization_Task_Absolute
                 new("u", ["/u"], TagType.Undeline)      { UnivocalPropertyKey = Run.TextDecorationsProperty, UnivocalPropertyValue = TextDecorations.Underline     },
                 new("s", ["/s"], TagType.Strikethrough) { UnivocalPropertyKey = Run.TextDecorationsProperty, UnivocalPropertyValue = TextDecorations.Strikethrough },
 
-                new("nobr", ["/nobr"],  TagType.NoBreak),
+                new("nobr", ["/nobr"], TagType.NoBreak),
 
-                new("sub",   ["/sub"],   TagType.Subscript),
-                new("sup",   ["/sup"],   TagType.Superscript),
+                new("sub", ["/sub"], TagType.Subscript),
+                new("sup", ["/sup"], TagType.Superscript),
+
+               // new("noparse", ["/noparse"], TagType.TechnicalNull), Being applied on formatting stage as \0 after tag dividers in <noparse></noparse> range, see at Apply()
+
                 new("style", ["/style"], TagType.StyleHighlighter) { UnivocalPropertyKey = Run.ForegroundProperty, UnivocalPropertyValue = ToSolidColorBrush("#f8c200") }, // Highlight color
+                
                 new(@"link=""\w+""", ["/link"], TagType.Link),
                 new(@"font="".*?""", ["/font"], TagType.Font),
                 new(@"font-weight=""(100|200|300|400|500|600|700|800|900)""", ["/font-weight"], TagType.FontWeight), // https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/TextMeshPro/RichTextFontWeight.html
@@ -344,7 +368,7 @@ namespace LC_Localization_Task_Absolute
                 new(@"sprite name=""\w+""", null, TagType.Sprite),
 
                 new(@"image id=""\w+""", null, TagType.InlineImage),
-                new(@"images-size=(\d+)(\.\d+)?",    ["/images-size"],    TagType.InlineImages_Size),
+                new(@"images-size=(\d+)(\.\d+)?", ["/images-size"], TagType.InlineImages_Size),
                 new(@"images-xoffset=(\-|\+)?(\d+)(\.\d+)?", ["/images-xoffset"], TagType.InlineImages_XOffset),
                 new(@"images-yoffset=(\-|\+)?(\d+)(\.\d+)?", ["/images-yoffset"], TagType.InlineImages_YOffset),
             };
@@ -352,7 +376,7 @@ namespace LC_Localization_Task_Absolute
             /// <summary>
             /// Contains text segment and tags to apply
             /// </summary>
-            public record StableTextConstruction
+            internal protected sealed record StableTextConstruction
             {
                 public string TextSentence { get; set; }
                 public Dictionary<TagType, InlineTagData> AssignedTags { get; set; } = new Dictionary<TagType, InlineTagData>();
@@ -375,7 +399,7 @@ namespace LC_Localization_Task_Absolute
             /// <summary>
             /// Tag data, set when creating EstablishedSequence and TextSentence contains \xF8FE (10 lines upper)
             /// </summary>
-            public record InlineTagData
+            internal protected sealed record InlineTagData
             {
                 public TagType Type { get; set; }
 
@@ -398,20 +422,20 @@ namespace LC_Localization_Task_Absolute
                 }
             }
 
-            private static void ApplyCascadeSequence(List<StableTextConstruction> @Sequence, int StartIndex, InlineTagData TagDataToAdd, TagType ButRemoveThisTag = TagType.TechnicalNull, TagType ButIgnoreIfThisTagOccurs = TagType.TechnicalNull)
+            private protected static void ApplyCascadeSequence(List<StableTextConstruction> @Sequence, int StartIndex, InlineTagData TagDataToAdd, TagType ButRemoveThisTag = TagType.TechnicalNull, TagType ButIgnoreIfThisTagOccurs = TagType.TechnicalNull)
             {
-                bool SkipWhileThereAreSameTagOpened = false;
+                int SkipWhileThereAreSameTagOpened_Stack = 0;
                 foreach (StableTextConstruction MidTextSegment in @Sequence[(StartIndex + 1)..])
                 {
                     if (MidTextSegment.IsTagItself && MidTextSegment.InnerTagData.Type == TagDataToAdd.Type)
                     {
                         // Just as in Unity TextMeshPro, at text fragment "<color=#e30000><color=#f8c200>Yellow</color> and there are red</color>" 'and there are red' part still must me colored red
-                        SkipWhileThereAreSameTagOpened = true;
+                        SkipWhileThereAreSameTagOpened_Stack++;
                     }
 
-                    if (!SkipWhileThereAreSameTagOpened)
+                    if (SkipWhileThereAreSameTagOpened_Stack == 0)
                     {
-                        if (MidTextSegment.TextSentence.MatchesWidthOneOf(TagDataToAdd.BreakPoints)) break;
+                        if (MidTextSegment.TextSentence.MatchesWithOneOf(TagDataToAdd.BreakPoints)) break;
 
                         if (!MidTextSegment.AssignedTags.ContainsKey(ButIgnoreIfThisTagOccurs))
                         {
@@ -430,25 +454,50 @@ namespace LC_Localization_Task_Absolute
                             }
                         }
                     }
-                    else if (MidTextSegment.TextSentence.MatchesWidthOneOf(TagDataToAdd.BreakPoints))
+                    else if (MidTextSegment.TextSentence.MatchesWithOneOf(TagDataToAdd.BreakPoints))
                     {
-                        SkipWhileThereAreSameTagOpened = false;
+                        SkipWhileThereAreSameTagOpened_Stack--;
                     }
                 }
             }
 
-            private static TextBlock RecenetTextBlockTarget = null;
-            public static void Apply(TextBlock Target, string RichText, params TagType[] IgnoreTags)
+            private protected abstract class @RecentInfo
             {
-                IgnoreTags = IgnoreTags.Union(@PostInfo.IgnoreTags_Default).ToArray();
+                public static TextBlock TextBlockTarget = null;
+            }
 
-                RecenetTextBlockTarget = Target;
-                RichText = RichText.RegexRemove(@"=(""highlight""|""upgradeHighlight"")"); // Unify to just <style></style>, doesn't matter -> yellow color
+            internal protected static void Apply(TextBlock Target, string RichText, List<Tuple<string, string>> DividersMode = null, bool DisableKeyworLinksCreation = false, bool DoCustomIdentityPreviewCreatorIsActiveCheck = true, params TagType[] IgnoreTags)
+            {
+                //CustomIdentityPreviewCreator.IsActive
+                if (!Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableKeywordTooltips) DisableKeyworLinksCreation = true;
 
-                foreach (Tuple<string, string> FullStopTagDivider in FullStopDividers)
+                // Attempt to check the CustomIdentityPreviewCreator.isActive when called from from XAML Designer causes some dumb error with a missing program resource
+                if (DoCustomIdentityPreviewCreatorIsActiveCheck)
+                {
+                    if (CustomIdentityPreviewCreator.IsActive) DisableKeyworLinksCreation = true;
+                }
+
+                if (DividersMode == null) DividersMode = @PostInfo.FullStopDividers.FullStopDividers_Regular;
+
+                if (IgnoreTags != null) IgnoreTags = IgnoreTags.Union(@PostInfo.IgnoreTags_Default).ToArray();
+                else IgnoreTags = @PostInfo.IgnoreTags_Default;
+
+                @RecentInfo.TextBlockTarget = Target;
+
+                RichText = RichText.RegexRemove(new(@"=(""highlight""|""upgradeHighlight"")")); // Unify to just <style></style>, doesn't matter -> yellow color
+
+                foreach (Tuple<string, string> FullStopTagDivider in DividersMode)
                 {
                     string TagKey_Open = FullStopTagDivider.Item1;
                     string TagKey_Close = FullStopTagDivider.Item2;
+
+                    if (RichText.Contains("noparse"))
+                    {
+                        RichText = Regex.Replace(RichText, @$"{FullStopTagDivider.Item1}noparse{FullStopTagDivider.Item2}(.*?){FullStopTagDivider.Item1}/noparse{FullStopTagDivider.Item2}", Match =>
+                        {
+                            return Match.Groups[1].Value.Replace(FullStopTagDivider.Item1, $"{FullStopTagDivider.Item1}\u0001");
+                        }, RegexOptions.Singleline);
+                    }
 
                     foreach (KeyValuePair<string, PatternAndTypeMatch> TagInfo in RegisteredTags_PatternAndTypeMatch)
                     {
@@ -462,6 +511,11 @@ namespace LC_Localization_Task_Absolute
                         {
                             RichText = Regex.Replace(RichText, TagKey_Open + $"({TagBodyPattern})" + TagKey_Close, Match =>
                             {
+                                if (DisableKeyworLinksCreation && TagEnumSignToCheckIgnore == TagType.Link)
+                                {
+                                    return "";
+                                }
+
                                 return $"\xFFFE{(TagEnumSign)}\xF8FE{Match.Groups[1].Value}\xFFFF";
                             });
                         }
@@ -493,7 +547,7 @@ namespace LC_Localization_Task_Absolute
                         else if (TextSegment.InnerTagData.Type == TagType.Sprite | TextSegment.InnerTagData.Type == TagType.InlineImage)
                         {
                             TextSegment.IsTagItself = false; // Do not remove sprite/image tags at List<StableTextConstruction> EstablishedSequence by this condition
-                            if (CurrentIndex != MaxTotalIndex & TextSegment.InnerTagData.Type == TagType.Sprite)
+                            if (@PostInfo.DoLineBreakWithSprites & (CurrentIndex != MaxTotalIndex & TextSegment.InnerTagData.Type == TagType.Sprite))
                             {
                                 // And also connect image with next word in text and maybe punctuation mark after after to prevent keyword from wrapping to the next line without a sprite
                                 int SubSpriteSegmentIndex = CurrentIndex + 1;
@@ -530,6 +584,7 @@ namespace LC_Localization_Task_Absolute
 
                                         break; // Check only next text segment
                                     }
+                                    else if (SubSpriteSegment.InnerTagData.Type == TagType.Sprite) break; // Also break because no text encountered and new sprite instance started so there are new priority
                                     // else encountered with tag
 
                                     SubSpriteSegmentIndex++;
@@ -573,7 +628,7 @@ namespace LC_Localization_Task_Absolute
                                 foreach (StableTextConstruction SubNoBreakSegmentSegment in Segments[SubNoBreakSegmentIndex..])
                                 {
                                     if (SubNoBreakSegmentSegment.IsTagItself &&
-                                        SubNoBreakSegmentSegment.TextSentence.MatchesWidthOneOf(RegisteredTags[TagType.NoBreak].BreakPoints)
+                                        SubNoBreakSegmentSegment.TextSentence.MatchesWithOneOf(RegisteredTags[TagType.NoBreak].BreakPoints)
                                     ) break;
                                     else
                                     {
@@ -596,11 +651,11 @@ namespace LC_Localization_Task_Absolute
 
                 List<StableTextConstruction> EstablishedSequence = new List<StableTextConstruction>(@Segments.Where(x => (!x.IsTagItself & x.TextSentence != "")));
 
+                // ProcessEstablishedSequence contains a lot of ui interactions, i dont want to attach Dispatcher.Invoke everywhere
                 ProcessEstablishedSequence(EstablishedSequence, Target);
             }
 
-
-            private static void ProcessEstablishedSequence(List<StableTextConstruction> TargetSequence, TextBlock TargetTextBlock, bool NoBreakMode = false)
+            private protected static void ProcessEstablishedSequence(List<StableTextConstruction> TargetSequence, TextBlock TargetTextBlock, bool NoBreakMode = false)
             {
                 #if DebugPrintInfo
                 if (!NoBreakMode)
@@ -610,7 +665,7 @@ namespace LC_Localization_Task_Absolute
                 }
                 #endif
 
-                TargetTextBlock.Text = ""; // Reset text
+                TargetTextBlock.Inlines.Clear(); // Reset text
 
                 int Total = TargetSequence.Where(x => !x.IsTagItself).Count();
                 int Counter = 1;
@@ -624,7 +679,7 @@ namespace LC_Localization_Task_Absolute
 
                         Run TextFragment = new Run(SequenceItem.TextSentence);
 
-                        SetRunFormatting(ref TextFragment, SequenceItem.AssignedTags);
+                        SetRunFormatting(TextFragment, SequenceItem.AssignedTags);
 
                         TargetTextBlock.Inlines.Add(TextFragment);
 
@@ -647,13 +702,13 @@ namespace LC_Localization_Task_Absolute
                             }
                         }
 
-                        BitmapImage ImageSource = @PostInfo.InlineImages.ContainsKey(SpriteID) ? @PostInfo.InlineImages[SpriteID] : @PostInfo.InlineImages["Unknown"];
+                        BitmapImage ImageSource = @Generic.SpriteImages.ContainsKey(SpriteID) ? @Generic.SpriteImages[SpriteID] : @Generic.SpriteImages["Unknown"];
 
                         StackPanel GrabbedText = new StackPanel() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Bottom };
                         foreach (StableTextConstruction AttachedTextItem in SequenceItem.InnerTagData.SpriteOrNoBreakData_SubItems)
                         {
                             Run GeneratedTextItem = new Run(AttachedTextItem.TextSentence);
-                            SetRunFormatting(ref GeneratedTextItem, AttachedTextItem.AssignedTags, IgnoreTags: SequenceItem.AssignedTags.ContainsKey(TagType.Background) ? TagType.Background : TagType.TechnicalNull);
+                            SetRunFormatting(GeneratedTextItem, AttachedTextItem.AssignedTags, IgnoreTags: SequenceItem.AssignedTags.ContainsKey(TagType.Background) ? TagType.Background : TagType.TechnicalNull);
                             GrabbedText.Children.Add(TargetTextBlock.ImposedClone(Content: GeneratedTextItem));
                         }
 
@@ -671,7 +726,11 @@ namespace LC_Localization_Task_Absolute
                                     {
                                         VerticalAlignment = VerticalAlignment.Bottom,
                                         Margin = new Thickness(0, 0, 0, 2.7),
-                                        RenderTransform = new TranslateTransform() { X = @PostInfo.SpritesHorizontalOffset, Y = @PostInfo.SpritesVerticalOffset },
+                                        RenderTransform = new TranslateTransform()
+                                        {
+                                            X = @Generic.SpritesHorizontalOffset,
+                                            Y = @Generic.SpritesVerticalOffset
+                                        },
                                         Children =
                                         {
                                             new Image()
@@ -727,23 +786,46 @@ namespace LC_Localization_Task_Absolute
                             OffsetY = YOffsetValue;
                         }
 
-                        TargetTextBlock.Inlines.Add(new InlineUIContainer(new Image()
+                        BitmapImage Source = new BitmapImage();
+                        if (KeywordsInterrogate.KeywordImages.ContainsKey(SequenceItem.InnerTagData.Info))
                         {
-                            Source = @PostInfo.InlineImages.ContainsKey(SequenceItem.InnerTagData.Info)
-                                ? @PostInfo.InlineImages[SequenceItem.InnerTagData.Info]
-                                : @PostInfo.InlineImages["Unknown"],
+                            Source = KeywordsInterrogate.KeywordImages[SequenceItem.InnerTagData.Info];
+                        }
+                        else if (int.TryParse(SequenceItem.InnerTagData.Info, out int IntID))
+                        {
+                            if (Mode_EGOGifts.OrganizedData.DisplayInfo_Icons.ContainsKey(IntID))
+                            {
+                                Source = Mode_EGOGifts.OrganizedData.DisplayInfo_Icons[IntID];
+                            }
+                        }
+                        else
+                        {
+                            Source = KeywordsInterrogate.KeywordImages["Unknown"];
+                        }
 
-                            RenderTransform = new TranslateTransform() { X = OffsetX, Y = OffsetY },
-                            Width = ImageSize
-                        }) { BaselineAlignment = BaselineAlignment.Center });
+                        TargetTextBlock.Inlines.Add(new InlineUIContainer(new Canvas()
+                        {
+                            Children =
+                            {
+                                new Image()
+                                {
+                                    Source = Source,
+                                 // RenderTransform = new TranslateTransform() { X = OffsetX, Y = OffsetY },
+                                    Margin = new Thickness(OffsetX, OffsetY, 0, 0),
+                                    RenderTransformOrigin = new Point(0.5, 0.5),
+                                    Width = ImageSize,
+                                    Height = ImageSize,
+                                }
+                            },
+                            Width = ImageSize, VerticalAlignment = VerticalAlignment.Top
+                        }) { BaselineAlignment = BaselineAlignment.Top });
                     }
                 }
             }
 
             #region Tech info
-            public static readonly string DMarker = "\x1b[48;5;196m[Debug]\x1b[0m";
-
-            public static void PrintDebugInfo_RegularText(StableTextConstruction About, bool AddAsSpriteSegment = false, bool IsLastFromSprite = false, bool AddAsNoBreakSegment = false, bool IsLastFromNoBreak = false)
+            private protected static readonly string DMarker = "\x1b[48;5;196m[Debug]\x1b[0m";
+            private protected static void PrintDebugInfo_RegularText(StableTextConstruction About, bool AddAsSpriteSegment = false, bool IsLastFromSprite = false, bool AddAsNoBreakSegment = false, bool IsLastFromNoBreak = false)
             {
                 string Additional_header = "";
                 string Additional_item = "";
@@ -777,7 +859,7 @@ namespace LC_Localization_Task_Absolute
                 }
                 if (!AddAsSpriteSegment) rin($"{DMarker}{(AddAsNoBreakSegment & !IsLastFromNoBreak ? " \x1b[5m│\x1b[0m" : "")}");
             }
-            public static void PrintDebugInfo_Sprite(StableTextConstruction About, bool AddAsNoBreakSegment = false, bool IsLastFromNoBreak = false)
+            private protected static void PrintDebugInfo_Sprite(StableTextConstruction About, bool AddAsNoBreakSegment = false, bool IsLastFromNoBreak = false)
             {
                 rin($"{DMarker} {(AddAsNoBreakSegment ? (IsLastFromNoBreak ? "\x1b[5m└─\x1b[0m" : "\x1b[5m├─\x1b[0m") : "")}Image \"@\x1b[4m{About.InnerTagData.Info}\x1b[0m\"");
                 if (About.InnerTagData.SpriteOrNoBreakData_SubItems != null)
@@ -792,8 +874,7 @@ namespace LC_Localization_Task_Absolute
                     rin($"{DMarker}{(AddAsNoBreakSegment & !IsLastFromNoBreak ? " \x1b[5m│\x1b[0m" : "")}");
                 }
             }
-
-            public static void PrintDebugInfo_NoBreak(StableTextConstruction About)
+            private protected static void PrintDebugInfo_NoBreak(StableTextConstruction About)
             {
                 rin($"{DMarker} \x1b[5m[No break region]\x1b[0m (:\x1b[4m{About.InnerTagData.SpriteOrNoBreakData_SubItems.Where(x => !x.IsTagItself).Count()}\x1b[0m)");
 

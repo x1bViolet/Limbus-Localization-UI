@@ -1,6 +1,6 @@
 ﻿using LC_Localization_Task_Absolute.Json;
+using LC_Localization_Task_Absolute.Limbus_Integration;
 using Newtonsoft.Json;
-using RichText;
 using System.IO;
 using System.Numerics;
 using System.Windows;
@@ -16,28 +16,28 @@ using static System.Windows.Visibility;
 
 namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
-    internal abstract class Mode_Skills
+    public abstract class Mode_Skills
     {
-        internal protected static dynamic FormalTaskCompleted = null;
+        public static dynamic FormalTaskCompleted = null;
 
-        internal protected static int CurrentSkillID = -1;
-        internal protected static int CurrentSkillUptieLevel = -1;
+        public static int CurrentSkillID = -1;
+        public static int CurrentSkillUptieLevel = -1;
 
-        internal protected static int CurrentSkillCoinIndex = -1;
+        public static int CurrentSkillCoinIndex = -1;
 
-        internal protected static List<int> CurrentCoinDescs_Avalible = [];
-        internal protected static int CurrentSkillCoinDescIndex = -1;
+        public static List<int> CurrentCoinDescs_Avalible = [];
+        public static int CurrentSkillCoinDescIndex = -1;
 
-        internal protected static Skills DeserializedInfo;
-        internal protected static Dictionary<string, int> Skills_NameIDs = [];
-
-
-        internal protected static Dictionary<RichTextBox, string> LastPreviewUpdatesBank = [];
+        public static Skills DeserializedInfo;
+        public static Dictionary<string, int> Skills_NameIDs = [];
 
 
-        internal protected static double LastRegisteredWidth = 0;
+        public static Dictionary<TMProEmitter, string> LastPreviewUpdatesBank = [];
 
-        internal protected static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
+
+        public static double LastRegisteredWidth = 0;
+
+        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
         {
             Key = "Skills",
             DefaultValues = new()
@@ -52,35 +52,34 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         };
 
 
-        internal protected static Dictionary<BigInteger, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem> OrganizedDisplayInfo = new Dictionary<BigInteger, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem>();
+        public static Dictionary<BigInteger, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem> OrganizedDisplayInfo = new Dictionary<BigInteger, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem>();
         
-        internal protected static BitmapImage RegularCoinIcon = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Regular Coin.png"));
-        internal protected static BitmapImage UnbreakableCoinIcon = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Unbreakable Coin.png"));
-        internal protected static BitmapImage DefaultSkillFrameAlt = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Frames/Skill Default Frame alt.png"));
+        public static readonly BitmapImage RegularCoinIcon = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Regular Coin.png"));
+        public static readonly BitmapImage UnbreakableCoinIcon = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Unbreakable Coin.png"));
+        public static readonly BitmapImage DefaultSkillFrameAlt = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Frames/Skill Default Frame alt.png"));
 
-        internal protected static Dictionary<string, BitmapImage> AffinityIcons = new Dictionary<string, BitmapImage>();
-        internal protected static Dictionary<string, BitmapImage> SkillFrames = new Dictionary<string, BitmapImage>();
-        internal protected static Dictionary<string, BitmapImage> SkillIcons = new Dictionary<string, BitmapImage>();
+        public static Dictionary<string, BitmapImage> AffinityIcons = new Dictionary<string, BitmapImage>();
+        public static Dictionary<string, BitmapImage> SkillFrames = new Dictionary<string, BitmapImage>();
+        public static Dictionary<string, BitmapImage> SkillIcons = new Dictionary<string, BitmapImage>();
 
-        internal protected static Dictionary<string, BitmapImage> DefaultIcons = new Dictionary<string, BitmapImage>();
+        public static Dictionary<string, BitmapImage> DefaultIcons = new Dictionary<string, BitmapImage>();
 
         // Read from file at moment or get one from list
-        internal protected static BitmapImage AcquireSkillIcon(string ID)
+        public static BitmapImage AcquireSkillIcon(string ID)
         {
             if (SkillIcons.ContainsKey(ID)) return SkillIcons[ID];
             else
             {
                 if (File.Exists(ID))
                 {
-                    // rin($"Returning from {ID}..");
-                    return GenerateBitmapFromFile(ID);
+                    return BitmapFromFile(ID);
                 }
                 else
                 {
-                    FileInfo IconFile = @"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons".GetFileWithName($"{ID}.png");
+                    FileInfo IconFile = @"[⇲] Assets Directory\[⇲] Limbus Images\Skills\Icons".GetFileWithName($"{ID}.png");
                     if (IconFile != null)
                     {
-                        BitmapImage FoundedImage = GenerateBitmapFromFile(IconFile.FullName);
+                        BitmapImage FoundedImage = BitmapFromFile(IconFile.FullName);
                         SkillIcons[ID] = FoundedImage;
 
                         return FoundedImage;
@@ -93,7 +92,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
         }
 
-        internal protected static void LoadDefaultResources()
+        public static void LoadDefaultResources()
         {
             foreach (string Affinity in new List<string> { "Wrath", "Lust", "Sloth", "Gluttony", "Gloom", "Pride", "Envy" })
             {
@@ -107,51 +106,40 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             SkillFrames["None"] = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Frames/Skill Default Frame.png"));
         }
 
-        internal protected static void LoadDisplayInfo()
+        public static void LoadDisplayInfo()
         {
             foreach (string SkillType in new List<string> { "Attack", "Guard", "Evade", "Counter" })
             {
-                DefaultIcons[$"{SkillType} None"] = GenerateBitmapFromFile(@$"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\[⇲] Default\None\{SkillType}.png");
+                DefaultIcons[$"{SkillType} None"] = BitmapFromFile(@$"[⇲] Assets Directory\[⇲] Limbus Images\Skills\Icons\[⇲] Default\None\{SkillType}.png");
                 
                 foreach (string Affinity in new List<string> { "Wrath", "Lust", "Sloth", "Gluttony", "Gloom", "Pride", "Envy" })
                 {
-                    DefaultIcons[$"{SkillType} {Affinity}"] = GenerateBitmapFromFile(@$"⇲ Assets Directory\[⇲] Limbus Images\Skills\Icons\[⇲] Default\{Affinity}\{SkillType}.png");
+                    DefaultIcons[$"{SkillType} {Affinity}"] = BitmapFromFile(@$"[⇲] Assets Directory\[⇲] Limbus Images\Skills\Icons\[⇲] Default\{Affinity}\{SkillType}.png");
                 }
             }
 
-            if (Directory.Exists(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json"))
+            if (Directory.Exists(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json"))
             {
-                foreach(FileInfo SkillDataFile in new DirectoryInfo(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json").GetFiles("*.json", SearchOption.AllDirectories))
+                foreach(FileInfo SkillDataFile in new DirectoryInfo(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json").GetFiles("*.json", SearchOption.AllDirectories))
                 {
-                    try
-                    {
-                        var Deserialized = SkillDataFile.Deserealize<BaseTypes.Type_RawSkillsDisplayInfo.SkillsDetailedInfo>();
+                    var Deserialized = SkillDataFile.Deserealize<BaseTypes.Type_RawSkillsDisplayInfo.SkillsDetailedInfo>();
 
-                        if (Deserialized != null)
+                    if (Deserialized.List != null)
+                    {
+                        foreach(BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem SkillData in Deserialized.List)
                         {
-                            if (Deserialized.List != null)
+                            if (SkillData.ID != null && SkillData.UptieLevelsDictionary != null)
                             {
-                                foreach(BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem SkillData in Deserialized.List)
-                                {
-                                    if (SkillData.ID != null && SkillData.UptieLevelsDictionary != null)
-                                    {
-                                        try
-                                        {
-                                            OrganizedDisplayInfo[(BigInteger)SkillData.ID] = SkillData;
-                                        }
-                                        catch { }
-                                    }
-                                }
+                                OrganizedDisplayInfo[(BigInteger)SkillData.ID] = SkillData;
                             }
                         }
                     }
-                    catch { }
                 }
             }
         }
 
 
-        internal protected static void ChangeSkillHeaderReplicaAppearance()
+        public static void ChangeSkillHeaderReplicaAppearance()
         {
             bool SwitchSkillViewReplicaToUnknown = false;
             
@@ -599,19 +587,20 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                 // Frame
                 string FrameName = $"{Select_Affinity} {Info_Main.Specific.Rank}";
-                if (Select_Affinity.Equals("None")) FrameName = "None";
+                if (Select_Affinity == null) FrameName = "None";
+                else if (Select_Affinity.Equals("None")) FrameName = "None";
                 MainControl.SkilFrame.Source = SkillFrames[FrameName];
 
                 // Skill Icon
                 BitmapImage AcquiredImage = AcquireSkillIcon(Select_IconID);
-                if (AcquiredImage == null & Select_Affinity != null)
+                if (AcquiredImage == null && Select_Affinity != null)
                 {
                     AcquiredImage = DefaultIcons[$"{Info_Main.Specific.Action} {Select_Affinity}"];
                 }
                 MainControl.SkilIcon.Source = AcquiredImage;
 
                 // Affinity Icon
-                if (Info_Main.Attributes.ShowAffinityIcon & !Select_Affinity.Equals("None"))
+                if (Info_Main.Attributes.ShowAffinityIcon && Select_Affinity != null && !Select_Affinity.Equals("None"))
                 {
                     MainControl.SkillAffinityIcon.Source = AffinityIcons[Select_Affinity];
                     MainControl.SkillAffinityIcon.Visibility = Visible;
@@ -674,24 +663,18 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                         MainControl.BasePowerValue.Text = "";
                     }
                 }
-
-
-
-                
-
-
-
-
-
-
-
-
-
-
-
-
             }
             else SwitchSkillViewReplicaToUnknown = true;
+
+
+
+
+
+
+
+
+
+
 
             if (SwitchSkillViewReplicaToUnknown)
             {
@@ -722,7 +705,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         }
 
 
-        internal protected static void CheckSkillNameReplicaCoins_FromLocalizationFile()
+        public static void CheckSkillNameReplicaCoins_FromLocalizationFile()
         {
             var FullLink = DelegateSkills[CurrentSkillID][CurrentSkillUptieLevel];
             if (FullLink.Coins != null)
@@ -779,9 +762,9 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
 
 
-        internal protected static bool EnableUptieLevels_Recent = false;
-        internal protected static bool EnableEGOAbnormalityName_Recent = false;
-        internal protected static void TriggerSwitch(bool EnableUptieLevels, bool EnableEGOAbnormalityName)
+        public static bool EnableUptieLevels_Recent = false;
+        public static bool EnableEGOAbnormalityName_Recent = false;
+        public static void TriggerSwitch(bool EnableUptieLevels, bool EnableEGOAbnormalityName)
         {
             EnableUptieLevels_Recent = EnableUptieLevels;
             EnableEGOAbnormalityName_Recent = EnableEGOAbnormalityName;
@@ -840,7 +823,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             );
         }
 
-        internal protected static Task LoadStructure(FileInfo JsonFile)
+        public static Task LoadStructure(FileInfo JsonFile)
         {
             DeserializedInfo = JsonFile.Deserealize<Skills>();
             InitializeSkillsDelegateFrom(DeserializedInfo);
@@ -857,7 +840,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             return FormalTaskCompleted;
         }
 
-        internal protected static void TransformToSkill(int SkillID, int TranzUptieLevel = -1)
+        public static void TransformToSkill(int SkillID, int TranzUptieLevel = -1)
         {
             {
                 ManualTextLoadEvent = true;
@@ -887,33 +870,34 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             
             SwitchToDesc();
 
-            if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Current ID Copy Button"))
-            {
-                MainControl.STE_NavigationPanel_ObjectID_Display
-                    .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Current ID Copy Button"]
-                    .Extern(CurrentSkillID));
-            }
-
+            MainControl.STE_NavigationPanel_ObjectID_Display
+                .RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[Main UI] * ID Copy Button")
+                .Extern(CurrentSkillID);
+            
             MainWindow.NavigationPanel_IDSwitch_CheckAvalibles();
 
 
-            if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
-            {
-                MainControl.STE_Skills_Coin_DescNumberDisplay
-                    .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"]
-                    .Extern(UILanguageLoader.LoadedLanguage.DefaultInsertionText));
-            }
-
+            //if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
+            //{
+            //    MainControl.STE_Skills_Coin_DescNumberDisplay
+            //        .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"]
+            //        .Extern(UILanguageLoader.LoadedLanguage.DefaultInsertionText));
+            //}
+            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
+                .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text
+                    .Extern(ᐁ_Interface_Localization_Loader.SpecializedDefs.InsertionsDefaultValue);
 
             foreach (int UptieLevelNumber in DelegateSkills[CurrentSkillID].Keys.ToList())
             {
                 if (UptieLevelNumber <= 4)
                 {
-                    (MainControl.FindName($"NavigationPanel_Skills_UptieLevelSwitch_DisableCover_{UptieLevelNumber}") as Border).Visibility = Collapsed;
+                    InterfaceObject<Border>($"NavigationPanel_Skills_UptieLevelSwitch_DisableCover_{UptieLevelNumber}").Visibility = Visibility.Collapsed;
+                    //(MainControl.FindName($"NavigationPanel_Skills_UptieLevelSwitch_DisableCover_{UptieLevelNumber}") as Border).Visibility = Collapsed;
                 }
             }
 
-            if (CurrentSkillUptieLevel <= 4) (MainControl.FindName($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{CurrentSkillUptieLevel}") as Image).Visibility = Visible;
+            //if (CurrentSkillUptieLevel <= 4) (MainControl.FindName($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{CurrentSkillUptieLevel}") as Image).Visibility = Visible;
+            if (CurrentSkillUptieLevel <= 4) InterfaceObject<Image>($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{CurrentSkillUptieLevel}").Visibility = Visible;
 
             //////////////////////////////////////////////////
             var FullLink = DelegateSkills[CurrentSkillID][CurrentSkillUptieLevel];
@@ -943,80 +927,94 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 int CoinNumber = 1;
                 foreach(Coin CurrentCoin in FullLink.Coins)
                 {
-                    if (CurrentCoin.CoinDescriptions != null)
+                    if (CurrentCoin.CoinDescriptions != null && CurrentCoin.CoinDescriptions.Count > 0)
                     {
-                        if (CurrentCoin.CoinDescriptions.Count() != 0)
+                        if (CurrentCoin.CoinDescriptions.Where(x => x.Description == null).Count() != CurrentCoin.CoinDescriptions.Count)
                         {
-                            if (CurrentCoin.CoinDescriptions.Where(x => x.Description == null).Count() != CurrentCoin.CoinDescriptions.Count())
+                            int CoinDescNumber = 1;
+                            //Grid MainCoinPanel = MainControl.FindName($"PreviewLayout_Skills_Coin{CoinNumber}") as Grid;
+                            Grid MainCoinPanel = InterfaceObject<Grid>($"PreviewLayout_Skills_Coin{CoinNumber}");
+
+                            if (MainCoinPanel != null)
                             {
-                                int CoinDescNumber = 1;
-                                Grid MainCoinPanel = MainControl.FindName($"PreviewLayout_Skills_Coin{CoinNumber}") as Grid;
-
-                                if (MainCoinPanel != null)
+                                foreach(CoinDesc CoinDescription in CurrentCoin.CoinDescriptions)
                                 {
-                                    foreach(CoinDesc CoinDescription in CurrentCoin.CoinDescriptions)
+                                    if (CoinDescription.Description != null)
                                     {
-                                        if (CoinDescription.Description != null)
+                                        //TMProEmitter ThisCoinDescPanel = MainControl.FindName($"PreviewLayout_Skills_Coin{CoinNumber}_Desc{CoinDescNumber}") as TMProEmitter;
+                                        TMProEmitter ThisCoinDescPanel = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{CoinNumber}_Desc{CoinDescNumber}");
+                                        if (ThisCoinDescPanel != null)
                                         {
-                                            RichTextBox ThisCoinDescPanel = MainControl.FindName($"PreviewLayout_Skills_Coin{CoinNumber}_Desc{CoinDescNumber}") as RichTextBox;
-                                            if (ThisCoinDescPanel != null)
+                                            //Border RightMenuCoinButton_DisableCover = MainControl.FindName($"STE_DisableCover_Skills_Coin_{CoinNumber}") as Border;
+                                            Border RightMenuCoinButton_DisableCover = InterfaceObject<Border>($"STE_DisableCover_Skills_Coin_{CoinNumber}");
+
+                                            if (!CoinDescription.Description.Equals("")) VisibilityChangeQuery[ThisCoinDescPanel] = Visible;
+                                            VisibilityChangeQuery[RightMenuCoinButton_DisableCover] = Collapsed;
+
+                                            if (!CoinDescription.Description.Equals(CoinDescription.EditorDescription))
                                             {
-                                                Border RightMenuCoinButton_DisableCover = MainControl.FindName($"STE_DisableCover_Skills_Coin_{CoinNumber}") as Border;
+                                                ThisCoinDescPanel.RichText = CoinDescription.EditorDescription;
+                                                LastPreviewUpdatesBank[ThisCoinDescPanel] = CoinDescription.EditorDescription;
 
-                                                if (!CoinDescription.Description.Equals("")) VisibilityChangeQuery[ThisCoinDescPanel] = Visible;
-                                                VisibilityChangeQuery[RightMenuCoinButton_DisableCover] = Collapsed;
+                                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {CoinNumber}"]
+                                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                                                    .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill Coin {CoinNumber}"].Text);
 
-                                                if (!CoinDescription.Description.Equals(CoinDescription.EditorDescription))
-                                                {
-                                                    ThisCoinDescPanel.SetLimbusRichText(CoinDescription.EditorDescription);
-                                                    LastPreviewUpdatesBank[ThisCoinDescPanel] = CoinDescription.EditorDescription;
+                                                //(MainControl.FindName($"STE_Skills_Coin_{CoinNumber}") as UITranslator)
+                                                //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                                                //    .Extern(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {CoinNumber}"]));
+                                            }
+                                            else
+                                            {
+                                                ThisCoinDescPanel.RichText = CoinDescription.Description;
+                                                LastPreviewUpdatesBank[ThisCoinDescPanel] = CoinDescription.Description;
 
-                                                    (MainControl.FindName($"STE_Skills_Coin_{CoinNumber}") as RichTextBox)
-                                                        .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                                                        .Extern(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {CoinNumber}"]));
-                                                }
-                                                else
-                                                {
-                                                    ThisCoinDescPanel.SetLimbusRichText(CoinDescription.Description);
-                                                    LastPreviewUpdatesBank[ThisCoinDescPanel] = CoinDescription.Description;
-                                                    (MainControl.FindName($"STE_Skills_Coin_{CoinNumber}") as RichTextBox)
-                                                        .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {CoinNumber}"]);
-                                                }
+                                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {CoinNumber}"]
+                                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill Coin {CoinNumber}"].Text;
+                                                //(MainControl.FindName($"STE_Skills_Coin_{CoinNumber}") as UITranslator)
+                                                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {CoinNumber}"]);
                                             }
                                         }
-
-                                        CoinDescNumber++;
                                     }
+
+                                    CoinDescNumber++;
+                                }
                                 
 
-                                    if (FullLink.Coins[CoinNumber - 1].CoinDescriptions
-                                        .Where(x => x.Description != x.EditorDescription).Any())
+                                if (FullLink.Coins[CoinNumber - 1].CoinDescriptions
+                                    .Where(x => x.Description != x.EditorDescription).Any())
+                                {
+                                    //(MainControl.FindName($"STE_Skills_Coin_{CoinNumber}") as UITranslator)
+                                    //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                                    //        .Extern(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {CoinNumber}"]));
+
+                                    ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {CoinNumber}"]
+                                        .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill Coin {CoinNumber}"].Text);
+                                }
+                                else
+                                {
+                                    if (InterfaceObject<UITranslation_Rose>($"STE_Skills_Coin_{CoinNumber}") != null)
                                     {
-                                        (MainControl.FindName($"STE_Skills_Coin_{CoinNumber}") as RichTextBox)
-                                            .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                                                .Extern(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {CoinNumber}"]));
+                                        //(MainControl.FindName($"STE_Skills_Coin_{CoinNumber}") as UITranslator)
+                                        //    .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {CoinNumber}"]);
+                                        ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {CoinNumber}"]
+                                            .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill Coin {CoinNumber}"].Text;
                                     }
-                                    else
-                                    {
-                                        if (MainControl.FindName($"STE_Skills_Coin_{CoinNumber}") != null)
-                                        {
-                                            (MainControl.FindName($"STE_Skills_Coin_{CoinNumber}") as RichTextBox)
-                                                .SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {CoinNumber}"]);
-                                        }
-                                    }
+                                }
 
 
-                                    if (CurrentCoin.CoinDescriptions.Where(x => x.EditorDescription.EqualsOneOf("", "<style=\"highlight\"></style>")).Count() == CurrentCoin.CoinDescriptions.Count)
-                                    {
-                                        MainCoinPanel.Visibility = Collapsed;
-                                    }
-                                    else
-                                    {
-                                        MainCoinPanel.Visibility = Visible;
-                                    }
+                                if (CurrentCoin.CoinDescriptions.Where(x => x.EditorDescription.EqualsOneOf("", "<style=\"highlight\"></style>")).Count() == CurrentCoin.CoinDescriptions.Count)
+                                {
+                                    MainCoinPanel.Visibility = Collapsed;
+                                }
+                                else
+                                {
+                                    MainCoinPanel.Visibility = Visible;
                                 }
                             }
                         }
+                        
                     }
 
                     
@@ -1035,45 +1033,63 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
         }
 
-        internal protected static void ResetSkillInfo()
+        public static void ResetSkillInfo()
         {
             for (int UptieLevelNumber = 1; UptieLevelNumber <= 4; UptieLevelNumber++)
             {
-                (MainControl.FindName($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{UptieLevelNumber}") as Image).Visibility = Collapsed;
-                (MainControl.FindName($"NavigationPanel_Skills_UptieLevelSwitch_DisableCover_{UptieLevelNumber}") as Border).Visibility = Visible;
+                InterfaceObject<Image>($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{UptieLevelNumber}").Visibility = Collapsed;
+                InterfaceObject<Border>($"NavigationPanel_Skills_UptieLevelSwitch_DisableCover_{UptieLevelNumber}").Visibility = Visible;
             }
 
             for (int CoinNumber = 1; CoinNumber <= 6; CoinNumber++)
             {
                 //Grid CoinPanel = MainControl.FindName($"PreviewLayout_Skills_Coin{CoinNumber}") as Grid;
 
-                (MainControl.FindName($"STE_DisableCover_Skills_Coin_{CoinNumber}") as Border).Visibility = Visible;
+                InterfaceObject<Border>($"STE_DisableCover_Skills_Coin_{CoinNumber}").Visibility = Visible;
                 for (int CoinDescNumber = 1; CoinDescNumber <= 12; CoinDescNumber++)
                 {
-                    RichTextBox CoinDescPanel = MainControl.FindName($"PreviewLayout_Skills_Coin{CoinNumber}_Desc{CoinDescNumber}") as RichTextBox;
-                    CoinDescPanel.Document.Blocks.Clear();
+                    //TMProEmitter CoinDescPanel = MainControl.FindName($"PreviewLayout_Skills_Coin{CoinNumber}_Desc{CoinDescNumber}") as TMProEmitter;
+                    TMProEmitter CoinDescPanel = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{CoinNumber}_Desc{CoinDescNumber}");
+                    CoinDescPanel.Text = "";
                     CoinDescPanel.Visibility = Collapsed;
 
-                    RichTextBox CoinSwitchButtonText = (MainControl.FindName($"STE_Skills_Coin_{CoinNumber}") as RichTextBox);
-                    CoinSwitchButtonText.SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {CoinNumber}"]);
+                    
+                    UITranslation_Rose CoinSwitchButtonText = ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {CoinNumber}"];
+
+                    CoinSwitchButtonText.RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill Coin {CoinNumber}"].Text;
+
+                    
+
+                    //{
+
+                    //    UITranslator CoinSwitchButtonText = (MainControl.FindName($"STE_Skills_Coin_{CoinNumber}") as UITranslator);
+                    //    CoinSwitchButtonText.SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — Skill Coin {CoinNumber}"]);
+                    //}
                 }
 
-                (MainControl.FindName($"PreviewLayout_Skills_Coin{CoinNumber}") as Grid).Visibility = Collapsed;
+                //(MainControl.FindName($"PreviewLayout_Skills_Coin{CoinNumber}") as Grid).Visibility = Collapsed;
+                InterfaceObject<Grid>($"PreviewLayout_Skills_Coin{CoinNumber}").Visibility = Collapsed;
             }
         }
 
-        internal protected static void SetCoinFocus(int CoinNumber)
+        public static void SetCoinFocus(int CoinNumber)
         {
             MainControl.NavigationPanel_Skills_CoinDesc_Previous_DisableCover.Visibility = Visible;
             MainControl.NavigationPanel_Skills_CoinDesc_Next_DisableCover.Visibility = Visible;
             MainControl.NavigationPanel_Skills_CoinDesc_Display_DisableCover.Visibility = Collapsed;
 
-            if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Descs Title"))
-            {
-                MainControl.STE_CoinDescriptionsTitle
-                    .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Descs Title"]
-                    .Extern(CoinNumber));
-            }
+            //if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Descs Title"))
+            //{
+            //    MainControl.STE_CoinDescriptionsTitle
+            //        .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Descs Title"]
+            //        .Extern(CoinNumber));
+            //}
+
+            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin descs title"]
+                .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin descs title"].Text
+                    .Extern(CoinNumber);
+
+
 
             CurrentCoinDescs_Avalible.Clear();
             CurrentSkillCoinIndex = CoinNumber - 1;
@@ -1093,13 +1109,14 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             SwitchToCoinDesc(CurrentSkillCoinDescIndex);
         }
 
-        internal protected static void SwitchToCoinDesc(int CoinDescIndex, bool HighlightOnManualSwitch = false)
+        public static void SwitchToCoinDesc(int CoinDescIndex, bool HighlightOnManualSwitch = false)
         {
             {
                 ManualTextLoadEvent = true;
             }
 
-            PreviewUpdate_TargetSite = MainControl.FindName($"PreviewLayout_Skills_Coin{CurrentSkillCoinIndex + 1}_Desc{CoinDescIndex + 1}") as RichTextBox;
+            //PreviewUpdate_TargetSite = MainControl.FindName($"PreviewLayout_Skills_Coin{CurrentSkillCoinIndex + 1}_Desc{CoinDescIndex + 1}") as TMProEmitter;
+            PreviewUpdate_TargetSite = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{CurrentSkillCoinIndex + 1}_Desc{CoinDescIndex + 1}");
 
             CurrentSkillCoinDescIndex = CoinDescIndex;
 
@@ -1111,23 +1128,30 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 MainControl.Editor.Text = FullLink.EditorDescription;
 
-                if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
-                {
-                    MainControl.STE_Skills_Coin_DescNumberDisplay
-                        .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                        .Extern(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"].Extern($"{CoinDescIndex + 1}")));
-                }
+                //if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
+                //{
+                //    MainControl.STE_Skills_Coin_DescNumberDisplay
+                //        .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                //        .Extern(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"].Extern($"{CoinDescIndex + 1}")));
+                //}
+
+                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
+                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text.Extern($"{CoinDescIndex + 1}"));
             }
             else
             {
                 MainControl.Editor.Text = FullLink.Description;
 
-                if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
-                {
-                    MainControl.STE_Skills_Coin_DescNumberDisplay
-                        .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"]
-                        .Extern($"{CoinDescIndex + 1}"));
-                }
+                //if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
+                //{
+                //    MainControl.STE_Skills_Coin_DescNumberDisplay
+                //        .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"]
+                //        .Extern($"{CoinDescIndex + 1}"));
+                //}
+
+                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
+                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text.Extern($"{CoinDescIndex + 1}");
             }
 
             MainWindow.NavigationPanel_Skills_SwitchToCoinDesc_CheckAvalibles();
@@ -1139,7 +1163,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
         }
 
-        internal protected static void SwitchToDesc()
+        public static void SwitchToDesc()
         {
             {
                 ManualTextLoadEvent = true;
@@ -1149,12 +1173,15 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             MainControl.NavigationPanel_Skills_CoinDesc_Next_DisableCover.Visibility = Visible;
             MainControl.NavigationPanel_Skills_CoinDesc_Display_DisableCover.Visibility = Visible;
 
-            if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Descs Title"))
-            {
-                MainControl.STE_CoinDescriptionsTitle
-                    .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Descs Title"]
-                    .Extern(UILanguageLoader.LoadedLanguage.DefaultInsertionText));
-            }
+            //if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Descs Title"))
+            //{
+            //    MainControl.STE_CoinDescriptionsTitle
+            //        .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Descs Title"]
+            //        .Extern(UILanguageLoader.LoadedLanguage.DefaultInsertionText));
+            //}
+
+            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin descs title"]
+                .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin descs title"].Text.Extern(ᐁ_Interface_Localization_Loader.SpecializedDefs.InsertionsDefaultValue);
 
             PreviewUpdate_TargetSite = MainControl.PreviewLayout_Skills_MainDesc;
 
@@ -1177,12 +1204,15 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             if (MainControl.Editor.Text.Equals("")) PreviewUpdate_TargetSite.Visibility = Collapsed;
 
-            if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
-            {
-                MainControl.STE_Skills_Coin_DescNumberDisplay
-                    .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"]
-                    .Extern(UILanguageLoader.LoadedLanguage.DefaultInsertionText));
-            }
+            //if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Skill Coin Desc Number"))
+            //{
+            //    MainControl.STE_Skills_Coin_DescNumberDisplay
+            //        .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Skill Coin Desc Number"]
+            //        .Extern(UILanguageLoader.LoadedLanguage.DefaultInsertionText));
+
+            //}
+            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
+            .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text.Extern(ᐁ_Interface_Localization_Loader.SpecializedDefs.InsertionsDefaultValue);
 
             LockEditorUndo();
 

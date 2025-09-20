@@ -2,12 +2,11 @@
 using LC_Localization_Task_Absolute.Limbus_Integration;
 using LC_Localization_Task_Absolute.Mode_Handlers;
 using Newtonsoft.Json;
-using RichText;
 using System.IO;
 using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Windows;
-using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using static LC_Localization_Task_Absolute.MainWindow;
 using static LC_Localization_Task_Absolute.Requirements;
@@ -15,14 +14,14 @@ using static System.Windows.Visibility;
 
 namespace LC_Localization_Task_Absolute
 {
-    internal static class ConfigRegexSaver
+    public static class ConfigRegexSaver
     {
         // Because serealizing current config with all default values causes a lot of mess string values that hard to remove
-        internal static void ChangeJsonConfigViaRegex(string PropertyName, dynamic NewValue, bool IsInsideCurrentCustomLangProperties = false)
+        public static void ChangeJsonConfigViaRegex(string PropertyName, dynamic NewValue, bool IsInsideCurrentCustomLangProperties = false)
         {
-            if (SettingsControl.ChangeConfigOnOptionToggle)
+            if (SettingsWindow.SettingsControl.ChangeConfigOnOptionToggle)
             {
-                string CurrentConfigurationJsonContent = File.ReadAllText(@"⇲ Assets Directory\Configurazione^.json");
+                string CurrentConfigurationJsonContent = File.ReadAllText(@"[⇲] Assets Directory\Configurazione^.json");
                 string OldConfig = CurrentConfigurationJsonContent;
 
                 #region Change
@@ -65,43 +64,37 @@ namespace LC_Localization_Task_Absolute
 
                 if (!OldConfig.Equals(CurrentConfigurationJsonContent))
                 {
-                    File.WriteAllText(@"⇲ Assets Directory\Configurazione^.json", CurrentConfigurationJsonContent);
+                    File.WriteAllText(@"[⇲] Assets Directory\Configurazione^.json", CurrentConfigurationJsonContent);
                 }
             }
         }
     }
 
-    internal abstract class Configurazione
+    public abstract class Configurazione
     {
         #region loads
-        internal protected static ConfigDelta DeltaConfig = new ConfigDelta();
+        public static ConfigDelta DeltaConfig = new ConfigDelta();
 
-        internal protected static Regex ShorthandsPattern = new Regex("NOTHING THERE");
+        public static Regex ShorthandsPattern = new Regex("NOTHING THERE");
 
-        internal protected static ShorthandInsertionProperty ShorthandsInsertionShape = new ShorthandInsertionProperty()
+        public static ShorthandInsertionProperty ShorthandsInsertionShape = new ShorthandInsertionProperty()
         {
             InsertionShape = "[<KeywordID>]",
             InsertionShape_Color = "",
         };
 
-        internal protected static double KeywordSpriteHorizontalOffset = 0;
-        internal protected static double KeywordSpriteVerticalOffset = -4;
-        internal protected static double KeywordSpriteKeywordContainerHorizontalOffset = 0;
+        public static CustomLanguageAssociativePropertyMain SelectedAssociativePropery_Shared = null;
 
-        internal protected static dynamic FormalTaskCompleted = null;
+        public static string LoadErrors = "";
 
-        internal protected static CustomLanguageAssociativePropertyMain SelectedAssociativePropery_Shared = null;
-
-        internal protected static string LoadErrors = "";
-
-        internal protected static bool SettingsLoadingEvent = false;
+        public static bool SettingsLoadingEvent = false;
 
 
         // Per-session, no config
-        internal protected static bool Spec_EnableKeywordIDSprite = true;
-        internal protected static bool Spec_EnableKeywordIDUnderline = true;
+        public static bool Spec_EnableKeywordIDSprite = true;
+        public static bool Spec_EnableKeywordIDUnderline = true;
 
-        internal protected static void PullLoad()
+        public static void PullLoad()
         {
             Mode_EGOGifts.OrganizedData.UpdateDisplayInfo();
 
@@ -109,9 +102,8 @@ namespace LC_Localization_Task_Absolute
             Custom_Skills_Constructor.ReadSkillConstructors();
 
             KeywordsInterrogate.LoadInlineImages();
-            LimbusPreviewFormatter.InitializeLimbusEmbeddedFonts();
 
-            if (File.Exists(@"⇲ Assets Directory\Configurazione^.json"))
+            if (File.Exists(@"[⇲] Assets Directory\Configurazione^.json"))
             {
                 try
                 {
@@ -120,10 +112,12 @@ namespace LC_Localization_Task_Absolute
                     SettingsLoadingEvent = true;
                     rin($"\n\n\n[ Settings load pull initialized ]\n");
 
-                    Configurazione.DeltaConfig = JsonConvert.DeserializeObject<Configurazione.ConfigDelta>(File.ReadAllText(@"⇲ Assets Directory\Configurazione^.json"));
+                    Configurazione.DeltaConfig = JsonConvert.DeserializeObject<Configurazione.ConfigDelta>(File.ReadAllText(@"[⇲] Assets Directory\Configurazione^.json"));
                     rin($" Configuration file readed");
 
                     SettingsWindow.UpdateSettingsMenu_Regular();
+
+                    ToggleLimbusPreviewVisibility();
 
                     if (Directory.Exists(DeltaConfig.PreviewSettings.CustomLanguageProperties.KeywordsFallback.FallbackKeywordsDirectory))
                     {
@@ -135,7 +129,7 @@ namespace LC_Localization_Task_Absolute
                     {
                         //LoadErrors += $"¤ Cannot find fallback keywords directory \"{DeltaConfig.PreviewSettings.CustomLanguageProperties.KeywordsFallback.FallbackKeywordsDirectory}\" (Can it be on disk D:\\ or E:\\??)\n\n";
 
-                        LoadErrors += UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.FallbackKeywordsNotFound.Extern(DeltaConfig.PreviewSettings.CustomLanguageProperties.KeywordsFallback.FallbackKeywordsDirectory);
+                        LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.FallbackKeywordsNotFound.Extern(DeltaConfig.PreviewSettings.CustomLanguageProperties.KeywordsFallback.FallbackKeywordsDirectory);
                     }
 
                     string SelectedAssociativePropertyName = DeltaConfig.PreviewSettings.CustomLanguageProperties.AssociativeSettings.Selected;
@@ -157,7 +151,7 @@ namespace LC_Localization_Task_Absolute
                     {
                         //LoadErrors += $"¤ Cannot find Custom Language property named \"{SelectedAssociativePropertyName}\"\n\n";
 
-                        LoadErrors += UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.CustomLanguagePropertyNotFound.Extern(SelectedAssociativePropertyName);
+                        LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.CustomLanguagePropertyNotFound.Extern(SelectedAssociativePropertyName);
                     }
 
                     if (Directory.Exists(DeltaConfig.PreviewSettings.CustomLanguageProperties.AdditionalKeywordsDirectory))
@@ -169,7 +163,14 @@ namespace LC_Localization_Task_Absolute
                         );
                     }
 
-                    RichTextBoxApplicator.UpdateLast();
+                    ᐁ_Interface_Localization_Loader.ModifyUI(DeltaConfig.Internal.UILanguage);
+                    //UILanguageLoader.InitializeUILanguage(DeltaConfig.Internal.UILanguage);
+                    rin($" UI Language loaded from \"{DeltaConfig.Internal.UILanguage}\"");
+                    ᐁ_Interface_Themes_Loader.ModifyUI(DeltaConfig.Internal.UITheme);
+                    //UIThemesLoader.InitializeUITheme(DeltaConfig.Internal.UITheme);
+                    rin($" UI Theme loaded from \"{DeltaConfig.Internal.UITheme}\"");
+
+                    LimbusPreviewFormatter.UpdateLast();
 
                     SettingsLoadingEvent = false;
                 }
@@ -181,7 +182,7 @@ namespace LC_Localization_Task_Absolute
             }
         }
 
-        internal protected static void UpdateCustomLanguagePart(CustomLanguageAssociativePropertyMain SelectedAssociativePropery)
+        public static void UpdateCustomLanguagePart(CustomLanguageAssociativePropertyMain SelectedAssociativePropery)
         {
             if (Directory.Exists(SelectedAssociativePropery.Properties.KeywordsDirectory))
             {
@@ -195,7 +196,7 @@ namespace LC_Localization_Task_Absolute
             {
                 //LoadErrors += $"¤ Cannot find Custom Language keywords directory \"{}\"\n\n";
 
-                LoadErrors += UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.KeywordsDirNotFound.Extern(SelectedAssociativePropery.Properties.KeywordsDirectory);
+                LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.KeywordsDirNotFound.Extern(SelectedAssociativePropery.Properties.KeywordsDirectory);
             }
 
             if (!SelectedAssociativePropery.Properties.KeywordsMultipleMeaningsDictionary.Equals(""))
@@ -208,12 +209,15 @@ namespace LC_Localization_Task_Absolute
                 {
                     //LoadErrors += $"¤ Cannot find Keywords Multiple Meanings Dictionary \"{}\"\n\n";
 
-                    LoadErrors += UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.MultipleKeywordsDictionaryMissing.Extern(SelectedAssociativePropery.Properties.KeywordsDirectory);
+                    LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.MultipleKeywordsDictionaryMissing.Extern(SelectedAssociativePropery.Properties.KeywordsDirectory);
                 }
             }
 
-            KeywordSpriteHorizontalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteHorizontalOffset;
-            KeywordSpriteVerticalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteVerticalOffset;
+            //KeywordSpriteHorizontalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteHorizontalOffset;
+            //KeywordSpriteVerticalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteVerticalOffset;
+
+            Pocket_Watch_ː_Type_L.@Generic.SpritesVerticalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteVerticalOffset;
+            Pocket_Watch_ː_Type_L.@Generic.SpritesHorizontalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteHorizontalOffset;
 
 
             LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection = SelectedAssociativePropery.Properties.Keywords_AutodetectionRegex;
@@ -239,25 +243,43 @@ namespace LC_Localization_Task_Absolute
 
             //                                      if only starting (Somehow just cant show messagebox at startup fom public MainWindow() )
             // Then MainWindow.Window_Loaded() will be triggered with this
-            if (!LoadErrors.Equals("") & !RichText.InternalModel.InitializingEvent & Configurazione.DeltaConfig.Internal.ShowLoadWarnings)
+            if (!LoadErrors.Equals("") & Configurazione.DeltaConfig.Internal.ShowLoadWarnings & MainControl.IsLoaded)
             {
                 ShowLoadWarningsWindow();
             }
         }
 
+        public static void ToggleLimbusPreviewVisibility()
+        {
+            if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HidePreview)
+            {
+                MainControl.LimbusPreviewRow.MaxHeight = 0;
+            }
+            else
+            {
+                MainControl.LimbusPreviewRow.MaxHeight = double.PositiveInfinity;
+            }
+        }
 
-
-        internal protected static Task UpdatePreviewLayoutsFont(CustomLanguageAssociativePropertyValues Properties = null)
+        public static void UpdatePreviewLayoutsFont(CustomLanguageAssociativePropertyValues Properties = null)
         {
             if (Properties != null)
             {
+                foreach (TMProEmitter PreviewLayoutItem in PreviewLayoutsList)
+                {
+                    if (MainWindow.PrimaryRegisteredFontSizes.ContainsKey(PreviewLayoutItem))
+                    {
+                        PreviewLayoutItem.FontSize = MainWindow.PrimaryRegisteredFontSizes[PreviewLayoutItem];
+                    }
+                }
+
                 if (File.Exists(Properties.ContextFont))
                 {
                     rin($"    - Context font file: \"{Properties.ContextFont}\"");
 
                     FontFamily ContextFontFamily = FileToFontFamily(Properties.ContextFont, Properties.ContextFont_OverrideReadName, WriteInfo: true);
                     
-                    foreach (RichTextBox PreviewLayoutItem in PreviewLayoutsList)
+                    foreach (TMProEmitter PreviewLayoutItem in PreviewLayoutsList)
                     {
                         try
                         {
@@ -272,7 +294,7 @@ namespace LC_Localization_Task_Absolute
                 else
                 {
                     //LoadErrors += $"¤ Cannot find Context Font file \"{Properties.ContextFont}\"\n\n";
-                    LoadErrors += UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.ContextFontMissing.Extern(Properties.ContextFont);
+                    LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.ContextFontMissing.Extern(Properties.ContextFont);
                     rin($"    - [!] Context font file NOT FOUND (\"{Properties.ContextFont}\")");
                 }
 
@@ -286,49 +308,60 @@ namespace LC_Localization_Task_Absolute
                     rin($"      Applied title font");
                     MainControl.NavigationPanel_ObjectName_Display.FontWeight = WeightFrom(Properties.TitleFont_FontWeight);
 
+                    // Reset
+                    MainControl.NavigationPanel_ObjectName_Display.FontSize
+                        = MainControl.PreviewLayout_Keywords_Bufs_Name.FontSize
+                        = 23;
+                    // Reset
+                    MainControl.EGOGiftName_PreviewLayout.FontSize = 29;
+                    MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.FontSize
+                        = MainControl.PreviewLayout_Keywords_BattleKeywords_Name.FontSize
+                        = 20;
+
                     MainControl.NavigationPanel_ObjectName_Display.FontSize *= Properties.TitleFont_FontSizeMultipler;
                     MainControl.PreviewLayout_Keywords_Bufs_Name.FontSize *= Properties.TitleFont_FontSizeMultipler;
                     MainControl.EGOGiftName_PreviewLayout.FontSize *= Properties.TitleFont_FontSizeMultipler;
                     MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.FontSize *= Properties.TitleFont_FontSizeMultipler;
                     MainControl.PreviewLayout_Keywords_BattleKeywords_Name.FontSize *= Properties.TitleFont_FontSizeMultipler;
+
                 }
                 else
                 {
                     //LoadErrors += $"¤ Cannot find Title Font file \"{Properties.TitleFont}\"\n\n";
-                    LoadErrors += UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.TitleFontMissing.Extern(Properties.TitleFont);
+                    LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.TitleFontMissing.Extern(Properties.TitleFont);
                     rin($"    - [!] Title font file NOT FOUND (\"{Properties.TitleFont}\")");
                 }
 
 
-                if (File.Exists(@"⇲ Assets Directory\[⇲] Limbus Images\UI\BattleKeywords Background.png"))
+                if (File.Exists(@"[⇲] Assets Directory\[⇲] Limbus Images\UI\BattleKeywords Background.png"))
                 {
-                    MainControl.PreviewLayoutGrid_Keywords_Sub_BattleKeywords_BackgroundImage.Source = GenerateBitmapFromFile(@"⇲ Assets Directory\[⇲] Limbus Images\UI\BattleKeywords Background.png");
+                    MainControl.PreviewLayoutGrid_Keywords_Sub_BattleKeywords_BackgroundImage.Source = BitmapFromFile(@"[⇲] Assets Directory\[⇲] Limbus Images\UI\BattleKeywords Background.png");
                 }
 
-                SettingsControl.InputSkillsPanelWidth.Text = $"{Configurazione.DeltaConfig.ScanParameters.AreaWidth}";
-                SettingsControl.InputScansScaleFactor.Text = $"{Configurazione.DeltaConfig.ScanParameters.ScaleFactor}";
-                SettingsControl.InputSkillsScanBackgroundColor.Text = $"{Configurazione.DeltaConfig.ScanParameters.BackgroundColor}";
+                SettingsWindow.SettingsControl.InputSkillsPanelWidth.Text = $"{Configurazione.DeltaConfig.ScanParameters.AreaWidth}";
+                SettingsWindow.SettingsControl.InputScansScaleFactor.Text = $"{Configurazione.DeltaConfig.ScanParameters.ScaleFactor}";
+                SettingsWindow.SettingsControl.InputSkillsScanBackgroundColor.Text = $"{Configurazione.DeltaConfig.ScanParameters.BackgroundColor}";
                 MainControl.SkillReplica.Visibility = Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSkillNamesReplication ? Visible : Collapsed;
             }
-
-            return FormalTaskCompleted;
         }
         #endregion
 
 
-        internal protected static void ShowLoadWarningsWindow()
+        public static void ShowLoadWarningsWindow()
         {
             MessageBox.Show(
-                Configurazione.LoadErrors + UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.WarningsDisablingNotice,
+               // Configurazione.LoadErrors + ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.WarningsDisablingNotice,
+                Configurazione.LoadErrors + ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.WarningsDisablingNotice,
 
-                UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.WarningsWindowTitle.Extern(Configurazione.SelectedAssociativePropery_Shared.PropertyName),
+               // ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.WarningsWindowTitle.Extern(Configurazione.SelectedAssociativePropery_Shared.PropertyName),
+                ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.WarningsWindowTitle.Extern(Configurazione.SelectedAssociativePropery_Shared.PropertyName),
 
                 MessageBoxButton.OK,
 
                 MessageBoxImage.Information);
         }
 
-        internal protected class ShorthandInsertionProperty
+        public record ShorthandInsertionProperty
         {
             [JsonProperty("(Context Menu) Insertion Shape")]
             public string InsertionShape { get; set; } = "[<KeywordID>:`<KeywordName>`]<KeywordColor>";
@@ -337,7 +370,7 @@ namespace LC_Localization_Task_Absolute
             public string InsertionShape_Color { get; set; } = "<HexColor>";
         }
 
-        internal protected class ConfigDelta
+        public record ConfigDelta
         {
             [JsonProperty("Internal")]
             public Internal Internal { get; set; } = new Internal();
@@ -351,7 +384,7 @@ namespace LC_Localization_Task_Absolute
             [JsonProperty("Technical Actions")]
             public TechnicalActions TechnicalActions { get; set; } = new TechnicalActions();
         }
-        internal protected class Internal
+        public record Internal
         {
             [JsonProperty("UI Language")]
             public string UILanguage { get; set; } = "";
@@ -360,24 +393,19 @@ namespace LC_Localization_Task_Absolute
             public string UITheme { get; set; } = "";
 
             [JsonProperty("Topmost Window")]
-            public bool AlwaysOnTop { get; set; } = true;
+            public bool IsAlwaysOnTop { get; set; } = true;
 
             [JsonProperty("Show Load Warnings")]
             public bool ShowLoadWarnings { get; set; } = true;
 
             [OnDeserialized]
-            internal void OnDeserialized(StreamingContext context)
+            private void OnDeserialized(StreamingContext context)
             {
-                UILanguageLoader.InitializeUILanguage(UILanguage);
-                rin($" UI Language loaded from \"{UILanguage}\"");
-                UIThemesLoader.InitializeUITheme(UITheme);
-                rin($" UI Theme loaded from \"{UITheme}\"");
-
-                MainControl.Topmost = AlwaysOnTop;
-                rin($" Always on top: {AlwaysOnTop}");
+                MainControl.Topmost = IsAlwaysOnTop;
+                rin($" Always on top: {IsAlwaysOnTop}");
             }
         }
-        internal protected class PreviewSettings
+        public record PreviewSettings
         {
             [JsonProperty("Base")]
             public PreviewSettingsBaseSettings PreviewSettingsBaseSettings { get; set; } = new PreviewSettingsBaseSettings();
@@ -385,27 +413,40 @@ namespace LC_Localization_Task_Absolute
             [JsonProperty("Custom Language Properties")]
             public CustomLanguageProperties CustomLanguageProperties { get; set; } = new CustomLanguageProperties();
         }
-        internal protected class PreviewSettingsBaseSettings
+        public record PreviewSettingsBaseSettings
         {
+            [JsonProperty("Enable Syntax Highlight")]
+            public bool EnableSyntaxHighlight { get; set; } = true;
+
+            [JsonProperty("Hide Limbus Text Preview")]
+            public bool HidePreview { get; set; } = false;
+
+
             [JsonProperty("Preview Update Delay (Seconds)")]
             public double PreviewUpdateDelay { get; set; } = 0.00;
+
 
             [JsonProperty("Highlight <style>")]
             public bool HighlightStyle { get; set; } = true;
 
-            [JsonProperty("Highlight Coin Descs on right click")]
-            public bool HighlightCoinDescsOnRightClick { get; set; } = true;
 
-            [JsonProperty("Highlight Coin Descs on manual switch")]
-            public bool HighlightCoinDescsOnManualSwitch { get; set; } = false;
+            [JsonProperty("Highlight Skill Descs on right click")]
+            public bool HighlightSkillDescsOnRightClick { get; set; } = true;
+
+            [JsonProperty("Highlight Skill Descs on manual switch")]
+            public bool HighlightSkillDescsOnManualSwitch { get; set; } = false;
+
 
             [JsonProperty("Enable Skill Names Replication")]
             public bool EnableSkillNamesReplication { get; set; } = true;
+
+            [JsonProperty("Enable Keyword Tooltips")]
+            public bool EnableKeywordTooltips { get; set; } = false;
         }
-        internal protected class CustomLanguageProperties
+        public record CustomLanguageProperties
         {
             [JsonProperty("Keywords Ignore")]
-            public List<string> KeywordsIgnore { get; set; } = new List<string>();
+            public string[] KeywordsIgnore { get; set; } = [];
 
             [JsonProperty("Keywords Fallback")]
             public FallbackKeywords KeywordsFallback { get; set; } = new FallbackKeywords();
@@ -416,12 +457,12 @@ namespace LC_Localization_Task_Absolute
             [JsonProperty("Additional Keywords Directory")]
             public string AdditionalKeywordsDirectory { get; set; } = "";
         }
-        internal protected class FallbackKeywords
+        public record FallbackKeywords
         {
             [JsonProperty("Directory")]
             public string FallbackKeywordsDirectory { get; set; } = "";
         }
-        internal protected class CustomLanguageAssociativeSettings
+        public record CustomLanguageAssociativeSettings
         {
             [JsonProperty("Associative Properties Selected")]
             public string Selected { get; set; } = "";
@@ -429,7 +470,7 @@ namespace LC_Localization_Task_Absolute
             [JsonProperty("Associative Properties List")]
             public List<CustomLanguageAssociativePropertyMain> List { get; set; } = new List<CustomLanguageAssociativePropertyMain>();
         }
-        internal protected class CustomLanguageAssociativePropertyMain
+        public record CustomLanguageAssociativePropertyMain
         {
             [JsonProperty("Name")]
             public string PropertyName { get; set; } = "<none>";
@@ -440,13 +481,15 @@ namespace LC_Localization_Task_Absolute
             [JsonProperty("Properties")]
             public CustomLanguageAssociativePropertyValues Properties { get; set; } = new CustomLanguageAssociativePropertyValues();
         }
-        internal protected class CustomLanguageAssociativePropertyValues
+        public record CustomLanguageAssociativePropertyValues
         {
             [JsonProperty("Keywords Directory")]
             public string KeywordsDirectory { get; set; } = "";
 
+
+            
             [JsonProperty("Keywords Autodetection Regex Pattern")]
-            public string Keywords_AutodetectionRegex { get; set; } = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-_<'"":\+])").ToString();
+            public string Keywords_AutodetectionRegex { get; set; } = /* lang=regex */ @"(KeywordNameWillBeHere)(?![\p{L}\[\])\-_<'"":\+])";
 
             [JsonProperty("Keywords Shorthands Regex Pattern")]
             public string Keywords_ShorthandsRegex { get; set; } = new Regex(@"NOTHING THERE").ToString();
@@ -464,7 +507,7 @@ namespace LC_Localization_Task_Absolute
             public double KeywordsSpriteHorizontalOffset { get; set; } = 0;
 
             [JsonProperty("Keywords Sprite Vertical Offset")]
-            public double KeywordsSpriteVerticalOffset { get; set; } = -4;
+            public double KeywordsSpriteVerticalOffset { get; set; } = 0;
 
 
 
@@ -490,7 +533,7 @@ namespace LC_Localization_Task_Absolute
             [JsonProperty("Context Font (Font Size Multipler)")]
             public double ContextFont_FontSizeMultipler { get; set; } = 1.0;
         }
-        internal protected class ScanParameters
+        public record ScanParameters
         {
             [JsonProperty("Skills Area Width")]
             public double AreaWidth { get; set; } = 0;
@@ -502,18 +545,18 @@ namespace LC_Localization_Task_Absolute
             public string BackgroundColor { get; set; } = "#00000000";
 
             [OnDeserialized]
-            internal void OnDeserialized(StreamingContext context)
+            private void OnDeserialized(StreamingContext Context)
             {
                 if (ScaleFactor > 20) ScaleFactor = 20;
                 if (ScaleFactor < 0) ScaleFactor = 1;
             }
         }
-        internal protected class TechnicalActions
+        public record TechnicalActions
         {
             [JsonProperty("Keywords Multiple Meanings Dictionary")]
             public TA_KeywordsDictionary KeywordsDictionary { get; set; } = new TA_KeywordsDictionary();
         }
-        internal protected class TA_KeywordsDictionary
+        public record TA_KeywordsDictionary
         {
             [JsonProperty("Generate On Startup")]
             public bool Generate { get; set; } = false;

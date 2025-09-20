@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>LC_Localization_Task_Absolute</RootNamespace>
     <Nullable>enable</Nullable>
@@ -12,24 +12,16 @@
 
   <ItemGroup>
     <Compile Remove="Default Data\**" />
-    <Compile Remove="WPF Primitives\RichText Extension - Копировать\**" />
     <EmbeddedResource Remove="Default Data\**" />
-    <EmbeddedResource Remove="WPF Primitives\RichText Extension - Копировать\**" />
     <None Remove="Default Data\**" />
-    <None Remove="WPF Primitives\RichText Extension - Копировать\**" />
     <Page Remove="Default Data\**" />
-    <Page Remove="WPF Primitives\RichText Extension - Копировать\**" />
   </ItemGroup>
 
   <ItemGroup>
-    <None Remove="Default\Language\English.json" />
-    <None Remove="Default\Theme\Theme.json" />
     <None Remove="UI\Fonts\ExcelsiorSans.ttf" />
     <None Remove="UI\Fonts\GOST Type BU.ttf" />
-    <None Remove="UI\Fonts\Mikodacs.otf" />
     <None Remove="UI\Fonts\SCDream5.otf" />
     <None Remove="UI\Fonts\Segoe Fluent Icons.ttf" />
-    <None Remove="UI\Images\Floor of Literature.png" />
     <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Envy.png" />
     <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Gloom.png" />
     <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Gluttony.png" />
@@ -84,6 +76,8 @@
     <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Sinclair.png" />
     <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Yi Sang.png" />
     <None Remove="UI\Limbus\Custom Identity Preview\Skill Name abc.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Walpurgis Night Frame.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Walpurgisnacht Logo.png" />
     <None Remove="UI\Limbus\Skills\Affinity Icons\Envy.png" />
     <None Remove="UI\Limbus\Skills\Affinity Icons\Gloom.png" />
     <None Remove="UI\Limbus\Skills\Affinity Icons\Gluttony.png" />
@@ -157,12 +151,12 @@
     <Resource Include="UI\Fonts\Bebas Neue Cyrillic.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="UI\Fonts\ExcelsiorSans.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="UI\Fonts\GOST Type BU.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -272,6 +266,12 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Yi Sang.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Walpurgis Night Frame.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Walpurgisnacht Logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Skills\Affinity Icons\Envy.png">
@@ -439,13 +439,6 @@
   </ItemGroup>
 
   <ItemGroup>
-    <EmbeddedResource Include="Default\Language\English.json" />
-    <EmbeddedResource Include="Default\Theme\Theme.json">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </EmbeddedResource>
-    <Resource Include="UI\Fonts\Mikodacs.otf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
     <Resource Include="UI\Limbus\Backgrounds\Dirty Background.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -503,6 +496,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
     <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
     <PackageReference Include="NLog" Version="5.4.0" />
     <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
@@ -511,9 +505,6 @@
 
   <ItemGroup>
     <Resource Include="UI\Fonts\Segoe Fluent Icons.ttf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Images\Floor of Literature.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Backgrounds\E.G.O Gifts.png">

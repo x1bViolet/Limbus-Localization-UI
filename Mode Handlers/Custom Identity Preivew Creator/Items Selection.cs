@@ -1,4 +1,5 @@
-﻿using System.Windows;
+﻿using LC_Localization_Task_Absolute.Mode_Handlers;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Keywords;
@@ -106,9 +107,9 @@ public partial class MainWindow
     /// </summary>
     private bool CanOverwriteProjectCautionsType = false;
 
-    private BitmapImage Caution_PART = ImageFromResource(@"UI/Limbus/Custom Identity Preview/Decorative Warning (Part).png");
-    private BitmapImage Caution_SEASON = ImageFromResource(@"UI/Limbus/Custom Identity Preview/Decorative Warning (Season).png");
-    private BitmapImage Caution_CAUTION = ImageFromResource(@"UI/Limbus/Custom Identity Preview/Decorative Warning (Caution).png");
+    private readonly BitmapImage Caution_PART = BitmapFromResource(@"UI/Limbus/Custom Identity Preview/Decorative Warning (Part).png");
+    private readonly BitmapImage Caution_SEASON = BitmapFromResource(@"UI/Limbus/Custom Identity Preview/Decorative Warning (Season).png");
+    private readonly BitmapImage Caution_CAUTION = BitmapFromResource(@"UI/Limbus/Custom Identity Preview/Decorative Warning (Caution).png");
 
     void SelectCautionsType(object RequestSender /* ComboBox */, SelectionChangedEventArgs EventArgs)
     {
@@ -158,7 +159,7 @@ public partial class MainWindow
         {
             FocusedColumnItem.SelectedLocalizationItemIndex = SkillsLocalizationIDSelector.SelectedIndex;
 
-            FocusedColumnItem.ItemInfo.SelectedTextIDFromLocalizationFile = (EventArgs.AddedItems[0] as UILocalization_Grocerius).UniversalDataBindings["Attached item ID"];
+            FocusedColumnItem.ItemInfo.SelectedTextIDFromLocalizationFile = (EventArgs.AddedItems[0] as UITranslation_Rose).UniversalDataBindings["Attached item ID"];
 
             CheckSkillSelectorsAndGenerateSkillDisplayer();
         }
@@ -170,7 +171,7 @@ public partial class MainWindow
         {
             FocusedColumnItem.SelectedSkillDisplayInfoConstructorIndex = SkillsDisplayInfoIDSelector.SelectedIndex;
 
-            FocusedColumnItem.ItemInfo.SelectedSkillConstructorFromDisplayInfoFile = (SkillsDisplayInfoIDSelector.SelectedItem as UILocalization_Grocerius).UniversalDataBindings["Attached item ID"];
+            FocusedColumnItem.ItemInfo.SelectedSkillConstructorFromDisplayInfoFile = (SkillsDisplayInfoIDSelector.SelectedItem as UITranslation_Rose).UniversalDataBindings["Attached item ID"];
 
             CheckSkillSelectorsAndGenerateSkillDisplayer();
         }
@@ -179,9 +180,9 @@ public partial class MainWindow
     {
         if (SkillsLocalizationIDSelector.SelectedIndex != -1 & SkillsDisplayInfoIDSelector.SelectedIndex != -1)
         {
-            UptieLevel TextInfo = (SkillsLocalizationIDSelector.SelectedItem as UILocalization_Grocerius).UniversalDataBindings["Attached item"];
+            UptieLevel TextInfo = (SkillsLocalizationIDSelector.SelectedItem as UITranslation_Rose).UniversalDataBindings["Attached item"];
 
-            SkillContstructor DisplayInfo = (SkillsDisplayInfoIDSelector.SelectedItem as UILocalization_Grocerius).UniversalDataBindings["Attached item"];
+            SkillContstructor DisplayInfo = (SkillsDisplayInfoIDSelector.SelectedItem as UITranslation_Rose).UniversalDataBindings["Attached item"];
 
             GenerateSkillDisplayerForFocusedItem(TextInfo, DisplayInfo);
 
@@ -195,7 +196,7 @@ public partial class MainWindow
         if (!ColumnItemFocusingEvent & EventArgs.AddedItems.Count > 0)
         {
             FocusedColumnItem.SelectedLocalizationItemIndex = PassivesLocalizationIDSelector.SelectedIndex;
-            FocusedColumnItem.ItemInfo.SelectedTextIDFromLocalizationFile = (EventArgs.AddedItems[0] as UILocalization_Grocerius).UniversalDataBindings["Attached item ID"];
+            FocusedColumnItem.ItemInfo.SelectedTextIDFromLocalizationFile = (EventArgs.AddedItems[0] as UITranslation_Rose).UniversalDataBindings["Attached item ID"];
 
             CheckPassiveSelectorAndGeneratePassiveDisplayer();
 
@@ -206,7 +207,7 @@ public partial class MainWindow
     {
         if (PassivesLocalizationIDSelector.SelectedIndex != -1)
         {
-            Passive TextInfo = (PassivesLocalizationIDSelector.SelectedItem as UILocalization_Grocerius).UniversalDataBindings["Attached item"];
+            Passive TextInfo = (PassivesLocalizationIDSelector.SelectedItem as UITranslation_Rose).UniversalDataBindings["Attached item"];
 
             GeneratePassiveDisplayerForFocusedItem(TextInfo);
         }
@@ -217,7 +218,7 @@ public partial class MainWindow
         if (!ColumnItemFocusingEvent & EventArgs.AddedItems.Count > 0)
         {
             FocusedColumnItem.SelectedLocalizationItemIndex = KeywordsLocalizationIDSelector.SelectedIndex;
-            FocusedColumnItem.ItemInfo.SelectedTextIDFromLocalizationFile = (EventArgs.AddedItems[0] as UILocalization_Grocerius).UniversalDataBindings["Attached item ID"];
+            FocusedColumnItem.ItemInfo.SelectedTextIDFromLocalizationFile = (EventArgs.AddedItems[0] as UITranslation_Rose).UniversalDataBindings["Attached item ID"];
 
             CheckKeywordSelectorAndGenerateKeywordDisplayer();
         }
@@ -228,7 +229,7 @@ public partial class MainWindow
         {
             MakeAvailable(KeywordIconFileSelectButton_ParentGrid);
 
-            Keyword TextInfo = (KeywordsLocalizationIDSelector.SelectedItem as UILocalization_Grocerius).UniversalDataBindings["Attached item"];
+            Keyword TextInfo = (KeywordsLocalizationIDSelector.SelectedItem as UITranslation_Rose).UniversalDataBindings["Attached item"];
 
             GenerateKeywordDisplayerForFocusedItem(TextInfo);
         }

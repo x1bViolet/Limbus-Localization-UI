@@ -4,9 +4,20 @@ using System.Runtime.Serialization;
 
 namespace LC_Localization_Task_Absolute.Json
 {
-    internal static partial class FilesIntegration
+    #pragma warning disable SYSLIB0050 // Idk why not
+    public static partial class FilesIntegration
     {
-        internal static void SerializeFormatted(this object Target, string Filename, bool EnableNull = false, string Context = "")
+        public static string SerializeFormatted(this object Source, bool EnableNull = false, string Context = "")
+        {
+            string Output = JsonConvert.SerializeObject(
+                value: Source,
+                formatting: Formatting.Indented,
+                settings: new JsonSerializerSettings { NullValueHandling = EnableNull ? NullValueHandling.Include : NullValueHandling.Ignore, Context = new StreamingContext(StreamingContextStates.Other, Context) }
+            );
+            return Output;
+        }
+
+        public static void SerializeFormatted(this object Target, string Filename, bool EnableNull = false, string Context = "")
         {
             string Output = JsonConvert.SerializeObject(
                 value: Target,
@@ -17,8 +28,15 @@ namespace LC_Localization_Task_Absolute.Json
             File.WriteAllText(Filename, Output.Replace("\r\n", "\n"), MainWindow.CurrentFileEncoding);
         }
 
-        internal static dynamic? TranzitConvert<OutputType>(this object Target) => JsonConvert.DeserializeObject<OutputType>(JsonConvert.SerializeObject(Target));
+        public static OutputType? TranzitConvert<OutputType>(this object Target) => JsonConvert.DeserializeObject<OutputType>(JsonConvert.SerializeObject(Target));
 
-        internal static dynamic? Deserealize<TargetType>(this FileInfo Target, string Context = "") => JsonConvert.DeserializeObject<TargetType>(Target.GetText(), settings: new JsonSerializerSettings() { Context = new StreamingContext(StreamingContextStates.Other, Context) });
+        public static TargetType? Deserealize<TargetType>(this FileInfo Target, string Context = "")
+        {
+            try
+            {
+                return JsonConvert.DeserializeObject<TargetType>(Target.GetText(), settings: new JsonSerializerSettings() { Context = new StreamingContext(StreamingContextStates.Other, Context) });
+            }
+            catch { return default(TargetType); }
+        }
     }
 }

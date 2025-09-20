@@ -52,13 +52,13 @@ public partial class MainWindow
             if (Value == true)
             {
                 MakeUnavailable(IdentityPreviewCreator_HeightController);
-                IdentityPreviewCreator_HeightController_TextIndicator.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Image parameters] Height adjustment", "Auto");
+                IdentityPreviewCreator_HeightController_TextIndicator.RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Image parameters] Height adjustment", "Auto");
                 IdentityPreviewCreator_ParentGrid.Height = double.NaN;
             }
             else
             {
                 MakeAvailable(IdentityPreviewCreator_HeightController);
-                IdentityPreviewCreator_HeightController_TextIndicator.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Image parameters] Height adjustment", "Manual");
+                IdentityPreviewCreator_HeightController_TextIndicator.RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Image parameters] Height adjustment", "Manual");
                 IdentityPreviewCreator_ParentGrid.Height = IdentityPreviewCreator_HeightController.Value;
             }
 
@@ -81,6 +81,46 @@ public partial class MainWindow
     }
     #endregion
 
+    #endregion
+
+
+
+    #region Image effects
+    void ImageEffects_HorizontalOffset(object RequestSender /* Slider */, RoutedPropertyChangedEventArgs<double> EventArgs)
+    {
+        Flow(() =>
+        {
+            OverlayImage.SetLeftMargin(EventArgs.NewValue);
+        });
+    }
+    void ImageEffects_VerticalOffset(object RequestSender /* Slider */, RoutedPropertyChangedEventArgs<double> EventArgs)
+    {
+        Flow(() =>
+        {
+            OverlayImage.SetTopMargin(EventArgs.NewValue);
+        });
+    }
+    void ImageEffects_Size(object RequestSender /* Slider */, RoutedPropertyChangedEventArgs<double> EventArgs)
+    {
+        Flow(() =>
+        {
+            OverlayImage.LayoutTransform = new ScaleTransform(scaleX: EventArgs.NewValue, scaleY: EventArgs.NewValue);
+        });
+    }
+    void ImageEffects_Rotation(object RequestSender /* Slider */, RoutedPropertyChangedEventArgs<double> EventArgs)
+    {
+        Flow(() =>
+        {
+            OverlayImage.RenderTransform = new RotateTransform(angle: EventArgs.NewValue);
+        });
+    }
+    void ImageEffects_Opacity(object RequestSender /* Slider */, RoutedPropertyChangedEventArgs<double> EventArgs)
+    {
+        Flow(() =>
+        {
+            OverlayImage.Opacity = EventArgs.NewValue;
+        });
+    }
     #endregion
 
 
@@ -310,7 +350,7 @@ public partial class MainWindow
                 = EventArgs.NewValue;
 
             string ValueInsert = $"{EventArgs.NewValue}"; if (ValueInsert.Length == 2) ValueInsert += ",0";
-            UnifiedTextSize_Label.Text = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Column settings] Unified text size").Extern(ValueInsert);
+            UnifiedTextSize_Label.RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Column settings] Unified text size").Extern(ValueInsert);
         });
     }
 

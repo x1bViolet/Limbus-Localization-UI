@@ -1,40 +1,35 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Diagnostics.Metrics;
+﻿using LC_Localization_Task_Absolute.Json;
+using Newtonsoft.Json;
 using System.IO;
 using System.Text.RegularExpressions;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using LC_Localization_Task_Absolute.Json;
-using Newtonsoft.Json;
-using static LC_Localization_Task_Absolute.SettingsWindow;
+using System.Windows.Shapes;
 using static LC_Localization_Task_Absolute.Configurazione;
-using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Keywords;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_SkillTag;
-using System.Text.Json.Serialization;
+using static LC_Localization_Task_Absolute.MainWindow;
+using static LC_Localization_Task_Absolute.Requirements;
 
 namespace LC_Localization_Task_Absolute.Limbus_Integration
 {
-    internal abstract class KeywordsInterrogate
+    public abstract class KeywordsInterrogate
     {
-        internal protected record KeywordSingleton
+        public record KeywordSingleton
         {
             public string Name { get; set; }
-            public string Description { get; set; }
             public string StringColor { get; set; }
         }
 
-        internal protected record KeywordImagesIDInfo
+        public record KeywordImagesIDInfo
         {
             [JsonProperty("ID Matches")]
             public List<KeywordImageIDInfo> GeneralInfo { get; set; }
         }
-        internal protected record KeywordImageIDInfo
+        public record KeywordImageIDInfo
         {
             [JsonProperty("Base ID")]
             public string BaseID { get; set; }
@@ -42,19 +37,19 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
         }
 
         #region Keywords Multiple Meanings create/read
-        internal protected static Dictionary<string, List<string>> KeywordsMultipleMeaningsDictionary = new();
-        internal protected record KeywordsMultipleMeaningsDictionaryJson
+        public static Dictionary<string, List<string>> KeywordsMultipleMeaningsDictionary = new();
+        public record KeywordsMultipleMeaningsDictionaryJson
         {
             public List<KeywordsMultipleMeanings> Info { get; set; }
         }
-        internal protected record KeywordsMultipleMeanings
+        public record KeywordsMultipleMeanings
         {
             [JsonProperty("Keyword ID")]
             public string KeywordID { get; set; }
 
             public List<string> Meanings { get; set; }
         }
-        internal protected static void ExportKeywordsMultipleMeaningsDictionary(string LocalizationWithKeywordsPath, bool IgnoreRailAndMirrorKeywords = true)
+        public static void ExportKeywordsMultipleMeaningsDictionary(string LocalizationWithKeywordsPath, bool IgnoreRailAndMirrorKeywords = true)
         {
             KeywordsMultipleMeaningsDictionaryJson Export = new KeywordsMultipleMeaningsDictionaryJson();
             Export.Info = new List<KeywordsMultipleMeanings>();
@@ -70,8 +65,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                         "PanicInfo"
                     ])
                 )
-            )
-            {
+            ) {
                 string TextToAnalyze = File.ReadAllText(LocalizeFile.FullName);
                 foreach (Match keywordMatch in Regex.Matches(TextToAnalyze, @"<sprite name=\\""(?<ID>\w+)\\""><color=(?<Color>#[a-fA-F0-9]{6})><u><link=\\""\w+\\"">(?<Name>.*?)</link></u></color>"))
                 {
@@ -112,7 +106,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 MessageBox.Show($"Keywords multiple meanings from \"{LocalizationWithKeywordsPath}\" dir exported as \"Keywords Multiple Meanings.json\" at program folder");
             }
         }
-        internal protected static void ReadKeywordsMultipleMeanings(string Filepath)
+        public static void ReadKeywordsMultipleMeanings(string Filepath)
         {
             if (File.Exists(Filepath))
             {
@@ -135,63 +129,200 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
         }
         #endregion
 
-        internal protected static Dictionary<string, KeywordSingleton> KeywordsGlossary = [];
-        internal protected static Dictionary<string, string> Keywords_IDName = [];
+        sealed public partial class KeywordInfoPopup : Grid
+        {
+            public static void AttachToInline(Inline Target)
+            {
+                string KeywordID = Target.Name;
+
+                string Name = "Unknown";
+                string Description = "Unknown";
+                BitmapImage KeywordIcon = KeywordImages["Unknown"];
+
+                if (BattleKeywordsDescriptions.ContainsKey(KeywordID))
+                {
+                    Name = BattleKeywordsDescriptions[KeywordID].Item1;
+                    Description = BattleKeywordsDescriptions[KeywordID].Item2;
+                }
+                
+                if (KeywordImages.ContainsKey(KeywordID))
+                    KeywordIcon = KeywordImages[KeywordID];
+
+                ToolTip KeywordInfoPopup = new ToolTip()
+                {
+                    Margin = new Thickness(0, 13, 0, 0),
+                    Background = Brushes.Transparent,
+                    BorderThickness = new Thickness(0),
+                    LayoutTransform = new ScaleTransform(0.89, 0.89),
+                    IsHitTestVisible = false,
+                    Content = new KeywordInfoPopup(Name, Description, KeywordIcon)
+                };
+                Target.ToolTip = KeywordInfoPopup;
+                ToolTipService.SetInitialShowDelay(Target, 1000);
+            }
+
+
+            public KeywordInfoPopup(string Name, string Description, BitmapImage Icon)
+            {
+                Width = 418;
+                HorizontalAlignment = HorizontalAlignment.Left;
+                VerticalAlignment = VerticalAlignment.Top;
+                Children.Add(new Border()
+                {
+                    BorderThickness = new Thickness(0.8),
+                    CornerRadius = new CornerRadius(0.55),
+                    BorderBrush = new LinearGradientBrush()
+                    {
+                        StartPoint = new Point(0, 0),
+                        EndPoint = new Point(1, 1),
+                        GradientStops =
+                        {
+                            new GradientStop() { Color = ToColorBrush("#FF4B3F31") },
+                            new GradientStop() { Color = ToColorBrush("#00000000"), Offset = 0.6 }
+                        }
+                    },
+                    Child = new Border()
+                    {
+                        Margin = new Thickness(1.5),
+                        BorderThickness = new Thickness(0.8),
+                        BorderBrush = ToSolidColorBrush("#FF4B3F31"),
+                        Background = ToSolidColorBrush("#C6000000"),
+                        Child = new Grid()
+                        {
+                            Children =
+                            {
+                                new StackPanel()
+                                {
+                                    Orientation = Orientation.Horizontal,
+                                    VerticalAlignment = VerticalAlignment.Top,
+                                    MaxHeight = 55,
+                                    Children =
+                                    {
+                                        new Image()
+                                        {
+                                            Source = Icon,
+                                            VerticalAlignment = VerticalAlignment.Top,
+                                            Width = 35,
+                                            Margin = new Thickness(6, 6, 0, 0)
+                                        },
+                                        new Viewbox() // [BulletPropellantSpecialAlly:`Патрон свирепой тигровой метки`](#f01313)
+                                        {
+                                            MaxWidth = 345,
+                                            Height = 40,
+                                            Stretch = Stretch.Uniform,
+                                            HorizontalAlignment = HorizontalAlignment.Left,
+                                            Margin = new Thickness(5, 6.6, 0, 0),
+                                            Child = new TMProEmitter()
+                                            {
+                                                DisableKeyworLinksCreation = true,
+                                                LimbusPreviewFormattingMode = "Keywords",
+
+                                                MinWidth = 305,
+                                                MaxWidth = 345,
+                                                TextWrapping = TextWrapping.Wrap,
+                                                VerticalAlignment = VerticalAlignment.Center,
+                                                FontSize = 22,
+                                                Foreground = ToSolidColorBrush("#ebcaa2"),
+                                                LineHeight = 24,
+                                            }
+                                            .SetRichTextWithReturn(Name)
+                                            .SetBindingWithReturn(
+                                                TMProEmitter.FontFamilyProperty,
+                                                "FontFamily",
+                                                MainControl.NavigationPanel_ObjectName_Display
+                                            ).SetBindingWithReturn(
+                                                TMProEmitter.FontWeightProperty,
+                                                "FontWeight",
+                                                MainControl.NavigationPanel_ObjectName_Display
+                                            )
+                                        }
+                                    }
+                                },
+                                new TMProEmitter()
+                                {
+                                    DisableKeyworLinksCreation = true,
+
+                                    Margin = new Thickness(18, 48, 25, 18),
+                                    LimbusPreviewFormattingMode = "Keywords",
+                                    Foreground = ToSolidColorBrush("#ebcaa2"),
+                                    FontSize = 20,
+                                    LineHeight = 25,
+                                }.SetRichTextWithReturn(Description)
+                                 .SetBindingWithReturn(
+                                    TMProEmitter.FontFamilyProperty,
+                                    "FontFamily",
+                                    MainControl.Special_PreviewLayout_Keywords_BattleKeywords_Desc
+                                ).SetBindingWithReturn(
+                                    TMProEmitter.FontWeightProperty,
+                                    "FontWeight",
+                                    MainControl.Special_PreviewLayout_Keywords_BattleKeywords_Desc
+                                )
+                            }
+                        }
+                    }
+                });
+            }
+        }
+       
         /// <summary>
         /// Contains matches of keyword names and their IDs in descending order of name length (For limbus preview formatter, only base keyword names)
         /// </summary>
-        internal protected static Dictionary<string, string> Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter = [];
+        public static Dictionary<string, string> Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter = [];
+        
         /// <summary>
         /// Extended version with other keyword meanings (E.g. "Charge", "Charges" for same Charge keyword id)
         /// </summary>
-        internal protected static Dictionary<string, string> Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter = [];
-        internal protected static Dictionary<string, BitmapImage> KeywordImages = [];
-        internal protected static Dictionary<string, BitmapImage> EGOGiftInlineImages = [];
-        internal protected static Dictionary<string, string> SkillTags = [];
-        internal protected static List<string> KnownID = [];
+        public static Dictionary<string, string> Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter = [];
+
+
+        public static Dictionary<string, string> Keywords_IDName = [];
+        public static List<string> KnownID = [];
+
+        public static Dictionary<string, Tuple<string, string>> BattleKeywordsDescriptions = []; // Tuple<Name, Desc>
+        public static Dictionary<string, string> SkillTags = [];
         
-        internal protected static void LoadInlineImages()
+        public static Dictionary<string, string> CollectedKeywordColors = [];
+        public static Dictionary<string, string> CollectedSkillTagColors = [];
+        
+        public static Dictionary<string, KeywordSingleton> KeywordsGlossary = [];
+        public static Dictionary<string, BitmapImage> KeywordImages = [];
+        public static Dictionary<string, BitmapImage> EGOGiftInlineImages = [];
+
+        public static void LoadInlineImages()
         {
-            //await Task.Run(async () =>
-            //{
-                
-                //rin($"\n$ Loading keyword images");
-            KeywordImages["Unknown"] = new BitmapImage(new Uri("pack://application:,,,/Default/Images/Unknown.png"));
+            KeywordImages["Unknown"] = BitmapFromResource("Default/Images/Unknown.png");
+
+            FileInfo[] LoadSite = new DirectoryInfo(@"[⇲] Assets Directory\[⇲] Limbus Images\Keywords").GetFiles("*.png", SearchOption.AllDirectories);
+            double TotalCount = LoadSite.Length;
+
             double Counter = 0;
-
-            List<FileInfo> LoadSite = new DirectoryInfo(@"⇲ Assets Directory\[⇲] Limbus Images\Keywords").GetFiles("*.png", SearchOption.AllDirectories).ToList();
-            double TotalCount = LoadSite.Count;
-
             foreach (FileInfo KeywordImage in LoadSite)
             {
                 string TargetID = KeywordImage.Name.Replace(KeywordImage.Extension, "");
-                KeywordImages[TargetID] = GenerateBitmapFromFile(KeywordImage.FullName);
+                KeywordImages[TargetID] = BitmapFromFile(KeywordImage.FullName);
                 Counter++;
             }
-
-            //    return;
-            //});
-            //rin($"  {Counter} images loaded from \"⇲ Assets Directory\\[⇲] Limbus Images\\Keywords\" directory");
         }
-        internal protected static void InitializeGlossaryFrom(string KeywordsDirectory, bool WriteOverFallback = false, string FilesPrefix = "")
+        public static void InitializeGlossaryFrom(string KeywordsDirectory, bool WriteOverFallback = false, string FilesPrefix = "")
         {
             if (!WriteOverFallback)
             {
                 KeywordsGlossary.Clear();
                 SkillTags.Clear();
                 KnownID.Clear();
+                //CollectedKeywordColors.Clear();
+                //CollectedSkillTagColors.Clear();
             }
 
-            
             int Counter = 0;
 
             if (Directory.Exists(KeywordsDirectory))
             {
                 rin($" {(WriteOverFallback ? " " : "[Fallback] ")}Loading Keywords from \"{KeywordsDirectory}\"{(!FilesPrefix.Equals("") ? $" with files prefix \"{FilesPrefix}\"" : "")}");
                 Dictionary<string, string> SkillTagColors = new Dictionary<string, string>();
-                if (File.Exists(@"⇲ Assets Directory\[+] Keywords\SkillTag Colors.T[-]"))
+                if (File.Exists(@"[⇲] Assets Directory\[+] Keywords\SkillTag Colors.T[-]"))
                 {
-                    foreach (string Line in File.ReadAllLines(@"⇲ Assets Directory\[+] Keywords\SkillTag Colors.T[-]").Where(Line => Line.Contains(" ¤ ")))
+                    foreach (string Line in File.ReadAllLines(@"[⇲] Assets Directory\[+] Keywords\SkillTag Colors.T[-]").Where(Line => Line.Contains(" ¤ ")))
                     {
                         string[] ColorPair = Line.Split(" ¤ ");
                         if (ColorPair.Count() == 2)
@@ -200,19 +331,21 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                             string SkillTagColor = ColorPair[1].Trim();
                             //rin($"  Load {SkillTagID} -> {SkillTagColor}");
                             SkillTagColors[SkillTagID] = SkillTagColor;
+                            CollectedSkillTagColors[SkillTagID] = SkillTagColor;
                         }
                     }
                 }
 
-                List<FileInfo> SkillTag_Found = new DirectoryInfo(KeywordsDirectory).GetFiles("*SkillTag.Json").ToList();
-                if (SkillTag_Found.Count > 0)
+                FileInfo[] SkillTag_Found = new DirectoryInfo(KeywordsDirectory).GetFiles("*SkillTag.Json", SearchOption.AllDirectories);
+                if (SkillTag_Found.Length > 0)
                 {
-                    BaseTypes.Type_SkillTag.SkillTags SkillTagsJson = JsonConvert.DeserializeObject<SkillTags>(File.ReadAllText(SkillTag_Found[0].FullName));
+                    BaseTypes.Type_SkillTag.SkillTags SkillTagsJson = SkillTag_Found[0].Deserealize<SkillTags>();
+
                     if (SkillTagsJson.dataList != null)
                     {
                         foreach (SkillTag SkillTag in SkillTagsJson.dataList)
                         {
-                            if (!SkillTag.ID.Equals(""))
+                            if (SkillTag.ID != null && !SkillTag.ID.Equals(""))
                             {
                                 string DefinedColor = "#93f03f";
                                 if (SkillTag.Color != null)
@@ -234,59 +367,60 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 //rin($"\n$ Loading keyword colors");
                 Counter = 0;
                 Dictionary<string, string> KeywordColors = [];
-                try
+                if (File.Exists(@"[⇲] Assets Directory\[+] Keywords\Keyword Colors.T[-]"))
                 {
-                    foreach(string ColorPair in File.ReadAllLines(@"⇲ Assets Directory\[+] Keywords\Keyword Colors.T[-]"))
+                    foreach (string Line in File.ReadAllLines(@"[⇲] Assets Directory\[+] Keywords\Keyword Colors.T[-]"))
                     {
-                        try
+                        string[] ColorPair = Line.Split(" ¤ ");
+                        if (ColorPair.Count() == 2)
                         {
-                            KeywordColors[ColorPair.Split(" ¤ ")[0].Trim()] = ColorPair.Split(" ¤ ")[1].Trim();
-                            //rin($"{ColorPair.Split(" ¤ ")[0].Trim()}: {ColorPair.Split(" ¤ ")[1].Trim()}");
+                            string KeywordID = ColorPair[0].Trim();
+                            string KeywordColor = ColorPair[1].Trim();
+                            KeywordColors[KeywordID] = KeywordColor;
                             Counter++;
-                        } catch { }
+                        }
                     }
-                } catch { }
+                }
                 //rin($"  Keyword colors loaded: {Counter}");
 
                 //rin($"\n$ Loading keywords");
                 Counter = 0;
 
-                List<FileInfo> LoadSite = new DirectoryInfo(KeywordsDirectory).GetFiles(
+                FileInfo[] LoadSite_Bufs = new DirectoryInfo(KeywordsDirectory).GetFiles(
                     searchPattern: "*Bufs*.json",
                     searchOption: SearchOption.AllDirectories
-                ).ToList();
-                double TotalFilesCount = LoadSite.Count;
+                );
 
-                
-                foreach (FileInfo KeywordFileInfo in LoadSite)
+                foreach (FileInfo KeywordFileInfo in LoadSite_Bufs)
                 {
-                    var TargetSite = KeywordFileInfo.Deserealize<Keywords>();
+                    Keywords TargetSite = KeywordFileInfo.Deserealize<Keywords>();
 
-                    if (TargetSite != null)
+                    if (TargetSite.dataList != null && TargetSite.dataList.Count > 0)
                     {
                         foreach(Keyword KeywordItem in TargetSite.dataList)
                         {
-                            if (!KeywordItem.ID.Equals(""))
+                            if (KeywordItem.ID != null && !KeywordItem.ID.Equals(""))
                             {
-                                if (!KeywordItem.ID.ContainsOneOf(DeltaConfig.PreviewSettings.CustomLanguageProperties.KeywordsIgnore.ToArray()))
+                                if (!KeywordItem.ID.ContainsOneOf(DeltaConfig.PreviewSettings.CustomLanguageProperties.KeywordsIgnore))
                                 {
                                     string DefinedColor = "#9f6a3a";
 
-                                    if (KeywordColors.ContainsKey(KeywordItem.ID))
-                                    {
-                                        DefinedColor = KeywordColors[KeywordItem.ID];
-                                    }
-                                    else if (KeywordItem.Color != null)
+                                    if (KeywordItem.Color != null)
                                     {
                                         DefinedColor = KeywordItem.Color;
+                                    }
+                                    else if (KeywordColors.ContainsKey(KeywordItem.ID))
+                                    {
+                                        DefinedColor = KeywordColors[KeywordItem.ID];
                                     }
 
                                     KeywordsGlossary[KeywordItem.ID] = new KeywordSingleton
                                     {
                                         Name = KeywordItem.Name,
-                                        Description = KeywordItem.Description,
                                         StringColor = DefinedColor
                                     };
+
+                                    CollectedKeywordColors[KeywordItem.ID] = DefinedColor;
 
                                     Keywords_IDName[KeywordItem.ID] = KeywordItem.Name;
                                     if (!KeywordItem.ID.EndsWithOneOf(["_Re", "Re", "Mirror"]))
@@ -297,7 +431,6 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                                             Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter = Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter.RemoveItemWithValue(KeywordItem.ID);
                                         }
                                         Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter[KeywordItem.Name] = KeywordItem.ID;
-
 
                                     
                                         Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter[KeywordItem.Name] = KeywordItem.ID;
@@ -315,6 +448,30 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter = Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter.OrderBy(obj => obj.Key.Length).ToDictionary(obj => obj.Key, obj => obj.Value).Reverse().ToDictionary();
 
                 Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter = Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter.OrderBy(obj => obj.Key.Length).ToDictionary(obj => obj.Key, obj => obj.Value).Reverse().ToDictionary();
+
+
+
+                FileInfo[] LoadSite_BattleKeywords = new DirectoryInfo(KeywordsDirectory).GetFiles(
+                    searchPattern: "*BattleKeywords*.json",
+                    searchOption: SearchOption.AllDirectories
+                );
+                foreach (FileInfo KeywordFileInfo in LoadSite_BattleKeywords)
+                {
+                    Keywords TargetSite = KeywordFileInfo.Deserealize<Keywords>();
+
+                    if (TargetSite.dataList != null && TargetSite.dataList.Count > 0)
+                    {
+                        foreach (Keyword KeywordItem in TargetSite.dataList)
+                        {
+                            if (KeywordItem.ID != null && !KeywordItem.ID.Equals("") && KeywordItem.Description != null)
+                            {
+                                BattleKeywordsDescriptions[KeywordItem.ID] = new Tuple<string, string>(KeywordItem.Name, KeywordItem.Description);
+                            }
+                        }
+                    }
+                }
+
+                if (WriteOverFallback) SyntaxedTextEditor.RecompileEditorSyntax();
             }
             else
             {

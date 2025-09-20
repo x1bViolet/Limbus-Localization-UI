@@ -6,10 +6,10 @@ using static System.Windows.Visibility;
 
 namespace LC_Localization_Task_Absolute
 {
-    internal abstract class ScansManager
+    public abstract class ScansManager
     {
-        internal protected static bool IsAreaViewEnabled = false;
-        internal protected static void ToggleScanAreaView()
+        public static bool IsSkillsAreaViewEnabled = false;
+        public static void ToggleSkillScanAreaView()
         {
             if (Mode_Handlers.Upstairs.ActiveProperties.Key == "Skills")
             {
@@ -41,7 +41,7 @@ namespace LC_Localization_Task_Absolute
                         MainControl.MakeLimbusPreviewScan.IsHitTestVisible = false;
 
                         SettingsWindow.SettingsControl.ToggleScansPreview_I.Visibility = Visible;
-                        IsAreaViewEnabled = true;
+                        IsSkillsAreaViewEnabled = true;
                     }
                     else
                     {
@@ -58,7 +58,7 @@ namespace LC_Localization_Task_Absolute
                         MainControl.MakeLimbusPreviewScan.IsHitTestVisible = true;
 
                         SettingsWindow.SettingsControl.ToggleScansPreview_I.Visibility = Collapsed;
-                        IsAreaViewEnabled = false;
+                        IsSkillsAreaViewEnabled = false;
                     }
                 }
             }

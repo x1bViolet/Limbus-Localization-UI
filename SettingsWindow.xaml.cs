@@ -1,7 +1,6 @@
 ﻿using LC_Localization_Task_Absolute.Json;
 using LC_Localization_Task_Absolute.Limbus_Integration;
 using LC_Localization_Task_Absolute.Mode_Handlers;
-using RichText;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -12,14 +11,16 @@ using static LC_Localization_Task_Absolute.MainWindow;
 using static LC_Localization_Task_Absolute.Requirements;
 using static System.Windows.Visibility;
 
+#pragma warning disable IDE0079
+#pragma warning disable CS0169
+#pragma warning disable CA2211
+
 namespace LC_Localization_Task_Absolute
 {
     public partial class SettingsWindow : Window
     {
-        internal protected static SettingsWindow SettingsControl;
+        public static SettingsWindow SettingsControl;
 
-
-        private static Dictionary<string, int> FontWeights = new Dictionary<string, int>();
         public SettingsWindow()
         {
             InitializeComponent();
@@ -27,12 +28,12 @@ namespace LC_Localization_Task_Absolute
             SettingsControl = this;
         }
 
-        internal protected static void UpdateSettingsMenu_Regular()
+        public static void UpdateSettingsMenu_Regular()
         {
             SettingsControl.UpdateSettingsMenu_Inner();
         }
 
-        internal protected static void UpdateSettingsMenu_CustomLang()
+        public static void UpdateSettingsMenu_CustomLang()
         {
             SettingsControl.UpdateSelectedCustomLanguageSettingsView();
         }
@@ -42,19 +43,22 @@ namespace LC_Localization_Task_Absolute
             Configurazione.ConfigDelta Settings = Configurazione.DeltaConfig;
 
             ToggleStyleHighlightion_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.HighlightStyle ? Visible : Collapsed;
-            ToggleCoinDescHighlightion_OnClick_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnRightClick ? Visible : Collapsed;
-            ToggleCoinDescHighlightion_OnSwitch_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnManualSwitch ? Visible : Collapsed;
+            ToggleSkillDescHighlightion_OnClick_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnRightClick ? Visible : Collapsed;
+            ToggleSkillDescHighlightion_OnSwitch_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnManualSwitch ? Visible : Collapsed;
             InputPreviewUpdateDelay.Text = Settings.PreviewSettings.PreviewSettingsBaseSettings.PreviewUpdateDelay.ToString();
-            ToggleTopmostState_I.Visibility = Settings.Internal.AlwaysOnTop ? Visible : Collapsed;
+            ToggleTopmostState_I.Visibility = Settings.Internal.IsAlwaysOnTop ? Visible : Collapsed;
             ToggleLoadWarnings_I.Visibility = Settings.Internal.ShowLoadWarnings ? Visible : Collapsed;
             ToggleEnableSkillNamesReplica_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.EnableSkillNamesReplication ? Visible : Collapsed;
+            ToggleKeywordTooltips_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.EnableKeywordTooltips ? Visible : Collapsed;
+            ToggleSyntaxHighlight_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.EnableSyntaxHighlight ? Visible : Collapsed;
+            HideLimbusPreview_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.HidePreview ? Visible : Collapsed;
 
             rin("\n\n----------------------------------------------------");
 
             Dictionary<string, int> ThemeIndexes = new Dictionary<string, int>();
             int Index_Themes = 0;
             ThemeSelector.Items.Clear();
-            foreach (var ThemeDir in new DirectoryInfo(@"⇲ Assets Directory\[+] Themes").GetDirectories())
+            foreach (var ThemeDir in new DirectoryInfo(@"[⇲] Assets Directory\@ Internal\Themes").GetDirectories())
             {
                 ThemeSelector.Items.Add(new TextBlock { Text = ThemeDir.Name });
                 ThemeIndexes[ThemeDir.Name] = Index_Themes;
@@ -75,15 +79,15 @@ namespace LC_Localization_Task_Absolute
             int Index_Languages = 0;
             Dictionary<string, int> LanguageIndexes = new Dictionary<string, int>();
             LanguageSelector.Items.Clear();
-            foreach (var LanguageFile in new DirectoryInfo(@"⇲ Assets Directory\[+] Languages").GetFiles("*.json"))
+            foreach (var LanguageDirectory in new DirectoryInfo(@"[⇲] Assets Directory\@ Internal\Translation").GetDirectories())
             {
-                LanguageSelector.Items.Add(new TextBlock { Text = LanguageFile.Name.Replace(".json", "") });
-                LanguageIndexes[LanguageFile.Name.Replace(".json", "")] = Index_Languages;
+                LanguageSelector.Items.Add(new TextBlock { Text = LanguageDirectory.Name });
+                LanguageIndexes[LanguageDirectory.Name] = Index_Languages;
                 Index_Languages++;
             }
-            if (File.Exists(Settings.Internal.UILanguage))
+            if (Directory.Exists(Settings.Internal.UILanguage))
             {
-                string RelativeLangFileName = Settings.Internal.UILanguage.Split("\\")[^1].Split("/")[^1].Replace(".json", "");
+                string RelativeLangFileName = Settings.Internal.UILanguage.Split("\\")[^1].Split("/")[^1];
                 if (LanguageIndexes.ContainsKey(RelativeLangFileName))
                 {
                     LanguageSelector.SelectedIndex = LanguageIndexes[RelativeLangFileName];
@@ -118,38 +122,37 @@ namespace LC_Localization_Task_Absolute
             CustomLang_ContextFont.Text = Settings.ContextFont;
         }
 
-        private void Settings_Minimize(object sender, MouseButtonEventArgs e) => WindowState = WindowState.Minimized;
-        private void Settings_Close(object sender, MouseButtonEventArgs e) => DoClose();
+        private void Settings_Minimize(object RequestSender, MouseButtonEventArgs EventArgs) => WindowState = WindowState.Minimized;
+        private void Settings_Close(object RequestSender, MouseButtonEventArgs EventArgs) => DoClose();
         private void DoClose()
         {
-            if (ScansManager.IsAreaViewEnabled)
+            if (ScansManager.IsSkillsAreaViewEnabled)
             {
                 MainControl.ScanAreaView_Skills.BorderThickness = new Thickness(2);
-                ScansManager.ToggleScanAreaView();
+                ScansManager.ToggleSkillScanAreaView();
 
             }
             if (!MainControl.SurfaceScrollPreview_Skills_Inner.Background.Equals(Brushes.Transparent))
             {
-                ToggleSkillsScanBackgroundColorView_I.Visibility = Collapsed;
+                //ToggleSkillsScanBackgroundColorView_I.Visibility = Collapsed;
                 MainControl.SurfaceScrollPreview_Skills_Inner.Background = Brushes.Transparent;
             }
             this.Hide();
         }
 
-        private void Settings_ReloadConfig(object sender, MouseButtonEventArgs e) => MainWindow.ReloadConfig_Direct();
-        private void Window_DragMove(object sender, MouseButtonEventArgs e) => this.DragMove();
-        private void AntiComboBoxScroll(object sender, MouseWheelEventArgs e)
+        private void Settings_ReloadConfig(object RequestSender, MouseButtonEventArgs EventArgs) => MainWindow.ReloadConfig_Direct();
+        private void Window_DragMove(object RequestSender, MouseButtonEventArgs EventArgs) => this.DragMove();
+        private void AntiComboBoxScroll(object RequestSender, MouseWheelEventArgs EventArgs)
         {
-            if (!(sender as ComboBox).IsDropDownOpen)
+            if (!(RequestSender as ComboBox).IsDropDownOpen)
             {
-                e.Handled = true;
+                EventArgs.Handled = true;
             }
         }
 
-        private void OptionPress(object sender, MouseButtonEventArgs e)
+        private void OptionPress(object RequestSender, MouseButtonEventArgs EventArgs)
         {
-            string Sender = (sender as FrameworkElement).Name;
-            switch (Sender)
+            switch ((RequestSender as FrameworkElement).Name)
             {
                 case "ReloadCustomLanguageKeywords":
                     if (Directory.Exists(Configurazione.SelectedAssociativePropery_Shared.Properties.KeywordsDirectory))
@@ -167,14 +170,14 @@ namespace LC_Localization_Task_Absolute
                                 WriteOverFallback: true
                             );
                         }
-                        RichTextBoxApplicator.UpdateLast();
+                        LimbusPreviewFormatter.UpdateLast();
                     }
                     break;
 
                 case "ReloadKeywordImages":
                     KeywordsInterrogate.KeywordImages.Clear();
                     KeywordsInterrogate.LoadInlineImages();
-                    RichTextBoxApplicator.UpdateLast();
+                    LimbusPreviewFormatter.UpdateLast();
                     break;
 
                 case "ResetEGOGiftsDisplayInfo":
@@ -197,22 +200,21 @@ namespace LC_Localization_Task_Absolute
         }
 
         public bool ChangeConfigOnOptionToggle = true;
-        public void OptionToggle(object sender, MouseButtonEventArgs e)
+        public void OptionToggle(object RequestSender, MouseButtonEventArgs EventArgs)
         {
             if (!Configurazione.SettingsLoadingEvent)
             {
-                string Sender = (sender as FrameworkElement).Name;
-                string TempConfigFile = File.ReadAllText(@"⇲ Assets Directory\Configurazione^.json");
+                string TempConfigFile = File.ReadAllText(@"[⇲] Assets Directory\Configurazione^.json");
                 string SelectedPropertiesName = Configurazione.DeltaConfig.PreviewSettings.CustomLanguageProperties.AssociativeSettings.Selected;
 
 
                 string Input_Simplified = "";
                 string Current_Simplified = "";
 
-                switch (Sender)
+                switch ((RequestSender as FrameworkElement).Name)
                 {
                     case "ToggleScansPreview":
-                        ScansManager.ToggleScanAreaView();
+                        ScansManager.ToggleSkillScanAreaView();
                         break;
 
 
@@ -225,22 +227,48 @@ namespace LC_Localization_Task_Absolute
                         break;
 
 
-                    case "ToggleSkillsScanBackgroundColorView":
 
-                        switch (ToggleSkillsScanBackgroundColorView_I.Visibility)
-                        {
-                            case Collapsed:
-                                ToggleSkillsScanBackgroundColorView_I.Visibility = Visible;
-                                MainControl.SurfaceScrollPreview_Skills_Inner.Background = SettingsControl.InputSkillsBackgroundColor_Display.Background;
-                                break;
+                    case "ToggleSyntaxHighlight":
+                        Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSyntaxHighlight = !Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSyntaxHighlight;
 
-                            case Visible:
-                                ToggleSkillsScanBackgroundColorView_I.Visibility = Collapsed;
-                                MainControl.SurfaceScrollPreview_Skills_Inner.Background = Brushes.Transparent;
-                                break;
-                        }
+                        ChangeJsonConfigViaRegex("Enable Syntax Highlight", Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSyntaxHighlight);
+                        
+                        ToggleSyntaxHighlight_I.Visibility = Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSyntaxHighlight ? Visibility.Visible : Visibility.Collapsed;
+
+                        SyntaxedTextEditor.RecompileEditorSyntax();
 
                         break;
+
+
+
+                    case "HideLimbusPreview":
+                        Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HidePreview = !Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HidePreview;
+
+                        ChangeJsonConfigViaRegex("Hide Limbus Text Preview", Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HidePreview);
+
+                        HideLimbusPreview_I.Visibility = Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HidePreview ? Visibility.Visible : Visibility.Collapsed;
+
+                        Configurazione.ToggleLimbusPreviewVisibility();
+
+                        break;
+
+
+                    //case "ToggleSkillsScanBackgroundColorView":
+
+                    //    switch (ToggleSkillsScanBackgroundColorView_I.Visibility)
+                    //    {
+                    //        case Collapsed:
+                    //            ToggleSkillsScanBackgroundColorView_I.Visibility = Visible;
+                    //            MainControl.SurfaceScrollPreview_Skills_Inner.Background = SettingsControl.InputSkillsBackgroundColor_Display.Background;
+                    //            break;
+
+                    //        case Visible:
+                    //            ToggleSkillsScanBackgroundColorView_I.Visibility = Collapsed;
+                    //            MainControl.SurfaceScrollPreview_Skills_Inner.Background = Brushes.Transparent;
+                    //            break;
+                    //    }
+
+                    //    break;
 
 
 
@@ -252,7 +280,7 @@ namespace LC_Localization_Task_Absolute
                             _/*Collapsed*/ => Visible
                         };
 
-                        RichTextBoxApplicator.UpdateLast();
+                        LimbusPreviewFormatter.UpdateLast();
 
                         ChangeJsonConfigViaRegex("Highlight <style>", Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightStyle);
 
@@ -260,29 +288,29 @@ namespace LC_Localization_Task_Absolute
 
 
 
-                    case "ToggleCoinDescHighlightion_OnClick":
-                        Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnRightClick = !Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnRightClick;
-                        ToggleCoinDescHighlightion_OnClick_I.Visibility = ToggleCoinDescHighlightion_OnClick_I.Visibility switch
+                    case "ToggleSkillDescHighlightion_OnClick":
+                        Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnRightClick = !Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnRightClick;
+                        ToggleSkillDescHighlightion_OnClick_I.Visibility = ToggleSkillDescHighlightion_OnClick_I.Visibility switch
                         {
                             Visible => Collapsed,
                             _/*Collapsed*/ => Visible
                         };
 
-                        ChangeJsonConfigViaRegex("Highlight Coin Descs on right click", Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnRightClick);
+                        ChangeJsonConfigViaRegex("Highlight Skill Descs on right click", Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnRightClick);
 
                         break;
 
 
 
-                    case "ToggleCoinDescHighlightion_OnSwitch":
-                        Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnManualSwitch = !Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnManualSwitch;
-                        ToggleCoinDescHighlightion_OnSwitch_I.Visibility = ToggleCoinDescHighlightion_OnSwitch_I.Visibility switch
+                    case "ToggleSkillDescHighlightion_OnSwitch":
+                        Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnManualSwitch = !Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnManualSwitch;
+                        ToggleSkillDescHighlightion_OnSwitch_I.Visibility = ToggleSkillDescHighlightion_OnSwitch_I.Visibility switch
                         {
                             Visible => Collapsed,
                             _/*Collapsed*/ => Visible
                         };
 
-                        ChangeJsonConfigViaRegex("Highlight Coin Descs on manual switch", Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightCoinDescsOnManualSwitch);
+                        ChangeJsonConfigViaRegex("Highlight Skill Descs on manual switch", Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnManualSwitch);
 
                         break;
 
@@ -303,21 +331,39 @@ namespace LC_Localization_Task_Absolute
                         };
 
                         ChangeJsonConfigViaRegex("Enable Skill Names Replication", Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSkillNamesReplication);
+
                         Mode_Skills.ChangeSkillHeaderReplicaAppearance();
+
+                        break;
+
+
+
+                    case "ToggleKeywordTooltips":
+                        Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableKeywordTooltips = !Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableKeywordTooltips;
+                        ToggleKeywordTooltips_I.Visibility = ToggleKeywordTooltips_I.Visibility switch
+                        {
+                            Visible => Collapsed,
+                            _/*Collapsed*/ => Visible
+                        };
+
+                        LimbusPreviewFormatter.UpdateLast();
+
+                        ChangeJsonConfigViaRegex("Enable Keyword Tooltips", Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableKeywordTooltips);
+
                         break;
 
 
 
                     case "ToggleTopmostState":
-                        Configurazione.DeltaConfig.Internal.AlwaysOnTop = !Configurazione.DeltaConfig.Internal.AlwaysOnTop;
-                        MainControl.Topmost = Configurazione.DeltaConfig.Internal.AlwaysOnTop;
+                        Configurazione.DeltaConfig.Internal.IsAlwaysOnTop = !Configurazione.DeltaConfig.Internal.IsAlwaysOnTop;
+                        MainControl.Topmost = Configurazione.DeltaConfig.Internal.IsAlwaysOnTop;
                         ToggleTopmostState_I.Visibility = ToggleTopmostState_I.Visibility switch
                         {
                             Visible => Collapsed,
                             _/*Collapsed*/ => Visible
                         };
 
-                        ChangeJsonConfigViaRegex("Topmost Window", Configurazione.DeltaConfig.Internal.AlwaysOnTop);
+                        ChangeJsonConfigViaRegex("Topmost Window", Configurazione.DeltaConfig.Internal.IsAlwaysOnTop);
 
                         break;
 
@@ -345,7 +391,7 @@ namespace LC_Localization_Task_Absolute
                             _/*Collapsed*/ => Visible
                         };
 
-                        RichTextBoxApplicator.UpdateLast();
+                        LimbusPreviewFormatter.UpdateLast();
 
                         break;
 
@@ -359,7 +405,7 @@ namespace LC_Localization_Task_Absolute
                             _/*Collapsed*/ => Visible
                         };
 
-                        RichTextBoxApplicator.UpdateLast();
+                        LimbusPreviewFormatter.UpdateLast();
 
                         break;
 
@@ -459,14 +505,14 @@ namespace LC_Localization_Task_Absolute
                                 Configurazione.LoadErrors = "";
                                 Configurazione.UpdateCustomLanguagePart(Configurazione.SelectedAssociativePropery_Shared);
                                 
-                                RichTextBoxApplicator.UpdateLast();
+                                LimbusPreviewFormatter.UpdateLast();
 
                                 ChangeJsonConfigViaRegex("Keywords Directory", FormattedPath, IsInsideCurrentCustomLangProperties: true);
                             }
                         }
                         else
                         {
-                            MessageBox.Show(UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.KeywordsDirNotFound.Extern(CustomLang_KeywordsDir.Text.Trim()));
+                            MessageBox.Show(ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.KeywordsDirNotFound.Extern(CustomLang_KeywordsDir.Text.Trim()));
                         }
 
                         break;
@@ -493,7 +539,7 @@ namespace LC_Localization_Task_Absolute
                         }
                         else
                         {
-                            MessageBox.Show(UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.TitleFontMissing.Extern(CustomLang_TitleFont.Text.Trim()));
+                            MessageBox.Show(ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.TitleFontMissing.Extern(CustomLang_TitleFont.Text.Trim()));
                         }
                         break;
 
@@ -519,7 +565,7 @@ namespace LC_Localization_Task_Absolute
                         }
                         else
                         {
-                            MessageBox.Show(UILanguageLoader.LoadedLanguage.CustomLangLoadingWarnings.ContextFontMissing.Extern(CustomLang_ContextFont.Text.Trim()));
+                            MessageBox.Show(ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.ContextFontMissing.Extern(CustomLang_ContextFont.Text.Trim()));
                         }
                         break;
                 }
@@ -527,14 +573,13 @@ namespace LC_Localization_Task_Absolute
         }
 
         //""Custom Language Associative Settings"": {(?<Between1>.*?)""Name"": ""Russian \(MTL\)"",(.*?)""Keywords Directory"": ""(?<Between2>.*?)"",    flag single line gms
-        private void SelectionToggle(object sender, SelectionChangedEventArgs e)
+        private void SelectionToggle(object RequestSender, SelectionChangedEventArgs EventArgs)
         {
             if (!Configurazione.SettingsLoadingEvent)
             {
-                string Sender = (sender as FrameworkElement).Name;
                 string NewSelectionName = "";
-                string TempConfigFile = File.ReadAllText(@"⇲ Assets Directory\Configurazione^.json");
-                switch (Sender)
+                string TempConfigFile = File.ReadAllText(@"[⇲] Assets Directory\Configurazione^.json");
+                switch ((RequestSender as FrameworkElement).Name)
                 {
                     case "CustomLanguagePropertiesSelector":
 
@@ -551,7 +596,7 @@ namespace LC_Localization_Task_Absolute
                             Configurazione.UpdateCustomLanguagePart(NewSelection);
                             UpdateSelectedCustomLanguageSettingsView();
 
-                            RichTextBoxApplicator.UpdateLast();
+                            LimbusPreviewFormatter.UpdateLast();
 
                             ChangeJsonConfigViaRegex("Associative Properties Selected", NewSelection.PropertyName);
                         }
@@ -562,31 +607,33 @@ namespace LC_Localization_Task_Absolute
 
                     case "LanguageSelector":
                         NewSelectionName = (LanguageSelector.SelectedItem as TextBlock).Text;
-                        UILanguageLoader.InitializeUILanguage(@$"⇲ Assets Directory/[+] Languages/{NewSelectionName}.json");
+                       // UILanguageLoader.InitializeUILanguage(@$"[⇲] Assets Directory/[+] Languages/{NewSelectionName}.json");
+                        ᐁ_Interface_Localization_Loader.ModifyUI(@$"[⇲] Assets Directory\@ Internal\Translation\{NewSelectionName}");
 
-                        ChangeJsonConfigViaRegex("UI Language", $"⇲ Assets Directory/[+] Languages/{NewSelectionName}.json");
+                        ChangeJsonConfigViaRegex("UI Language", $"[⇲] Assets Directory/@ Internal/Translation/{NewSelectionName}");
 
                         break;
 
 
                     case "ThemeSelector":
                         NewSelectionName = (ThemeSelector.SelectedItem as TextBlock).Text;
-                        UIThemesLoader.InitializeUITheme(@$"⇲ Assets Directory\[+] Themes\{NewSelectionName}");
+                        //UIThemesLoader.InitializeUITheme(@$"[⇲] Assets Directory\[+] Themes\{NewSelectionName}");
+                        ᐁ_Interface_Themes_Loader.ModifyUI(@$"[⇲] Assets Directory\@ Internal\Themes\{NewSelectionName}");
 
-                        ChangeJsonConfigViaRegex("UI Theme", $"⇲ Assets Directory/[+] Themes/{NewSelectionName}");
+                        ChangeJsonConfigViaRegex("UI Theme", $"[⇲] Assets Directory/@ Internal/Themes/{NewSelectionName}");
 
                         break;
                 }
             }
         }
 
-        private void Window_Closing(object sender, System.ComponentModel.CancelEventArgs e)
+        private void Window_Closing(object RequestSender, System.ComponentModel.CancelEventArgs EventArgs)
         {
-            e.Cancel = true;
+            EventArgs.Cancel = true;
             DoClose();
         }
 
-        private void InputSkillsBackgroundColor_TextChanged(object sender, TextChangedEventArgs e)
+        private void InputSkillsBackgroundColor_TextChanged(object RequestSender, TextChangedEventArgs EventArgs)
         {
             try
             {
@@ -598,10 +645,10 @@ namespace LC_Localization_Task_Absolute
 
                     InputSkillsBackgroundColor_Display.Background = NewColor;
 
-                    if (ToggleSkillsScanBackgroundColorView_I.Visibility.Equals(Visible))
-                    {
-                        MainControl.SurfaceScrollPreview_Skills_Inner.Background = NewColor;
-                    }
+                    //if (ToggleSkillsScanBackgroundColorView_I.Visibility.Equals(Visible))
+                    //{
+                    //    MainControl.SurfaceScrollPreview_Skills_Inner.Background = NewColor;
+                    //}
                 }
             }
             catch { }

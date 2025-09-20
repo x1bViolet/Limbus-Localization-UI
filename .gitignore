@@ -1,16 +1,16 @@
 /.vs
+
 /obj
-bin/Debug/net8.0-windows/SixLabors.ImageSharp.dll
-bin/Debug/net8.0-windows/NLog.dll
-bin/Debug/net8.0-windows/Newtonsoft.Json.dll
-bin/Debug/net8.0-windows/LC Localization Interface.runtimeconfig.json
-bin/Debug/net8.0-windows/LC Localization Interface.pdb
-bin/Debug/net8.0-windows/LC Localization Interface.exe
-bin/Debug/net8.0-windows/LC Localization Interface.dll
-bin/Debug/net8.0-windows/LC Localization Interface.deps.json
-LC Localization Interface.csproj.user
 /Properties
+
 /bin/Release
-bin/Debug/net8.0-windows/⇲ Assets Directory/Latest loading.txt
+
+bin/Debug/net8.0-windows/*.dll
+bin/Debug/net8.0-windows/LC Localization Interface.*
+
+LC Localization Interface.csproj.user
+
 /bin/Debug/net8.0-windows/⇲ Assets Directory/\[⇲\] Limbus Images/Skills/\[⇲\] Display Info/Raw Json
+
+bin/Debug/net8.0-windows/⇲ Assets Directory/Latest loading.txt
 bin/Debug/net8.0-windows/⇲ Assets Directory/\[⇲\] Limbus Images/Skills/\[⇲\] Display Info/Constructor/Recognizing Log.txt

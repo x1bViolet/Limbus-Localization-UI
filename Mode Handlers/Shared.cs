@@ -4,9 +4,9 @@ using static LC_Localization_Task_Absolute.MainWindow;
 
 namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
-    internal abstract class Shared
+    public abstract class Shared
     {
-        internal protected record DefaultValues
+        public record DefaultValues
         {
             public double Height    { get; set; }
             public double Width     { get; set; }
@@ -16,7 +16,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             public double MaxWidth  { get; set; }
         }
 
-        internal protected static void AdjustUI(DefaultValues From)
+        public static void AdjustUI(DefaultValues From)
         {
             MainControl.Width     = From.Width;
             MainControl.Height    = From.Height;
@@ -26,7 +26,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             MainControl.MinHeight = From.MinHeight;
         }
 
-        internal protected static void HideAllPreviewLayouts()
+        public static void HideAllPreviewLayouts()
         {
             foreach(Grid PreviewLayoutChild in MainControl.PreviewLayouts.Children)
             {

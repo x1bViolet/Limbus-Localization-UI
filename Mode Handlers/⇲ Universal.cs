@@ -10,15 +10,15 @@ using static LC_Localization_Task_Absolute.Mode_Handlers.Upstairs;
 namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
     // idk
-    internal abstract class Mode_ContentUniversal
+    public abstract class Mode_ContentUniversal
     {
-        internal protected static dynamic FormalTaskCompleted = null;
+        public static dynamic FormalTaskCompleted = null;
 
-        internal protected static dynamic CurrentItemID = null;
+        public static dynamic CurrentItemID = null;
 
-        internal protected static ContentBasedUniversal DeserializedInfo;
+        public static ContentBasedUniversal DeserializedInfo;
 
-        internal protected static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
+        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
         {
             Key = "Universal",
             DefaultValues = new()
@@ -32,7 +32,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             },
         };
 
-        internal protected static void TriggerSwitch()
+        public static void TriggerSwitch()
         {
             MainControl.NavigationPanel_Skills_UptieLevelSelectorGrid.Visibility = Visibility.Collapsed;
             MainControl.NavigationPanel_Skills_EGOAbnormalityName.Visibility = Visibility.Collapsed;
@@ -54,14 +54,14 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             );
         }
 
-        internal protected static bool IsMatchesStructure(object Class)
+        public static bool IsMatchesStructure(object Class)
         {
 
 
             return false;
         }
 
-        internal protected static Task LoadStructure(FileInfo JsonFile)
+        public static Task LoadStructure(FileInfo JsonFile)
         {
             DeserializedInfo = JsonFile.Deserealize<ContentBasedUniversal>();
             InitializeContentBasedUniversalDelegateFrom(DeserializedInfo);

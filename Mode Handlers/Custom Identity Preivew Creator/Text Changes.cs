@@ -80,8 +80,8 @@ public partial class MainWindow
                     EGOFrameImage.Source = CustomIdentityPreviewCreator.EGOPlainFrame;
                     EGOFrameImage.Source = SecondaryUtilities.TintWhiteMaskBitmap(CustomIdentityPreviewCreator.EGOPlainFrame, NewColor);
                     EGOPortraitImage_ParentGrid_ColorFill.Background = SolidColor;
-                    // Update decorative cautions
-                    SelectCautionsType(IdentityPreviewCreator_CautionTypeSelector, null);
+                    // Update decorative cautions (But not at project loading while changing ambience color first and calling this method)
+                    if (CanSelectDecorativeCautions) SelectCautionsType(IdentityPreviewCreator_CautionTypeSelector, null);
 
                     CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Specific.AmbienceColor = $"#{NewColor}";
                 }

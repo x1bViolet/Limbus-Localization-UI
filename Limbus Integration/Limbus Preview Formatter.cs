@@ -1,20 +1,412 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
+﻿using ICSharpCode.AvalonEdit.Editing;
+using ICSharpCode.AvalonEdit.Highlighting;
+using ICSharpCode.AvalonEdit.Rendering;
 using System.Text.RegularExpressions;
-using static LC_Localization_Task_Absolute.Limbus_Integration.KeywordsInterrogate;
-using static LC_Localization_Task_Absolute.Configurazione;
-using static LC_Localization_Task_Absolute.Requirements;
-using static LC_Localization_Task_Absolute.MainWindow;
-using System.Windows.Media;
 using System.Windows;
+using System.Windows.Controls;
+using System.Windows.Input;
+using System.Windows.Media;
+using static LC_Localization_Task_Absolute.Configurazione;
+using static LC_Localization_Task_Absolute.Limbus_Integration.KeywordsInterrogate;
+using static LC_Localization_Task_Absolute.Requirements;
 
 namespace LC_Localization_Task_Absolute.Limbus_Integration
 {
-    internal abstract class LimbusPreviewFormatter
+    /// <summary>
+    /// TextBlock where <paramref name="RichText"/> property leads to the <see cref="Pocket_Watch_ː_Type_L.Actions.Apply"/> method for generating rich text
+    /// </summary>
+    public partial class TMProEmitter : TextBlock
     {
-        internal protected static Dictionary<string, string> FormatInsertions = new Dictionary<string, string>()
+        public TMProEmitter()
+        {
+            Foreground = ToSolidColorBrush("#EBCAA2");
+            TextWrapping = TextWrapping.Wrap;
+            LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
+        }
+
+        public static readonly DependencyProperty RichTextProperty =
+            DependencyProperty.Register(
+                "RichText",
+                typeof(string),
+                typeof(TMProEmitter),
+                new PropertyMetadata("", OnRichTextChanged));
+
+        private static void OnRichTextChanged(DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs) // From XAML document by RichText=""
+        {
+            Pocket_Watch_ː_Type_L.Actions.Apply(
+                Target: CurrentElement as TMProEmitter,
+                RichText: LimbusPreviewFormatter.Apply(ChangeArgs.NewValue as string),
+                DividersMode: Pocket_Watch_ː_Type_L.@PostInfo.FullStopDividers.FullStopDividers_Regular, // Use square breakets in XAML instead of &lt; &gt;
+                IgnoreTags: Pocket_Watch_ː_Type_L.@PostInfo.IgnoreTags_UnityTMProExclude
+            );
+
+            (CurrentElement as TMProEmitter).CurrentRichText = ChangeArgs.NewValue as string;
+        }
+
+        public string CurrentRichText { get; private set; }
+
+        public string LimbusPreviewFormattingMode { get; set; }
+        public bool DisableKeyworLinksCreation { get; set; } = false;
+
+        public string RichText
+        {
+            get => this.CurrentRichText;
+            set {
+                // Prevent endless keyword tooltips creation for keywords inside keywords tooltips inside tooltips for keywords inside tooltips
+                if (DisableKeyworLinksCreation == false)
+                {
+                    // Also do not let keyword tooltips grab last target place
+                    LimbusPreviewFormatter.LastAppliedUnformattedRichText = value;
+                    LimbusPreviewFormatter.LastApplyTarget = this;
+                }
+                
+                Pocket_Watch_ː_Type_L.Actions.Apply(
+                    Target:       this,
+                    RichText:     LimbusPreviewFormatter.Apply(PreviewText: value, SpecifiedTextProcessingMode: this.LimbusPreviewFormattingMode),
+                    DividersMode: Pocket_Watch_ː_Type_L.@PostInfo.FullStopDividers.FullStopDividers_TMPro,
+                    IgnoreTags:   Pocket_Watch_ː_Type_L.@PostInfo.IgnoreTags_UnityTMProExclude,
+                    DisableKeyworLinksCreation: this.DisableKeyworLinksCreation // ୧((#Φ益Φ#))୨
+                );
+
+                CurrentRichText = value;
+            }
+        }
+    }
+
+    /// <summary>
+    /// With Ctrl + Mouse wheel font size adjustment and word wrap by default (Links also fine)
+    /// </summary>
+    sealed public partial class JsonTextEditor : ICSharpCode.AvalonEdit.TextEditor
+    {
+        // For XAML {DynamicResource} theme links
+        public Brush CaretBrush { get => this.TextArea.Caret.CaretBrush; set { this.TextArea.Caret.CaretBrush = value; } }
+        public static readonly DependencyProperty CaretBrushProperty =
+            Register<JsonTextEditor, Brush>("CaretBrush", Brushes.White, (DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs) =>
+            { (CurrentElement as JsonTextEditor).CaretBrush = ChangeArgs.NewValue as Brush; });
+
+        public Brush SelectionBackground { get => this.TextArea.SelectionBrush; set { this.TextArea.SelectionBrush = value; } }
+        public static readonly DependencyProperty SelectionBackgroundProperty =
+            Register<JsonTextEditor, Brush>("SelectionBackground", Brushes.White, (DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs) =>
+            { (CurrentElement as JsonTextEditor).SelectionBackground = ChangeArgs.NewValue as Brush; });
+
+        public Brush SelectionForeground { get => this.TextArea.SelectionForeground; set { this.TextArea.SelectionForeground = value; } }
+        public static readonly DependencyProperty SelectionForegroundProperty =
+            Register<JsonTextEditor, Brush>("SelectionForeground", Brushes.White, (DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs) =>
+            { (CurrentElement as JsonTextEditor).SelectionForeground = ChangeArgs.NewValue as Brush; });
+
+        public Brush SelectionBorderBrush { get => this.TextArea.SelectionBorder.Brush; set { this.TextArea.SelectionBorder.Brush = value; } }
+        public static readonly DependencyProperty SelectionBorderBrushProperty =
+            Register<JsonTextEditor, Brush>("SelectionBorderBrush", Brushes.White, (DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs) =>
+            { (CurrentElement as JsonTextEditor).SelectionBorderBrush = ChangeArgs.NewValue as Brush; });
+
+        public double SelectionBorderThickness { get => this.TextArea.SelectionBorder.Thickness; set { this.TextArea.SelectionBorder.Thickness = value; } }
+        public static readonly DependencyProperty SelectionBorderThicknessProperty =
+            Register<JsonTextEditor, double>("SelectionBorderThickness", 1.0, (DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs) =>
+            { (CurrentElement as JsonTextEditor).SelectionBorderThickness = (double)ChangeArgs.NewValue; });
+
+        public double SelectionBorderCornerRadius { get => this.TextArea.SelectionCornerRadius; set { this.TextArea.SelectionCornerRadius = value; } }
+        public static readonly DependencyProperty SelectionBorderCornerRadiusProperty =
+            Register<JsonTextEditor, double>("SelectionBorderCornerRadius", 1.0, (DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs) =>
+            { (CurrentElement as JsonTextEditor).SelectionBorderCornerRadius = (double)ChangeArgs.NewValue; });
+
+
+        private bool IsCtrlPressed = false;
+        public JsonTextEditor()
+        {
+            WordWrap = true;
+
+            TextArea.SelectionBorder = new Pen(); // No this.TextArea.SelectionBorder null exception at DependencyProperty
+
+            TextArea.TextView.LinkTextForegroundBrush = Brushes.LightBlue;
+            TextArea.TextView.LinkTextUnderline = true;
+
+            // Ctrl + Mouse wheel font size adjustment
+            PreviewMouseWheel += (Sender, Args) =>
+            {
+                if (this.IsCtrlPressed)
+                {
+                    Args.Handled = true; // Prevent text scroll
+                    this.FontSize += (Args.Delta > 0) ? 1.2 : (this.FontSize >= 5 ? -1.2 : 0);
+                }
+            };
+            PreviewKeyDown += (Sender, Args) => { if (Args.Key == Key.LeftCtrl) this.IsCtrlPressed = true ; };
+            PreviewKeyUp   += (Sender, Args) => { if (Args.Key == Key.LeftCtrl) this.IsCtrlPressed = false; };
+        }
+    };
+
+    public abstract class SyntaxedTextEditor
+    {
+        public static void RecompileEditorSyntax()
+        {
+            if (false) rin(
+@$"  Compiling text editor syntax with parameters (For `{Mode_Handlers.Upstairs.ActiveProperties.Key}` mode):
+   - Disable Skill Tags: {Mode_Handlers.Upstairs.ActiveProperties.Key.EqualsOneOf("Keywords", "E.G.O Gifts")}
+   - Disable Keyword Links: {Mode_Handlers.Upstairs.ActiveProperties.Key.EqualsOneOf("Keywords")}
+   - Shorthands Included: {!Configurazione.SelectedAssociativePropery_Shared.Properties.Keywords_ShorthandsRegex.Equals(@"NOTHING THERE")}");
+
+            if (!Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSyntaxHighlight) MainWindow.MainControl.Editor.SyntaxHighlighting = null;
+            else MainWindow.MainControl.Editor.SyntaxHighlighting = new LimbusJsonTextSyntax(
+                     SkillTagColors: KeywordsInterrogate.CollectedSkillTagColors,
+                      KeywordColors: KeywordsInterrogate.CollectedKeywordColors,
+                   DisableSkillTags: Mode_Handlers.Upstairs.ActiveProperties.Key.EqualsOneOf("Keywords", "E.G.O Gifts"),
+                DisableKeywordLinks: Mode_Handlers.Upstairs.ActiveProperties.Key.EqualsOneOf("Keywords")
+            );
+        }
+
+        public static SolidColorBrush TagsBody_Color = ToSolidColorBrush("#CCCCCC");
+        public static SolidColorBrush TagsValue_Color = ToSolidColorBrush("#F54927");
+        public static Color TagsBody_Color_NotSolidColorBrush = ToColorBrush("#CCCCCC");
+
+        public static SolidColorBrush TabExplainColor = ToSolidColorBrush("#2779F5");
+
+
+        sealed public partial class LimbusJsonTextSyntax : IHighlightingDefinition
+        {
+            public string Name { get; set; }
+            public IDictionary<string, string> Properties { get; }
+            public HighlightingRuleSet MainRuleSet { get; set; } = new HighlightingRuleSet();
+            public IEnumerable<HighlightingColor> NamedHighlightingColors { get; set; }
+            public HighlightingColor GetNamedColor(string name) => null;
+            public HighlightingRuleSet GetNamedRuleSet(string name) => null;
+
+            /// <summary>
+            /// Create new syntax highlightion based on loaded keyword/skilltag colors 
+            /// </summary>
+            public LimbusJsonTextSyntax(Dictionary<string, string> SkillTagColors, Dictionary<string, string> KeywordColors, bool DisableSkillTags = false, bool DisableKeywordLinks = false)
+            {
+                #region Tags with specific value type
+                MainRuleSet.Spans.Add(new SyntaxHighlightingSpan_SingleContentRule(
+                    StartAndEndPattern: [new(@"<(sprite name|link)="""), new(@""">")],
+                    StartAndEndStyle: new HighlightingColor() { Foreground = new DefHighlightionBrush(TagsBody_Color), },
+                    ContentPattern: new(@"^\w+$"),
+                    ContentStyle: new HighlightingColor()
+                    {
+                        Foreground = new DefHighlightionBrush(TagsValue_Color)
+                    })
+                );
+
+                MainRuleSet.Spans.Add(new SyntaxHighlightingSpan_SingleContentRule(
+                    StartAndEndPattern: [new(@"<(font|font-weight)="""), new(@""">")],
+                    StartAndEndStyle: new HighlightingColor() { Foreground = new DefHighlightionBrush(TagsBody_Color), },
+                    ContentPattern: new(@"^(.+)$"),
+                    ContentStyle: new HighlightingColor()
+                    {
+                        Foreground = new DefHighlightionBrush(TagsValue_Color)
+                    })
+                );
+
+                MainRuleSet.Spans.Add(new SyntaxHighlightingSpan_SingleContentRule(
+                    StartAndEndPattern: [new(@"<color="), new(@">")],
+                    StartAndEndStyle: new HighlightingColor() { Foreground = new DefHighlightionBrush(TagsBody_Color), },
+                    ContentPattern: new(@"^#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})$"),
+                    ContentStyle: new HighlightingColor()
+                    {
+                        Foreground = new DefHighlightionBrush(TagsValue_Color)
+                    })
+                );
+                MainRuleSet.Spans.Add(new SyntaxHighlightingSpan_SingleContentRule(
+                    StartAndEndPattern: [new(@"<size="), new(@"%>")],
+                    StartAndEndStyle: new HighlightingColor() { Foreground = new DefHighlightionBrush(TagsBody_Color), },
+                    ContentPattern: new(@"^(\d+)(\.\d+)?$"),
+                    ContentStyle: new HighlightingColor()
+                    {
+                        Foreground = new DefHighlightionBrush(TagsValue_Color)
+                    })
+                );
+                #endregion
+
+
+                #region Base tags
+                MainRuleSet.Rules.Add(new HighlightingRule()
+                {
+                    Regex = new Regex(@"(<(b|i|u|s|nobr|sub|sup|noparse)>|</(b|i|u|s|nobr|sub|sup|noparse|link|font|font-weight|size|color)>)"),
+                    Color = new HighlightingColor()
+                    {
+                        Foreground = new DefHighlightionBrush(TagsBody_Color)
+                    }
+                });
+                #endregion
+
+
+                #region Keywords and skilltags with specified colors
+                if (!DisableSkillTags) // Add skilltags highlight
+                {
+                    MainRuleSet.Rules.Add(new HighlightingRule()
+                    {
+                        Regex = new Regex(@$"\[TabExplain\]"),
+                        Color = new HighlightingColor() { Underline = true, Foreground = new DefHighlightionBrush(TabExplainColor) }
+                    });
+                    foreach (KeyValuePair<string, string> SkillTagColor in SkillTagColors)
+                    {
+                        MainRuleSet.Rules.Add(new HighlightingRule()
+                        {
+                            Regex = new Regex(@$"\[{SkillTagColor.Key}\]"),
+                            Color = new HighlightingColor() { Foreground = new DefHighlightionBrush(ToSolidColorBrush(SkillTagColor.Value)) }
+                        });
+                    }
+                }
+
+                if (!DisableKeywordLinks | Configurazione.SelectedAssociativePropery_Shared != null)
+                {
+                    foreach (KeyValuePair<string, string> KeywordColor in KeywordColors)
+                    {
+                        if (!DisableKeywordLinks)
+                        {
+                            MainRuleSet.Rules.Add(new HighlightingRule()
+                            {
+                                Regex = new Regex(@$"\[{KeywordColor.Key}\]"),
+                                Color = new HighlightingColor() { Foreground = new DefHighlightionBrush(ToSolidColorBrush(KeywordColor.Value)) }
+                            });
+                        }
+
+                        if (!Configurazione.SelectedAssociativePropery_Shared.Properties.Keywords_ShorthandsRegex.Equals(@"NOTHING THERE"))
+                        {
+                            MainRuleSet.Rules.Add(new HighlightingRule()
+                            {
+                                Regex = new Regex(Configurazione.SelectedAssociativePropery_Shared.Properties.Keywords_ShorthandsRegex.Replace(@"(?<ID>\w+)", KeywordColor.Key)),
+                                Color = new HighlightingColor() { Foreground = new DefHighlightionBrush(ToSolidColorBrush(KeywordColor.Value)) }
+                            });
+                        }
+                    }
+
+                    if (!DisableKeywordLinks)
+                    {
+                        foreach (KeyValuePair<string, string> UnevidentKeyword in KeywordsInterrogate.Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter)
+                        {
+                            string Color = KeywordsInterrogate.CollectedKeywordColors.ContainsKey(UnevidentKeyword.Value)
+                                ? KeywordsInterrogate.CollectedKeywordColors[UnevidentKeyword.Value]
+                                : "#93f03f";
+
+                            MainRuleSet.Rules.Add(new HighlightingRule()
+                            {
+                                Regex = new Regex(LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection.Replace("KeywordNameWillBeHere", UnevidentKeyword.Key.ToEscapeRegexString())),
+                                Color = new HighlightingColor() { Foreground = new DefHighlightionBrush(ToSolidColorBrush(Color)) }
+                            });
+                        }
+                    }
+                }
+
+                if (!DisableSkillTags) // Finnaly, in passives or skills, if square brackets content still not highlighted as skilltag or keyword, put strikethrough ("Unknown")
+                {
+                    MainRuleSet.Rules.Add(new HighlightingRule()
+                    {
+                        Regex = new Regex(@"(\[.*?\]|\[\])"),
+                        Color = new HighlightingColor() { Strikethrough = true }
+                    });
+                }
+                #endregion
+
+
+                #region <style> tag
+                //MainRuleSet.Rules.Add(new HighlightingRule()
+                //{
+                //    Regex = new Regex(@"(<style=""(upgradeHighlight|highlight)"">|</style>)"),
+                //    Color = new HighlightingColor()
+                //    {
+                //        Foreground = new DefHighlightionBrush(ToSolidColorBrush("#f8c200"))
+                //    }
+                //});
+                MainRuleSet.Spans.Add(new HighlightingSpan()
+                {
+                    RuleSet = MainRuleSet, // Copy all highlight rules
+
+                    StartExpression = new Regex(@"<style=""(upgradeHighlight|highlight)"">"),
+                    EndExpression = new Regex(@"</style>"),
+
+                    StartColor = new HighlightingColor() { Foreground = new DefHighlightionBrush(ToSolidColorBrush("#f8c200")) },
+                    EndColor = new HighlightingColor() { Foreground = new DefHighlightionBrush(ToSolidColorBrush("#f8c200")) },
+
+                    //StartColor = new HighlightingColor() { Foreground = new DefHighlightionBrush(TagsBody_Color) },
+                    //EndColor = new HighlightingColor() { Foreground = new DefHighlightionBrush(TagsBody_Color) },
+                    
+                    SpanColor = new HighlightingColor() { Foreground = new DefHighlightionBrush(ToSolidColorBrush("#f8c200")) }
+
+                    //// Yellow color fadeout gradient option
+                    //StartColor = new HighlightingColor()
+                    //{
+                    //    Foreground = new DefHighlightionBrush(new LinearGradientBrush()
+                    //    {
+                    //        StartPoint = new Point(0, 0),
+                    //        EndPoint = new Point(1, 0),
+                    //        GradientStops =
+                    //        {
+                    //            new GradientStop(TagsBody_Color_NotSolidColorBrush, 0),
+                    //            new GradientStop(ToColorBrush("#f8c200"), 1)
+                    //        }
+                    //    })
+                    //},
+                    //EndColor = new HighlightingColor()
+                    //{
+                    //    Foreground = new DefHighlightionBrush(new LinearGradientBrush()
+                    //    {
+                    //        StartPoint = new Point(0, 0),
+                    //        EndPoint = new Point(1, 0),
+                    //        GradientStops =
+                    //        {
+                    //            new GradientStop(ToColorBrush("#f8c200"), 0),
+                    //            new GradientStop(TagsBody_Color_NotSolidColorBrush, 1)
+                    //        }
+                    //    })
+                    //},
+
+                });
+                #endregion
+            }
+        }
+
+        private class DefHighlightionBrush : HighlightingBrush
+        {
+            private readonly Brush ActualBrush;
+            public override Brush GetBrush(ITextRunConstructionContext context)
+            {
+                return ActualBrush;
+            }
+            public DefHighlightionBrush(Brush From)
+            {
+                ActualBrush = From;
+            }
+        }
+        private class SyntaxHighlightingSpan_SingleContentRule : HighlightingSpan
+        {
+            public SyntaxHighlightingSpan_SingleContentRule(Regex[] StartAndEndPattern, Regex ContentPattern, HighlightingColor StartAndEndStyle, HighlightingColor ContentStyle)
+            {
+                StartExpression = StartAndEndPattern[0]; EndExpression = StartAndEndPattern[1];
+                SpanColorIncludesStart = true; SpanColorIncludesEnd = true;
+                SpanColor = StartAndEndStyle;
+                RuleSet = new HighlightingRuleSet();
+                RuleSet.Rules.Add(new HighlightingRule()
+                {
+                    Regex = ContentPattern,
+                    Color = ContentStyle,
+                });
+            }
+        }
+    }
+
+    public abstract class LimbusPreviewFormatter
+    {
+        public static string LastAppliedUnformattedRichText = "";
+        public static TMProEmitter LastApplyTarget = null;
+
+        public static void UpdateLast()
+        {
+            if (LastApplyTarget != null)
+            {
+                if (Mode_Handlers.Upstairs.ActiveProperties.Key == "Skills")
+                {
+                    foreach (KeyValuePair<TMProEmitter, string> SkillDescItem in Mode_Handlers.Mode_Skills.LastPreviewUpdatesBank)
+                    {
+                        SkillDescItem.Key.RichText = SkillDescItem.Value;
+                    }
+                }
+                else
+                {
+                    LastApplyTarget.RichText = LastAppliedUnformattedRichText;
+                }
+            }
+        }
+
+        public static Dictionary<string, string> FormatInsertions = new Dictionary<string, string>()
         {
             ["0"] = "{0}",
             ["1"] = "{1}",
@@ -25,47 +417,23 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             ["6"] = "{6}",
         };
 
-        internal protected static Dictionary<string, FontFamily> LimbusEmbeddedFonts = new Dictionary<string, FontFamily> { };
-        
-        internal protected static void InitializeLimbusEmbeddedFonts()
-        {
-            //rin($""$ Loading embedded limbus fonts");
-
-            LimbusEmbeddedFonts = new Dictionary<string, FontFamily>
-            {
-                                              ["BebasKai SDF"] = FileToFontFamily(@"⇲ Assets Directory\[⇲] Limbus Embedded Fonts\BebasKai.otf"),
-                                         ["ExcelsiorSans SDF"] = FileToFontFamily(@"⇲ Assets Directory\[⇲] Limbus Embedded Fonts\ExcelsiorSans.ttf"),
-                            ["EN/title)mikodacs/Mikodacs SDF"] = FileToFontFamily(@"⇲ Assets Directory\[⇲] Limbus Embedded Fonts\Mikodacs.otf"),
-                          ["KR/p)SCDream(light)/SCDream5 SDF"] = FileToFontFamily(@"⇲ Assets Directory\[⇲] Limbus Embedded Fonts\SCDream5.otf"),
-                        ["KR/title)KOTRA_BOLD/KOTRA_BOLD SDF"] = FileToFontFamily(@"⇲ Assets Directory\[⇲] Limbus Embedded Fonts\KOTRA_BOLD.ttf", "KOTRA BOLD"),
-                       ["JP/HigashiOme/HigashiOme-Gothic-C-1"] = FileToFontFamily(@"⇲ Assets Directory\[⇲] Limbus Embedded Fonts\HigashiOme-Gothic-C-1.3.ttf"),
-                      ["EN/Pretendard/Pretendard-Regular SDF"] = FileToFontFamily(@"⇲ Assets Directory\[⇲] Limbus Embedded Fonts\Pretendard-Regular.ttf"),
-                ["EN/cur)Caveat-SemiBold/Caveat-SemiBold SDF"] = FileToFontFamily(@"⇲ Assets Directory\[⇲] Limbus Embedded Fonts\Caveat SemiBold.ttf"),
-                ["JP/title)corporate logo(bold)/Corporate-Logo-Bold-ver2 SDF"] = FileToFontFamily(@"⇲ Assets Directory\[⇲] Limbus Embedded Fonts\Corporate-Logo-Bold-ver2.otf"),
-            };
-        }
-
-        internal protected abstract class RemoteRegexPatterns
+        public abstract class RemoteRegexPatterns
         {
             //                                                                Template until settings load
-            internal protected static string AutoKeywordsDetection = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-_<'"":\+])").ToString();
-            internal protected static Regex StyleMarker = new Regex(@"<style=""\w+"">|</style>");
-            internal protected static Regex LoadfontMark = new Regex(@"<loadfont=`.*?`>|</loadfont>");
-            internal protected static Regex SpritesOverrideHorizontalOffset = new Regex(@"<spriteshoffset=((\+|\-)\d+)>|</spritesvoffset>");
-            internal protected static Regex SpritesOverrideVerticalOffset = new Regex(@"<spritesvoffset=((\+|\-)\d+)>|</spritesvoffset>");
-            internal protected static Regex SpritesOverrideSize = new Regex(@"<spritessize=((\+|\-)\d+)>|</spritessize>");
-            internal protected static Regex HexColor = new Regex(@"(#[a-fA-F0-9]{6})");
-            internal protected static Regex TMProKeyword = new Regex(@"<sprite name=""(?<ID>\w+)""><color=(?<Color>#[a-fA-F0-9]{6})><u><link=""\w+"">(?<Name>.*?)</link></u></color>");
-            internal protected static Regex KeywordLink = new Regex(@"\[(?<ID>[^\]]+)?\](?<Color>\(#[a-fA-F0-9]{6}\))?");
-            internal protected static Regex TMProLinks = new Regex(@"(<link=""\w+"">)|(</link>)");
+            public static string AutoKeywordsDetection = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-_<'"":\+]|$)").ToString();
+            public static Regex StyleMarker = new Regex(@"<style=""\w+"">|</style>");
+            public static Regex HexColor = new Regex(@"(#[a-fA-F0-9]{6})", RegexOptions.Compiled);
+            public static Regex TMProKeyword = new Regex(@"<sprite name=""(?<ID>\w+)""><color=(?<Color>#[a-fA-F0-9]{6})><u><link=""\w+"">(?<Name>.*?)</link></u></color>", RegexOptions.Compiled);
+            public static Regex SquareBracketLike = new Regex(@"\[(?<ID>.*?)\](?<Color>\(#[a-fA-F0-9]{6}\))?", RegexOptions.Compiled);
+            public static Regex TMProLinks = new Regex(@"(<link=""\w+"">)|(</link>)", RegexOptions.Compiled);
         }
 
         /// <summary>
-        /// Format input limbus description text based on current editor mode to final version for displaying text for RichTextBoxApplicator
+        /// Format input limbus description text based on current editor mode to final version for displaying text for Reassangre Tessal rich text applicator
         /// </summary>
         /// <param name="SpecifiedTextProcessingMode">Process text with specified editor mode, by defaultvalue is taken from <br/><c>Mode_Handlers.Upstairs.ActiveProperties.Key</c> if parameter is null</param>
         /// <returns></returns>
-        internal protected static string Apply(string PreviewText, string SpecifiedTextProcessingMode = null)
+        public static string Apply(string PreviewText, string SpecifiedTextProcessingMode = null)
         {
             if (SpecifiedTextProcessingMode == null) SpecifiedTextProcessingMode = Mode_Handlers.Upstairs.ActiveProperties.Key;
             else if (!SpecifiedTextProcessingMode.EqualsOneOf("E.G.O Gifts", "Keywords", "Passives", "Skills")) // If invalid
@@ -77,27 +445,6 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             foreach (KeyValuePair<string, string> Insert in FormatInsertions)
             {
                 PreviewText = PreviewText.Replace($"{{{Insert.Key}}}", Insert.Value);
-            }
-
-            if (!MainWindow.PreviewUpdate_TargetSite.Equals(MainControl.PreviewLayout_Default))
-            {
-                // TMPro does not support this
-                PreviewText = RemoteRegexPatterns.LoadfontMark.Replace(PreviewText, Match =>
-                {
-                    return Match.Groups[0].Value.Replace("<", "<\0");
-                });
-                PreviewText = RemoteRegexPatterns.SpritesOverrideVerticalOffset.Replace(PreviewText, Match =>
-                {
-                    return Match.Groups[0].Value.Replace("<", "<\0");
-                });
-                PreviewText = RemoteRegexPatterns.SpritesOverrideHorizontalOffset.Replace(PreviewText, Match =>
-                {
-                    return Match.Groups[0].Value.Replace("<", "<\0");
-                });
-                PreviewText = RemoteRegexPatterns.SpritesOverrideSize.Replace(PreviewText, Match =>
-                {
-                    return Match.Groups[0].Value.Replace("<", "<\0");
-                });
             }
 
             // Shorthands
@@ -134,7 +481,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
             if (SpecifiedTextProcessingMode.EqualsOneOf("Skills", "Passives", "E.G.O Gifts"))
             {
-                PreviewText = RemoteRegexPatterns.KeywordLink.Replace(PreviewText, Match =>
+                PreviewText = RemoteRegexPatterns.SquareBracketLike.Replace(PreviewText, Match =>
                 {
                     return $"[{Match.Groups["ID"].Value}]\0{Match.Groups["Color"].Value}"; // To avoid color error [abcdeID](#color), get out, that must be converted at line 150 after shorthands (Jia Qui skill jumpscare in release with 'Dialogues(#c8e7d9)' in desc)
                 });
@@ -160,9 +507,10 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 {
                     if (PreviewText.Contains(UnevidentKeyword.Key))
                     {
-                        // https://regex101.com/r/CcrEVU/2 .NET 7.0 (C#) section
+                        // https://regex101.com/r/CcrEVU/3 .NET 7.0 (C#) section
                         //                                                 (Wrath Fragility)(?![\p{L}\[\]\-_<'"":\+]) as example
-                        PreviewText = Regex.Replace(PreviewText, RemoteRegexPatterns.AutoKeywordsDetection.Replace("KeywordNameWillBeHere", UnevidentKeyword.Key), Match =>
+                        // But broken somehow if there are square brackets in name (Inner Strength [底力] hello how th)
+                        PreviewText = Regex.Replace(PreviewText, RemoteRegexPatterns.AutoKeywordsDetection.Replace("KeywordNameWillBeHere", UnevidentKeyword.Key.ToEscapeRegexString()), Match =>
                         {
                             return $"[{UnevidentKeyword.Value}]";
                         });
@@ -170,20 +518,20 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 }
 
                 // [KeywordID] deconversion
-                PreviewText = RemoteRegexPatterns.KeywordLink.Replace(PreviewText, Match =>
+                PreviewText = RemoteRegexPatterns.SquareBracketLike.Replace(PreviewText, Match =>
                 {
-                    string MaybeID = Match.Groups["ID"].Value;
-                    if (KeywordsGlossary.ContainsKey(MaybeID))
+                    string KeywordID = Match.Groups["ID"].Value;
+                    if (KeywordsGlossary.ContainsKey(KeywordID))
                     {
-                        string KeywordName = KeywordsGlossary[MaybeID].Name;
+                        string KeywordName = KeywordsGlossary[KeywordID].Name;
                         string KeywordColor = RemoteRegexPatterns.HexColor.Match(Match.Groups["Color"].Value).Groups[1].Value;
-                        if (KeywordColor.Equals("")) KeywordColor = KeywordsGlossary[MaybeID].StringColor;
+                        if (KeywordColor.Equals("")) KeywordColor = KeywordsGlossary[KeywordID].StringColor;
 
                         return 
-                        (Configurazione.Spec_EnableKeywordIDSprite ? $"<sprite name=\"{MaybeID}\">" : "") +
+                        (Configurazione.Spec_EnableKeywordIDSprite ? $"<sprite name=\"{KeywordID}\">" : "") +
                         $"<color={KeywordColor}>" +
                         (Configurazione.Spec_EnableKeywordIDUnderline ? $"<u>" : "") +
-                        $"{KeywordName}" +
+                        $"<link=\"{KeywordID}\">{KeywordName}</link>" +
                         (Configurazione.Spec_EnableKeywordIDUnderline ? $"</u>" : "") +
                         $"</color>";
                     }
@@ -202,7 +550,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
                 if (!DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightStyle)
                 {
-                    PreviewText = RegexRemove(PreviewText, RemoteRegexPatterns.StyleMarker);
+                    PreviewText = PreviewText.RegexRemove(RemoteRegexPatterns.StyleMarker);
                 }
 
                 // Skill tags
@@ -216,8 +564,12 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 }
             }
 
-            // Preview does not support any keyword tooltips
-            PreviewText = RegexRemove(PreviewText, LimbusPreviewFormatter.RemoteRegexPatterns.TMProLinks);
+            PreviewText = PreviewText.Replace("<style>", "<\u0001style>");
+
+            // <strikethrough>Preview does not support any keyword tooltips</strikethrough>    now it supports
+            //PreviewText = RegexRemove(PreviewText, LimbusPreviewFormatter.RemoteRegexPatterns.TMProLinks);
+            
+
             return PreviewText.Replace("\0", "");
         }
     }

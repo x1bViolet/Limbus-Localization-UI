@@ -4,26 +4,26 @@ using static LC_Localization_Task_Absolute.Json.BaseTypes;
 namespace LC_Localization_Task_Absolute.Json
 {
     /// <summary>
-    /// Dictionaries with links to deserialized json classes for simplified id access
+    /// Dictionaries with links to deserialized json records for simplified id access
     /// </summary>
-    internal abstract class DelegateDictionaries
+    public abstract class DelegateDictionaries
     {
-        internal protected static Dictionary<int, Dictionary<int, Type_Skills.UptieLevel>> DelegateSkills = [];
-            internal protected static List<int> DelegateSkills_IDList = [];
+        public static Dictionary<int, Dictionary<int, Type_Skills.UptieLevel>> DelegateSkills = [];
+            public static List<int> DelegateSkills_IDList = [];
         
-        internal protected static Dictionary<int, Type_Passives.Passive> DelegatePassives = [];
-            internal protected static List<int> DelegatePassives_IDList = [];
+        public static Dictionary<int, Type_Passives.Passive> DelegatePassives = [];
+            public static List<int> DelegatePassives_IDList = [];
         
-        internal protected static Dictionary<int, Type_EGOGifts.EGOGift> DelegateEGOGifts = [];
-            internal protected static List<int> DelegateEGOGifts_IDList = [];
+        public static Dictionary<int, Type_EGOGifts.EGOGift> DelegateEGOGifts = [];
+            public static List<int> DelegateEGOGifts_IDList = [];
         
-        internal protected static Dictionary<string, Type_Keywords.Keyword> DelegateKeywords = [];
-            internal protected static List<string> DelegateKeywords_IDList = [];
+        public static Dictionary<string, Type_Keywords.Keyword> DelegateKeywords = [];
+            public static List<string> DelegateKeywords_IDList = [];
 
-        internal protected static Dictionary<dynamic, Type_ContentBasedUniversal_UNUSEDPROBABLYUSELESS.ContentBasedUniversal> DelegateUniversal = [];
-            internal protected static List<dynamic> DelegateUniversal_IDList = [];
+        public static Dictionary<dynamic, Type_ContentBasedUniversal_UNUSEDPROBABLYUSELESS.ContentBasedUniversal> DelegateUniversal = [];
+            public static List<dynamic> DelegateUniversal_IDList = [];
 
-        internal protected static List<dynamic> Delegates = [
+        public static List<dynamic> Delegates = [
             DelegateSkills,    DelegateSkills_IDList,
             DelegatePassives,  DelegatePassives_IDList,
             DelegateKeywords,  DelegateEGOGifts_IDList,
@@ -31,12 +31,12 @@ namespace LC_Localization_Task_Absolute.Json
             DelegateUniversal, DelegateUniversal_IDList,
         ];
 
-        internal protected static void ClearDelegates()
+        public static void ClearDelegates()
         {
             foreach (dynamic Delegate in Delegates) Delegate.Clear();
         }
 
-        internal protected static void InitializeSkillsDelegateFrom(Type_Skills.Skills? Source)
+        public static void InitializeSkillsDelegateFrom(Type_Skills.Skills? Source)
         {
             if (Source != null)
             {
@@ -65,7 +65,7 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        internal protected static void InitializePassivesDelegateFrom(Type_Passives.Passives Source)
+        public static void InitializePassivesDelegateFrom(Type_Passives.Passives Source)
         {
             if (Source != null)
             {
@@ -89,7 +89,7 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        internal protected static void InitializeKeywordsDelegateFrom(Type_Keywords.Keywords Source)
+        public static void InitializeKeywordsDelegateFrom(Type_Keywords.Keywords Source)
         {
             if (Source != null)
             {
@@ -110,7 +110,7 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        internal protected static void InitializeEGOGiftsDelegateFrom(Type_EGOGifts.EGOGifts Source)
+        public static void InitializeEGOGiftsDelegateFrom(Type_EGOGifts.EGOGifts Source)
         {
             if (Source != null)
             {
@@ -131,7 +131,7 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        internal protected static void InitializeContentBasedUniversalDelegateFrom(Type_ContentBasedUniversal_UNUSEDPROBABLYUSELESS.ContentBasedUniversal? Source)
+        public static void InitializeContentBasedUniversalDelegateFrom(Type_ContentBasedUniversal_UNUSEDPROBABLYUSELESS.ContentBasedUniversal? Source)
         {
             if (Source != null)
             {
@@ -146,7 +146,6 @@ namespace LC_Localization_Task_Absolute.Json
                         Type CheckItem = Source.dataList[0].GetType();
                         if (CheckItem.HasProperty("id") & CheckItem.HasProperty("content"))
                         {
-                        
                             foreach (dynamic CurrentItem in Source.dataList)
                             {
                                 DelegateUniversal[CurrentItem.id] = CurrentItem;

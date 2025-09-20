@@ -1,27 +1,37 @@
-﻿using SixLabors.ImageSharp;
+﻿using LC_Localization_Task_Absolute.Limbus_Integration;
+using SixLabors.ImageSharp;
 using SixLabors.ImageSharp.PixelFormats;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
+using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Media;
+using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using static LC_Localization_Task_Absolute.MainWindow;
+using Color = System.Windows.Media.Color;
+using Size = System.Windows.Size;
+
+/*/
+ * 
+ * File with all utility garbage
+ * 
+/*/
 
 namespace LC_Localization_Task_Absolute
 {
-    internal static class SecondaryUtilities
+    public static class SecondaryUtilities
     {
         // To apply custom color to white images (Tint), used for creating custom color for sinner name in custom identity preview
         // Sixlabors because default options of 'foreach(pixel in somewpfbitmapimage)' slow asf
 
         // ^ BitmapImage --ToSixlaborsImage()-> Image<Rgba32> -> TintWhiteMaskImage(Image<Rgba32>) -> colored Image<Rgba32> --ToBitmapImage()-> colored BitmapImage
 
-        // Some speed shennigans from SixLabors docs https://docs.sixlabors.com/articles/imagesharp/pixelbuffers.html
-        internal static Image<Rgba32> TintWhiteMaskImage(Image<Rgba32> LoadedImage, Rgba32 TintColor)
+        // Some speed shenanigans from SixLabors docs https://docs.sixlabors.com/articles/imagesharp/pixelbuffers.html
+        public static Image<Rgba32> TintWhiteMaskImage(Image<Rgba32> LoadedImage, Rgba32 TintColor)
         {
             // Or 'LoadedImage = SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(@"C:\,some,where,\Import.png");'
 
@@ -53,14 +63,14 @@ namespace LC_Localization_Task_Absolute
             return ResultImage; // Or 'ResultImage.SaveAsPng(@"C:\,some,where,\Export.png");'
         }
 
-        internal static BitmapImage TintWhiteMaskBitmap(BitmapImage Selected, string HexColor)
+        public static BitmapImage TintWhiteMaskBitmap(BitmapImage Selected, string HexColor)
         {
             SixLabors.ImageSharp.Image<Rgba32> Colored = SecondaryUtilities.TintWhiteMaskImage(Selected.ToSixlaborsImage(), Rgba32.ParseHex(HexColor.Replace("#", "")));
 
             return Colored.ToBitmapImage();
         }
 
-        internal static Image<Rgba32> ToSixlaborsImage(this BitmapImage WPFImageSource)
+        public static Image<Rgba32> ToSixlaborsImage(this BitmapImage WPFImageSource)
         {
             int Width = WPFImageSource.PixelWidth;
             int Height = WPFImageSource.PixelHeight;
@@ -72,7 +82,7 @@ namespace LC_Localization_Task_Absolute
             return SixLabors.ImageSharp.Image.LoadPixelData<Rgba32>(PixelData, Width, Height);
         }
 
-        internal static BitmapImage ToBitmapImage(this Image<Rgba32> SixlaborsImageSource)
+        public static BitmapImage ToBitmapImage(this Image<Rgba32> SixlaborsImageSource)
         {
             using (MemoryStream ImageConvertStream = new MemoryStream())
             {
@@ -91,58 +101,255 @@ namespace LC_Localization_Task_Absolute
         }
     }
 
-
-
-    internal static class Requirements
+    public static class Requirements
     {
-        internal static int LinesCount(this string check) => check.Count(f => f == '\n');
+        #region WPF
+        public static ResourceType Resource<ResourceType>(string Name) where ResourceType : class => MainWindow.MainControl.FindResource(Name) as ResourceType;
+        public static ObjectType InterfaceObject<ObjectType>(string xName) where ObjectType : class => MainWindow.MainControl.FindName(xName) as ObjectType;
 
-        internal static byte ToByte(this string HexDigit) => byte.Parse(HexDigit, System.Globalization.NumberStyles.HexNumber);
-
-        internal static Encoding GetFileEncoding(this FileInfo TargetFile)
+        public static FontFamily FontFromResource(string FontResourceLocation, string FontFamilyName)
         {
-            using (var reader = new StreamReader(TargetFile.FullName, Encoding.Default, true))
+            return new FontFamily(new Uri($"pack://application:,,,/{FontResourceLocation}"), $"./#{FontFamilyName}");
+        }
+        public static BitmapImage BitmapFromResource(string ResourecImageName)
+        {
+            return new BitmapImage(new Uri($"pack://application:,,,/{ResourecImageName}"));
+        }
+        public static BitmapImage BitmapFromFile(string ImageFilepath)
+        {
+            if (File.Exists(ImageFilepath))
             {
-                reader.Peek(); // you need this!
-                return reader.CurrentEncoding;
+                // Uri method instead of MemoryStream locks image file by the program
+                //return new BitmapImage(new Uri(new FileInfo(ImageFilepath).FullName, UriKind.Absolute));
+
+                using (MemoryStream Stream = new MemoryStream(File.ReadAllBytes(ImageFilepath)))
+                {
+                    BitmapImage LoadImage = new BitmapImage();
+                    LoadImage.BeginInit();
+                    LoadImage.StreamSource = Stream;
+                    LoadImage.CacheOption = BitmapCacheOption.OnLoad;
+                    LoadImage.EndInit();
+                    LoadImage.Freeze();
+
+                    return LoadImage;
+                }
+            }
+            else return new BitmapImage();
+        }
+
+        public static byte[] ConvertWebpToPng(byte[] WebpImageData)
+        {
+            using (MemoryStream InputStream = new MemoryStream(WebpImageData))
+            using (SixLabors.ImageSharp.Image OutputImage = SixLabors.ImageSharp.Image.Load(InputStream))
+            {
+                using (MemoryStream OutputStream = new MemoryStream())
+                {
+                    OutputImage.SaveAsPng(OutputStream);
+                    return OutputStream.ToArray();
+                }
             }
         }
 
-        internal static List<FileInfo> GetFileInfos(this IEnumerable<string> Paths)
+        public static FontWeight WeightFrom(string StringVariant)
         {
-            List<FileInfo> Output = new List<FileInfo>();
-            foreach(var i in Paths)
+            return StringVariant switch
             {
-                Output.Add(new FileInfo(i));
-            }
-            return Output;
+                "Black" => FontWeights.Black,
+                "Bold" => FontWeights.Bold,
+                "Demi Bold" => FontWeights.DemiBold,
+                "Extra Black" => FontWeights.ExtraBlack,
+                "Extra Bold" => FontWeights.ExtraBold,
+                "Extra Light" => FontWeights.ExtraLight,
+                "Heavy" => FontWeights.Heavy,
+                "Light" => FontWeights.Light,
+                "Medium" => FontWeights.Medium,
+                "Normal" => FontWeights.Normal,
+                "Regular" => FontWeights.Regular,
+                "Semibold" => FontWeights.SemiBold,
+                "Thin" => FontWeights.Thin,
+                "Ultra Black" => FontWeights.UltraBlack,
+                "Ultra Bold" => FontWeights.UltraBold,
+                "Ultra Light" => FontWeights.UltraLight,
+                _ => FontWeights.Normal,
+            };
         }
 
-        internal static void MoveItemUp(this StackPanel ParentStackPanel, UIElement TargetElement)
+        public static void ScanScrollviewer(ScrollViewer Target, string NameHint, string ManualPath = "", double DpiX = 96d, double DpiY = 96d)
         {
-            int CurrentIndex = ParentStackPanel.Children.IndexOf(TargetElement);
-            if (CurrentIndex > 0)
+            string OutputPath = !ManualPath.Equals("") ? ManualPath : @$"[⇲] Assets Directory\[⇲] Scans\{NameHint} @ {DateTime.Now.ToString("HHːmmːss (dd.MM.yyyy)")}.png";
+
+            ////////////////////////////////////////////////////
+            double OriginalVerticalScrollOffset = Target.VerticalOffset;
+            double OriginalHorizontalScrollOffset = Target.HorizontalOffset;
+            Target.ScrollToVerticalOffset(0);
+            Target.ScrollToHorizontalOffset(0);
+            // Because text on image somehow will slide up if preview was scrolled
+
+            double Upscale = Configurazione.DeltaConfig.ScanParameters.ScaleFactor;
+
+            FrameworkElement PreviewContent = Target.Content as FrameworkElement;
+
+            try
             {
-                ParentStackPanel.Children.RemoveAt(CurrentIndex);
-                ParentStackPanel.Children.Insert(CurrentIndex - 1, TargetElement);
+                (PreviewContent as dynamic).Background = ToSolidColorBrush(Configurazione.DeltaConfig.ScanParameters.BackgroundColor);
             }
-        }
-        internal static void MoveItemDown(this StackPanel ParentStackPanel, UIElement TargetElement)
-        {
-            int CurrentIndex = ParentStackPanel.Children.IndexOf(TargetElement);
-            if (CurrentIndex >= 0 && CurrentIndex < ParentStackPanel.Children.Count - 1)
+            catch { }
+
+            PreviewContent.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            PreviewContent.Arrange(new Rect(PreviewContent.DesiredSize));
+            PreviewContent.UpdateLayout();
+
+            int RenderWidth = (int)(PreviewContent.ActualWidth * Upscale);
+            int RenderHeight = (int)(PreviewContent.ActualHeight * Upscale);
+
+            RenderTargetBitmap PreviewLayoutRender = new RenderTargetBitmap(RenderWidth, RenderHeight, DpiX * Upscale, DpiY * Upscale, PixelFormats.Pbgra32);
+
+            PreviewLayoutRender.Render(PreviewContent);
+
+            PngBitmapEncoder ExportBitmapEncoder = new PngBitmapEncoder();
+            ExportBitmapEncoder.Frames.Add(BitmapFrame.Create(PreviewLayoutRender));
+
+            using (FileStream ExportStream = new FileStream(path: OutputPath, mode: FileMode.Create))
             {
-                ParentStackPanel.Children.RemoveAt(CurrentIndex);
-                ParentStackPanel.Children.Insert(CurrentIndex + 1, TargetElement);
+                ExportBitmapEncoder.Save(ExportStream);
+            }
+
+            try
+            {
+                (PreviewContent as dynamic).Background = Brushes.Transparent;
+            }
+            catch { }
+
+            ////////////////////////////////////////////////////
+            Target.ScrollToVerticalOffset(OriginalVerticalScrollOffset);
+            Target.ScrollToHorizontalOffset(OriginalHorizontalScrollOffset);
+        }
+
+        public static Color ToColorBrush(string HexColor)
+        {
+            if (HexColor == null) return Colors.White;
+
+            HexColor = HexColor.Replace("#", "");
+
+            try
+            {
+                if (HexColor.Length == 6)
+                {
+                    return new Color()
+                    {
+                        A = 255,
+                        R = Convert.ToByte(HexColor.Substring(0, 2), 16),
+                        G = Convert.ToByte(HexColor.Substring(2, 2), 16),
+                        B = Convert.ToByte(HexColor.Substring(4, 2), 16)
+                    };
+                }
+                else if (HexColor.Length == 8)
+                {
+                    return new Color()
+                    {
+                        A = Convert.ToByte(HexColor.Substring(0, 2), 16),
+                        R = Convert.ToByte(HexColor.Substring(2, 2), 16),
+                        G = Convert.ToByte(HexColor.Substring(4, 2), 16),
+                        B = Convert.ToByte(HexColor.Substring(6, 2), 16)
+                    };
+                }
+                else return Colors.White;
+            }
+            catch
+            {
+                return Colors.White;
             }
         }
 
-        internal static void InkCanvasUndo(InkCanvas Target)
+        /// <summary>
+        /// Accepts RGB or ARGB hex sequence (#rrggbb / #AArrggbb)<br/>
+        /// Returns transperent if HexString is null/"" or if HexString is not color
+        /// </summary>
+        public static SolidColorBrush ToSolidColorBrush(string HexColor)
         {
-            if (Target.Strokes.Count > 0) Target.Strokes.RemoveAt(Target.Strokes.Count - 1);
+            if (HexColor == null) return Brushes.White;
+
+            HexColor = HexColor.Replace("#", "");
+
+            try
+            {
+                if (HexColor.Length == 6)
+                {
+                    return new SolidColorBrush(new Color()
+                    {
+                        A = 255,
+                        R = Convert.ToByte(HexColor.Substring(0, 2), 16),
+                        G = Convert.ToByte(HexColor.Substring(2, 2), 16),
+                        B = Convert.ToByte(HexColor.Substring(4, 2), 16)
+                    });
+                }
+                else if (HexColor.Length == 8)
+                {
+                    return new SolidColorBrush(new Color()
+                    {
+                        A = Convert.ToByte(HexColor.Substring(0, 2), 16),
+                        R = Convert.ToByte(HexColor.Substring(2, 2), 16),
+                        G = Convert.ToByte(HexColor.Substring(4, 2), 16),
+                        B = Convert.ToByte(HexColor.Substring(6, 2), 16)
+                    });
+                }
+                else return Brushes.White;
+            }
+            catch
+            {
+                return Brushes.White;
+            }
         }
 
-        internal static FrameworkElement SetBindingWithReturn(this FrameworkElement Target, DependencyProperty Property, string BindingPropertyName, DependencyObject BindingSource)
+
+        public static FontFamily FileToFontFamily(string FontPath, string OverrideFontInternalName = "", bool WriteInfo = false)
+        {
+            if (File.Exists(FontPath))
+            {
+                string FontFullPath = new FileInfo(FontPath).FullName;
+                Uri FontUri = new Uri(FontFullPath, UriKind.Absolute);
+                string FontInternalName = OverrideFontInternalName.Equals("") ? GetFontName(FontFullPath) : OverrideFontInternalName;
+                if (WriteInfo) rin($"      Successful font loading from file as `{FontInternalName}`");
+                return new FontFamily(FontUri, $"./#{FontInternalName}");
+            }
+            else
+            {
+                if (WriteInfo) rin($"      Font file \"{FontPath}\" not found, returning \"Arial\"");
+                return new FontFamily("Arial");
+            }
+        }
+
+        public static FontFamily FileToFontFamily_WithNameReturn(string FontPath, out string AcquiredFontName)
+        {
+            if (File.Exists(FontPath))
+            {
+                string FontFullPath = new FileInfo(FontPath).FullName;
+                Uri FontUri = new Uri(FontFullPath, UriKind.Absolute);
+
+                AcquiredFontName = GetFontName(FontFullPath);
+
+                return new FontFamily(FontUri, $"./#{AcquiredFontName}");
+            }
+            else
+            {
+                AcquiredFontName = "?";
+
+                return new FontFamily("Arial");
+            }
+        }
+
+        public static string GetFontName(string FontPath)
+        {
+            using (System.Drawing.Text.PrivateFontCollection PrivateFonts = new())
+            {
+                PrivateFonts.AddFontFile(FontPath);
+                string FontName = PrivateFonts.Families[0].Name;
+
+                return FontName;
+            }
+        }
+
+        public static FrameworkElement SetBindingWithReturn(this FrameworkElement Target, DependencyProperty Property, string BindingPropertyName, DependencyObject BindingSource)
         {
             Target.SetBinding(Property, new Binding(BindingPropertyName)
             {
@@ -152,20 +359,20 @@ namespace LC_Localization_Task_Absolute
             return Target;
         }
 
-        internal static UIElement SetColumn(this UIElement Target, int ColumnNumber)
+        public static UIElement SetColumn(this UIElement Target, int ColumnNumber)
         {
             Grid.SetColumn(Target, ColumnNumber);
             return Target;
         }
 
-        internal static RichTextBox SetLineHeight(this RichTextBox Target, double LineHeight)
+        public static TextBlock SetLineHeight(this TextBlock Target, double LineHeight)
         {
-            Target.SetValue(Paragraph.LineStackingStrategyProperty, LineStackingStrategy.BlockLineHeight);
-            Target.SetValue(Paragraph.LineHeightProperty, LineHeight);
+            Target.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
+            Target.LineHeight = LineHeight;
             return Target;
         }
 
-        internal static TextBlock ImposedClone(this TextBlock TargetTextBlock, Inline Content = null)
+        public static TextBlock ImposedClone(this TextBlock TargetTextBlock, Inline Content = null)
         {
             TextBlock Output = new TextBlock()
             {
@@ -188,49 +395,148 @@ namespace LC_Localization_Task_Absolute
 
             return Output;
         }
-
-        internal static void MoveItemUp(this List<string> TargetList, string Element)
-        {
-            int CurrentIndex = TargetList.IndexOf(Element);
-            if (CurrentIndex > 0)
-            {
-                TargetList.RemoveAt(CurrentIndex);
-                TargetList.Insert(CurrentIndex - 1, Element);
-            }
-        }
-        internal static void MoveItemDown(this List<string> TargetList, string Element)
-        {
-            int CurrentIndex = TargetList.IndexOf(Element);
-            if (CurrentIndex >= 0 && CurrentIndex < TargetList.Count() - 1)
-            {
-                TargetList.RemoveAt(CurrentIndex);
-                TargetList.Insert(CurrentIndex + 1, Element);
-            }
-        }
-        internal static void SetLeftMargin(this FrameworkElement Target, double LeftMargin)
+        public static void SetLeftMargin(this FrameworkElement Target, double LeftMargin)
         {
             Target.Margin = new Thickness(LeftMargin, Target.Margin.Top, Target.Margin.Right, Target.Margin.Bottom);
         }
-        internal static void SetTopMargin(this FrameworkElement Target, double TopMargin)
+        public static void SetTopMargin(this FrameworkElement Target, double TopMargin)
         {
             Target.Margin = new Thickness(Target.Margin.Left, TopMargin, Target.Margin.Right, Target.Margin.Bottom);
         }
-        internal static void SetBottomMargin(this FrameworkElement Target, double BottomMargin)
+        public static void SetBottomMargin(this FrameworkElement Target, double BottomMargin)
         {
             Target.Margin = new Thickness(Target.Margin.Left, Target.Margin.Top, Target.Margin.Right, BottomMargin);
         }
 
-        internal static Dictionary<string, string> RemoveItemWithValue(this Dictionary<string, string> TargetDictionary, string RemoveValue)
+        public static void MoveItemUp(this StackPanel ParentStackPanel, UIElement TargetElement)
         {
-            foreach (KeyValuePair<string, string> StringItem in TargetDictionary.Where(KeyValuePair => KeyValuePair.Value == RemoveValue).ToList())
+            int CurrentIndex = ParentStackPanel.Children.IndexOf(TargetElement);
+            if (CurrentIndex > 0)
             {
-                TargetDictionary.Remove(StringItem.Key);
+                ParentStackPanel.Children.RemoveAt(CurrentIndex);
+                ParentStackPanel.Children.Insert(CurrentIndex - 1, TargetElement);
             }
-
-            return TargetDictionary;
+        }
+        public static void MoveItemDown(this StackPanel ParentStackPanel, UIElement TargetElement)
+        {
+            int CurrentIndex = ParentStackPanel.Children.IndexOf(TargetElement);
+            if (CurrentIndex >= 0 && CurrentIndex < ParentStackPanel.Children.Count - 1)
+            {
+                ParentStackPanel.Children.RemoveAt(CurrentIndex);
+                ParentStackPanel.Children.Insert(CurrentIndex + 1, TargetElement);
+            }
         }
 
-        internal static string RemovePrefix(this string Target, params string[] Prefixes)
+        public static Thickness ThicknessFrom(double[] Values)
+        {
+            if (Values.Length == 1) return new Thickness(Values[0]);
+            else if (Values.Length == 4) return new Thickness(Values[0], Values[1], Values[2], Values[3]);
+            else return new Thickness(0);
+        }
+        public static CornerRadius CornerRadiusFrom(double[] Values)
+        {
+            if (Values.Length == 1) return new CornerRadius(Values[0]);
+            else if (Values.Length == 4) return new CornerRadius(Values[0], Values[1], Values[2], Values[3]);
+            else return new CornerRadius(0);
+        }
+
+        public static FontFamily FontFamilyFrom(string FilePathOrFamilyName)
+        {
+            if (File.Exists(FilePathOrFamilyName)) return FileToFontFamily(FilePathOrFamilyName);
+            else return new FontFamily(FilePathOrFamilyName);
+        }
+
+        public static DependencyProperty Register<OwnerType, PropertyType>(string Name, object DefaultValue, PropertyChangedCallback ValueSetEvent)
+        {
+            return DependencyProperty.Register(
+               name: Name, ownerType: typeof(OwnerType), propertyType: typeof(PropertyType),
+               typeMetadata: new PropertyMetadata(DefaultValue, ValueSetEvent)
+            );
+        }
+
+        public static TMProEmitter SetRichTextWithReturn(this TMProEmitter Target, string RichText)
+        {
+            Target.RichText = RichText;
+            return Target;
+        }
+
+        // Used in preview exports to png as reconnection items to Canvas for displaying them over other elements
+        public static void ReconnectAsChildTo(this UIElement TargetElement, dynamic NewParent)
+        {
+            DependencyObject TargetElement_Parent = (TargetElement as FrameworkElement).Parent;
+            TargetElement_Parent.RemoveChild(TargetElement);
+
+            NewParent.Children.Add(TargetElement);
+        }
+        public static void RemoveChild(this DependencyObject ParentObject, UIElement TargetChild)
+        {
+            var Panel = ParentObject as Panel;
+            if (Panel != null)
+            {
+                Panel.Children.Remove(TargetChild);
+                return;
+            }
+
+            var Decorator = ParentObject as Decorator;
+            if (Decorator != null)
+            {
+                if (Decorator.Child == TargetChild)
+                {
+                    Decorator.Child = null;
+                }
+                return;
+            }
+
+            var ContentPresenter = ParentObject as ContentPresenter;
+            if (ContentPresenter != null)
+            {
+                if (ContentPresenter.Content == TargetChild)
+                {
+                    ContentPresenter.Content = null;
+                }
+                return;
+            }
+
+            var ContentControl = ParentObject as ContentControl;
+            if (ContentControl != null)
+            {
+                if (ContentControl.Content == TargetChild)
+                {
+                    ContentControl.Content = null;
+                }
+                return;
+            }
+        }
+        #endregion
+
+
+
+        #region General
+        /// <summary>
+        /// Console.WriteLine()
+        /// </summary>
+        public static void rin(params object[] s)
+        {
+            File.AppendAllText(@"[⇲] Assets Directory\Latest loading.txt", String.Join(' ', s) + "\n");
+            Console.WriteLine(String.Join(' ', s));
+        }
+        public static void rinx(params object[] s) { Console.WriteLine(String.Join(' ', s)); rinx(); }
+        public static void rinx() => Console.ReadKey();
+
+
+        // Readed file encoding
+        public static Encoding GetFileEncoding(this FileInfo TargetFile)
+        {
+            using (StreamReader Reader = new StreamReader(TargetFile.FullName, Encoding.Default, true))
+            {
+                Reader.Peek();
+                return Reader.CurrentEncoding;
+            }
+        }
+
+
+        // Check filename without language prefix
+        public static string RemovePrefix(this string Target, params string[] Prefixes)
         {
             if (Target.StartsWithOneOf(Prefixes))
             {
@@ -246,212 +552,30 @@ namespace LC_Localization_Task_Absolute
             return Target;
         }
 
-        internal static string ToEscapeRegexString(this string TargetString)
-        {
-            return TargetString.Replace("(", @"\(").Replace(")", @"\)")
-                               .Replace("[", @"\[").Replace("]", @"\]")
-                               .Replace(".", @"\.")
-                               .Replace("?", @"\?")
-                               .Replace("$", @"\$")
-                               .Replace("^", @"\^")
-                               .Replace("+", @"\+");
-        }
 
-        internal static string RegexRemove(string TargetString, Regex PartPattern)
+        // KeywordsInterrogate.Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter
+        public static Dictionary<string, string> RemoveItemWithValue(this Dictionary<string, string> TargetDictionary, string RemoveValue)
         {
-            TargetString = PartPattern.Replace(TargetString, Match =>
+            foreach (KeyValuePair<string, string> StringItem in TargetDictionary.Where(KeyValuePair => KeyValuePair.Value == RemoveValue).ToList())
             {
-                return "";
-            });
-            return TargetString;
-        }
-
-        internal static string RegexRemove(this string Target, string Pattern)
-        {
-            return Regex.Replace(Target, Pattern, Match => { return ""; });
-        }
-        internal static string RemoveMany(this string TargetString, params string[] RemoveItems)
-        {
-            foreach(string RemoveItem in RemoveItems)
-            {
-                TargetString = TargetString.Replace(RemoveItem, "");
-            }
-            return TargetString;
-        }
-
-        internal static bool EqualsOneOf(this string CheckString, params string[] CheckSource)
-        {
-            foreach (var Check in CheckSource)
-            {
-                if (CheckString.Equals(Check)) return true;
+                TargetDictionary.Remove(StringItem.Key);
             }
 
-            return false;
-        }
-        internal static bool MatchesWidthOneOf(this string CheckString, params string[] Patterns)
-        {
-            foreach (string Checkpattern in Patterns)
-            {
-                if (Regex.Match(CheckString, Checkpattern).Success) return true;
-            }
-
-            return false;
+            return TargetDictionary;
         }
 
-        internal static bool IsNullOrEmpty(this string CheckString)
-        {
-            if (CheckString == null)
-            {
-                return true;
-            }
-            else if (CheckString.Equals(""))
-            {
-                return true;
-            }
-            else
-            {
-                return false;
-            }
-        }
-
-        internal static bool StartsWithOneOf(this string CheckString, IEnumerable<string> CheckSource)
-        {
-            foreach (var Check in CheckSource)
-            {
-                if (CheckString.StartsWith(Check)) return true;
-            }
-
-            return false;
-        }
-        internal static bool EndsWithOneOf(this string CheckString, IEnumerable<string> CheckSource)
-        {
-            foreach (var Check in CheckSource)
-            {
-                if (CheckString.EndsWith(Check)) return true;
-            }
-
-            return false;
-        }
-        internal static bool ContainsOneOf(this string CheckString, params string[] CheckSource)
-        {
-            foreach (var Check in CheckSource)
-            {
-                if (CheckString.Contains(Check)) return true;
-            }
-
-            return false;
-        }
-        internal static List<string> ItemsThatContain(this IEnumerable<string> CheckSource, string CheckString)
-        {
-            List<string> Export = new() { };
-            foreach (var Check in CheckSource)
-            {
-                if (Check.Contains(CheckString))
-                {
-                    Export.Add(Check);
-                }
-            }
-
-            return Export;
-        }
-        internal static List<string> ItemsThatStartsWith(this IEnumerable<string> CheckSource, string CheckString)
-        {
-            List<string> Export = new() { "" };
-            foreach (var Check in CheckSource)
-            {
-                if (Check.StartsWith(CheckString))
-                {
-                    if (Export[0].Equals("")) Export.RemoveAt(0);
-                    Export.Add(Check);
-                }
-            }
-
-            return Export;
-        }
-        internal static List<string> ItemsThatEndsWith(this IEnumerable<string> CheckSource, string CheckString)
-        {
-            List<string> Export = new() { "" };
-            foreach (var Check in CheckSource)
-            {
-                if (Check.EndsWith(CheckString))
-                {
-                    if (Export[0].Equals("")) Export.RemoveAt(0);
-                    Export.Add(Check);
-                }
-            }
-
-            return Export;
-        }
-        internal static bool ContainsFileInfoWithName(this IEnumerable<FileInfo> CheckSource, string CheckString)
-        {
-            foreach (var file in CheckSource)
-            {
-                if (file.Name.Equals(CheckString)) return true;
-            }
-
-            return false;
-        }
-        internal static FileInfo? GetFileWithName(this string SearchDirectory, string SearchName)
-        {
-            var Files = new DirectoryInfo(SearchDirectory).GetFiles("*.*", SearchOption.AllDirectories);
-
-            var Found = Files.Where(file => file.Name.Equals(SearchName)).ToList();
-            if (Found.Count > 0)
-            {
-                return Found[0];
-            }
-            else
-            {
-                return null;
-            }
-        }
-        internal static FileInfo? SelectWithName(this IEnumerable<FileInfo> Source, string Name)
-        {
-            Source = Source.Where(file => file.Name.Equals(Name));
-            if (Source.Count() > 0)
-            {
-                return Source.ToList()[0];
-            }
-            else
-            {
-                return null;
-            }
-        }
-        internal static string GetText(this FileInfo file)
-        {
-            return File.ReadAllText(file.FullName);
-        }
-        internal static string[] GetLines(this FileInfo file)
-        {
-            return File.ReadAllLines(file.FullName);
-        }
-        internal static byte[] GetBytes(this FileInfo file)
-        {
-            return File.ReadAllBytes(file.FullName);
-        }
-
-        internal static string GetName(this string Filepath)
-        {
-            return Filepath.Split("\\")[^1].Split("/")[^1];
-        }
-
-        internal static List<string> RemoveAtIndex(this List<string> Source, int Index)
-        {
-            Source.RemoveAt(Index);
-            return Source;
-        }
 
         /// <summary>
         /// Formatter for [$] insertions
         /// </summary>
-        internal static string Extern(this string TargetString, object Replacement)
+        public static string Extern(this string TargetString, object Replacement)
         {
             return TargetString.Replace("[$]", $"{Replacement}");
         }
         /// <summary>
         /// Formatter for enumerated [$n] insertions
         /// </summary>
-        internal static string Exform(this string TargetString, params object[] Replacements)
+        public static string Exform(this string TargetString, params object[] Replacements)
         {
             Dictionary<string, string> IndexReplacements = new();
             int ReplacementsIndexer = 1;
@@ -470,14 +594,9 @@ namespace LC_Localization_Task_Absolute
         }
 
 
-        internal static void rin(params object[] s)
+        public static void LogCustomSkillsConstructor(params object[] s)
         {
-            File.AppendAllText(@"⇲ Assets Directory\Latest loading.txt", String.Join(' ', s) + "\n");
-            Console.WriteLine(String.Join(' ', s));
-        }
-        internal static void LogCustomSkillsConstructor(params object[] s)
-        {
-            string LogFile = @"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor\Recognizing Log.txt";
+            string LogFile = @"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor\Recognizing Log.txt";
             if (!File.Exists(LogFile))
             {
                 File.WriteAllText(LogFile, "");
@@ -486,132 +605,271 @@ namespace LC_Localization_Task_Absolute
 
             File.AppendAllText(LogFile, String.Join(' ', s) + "\n");
         }
-        internal static void rinx(params object[] s) { Console.WriteLine(String.Join(' ', s)); rinx(); }
-        internal static void rinx() => Console.ReadKey();
+        #endregion
 
-        /// <summary>
-        /// Accepts RGB or ARGB hex sequence (#rrggbb / #AArrggbb)<br/>
-        /// Returns transperent if HexString is null/"" or if HexString is not color
-        /// </summary>
-        internal static SolidColorBrush ToSolidColorBrush(string HexString)
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+        public static string FormatStackTraceByNamespace(this string StackTrace, string Namepsace, string DeletePart = "")
         {
-            if (HexString == null) return System.Windows.Media.Brushes.Transparent;
-
-            if (HexString.Length == 7)
-            {
-                return new SolidColorBrush(
-                    System.Windows.Media.Color.FromRgb(
-                        Convert.ToByte(HexString.Substring(1, 2), 16),
-                        Convert.ToByte(HexString.Substring(3, 2), 16),
-                        Convert.ToByte(HexString.Substring(5, 2), 16)
-
-                    )
-                );
-            }
-            else if (HexString.Length == 9)
-            {
-                return new SolidColorBrush(
-                    System.Windows.Media.Color.FromArgb(
-                        Convert.ToByte(HexString.Substring(1, 2), 16),
-                        Convert.ToByte(HexString.Substring(3, 2), 16),
-                        Convert.ToByte(HexString.Substring(5, 2), 16),
-                        Convert.ToByte(HexString.Substring(7, 2), 16)
-                    )
-                );
-            }
-            else
-            {
-                return System.Windows.Media.Brushes.Transparent;
-            }
+            return string.Join('\n', StackTrace.Split('\n').Where(x => x.Contains(Namepsace))).Del(DeletePart);
         }
 
-
-        internal static System.Windows.Media.FontFamily FileToFontFamily(string FontPath, string OverrideFontInternalName = "", bool WriteInfo = false)
+        public static void Await(double Seconds, Action CompleteAction)
         {
-            if (File.Exists(FontPath))
-            {
-                string FontFullPath = new FileInfo(FontPath).FullName;
-                Uri FontUri = new Uri(FontFullPath, UriKind.Absolute);
-                string FontInternalName = OverrideFontInternalName.Equals("") ? GetFontName(FontFullPath) : OverrideFontInternalName;
-                if (WriteInfo) rin($"      Successful font loading from file as `{FontInternalName}`");
-                return new System.Windows.Media.FontFamily(FontUri, $"./#{FontInternalName}");
-            }
-            else
-            {
-                if (WriteInfo) rin($"      Font file \"{FontPath}\" not found, returning \"Arial\"");
-                return new System.Windows.Media.FontFamily("Arial");
-            }
+            Grid placeholder = new Grid() { Background = ToSolidColorBrush("#00000000") };
+            DoubleAnimation doubleAnimation = new DoubleAnimation() { Duration = new Duration(TimeSpan.FromSeconds(Seconds)) };
+            doubleAnimation.Completed += (s, e) => { CompleteAction(); };
+            placeholder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, doubleAnimation);
         }
 
-        internal static System.Windows.Media.FontFamily FileToFontFamily_WithNameReturn(string FontPath, out string AcquiredFontName)
+        public class HighPrecisionTimer
         {
-            if (File.Exists(FontPath))
+            public static void DoTimerAction(double DurationSeconds, double ActionFrequencySeconds, Action FrequencyAction, Action FinishAction = null)
             {
-                string FontFullPath = new FileInfo(FontPath).FullName;
-                Uri FontUri = new Uri(FontFullPath, UriKind.Absolute);
+                var timer = new HighPrecisionTimer(DurationSeconds, ActionFrequencySeconds * (double)1000);
 
-                AcquiredFontName = GetFontName(FontFullPath);
-
-                return new System.Windows.Media.FontFamily(FontUri, $"./#{AcquiredFontName}");
-            }
-            else
-            {
-                AcquiredFontName = "?";
-
-                return new System.Windows.Media.FontFamily("Arial");
-            }
-        }
-
-        internal static string GetFontName(string FontPath)
-        {
-            using (System.Drawing.Text.PrivateFontCollection PrivateFonts = new())
-            {
-                PrivateFonts.AddFontFile(FontPath);
-                string FontName = PrivateFonts.Families[0].Name;
-
-                return FontName;
-            }
-        }
-
-
-
-        internal static List<string> GetFilesWithExtensions(string path, params string[] Extensions)
-        {
-            return Directory.GetFiles(path, "*.*")
-                            .Where(file => file.EndsWithOneOf(Extensions))
-                            .ToList();
-        }
-
-
-
-        internal static string GetEscapeSequence(char c)
-        {
-            return ((int)c).ToString("X4");
-        }
-        internal static string ToUnicodeSequence(this string TargetString, string MaskString = "")
-        {
-            string Export = "";
-
-            if (MaskString.Equals(""))
-            {
-                foreach (char c in TargetString)
+                if (FrequencyAction != null)
                 {
-                    Export += GetEscapeSequence(c) + " ";
+                    timer.OnTick += (elapsed) =>
+                    {
+                        FrequencyAction();
+                    };
+                }
+                if (FinishAction != null)
+                {
+                    timer.OnFinished += FinishAction;
+                }
+
+                timer.Start();
+            }
+
+            private System.Timers.Timer _timer;
+            private double _durationSeconds;
+            private DateTime _startTime;
+
+            public event Action<double> OnTick; // Передает прошедшее время
+            public event Action OnFinished;
+
+            public HighPrecisionTimer(double DurationSeconds, double ActionFrequencyMilliseconds)
+            {
+                _durationSeconds = DurationSeconds;
+                _timer = new System.Timers.Timer(ActionFrequencyMilliseconds); // интервал 10 мс
+                _timer.Elapsed += Timer_Elapsed;
+                _timer.AutoReset = true;
+            }
+
+            public void Start()
+            {
+                _startTime = DateTime.Now;
+                _timer.Start();
+            }
+
+            private void Timer_Elapsed(object? RequestSender, ElapsedEventArgs EventArgs)
+            {
+                var elapsed = (DateTime.Now - _startTime).TotalSeconds;
+                if (elapsed >= _durationSeconds)
+                {
+                    _timer.Stop();
+                    OnFinished?.Invoke();
+                }
+                else
+                {
+                    OnTick?.Invoke(elapsed);
                 }
             }
-            else if (TargetString.Length == TargetString.Length)
+        }
+        
+        public static int LinesCount(this string check) => check.Count(f => f == '\n');
+
+        public static byte ToByte(this string HexDigit) => byte.Parse(HexDigit, System.Globalization.NumberStyles.HexNumber);
+
+        public static List<FileInfo> ToFileInfos(this IEnumerable<string> FilePaths)
+        {
+            List<FileInfo> Output = new List<FileInfo>();
+            foreach(string TargetFile in FilePaths)
             {
-                int Indexer = 0;
-                foreach (char c in TargetString)
+                Output.Add(new FileInfo(TargetFile));
+            }
+            return Output;
+        }
+
+        public static string ToEscapeRegexString(this string TargetString)
+        {
+            return TargetString.Replace("(", @"\(").Replace(")", @"\)")
+                               .Replace("[", @"\[").Replace("]", @"\]")
+                               .Replace(".", @"\.")
+                               .Replace("?", @"\?")
+                               .Replace("$", @"\$")
+                               .Replace("^", @"\^")
+                               .Replace("+", @"\+");
+        }
+
+        public static string RegexRemove(this string TargetString, Regex PartPattern)
+        {
+            TargetString = PartPattern.Replace(TargetString, Match =>
+            {
+                return "";
+            });
+            return TargetString;
+        }
+
+        public static bool EqualsOneOf(this string CheckString, params string[] CheckSource)
+        {
+            foreach (var Check in CheckSource)
+            {
+                if (CheckString.Equals(Check)) return true;
+            }
+
+            return false;
+        }
+        public static bool MatchesWithOneOf(this string CheckString, params string[] Patterns)
+        {
+            foreach (string Checkpattern in Patterns)
+            {
+                if (Regex.Match(CheckString, Checkpattern).Success) return true;
+            }
+
+            return false;
+        }
+
+        public static bool IsNullOrEmpty(this string CheckString)
+        {
+            if (CheckString == null)
+            {
+                return true;
+            }
+            else if (CheckString.Equals("") | CheckString == string.Empty)
+            {
+                return true;
+            }
+            else
+            {
+                return false;
+            }
+        }
+
+        public static bool StartsWithOneOf(this string CheckString, IEnumerable<string> CheckSource)
+        {
+            foreach (string Check in CheckSource)
+            {
+                if (CheckString.StartsWith(Check)) return true;
+            }
+
+            return false;
+        }
+
+        public static bool EndsWithOneOf(this string CheckString, IEnumerable<string> CheckSource)
+        {
+            foreach (string Check in CheckSource)
+            {
+                if (CheckString.EndsWith(Check)) return true;
+            }
+
+            return false;
+        }
+
+        public static bool ContainsOneOf(this string CheckString, params string[] CheckSource)
+        {
+            foreach (string Check in CheckSource)
+            {
+                if (CheckString.Contains(Check)) return true;
+            }
+
+            return false;
+        }
+
+        public static List<string> ItemsThatContain(this IEnumerable<string> CheckSource, string CheckString)
+        {
+            List<string> Export = new() { };
+            foreach (string Check in CheckSource)
+            {
+                if (Check.Contains(CheckString))
                 {
-                    Export += GetEscapeSequence(c) + $"[{MaskString[Indexer]}] ";
-                    Indexer++;
+                    Export.Add(Check);
                 }
             }
 
             return Export;
         }
 
+        public static List<string> ItemsThatStartsWith(this IEnumerable<string> CheckSource, string CheckString)
+        {
+            List<string> Export = new() { "" };
+            foreach (string Check in CheckSource)
+            {
+                if (Check.StartsWith(CheckString))
+                {
+                    if (Export[0].Equals("")) Export.RemoveAt(0);
+                    Export.Add(Check);
+                }
+            }
+
+            return Export;
+        }
+
+        public static List<string> ItemsThatEndsWith(this IEnumerable<string> CheckSource, string CheckString)
+        {
+            List<string> Export = new() { "" };
+            foreach (string Check in CheckSource)
+            {
+                if (Check.EndsWith(CheckString))
+                {
+                    if (Export[0].Equals("")) Export.RemoveAt(0);
+                    Export.Add(Check);
+                }
+            }
+
+            return Export;
+        }
+
+        public static FileInfo? GetFileWithName(this string SearchDirectory, string SearchName)
+        {
+            FileInfo[] Files = new DirectoryInfo(SearchDirectory).GetFiles("*.*", SearchOption.AllDirectories);
+
+            FileInfo[] Found = Files.Where(SearchFile => SearchFile.Name.Equals(SearchName)).ToArray();
+            if (Found.Length > 0)
+            {
+                return Found[0];
+            }
+            else
+            {
+                return null;
+            }
+        }
+
+        public static string GetText(this FileInfo file)
+        {
+            return File.ReadAllText(file.FullName);
+        }
+
+        public static string GetName(this string Filepath)
+        {
+            return Filepath.Split("\\")[^1].Split("/")[^1];
+        }
+
+        public static string GetEscapeSequence(char c)
+        {
+            return ((int)c).ToString("X4");
+        }
         /// <summary>
         /// Remove string parts
         /// </summary>
@@ -622,141 +880,16 @@ namespace LC_Localization_Task_Absolute
         }
 
         /// <summary>
-        /// BitmapImage from application resources by <c>new Uri($"pack://application:,,,/{ResourecImageName}")</c>
+        /// Return "null" string if Source is null, else Source
         /// </summary>
-        internal static BitmapImage ImageFromResource(string ResourecImageName)
-        {
-            return new BitmapImage(new Uri($"pack://application:,,,/{ResourecImageName}"));
-        }
-        internal static FontFamily FontFromResource(string FontResourceLocation, string FontFamilyName)
-        {
-            return new FontFamily(new Uri($"pack://application:,,,/{FontResourceLocation}"), $"./#{FontFamilyName}");
-        }
-
-        internal static BitmapImage GenerateBitmapFromFile(string ImageFilepath)
-        {
-            if (File.Exists(ImageFilepath))
-            {
-                //bool IsWebp = ImageFilepath.EndsWith(".webp");
-                byte[] ImageData = File.ReadAllBytes(ImageFilepath);
-                using (MemoryStream stream = new MemoryStream(ImageData))
-                {
-                    BitmapImage bitmapImage = new BitmapImage();
-                    bitmapImage.BeginInit();
-                    bitmapImage.StreamSource = stream;
-                    bitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmapImage.EndInit();
-                    bitmapImage.Freeze();
-
-                    return bitmapImage;
-                }
-            }
-            else return new BitmapImage();
-        }
-        //internal static byte[] ConvertWebpToPng(byte[] WebpData)
-        //{
-        //    using (var InputStream = new MemoryStream(WebpData))
-        //    using (var image = Image.Load(InputStream))
-        //    {
-        //        using (var OutputStream = new MemoryStream())
-        //        {
-        //            image.SaveAsPng(OutputStream);
-        //            return OutputStream.ToArray();
-        //        }
-        //    }
-        //}
-
-        internal static string GetText(this System.Windows.Controls.RichTextBox From)
-        {
-            return new TextRange(From.Document.ContentStart, From.Document.ContentEnd).Text.Trim().Replace("\0", "");
-        }
-
-        internal static FontWeight WeightFrom(string StringVariant)
-        {
-            return StringVariant switch
-            {
-                     "Black" => FontWeights.Black,
-                      "Bold" => FontWeights.Bold,
-                  "DemiBold" => FontWeights.DemiBold,
-                "ExtraBlack" => FontWeights.ExtraBlack,
-                 "ExtraBold" => FontWeights.ExtraBold,
-                "ExtraLight" => FontWeights.ExtraLight,
-                     "Heavy" => FontWeights.Heavy,
-                     "Light" => FontWeights.Light,
-                    "Medium" => FontWeights.Medium,
-                    "Normal" => FontWeights.Normal,
-                   "Regular" => FontWeights.Regular,
-                  "Semibold" => FontWeights.SemiBold,
-                      "Thin" => FontWeights.Thin,
-                "UltraBlack" => FontWeights.UltraBlack,
-                 "UltraBold" => FontWeights.UltraBold,
-                "UltraLight" => FontWeights.UltraLight,
-                           _ => FontWeights.Normal,
-            };
-        }
-
-        internal static bool HasProperty(this Type Target, string PropertyName)
-        {
-            return Target.GetProperties().Where(property => property.Name.Equals(PropertyName)).Count() > 0;
-        }
-
-        /// <summary>
-        /// Returns double from string if success, otherwise 0
-        /// </summary>
-        internal static double GetDouble(this string From)
-        {
-            try   { return double.Parse(From); }
-            catch { return 0; }
-        }
-
-        /// <summary>
-        /// Return "null" str if Source is null, else Source
-        /// </summary>
-        internal static string nullHandle(this object Source, string NullText = "null")
+        public static string nullHandle(this object? Source, string NullText = "null")
         {
             return $"{(Source == null ? NullText : Source)}";
         }
 
-        internal static void ScanScrollviewer(ScrollViewer Target, string NameHint, string ManualPath = "", double DpiX = 96d, double DpiY = 96d)
+        public static bool HasProperty(this Type Target, string PropertyName)
         {
-            string OutputPath = !ManualPath.Equals("") ? ManualPath : @$"⇲ Assets Directory\[⇲] Scans\{NameHint} @ {DateTime.Now.ToString("HHːmmːss (dd.MM.yyyy)")}.png";
-
-            ////////////////////////////////////////////////////
-            double OriginalVerticalScrollOffset = Target.VerticalOffset;
-            double OriginalHorizontalScrollOffset = Target.HorizontalOffset;
-            Target.ScrollToVerticalOffset(0);
-            Target.ScrollToHorizontalOffset(0);
-            // Because text on image somehow will slide up if preview was scrolled
-
-            double Upscale = Configurazione.DeltaConfig.ScanParameters.ScaleFactor;
-
-            MainControl.SurfaceScrollPreview_Skills_Inner.Background = ToSolidColorBrush(Configurazione.DeltaConfig.ScanParameters.BackgroundColor);
-
-            FrameworkElement PreviewContent = Target.Content as FrameworkElement;
-
-            PreviewContent.Measure(new System.Windows.Size(double.PositiveInfinity, double.PositiveInfinity));
-            PreviewContent.Arrange(new System.Windows.Rect(PreviewContent.DesiredSize));
-            PreviewContent.UpdateLayout();
-
-            int RenderWidth = (int)(PreviewContent.ActualWidth * Upscale);
-            int RenderHeight = (int)(PreviewContent.ActualHeight * Upscale);
-
-            RenderTargetBitmap PreviewLayoutRender = new RenderTargetBitmap(RenderWidth, RenderHeight, DpiX * Upscale, DpiY * Upscale, PixelFormats.Pbgra32);
-            PreviewLayoutRender.Render(PreviewContent);
-
-            PngBitmapEncoder ExportBitmapEncoder = new PngBitmapEncoder();
-            ExportBitmapEncoder.Frames.Add(BitmapFrame.Create(PreviewLayoutRender));
-
-            using (FileStream ExportStream = new FileStream(path: OutputPath, mode: FileMode.Create))
-            {
-                ExportBitmapEncoder.Save(ExportStream);
-            }
-
-            MainControl.SurfaceScrollPreview_Skills_Inner.Background = Brushes.Transparent;
-
-            ////////////////////////////////////////////////////
-            Target.ScrollToVerticalOffset(OriginalVerticalScrollOffset);
-            Target.ScrollToHorizontalOffset(OriginalHorizontalScrollOffset);
+            return Target.GetProperties().Where(property => property.Name.Equals(PropertyName)).Any();
         }
     }
 }

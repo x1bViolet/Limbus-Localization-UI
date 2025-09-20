@@ -6,11 +6,11 @@ using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
 
 namespace LC_Localization_Task_Absolute.Json
 {
-    internal abstract class BaseTypes
+    public abstract class BaseTypes
     {
-        internal abstract class Type_Skills
+        public abstract class Type_Skills
         {
-            public class Skills
+            public record Skills
             {
                 public List<Skill> dataList { get; set; }
 
@@ -21,7 +21,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string ManualFileType { get; set; }
             }
 
-            public class Skill
+            public record Skill
             {
                 [JsonProperty("id")]
                 public int? ID { get; set; }
@@ -29,7 +29,7 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("levelList")]
                 public List<UptieLevel> UptieLevels { get; set; }
             }
-            public class UptieLevel
+            public record UptieLevel
             {
                 [JsonProperty("Affinity")]
                 public string OptionalAffinity { get; set; }
@@ -54,7 +54,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string _comment { get; set; }
 
                 [OnDeserialized]
-                private void OnInit(StreamingContext context)
+                private void OnDeserialized(StreamingContext Context)
                 {
                     EditorDescription = Description;
                 }
@@ -62,12 +62,12 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("coinlist")]
                 public List<Coin> Coins { get; set; }
             }
-            public class Coin
+            public record Coin
             {
                 [JsonProperty("coindescs")]
                 public List<CoinDesc> CoinDescriptions { get; set; }
             }
-            public class CoinDesc
+            public record CoinDesc
             {
                 [JsonProperty("desc")]
                 public string Description { get; set; } = "";
@@ -78,16 +78,16 @@ namespace LC_Localization_Task_Absolute.Json
                 public string summary { get; set; }
 
                 [OnDeserialized]
-                private void OnInit(StreamingContext context)
+                private void OnDeserialized(StreamingContext Context)
                 {
                     EditorDescription = Description;
                 }
             }
         }
 
-        internal abstract class Type_Passives
+        public abstract class Type_Passives
         {
-            public class Passives
+            public record Passives
             {
                 public List<Passive> dataList { get; set; }
 
@@ -95,7 +95,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string ManualFileType { get; set; }
             }
 
-            public class Passive
+            public record Passive
             {
                 [JsonProperty("id")]
                 public int? ID { get; set; }
@@ -117,7 +117,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string _comment { get; set; }
 
                 [OnDeserialized]
-                private void OnInit(StreamingContext context)
+                private void OnDeserialized(StreamingContext Context)
                 {
                     EditorDescription = Description;
                     EditorSummaryDescription = SummaryDescription;
@@ -125,9 +125,9 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        internal abstract class Type_EGOGifts
+        public abstract class Type_EGOGifts
         {
-            public class EGOGifts
+            public record EGOGifts
             {
                 public List<EGOGift> dataList { get; set; }
 
@@ -135,7 +135,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string ManualFileType { get; set; }
             }
 
-            public class EGOGift
+            public record EGOGift
             {
                 [JsonProperty("id")]
                 public int ID { get; set; }
@@ -158,7 +158,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string UpgradeLevel { get; set; } = "1";
 
                 [OnDeserialized]
-                private void OnInit(StreamingContext context)
+                private void OnDeserialized(StreamingContext Context)
                 {
                     EditorDescription = Description;
 
@@ -168,7 +168,7 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("simpleDesc")]
                 public List<SimpleDescription> SimpleDescriptions { get; set; }
             }
-            public class SimpleDescription
+            public record SimpleDescription
             {
                 [JsonProperty("abilityID")]
                 public int ID { get; set; }
@@ -182,13 +182,13 @@ namespace LC_Localization_Task_Absolute.Json
                 public string _comment { get; set; }
 
                 [OnDeserialized]
-                private void OnInit(StreamingContext context) => EditorDescription = Description;
+                private void OnDeserialized(StreamingContext Context) => EditorDescription = Description;
             }
         }
 
-        internal abstract class Type_Keywords
+        public abstract class Type_Keywords
         {
-            public class Keywords
+            public record Keywords
             {
                 public List<Keyword> dataList { get; set; }
 
@@ -196,10 +196,13 @@ namespace LC_Localization_Task_Absolute.Json
                 public string ManualFileType { get; set; }
             }
 
-            public class Keyword
+            public record Keyword
             {
                 [JsonProperty("id")]
                 public string ID { get; set; } = "NOTHING THERE \0 \0";
+
+                public string iconId { get; set; }
+                public string IconID { get; set; }
 
                 [JsonProperty("name")]
                 public string Name { get; set; } = "NOTHING THERE \0 \0";
@@ -218,7 +221,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string _comment { get; set; }
 
                 [OnDeserialized]
-                private void OnInit(StreamingContext context)
+                private void OnDeserialized(StreamingContext Context)
                 {
                     EditorDescription = Description;
                     EditorSummaryDescription = SummaryDescription;
@@ -227,15 +230,15 @@ namespace LC_Localization_Task_Absolute.Json
                 public string undefined { get; set; }
 
 
-                // Special settings that can be used instead of "⇲ Assets Directory\[+] Keywords\Keyword Colors.T[-]"
+                // Special settings that can be used instead of "[⇲] Assets Directory\[+] Keywords\Keyword Colors.T[-]"
                 [JsonProperty("Color")]
                 public string? Color { get; set; }
             }
         }
     
-        internal abstract class Type_SkillTag
+        public abstract class Type_SkillTag
         {
-            public class SkillTags
+            public record SkillTags
             {
                 public List<SkillTag> dataList { get; set; }
 
@@ -243,7 +246,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string ManualFileType { get; set; }
             }
 
-            public class SkillTag
+            public record SkillTag
             {
                 [JsonProperty("id")]
                 public string ID { get; set; }
@@ -252,17 +255,17 @@ namespace LC_Localization_Task_Absolute.Json
                 public string Tag { get; set; }
 
 
-                // Special settings that can be used instead of "⇲ Assets Directory\[+] Keywords\SkillTag Colors.T[-]"
+                // Special settings that can be used instead of "[⇲] Assets Directory\[+] Keywords\SkillTag Colors.T[-]"
                 [JsonProperty("Color")]
                 public string Color { get; set; }
             }
         }
 
-        internal class ManualFileTypeCheckHandler
+        public record ManualFileTypeCheckHandler
         {
             [JsonProperty("Manual File Type")] public string ManualFileType { get; set; }
         }
-        internal protected static string? TryAcquireManualFileType(string Filename)
+        public static string? TryAcquireManualFileType(string Filename)
         {
             string FileText = File.ReadAllText(Filename);
             ManualFileTypeCheckHandler FileHeader = JsonConvert.DeserializeObject<ManualFileTypeCheckHandler>(FileText);
@@ -289,15 +292,15 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        internal abstract class Type_RawSkillsDisplayInfo
+        public abstract class Type_RawSkillsDisplayInfo
         {
-            public class SkillsDetailedInfo
+            public record SkillsDetailedInfo
             {
                 [JsonProperty("list")]
                 public List<DetailedInfoItem> List { get; set; }
             }
 
-            public class DetailedInfoItem
+            public record DetailedInfoItem
             {
                 [JsonProperty("id")]
                 public BigInteger? ID { get; set; }
@@ -345,7 +348,7 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [OnDeserialized]
-                internal void TechnicalProcessing(StreamingContext context)
+                private void TechnicalProcessing(StreamingContext Context)
                 {
                     // Associate for json files
                     if (LocalizationItemID != null) ID = LocalizationItemID;
@@ -395,7 +398,7 @@ namespace LC_Localization_Task_Absolute.Json
                 }
             }
 
-            public class DetailedInfoItem_UptieLevel
+            public record DetailedInfoItem_UptieLevel
             {
                 [JsonProperty("iconID")] // int or string  |  1030605 \ "1030804_4"
                 public dynamic? IconID { get; set; }
@@ -448,7 +451,7 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [OnDeserialized]
-                internal void OnDeserialized(StreamingContext context)
+                public void OnDeserialized(StreamingContext context)
                 {
                     if (!$"{IconID}".Equals(""))
                     {
@@ -520,7 +523,7 @@ namespace LC_Localization_Task_Absolute.Json
                 }
             }
 
-            public class CoinInfo
+            public record CoinInfo
             {
                 [JsonProperty("operatorType")]
                 public string CoinMathOperator { get; set; } = "ADD"; //  Plus | Minus
@@ -532,7 +535,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string CoinType { get; set; } = "Regular";
 
                 [OnDeserialized]
-                internal void OnDeserialized(StreamingContext context)
+                public void OnDeserialized(StreamingContext context)
                 {
                     if (CoinType.Equals("GREY")) // Idk why GREY and why color
                     {
@@ -541,7 +544,7 @@ namespace LC_Localization_Task_Absolute.Json
                 }
             }
         
-            public class abilityScriptListItem
+            public record abilityScriptListItem
             {
                 public string scriptName { get; set; } // For recognizing "UnobservableSkill" to set ? instead of valeus
             }
@@ -551,9 +554,9 @@ namespace LC_Localization_Task_Absolute.Json
         /// <summary>
         /// For most other files with a simple structure in the form of "id" and "content" only objectsprobablyunusedidk
         /// </summary>
-        internal abstract class Type_ContentBasedUniversal_UNUSEDPROBABLYUSELESS
+        public abstract class Type_ContentBasedUniversal_UNUSEDPROBABLYUSELESS
         {
-            public class ContentBasedUniversal
+            public record ContentBasedUniversal
             {
                 public List<dynamic> dataList { get; set; } // dynamic = "any"
             }

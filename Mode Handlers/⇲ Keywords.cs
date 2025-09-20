@@ -1,6 +1,5 @@
 ﻿using LC_Localization_Task_Absolute.Json;
 using LC_Localization_Task_Absolute.Limbus_Integration;
-using RichText;
 using System.IO;
 using System.Windows;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Keywords;
@@ -12,18 +11,18 @@ using static System.Windows.Visibility;
 
 namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
-    internal abstract class Mode_Keywords
+    public abstract class Mode_Keywords
     {
-        internal protected static dynamic FormalTaskCompleted = null;
+        public static dynamic FormalTaskCompleted = null;
 
-        internal protected static string CurrentKeywordID = "";
+        public static string CurrentKeywordID = "";
 
-        internal protected static Keywords DeserializedInfo;
-        internal protected static Dictionary<string, string> Keywords_NameIDs = [];
+        public static Keywords DeserializedInfo;
+        public static Dictionary<string, string> Keywords_NameIDs = [];
 
-        internal protected static string TargetSite_StringLine = "Main Description";
+        public static string TargetSite_StringLine = "Main Description";
 
-        internal protected static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
+        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
         {
             Key = "Keywords",
             DefaultValues = new()
@@ -37,7 +36,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             },
         };
 
-        internal protected static void TriggerSwitch(bool IsBufsMenu = false)
+        public static void TriggerSwitch(bool IsBufsMenu = false)
         {
             if (IsBufsMenu)
             {
@@ -78,7 +77,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             );
         }
 
-        internal protected static Task LoadStructure(FileInfo JsonFile)
+        public static Task LoadStructure(FileInfo JsonFile)
         {
             DeserializedInfo = JsonFile.Deserealize<Keywords>();
             InitializeKeywordsDelegateFrom(DeserializedInfo);
@@ -92,7 +91,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             return FormalTaskCompleted;
         }
 
-        internal protected static Task TransformToKeyword(string KeywordID)
+        public static Task TransformToKeyword(string KeywordID)
         {
             {
                 ManualTextLoadEvent = true;
@@ -111,13 +110,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             CurrentKeywordID = KeywordID;
 
-            if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Current ID Copy Button"))
-            {
-                MainControl.STE_NavigationPanel_ObjectID_Display
-                    .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Current ID Copy Button"]
-                    .Extern(CurrentKeywordID));
-            }
-
+            MainControl.STE_NavigationPanel_ObjectID_Display
+                .RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[Main UI] * ID Copy Button")
+                .Extern(CurrentKeywordID);
+            
             MainWindow.NavigationPanel_IDSwitch_CheckAvalibles();
 
             MainControl.NavigationPanel_ObjectName_Display.Text = DelegateKeywords[CurrentKeywordID].Name;
@@ -136,7 +132,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             return FormalTaskCompleted;
         }
 
-        internal protected static void ReCheckKeywordInfo()
+        public static void ReCheckKeywordInfo()
         {
             MainControl.STE_DisableCover_Keyword_SummaryDescription.Visibility = Visible;
 
@@ -148,27 +144,37 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 if (!FullLink.SummaryDescription.Equals(FullLink.EditorSummaryDescription))
                 {
-                    MainControl.STE_Keyword_SummaryDescription
-                        .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                        .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]));
+                    ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
+                        .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                            .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text);
+
+                    //MainControl.STE_Keyword_SummaryDescription
+                    //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                    //    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]));
                 }
                 else
                 {
-                    MainControl.STE_Keyword_SummaryDescription
-                        .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
+                    ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
+                        .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text;
+
+                    //MainControl.STE_Keyword_SummaryDescription
+                    //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
                 }
                 MainControl.STE_DisableCover_Keyword_SummaryDescription.Visibility = Collapsed;
             }
             else
             {
-                MainControl.STE_Keyword_SummaryDescription
-                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
+                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
+                        .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text;
+
+                //MainControl.STE_Keyword_SummaryDescription
+                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
             }
 
             SwitchToMainDesc();
         }
 
-        internal protected static void SwitchToMainDesc()
+        public static void SwitchToMainDesc()
         {
             {
                 ManualTextLoadEvent = true;
@@ -196,7 +202,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
         }
 
-        internal protected static void SwitchToSummaryDesc()
+        public static void SwitchToSummaryDesc()
         {
             {
                 ManualTextLoadEvent = true;

@@ -5,17 +5,20 @@ using System.Runtime.Serialization;
 using System.Windows;
 using static LC_Localization_Task_Absolute.Requirements;
 
+#pragma warning disable IDE0079
+#pragma warning disable CA2211
+
 namespace LC_Localization_Task_Absolute.Json
 {
-    internal abstract class Custom_Skills_Constructor
+    public abstract class Custom_Skills_Constructor
     {
-        internal protected static Dictionary<BigInteger, SkillContstructor> LoadedSkillConstructors = new Dictionary<BigInteger, SkillContstructor>();
+        public static Dictionary<BigInteger, SkillContstructor> LoadedSkillConstructors = new Dictionary<BigInteger, SkillContstructor>();
 
-        internal protected static void ReadSkillConstructors()
+        public static void ReadSkillConstructors()
         {
-            if (Directory.Exists(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor"))
+            if (Directory.Exists(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor"))
             {
-                string LogFile = @"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor\Recognizing Log.txt";
+                string LogFile = @"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor\Recognizing Log.txt";
                 if (File.Exists(LogFile))
                 {
                     File.SetAttributes(LogFile, FileAttributes.Normal);
@@ -24,24 +27,22 @@ namespace LC_Localization_Task_Absolute.Json
                     File.SetAttributes(LogFile, File.GetAttributes(LogFile) | FileAttributes.Hidden);
                 }
 
-                bool FirstPadding = true;
+                bool FirstLogPadding = true;
 
-                foreach (FileInfo ConstructorFile in new DirectoryInfo(@"⇲ Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor").GetFiles("*.json", SearchOption.AllDirectories))
+                foreach (FileInfo ConstructorFile in new DirectoryInfo(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor").GetFiles("*.json", SearchOption.AllDirectories))
                 {
-                    LogCustomSkillsConstructor($"{(FirstPadding ? "" : "\n\n\n\n\n")}Checking File :: {ConstructorFile.Name}");
-                    SkillsConstructorFile Deserialized = JsonConvert.DeserializeObject<SkillsConstructorFile>(File.ReadAllText(ConstructorFile.FullName));
-                    FirstPadding = false;
+                    LogCustomSkillsConstructor($"{(FirstLogPadding ? "" : "\n\n\n\n\n")}Checking File :: {ConstructorFile.Name}");
+                    //SkillsConstructorFile Deserialized = JsonConvert.DeserializeObject<SkillsConstructorFile>(File.ReadAllText(ConstructorFile.FullName));
+                    SkillsConstructorFile Deserialized = ConstructorFile.Deserealize<SkillsConstructorFile>();
+                    FirstLogPadding = false;
 
-                    if (Deserialized != null)
+                    if (Deserialized.List != null)
                     {
-                        if (Deserialized.List != null)
+                        foreach (SkillContstructor Constructor in Deserialized.List)
                         {
-                            foreach (SkillContstructor Constructor in Deserialized.List)
+                            if (Constructor.ID != null)
                             {
-                                if (Constructor.ID != null)
-                                {
-                                    LoadedSkillConstructors[(BigInteger)Constructor.ID] = Constructor;
-                                }
+                                LoadedSkillConstructors[(BigInteger)Constructor.ID] = Constructor;
                             }
                         }
                     }
@@ -51,12 +52,12 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        public class SkillsConstructorFile
+        public record SkillsConstructorFile
         {
             [JsonProperty("Skills Info")]
             public List<SkillContstructor> List { get; set; }
         }
-        public class SkillContstructor
+        public record SkillContstructor
         {
             public BigInteger? ID { get; set; }
 
@@ -76,11 +77,11 @@ namespace LC_Localization_Task_Absolute.Json
             public Dictionary<string, SkillContstructor_Uptie>? Skill_Upties { get; set; }
 
             [OnDeserialized]
-            private void TechnicalProcessing(StreamingContext context)
+            private void TechnicalProcessing(StreamingContext ThisFilePathContext)
             {
                 if (IconID != null)
                 {
-                    IconID = IconID.Replace(":Constructor:", $"{context.Context}");
+                    IconID = IconID.Replace(":Constructor:", $"{ThisFilePathContext.Context}");
                 }
 
                 if (ID != null & Configurazione.SettingsLoadingEvent)
@@ -170,7 +171,7 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        public class SkillContstructor_Specific
+        public record SkillContstructor_Specific
         {
             [JsonProperty("Damage Type")] public string DamageType { get; set; } = "None";
             [JsonProperty("Affinity"   )] public string Affinity   { get; set; } = "None";
@@ -179,7 +180,7 @@ namespace LC_Localization_Task_Absolute.Json
             [JsonProperty("Copies"     )] public int?   Copies     { get; set; }
 
             [OnDeserialized]
-            private void TechnicalProcessing(StreamingContext context)
+            private void TechnicalProcessing(StreamingContext Context)
             {
                 if (Rank > 3) Rank = 3;
                 if (Rank < 1) Rank = 1;
@@ -187,7 +188,7 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        public class SkillContstructor_Characteristics
+        public record SkillContstructor_Characteristics
         {
             [JsonProperty("Coin Power")] public int CoinPower { get; set; } = 0;
             [JsonProperty("Base Power")] public int BasePower { get; set; } = 0;
@@ -200,14 +201,14 @@ namespace LC_Localization_Task_Absolute.Json
             [JsonProperty("Level Correction")] public int LevelCorrection { get; set; } = 0;
 
             [OnDeserialized]
-            private void OnInit(StreamingContext context)
+            private void OnDeserialized(StreamingContext Context)
             {
                 CoinsType = CoinsType.Equals("Minus") ? "-" : "+";
                 if (CoinsList.Count == 0) CoinsList.Add("Regular");
             }
         }
 
-        public class SkillContstructor_Attributes
+        public record SkillContstructor_Attributes
         {
             [JsonProperty("Unobservable")] public bool Unobservable  { get; set; } = false;
 
@@ -226,7 +227,7 @@ namespace LC_Localization_Task_Absolute.Json
             [JsonProperty("Override 'Base Level'")] public string? OverrideBaseLevel { get; set; }
         }
 
-        public class SkillConstructor_CustomIdentityPreviewSampleAttributes
+        public record SkillConstructor_CustomIdentityPreviewSampleAttributes
         {
             public double SkillNameMaxWidth { get; set; } = 270;
             public double SkillNameBackgroundMaxHeight { get; set; } = 57;
@@ -235,7 +236,7 @@ namespace LC_Localization_Task_Absolute.Json
             public double SkillNameSize { get; set; } = 23;
 
             [OnDeserialized]
-            private void OnInit(StreamingContext context)
+            private void OnDeserialized(StreamingContext Context)
             {
                 try
                 {
@@ -248,7 +249,7 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        public class SkillContstructor_Uptie
+        public record SkillContstructor_Uptie
         {
             [JsonProperty("Coin Power")] public int?    CoinPower { get; set; }
             [JsonProperty("Base Power")] public int?    BasePower { get; set; }

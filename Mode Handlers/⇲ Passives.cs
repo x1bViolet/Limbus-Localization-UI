@@ -1,5 +1,4 @@
 ﻿using LC_Localization_Task_Absolute.Json;
-using RichText;
 using System.IO;
 using System.Windows;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Passives;
@@ -11,18 +10,18 @@ using static System.Windows.Visibility;
 
 namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
-    internal abstract class Mode_Passives
+    public abstract class Mode_Passives
     {
-        internal protected static dynamic FormalTaskCompleted = null;
+        public static dynamic FormalTaskCompleted = null;
 
-        internal protected static int CurrentPassiveID = -1;
+        public static int CurrentPassiveID = -1;
 
-        internal protected static Passives DeserializedInfo;
-        internal protected static Dictionary<string, int> Passives_NameIDs = [];
+        public static Passives DeserializedInfo;
+        public static Dictionary<string, int> Passives_NameIDs = [];
 
-        internal protected static string TargetSite_StringLine = "Main Description";
+        public static string TargetSite_StringLine = "Main Description";
 
-        internal protected static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
+        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
         {
             Key = "Passives",
             DefaultValues = new()
@@ -36,7 +35,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             },
         };
 
-        internal protected static void TriggerSwitch()
+        public static void TriggerSwitch()
         {
             MainControl.NavigationPanel_Skills_UptieLevelSelectorGrid.Visibility = Visibility.Collapsed;
             MainControl.NavigationPanel_Skills_EGOAbnormalityName.Visibility = Visibility.Collapsed;
@@ -58,7 +57,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             );
         }
 
-        internal protected static Task LoadStructure(FileInfo JsonFile)
+        public static Task LoadStructure(FileInfo JsonFile)
         {
             DeserializedInfo = JsonFile.Deserealize<Passives>();
             InitializePassivesDelegateFrom(DeserializedInfo);
@@ -72,7 +71,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             return FormalTaskCompleted;
         }
 
-        internal protected static Task TransformToPassive(int PassiveID)
+        public static Task TransformToPassive(int PassiveID)
         {
             {
                 ManualTextLoadEvent = true;
@@ -80,13 +79,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             CurrentPassiveID = PassiveID;
 
-            if (UILanguageLoader.DynamicTypeElements.ContainsKey("Right Menu — Current ID Copy Button"))
-            {
-                MainControl.STE_NavigationPanel_ObjectID_Display
-                    .SetRichText(UILanguageLoader.DynamicTypeElements["Right Menu — Current ID Copy Button"]
-                    .Extern(CurrentPassiveID));
-            }
-
+            MainControl.STE_NavigationPanel_ObjectID_Display
+                .RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[Main UI] * ID Copy Button")
+                .Extern(CurrentPassiveID);
+            
             MainWindow.NavigationPanel_IDSwitch_CheckAvalibles();
 
             MainControl.NavigationPanel_ObjectName_Display.Text = DelegatePassives[CurrentPassiveID].Name;
@@ -103,7 +99,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             return FormalTaskCompleted;
         }
 
-        internal protected static void ReCheckPassiveInfo()
+        public static void ReCheckPassiveInfo()
         {
             MainControl.STE_DisableCover_Passives_SummaryDescription.Visibility = Visible;
 
@@ -115,27 +111,37 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 if (!FullLink.SummaryDescription.Equals(FullLink.EditorSummaryDescription))
                 {
-                    MainControl.STE_Passives_SummaryDescription
-                        .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                        .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]));
+                    //MainControl.STE_Passives_SummaryDescription
+                    //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
+                    //    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]));
+
+                    ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
+                        .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
+                            .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text);
                 }
                 else
                 {
-                    MainControl.STE_Passives_SummaryDescription
-                        .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
+                    //MainControl.STE_Passives_SummaryDescription
+                    //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
+
+                    ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
+                        .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text;
                 }
                 MainControl.STE_DisableCover_Passives_SummaryDescription.Visibility = Collapsed;
             }
             else
             {
-                MainControl.STE_Passives_SummaryDescription
-                    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
+                //MainControl.STE_Passives_SummaryDescription
+                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
+
+                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
+                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text;
             }
 
             SwitchToMainDesc();
         }
 
-        internal protected static void SwitchToMainDesc()
+        public static void SwitchToMainDesc()
         {
             {
                 ManualTextLoadEvent = true;
@@ -163,7 +169,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
         }
 
-        internal protected static void SwitchToSummaryDesc()
+        public static void SwitchToSummaryDesc()
         {
             {
                 ManualTextLoadEvent = true;

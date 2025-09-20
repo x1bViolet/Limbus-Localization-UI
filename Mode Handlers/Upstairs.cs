@@ -4,9 +4,9 @@ using static LC_Localization_Task_Absolute.MainWindow;
 
 namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
-    internal abstract class Upstairs
+    public abstract class Upstairs
     {
-        internal protected static SwitchedInterfaceProperties ActiveProperties = new()
+        public static SwitchedInterfaceProperties ActiveProperties = new()
         {
             Key = "E.G.O Gifts",
             DefaultValues = new()
@@ -21,7 +21,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 MaxWidth = 1000,
             },
         };
-        internal protected static void TriggerSwitchToRecent()
+        public static void TriggerSwitchToRecent()
         {
             switch (ActiveProperties.Key)
             {
@@ -34,7 +34,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     else
                     {
                         MainControl.MaxWidth = 1000;
-                        MainControl.MaxHeight = 1920;
+                        MainControl.MaxHeight = 10000;
 
                         MainControl.Height = 550;
                         MainControl.Width = 1000;
@@ -49,13 +49,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
         }
 
-        internal protected record SwitchedInterfaceProperties
+        public record SwitchedInterfaceProperties
         {
             public string Key { get; set; }
             public DefaultValues DefaultValues { get; set; }
         }
 
-        internal protected record DefaultValues
+        public record DefaultValues
         {
             public double Height    { get; set; }
             public double Width     { get; set; }
@@ -65,7 +65,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             public double MaxWidth  { get; set; }
         }
 
-        internal protected static void AdjustUI(DefaultValues From)
+        public static void AdjustUI(DefaultValues From)
         {
              MainControl.MinWidth = From.MinWidth;
              MainControl.MaxWidth = From.MaxWidth;
@@ -77,7 +77,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             LockEditorUndo();
         }
 
-        internal protected static void HideNavigationPanelButtons(Grid ExceptButtonsGrid, Grid ExceptPreviewLayout)
+        public static void HideNavigationPanelButtons(Grid ExceptButtonsGrid, Grid ExceptPreviewLayout)
         {
             foreach (Grid PreviewLayoutChild in MainControl.PreviewLayouts.Children)
             {

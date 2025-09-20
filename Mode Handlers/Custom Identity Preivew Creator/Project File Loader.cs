@@ -1,5 +1,4 @@
-﻿using RichText;
-using SixLabors.ImageSharp.PixelFormats;
+﻿using SixLabors.ImageSharp.PixelFormats;
 
 using System.Windows;
 using System.IO;

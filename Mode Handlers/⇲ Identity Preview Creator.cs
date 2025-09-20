@@ -1,5 +1,4 @@
-﻿using RichText;
-using SixLabors.ImageSharp.PixelFormats;
+﻿using SixLabors.ImageSharp.PixelFormats;
 
 using System.Windows;
 using System.IO;
@@ -22,6 +21,7 @@ using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.Mode_Handlers.CustomIdentityPreviewCreator;
 using System.Runtime.Serialization;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
+using LC_Localization_Task_Absolute.Limbus_Integration;
 
 
 
@@ -31,41 +31,41 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
     /// <summary>
     /// <c>Grid</c> with <c>&lt;AddedTextItems_Single&gt;</c> property for navigation within custom identity preview creator columns (+extra links for easier actions)
     /// </summary>
-    internal class ItemRepresenter : Grid
+    sealed public partial class ItemRepresenter : Grid
     {
         /// <summary>
         /// Direct link to item info from project file json data
         /// </summary>
-        internal CustomIdentityPreviewCreator.ProjectFile.Sections.AddedTextItems_Single ItemInfo { get; set; }
+        public CustomIdentityPreviewCreator.ProjectFile.Sections.AddedTextItems_Single ItemInfo { get; set; }
 
-        internal string ColumnNumber = "1";
+        public string ColumnNumber = "1";
 
-        internal int SelectedLocalizationItemIndex { get; set; } = -1;
-        internal int SelectedSkillDisplayInfoConstructorIndex { get; set; } = -1;
-        internal Image KeywordIcon { get; set; } = new Image() { Source = new BitmapImage() };
+        public int SelectedLocalizationItemIndex { get; set; } = -1;
+        public int SelectedSkillDisplayInfoConstructorIndex { get; set; } = -1;
+        public Image KeywordIcon { get; set; } = new Image() { Source = new BitmapImage() };
 
         // Store links to generated text items
-        internal TextBlock ItemSignaruteTextBlockLink { get; set; } = null;
-        internal TextBlock ItemNameLink { get; set; } = null;
-        internal RichTextBox PassiveDescriptionLink { get; set; } = null;
-        internal RichTextBox SkillMainDescriptionLink { get; set; } = null;
-        internal StackPanel SkillCoinDescriptionsLink { get; set; } = null;
+        public TextBlock ItemSignaruteTextBlockLink { get; set; } = null;
+        public TextBlock ItemNameLink { get; set; } = null;
+        public TMProEmitter PassiveDescriptionLink { get; set; } = null;
+        public TMProEmitter SkillMainDescriptionLink { get; set; } = null;
+        public StackPanel SkillCoinDescriptionsLink { get; set; } = null;
     }
     #endregion
 
 
-    internal abstract class CustomIdentityPreviewCreator
+    public abstract class CustomIdentityPreviewCreator
     {
-        internal protected static double SharedParagraphLineHeigh = 27;
+        public static double SharedParagraphLineHeigh = 27;
 
-        internal abstract class ProjectFile
+        public abstract class ProjectFile
         {
             // Used to specify a relative path to files located in the same(or sub) folder as the project file through StreamingContext string in OnSerializing or OnDeserialized events
-            internal protected static string ProjectRelativeMarker = ":Project:";
+            public static string ProjectRelativeMarker = ":Project:";
 
-            internal protected static CustomIdentityPreviewProject LoadedProject;
+            public static CustomIdentityPreviewProject LoadedProject;
 
-            internal protected class CustomIdentityPreviewProject
+            public record CustomIdentityPreviewProject
             {
                 public bool? ActualProject { get; set; }
 
@@ -78,9 +78,9 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 public Sections.AddedTextItems Text { get; set; } = new Sections.AddedTextItems();
             }
 
-            internal abstract class Sections
+            public abstract class Sections
             {
-                internal protected class ImageParameters
+                public record ImageParameters
                 {
                     public string Type { get; set; } = "Identity"; // or E.G.O
                     public string ImageTypeSign { get; set; } = "IDENTITY INFO";
@@ -118,21 +118,21 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                       public double BottomVignetteOffset { get; set; } = 0;
 
                     [OnSerializing]
-                    void HandleRelativePaths_OnSave(StreamingContext FileDirectoryContext)
+                    private void HandleRelativePaths_OnSave(StreamingContext FileDirectoryContext)
                     {
                         ImageTypeSign_AnotherFont = ImageTypeSign_AnotherFont.Replace($"{FileDirectoryContext.Context}", ProjectRelativeMarker);
                         PortraitImage = PortraitImage.Replace($"{FileDirectoryContext.Context}", ProjectRelativeMarker);
                     }
 
                     [OnDeserialized]
-                    void HandleRelativePaths_OnLoad(StreamingContext FileDirectoryContext)
+                    private void HandleRelativePaths_OnLoad(StreamingContext FileDirectoryContext)
                     {
                         ImageTypeSign_AnotherFont = ImageTypeSign_AnotherFont.Replace(ProjectRelativeMarker, $"{FileDirectoryContext.Context}");
                         PortraitImage = PortraitImage.Replace(ProjectRelativeMarker, $"{FileDirectoryContext.Context}");
                     }
                 }
 
-                internal protected class Specific
+                public record Specific
                 {
                     public string? SinnerIcon { get; set; } // PATH (?)
 
@@ -147,7 +147,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     public string? RarityOrEGORiskLevel { get; set; }
 
                     [OnSerializing]
-                    void HandleRelativePaths_OnSave(StreamingContext FileDirectoryContext)
+                    private void HandleRelativePaths_OnSave(StreamingContext FileDirectoryContext)
                     {
                         if (SinnerIcon != null && File.Exists(SinnerIcon))
                         {
@@ -156,7 +156,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     }
 
                     [OnDeserialized]
-                    void HandleRelativePaths_OnLoad(StreamingContext FileDirectoryContext)
+                    private void HandleRelativePaths_OnLoad(StreamingContext FileDirectoryContext)
                     {
                         if (SinnerIcon != null)
                         {
@@ -165,14 +165,14 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     }
                 }
 
-                internal protected class DecorativeCautions
+                public record DecorativeCautions
                 {
                     public string CautionType { get; set; } = "SEASON";
                     public double CautionBloomRadius { get; set; } = 5;
                     public double CautionOpacity { get; set; } = 35;
                     public DecorativeCautions_CustomText CustomText { get; set; } = new DecorativeCautions_CustomText();
                 }
-                internal protected class DecorativeCautions_CustomText
+                public record DecorativeCautions_CustomText
                 {
                     public string CustomCautionString { get; set; } = "";
                     public string AnotherFont { get; set; } = ""; // PATH
@@ -180,19 +180,19 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     public double TextSize { get; set; } = 10.6;
 
                     [OnSerializing]
-                    void HandleRelativePaths_OnSave(StreamingContext FileDirectoryContext)
+                    private void HandleRelativePaths_OnSave(StreamingContext FileDirectoryContext)
                     {
                         AnotherFont = AnotherFont.Replace($"{FileDirectoryContext.Context}", ProjectRelativeMarker);
                     }
 
                     [OnDeserialized]
-                    void HandleRelativePaths_OnLoad(StreamingContext FileDirectoryContext)
+                    private void HandleRelativePaths_OnLoad(StreamingContext FileDirectoryContext)
                     {
                         AnotherFont = AnotherFont.Replace(ProjectRelativeMarker, $"{FileDirectoryContext.Context}");
                     }
                 }
 
-                internal protected class AddedTextItems
+                public record AddedTextItems
                 {
                     public string SkillsLocalizationFile { get; set; } = ""; // PATH
                     public string SkillsDisplayInfoConstructorFile { get; set; } = ""; // PATH
@@ -212,7 +212,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     public Dictionary<string, AddedTextItems_Single> SecondColumnItems { get; set; } = new Dictionary<string, AddedTextItems_Single>();
 
                     [OnSerializing]
-                    void HandleRelativePaths_OnSave(StreamingContext FileDirectoryContext)
+                    private void HandleRelativePaths_OnSave(StreamingContext FileDirectoryContext)
                     {
                         SkillsLocalizationFile = SkillsLocalizationFile.Replace($"{FileDirectoryContext.Context}", ProjectRelativeMarker);
                         SkillsDisplayInfoConstructorFile = SkillsDisplayInfoConstructorFile.Replace($"{FileDirectoryContext.Context}", ProjectRelativeMarker);
@@ -222,7 +222,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     }
 
                     [OnDeserialized]
-                    void HandleRelativePaths_OnLoad(StreamingContext FileDirectoryContext)
+                    private void HandleRelativePaths_OnLoad(StreamingContext FileDirectoryContext)
                     {
                         SkillsLocalizationFile = SkillsLocalizationFile.Replace(ProjectRelativeMarker, $"{FileDirectoryContext.Context}");
                         SkillsDisplayInfoConstructorFile = SkillsDisplayInfoConstructorFile.Replace(ProjectRelativeMarker, $"{FileDirectoryContext.Context}");
@@ -231,7 +231,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                         ItemSignaturesAnotherFont = ItemSignaturesAnotherFont.Replace(ProjectRelativeMarker, $"{FileDirectoryContext.Context}");
                     }
                 }
-                internal protected class AddedTextItems_Single
+                public record AddedTextItems_Single
                 {
                     public string? Type { get; set; }
                     public string TextItemSignature { get; set; } = "";
@@ -251,13 +251,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     public double SkillCoinsDescriptionWidth { get; set; } = 750;
 
                     [OnSerializing]
-                    void HandleRelativePaths_OnSave(StreamingContext FileDirectoryContext)
+                    private void HandleRelativePaths_OnSave(StreamingContext FileDirectoryContext)
                     {
                         KeywordIconImage = KeywordIconImage.Replace($"{FileDirectoryContext.Context}", ProjectRelativeMarker);
                     }
 
                     [OnDeserialized]
-                    void HandleRelativePaths_OnLoad(StreamingContext FileDirectoryContext)
+                    private void HandleRelativePaths_OnLoad(StreamingContext FileDirectoryContext)
                     {
                         KeywordIconImage = KeywordIconImage.Replace(ProjectRelativeMarker, $"{FileDirectoryContext.Context}");
                     }
@@ -269,14 +269,14 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
 
 
-        internal protected static bool IsActive = true;
+        public static bool IsActive = true;
 
-        internal protected static BitmapImage SinnerNameBackground = ImageFromResource($"UI/Limbus/Custom Identity Preview/Name Background (Sinner).png");
-        internal protected static BitmapImage IdentityNameBackground = ImageFromResource($"UI/Limbus/Custom Identity Preview/Name Background (Identity).png");
+        public static BitmapImage SinnerNameBackground   = BitmapFromResource($"UI/Limbus/Custom Identity Preview/Name Background (Sinner).png");
+        public static BitmapImage IdentityNameBackground = BitmapFromResource($"UI/Limbus/Custom Identity Preview/Name Background (Identity).png");
 
-        internal protected static BitmapImage EGOPlainFrame = ImageFromResource($"UI/Limbus/Custom Identity Preview/E.G.O Frame.png");
+        public static BitmapImage EGOPlainFrame = BitmapFromResource($"UI/Limbus/Custom Identity Preview/E.G.O Frame.png");
 
-        internal static protected BitmapImage CreateColoredHeader(string HexColor, string ImageType = "Sinner")
+        public static BitmapImage CreateColoredHeader(string HexColor, string ImageType = "Sinner")
         {
             BitmapImage Selected = ImageType.Equals("Sinner") ? SinnerNameBackground : IdentityNameBackground;
 
@@ -285,7 +285,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             return Colored.ToBitmapImage();
         }
 
-        internal protected static SolidColorBrush GetAffinityColor(string Affinity)
+        public static SolidColorBrush GetAffinityColor(string Affinity)
         {
             return ToSolidColorBrush(Affinity switch
             {
@@ -299,7 +299,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 _ => "#9f6a3a"
             });
         }
-        internal protected static SolidColorBrush GetAffinityColor_DarkerVersion(string Affinity)
+        public static SolidColorBrush GetAffinityColor_DarkerVersion(string Affinity)
         {
             return ToSolidColorBrush(Affinity switch
             {
@@ -314,7 +314,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             });
         }
 
-        internal protected static Dictionary<string, string> SinnerColors = new Dictionary<string, string>()
+        public static Dictionary<string, string> SinnerColors = new Dictionary<string, string>()
         {
                 ["Yi Sang"] = "#d4e1e8",
                   ["Faust"] = "#ffb1b4",
@@ -331,12 +331,12 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                  ["Gregor"] = "#69350b",
         };
 
-        internal protected static SolidColorBrush GetSinnerColor(string SinnerName)
+        public static SolidColorBrush GetSinnerColor(string SinnerName)
         {
             return ToSolidColorBrush(SinnerColors[SinnerName]);
         }
 
-        internal protected class SkillInfoFormationParameters
+        public record SkillInfoFormationParameters
         {
             public double PanelWidth { get; set; } = 663;
             public double MainDescWidth { get; set; } = 663;
@@ -348,7 +348,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         /// <summary>
         /// Generates skill or passive name with affinity-colored background
         /// </summary>
-        internal protected static Grid GetNameWithBackground(string Name, string AffinityName = "None", bool ReversedDropdownShadow = false, double FontSizeModifier = 0)
+        public static Grid GetNameWithBackground(string Name, string AffinityName = "None", bool ReversedDropdownShadow = false, double FontSizeModifier = 0)
         {
             /*/
              * 
@@ -398,7 +398,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                             }.SetBindingWithReturn(FrameworkElement.WidthProperty, "ActualWidth", NameTextBlock), // Dynamic resize by name
                             new Image() // Image on the right side
                             {
-                                Source = ImageFromResource($"UI/Limbus/Skills/Name Background/Cut/{AffinityName}.png"),
+                                Source = BitmapFromResource($"UI/Limbus/Skills/Name Background/Cut/{AffinityName}.png"),
                                 Margin = new Thickness(-16, 0, 0, 0),
                                 Clip = new RectangleGeometry(new Rect(15, 0, 1000, 2000)),
 
@@ -418,7 +418,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             return Name_MainGrid;
         }
-        internal protected static TextBlock GenerateItemSignature(string TargetColumn)
+        public static TextBlock GenerateItemSignature(string TargetColumn)
         {
             TextBlock Output = new TextBlock()
             {
@@ -447,7 +447,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         /// </summary>
         /// <param name="DisplayInformation">Deserialized Skill Constructor</param>
         /// <param name="TextInfo">Skill Localization Info</param>
-        internal protected static Grid CreateSkillGrid(Type_Skills.UptieLevel TextInfo, SkillContstructor DisplayInformation, SkillInfoFormationParameters FormationParameters = null, string TargetColumn = "1")
+        public static Grid CreateSkillGrid(Type_Skills.UptieLevel TextInfo, SkillContstructor DisplayInformation, SkillInfoFormationParameters FormationParameters = null, string TargetColumn = "1")
         {
             if (FormationParameters == null) FormationParameters = new SkillInfoFormationParameters();
 
@@ -480,13 +480,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                         HorizontalAlignment = HorizontalAlignment.Left,
                         VerticalAlignment   = VerticalAlignment.Top,
                         Source = Mode_Skills.AcquireSkillIcon(SelectedIconID),
-                        OpacityMask = new ImageBrush() { ImageSource = ImageFromResource("UI/Limbus/Skills/Icon Opacity Mask.png") }
+                        OpacityMask = new ImageBrush() { ImageSource = BitmapFromResource("UI/Limbus/Skills/Icon Opacity Mask.png") }
                     },
 
                     // Frame
                     new Image()
                     {
-                        Source = ImageFromResource(SelectedSkillFrameSource),
+                        Source = BitmapFromResource(SelectedSkillFrameSource),
                         Margin = new Thickness(22.8, 24, 0, 0),
                         Height = 127,
                         Width  = 127,
@@ -515,12 +515,12 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                     new Border()
                                     {
                                         Background = AffinityColor,
-                                        OpacityMask = new ImageBrush() { ImageSource = ImageFromResource("UI/Limbus/Skills/Damage Type Opacity Mask.png") }
+                                        OpacityMask = new ImageBrush() { ImageSource = BitmapFromResource("UI/Limbus/Skills/Damage Type Opacity Mask.png") }
                                     },
                                     new Border()
                                     {
                                         Background = AffinityColor,
-                                        OpacityMask = new ImageBrush() { ImageSource = ImageFromResource("UI/Limbus/Skills/Damage Type Opacity Mask.png") },
+                                        OpacityMask = new ImageBrush() { ImageSource = BitmapFromResource("UI/Limbus/Skills/Damage Type Opacity Mask.png") },
                                         Height = 22.3,
                                         Width  = 22.3,
                                         HorizontalAlignment = HorizontalAlignment.Center,
@@ -529,7 +529,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                     new Border()
                                     {
                                         Background = ToSolidColorBrush("#FF232323"),
-                                        OpacityMask = new ImageBrush() { ImageSource = ImageFromResource("UI/Limbus/Skills/Damage Type Opacity Mask.png") },
+                                        OpacityMask = new ImageBrush() { ImageSource = BitmapFromResource("UI/Limbus/Skills/Damage Type Opacity Mask.png") },
                                         HorizontalAlignment = HorizontalAlignment.Center,
                                         VerticalAlignment   = VerticalAlignment.Center,
                                         Height = 17.3,
@@ -549,7 +549,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                 Width = 20,
                                 Children =
                                 {
-                                    new Image() { Source = ImageFromResource($"UI/Limbus/Skills/Damage Types/{DisplayInformation.Specific.DamageType}.png") }
+                                    new Image() { Source = BitmapFromResource($"UI/Limbus/Skills/Damage Types/{DisplayInformation.Specific.DamageType}.png") }
                                 }
                             }
                         }
@@ -588,7 +588,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     // Affinity icon of skill
                     !DisplayInformation.Specific.Affinity.Equals("None") & DisplayInformation.Attributes.ShowAffinityIcon ? new Image()
                     {
-                        Source = ImageFromResource($"UI/Limbus/Skills/Affinity Icons/{DisplayInformation.Specific.Affinity}.png"),
+                        Source = BitmapFromResource($"UI/Limbus/Skills/Affinity Icons/{DisplayInformation.Specific.Affinity}.png"),
                         Height = 68,
                         VerticalAlignment = VerticalAlignment.Top,
                         Margin = new Thickness(-5, 11, -4, 0)
@@ -620,30 +620,29 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 Width = double.NaN // Main width ('Skills Panel Width' from scan settings)
             };
 
-            // RichTextBoxes creation with applied desc
+            // TMProEmitters creation with applied desc
             {
                 // Main desc
                 if (!TextInfo.Description.IsNullOrEmpty())
                 {
-                    RichTextBox MainSkillDescription = new RichTextBox()
+                    TMProEmitter MainSkillDescription = new TMProEmitter()
                     {
+                        LimbusPreviewFormattingMode = "Skills",
+
+                        LineHeight = CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22),
                         FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
                         Foreground = ToSolidColorBrush("#ebcaa2"),
                         HorizontalAlignment = HorizontalAlignment.Left,
                         Width = FormationParameters.MainDescWidth,
-                        Margin = new Thickness(4, 0, 0, 7),
-                    }.ApplyLimbusRichText(
-                        RichTextString: TextInfo.Description,
-                        SpecifiedTextProcessingMode: "Skills"
-                    )
-                    .SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", MainControl.PreviewLayout_Skills_MainDesc)
-                    as RichTextBox;
+                        Margin = new Thickness(9, 0, 0, 7),
+                    }
+                    .SetBindingWithReturn(TMProEmitter.FontFamilyProperty, "FontFamily", MainControl.PreviewLayout_Skills_MainDesc)
+                    as TMProEmitter;
 
-                    MainSkillDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22));
+                    MainSkillDescription.RichText = TextInfo.Description;
                     
                     //////////////////////////////////////////////////////////////////////////////////////
                     //MainSkillDescription.SetValue(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
-
 
                     MainWindow.FocusedColumnItem.SkillMainDescriptionLink = MainSkillDescription;
                     SkillDescription.Children.Add(MainSkillDescription);
@@ -679,22 +678,24 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                         if (!CollectedCoinDescriptions.TrimEnd('\r', '\n').Equals(""))
                         {
-                            RichTextBox SingleCoinDescription = new RichTextBox() { // Coin desc
-                                Margin = new Thickness(50 + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22), 15, 0, 0),
+                            // Coin desc
+                            TMProEmitter SingleCoinDescription = new TMProEmitter()
+                            {
+                                LimbusPreviewFormattingMode = "Skills",
+
+                                LineHeight = CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22),
+                                Margin = new Thickness(55 + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22), 15, 0, 0),
                                 Focusable = false,
                                 FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
                                 Style = MainControl.FindResource("CoinDesc") as Style
-                            }.ApplyLimbusRichText(
-                                RichTextString: CollectedCoinDescriptions.TrimEnd('\n'),
-                                SpecifiedTextProcessingMode: "Skills"
-                            )
-                            .SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", MainControl.PreviewLayout_Skills_MainDesc)
-                            as RichTextBox;
+                            }
+                            .SetBindingWithReturn(TMProEmitter.FontFamilyProperty, "FontFamily", MainControl.PreviewLayout_Skills_MainDesc)
+                            as TMProEmitter;
+
+                            SingleCoinDescription.RichText = CollectedCoinDescriptions.TrimEnd('\r', '\n');
 
                             ////////////////////////////////////////////////////////////////////////////////////////
                             //SingleCoinDescription.SetValue(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
-
-                            SingleCoinDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22));
 
                             CoinDescs.Children.Add(new Grid()
                             {
@@ -703,7 +704,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                 {
                                     new Image() // Coin Icon
                                     {
-                                        Source = ImageFromResource($"UI/Limbus/Coins/Coin {CoinEnumerator}.png"),
+                                        Source = BitmapFromResource($"UI/Limbus/Coins/Coin {CoinEnumerator}.png"),
                                         Width = 43.6 + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22),
                                         HorizontalAlignment = HorizontalAlignment.Left,
                                         VerticalAlignment = VerticalAlignment.Top,

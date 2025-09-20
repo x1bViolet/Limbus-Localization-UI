@@ -1,7 +1,7 @@
 ﻿using LC_Localization_Task_Absolute.Json;
+using LC_Localization_Task_Absolute.Limbus_Integration;
 using LC_Localization_Task_Absolute.Mode_Handlers;
 using Microsoft.Win32;
-using RichText;
 using System.IO;
 using System.Windows;
 using System.Windows.Controls;
@@ -56,17 +56,15 @@ public partial class MainWindow
     private double PreviousLocation_Left;
     private double PreviousLocation_Top;
 
-    private bool ReturnToTopmost = false;
-
     void SwitchUI_Activate(bool DisableTopmost = true)
     {
         if (DisableTopmost)
         {
-            if (Configurazione.DeltaConfig.Internal.AlwaysOnTop)  // Disable topmost state for session
+            if (Configurazione.DeltaConfig.Internal.IsAlwaysOnTop)  // Disable topmost state for session
             {
-                SettingsControl.ChangeConfigOnOptionToggle = false;
-                SettingsControl.OptionToggle(SettingsControl.ToggleTopmostState, null);
-                SettingsControl.ChangeConfigOnOptionToggle = true;
+                SettingsWindow.SettingsControl.ChangeConfigOnOptionToggle = false;
+                SettingsWindow.SettingsControl.OptionToggle(SettingsWindow.SettingsControl.ToggleTopmostState, null);
+                SettingsWindow.SettingsControl.ChangeConfigOnOptionToggle = true;
             }
         }
 
@@ -192,23 +190,24 @@ public partial class MainWindow
             ScaleY = 0.48
         };
 
-        RichTextBox PassiveDescription = new RichTextBox()
+        TMProEmitter PassiveDescription = new TMProEmitter()
         {
+            LimbusPreviewFormattingMode = "Passives",
+            
+            LineHeight = CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22),
             LayoutTransform = new ScaleTransform(0.48, 0.48),
             FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
             Foreground = ToSolidColorBrush("#ebcaa2"),
             HorizontalAlignment = HorizontalAlignment.Left,
             Width = FocusedColumnItem.ItemInfo.PassiveDescriptionWidth,
-            Margin = new Thickness(-2.4, 5, 0, 0),
+            Margin = new Thickness(0, 5, 0, 0),
         }
-        .SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", PreviewLayout_Passives)
-        as RichTextBox;
+        .SetBindingWithReturn(TMProEmitter.FontFamilyProperty, "FontFamily", PreviewLayout_Passives)
+        as TMProEmitter;
 
+        PassiveDescription.RichText = TextInfo.Description;
         ////////////////////////////////////////////////////////////////////////////////////
         //PassiveDescription.SetValue(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
-
-        PassiveDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22));
-        PassiveDescription.SetLimbusRichText(TextInfo.Description, "Passives");
 
         FocusedColumnItem.PassiveDescriptionLink = PassiveDescription;
 
@@ -274,21 +273,23 @@ public partial class MainWindow
         }.SetColumn(1) as TextBlock).SetBindingWithReturn(TextBlock.FontFamilyProperty, "FontFamily", NavigationPanel_ObjectName_Display) as TextBlock;
         
 
-        RichTextBox KeywordDescription = new RichTextBox()
+        TMProEmitter KeywordDescription = new TMProEmitter()
         {
+            LimbusPreviewFormattingMode = "Keywords",
+
+            LineHeight = CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22),
             LayoutTransform = new ScaleTransform(0.48, 0.48),
             FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
             Foreground = ToSolidColorBrush("#ebcaa2"),
             HorizontalAlignment = HorizontalAlignment.Left,
-            Margin = new Thickness(2),
+            Margin = new Thickness(4),
 
-        }.SetBindingWithReturn(RichTextBox.FontFamilyProperty, "FontFamily", Special_PreviewLayout_Keywords_BattleKeywords_Desc) as RichTextBox;
+        }.SetBindingWithReturn(TMProEmitter.FontFamilyProperty, "FontFamily", Special_PreviewLayout_Keywords_BattleKeywords_Desc) as TMProEmitter;
 
-        ////////////////////////////////////////////////////////////////////////////////////
+        //////////////////////////////////////////////////////////////////////////////////////
         //KeywordDescription.SetValue(Paragraph.TextAlignmentProperty, TextAlignment.Justify);
 
-        KeywordDescription.SetValue(Paragraph.LineHeightProperty, CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22));
-        KeywordDescription.SetLimbusRichText(TextInfo.Description, "Keywords");
+        KeywordDescription.RichText = TextInfo.Description;
 
         FocusedColumnItem.KeywordIcon = KeywordIcon;
         FocusedColumnItem.PassiveDescriptionLink = KeywordDescription;
@@ -302,6 +303,7 @@ public partial class MainWindow
             BorderBrush = ToSolidColorBrush("#786753"),
             Background = ToSolidColorBrush("#7F000000"),
             BorderThickness = new Thickness(1),
+
             Child = new StackPanel()
             {
                 Children =
@@ -434,7 +436,7 @@ public partial class MainWindow
     /// </summary>
     /// <param name="Extensions">["png", "jpg", "bmp", ..]</param>
     /// <returns><c>new OpenFileDialog()</c> with <c>DefaultExt</c> and <c>Filter</c> parameters by <c>Extensions</c></returns>
-    internal protected static OpenFileDialog NewOpenFileDialog(string FilesHint, IEnumerable<string> Extensions)
+    public static OpenFileDialog NewOpenFileDialog(string FilesHint, IEnumerable<string> Extensions)
     {
         List<string> FileFilters_DefaultExt = new List<string>();
         List<string> FileFilters_Filter = new List<string>();
@@ -452,7 +454,7 @@ public partial class MainWindow
         return FileSelection;
     }
 
-    internal protected static SaveFileDialog NewSaveFileDialog(string FilesHint, IEnumerable<string> Extensions, string FileDefaultName = "")
+    public static SaveFileDialog NewSaveFileDialog(string FilesHint, IEnumerable<string> Extensions, string FileDefaultName = "")
     {
         List<string> FileFilters_DefaultExt = new List<string>();
         List<string> FileFilters_Filter = new List<string>();
