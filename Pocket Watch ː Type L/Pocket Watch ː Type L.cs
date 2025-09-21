@@ -190,7 +190,7 @@ namespace LC_Localization_Task_Absolute
                                 }
                                 else Target.FontFamily = new FontFamily(TagInfo);
                             }
-                            else // if (MainWindow.PreviewUpdate_TargetSite.Name.StartsWith($"PreviewLayout_"))
+                            else if (MainWindow.PreviewUpdate_TargetSite.Name.StartsWith($"PreviewLayout_")) // Btw fix only for limbus preview layouts
                             {
                                 /*/
                                  * Special font that turns all text into squares to prevent usage of fonts that are not unity font asset from Limbus Company if attaching <font> tag at limbus text
