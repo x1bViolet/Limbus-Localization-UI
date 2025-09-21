@@ -227,28 +227,6 @@ namespace LC_Localization_Task_Absolute.Json
             [JsonProperty("Override 'Base Level'")] public string? OverrideBaseLevel { get; set; }
         }
 
-        public record SkillConstructor_CustomIdentityPreviewSampleAttributes
-        {
-            public double SkillNameMaxWidth { get; set; } = 270;
-            public double SkillNameBackgroundMaxHeight { get; set; } = 57;
-            public List<double> SkillNameMargin { get; set; } = [7, 3, 30, 0];
-            public Thickness LoadedSkillNameMargin { get; set; }
-            public double SkillNameSize { get; set; } = 23;
-
-            [OnDeserialized]
-            private void OnDeserialized(StreamingContext Context)
-            {
-                try
-                {
-                    LoadedSkillNameMargin = new Thickness(SkillNameMargin[0], SkillNameMargin[1], SkillNameMargin[2], SkillNameMargin[3]);
-                }
-                catch
-                {
-                    LoadedSkillNameMargin = new Thickness(0);
-                }
-            }
-        }
-
         public record SkillContstructor_Uptie
         {
             [JsonProperty("Coin Power")] public int?    CoinPower { get; set; }
