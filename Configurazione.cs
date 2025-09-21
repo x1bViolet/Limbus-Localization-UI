@@ -219,6 +219,8 @@ namespace LC_Localization_Task_Absolute
             Pocket_Watch_ː_Type_L.@Generic.SpritesVerticalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteVerticalOffset;
             Pocket_Watch_ː_Type_L.@Generic.SpritesHorizontalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteHorizontalOffset;
 
+            MainControl.SkillNameReplica_WidthRestrictor.SetTopMargin(SelectedAssociativePropery_Shared.Properties.SkillNamesVerticalOffset);
+
 
             LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection = SelectedAssociativePropery.Properties.Keywords_AutodetectionRegex;
             rin($"  Keywords Autodetection Regex Pattern: {LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection}");
@@ -309,19 +311,19 @@ namespace LC_Localization_Task_Absolute
                     MainControl.NavigationPanel_ObjectName_Display.FontWeight = WeightFrom(Properties.TitleFont_FontWeight);
 
                     // Reset
-                    MainControl.NavigationPanel_ObjectName_Display.FontSize
-                        = MainControl.PreviewLayout_Keywords_Bufs_Name.FontSize
-                        = 23;
-                    // Reset
+                    MainControl.SkillNameReplica.FontSize = 23;
+                    MainControl.NavigationPanel_ObjectName_Display.FontSize = 25;
                     MainControl.EGOGiftName_PreviewLayout.FontSize = 29;
-                    MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.FontSize
-                        = MainControl.PreviewLayout_Keywords_BattleKeywords_Name.FontSize
-                        = 20;
+                    MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.FontSize = 20;
+                    MainControl.PreviewLayout_Keywords_Bufs_Name.FontSize = 23;
+                    MainControl.PreviewLayout_Keywords_BattleKeywords_Name.FontSize = 20;
 
+                    // Set
+                    MainControl.SkillNameReplica.FontSize *= Properties.TitleFont_FontSizeMultipler;
                     MainControl.NavigationPanel_ObjectName_Display.FontSize *= Properties.TitleFont_FontSizeMultipler;
-                    MainControl.PreviewLayout_Keywords_Bufs_Name.FontSize *= Properties.TitleFont_FontSizeMultipler;
                     MainControl.EGOGiftName_PreviewLayout.FontSize *= Properties.TitleFont_FontSizeMultipler;
                     MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.FontSize *= Properties.TitleFont_FontSizeMultipler;
+                    MainControl.PreviewLayout_Keywords_Bufs_Name.FontSize *= Properties.TitleFont_FontSizeMultipler;
                     MainControl.PreviewLayout_Keywords_BattleKeywords_Name.FontSize *= Properties.TitleFont_FontSizeMultipler;
 
                 }
@@ -509,6 +511,9 @@ namespace LC_Localization_Task_Absolute
             [JsonProperty("Keywords Sprite Vertical Offset")]
             public double KeywordsSpriteVerticalOffset { get; set; } = 0;
 
+
+            [JsonProperty("Skill Names Vertical Offset")]
+            public double SkillNamesVerticalOffset { get; set; } = 0;
 
 
             [JsonProperty("Title Font")]

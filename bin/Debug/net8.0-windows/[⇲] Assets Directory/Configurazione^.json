@@ -53,6 +53,8 @@
               "Keywords Sprite Horizontal Offset": 0,
               "Keywords Sprite Vertical Offset": 0,
 
+              "Skill Names Vertical Offset": 0,
+
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/lang1/Font/Title/Mikodacs.ttf",
               "Title Font (Override Read Name)": "Mikodacs",
               "Title Font (Font Weight)": "Regular",
@@ -81,9 +83,12 @@
             "Name": "Korean (Original)",
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/kr",
+              
               "Keywords Sprite Vertical Offset": -1,
+              "Skill Names Vertical Offset": 4,
 
               "Title Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/KOTRA_BOLD.ttf",
+              "Title Font (Font Size Multipler)": 0.93,
               "Title Font (Override Read Name)": "KOTRA BOLD",
               "Context Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/SCDream5.otf"
             }
@@ -93,8 +98,10 @@
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/jp",
 
+              "Skill Names Vertical Offset": 2,
+
               "Title Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/Corporate-Logo-Bold-ver2.otf",
-              "Title Font (Font Size Multipler)": 0.88,
+              "Title Font (Font Size Multipler)": 0.93,
               "Context Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/HigashiOme-Gothic-C-1.3.ttf"
             }
           },
@@ -222,6 +229,9 @@
             "Name": "LimbusThai by stlinx",
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/th-stlinx",
+
+              "Keywords Sprite Vertical Offset": -4,
+              "Skill Names Vertical Offset": 5,
 
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/th-stlinx/Font/Title/แคนคะนวยคงรวยคงทวยแทน.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/th-stlinx/Font/Context/แคนคะนวยคงรวยคงทวยแทน.ttf"
