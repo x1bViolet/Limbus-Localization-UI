@@ -2252,7 +2252,7 @@
 													x:Name="EGOGiftDisplay_Tier"
 													Margin="-114 -1 0 0"
 													HorizontalAlignment="Center"
-													FontFamily="/UI/Fonts/#Bebas Neue Regular"
+													FontFamily="/UI/Fonts/#Bebas Neue Cyrillic"
 													FontSize="62"
 													Foreground="#fcc700">
 													IV
@@ -2607,7 +2607,7 @@
 													Margin="0 5 0 0"
 													HorizontalAlignment="Center"
 													VerticalAlignment="Center"
-													FontFamily="/UI/Fonts/#Bebas Neue Regular"
+													FontFamily="/UI/Fonts/#Bebas Neue Cyrillic"
 													FontSize="40"
 													Foreground="#fcc700">
 													V
@@ -3588,7 +3588,6 @@
 											Margin="3 0 3 1"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
-											FontFamily="UI/Fonts/#GOST Type BU"
 											FontSize="18"
 											Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 											RichText="Open project"
@@ -3607,7 +3606,6 @@
 											Margin="3 0 3 1"
 											HorizontalAlignment="Center"
 											VerticalAlignment="Center"
-											FontFamily="UI/Fonts/#GOST Type BU"
 											FontSize="18"
 											Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 											RichText="Save project"
@@ -3627,7 +3625,6 @@
 										<Terminus:UITranslation_Rose
 											Margin="5 0 0 0"
 											HorizontalAlignment="Left"
-											FontFamily="UI/Fonts/#GOST Type BU"
 											FontSize="20"
 											PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"
 											RichText="[u]Images parameters"
@@ -3666,7 +3663,6 @@
 															Width="150"
 															Margin="-145 0 0 0"
 															VerticalAlignment="Center"
-															FontFamily="UI/Fonts/#GOST Type BU"
 															RichText="Auto height by the image"
 															Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 															UID="[C] * [Section:Image parameters] Height adjustment (Switch to auto)" />
@@ -3688,7 +3684,6 @@
 													<Terminus:UITranslation_Rose
 														x:Name="IdentityPreviewCreator_HeightController_TextIndicator"
 														Width="500"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														RichText="Height adjustment (Auto)"
 														Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 														UID="[C] * [Section:Image parameters] Height adjustment" />
@@ -3713,7 +3708,6 @@
 														Value="1084" />
 													<Terminus:UITranslation_Rose
 														UID="[C] * [Section:Image parameters] Width adjustment (First step)"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 														RichText="Width adjustment (First step)" />
 												</StackPanel>
@@ -3731,7 +3725,6 @@
 														Value="1084" />
 													<Terminus:UITranslation_Rose
 														UID="[C] * [Section:Image parameters] Width adjustment (Second step)"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 														RichText="Width adjustment (Second step)" />
 												</StackPanel>
@@ -3746,7 +3739,6 @@
 													<Terminus:UITranslation_Rose
 														Grid.Column="0"
 														VerticalAlignment="Center"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														RichText="Portrait Type"
 														x:Name="PortraitTypeSelector_label"
 														Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
@@ -3795,7 +3787,6 @@
 															x:Name="IdentityPreviewCreator_IdentityCustomPortraitSelector__DisplayingSign"
 															HorizontalAlignment="Left"
 															VerticalAlignment="Center"
-															FontFamily="UI/Fonts/#GOST Type BU"
 															FontWeight="Bold"
 															RichText="Portrait Image: [color=#fc5a03]None[/color]"
 															Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
@@ -3810,7 +3801,6 @@
 															<Terminus:UITranslation_Rose
 																Margin="1"
 																VerticalAlignment="Center"
-																FontFamily="UI/Fonts/#GOST Type BU"
 																RichText="Select image"
 																TextAlignment="Center"
 																Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
@@ -3828,7 +3818,6 @@
 													<Terminus:UITranslation_Rose
 														Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 														Margin="0 0 5 0"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														RichText="Allocated width for portrait"
 														UID="[C] * [Section:Image parameters] Allocated width for portrait" />
 												</StackPanel>
@@ -3843,7 +3832,6 @@
 														Value="100" />
 													<Terminus:UITranslation_Rose
 														Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														RichText="E.G.O portrait scale"
 														UID="[C] * [Section:Image parameters] E.G.O portrait scale" />
 												</StackPanel>
@@ -3858,7 +3846,6 @@
 														Value="742" />
 													<Terminus:UITranslation_Rose
 														Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														RichText="Identity portrait scale"
 														UID="[C] * [Section:Image parameters] Identity portrait scale" />
 												</StackPanel>
@@ -3879,7 +3866,6 @@
 															Value="0" />
 														<Terminus:UITranslation_Rose
 															Margin="1.5 0 0 0"
-															FontFamily="UI/Fonts/#GOST Type BU"
 															Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 															RichText="Portrait horizontal offset"
 															UID="[C] * [Section:Image parameters] Portrait horizontal offset" />
@@ -3895,7 +3881,6 @@
 															Value="0" />
 														<Terminus:UITranslation_Rose
 															Margin="4 0 0 0"
-															FontFamily="UI/Fonts/#GOST Type BU"
 															Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 															RichText="Portrait vertical offset"
 															UID="[C] * [Section:Image parameters] Portrait vertical offset" />
@@ -3913,7 +3898,6 @@
 														ValueChanged="HeaderGeneralOffset"
 														Value="0" />
 													<Terminus:UITranslation_Rose
-														FontFamily="UI/Fonts/#GOST Type BU"
 														RichText="Header offset"
 														Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 														UID="[C] * [Section:Image parameters] Header offset" />
@@ -3935,7 +3919,7 @@
 															Minimum="-500"
 															ValueChanged="IdentityOrEGONameOffset"
 															Value="0" />
-														<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="2.2 0 0 0" FontFamily="UI/Fonts/#GOST Type BU" RichText="Identity/E.G.O name offset" UID="[C] * [Section:Image parameters] Identity/E.G.O name offset" />
+														<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="2.2 0 0 0" RichText="Identity/E.G.O name offset" UID="[C] * [Section:Image parameters] Identity/E.G.O name offset" />
 													</StackPanel>
 
 													<StackPanel Grid.Column="1">
@@ -3946,7 +3930,7 @@
 															Minimum="-500"
 															ValueChanged="SinnerNameOffset"
 															Value="0" />
-														<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" FontFamily="UI/Fonts/#GOST Type BU" RichText="Sinner name offset" UID="[C] * [Section:Image parameters] Sinner name offset" />
+														<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" RichText="Sinner name offset" UID="[C] * [Section:Image parameters] Sinner name offset" />
 													</StackPanel>
 
 													<StackPanel Grid.Column="2">
@@ -3958,7 +3942,7 @@
 																Minimum="-500"
 																ValueChanged="RarityOrEGORiskLevelOffset_Horizontal"
 																Value="0" />
-															<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" FontFamily="UI/Fonts/#GOST Type BU" RichText="Rarity/E.G.O Risk level hor. offset" UID="[C] * [Section:Image parameters] Rarity/E.G.O Risk level horizontal offset" />
+															<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" RichText="Rarity/E.G.O Risk level hor. offset" UID="[C] * [Section:Image parameters] Rarity/E.G.O Risk level horizontal offset" />
 														</StackPanel>
 														<StackPanel Margin="0 5 0 0">
 															<Slider
@@ -3968,7 +3952,7 @@
 																Minimum="-40"
 																ValueChanged="RarityOrEGORiskLevelOffset_Vertical"
 																Value="0" />
-															<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" FontFamily="UI/Fonts/#GOST Type BU" RichText="Rarity/E.G.O Risk level vert. offset" UID="[C] * [Section:Image parameters] Rarity/E.G.O Risk level vertical offset" />
+															<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" RichText="Rarity/E.G.O Risk level vert. offset" UID="[C] * [Section:Image parameters] Rarity/E.G.O Risk level vertical offset" />
 														</StackPanel>
 													</StackPanel>
 												</Grid>
@@ -3982,7 +3966,7 @@
 														Minimum="0"
 														ValueChanged="TextBackgroundFadeoutSoftness"
 														Value="200" />
-													<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" FontFamily="UI/Fonts/#GOST Type BU" RichText="Text background fadeout softness" UID="[C] * [Section:Image parameters] Text background fadeout softness" />
+													<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="Text background fadeout softness" UID="[C] * [Section:Image parameters] Text background fadeout softness" />
 												</StackPanel>
 
 												<StackPanel Margin="0 5 0 0">
@@ -3994,7 +3978,7 @@
 														Minimum="0"
 														ValueChanged="ChangeVignetteStrength"
 														Value="35" />
-													<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" FontFamily="UI/Fonts/#GOST Type BU" RichText="Vignette strength" UID="[C] * [Section:Image parameters] Vignette strength" />
+													<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="Vignette strength" UID="[C] * [Section:Image parameters] Vignette strength" />
 												</StackPanel>
 
 												<Grid Width="{Binding ElementName=IdentityPreviewCreator_VignetteSoftnessController, Path=ActualWidth}" Margin="0 5 0 0" HorizontalAlignment="Center">
@@ -4012,7 +3996,7 @@
 															Minimum="-500"
 															ValueChanged="VignetteOffset_Top"
 															Value="0" />
-														<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="2.2 0 0 0" FontFamily="UI/Fonts/#GOST Type BU" RichText="Top viniette offset" UID="[C] * [Section:Image parameters] Top vignette offset" />
+														<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="2.2 0 0 0" RichText="Top viniette offset" UID="[C] * [Section:Image parameters] Top vignette offset" />
 													</StackPanel>
 													<StackPanel Grid.Column="1">
 														<Slider
@@ -4022,7 +4006,7 @@
 															Minimum="-500"
 															ValueChanged="VignetteOffset_Left"
 															Value="0" />
-														<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" FontFamily="UI/Fonts/#GOST Type BU" RichText="Left viniette offset" UID="[C] * [Section:Image parameters] Left vignette offset" />
+														<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" RichText="Left viniette offset" UID="[C] * [Section:Image parameters] Left vignette offset" />
 													</StackPanel>
 													<StackPanel Grid.Column="2">
 														<Slider
@@ -4032,7 +4016,7 @@
 															Minimum="-500"
 															ValueChanged="VignetteOffset_Bottom"
 															Value="0" />
-														<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" FontFamily="UI/Fonts/#GOST Type BU" RichText="Bottom viniette offset" UID="[C] * [Section:Image parameters] Bottom vignette offset" />
+														<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" RichText="Bottom viniette offset" UID="[C] * [Section:Image parameters] Bottom vignette offset" />
 													</StackPanel>
 
 												</Grid>
@@ -4047,7 +4031,6 @@
 														Grid.Column="0"
 														Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 														VerticalAlignment="Center"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														FontSize="18"
 														RichText="Image type text"
 														UID="[C] * [Section:Image parameters] Image type text" />
@@ -4057,7 +4040,6 @@
 															x:Name="ImageTypeText_TextEntry"
 															UID="[C] * [Section:Image parameters] Image type text"
 															Margin="0 1 2 1"
-															FontFamily="UI/Fonts/#GOST Type BU"
 															FontSize="18"
 															FontWeight="Bold"
 															Style="{StaticResource Theme_Textfield_STYLE}"
@@ -4077,7 +4059,6 @@
 														Grid.Column="0"
 													    Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 														VerticalAlignment="Center"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														FontSize="18"
 														RichText="Another image type font"
 														UID="[C] * [Section:Image parameters] Another image type font" />
@@ -4088,7 +4069,6 @@
 															Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 															HorizontalAlignment="Center"
 															VerticalAlignment="Center"
-															FontFamily="UI/Fonts/#GOST Type BU"
 															FontSize="18"
 															RichText="Select font"
 															TextAlignment="Center"
@@ -4105,7 +4085,6 @@
 													<Terminus:UITranslation_Rose
 														Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 														VerticalAlignment="Center"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														FontSize="18"
 														RichText="Image type vertical offset"
 														UID="[C] * [Section:Image parameters] Image type vertical offset" />
@@ -4129,7 +4108,6 @@
 													<Terminus:UITranslation_Rose
 														Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 														VerticalAlignment="Center"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														FontSize="18"
 														RichText="Image type text size"
 														UID="[C] * [Section:Image parameters] Image type text size" />
@@ -4152,7 +4130,6 @@
 												<StackPanel>
 													<Terminus:UITranslation_Rose
 														Margin="5 0 0 0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														FontSize="20"
 														PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"
 														RichText="[u]Specific of the sinner and Identity/E.G.O"
@@ -4183,7 +4160,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	x:Name="SinnerIconSelector_label"
 																	RichText="Sinner icon"
@@ -4331,7 +4307,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0"  Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Icon brightness"
 																	UID="[C] * [Section:Specific] Icon brightness" />
@@ -4355,7 +4330,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Icon size"
 																	UID="[C] * [Section:Specific] Icon size" />
@@ -4379,7 +4353,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Sinner name"
 																	UID="[C] * [Section:Specific] Sinner name" />
@@ -4389,7 +4362,6 @@
 																		x:Name="IdentityPreviewCreator_TextEntries_SinnerName"
 																		UID="[C] * [Section:Specific] Sinner name"
 																		Margin="0 1 2 1"
-																		FontFamily="UI/Fonts/#GOST Type BU"
 																		FontSize="18"
 																		Style="{StaticResource Theme_Textfield_STYLE}"
 																		TextChanged="ChangeSinnerName" />
@@ -4405,7 +4377,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Name of Identity/E.G.O"
 																	UID="[C] * [Section:Specific] Name of Identity/E.G.O" />
@@ -4415,7 +4386,6 @@
 																		x:Name="IdentityPreviewCreator_TextEntries_IdentityOrEGOName"
 																		UID="[C] * [Section:Specific] Name of Identity/E.G.O"
 																		Margin="0 1 2 1"
-																		FontFamily="UI/Fonts/#GOST Type BU"
 																		FontSize="18"
 																		Style="{StaticResource Theme_Textfield_STYLE}"
 																		TextChanged="ChangeIdentityOrEGOName" />
@@ -4431,7 +4401,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Ambience color"
 																	UID="[C] * [Section:Specific] Ambience color" />
@@ -4455,7 +4424,6 @@
 																			x:Name="IdentityPreviewCreator_TextEntries_ElementsColor"
 																			UID="[C] * [Section:Specific] Ambience color"
 																			Margin="0 1 2 1"
-																			FontFamily="UI/Fonts/#GOST Type BU"
 																			FontSize="18"
 																			MaxLength="7"
 																			Style="{StaticResource Theme_Textfield_STYLE}"
@@ -4475,7 +4443,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Rarity/E.G.O Risk level"
 																	x:Name="RarityOrEGORiskLevelSelector_label"
@@ -4526,7 +4493,6 @@
 												<StackPanel>
 													<Terminus:UITranslation_Rose
 														Margin="5 4 0 0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														FontSize="20"
 														PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"
 														RichText="[u]Decorative cautions"
@@ -4557,7 +4523,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Caution type"
 																	x:Name="CautionTypeSelector_label"
@@ -4618,7 +4583,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Caution bloom radius"
 																	UID="[C] * [Section:Decorative cautions] Caution bloom radius" />
@@ -4643,7 +4607,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Caution opacity"
 																	UID="[C] * [Section:Decorative cautions] Caution opacity" />
@@ -4682,7 +4645,6 @@
 																				<Terminus:UITranslation_Rose
 																					Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																					VerticalAlignment="Center"
-																					FontFamily="UI/Fonts/#GOST Type BU"
 																					FontSize="18"
 																					RichText="Custom text string"
 																					UID="[C] * [Section:Decorative cautions] Custom text string" />
@@ -4692,7 +4654,6 @@
 																						x:Name="IdentityPreviewCreator_TextEntries_CustomCautionString"
 																						UID="[C] * [Section:Decorative cautions] Custom text string"
 																						Margin="0 1 2 1"
-																						FontFamily="UI/Fonts/#GOST Type BU"
 																						FontSize="18"
 																						Style="{StaticResource Theme_Textfield_STYLE}"
 																						TextChanged="SetCustomCautionsText" />
@@ -4709,7 +4670,6 @@
 																					x:Name="IdentityPreviewCreator_CautionType_CustomCautionFontTitle"
 																					Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																					VerticalAlignment="Center"
-																					FontFamily="UI/Fonts/#GOST Type BU"
 																					FontSize="18"
 																					RichText="Another font"
 																					UID="[C] * [Section:Decorative cautions] Another font" />
@@ -4719,7 +4679,6 @@
 																						Margin="3 1 3 1"
 																						HorizontalAlignment="Center"
 																						VerticalAlignment="Center"
-																						FontFamily="UI/Fonts/#GOST Type BU"
 																						FontSize="18" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																						RichText="Select font"
 																						TextAlignment="Center"
@@ -4736,7 +4695,6 @@
 																				<Terminus:UITranslation_Rose
 																					Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																					VerticalAlignment="Center"
-																					FontFamily="UI/Fonts/#GOST Type BU"
 																					FontSize="18"
 																					RichText="Text vertical offset"
 																					UID="[C] * [Section:Decorative cautions] Text vertical offset" />
@@ -4761,7 +4719,6 @@
 																				<Terminus:UITranslation_Rose
 																					Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																					VerticalAlignment="Center"
-																					FontFamily="UI/Fonts/#GOST Type BU"
 																					FontSize="18"
 																					RichText="Text size"
 																					UID="[C] * [Section:Decorative cautions] Text size" />
@@ -4787,7 +4744,6 @@
 
 												<StackPanel Margin="0 0 0 10" Visibility="Collapsed">
 													<Terminus:UITranslation_Rose
-														FontFamily="UI/Fonts/#GOST Type BU"
 														FontSize="20" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 														PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"
 														RichText="[u]Effects"
@@ -4811,7 +4767,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Walpurgis Night Frames"
 																	UID="ASDASDADSD" />
@@ -4830,7 +4785,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Effects image" />
 
@@ -4839,7 +4793,6 @@
 																		Margin="3 0 3 1" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																		HorizontalAlignment="Center"
 																		VerticalAlignment="Center"
-																		FontFamily="UI/Fonts/#GOST Type BU"
 																		FontSize="18"
 																		RichText="Select image"
 																		TextAlignment="Center" />
@@ -4855,7 +4808,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Effects horizontal offset" />
 
@@ -4879,7 +4831,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Effects vertical offset" />
 
@@ -4903,7 +4854,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Effects size" />
 
@@ -4927,7 +4877,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Effects rotation" />
 
@@ -4951,7 +4900,6 @@
 																<Terminus:UITranslation_Rose
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
-																	FontFamily="UI/Fonts/#GOST Type BU"
 																	FontSize="18"
 																	RichText="Effects opacity" />
 
@@ -4974,7 +4922,6 @@
 
 													<Terminus:UITranslation_Rose
 														Margin="5 4 0 0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														FontSize="20"
 														PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"
 														RichText="[u]Text info"
@@ -5001,7 +4948,6 @@
 																<StackPanel>
 																	<StackPanel>
 																		<Terminus:UITranslation_Rose
-																			FontFamily="UI/Fonts/#GOST Type BU"
 																			FontSize="20" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																			PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"
 																			RichText="[u]Column settings"
@@ -5026,7 +4972,6 @@
 																					<Terminus:UITranslation_Rose
 																						Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																						VerticalAlignment="Center"
-																						FontFamily="UI/Fonts/#GOST Type BU"
 																						FontSize="18"
 																						RichText="First column offset"
 																						UID="[C] * [Section:Text info/Column settings] First column offset" />
@@ -5049,7 +4994,6 @@
 																					<Terminus:UITranslation_Rose
 																						Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																						VerticalAlignment="Center"
-																						FontFamily="UI/Fonts/#GOST Type BU"
 																						FontSize="18"
 																						RichText="First column item signatures offset"
 																						UID="[C] * [Section:Text info/Column settings] First column item signatures offset" />
@@ -5076,7 +5020,6 @@
 																					<Terminus:UITranslation_Rose
 																						Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																						VerticalAlignment="Center"
-																						FontFamily="UI/Fonts/#GOST Type BU"
 																						FontSize="18"
 																						RichText="Second column offset"
 																						UID="[C] * [Section:Text info/Column settings] Second column offset" />
@@ -5099,7 +5042,6 @@
 																					<Terminus:UITranslation_Rose
 																						Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																						VerticalAlignment="Center"
-																						FontFamily="UI/Fonts/#GOST Type BU"
 																						FontSize="18"
 																						RichText="Second column item signatures offset"
 																						UID="[C] * [Section:Text info/Column settings] Second column item signatures offset" />
@@ -5126,7 +5068,6 @@
 																						x:Name="IdentityPreviewCreator_AnotherItemSignsFont_Label"
 																						Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																						VerticalAlignment="Center"
-																						FontFamily="UI/Fonts/#GOST Type BU"
 																						FontSize="18"
 																						RichText="Another font for item signatures"
 																						UID="[C] * [Section:Text info/Column settings] Another font for item signatures" />
@@ -5136,7 +5077,6 @@
 																							Margin="3 0 3 1"
 																							HorizontalAlignment="Center"
 																							VerticalAlignment="Center"
-																							FontFamily="UI/Fonts/#GOST Type BU"
 																							FontSize="18" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																							RichText="Select font"
 																							TextAlignment="Center"
@@ -5154,7 +5094,7 @@
 																							Minimum="100"
 																							ValueChanged="KeywordBoxesWidth"
 																							Value="315" />
-																						<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" FontFamily="UI/Fonts/#GOST Type BU" RichText="Keyword boxes width" UID="[C] * [Section:Text info/Column settings] Keyword boxes width" />
+																						<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="Keyword boxes width" UID="[C] * [Section:Text info/Column settings] Keyword boxes width" />
 																					</StackPanel>
 
 																					<Border x:Name="KeywordBoxesWidthBinder" Width="315" Visibility="Collapsed" />
@@ -5175,7 +5115,6 @@
 																						<Terminus:UITranslation_Rose
 																							x:Name="UnifiedTextSize_Label"
 																							Margin="0 1 0 0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
-																							FontFamily="UI/Fonts/#GOST Type BU"
 																							RichText="Unified text size [[color=#fc5a03]22[/color]]                                  (Save and reload project or use 'Refresh text' via context menu for text item to apply)"
 																							UID="[C] * [Section:Text info/Column settings] Unified text size" />
 																					</StackPanel>
@@ -5195,7 +5134,6 @@
 
 																		<Terminus:UITranslation_Rose
 																			Margin="0 5 0 0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
-																			FontFamily="UI/Fonts/#GOST Type BU"
 																			FontSize="20"
 																			PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"
 																			RichText="[u]Text info sources"
@@ -5221,7 +5159,6 @@
 																						x:Name="SelectSkillsLocalizationFile_Label"
 																						Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																						VerticalAlignment="Center"
-																						FontFamily="UI/Fonts/#GOST Type BU"
 																						FontSize="18"
 																						RichText="Skills localization"
 																						UID="[C] * [Section:Text info/Text info sources] Skills localization" />
@@ -5231,7 +5168,6 @@
 																							Margin="3 1 3 1" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																							HorizontalAlignment="Center"
 																							VerticalAlignment="Center"
-																							FontFamily="UI/Fonts/#GOST Type BU"
 																							FontSize="18"
 																							RichText="Select file"
 																							TextAlignment="Center"
@@ -5249,7 +5185,6 @@
 																						x:Name="SelectSkillsDisplayInfoFile_Label"
 																						Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																						VerticalAlignment="Center"
-																						FontFamily="UI/Fonts/#GOST Type BU"
 																						FontSize="18"
 																						RichText="Skills Display Info"
 																						UID="[C] * [Section:Text info/Text info sources] Skills Display Info" />
@@ -5259,7 +5194,6 @@
 																							Margin="3 1 3 1" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																							HorizontalAlignment="Center"
 																							VerticalAlignment="Center"
-																							FontFamily="UI/Fonts/#GOST Type BU"
 																							FontSize="18"
 																							RichText="Select file"
 																							TextAlignment="Center"
@@ -5278,7 +5212,6 @@
 																						x:Name="SelectPassivesLocalizationFile_Label"
 																						Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																						VerticalAlignment="Center"
-																						FontFamily="UI/Fonts/#GOST Type BU"
 																						FontSize="18"
 																						RichText="Passives localization"
 																						UID="[C] * [Section:Text info/Text info sources] Passives localization" />
@@ -5288,7 +5221,6 @@
 																							Margin="3 1 3 1" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																							HorizontalAlignment="Center"
 																							VerticalAlignment="Center"
-																							FontFamily="UI/Fonts/#GOST Type BU"
 																							FontSize="18"
 																							RichText="Select file"
 																							TextAlignment="Center"
@@ -5306,7 +5238,6 @@
 																						x:Name="SelectKeywordsLocalizationFile_Label"
 																						Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																						VerticalAlignment="Center"
-																						FontFamily="UI/Fonts/#GOST Type BU"
 																						FontSize="18"
 																						RichText="Keywords localization"
 																						UID="[C] * [Section:Text info/Text info sources] Keywords localization" />
@@ -5316,7 +5247,6 @@
 																							Margin="3 1 3 1" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																							HorizontalAlignment="Center"
 																							VerticalAlignment="Center"
-																							FontFamily="UI/Fonts/#GOST Type BU"
 																							FontSize="18"
 																							RichText="Select file"
 																							TextAlignment="Center"
@@ -5331,7 +5261,6 @@
 																	<StackPanel x:Name="ItemEditor_ParentGrid" IsHitTestVisible="False" Opacity="0.55">
 																		<Terminus:UITranslation_Rose
 																			Margin="0 5 0 0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
-																			FontFamily="UI/Fonts/#GOST Type BU"
 																			FontSize="20"
 																			PreviewMouseLeftButtonUp="IdentityPreviewCreator_ToggleSectionVisibilityMaster"
 																			RichText="[u]Selected item settings"
@@ -5349,7 +5278,6 @@
 
 																				<Terminus:UITranslation_Rose
 																					x:Name="IdentityPreviewCreator_EditingItemHeader"
-																					FontFamily="UI/Fonts/#GOST Type BU"
 																					FontSize="20" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																					RichText="[b]| Editing item:[/b]"
 																					UID="[C] * [Section:Text info/Selected item settings] Editing item header" />
@@ -5365,7 +5293,6 @@
 																						<Terminus:UITranslation_Rose
 																							Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																							VerticalAlignment="Center"
-																							FontFamily="UI/Fonts/#GOST Type BU"
 																							FontSize="18"
 																							RichText="Item signature"
 																							UID="[C] * [Section:Text info/Selected item settings] Item signature" />
@@ -5375,7 +5302,6 @@
 																								x:Name="SelectedItemSignature"
 																								UID="[C] * [Section:Text info/Selected item settings] Item signature"
 																								Margin="0 1 2 1"
-																								FontFamily="UI/Fonts/#GOST Type BU"
 																								FontSize="18"
 																								Style="{StaticResource Theme_Textfield_STYLE}"
 																								TextChanged="ChangeTextItemSignature" />
@@ -5395,7 +5321,6 @@
 																							<Terminus:UITranslation_Rose
 																								Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																								VerticalAlignment="Center"
-																								FontFamily="UI/Fonts/#GOST Type BU"
 																								FontSize="18"
 																								x:Name="SkillsLocalizationIDSelector_label"
 																								RichText="Skill ID from localization file"
@@ -5422,7 +5347,6 @@
 																							<Terminus:UITranslation_Rose
 																								Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																								VerticalAlignment="Center"
-																								FontFamily="UI/Fonts/#GOST Type BU"
 																								FontSize="18"
 																								RichText="Passive ID from localization file"
 																								x:Name="PassivesLocalizationIDSelector_label"
@@ -5449,7 +5373,6 @@
 																							<Terminus:UITranslation_Rose
 																								Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																								VerticalAlignment="Center"
-																								FontFamily="UI/Fonts/#GOST Type BU"
 																								FontSize="18"
 																								RichText="Keyword ID from localization file"
 																								x:Name="KeywordsLocalizationIDSelector_label"
@@ -5480,7 +5403,6 @@
 																						<Terminus:UITranslation_Rose
 																							Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																							VerticalAlignment="Center"
-																							FontFamily="UI/Fonts/#GOST Type BU"
 																							FontSize="18"
 																							x:Name="SkillsDisplayInfoIDSelector_label"
 																							RichText="Skill constructor from Display Info"
@@ -5508,7 +5430,6 @@
 																							x:Name="KeywordIconSelectionLabel"
 																							Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																							VerticalAlignment="Center"
-																							FontFamily="UI/Fonts/#GOST Type BU"
 																							FontSize="18"
 																							RichText="Keyword icon image"
 																							UID="[C] * [Section:Text info/Selected item settings] Keyword icon image" />
@@ -5518,7 +5439,6 @@
 																								Margin="3 1 3 1" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																								HorizontalAlignment="Center"
 																								VerticalAlignment="Center"
-																								FontFamily="UI/Fonts/#GOST Type BU"
 																								FontSize="18"
 																								RichText="Select image"
 																								TextAlignment="Center"
@@ -5538,7 +5458,7 @@
 																								Minimum="-800"
 																								ValueChanged="ItemVerticalOffset"
 																								Value="0" />
-																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" FontFamily="UI/Fonts/#GOST Type BU" RichText="Vertical offset" UID="[C] * [Section:Text info/Selected item settings] Vertical offset" />
+																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="Vertical offset" UID="[C] * [Section:Text info/Selected item settings] Vertical offset" />
 																						</StackPanel>
 																					</Grid>
 
@@ -5552,7 +5472,7 @@
 																								Minimum="-800"
 																								ValueChanged="ItemHorizontalOffset"
 																								Value="0" />
-																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" FontFamily="UI/Fonts/#GOST Type BU" RichText="Horizontal offset (Added text info only)" UID="[C] * [Section:Text info/Selected item settings] Horizontal offset" />
+																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="Horizontal offset (Added text info only)" UID="[C] * [Section:Text info/Selected item settings] Horizontal offset" />
 																						</StackPanel>
 																					</Grid>
 
@@ -5567,7 +5487,7 @@
 																								Minimum="100"
 																								ValueChanged="NameMaximumWidth"
 																								Value="270" />
-																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" FontFamily="UI/Fonts/#GOST Type BU" RichText="Name max width" UID="[C] * [Section:Text info/Selected item settings] Name max width" />
+																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="Name max width" UID="[C] * [Section:Text info/Selected item settings] Name max width" />
 																						</StackPanel>
 																					</Grid>
 
@@ -5581,7 +5501,7 @@
 																								Minimum="100"
 																								ValueChanged="KeywordOrPassiveDescriptionWidth"
 																								Value="500" />
-																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" FontFamily="UI/Fonts/#GOST Type BU" RichText="Passive description width" UID="[C] * [Section:Text info/Selected item settings] Passive description width" />
+																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="Passive description width" UID="[C] * [Section:Text info/Selected item settings] Passive description width" />
 																						</StackPanel>
 																					</Grid>
 
@@ -5599,7 +5519,7 @@
 																								Minimum="100"
 																								ValueChanged="Skill_MainDescriptionWidth"
 																								Value="500" />
-																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" FontFamily="UI/Fonts/#GOST Type BU" RichText="Skill main description width" UID="[C] * [Section:Text info/Selected item settings] Skill main description width" />
+																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="Skill main description width" UID="[C] * [Section:Text info/Selected item settings] Skill main description width" />
 																						</StackPanel>
 																						<StackPanel Grid.Column="1">
 																							<Slider
@@ -5609,7 +5529,7 @@
 																								Minimum="100"
 																								ValueChanged="Skill_CoinDescriptionsWidth"
 																								Value="400" />
-																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" FontFamily="UI/Fonts/#GOST Type BU" RichText="Skill coins descriptions width" UID="[C] * [Section:Text info/Selected item settings] Skill coin descriptions width" />
+																							<Terminus:UITranslation_Rose Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" Margin="4 0 0 0" RichText="Skill coins descriptions width" UID="[C] * [Section:Text info/Selected item settings] Skill coin descriptions width" />
 																						</StackPanel>
 																					</Grid>
 																				</StackPanel>
@@ -6133,7 +6053,6 @@
 														Margin="4 8 0 0"
 														HorizontalAlignment="Left"
 														VerticalAlignment="Center"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														FontSize="18"
 														IsHitTestVisible="False"
 														RichText="[Column №1] Add item.."
@@ -6159,7 +6078,6 @@
 														Padding="300"
 														HorizontalAlignment="Left"
 														HorizontalContentAlignment="Center"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}">
 														<ComboBoxItem PreviewMouseLeftButtonDown="IdentityPreviewCreator_AddSkillToColumn">
 															<Terminus:UITranslation_Rose VerticalAlignment="Center" FontSize="{Binding ElementName=IdentityPreviewCreator_AddSkillToColumn_Text, Path=FontSize}" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="{Binding ElementName=IdentityPreviewCreator_AddSkillToColumn_Text, Path=Text}" />
@@ -6178,7 +6096,6 @@
 														Margin="4 8 0 0"
 														HorizontalAlignment="Left"
 														VerticalAlignment="Center"
-														FontFamily="UI/Fonts/#GOST Type BU"
 														FontSize="18"
 														IsHitTestVisible="False"
 														RichText="[Column №2] Add item.."
