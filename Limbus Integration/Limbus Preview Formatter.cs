@@ -421,11 +421,11 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
         public abstract class RemoteRegexPatterns
         {
-            //                                                                Template until settings load
-            public static string AutoKeywordsDetection = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-_<'"":\+]|$)").ToString();
+            //                                                   Template until settings load
+            public static string AutoKeywordsDetection = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-_<'"":\+])").ToString();
             public static Regex StyleMarker = new Regex(@"<style=""\w+"">|</style>");
             public static Regex HexColor = new Regex(@"(#[a-fA-F0-9]{6})", RegexOptions.Compiled);
-            public static Regex TMProKeyword = new Regex(@"<sprite name=""(?<ID>\w+)""><color=(?<Color>#[a-fA-F0-9]{6})><u><link=""\w+"">(?<Name>.*?)</color></link></u>", RegexOptions.Compiled);
+            public static Regex TMProKeyword = new Regex(@"<sprite name=""(?<ID>\w+)""><color=(?<Color>#[a-fA-F0-9]{6})><u><link=""\w+"">(?<Name>.*?)(</color></link></u>|</color></u></link>|</link></color></u>|</link></u></color>|</u></color></link>)", RegexOptions.Compiled);
             public static Regex SquareBracketLike = new Regex(@"\[(?<ID>.*?)\](?<Color>\(#[a-fA-F0-9]{6}\))?", RegexOptions.Compiled);
             public static Regex TMProLinks = new Regex(@"(<link=""\w+"">)|(</link>)", RegexOptions.Compiled);
         }
