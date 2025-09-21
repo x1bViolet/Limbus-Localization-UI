@@ -12,13 +12,13 @@ namespace LC_Localization_Task_Absolute.Json
         {
             public record Skills
             {
+                [JsonProperty("Manual File Type")]
+                public string ManualFileType { get; set; }
+
                 public List<Skill> dataList { get; set; }
 
                 [JsonProperty("Template Marker")]
                 public string ScansTemplateMarker { get; set; }
-
-                [JsonProperty("Manual File Type")]
-                public string ManualFileType { get; set; }
             }
 
             public record Skill
@@ -89,10 +89,10 @@ namespace LC_Localization_Task_Absolute.Json
         {
             public record Passives
             {
-                public List<Passive> dataList { get; set; }
-
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
+
+                public List<Passive> dataList { get; set; }
             }
 
             public record Passive
@@ -129,10 +129,10 @@ namespace LC_Localization_Task_Absolute.Json
         {
             public record EGOGifts
             {
-                public List<EGOGift> dataList { get; set; }
-
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
+
+                public List<EGOGift> dataList { get; set; }
             }
 
             public record EGOGift
@@ -190,10 +190,10 @@ namespace LC_Localization_Task_Absolute.Json
         {
             public record Keywords
             {
-                public List<Keyword> dataList { get; set; }
-
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
+
+                public List<Keyword> dataList { get; set; }
             }
 
             public record Keyword
@@ -240,10 +240,10 @@ namespace LC_Localization_Task_Absolute.Json
         {
             public record SkillTags
             {
-                public List<SkillTag> dataList { get; set; }
-
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
+
+                public List<SkillTag> dataList { get; set; }
             }
 
             public record SkillTag
@@ -269,11 +269,13 @@ namespace LC_Localization_Task_Absolute.Json
         {
             string FileText = File.ReadAllText(Filename);
             ManualFileTypeCheckHandler FileHeader = JsonConvert.DeserializeObject<ManualFileTypeCheckHandler>(FileText);
-            if (FileHeader.ManualFileType != null)
+            if (FileHeader != null && FileHeader.ManualFileType != null)
             {
                 return FileHeader.ManualFileType switch
                 {
-                    "Skills"   => "Skills", 
+                    "Skills"   => "Skills",
+                    "Skills (With upties)" => "Skills_personality-",
+                    "Skills (With upties; With abName)" => "Skills_Ego_Personality-",
                     "Passives" => "Passive",
                     "Keywords" => "BattleKeywords",
                     "Keywords (Bufs)" => "Bufs",

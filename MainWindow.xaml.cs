@@ -1269,17 +1269,21 @@ public partial class MainWindow : Window
 
             string CheckName = TemplateTarget.Name.RemovePrefix(["JP_", "KR_", "EN_"]);
 
-            string? PredefinedFileType = TryAcquireManualFileType(TemplateTarget.FullName);
-            if (PredefinedFileType != null)
+            string? PredefinedFileTypeNameChanger = TryAcquireManualFileType(TemplateTarget.FullName);
+            if (PredefinedFileTypeNameChanger != null)
             {
-                CheckName = PredefinedFileType;
+                CheckName = PredefinedFileTypeNameChanger;
             }
 
             if (CheckName.StartsWith("Skills"))
             {
                 FocusOnFile(TemplateTarget);
 
-                Mode_Skills.LoadStructure(TemplateTarget);
+                Mode_Skills.LoadStructure(
+                    JsonFile: TemplateTarget,
+                    EnableUptieLevels: CheckName.ContainsOneOf("Skills_Ego_Personality-", "Skills_personality-", "Skills.json", "Skills_Ego.json", "Skills_Assist.json"),
+                    EnableEGOAbnormalityName: CheckName.ContainsOneOf("Skills_Ego_Personality-", "Skills_Ego.json")
+                );
             }
             else if (CheckName.StartsWith("Passive"))
             {
@@ -2063,6 +2067,7 @@ public partial class MainWindow : Window
 
             case MouseButton.XButton2: //Forward
                 PreviewLayout_Keywords_Bufs_Name.Focusable = false;
+
                 if (Mode_Handlers.Upstairs.ActiveProperties.Key.Equals("Skills") & Keyboard.IsKeyDown(Key.LeftShift))
                 {
                     int currentuptie = Mode_Skills.CurrentSkillUptieLevel;

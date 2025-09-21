@@ -789,7 +789,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             LastRegisteredWidth = EnableEGOAbnormalityName ? 578 : 663;
             MainControl.PreviewLayoutGrid_Skills_ContentControlStackPanel.Width = LastRegisteredWidth;
-
             if (EnableUptieLevels)
             {
                 MainControl.NavigationPanel_Skills_UptieLevelSelectorGrid.Visibility = Visibility.Visible;
@@ -823,7 +822,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             );
         }
 
-        public static Task LoadStructure(FileInfo JsonFile)
+        public static Task LoadStructure(FileInfo JsonFile, bool EnableUptieLevels, bool EnableEGOAbnormalityName)
         {
             DeserializedInfo = JsonFile.Deserealize<Skills>();
             InitializeSkillsDelegateFrom(DeserializedInfo);
@@ -831,8 +830,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             if (DelegateSkills_IDList.Count > 0)
             {
                 Mode_Skills.TriggerSwitch(
-                           EnableUptieLevels: JsonFile.Name.ContainsOneOf(["Skills_Ego_Personality-", "Skills_personality-", "Skills.json", "Skills_Ego.json", "Skills_Assist.json"]),
-                    EnableEGOAbnormalityName: JsonFile.Name.ContainsOneOf(["Skills_Ego_Personality-", "Skills_Ego.json"])
+                           EnableUptieLevels: EnableUptieLevels,
+                    EnableEGOAbnormalityName: EnableEGOAbnormalityName
                 );
                 TransformToSkill(DelegateSkills_IDList[0]);
             }
