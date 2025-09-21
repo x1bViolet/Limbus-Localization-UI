@@ -2466,6 +2466,7 @@ public partial class MainWindow : Window
                         Margin = (Thickness)MenuItem_Title.Margin_Loaded,
                         FontFamily = (FontFamily)MenuItem_Title.Font_Loaded,
                         FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
+                        Foreground = ToSolidColorBrush(ᐁ_Interface_Themes_Loader.LoadedTheme.UIText.Foreground),
                         IsHitTestVisible = false
                     }
                 },
@@ -2482,6 +2483,7 @@ public partial class MainWindow : Window
                         Margin = (Thickness)MenuItem_Up.Margin_Loaded,
                         FontFamily = (FontFamily)MenuItem_Up.Font_Loaded,
                         FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
+                        Foreground = ToSolidColorBrush(ᐁ_Interface_Themes_Loader.LoadedTheme.UIText.Foreground),
                     }
                 },
                 new MenuItem() // 3
@@ -2496,6 +2498,7 @@ public partial class MainWindow : Window
                         Margin = (Thickness)MenuItem_Refresh.Margin_Loaded,
                         FontFamily = (FontFamily)MenuItem_Refresh.Font_Loaded,
                         FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
+                        Foreground = ToSolidColorBrush(ᐁ_Interface_Themes_Loader.LoadedTheme.UIText.Foreground),
                     }
                 },
                 new MenuItem() // 4
@@ -2503,13 +2506,14 @@ public partial class MainWindow : Window
                     Header = new UITranslation_Rose()
                     {
                         SpecProperty_ContextMenuParent = ColumnItemAdd,
-                        
+
                         RichText = MenuItem_Down.Text.Extern(UID),
                         FontSize = (double)MenuItem_Down.Font_Size,
                         Width =  (double)MenuItem_Down.Width,
                         Margin = (Thickness)MenuItem_Down.Margin_Loaded,
                         FontFamily = (FontFamily)MenuItem_Down.Font_Loaded,
                         FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
+                        Foreground = ToSolidColorBrush(ᐁ_Interface_Themes_Loader.LoadedTheme.UIText.Foreground),
                     }
                 },
                 new Separator() { Margin = new Thickness(-30, 2, 0, 2) }, // 5
@@ -2525,6 +2529,7 @@ public partial class MainWindow : Window
                         Margin = (Thickness)MenuItem_Remove.Margin_Loaded,
                         FontFamily = (FontFamily)MenuItem_Remove.Font_Loaded,
                         FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
+                        Foreground = ToSolidColorBrush(ᐁ_Interface_Themes_Loader.LoadedTheme.UIText.Foreground),
                     }
                 }
             }
@@ -3140,7 +3145,6 @@ public partial class MainWindow : Window
     {
         Target.Items.Add(new UITranslation_Rose()
         {
-            FontFamily = new FontFamily("GOST Type BU"),
             RichText = ItemName,
             FontSize = 14,
             Padding = new Thickness(5, 5, 0, 5),
