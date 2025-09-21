@@ -118,16 +118,6 @@
             }
           },
           {
-            "Name": "LCBPATO",
-            "Properties": {
-              "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ptbr-TeamPato",
-              "Keywords Sprite Vertical Offset": -2.3,
-
-              "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ptbr-TeamPato/Font/Title/BebasNeue-Regular.ttf",
-              "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ptbr-TeamPato/Font/Context/BebasNeue-Regular.ttf"
-            }
-          },
-          {
             "Name": "Localize Limbus Company",
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/zh-CN",
@@ -239,7 +229,7 @@
           }
         ]
       },
-      "Additional Keywords Directory": "C:/Dream-Devouring Siltcurrent/Template Bufs"
+      "Additional Keywords Directory": "Something there (Loads after fallback and custom)"
     }
   },
   "Scan Parameters": {
