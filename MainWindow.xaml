@@ -6080,13 +6080,25 @@
 														HorizontalContentAlignment="Center"
 														Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}">
 														<ComboBoxItem PreviewMouseLeftButtonDown="IdentityPreviewCreator_AddSkillToColumn">
-															<Terminus:UITranslation_Rose VerticalAlignment="Center" FontSize="{Binding ElementName=IdentityPreviewCreator_AddSkillToColumn_Text, Path=FontSize}" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="{Binding ElementName=IdentityPreviewCreator_AddSkillToColumn_Text, Path=Text}" />
+															<Terminus:UITranslation_Rose
+																VerticalAlignment="Center"
+																x:Name="secondcolumn_Skill"
+																Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
+																/>
 														</ComboBoxItem>
 														<ComboBoxItem PreviewMouseLeftButtonDown="IdentityPreviewCreator_AddPassiveToColumn">
-															<Terminus:UITranslation_Rose VerticalAlignment="Center" FontSize="{Binding ElementName=IdentityPreviewCreator_AddPassiveToColumn_Text, Path=FontSize}" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="{Binding ElementName=IdentityPreviewCreator_AddPassiveToColumn_Text, Path=Text}" />
+															<Terminus:UITranslation_Rose
+																x:Name="secondcolumn_Passive"
+																VerticalAlignment="Center"
+																Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
+																/>
 														</ComboBoxItem>
 														<ComboBoxItem PreviewMouseLeftButtonDown="IdentityPreviewCreator_AddKeywordToColumn">
-															<Terminus:UITranslation_Rose VerticalAlignment="Center" FontSize="{Binding ElementName=IdentityPreviewCreator_AddKeywordToColumn_Text, Path=FontSize}" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}" RichText="{Binding ElementName=IdentityPreviewCreator_AddKeywordToColumn_Text, Path=Text}" />
+															<Terminus:UITranslation_Rose
+																x:Name="secondcolumn_Keyword"
+																VerticalAlignment="Center"
+																Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
+																/>
 														</ComboBoxItem>
 													</ComboBox>
 													<Terminus:UITranslation_Rose

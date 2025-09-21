@@ -127,7 +127,7 @@ namespace LC_Localization_Task_Absolute
             }
         }
 
-        public string CurrentRichText { get; private set; }
+        public string CurrentRichText { get; private set; } = "";
 
         /// <summary>
         /// Disable regular Text property
@@ -468,6 +468,8 @@ namespace LC_Localization_Task_Absolute
 
         private static void ModifySingleObject(UILocalization_Entry Target, InterfaceTranslationParameter Param, FontFamily DefaultFontFamily, FontWeight DefaultFontWeight)
         {
+            if (Target == null) return;
+
             if (Param.UID.Keys.First().StartsWith("[Context Menu] * "))
             {
                 if (Param.Visible != null && Param.Visible == false) Target.Visibility = (Visibility)Param.Visible_Loaded;
@@ -695,7 +697,7 @@ namespace LC_Localization_Task_Absolute
                                                     else if (File.Exists(Param.Font)) SpecializedDefs.DefaultFontFamilyForPlaceholder = FileToFontFamily(Param.Font);
                                                     else SpecializedDefs.DefaultFontFamilyForPlaceholder = new FontFamily(Param.Font);
                                                 }
-                                                else SpecializedDefs.DefaultFontFamilyForPlaceholder = DefaultFont;
+                                                //else SpecializedDefs.DefaultFontFamilyForPlaceholder = DefaultFont;
                                             }
                                             break;
 
@@ -740,6 +742,24 @@ namespace LC_Localization_Task_Absolute
                                         UITranslation_Rose Target = ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[UID];
 
                                         ModifySingleObject(Target, Param, DefaultFont, DefaultWeight);
+
+                                        if (UID.StartsWith("[C] * [Section:Text info/Column settings] Add item to Column — "))
+                                        {
+                                            UITranslation_Rose SecondColumnTarget = UID.Split(" — ")[^1] switch
+                                            {
+                                                "Skill" => MainWindow.MainControl.secondcolumn_Skill,
+                                                "Passive" => MainWindow.MainControl.secondcolumn_Passive,
+                                                "Keyword" => MainWindow.MainControl.secondcolumn_Keyword,
+                                                _ => null
+                                            };
+
+                                            ModifySingleObject(
+                                                SecondColumnTarget,
+                                                Param,
+                                                DefaultFont,
+                                                DefaultWeight
+                                            );
+                                        }
                                     }
                                 }
                             }
