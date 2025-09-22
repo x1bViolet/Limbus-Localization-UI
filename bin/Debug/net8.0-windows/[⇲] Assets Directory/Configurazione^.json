@@ -85,10 +85,10 @@
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/kr",
               
               "Keywords Sprite Vertical Offset": -1,
-              "Skill Names Vertical Offset": 4,
+              "Skill Names Vertical Offset": 3,
 
               "Title Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/KOTRA_BOLD.ttf",
-              "Title Font (Font Size Multipler)": 0.93,
+              "Title Font (Font Size Multipler)": 0.88,
               "Title Font (Override Read Name)": "KOTRA BOLD",
               "Context Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/SCDream5.otf"
             }
@@ -97,8 +97,6 @@
             "Name": "Japanese (Original)",
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/jp",
-
-              "Skill Names Vertical Offset": 2,
 
               "Title Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/Corporate-Logo-Bold-ver2.otf",
               "Title Font (Font Size Multipler)": 0.93,
@@ -122,6 +120,8 @@
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/zh-CN",
 
+              "Skill Names Vertical Offset": -1.5,
+
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/zh-CN/Font/Title/ChineseFont.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/zh-CN/Font/Context/ChineseFont.ttf"
             }
@@ -131,6 +131,8 @@
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-LTM",
 
+              "Skill Names Vertical Offset": -1.5,
+
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-LTM/Font/Title/TitleFont.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-LTM/Font/Context/ContextFont.ttf"
             }
@@ -139,6 +141,8 @@
             "Name": "Retirement Home Old Yard",
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-RHOY",
+
+              "Skill Names Vertical Offset": -1.5,
 
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-RHOY/Font/Title/TitleFont.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-RHOY/Font/Context/ContextFont.ttf"
