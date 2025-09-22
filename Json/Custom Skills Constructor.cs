@@ -32,7 +32,6 @@ namespace LC_Localization_Task_Absolute.Json
                 foreach (FileInfo ConstructorFile in new DirectoryInfo(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor").GetFiles("*.json", SearchOption.AllDirectories))
                 {
                     LogCustomSkillsConstructor($"{(FirstLogPadding ? "" : "\n\n\n\n\n")}Checking File :: {ConstructorFile.Name}");
-                    //SkillsConstructorFile Deserialized = JsonConvert.DeserializeObject<SkillsConstructorFile>(File.ReadAllText(ConstructorFile.FullName));
                     SkillsConstructorFile Deserialized = ConstructorFile.Deserealize<SkillsConstructorFile>();
                     FirstLogPadding = false;
 
@@ -67,10 +66,13 @@ namespace LC_Localization_Task_Absolute.Json
             [JsonProperty("(Name)")]
             public string? SkillName { get; set; }
 
+            [JsonProperty("Specific")]
             public SkillContstructor_Specific Specific { get; set; } = new SkillContstructor_Specific();
 
+            [JsonProperty("Characteristics")]
             public SkillContstructor_Characteristics Characteristics { get; set; } = new SkillContstructor_Characteristics();
 
+            [JsonProperty("Attributes")]
             public SkillContstructor_Attributes Attributes { get; set; } = new SkillContstructor_Attributes();
 
             [JsonProperty("Upties")]
@@ -79,10 +81,7 @@ namespace LC_Localization_Task_Absolute.Json
             [OnDeserialized]
             private void TechnicalProcessing(StreamingContext ThisFilePathContext)
             {
-                if (IconID != null)
-                {
-                    IconID = IconID.Replace(":Constructor:", $"{ThisFilePathContext.Context}");
-                }
+                if (IconID != null) IconID = IconID.Replace(":Constructor:", $"{ThisFilePathContext.Context}");
 
                 if (ID != null & Configurazione.SettingsLoadingEvent)
                 {
@@ -182,6 +181,8 @@ namespace LC_Localization_Task_Absolute.Json
             [OnDeserialized]
             private void TechnicalProcessing(StreamingContext Context)
             {
+                if (!Affinity.EqualsOneOf("Wrath", "Lust", "Sloth", "Gluttony", "Gloom", "Pride", "Envy", "None")) Affinity = "None";
+
                 if (Rank > 3) Rank = 3;
                 if (Rank < 1) Rank = 1;
                 if (!DamageType.EqualsOneOf("Pierce", "Blunt", "Slash")) DamageType = "None";
@@ -194,7 +195,7 @@ namespace LC_Localization_Task_Absolute.Json
             [JsonProperty("Base Power")] public int BasePower { get; set; } = 0;
 
             [JsonProperty("Coins List")] public List<string> CoinsList { get; set; } = new List<string>();
-            [JsonProperty("Coins Type")] public string       CoinsType { get; set; } = "Plus";
+            [JsonProperty("Coins Type")] public      string  CoinsType { get; set; } = "Plus";
 
             [JsonProperty("Attack Weight"   )] public int AttackWeight    { get; set; } = 1;
             [JsonProperty("Base Level"      )] public int BaseLevel       { get; set; } = 55;

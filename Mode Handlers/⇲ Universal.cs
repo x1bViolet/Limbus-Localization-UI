@@ -18,10 +18,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static ContentBasedUniversal DeserializedInfo;
 
-        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
+        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new SwitchedInterfaceProperties()
         {
             Key = "Universal",
-            DefaultValues = new()
+            DefaultValues = new DefaultValues()
             {
                 Height = 550,
                 Width = 1000,
@@ -64,10 +64,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         public static Task LoadStructure(FileInfo JsonFile)
         {
             DeserializedInfo = JsonFile.Deserealize<ContentBasedUniversal>();
-            InitializeContentBasedUniversalDelegateFrom(DeserializedInfo);
 
-            if (DelegatePassives_IDList.Count > 0)
+            if (DeserializedInfo != null && DeserializedInfo.dataList != null && DeserializedInfo.dataList.Count > 0)
             {
+                InitializeContentBasedUniversalDelegateFrom(DeserializedInfo);
                 Mode_Handlers.Mode_ContentUniversal.TriggerSwitch();
             }
 

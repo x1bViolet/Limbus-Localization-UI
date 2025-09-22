@@ -13,13 +13,14 @@ using static LC_Localization_Task_Absolute.Mode_Handlers.Upstairs;
 using static LC_Localization_Task_Absolute.Requirements;
 using static System.Windows.Visibility;
 
+#pragma warning disable IDE0079
+#pragma warning disable CS0169
+#pragma warning disable CA2211
 
 namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
     public abstract class Mode_EGOGifts
     {
-        public static dynamic FormalTaskCompleted = null;
-
         public static int CurrentEGOGiftID = -1;
 
         public static EGOGifts DeserializedInfo;
@@ -29,21 +30,21 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public abstract class OrganizedData
         {
-            public static A1_AttributesDisplayInfo DisplayInfo_Attributes_JSON = new A1_AttributesDisplayInfo();
+            public static AttributesDisplayInfo_File DisplayInfo_Attributes_JSON = new AttributesDisplayInfo_File();
 
-            public static Dictionary<int, AttributeDisplayInfo> DisplayInfo_Attributes = new Dictionary<int, AttributeDisplayInfo> { };
+            public static Dictionary<int, AttributesDisplayInfo_Item> DisplayInfo_Attributes = new Dictionary<int, AttributesDisplayInfo_Item> { };
             public static Dictionary<int, BitmapImage> DisplayInfo_Icons = new Dictionary<int, BitmapImage> { };
 
             public static Dictionary<int, List<int>> UpgradeLevelsAssociativeIDs = new Dictionary<int, List<int>> { };
 
-            public record A1_AttributesDisplayInfo
+            public record AttributesDisplayInfo_File
             {
                 public string Readme { get; set; }
 
                 [JsonProperty("E.G.O Gifts Info")]
-                public List<AttributeDisplayInfo> EGOGiftsInfo { get; set; }
+                public List<AttributesDisplayInfo_Item> EGOGiftsInfo { get; set; }
             }
-            public record AttributeDisplayInfo
+            public record AttributesDisplayInfo_Item
             {
                 public int ID { get; set; }
                 public string Image { get; set; }
@@ -57,11 +58,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
-                    //if (Image == null)
-                    //{
-                    //    rin($"Null name for {ID}");
-                    //}
-
                     if (File.Exists(@$"[⇲] Assets Directory\[⇲] Limbus Images\E.G.O Gifts\{Image}.png"))
                     {
                         LoadedImage = BitmapFromFile(@$"[⇲] Assets Directory\[⇲] Limbus Images\E.G.O Gifts\{Image}.png");
@@ -75,71 +71,66 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             public static void UpdateDisplayInfo()
             {
-                DisplayInfo_Attributes_JSON = JsonConvert.DeserializeObject<A1_AttributesDisplayInfo>(File.ReadAllText(@"[⇲] Assets Directory\[⇲] Limbus Images\E.G.O Gifts\[⇲] Display Info.json"));
+                DisplayInfo_Attributes_JSON = new FileInfo(@"[⇲] Assets Directory\[⇲] Limbus Images\E.G.O Gifts\[⇲] Display Info.json").Deserealize<AttributesDisplayInfo_File>();
 
-                foreach (AttributeDisplayInfo EGOGiftViewData in DisplayInfo_Attributes_JSON.EGOGiftsInfo)
+                if (DisplayInfo_Attributes_JSON != null && DisplayInfo_Attributes_JSON.EGOGiftsInfo != null && DisplayInfo_Attributes_JSON.EGOGiftsInfo.Count > 0)
                 {
-                    DisplayInfo_Icons[EGOGiftViewData.ID] = EGOGiftViewData.LoadedImage;
-                    DisplayInfo_Icons[int.Parse($"1{EGOGiftViewData.ID}")] = EGOGiftViewData.LoadedImage;
-                    DisplayInfo_Icons[int.Parse($"2{EGOGiftViewData.ID}")] = EGOGiftViewData.LoadedImage;
+                    foreach (AttributesDisplayInfo_Item EGOGiftViewData in DisplayInfo_Attributes_JSON.EGOGiftsInfo)
+                    {
+                        DisplayInfo_Icons[EGOGiftViewData.ID] = EGOGiftViewData.LoadedImage;
+                        DisplayInfo_Icons[int.Parse($"1{EGOGiftViewData.ID}")] = EGOGiftViewData.LoadedImage;
+                        DisplayInfo_Icons[int.Parse($"2{EGOGiftViewData.ID}")] = EGOGiftViewData.LoadedImage;
 
-                    DisplayInfo_Attributes[EGOGiftViewData.ID] = EGOGiftViewData;
-                    DisplayInfo_Attributes[int.Parse($"1{EGOGiftViewData.ID}")] = EGOGiftViewData;
-                    DisplayInfo_Attributes[int.Parse($"2{EGOGiftViewData.ID}")] = EGOGiftViewData;
+                        DisplayInfo_Attributes[EGOGiftViewData.ID] = EGOGiftViewData;
+                        DisplayInfo_Attributes[int.Parse($"1{EGOGiftViewData.ID}")] = EGOGiftViewData;
+                        DisplayInfo_Attributes[int.Parse($"2{EGOGiftViewData.ID}")] = EGOGiftViewData;
 
-                    KeywordsInterrogate.EGOGiftInlineImages[$"{EGOGiftViewData.ID}"] = EGOGiftViewData.LoadedImage;
+                        KeywordsInterrogate.EGOGiftInlineImages[$"{EGOGiftViewData.ID}"] = EGOGiftViewData.LoadedImage;
+                    }
                 }
             }
 
             public static void UpdateUpgradeLevelsAssociativeIDs()
             {
-                List<int> notfound = new();
-                foreach (var EGOGiftID in DelegateEGOGifts_IDList)
+                foreach (int EGOGiftID in DelegateEGOGifts_IDList)
                 {
-                    int ExceptedID_UpgradeLevel2 = int.Parse($"1{EGOGiftID}");
-                    int ExceptedID_UpgradeLevel3 = int.Parse($"2{EGOGiftID}");
-
-                    if (DelegateEGOGifts_IDList.Contains(ExceptedID_UpgradeLevel2))
+                    if (int.TryParse($"1{EGOGiftID}", out int ExceptedID_UpgradeLevel2))
                     {
-                        DelegateEGOGifts[EGOGiftID].UpgradeLevelsAssociativeIDs.Add(EGOGiftID);
-                        DelegateEGOGifts[EGOGiftID].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel2);
+                        if (DelegateEGOGifts_IDList.Contains(ExceptedID_UpgradeLevel2))
+                        {
+                            DelegateEGOGifts[EGOGiftID].UpgradeLevelsAssociativeIDs.Add(EGOGiftID);
+                            DelegateEGOGifts[EGOGiftID].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel2);
 
-                        DelegateEGOGifts[ExceptedID_UpgradeLevel2].UpgradeLevelsAssociativeIDs.Add(EGOGiftID);
-                        DelegateEGOGifts[ExceptedID_UpgradeLevel2].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel2);
+                            DelegateEGOGifts[ExceptedID_UpgradeLevel2].UpgradeLevelsAssociativeIDs.Add(EGOGiftID);
+                            DelegateEGOGifts[ExceptedID_UpgradeLevel2].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel2);
 
-                        DelegateEGOGifts[ExceptedID_UpgradeLevel2].UpgradeLevel = "2";
+                            DelegateEGOGifts[ExceptedID_UpgradeLevel2].UpgradeLevel = "2";
+                        }
                     }
 
-                    if (DelegateEGOGifts_IDList.Contains(ExceptedID_UpgradeLevel3))
+                    if (int.TryParse($"2{EGOGiftID}", out int ExceptedID_UpgradeLevel3))
                     {
-                        DelegateEGOGifts[EGOGiftID].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel3);
+                        if (DelegateEGOGifts_IDList.Contains(ExceptedID_UpgradeLevel3))
+                        {
+                            DelegateEGOGifts[EGOGiftID].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel3);
 
-                        DelegateEGOGifts[ExceptedID_UpgradeLevel2].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel3);
+                            DelegateEGOGifts[ExceptedID_UpgradeLevel2].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel3);
 
-                        DelegateEGOGifts[ExceptedID_UpgradeLevel3].UpgradeLevelsAssociativeIDs.Add(EGOGiftID);
-                        DelegateEGOGifts[ExceptedID_UpgradeLevel3].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel2);
-                        DelegateEGOGifts[ExceptedID_UpgradeLevel3].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel3);
+                            DelegateEGOGifts[ExceptedID_UpgradeLevel3].UpgradeLevelsAssociativeIDs.Add(EGOGiftID);
+                            DelegateEGOGifts[ExceptedID_UpgradeLevel3].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel2);
+                            DelegateEGOGifts[ExceptedID_UpgradeLevel3].UpgradeLevelsAssociativeIDs.Add(ExceptedID_UpgradeLevel3);
 
-                        DelegateEGOGifts[ExceptedID_UpgradeLevel3].UpgradeLevel = "3";
-                    }
-
-                    if (!DisplayInfo_Attributes.ContainsKey(EGOGiftID))
-                    {
-                        notfound.Add(EGOGiftID);
+                            DelegateEGOGifts[ExceptedID_UpgradeLevel3].UpgradeLevel = "3";
+                        }
                     }
                 }
-
-                //if (notfound.Count > 0)
-                //{
-                //    MessageBox.Show($"Following IDs not found in \"[⇲] Assets Directory\\[⇲] Limbus Images\\E.G.O Gifts\\[⇲] Display Info.json\":\n{string.Join(", ", notfound)}");
-                //}
             }
         }
 
-        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
+        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new SwitchedInterfaceProperties()
         {
             Key = "E.G.O Gifts",
-            DefaultValues = new()
+            DefaultValues = new DefaultValues()
             {
                 Height = 635,
                 Width = 812,
@@ -172,23 +163,21 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             );
         }
 
-        public static Task LoadStructure(FileInfo JsonFile)
+        public static void LoadStructure(FileInfo JsonFile)
         {
             DeserializedInfo = JsonFile.Deserealize<EGOGifts>();
-            InitializeEGOGiftsDelegateFrom(DeserializedInfo);
 
-            if (DelegateEGOGifts_IDList.Count > 0)
+            if (DeserializedInfo != null && DeserializedInfo.dataList != null && DeserializedInfo.dataList.Count > 0)
             {
+                InitializeEGOGiftsDelegateFrom(DeserializedInfo);
                 Mode_Handlers.Mode_EGOGifts.TriggerSwitch();
                 OrganizedData.UpdateUpgradeLevelsAssociativeIDs();
 
                 TransformToEGOGift(DelegateEGOGifts_IDList[0]);
             }
-
-            return FormalTaskCompleted;
         }
 
-        public static Task TransformToEGOGift(int EGOGiftID)
+        public static void TransformToEGOGift(int EGOGiftID)
         {
             {
                 ManualTextLoadEvent = true;
@@ -214,8 +203,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 ManualTextLoadEvent = false;
             }
-
-            return FormalTaskCompleted;
         }
 
         public static void ReCheckEGOGiftInfo()
@@ -233,10 +220,9 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
 
             /////////////////////////////////////////////////
-            var FullLink = DelegateEGOGifts[CurrentEGOGiftID];
+            EGOGift FullLink = DelegateEGOGifts[CurrentEGOGiftID];
             /////////////////////////////////////////////////
 
-            //for (int i = 1; i <= 6; i++) ((MainControl.FindName($"STE_DisableCover_EGOGift_SimpleDescription{i}")) as Border).Visibility = Visibility.Visible;
             for (int i = 1; i <= 6; i++) InterfaceObject<Border>($"STE_DisableCover_EGOGift_SimpleDescription{i}").Visibility = Visibility.Visible;
 
             if (FullLink.SimpleDescriptions != null)
@@ -247,21 +233,15 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     {
                         if (!FullLink.SimpleDescriptions[i-1].Description.Equals(FullLink.SimpleDescriptions[i - 1].EditorDescription))
                         {
-                            //(MainControl.FindName($"STE_EGOGift_SimpleDescription{i}") as UITranslator).SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                            //    .Extern(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {i}"]));
-
                             ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {i}"]
                                 .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
                                     .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[E.G.O Gifts / Right Menu] * Simple Desc {i}"].Text);
                         }
                         else
                         {
-                            //(MainControl.FindName($"STE_EGOGift_SimpleDescription{i}") as UITranslator).SetRichText(UILanguageLoader.UILanguageElementsTextData[$"Right Menu — E.G.O Gift Simple Desc {i}"]);
-
                             ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {i}"]
                                 .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[E.G.O Gifts / Right Menu] * Simple Desc {i}"].Text;
                         }
-                        ((MainControl.FindName($"STE_DisableCover_EGOGift_SimpleDescription{i}")) as Border).Visibility = Visibility.Collapsed;
                     }
                     catch { }
                 }
@@ -381,11 +361,12 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     _ => "None"
                 };
 
-                MainControl.EGOGiftNameBackground.Source = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Backgrounds/Affinity-Colored E.G.O Gifts Name Backgrounds/{SelectAffinityForBgName}.png"));
+                MainControl.EGOGiftNameBackground.Source = BitmapFromResource($"UI/Limbus/Backgrounds/Affinity-Colored E.G.O Gifts Name Backgrounds/{SelectAffinityForBgName}.png");
+
             }
             else
             {
-                MainControl.EGOGiftNameBackground.Source = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Backgrounds/Affinity-Colored E.G.O Gifts Name Backgrounds/None.png"));
+                MainControl.EGOGiftNameBackground.Source = BitmapFromResource($"UI/Limbus/Backgrounds/Affinity-Colored E.G.O Gifts Name Backgrounds/None.png");
                 MainControl.EGOGiftDisplay_Tier.Text = "";
             }
         }
@@ -399,16 +380,16 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             TargetSite_StringLine = "Main Description";
 
             /////////////////////////////////////////////////
-            var FullLink = DelegateEGOGifts[CurrentEGOGiftID];
+            EGOGift FullLink = DelegateEGOGifts[CurrentEGOGiftID];
             /////////////////////////////////////////////////
 
             if (!FullLink.Description.Equals(FullLink.EditorDescription))
             {
-                MainControl.Editor.Text = FullLink.EditorDescription;
+                MainControl.TextEditor.Text = FullLink.EditorDescription;
             }
             else
             {
-                MainControl.Editor.Text = FullLink.Description;
+                MainControl.TextEditor.Text = FullLink.Description;
             }
 
             LockEditorUndo();
@@ -425,7 +406,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
 
             /////////////////////////////////////////////////
-            var FullLink = DelegateEGOGifts[CurrentEGOGiftID];
+            EGOGift FullLink = DelegateEGOGifts[CurrentEGOGiftID];
             /////////////////////////////////////////////////
 
             TargetSite_StringLine = $"Simple Description №{SimpleDescNumber}";
@@ -433,11 +414,11 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
             if (!FullLink.SimpleDescriptions[TargetSimpleDescIndex].Description.Equals(FullLink.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription))
             {
-                MainControl.Editor.Text = FullLink.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
+                MainControl.TextEditor.Text = FullLink.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
             }
             else
             {
-                MainControl.Editor.Text = FullLink.SimpleDescriptions[TargetSimpleDescIndex].Description;
+                MainControl.TextEditor.Text = FullLink.SimpleDescriptions[TargetSimpleDescIndex].Description;
             }
 
             LockEditorUndo();

@@ -6,6 +6,7 @@ using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
+using static LC_Localization_Task_Absolute.Json.BaseTypes;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
 using static LC_Localization_Task_Absolute.Json.Custom_Skills_Constructor;
 using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
@@ -54,9 +55,9 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static Dictionary<BigInteger, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem> OrganizedDisplayInfo = new Dictionary<BigInteger, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem>();
         
-        public static readonly BitmapImage RegularCoinIcon = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Regular Coin.png"));
-        public static readonly BitmapImage UnbreakableCoinIcon = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Unbreakable Coin.png"));
-        public static readonly BitmapImage DefaultSkillFrameAlt = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Frames/Skill Default Frame alt.png"));
+        public static readonly BitmapImage RegularCoinIcon = BitmapFromResource($"UI/Limbus/Skills/Regular Coin.png");
+        public static readonly BitmapImage UnbreakableCoinIcon = BitmapFromResource($"UI/Limbus/Skills/Unbreakable Coin.png");
+        public static readonly BitmapImage DefaultSkillFrameAlt = BitmapFromResource($"UI/Limbus/Skills/Frames/Skill Default Frame alt.png");
 
         public static Dictionary<string, BitmapImage> AffinityIcons = new Dictionary<string, BitmapImage>();
         public static Dictionary<string, BitmapImage> SkillFrames = new Dictionary<string, BitmapImage>();
@@ -96,14 +97,14 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         {
             foreach (string Affinity in new List<string> { "Wrath", "Lust", "Sloth", "Gluttony", "Gloom", "Pride", "Envy" })
             {
-                AffinityIcons[Affinity] = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Affinity Icons/{Affinity}.png"));
+                AffinityIcons[Affinity] = BitmapFromResource($"UI/Limbus/Skills/Affinity Icons/{Affinity}.png");
 
                 for (int i = 1; i <= 3; i++)
                 {
-                    SkillFrames[$"{Affinity} {i}"] = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Frames/{Affinity}/{i}.png"));
+                    SkillFrames[$"{Affinity} {i}"] = BitmapFromResource($"UI/Limbus/Skills/Frames/{Affinity}/{i}.png");
                 }
             }
-            SkillFrames["None"] = new BitmapImage(new Uri($"pack://application:,,,/UI/Limbus/Skills/Frames/Skill Default Frame.png"));
+            SkillFrames["None"] = BitmapFromResource($"UI/Limbus/Skills/Frames/Skill Default Frame.png");
         }
 
         public static void LoadDisplayInfo()
@@ -120,13 +121,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             if (Directory.Exists(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json"))
             {
-                foreach(FileInfo SkillDataFile in new DirectoryInfo(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json").GetFiles("*.json", SearchOption.AllDirectories))
+                foreach (FileInfo SkillDataFile in new DirectoryInfo(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json").GetFiles("*.json", SearchOption.AllDirectories))
                 {
-                    var Deserialized = SkillDataFile.Deserealize<BaseTypes.Type_RawSkillsDisplayInfo.SkillsDetailedInfo>();
+                    Type_RawSkillsDisplayInfo.SkillsDetailedInfo Deserialized = SkillDataFile.Deserealize<BaseTypes.Type_RawSkillsDisplayInfo.SkillsDetailedInfo>();
 
                     if (Deserialized.List != null)
                     {
-                        foreach(BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem SkillData in Deserialized.List)
+                        foreach (BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem SkillData in Deserialized.List)
                         {
                             if (SkillData.ID != null && SkillData.UptieLevelsDictionary != null)
                             {
@@ -172,8 +173,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 {
                     try
                     {
-                        var Info_Uptie = OrganizedDisplayInfo[CurrentSkillID].UptieLevelsDictionary[UptieInfoCheck];
-                        var Info_Main = OrganizedDisplayInfo[CurrentSkillID];
+                        Type_RawSkillsDisplayInfo.DetailedInfoItem_UptieLevel Info_Uptie = OrganizedDisplayInfo[CurrentSkillID].UptieLevelsDictionary[UptieInfoCheck];
+                        Type_RawSkillsDisplayInfo.DetailedInfoItem Info_Main = OrganizedDisplayInfo[CurrentSkillID];
 
                         // Affinity color and frame
                         if (Info_Uptie.Affinity_UPTIE != null)
@@ -369,7 +370,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             else if (Custom_Skills_Constructor.LoadedSkillConstructors.ContainsKey(CurrentSkillID))
             {
-                var Info_Main = LoadedSkillConstructors[CurrentSkillID];
+                SkillContstructor Info_Main = LoadedSkillConstructors[CurrentSkillID];
 
                 /// Main part
 
@@ -517,7 +518,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 {
                     if (LoadedSkillConstructors[CurrentSkillID].Skill_Upties.ContainsKey($"{CurrentSkillUptieLevel}"))
                     {
-                        var Info_Uptie = LoadedSkillConstructors[CurrentSkillID].Skill_Upties[$"{CurrentSkillUptieLevel}"];
+                        SkillContstructor_Uptie Info_Uptie = LoadedSkillConstructors[CurrentSkillID].Skill_Upties[$"{CurrentSkillUptieLevel}"];
 
                         // Affinity color
                         Select_Affinity = Info_Uptie.Affinity;
@@ -710,7 +711,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static void CheckSkillNameReplicaCoins_FromLocalizationFile()
         {
-            var FullLink = DelegateSkills[CurrentSkillID][CurrentSkillUptieLevel];
+            UptieLevel FullLink = DelegateSkills[CurrentSkillID][CurrentSkillUptieLevel];
             if (FullLink.Coins != null)
             {
                 MainControl.SkillReplicaCoinsTab.Children.Clear();
@@ -729,7 +730,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 }
 
                 int CoinAddCounter = 1;
-                foreach (var CurrentCoin in FullLink.Coins)
+                foreach (Coin CurrentCoin in FullLink.Coins)
                 {
                     if (CoinAddCounter <= CoinsLimit)
                     {
@@ -893,7 +894,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             if (CurrentSkillUptieLevel <= 4) InterfaceObject<Image>($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{CurrentSkillUptieLevel}").Visibility = Visible;
 
             //////////////////////////////////////////////////
-            var FullLink = DelegateSkills[CurrentSkillID][CurrentSkillUptieLevel];
+            UptieLevel FullLink = DelegateSkills[CurrentSkillID][CurrentSkillUptieLevel];
             //////////////////////////////////////////////////
             MainControl.NavigationPanel_ObjectName_Display.Text = FullLink.Name;
             MainControl.SWBT_Skills_MainSkillName.Text = FullLink.Name.Replace("\n", "\\n");
@@ -918,7 +919,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             if (FullLink.Coins != null)
             {
                 int CoinNumber = 1;
-                foreach(Coin CurrentCoin in FullLink.Coins)
+                foreach (Coin CurrentCoin in FullLink.Coins)
                 {
                     if (CurrentCoin.CoinDescriptions != null && CurrentCoin.CoinDescriptions.Count > 0)
                     {
@@ -930,7 +931,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                             if (MainCoinPanel != null)
                             {
-                                foreach(CoinDesc CoinDescription in CurrentCoin.CoinDescriptions)
+                                foreach (CoinDesc CoinDescription in CurrentCoin.CoinDescriptions)
                                 {
                                     if (CoinDescription.Description != null)
                                     {
@@ -1077,12 +1078,12 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             CurrentSkillCoinDescIndex = CoinDescIndex;
 
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-            var FullLink = DelegateSkills[CurrentSkillID][CurrentSkillUptieLevel].Coins[CurrentSkillCoinIndex].CoinDescriptions[CurrentSkillCoinDescIndex];
+            CoinDesc FullLink = DelegateSkills[CurrentSkillID][CurrentSkillUptieLevel].Coins[CurrentSkillCoinIndex].CoinDescriptions[CurrentSkillCoinDescIndex];
             //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
 
             if (!FullLink.Description.Equals(FullLink.EditorDescription))
             {
-                MainControl.Editor.Text = FullLink.EditorDescription;
+                MainControl.TextEditor.Text = FullLink.EditorDescription;
 
                 ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
                     .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
@@ -1090,7 +1091,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
             else
             {
-                MainControl.Editor.Text = FullLink.Description;
+                MainControl.TextEditor.Text = FullLink.Description;
 
                 ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
                     .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text.Extern($"{CoinDescIndex + 1}");
@@ -1121,23 +1122,23 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             PreviewUpdate_TargetSite = MainControl.PreviewLayout_Skills_MainDesc;
 
             /////////////////////////////////////////////////////////////////////
-            var FullLink = DelegateSkills[CurrentSkillID][CurrentSkillUptieLevel];
+            UptieLevel FullLink = DelegateSkills[CurrentSkillID][CurrentSkillUptieLevel];
             /////////////////////////////////////////////////////////////////////
 
             // ... -> MainWindow.Editor_TextChanged() -> update main desc
             if (!FullLink.Description.Equals(FullLink.EditorDescription))
             {
-                MainControl.Editor.Text = FullLink.EditorDescription;
+                MainControl.TextEditor.Text = FullLink.EditorDescription;
 
                 LastPreviewUpdatesBank[MainControl.PreviewLayout_Skills_MainDesc] = FullLink.EditorDescription;
             }
             else
             {
-                MainControl.Editor.Text = FullLink.Description;
+                MainControl.TextEditor.Text = FullLink.Description;
                 LastPreviewUpdatesBank[MainControl.PreviewLayout_Skills_MainDesc] = FullLink.Description;
             }
 
-            if (MainControl.Editor.Text.Equals("")) PreviewUpdate_TargetSite.Visibility = Collapsed;
+            if (MainControl.TextEditor.Text.Equals("")) PreviewUpdate_TargetSite.Visibility = Collapsed;
 
             ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
             .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text.Extern(ᐁ_Interface_Localization_Loader.SpecializedDefs.InsertionsDefaultValue);

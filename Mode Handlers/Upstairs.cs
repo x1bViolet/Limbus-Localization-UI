@@ -6,10 +6,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
     public abstract class Upstairs
     {
-        public static SwitchedInterfaceProperties ActiveProperties = new()
+        public static SwitchedInterfaceProperties ActiveProperties = new SwitchedInterfaceProperties()
         {
             Key = "E.G.O Gifts",
-            DefaultValues = new()
+            DefaultValues = new DefaultValues()
             {
                 Height = 550,
                 Width = 1000,
@@ -85,7 +85,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 else PreviewLayoutChild.Visibility = Visibility.Visible;
             }
 
-            foreach(Grid SwitchButtonsChild in MainControl.SwitchButtons_MainGrid.Children)
+            foreach (Grid SwitchButtonsChild in MainControl.SwitchButtons_MainGrid.Children)
             {
                 if (!SwitchButtonsChild.Equals(ExceptButtonsGrid)) SwitchButtonsChild.Visibility = Visibility.Collapsed;
                 else SwitchButtonsChild.Visibility = Visibility.Visible;

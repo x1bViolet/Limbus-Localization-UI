@@ -1402,7 +1402,7 @@
 											BorderThickness="{DynamicResource Theme_JsonTextEditor__Border_Thickness}"
 											CornerRadius="{DynamicResource Theme_JsonTextEditor__Border_CornerRadius}">
 											<Limbus:JsonTextEditor
-												x:Name="Editor"
+												x:Name="TextEditor"
 												Margin="2"
 												
 												

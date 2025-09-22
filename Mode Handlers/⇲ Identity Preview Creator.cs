@@ -387,7 +387,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     {
                         Orientation = Orientation.Horizontal, //--//
                         Margin = new Thickness(0, 0, 110, 0),
-                        ClipToBounds = true,
+                        ClipToBounds = true, // /////// / / / ///// / /
                         Children =
                         {
                             new Border() // Affinity color filler
@@ -631,7 +631,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                         LineHeight = CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22),
                         FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
-                        Foreground = ToSolidColorBrush("#ebcaa2"),
+                        Foreground = ToSolidColorBrush("#EBCAA2"),
                         HorizontalAlignment = HorizontalAlignment.Left,
                         Width = FormationParameters.MainDescWidth,
                         Margin = new Thickness(9, 0, 0, 7),
@@ -662,12 +662,12 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     SkillDescription.Children.Add(CoinDescs);
 
                     int CoinEnumerator = 1;
-                    foreach (var Coin in TextInfo.Coins)
+                    foreach (Coin Coin in TextInfo.Coins)
                     {
                         string CollectedCoinDescriptions = "";
                         if (Coin.CoinDescriptions != null)
                         {
-                            foreach (var Desc in Coin.CoinDescriptions)
+                            foreach (CoinDesc Desc in Coin.CoinDescriptions)
                             {
                                 if (Desc.Description != null)
                                 {
@@ -687,7 +687,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                 Margin = new Thickness(55 + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22), 15, 0, 0),
                                 Focusable = false,
                                 FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
-                                Style = MainControl.FindResource("CoinDesc") as Style
+                                Style = Resource<Style>("CoinDesc"),
                             }
                             .SetBindingWithReturn(TMProEmitter.FontFamilyProperty, "FontFamily", MainControl.PreviewLayout_Skills_MainDesc)
                             as TMProEmitter;

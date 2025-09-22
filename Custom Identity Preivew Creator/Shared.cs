@@ -197,7 +197,7 @@ public partial class MainWindow
             LineHeight = CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22),
             LayoutTransform = new ScaleTransform(0.48, 0.48),
             FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
-            Foreground = ToSolidColorBrush("#ebcaa2"),
+            Foreground = ToSolidColorBrush("#EBCAA2"),
             HorizontalAlignment = HorizontalAlignment.Left,
             Width = FocusedColumnItem.ItemInfo.PassiveDescriptionWidth,
             Margin = new Thickness(0, 5, 0, 0),
@@ -280,7 +280,7 @@ public partial class MainWindow
             LineHeight = CustomIdentityPreviewCreator.SharedParagraphLineHeigh + (ProjectFile.LoadedProject.Text.UnifiedTextSize - 22),
             LayoutTransform = new ScaleTransform(0.48, 0.48),
             FontSize = ProjectFile.LoadedProject.Text.UnifiedTextSize,
-            Foreground = ToSolidColorBrush("#ebcaa2"),
+            Foreground = ToSolidColorBrush("#EBCAA2"),
             HorizontalAlignment = HorizontalAlignment.Left,
             Margin = new Thickness(4),
 
@@ -441,7 +441,7 @@ public partial class MainWindow
         List<string> FileFilters_DefaultExt = new List<string>();
         List<string> FileFilters_Filter = new List<string>();
 
-        foreach(string Filter in Extensions)
+        foreach (string Filter in Extensions)
         {
             FileFilters_DefaultExt.Add($".{Filter}");
             FileFilters_Filter.Add($"*.{Filter}");

@@ -7,6 +7,7 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using static LC_Localization_Task_Absolute.ConfigRegexSaver;
+using static LC_Localization_Task_Absolute.Configurazione;
 using static LC_Localization_Task_Absolute.MainWindow;
 using static LC_Localization_Task_Absolute.Requirements;
 using static System.Windows.Visibility;
@@ -58,7 +59,7 @@ namespace LC_Localization_Task_Absolute
             Dictionary<string, int> ThemeIndexes = new Dictionary<string, int>();
             int Index_Themes = 0;
             ThemeSelector.Items.Clear();
-            foreach (var ThemeDir in new DirectoryInfo(@"[⇲] Assets Directory\@ Internal\Themes").GetDirectories())
+            foreach (DirectoryInfo ThemeDir in new DirectoryInfo(@"[⇲] Assets Directory\@ Internal\Themes").GetDirectories())
             {
                 ThemeSelector.Items.Add(new TextBlock { Text = ThemeDir.Name });
                 ThemeIndexes[ThemeDir.Name] = Index_Themes;
@@ -79,7 +80,7 @@ namespace LC_Localization_Task_Absolute
             int Index_Languages = 0;
             Dictionary<string, int> LanguageIndexes = new Dictionary<string, int>();
             LanguageSelector.Items.Clear();
-            foreach (var LanguageDirectory in new DirectoryInfo(@"[⇲] Assets Directory\@ Internal\Translation").GetDirectories())
+            foreach (DirectoryInfo LanguageDirectory in new DirectoryInfo(@"[⇲] Assets Directory\@ Internal\Translation").GetDirectories())
             {
                 LanguageSelector.Items.Add(new TextBlock { Text = LanguageDirectory.Name });
                 LanguageIndexes[LanguageDirectory.Name] = Index_Languages;
@@ -97,7 +98,7 @@ namespace LC_Localization_Task_Absolute
             int Index_CustomLanguageProperties = 0;
             Dictionary<string, int> CustomLanguagePropIndexes = new Dictionary<string, int>();
             CustomLanguagePropertiesSelector.Items.Clear();
-            foreach (var CustomLanguageProperty in Configurazione.DeltaConfig.PreviewSettings.CustomLanguageProperties.AssociativeSettings.List)
+            foreach (CustomLanguageAssociativePropertyMain CustomLanguageProperty in Configurazione.DeltaConfig.PreviewSettings.CustomLanguageProperties.AssociativeSettings.List)
             {
                 if (!CustomLanguageProperty.HideInList)
                 {
@@ -584,10 +585,10 @@ namespace LC_Localization_Task_Absolute
                     case "CustomLanguagePropertiesSelector":
 
                         NewSelectionName = (CustomLanguagePropertiesSelector.SelectedItem as TextBlock).Text;
-                        var NewSelectionFound = Configurazione.DeltaConfig.PreviewSettings.CustomLanguageProperties.AssociativeSettings.List.Where(x => x.PropertyName.Equals(NewSelectionName)).ToList();
+                        List<CustomLanguageAssociativePropertyMain> NewSelectionFound = Configurazione.DeltaConfig.PreviewSettings.CustomLanguageProperties.AssociativeSettings.List.Where(x => x.PropertyName.Equals(NewSelectionName)).ToList();
                         if (NewSelectionFound.Count() > 0)
                         {
-                            var NewSelection = NewSelectionFound[0];
+                            CustomLanguageAssociativePropertyMain NewSelection = NewSelectionFound[0];
 
                             Configurazione.SelectedAssociativePropery_Shared = NewSelection;
                             Configurazione.DeltaConfig.PreviewSettings.CustomLanguageProperties.AssociativeSettings.Selected = NewSelection.PropertyName;
@@ -607,7 +608,6 @@ namespace LC_Localization_Task_Absolute
 
                     case "LanguageSelector":
                         NewSelectionName = (LanguageSelector.SelectedItem as TextBlock).Text;
-                       // UILanguageLoader.InitializeUILanguage(@$"[⇲] Assets Directory/[+] Languages/{NewSelectionName}.json");
                         ᐁ_Interface_Localization_Loader.ModifyUI(@$"[⇲] Assets Directory\@ Internal\Translation\{NewSelectionName}");
 
                         ChangeJsonConfigViaRegex("UI Language", $"[⇲] Assets Directory/@ Internal/Translation/{NewSelectionName}");
@@ -617,7 +617,6 @@ namespace LC_Localization_Task_Absolute
 
                     case "ThemeSelector":
                         NewSelectionName = (ThemeSelector.SelectedItem as TextBlock).Text;
-                        //UIThemesLoader.InitializeUITheme(@$"[⇲] Assets Directory\[+] Themes\{NewSelectionName}");
                         ᐁ_Interface_Themes_Loader.ModifyUI(@$"[⇲] Assets Directory\@ Internal\Themes\{NewSelectionName}");
 
                         ChangeJsonConfigViaRegex("UI Theme", $"[⇲] Assets Directory/@ Internal/Themes/{NewSelectionName}");

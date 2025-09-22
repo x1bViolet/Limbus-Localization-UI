@@ -396,7 +396,7 @@ namespace LC_Localization_Task_Absolute
                 }
             }
         }
-       
+        
         public abstract class SpecializedDefs
         {
             public static InterfaceTranslationParameter ColumnItemContextMenu_MoveUp = new InterfaceTranslationParameter();
@@ -406,7 +406,7 @@ namespace LC_Localization_Task_Absolute
             public static InterfaceTranslationParameter ColumnItemContextMenu_Title = new InterfaceTranslationParameter();
 
             public static InterfaceTranslationParameter AddedTextItemPlaceholder = new InterfaceTranslationParameter();
-            public static FontFamily DefaultFontFamilyForPlaceholder = MainWindow.MainControl.FindResource("BebasKaiUniversal") as FontFamily;
+            public static FontFamily DefaultFontFamilyForPlaceholder = Resource<FontFamily>("BebasKaiUniversal");
             public static FontWeight DefaultFontWightForPlaceholder = FontWeights.Normal;
             public static double DefaultFontSizeForPlaceholder = 25;
             public static string DefaultTextForPlaceholder_Skill = "TEXT CONTROL\n(Skill, [Item #[$]])";
@@ -619,9 +619,9 @@ namespace LC_Localization_Task_Absolute
                             DefaultFont = new FontFamily(TranslationData.Font_Defaults.Font);
                         }
 
-                        foreach (var LocalizationParameterSection in TranslationData.List)
+                        foreach (List<InterfaceTranslationParameter> LocalizationParameterSection in TranslationData.List)
                         {
-                            foreach (var Param in LocalizationParameterSection)
+                            foreach (InterfaceTranslationParameter Param in LocalizationParameterSection)
                             {
                                 if (Param.UID.Keys.Count > 0) // "UID": {"[C] * Title bar button tooltip":null}
                                 {
@@ -645,7 +645,7 @@ namespace LC_Localization_Task_Absolute
 
                                         case "[C] [!] [^] * Sinner icon selection (Sinner name)":
                                             int Counter = 1;
-                                            foreach (var Item in MainWindow.MainControl.IdentityPreviewCreator_SinnerIconSelector.Items)
+                                            foreach (object Item in MainWindow.MainControl.IdentityPreviewCreator_SinnerIconSelector.Items)
                                             {
                                                 if (Counter <= 12) // №13 = '[Custom]'
                                                 {
@@ -727,9 +727,9 @@ namespace LC_Localization_Task_Absolute
                             DefaultFont = FileToFontFamily(TranslationData.Font_Defaults.Font);
                         }
 
-                        foreach (var LocalizationParameterSection in TranslationData.List)
+                        foreach (List<InterfaceTranslationParameter> LocalizationParameterSection in TranslationData.List)
                         {
-                            foreach (var Param in LocalizationParameterSection)
+                            foreach (InterfaceTranslationParameter Param in LocalizationParameterSection)
                             {
                                 if (Param.UID.Keys.Count > 0) // "UID": {"[C] * Title bar button tooltip":null}
                                 {
@@ -785,9 +785,9 @@ namespace LC_Localization_Task_Absolute
                         else DefaultFont = new FontFamily(TranslationData.Font_Defaults.Font);
 
 
-                        foreach (var LocalizationParameterSection in TranslationData.List)
+                        foreach (List<InterfaceTranslationParameter> LocalizationParameterSection in TranslationData.List)
                         {
-                            foreach (var Param in LocalizationParameterSection)
+                            foreach (InterfaceTranslationParameter Param in LocalizationParameterSection)
                             {
                                 if (Param.UID.Keys.Count > 0)
                                 {
@@ -806,7 +806,6 @@ namespace LC_Localization_Task_Absolute
                 if (InfoPreset[4].Exists) // Unsaved Changes
                 {
                     SpecializedDefs.UnsavedChangesInfo = InfoPreset[4].Deserealize<InterfaceLocalizationModifiers.Frames.UnsavedChangesInfo.UnsavedChangesInfo_Main>();
-                    //rin($"{Reassangre_Tessal.Actions.DMarker} {SpecializedDefs.UnsavedChangesInfo.Skills.UptieLevel}");
                 }
 
                 if (InfoPreset[5].Exists) // Load warnings

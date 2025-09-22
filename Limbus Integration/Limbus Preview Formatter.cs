@@ -11,6 +11,10 @@ using static LC_Localization_Task_Absolute.Configurazione;
 using static LC_Localization_Task_Absolute.Limbus_Integration.KeywordsInterrogate;
 using static LC_Localization_Task_Absolute.Requirements;
 
+#pragma warning disable IDE0079
+#pragma warning disable CS0169
+#pragma warning disable CA2211
+
 namespace LC_Localization_Task_Absolute.Limbus_Integration
 {
     /// <summary>
@@ -32,7 +36,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 typeof(TMProEmitter),
                 new PropertyMetadata("", OnRichTextChanged));
 
-        private static void OnRichTextChanged(DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs) // From XAML document by RichText=""
+        private static void OnRichTextChanged(DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs) // From XAML Designer by RichText=""
         {
             Pocket_Watch_ː_Type_L.Actions.Apply(
                 Target: CurrentElement as TMProEmitter,
@@ -47,16 +51,15 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
         public string CurrentRichText { get; private set; }
 
         public string LimbusPreviewFormattingMode { get; set; }
-        public bool DisableKeyworLinksCreation { get; set; } = false;
+        public bool DisableKeyworLinksCreation { get; set; } = false; // Prevent endless keyword tooltips creation for keywords inside keywords tooltips inside tooltips for keywords inside tooltips
 
         public string RichText
         {
             get => this.CurrentRichText;
             set {
-                // Prevent endless keyword tooltips creation for keywords inside keywords tooltips inside tooltips for keywords inside tooltips
                 if (DisableKeyworLinksCreation == false)
                 {
-                    // Also do not let keyword tooltips grab last target place
+                    // Do not let keyword tooltips grab last target place
                     LimbusPreviewFormatter.LastAppliedUnformattedRichText = value;
                     LimbusPreviewFormatter.LastApplyTarget = this;
                 }
@@ -127,7 +130,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 if (this.IsCtrlPressed)
                 {
                     Args.Handled = true; // Prevent text scroll
-                    this.FontSize += (Args.Delta > 0) ? 1.2 : (this.FontSize >= 5 ? -1.2 : 0);
+                    this.FontSize += (Args.Delta > 0) ? 1.05 : (this.FontSize >= 5 ? -1.05 : 0);
                 }
             };
             PreviewKeyDown += (Sender, Args) => { if (Args.Key == Key.LeftCtrl) this.IsCtrlPressed = true ; };
@@ -145,8 +148,8 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
    - Disable Keyword Links: {Mode_Handlers.Upstairs.ActiveProperties.Key.EqualsOneOf("Keywords")}
    - Shorthands Included: {!Configurazione.SelectedAssociativePropery_Shared.Properties.Keywords_ShorthandsRegex.Equals(@"NOTHING THERE")}");
 
-            if (!Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSyntaxHighlight) MainWindow.MainControl.Editor.SyntaxHighlighting = null;
-            else MainWindow.MainControl.Editor.SyntaxHighlighting = new LimbusJsonTextSyntax(
+            if (!Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableSyntaxHighlight) MainWindow.MainControl.TextEditor.SyntaxHighlighting = null;
+            else MainWindow.MainControl.TextEditor.SyntaxHighlighting = new LimbusJsonTextSyntax(
                      SkillTagColors: KeywordsInterrogate.CollectedSkillTagColors,
                       KeywordColors: KeywordsInterrogate.CollectedKeywordColors,
                    DisableSkillTags: Mode_Handlers.Upstairs.ActiveProperties.Key.EqualsOneOf("Keywords", "E.G.O Gifts"),
@@ -287,7 +290,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                     }
                 }
 
-                if (!DisableSkillTags) // Finnaly, in passives or skills, if square brackets content still not highlighted as skilltag or keyword, put strikethrough ("Unknown")
+                if (!DisableSkillTags) // Finnaly, in passives or skills, if square brackets content still not highlighted as skilltag or keyword, put strikethrough ('Unknown')
                 {
                     MainRuleSet.Rules.Add(new HighlightingRule()
                     {
@@ -359,14 +362,8 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
         private class DefHighlightionBrush : HighlightingBrush
         {
             private readonly Brush ActualBrush;
-            public override Brush GetBrush(ITextRunConstructionContext context)
-            {
-                return ActualBrush;
-            }
-            public DefHighlightionBrush(Brush From)
-            {
-                ActualBrush = From;
-            }
+            public override Brush GetBrush(ITextRunConstructionContext context) => ActualBrush;
+            public DefHighlightionBrush(Brush From) => ActualBrush = From;
         }
         private class SyntaxHighlightingSpan_SingleContentRule : HighlightingSpan
         {
@@ -385,6 +382,19 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
         }
     }
 
+
+
+
+
+
+
+
+
+
+
+
+
+    
     public abstract class LimbusPreviewFormatter
     {
         public static string LastAppliedUnformattedRichText = "";
@@ -408,7 +418,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             }
         }
 
-        public static Dictionary<string, string> FormatInsertions = new Dictionary<string, string>()
+        public static Dictionary<string, string> FormatInsertionsReplaceValues = new Dictionary<string, string>()
         {
             ["0"] = "{0}",
             ["1"] = "{1}",
@@ -423,11 +433,11 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
         {
             //                                                   Template until settings load
             public static string AutoKeywordsDetection = new Regex(@"(KeywordNameWillBeHere)(?![\p{L}\[\]\-_<'"":\+])").ToString();
-            public static Regex StyleMarker = new Regex(@"<style=""\w+"">|</style>");
-            public static Regex HexColor = new Regex(@"(#[a-fA-F0-9]{6})", RegexOptions.Compiled);
-            public static Regex TMProKeyword = new Regex(@"<sprite name=""(?<ID>\w+)""><color=(?<Color>#[a-fA-F0-9]{6})><u><link=""\w+"">(?<Name>.*?)(</color></link></u>|</color></u></link>|</link></color></u>|</link></u></color>|</u></color></link>)", RegexOptions.Compiled);
-            public static Regex SquareBracketLike = new Regex(@"\[(?<ID>.*?)\](?<Color>\(#[a-fA-F0-9]{6}\))?", RegexOptions.Compiled);
-            public static Regex TMProLinks = new Regex(@"(<link=""\w+"">)|(</link>)", RegexOptions.Compiled);
+            public static readonly Regex StyleMarker = new Regex(@"<style=""\w+"">|</style>", RegexOptions.Compiled);
+            public static readonly Regex HexColor = new Regex(@"(#[a-fA-F0-9]{6})", RegexOptions.Compiled);
+            public static readonly Regex TMProKeyword = new Regex(@"<sprite name=""(?<ID>\w+)""><color=(?<Color>#[a-fA-F0-9]{6})><u><link=""\w+"">(?<Name>.*?)(</color></link></u>|</color></u></link>|</link></color></u>|</link></u></color>|</u></color></link>)", RegexOptions.Compiled);
+            public static readonly Regex SquareBracketLike = new Regex(@"\[(?<ID>.*?)\](?<Color>\(#[a-fA-F0-9]{6}\))?", RegexOptions.Compiled);
+            public static readonly Regex TMProLinks = new Regex(@"(<link=""\w+"">)|(</link>)", RegexOptions.Compiled);
         }
 
         /// <summary>
@@ -444,7 +454,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             }
 
             // Format Insertions
-            foreach (KeyValuePair<string, string> Insert in FormatInsertions)
+            foreach (KeyValuePair<string, string> Insert in FormatInsertionsReplaceValues)
             {
                 PreviewText = PreviewText.Replace($"{{{Insert.Key}}}", Insert.Value);
             }
@@ -461,10 +471,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                     {
                         KeywordColor = KeywordsGlossary[KeywordID].StringColor;
                     }
-                    else
-                    {
-                        if (KeywordColor.Equals("")) KeywordColor = "#9f6a3a";
-                    }
+                    else if (KeywordColor.Equals("")) KeywordColor = "#9f6a3a";
 
                     return
                     (Configurazione.Spec_EnableKeywordIDSprite ? $"<sprite name=\"{KeywordID}\">" : "") +

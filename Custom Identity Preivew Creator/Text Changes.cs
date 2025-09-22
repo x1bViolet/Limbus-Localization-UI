@@ -58,7 +58,7 @@ public partial class MainWindow
             {
                 try
                 {
-                    var СorrectnessCheck = Rgba32.ParseHex(IdentityPreviewCreator_TextEntries_ElementsColor.Text); // -> catch { } if fail
+                    Rgba32 СorrectnessCheck = Rgba32.ParseHex(IdentityPreviewCreator_TextEntries_ElementsColor.Text); // -> catch { } if fail
 
                     Color AlternateElementsColor = Color.FromRgb(NewColor[0..2].ToByte(), NewColor[2..4].ToByte(), NewColor[4..6].ToByte());
 

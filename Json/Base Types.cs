@@ -15,6 +15,7 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
 
+                [JsonProperty("dataList")]
                 public List<Skill> dataList { get; set; }
 
                 [JsonProperty("Template Marker")]
@@ -34,16 +35,17 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("Affinity")]
                 public string OptionalAffinity { get; set; }
 
+
                 [JsonProperty("level")]
                 public int Uptie { get; set; }
+
 
                 [JsonProperty("name")]
                 public string Name { get; set; }
 
-                public List<string> keywords { get; set; }
-
                 [JsonProperty("abName")]
                 public string EGOAbnormalityName { get; set; }
+
 
                 [JsonProperty("desc")]
                 public string Description { get; set; } = "";
@@ -51,16 +53,21 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
 
+
+                [JsonProperty("coinlist")]
+                public List<Coin> Coins { get; set; }
+
+
+                #region Not used
+                public List<string> keywords { get; set; }
                 public string _comment { get; set; }
+                #endregion
 
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
                     EditorDescription = Description;
                 }
-
-                [JsonProperty("coinlist")]
-                public List<Coin> Coins { get; set; }
             }
             public record Coin
             {
@@ -75,7 +82,10 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
 
-                public string summary { get; set; }
+
+                #region Not used
+                public string summary { get; set; } // Rare
+                #endregion
 
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
@@ -92,6 +102,7 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
 
+                [JsonProperty("dataList")]
                 public List<Passive> dataList { get; set; }
             }
 
@@ -100,8 +111,10 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("id")]
                 public int? ID { get; set; }
 
+
                 [JsonProperty("name")]
                 public string Name { get; set; }
+
 
                 [JsonProperty("desc")]
                 public string Description { get; set; } = "";
@@ -109,12 +122,17 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("summary")]
                 public string SummaryDescription { get; set; }
 
+
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
+
                 [JsonIgnore] // For editor
                 public string EditorSummaryDescription { get; set; }
 
+
+                #region Not used
                 public string _comment { get; set; }
+                #endregion
 
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
@@ -132,6 +150,7 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
 
+                [JsonProperty("dataList")]
                 public List<EGOGift> dataList { get; set; }
             }
 
@@ -140,11 +159,10 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("id")]
                 public int ID { get; set; }
 
-                [JsonIgnore] // For Preview
-                public List<int> UpgradeLevelsAssociativeIDs { get; set; }
 
                 [JsonProperty("name")]
                 public string Name { get; set; }
+
 
                 [JsonProperty("desc")]
                 public string Description { get; set; } = "";
@@ -152,10 +170,21 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
 
-                public string _comment { get; set; }
+
+                [JsonProperty("simpleDesc")]
+                public List<SimpleDescription> SimpleDescriptions { get; set; }
+
 
                 [JsonIgnore] // For Preview
                 public string UpgradeLevel { get; set; } = "1";
+
+                [JsonIgnore] // For Preview
+                public List<int> UpgradeLevelsAssociativeIDs { get; set; }
+
+
+                #region Not used
+                public string _comment { get; set; }
+                #endregion
 
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
@@ -164,14 +193,12 @@ namespace LC_Localization_Task_Absolute.Json
 
                     UpgradeLevelsAssociativeIDs = new List<int>();
                 }
-
-                [JsonProperty("simpleDesc")]
-                public List<SimpleDescription> SimpleDescriptions { get; set; }
             }
             public record SimpleDescription
             {
                 [JsonProperty("abilityID")]
                 public int ID { get; set; }
+
 
                 [JsonProperty("simpleDesc")]
                 public string Description { get; set; }
@@ -179,10 +206,15 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
 
+                #region Not used
                 public string _comment { get; set; }
+                #endregion
 
                 [OnDeserialized]
-                private void OnDeserialized(StreamingContext Context) => EditorDescription = Description;
+                private void OnDeserialized(StreamingContext Context)
+                {
+                    EditorDescription = Description;
+                }
             }
         }
 
@@ -193,6 +225,7 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
 
+                [JsonProperty("dataList")]
                 public List<Keyword> dataList { get; set; }
             }
 
@@ -201,11 +234,10 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("id")]
                 public string ID { get; set; } = "NOTHING THERE \0 \0";
 
-                public string iconId { get; set; }
-                public string IconID { get; set; }
 
                 [JsonProperty("name")]
                 public string Name { get; set; } = "NOTHING THERE \0 \0";
+
 
                 [JsonProperty("desc")]
                 public string Description { get; set; } = "";
@@ -213,12 +245,23 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("summary")]
                 public string SummaryDescription { get; set; }
 
+
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; }
                 [JsonIgnore] // For editor
                 public string EditorSummaryDescription { get; set; }
 
+
+                [JsonProperty("Color")] // Special settings that can be used instead of "[⇲] Assets Directory\[+] Keywords\Keyword Colors.T[-]"
+                public string? Color { get; set; }
+
+
+                #region Not used
+                public string iconId { get; set; }
+                public string IconID { get; set; }
                 public string _comment { get; set; }
+                public string undefined { get; set; }
+                #endregion
 
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
@@ -226,13 +269,6 @@ namespace LC_Localization_Task_Absolute.Json
                     EditorDescription = Description;
                     EditorSummaryDescription = SummaryDescription;
                 }
-
-                public string undefined { get; set; }
-
-
-                // Special settings that can be used instead of "[⇲] Assets Directory\[+] Keywords\Keyword Colors.T[-]"
-                [JsonProperty("Color")]
-                public string? Color { get; set; }
             }
         }
     
@@ -243,6 +279,7 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
 
+                [JsonProperty("dataList")]
                 public List<SkillTag> dataList { get; set; }
             }
 
@@ -251,9 +288,9 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonProperty("id")]
                 public string ID { get; set; }
                 
+
                 [JsonProperty("name")]
                 public string Tag { get; set; }
-
 
                 // Special settings that can be used instead of "[⇲] Assets Directory\[+] Keywords\SkillTag Colors.T[-]"
                 [JsonProperty("Color")]
@@ -273,7 +310,7 @@ namespace LC_Localization_Task_Absolute.Json
             {
                 return FileHeader.ManualFileType switch
                 {
-                    "Skills"   => "Skills",
+                    "Skills" => "Skills",
                     "Skills (With upties)" => "Skills_personality-",
                     "Skills (With upties; With abName)" => "Skills_Ego_Personality-",
                     "Passives" => "Passive",
@@ -362,7 +399,7 @@ namespace LC_Localization_Task_Absolute.Json
                         string? LatestRegisteredAffinity = null;
                         string? LatestRegisteredCoinMathOperator = null;
 
-                        foreach(DetailedInfoItem_UptieLevel JsonUptieGaksungLevel in UptieLevelsJsonList)
+                        foreach (DetailedInfoItem_UptieLevel JsonUptieGaksungLevel in UptieLevelsJsonList)
                         {
                             if (SkillAction       == null) SkillAction       = JsonUptieGaksungLevel.SkillType_UPTIE;
                             if (DamageType        == null) DamageType        = JsonUptieGaksungLevel.DamageType_UPTIE;
@@ -560,6 +597,7 @@ namespace LC_Localization_Task_Absolute.Json
         {
             public record ContentBasedUniversal
             {
+                [JsonProperty("dataList")]
                 public List<dynamic> dataList { get; set; } // dynamic = "any"
             }
         }

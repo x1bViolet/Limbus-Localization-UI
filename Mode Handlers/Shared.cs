@@ -28,7 +28,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static void HideAllPreviewLayouts()
         {
-            foreach(Grid PreviewLayoutChild in MainControl.PreviewLayouts.Children)
+            foreach (Grid PreviewLayoutChild in MainControl.PreviewLayouts.Children)
             {
                 PreviewLayoutChild.Visibility = Visibility.Collapsed;
             }

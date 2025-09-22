@@ -22,10 +22,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static string TargetSite_StringLine = "Main Description";
 
-        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
+        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new SwitchedInterfaceProperties()
         {
             Key = "Keywords",
-            DefaultValues = new()
+            DefaultValues = new DefaultValues()
             {
                 Height = 550,
                 Width = 1000,
@@ -80,10 +80,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         public static Task LoadStructure(FileInfo JsonFile)
         {
             DeserializedInfo = JsonFile.Deserealize<Keywords>();
-            InitializeKeywordsDelegateFrom(DeserializedInfo);
 
-            if (DelegateKeywords_IDList.Count > 0)
+            if (DeserializedInfo != null && DeserializedInfo.dataList != null && DeserializedInfo.dataList.Count > 0)
             {
+                InitializeKeywordsDelegateFrom(DeserializedInfo);
                 Mode_Handlers.Mode_Keywords.TriggerSwitch(IsBufsMenu: JsonFile.Name.RemovePrefix(["JP_", "KR_", "EN_"]).StartsWith("Bufs"));
                 TransformToKeyword(DelegateKeywords_IDList[0]);
             }
@@ -137,7 +137,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             MainControl.STE_DisableCover_Keyword_SummaryDescription.Visibility = Visible;
 
             /////////////////////////////////////////////////
-            var FullLink = DelegateKeywords[CurrentKeywordID];
+            Keyword FullLink = DelegateKeywords[CurrentKeywordID];
             /////////////////////////////////////////////////
             
             if (FullLink.SummaryDescription != null)
@@ -147,18 +147,11 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
                         .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
                             .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text);
-
-                    //MainControl.STE_Keyword_SummaryDescription
-                    //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                    //    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]));
                 }
                 else
                 {
                     ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
                         .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text;
-
-                    //MainControl.STE_Keyword_SummaryDescription
-                    //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
                 }
                 MainControl.STE_DisableCover_Keyword_SummaryDescription.Visibility = Collapsed;
             }
@@ -166,9 +159,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
                         .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text;
-
-                //MainControl.STE_Keyword_SummaryDescription
-                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Keyword Summary"]);
             }
 
             SwitchToMainDesc();
@@ -183,16 +173,16 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             TargetSite_StringLine = "Main Description";
 
             /////////////////////////////////////////////////
-            var FullLink = DelegateKeywords[CurrentKeywordID];
+            Keyword FullLink = DelegateKeywords[CurrentKeywordID];
             /////////////////////////////////////////////////
 
             if (!FullLink.Description.Equals(FullLink.EditorDescription))
             {
-                MainControl.Editor.Text = FullLink.EditorDescription;
+                MainControl.TextEditor.Text = FullLink.EditorDescription;
             }
             else
             {
-                MainControl.Editor.Text = FullLink.Description;
+                MainControl.TextEditor.Text = FullLink.Description;
             }
 
             LockEditorUndo();
@@ -211,16 +201,16 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             TargetSite_StringLine = "Summary Description";
 
             /////////////////////////////////////////////////
-            var FullLink = DelegateKeywords[CurrentKeywordID];
+            Keyword FullLink = DelegateKeywords[CurrentKeywordID];
             /////////////////////////////////////////////////
 
             if (!FullLink.SummaryDescription.Equals(FullLink.EditorSummaryDescription))
             {
-                MainControl.Editor.Text = FullLink.EditorSummaryDescription;
+                MainControl.TextEditor.Text = FullLink.EditorSummaryDescription;
             }
             else
             {
-                MainControl.Editor.Text = FullLink.SummaryDescription;
+                MainControl.TextEditor.Text = FullLink.SummaryDescription;
             }
 
             LockEditorUndo();

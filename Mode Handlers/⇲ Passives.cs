@@ -21,10 +21,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static string TargetSite_StringLine = "Main Description";
 
-        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new()
+        public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new SwitchedInterfaceProperties()
         {
             Key = "Passives",
-            DefaultValues = new()
+            DefaultValues = new DefaultValues()
             {
                 Height = 550,
                 Width = 1000,
@@ -60,10 +60,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         public static Task LoadStructure(FileInfo JsonFile)
         {
             DeserializedInfo = JsonFile.Deserealize<Passives>();
-            InitializePassivesDelegateFrom(DeserializedInfo);
 
-            if (DelegatePassives_IDList.Count > 0)
+            if (DeserializedInfo != null && DeserializedInfo.dataList != null && DeserializedInfo.dataList.Count > 0)
             {
+                InitializePassivesDelegateFrom(DeserializedInfo);
                 Mode_Handlers.Mode_Passives.TriggerSwitch();
                 TransformToPassive(DelegatePassives_IDList[0]);
             }
@@ -104,26 +104,19 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             MainControl.STE_DisableCover_Passives_SummaryDescription.Visibility = Visible;
 
             /////////////////////////////////////////////////
-            var FullLink = DelegatePassives[CurrentPassiveID];
+            Passive FullLink = DelegatePassives[CurrentPassiveID];
             /////////////////////////////////////////////////
             
             if (FullLink.SummaryDescription != null)
             {
                 if (!FullLink.SummaryDescription.Equals(FullLink.EditorSummaryDescription))
                 {
-                    //MainControl.STE_Passives_SummaryDescription
-                    //    .SetRichText(UILanguageLoader.LoadedLanguage.UnsavedChangesMarker
-                    //    .Extern(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]));
-
                     ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
                         .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
                             .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text);
                 }
                 else
                 {
-                    //MainControl.STE_Passives_SummaryDescription
-                    //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
-
                     ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
                         .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text;
                 }
@@ -131,9 +124,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
             else
             {
-                //MainControl.STE_Passives_SummaryDescription
-                //    .SetRichText(UILanguageLoader.UILanguageElementsTextData["Right Menu — Passive Summary"]);
-
                 ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
                     .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text;
             }
@@ -150,16 +140,16 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             TargetSite_StringLine = "Main Description";
 
             /////////////////////////////////////////////////
-            var FullLink = DelegatePassives[CurrentPassiveID];
+            Passive FullLink = DelegatePassives[CurrentPassiveID];
             /////////////////////////////////////////////////
 
             if (!FullLink.Description.Equals(FullLink.EditorDescription))
             {
-                MainControl.Editor.Text = FullLink.EditorDescription;
+                MainControl.TextEditor.Text = FullLink.EditorDescription;
             }
             else
             {
-                MainControl.Editor.Text = FullLink.Description;
+                MainControl.TextEditor.Text = FullLink.Description;
             }
 
             LockEditorUndo();
@@ -178,16 +168,16 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             TargetSite_StringLine = "Summary Description";
 
             /////////////////////////////////////////////////
-            var FullLink = DelegatePassives[CurrentPassiveID];
+            Passive FullLink = DelegatePassives[CurrentPassiveID];
             /////////////////////////////////////////////////
 
             if (!FullLink.SummaryDescription.Equals(FullLink.EditorSummaryDescription))
             {
-                MainControl.Editor.Text = FullLink.EditorSummaryDescription;
+                MainControl.TextEditor.Text = FullLink.EditorSummaryDescription;
             }
             else
             {
-                MainControl.Editor.Text = FullLink.SummaryDescription;
+                MainControl.TextEditor.Text = FullLink.SummaryDescription;
             }
 
             LockEditorUndo();

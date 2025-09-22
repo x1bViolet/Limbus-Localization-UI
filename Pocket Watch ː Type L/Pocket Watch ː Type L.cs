@@ -173,7 +173,7 @@ namespace LC_Localization_Task_Absolute
                         case TagType.Link:
                             Target.Name = TagInfo; // Name = Keyword ID
 
-                            KeywordsInterrogate.KeywordInfoPopup.AttachToInline(Target);
+                            KeywordsInterrogate.KeywordDescriptionInfoPopup.AttachToInline(Target);
 
                             break;
 

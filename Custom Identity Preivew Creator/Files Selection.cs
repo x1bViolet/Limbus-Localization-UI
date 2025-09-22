@@ -17,7 +17,7 @@ public partial class MainWindow
     #region Identity or E.G.O portrait
     void SelectIdentityOrEGOPortrait(object RequestSender /* Border {ButtonDefaultDeskHighlightable} */, MouseButtonEventArgs EventArgs)
     {
-        var Select = NewOpenFileDialog("Image files", ["jpg", "png"]);
+        OpenFileDialog Select = NewOpenFileDialog("Image files", ["jpg", "png"]);
 
         if (Select.ShowDialog() == true) // If file was selected
         {
@@ -39,7 +39,7 @@ public partial class MainWindow
     #region Image parameters
     void SelectImageTypeSignFont(object RequestSender /* Border {ButtonDefaultDeskHighlightable} */, MouseButtonEventArgs EventArgs)
     {
-        var Select = NewOpenFileDialog("Font files", ["ttf", "otf"]);
+        OpenFileDialog Select = NewOpenFileDialog("Font files", ["ttf", "otf"]);
 
         if (Select.ShowDialog() == true)
         {
@@ -62,7 +62,7 @@ public partial class MainWindow
     #region Image overlays
     void SelectImageOverlays(object RequestSender /* Border {ButtonDefaultDeskHighlightable} */, MouseButtonEventArgs EventArgs)
     {
-        var Select = NewOpenFileDialog("Image files", ["png"]);
+        OpenFileDialog Select = NewOpenFileDialog("Image files", ["png"]);
 
         if (Select.ShowDialog() == true)
         {
@@ -100,7 +100,7 @@ public partial class MainWindow
     /// </summary>
     private void SelectCustomSinnerIcon()
     {
-        var Select = NewOpenFileDialog("Image files", ["jpg", "png"]);
+        OpenFileDialog Select = NewOpenFileDialog("Image files", ["jpg", "png"]);
 
         if (Select.ShowDialog() == true)
         {
@@ -124,7 +124,7 @@ public partial class MainWindow
     #region Decorative cautions custom font
     void SelectDecorativeCautionsCustomFont(object RequestSender /* Border {ButtonDefaultDeskHighlightable} */, MouseButtonEventArgs EventArgs)
     {
-        var Select = NewOpenFileDialog("Font files", ["ttf", "otf"]);
+        OpenFileDialog Select = NewOpenFileDialog("Font files", ["ttf", "otf"]);
 
         if (Select.ShowDialog() == true)
         {
@@ -147,7 +147,7 @@ public partial class MainWindow
     #region Localization files and skills display info selection
     void SelectAnotherItemSignsFont(object RequestSender /* Border {ButtonDefaultDeskHighlightable} */, MouseButtonEventArgs EventArgs)
     {
-        var Select = NewOpenFileDialog("Font files", ["ttf", "otf"]);
+        OpenFileDialog Select = NewOpenFileDialog("Font files", ["ttf", "otf"]);
 
         if (Select.ShowDialog() == true)
         {
@@ -166,7 +166,7 @@ public partial class MainWindow
 
     void SelectSkillsLocalizationFile(object RequestSender /* Border {ButtonDefaultDeskHighlightable} */, MouseButtonEventArgs EventArgs)
     {
-        var Select = NewOpenFileDialog("Skills-type Limbus localization file", ["json"]);
+        OpenFileDialog Select = NewOpenFileDialog("Skills-type Limbus localization file", ["json"]);
 
         if (Select.ShowDialog() == true)
         {
@@ -178,7 +178,7 @@ public partial class MainWindow
     #region Display info
     void SelectSkillsDisplayInfoFile(object RequestSender /* Border {ButtonDefaultDeskHighlightable} */, MouseButtonEventArgs EventArgs)
     {
-        var Select = NewOpenFileDialog("Skills Display Info constructor-type file", ["json"]);
+        OpenFileDialog Select = NewOpenFileDialog("Skills Display Info constructor-type file", ["json"]);
 
         if (Select.ShowDialog() == true)
         {
@@ -191,7 +191,7 @@ public partial class MainWindow
 
     void SelectPassivesLocalizationFile(object RequestSender /* Border {ButtonDefaultDeskHighlightable} */, MouseButtonEventArgs EventArgs)
     {
-        var Select = NewOpenFileDialog("Passives-type Limbus localization file", ["json"]);
+        OpenFileDialog Select = NewOpenFileDialog("Passives-type Limbus localization file", ["json"]);
 
         if (Select.ShowDialog() == true)
         {
@@ -203,7 +203,7 @@ public partial class MainWindow
 
     void SelectKeywordsLocalizationFile(object RequestSender /* Border {ButtonDefaultDeskHighlightable} */, MouseButtonEventArgs EventArgs)
     {
-        var Select = NewOpenFileDialog("Keywords-type(Bufs/BattleKeywords) Limbus localization file", ["json"]);
+        OpenFileDialog Select = NewOpenFileDialog("Keywords-type(Bufs/BattleKeywords) Limbus localization file", ["json"]);
 
         if (Select.ShowDialog() == true)
         {
@@ -215,7 +215,7 @@ public partial class MainWindow
     
     void SelectKeywordIconImage(object RequestSender /* Border {ButtonDefaultDeskHighlightable} */, MouseButtonEventArgs EventArgs)
     {
-        var Select = NewOpenFileDialog("Image Files", ["png", "jpg"]);
+        OpenFileDialog Select = NewOpenFileDialog("Image Files", ["png", "jpg"]);
 
         if (Select.ShowDialog() == true)
         {

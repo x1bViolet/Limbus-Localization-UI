@@ -26,7 +26,7 @@ namespace LC_Localization_Task_Absolute
     public static class SecondaryUtilities
     {
         // To apply custom color to white images (Tint), used for creating custom color for sinner name in custom identity preview
-        // Sixlabors because default options of 'foreach(pixel in somewpfbitmapimage)' slow asf
+        // Sixlabors because default options of 'foreach (pixel in somewpfbitmapimage)' slow asf
 
         // ^ BitmapImage --ToSixlaborsImage()-> Image<Rgba32> -> TintWhiteMaskImage(Image<Rgba32>) -> colored Image<Rgba32> --ToBitmapImage()-> colored BitmapImage
 
@@ -340,7 +340,7 @@ namespace LC_Localization_Task_Absolute
 
         public static string GetFontName(string FontPath)
         {
-            using (System.Drawing.Text.PrivateFontCollection PrivateFonts = new())
+            using (System.Drawing.Text.PrivateFontCollection PrivateFonts = new System.Drawing.Text.PrivateFontCollection())
             {
                 PrivateFonts.AddFontFile(FontPath);
                 string FontName = PrivateFonts.Families[0].Name;
@@ -470,14 +470,14 @@ namespace LC_Localization_Task_Absolute
         }
         public static void RemoveChild(this DependencyObject ParentObject, UIElement TargetChild)
         {
-            var Panel = ParentObject as Panel;
+            Panel Panel = ParentObject as Panel;
             if (Panel != null)
             {
                 Panel.Children.Remove(TargetChild);
                 return;
             }
 
-            var Decorator = ParentObject as Decorator;
+            Decorator Decorator = ParentObject as Decorator;
             if (Decorator != null)
             {
                 if (Decorator.Child == TargetChild)
@@ -487,7 +487,7 @@ namespace LC_Localization_Task_Absolute
                 return;
             }
 
-            var ContentPresenter = ParentObject as ContentPresenter;
+            ContentPresenter ContentPresenter = ParentObject as ContentPresenter;
             if (ContentPresenter != null)
             {
                 if (ContentPresenter.Content == TargetChild)
@@ -497,7 +497,7 @@ namespace LC_Localization_Task_Absolute
                 return;
             }
 
-            var ContentControl = ParentObject as ContentControl;
+            ContentControl ContentControl = ParentObject as ContentControl;
             if (ContentControl != null)
             {
                 if (ContentControl.Content == TargetChild)
@@ -577,7 +577,7 @@ namespace LC_Localization_Task_Absolute
         /// </summary>
         public static string Exform(this string TargetString, params object[] Replacements)
         {
-            Dictionary<string, string> IndexReplacements = new();
+            Dictionary<string, string> IndexReplacements = new Dictionary<string, string>();
             int ReplacementsIndexer = 1;
             foreach (object Replacement in Replacements)
             {
@@ -626,7 +626,16 @@ namespace LC_Localization_Task_Absolute
 
 
 
-
+        /// <summary>
+        /// where <paramref name="IEnumerableTargets"/> : IEnumerable with .Clear()
+        /// </summary>
+        public static void ClearMany(params dynamic[] IEnumerableTargets)
+        {
+            foreach (dynamic IIEnumerable in IEnumerableTargets)
+            {
+                IIEnumerable.Clear();
+            }
+        }
 
         public static string FormatStackTraceByNamespace(this string StackTrace, string Namepsace, string DeletePart = "")
         {
@@ -637,65 +646,8 @@ namespace LC_Localization_Task_Absolute
         {
             Grid placeholder = new Grid() { Background = ToSolidColorBrush("#00000000") };
             DoubleAnimation doubleAnimation = new DoubleAnimation() { Duration = new Duration(TimeSpan.FromSeconds(Seconds)) };
-            doubleAnimation.Completed += (s, e) => { CompleteAction(); };
+            doubleAnimation.Completed += (Sender, Args) => { CompleteAction(); };
             placeholder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, doubleAnimation);
-        }
-
-        public class HighPrecisionTimer
-        {
-            public static void DoTimerAction(double DurationSeconds, double ActionFrequencySeconds, Action FrequencyAction, Action FinishAction = null)
-            {
-                var timer = new HighPrecisionTimer(DurationSeconds, ActionFrequencySeconds * (double)1000);
-
-                if (FrequencyAction != null)
-                {
-                    timer.OnTick += (elapsed) =>
-                    {
-                        FrequencyAction();
-                    };
-                }
-                if (FinishAction != null)
-                {
-                    timer.OnFinished += FinishAction;
-                }
-
-                timer.Start();
-            }
-
-            private System.Timers.Timer _timer;
-            private double _durationSeconds;
-            private DateTime _startTime;
-
-            public event Action<double> OnTick; // Передает прошедшее время
-            public event Action OnFinished;
-
-            public HighPrecisionTimer(double DurationSeconds, double ActionFrequencyMilliseconds)
-            {
-                _durationSeconds = DurationSeconds;
-                _timer = new System.Timers.Timer(ActionFrequencyMilliseconds); // интервал 10 мс
-                _timer.Elapsed += Timer_Elapsed;
-                _timer.AutoReset = true;
-            }
-
-            public void Start()
-            {
-                _startTime = DateTime.Now;
-                _timer.Start();
-            }
-
-            private void Timer_Elapsed(object? RequestSender, ElapsedEventArgs EventArgs)
-            {
-                var elapsed = (DateTime.Now - _startTime).TotalSeconds;
-                if (elapsed >= _durationSeconds)
-                {
-                    _timer.Stop();
-                    OnFinished?.Invoke();
-                }
-                else
-                {
-                    OnTick?.Invoke(elapsed);
-                }
-            }
         }
         
         public static int LinesCount(this string check) => check.Count(f => f == '\n');
@@ -705,7 +657,7 @@ namespace LC_Localization_Task_Absolute
         public static List<FileInfo> ToFileInfos(this IEnumerable<string> FilePaths)
         {
             List<FileInfo> Output = new List<FileInfo>();
-            foreach(string TargetFile in FilePaths)
+            foreach (string TargetFile in FilePaths)
             {
                 Output.Add(new FileInfo(TargetFile));
             }
@@ -734,7 +686,7 @@ namespace LC_Localization_Task_Absolute
 
         public static bool EqualsOneOf(this string CheckString, params string[] CheckSource)
         {
-            foreach (var Check in CheckSource)
+            foreach (string Check in CheckSource)
             {
                 if (CheckString.Equals(Check)) return true;
             }
@@ -751,7 +703,7 @@ namespace LC_Localization_Task_Absolute
             return false;
         }
 
-        public static bool IsNullOrEmpty(this string CheckString)
+        public static bool IsNullOrEmpty(this string? CheckString)
         {
             if (CheckString == null)
             {
@@ -799,7 +751,7 @@ namespace LC_Localization_Task_Absolute
 
         public static List<string> ItemsThatContain(this IEnumerable<string> CheckSource, string CheckString)
         {
-            List<string> Export = new() { };
+            List<string> Export = new List<string>() { };
             foreach (string Check in CheckSource)
             {
                 if (Check.Contains(CheckString))
@@ -813,7 +765,7 @@ namespace LC_Localization_Task_Absolute
 
         public static List<string> ItemsThatStartsWith(this IEnumerable<string> CheckSource, string CheckString)
         {
-            List<string> Export = new() { "" };
+            List<string> Export = new List<string>() { "" };
             foreach (string Check in CheckSource)
             {
                 if (Check.StartsWith(CheckString))
@@ -828,7 +780,7 @@ namespace LC_Localization_Task_Absolute
 
         public static List<string> ItemsThatEndsWith(this IEnumerable<string> CheckSource, string CheckString)
         {
-            List<string> Export = new() { "" };
+            List<string> Export = new List<string>() { "" };
             foreach (string Check in CheckSource)
             {
                 if (Check.EndsWith(CheckString))

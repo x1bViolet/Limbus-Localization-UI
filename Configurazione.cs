@@ -134,7 +134,7 @@ namespace LC_Localization_Task_Absolute
                     rin($"\n Custom language properties: {SelectedAssociativePropertyName}");
 
 
-                    var SelectedAssociativePropery_Found = DeltaConfig.PreviewSettings.CustomLanguageProperties.AssociativeSettings.List
+                    List<CustomLanguageAssociativePropertyMain> SelectedAssociativePropery_Found = DeltaConfig.PreviewSettings.CustomLanguageProperties.AssociativeSettings.List
                         .Where(x => x.PropertyName.Equals(SelectedAssociativePropertyName)).ToList();
 
                     if (SelectedAssociativePropery_Found.Count() > 0)
@@ -211,7 +211,6 @@ namespace LC_Localization_Task_Absolute
             Pocket_Watch_ː_Type_L.@Generic.SpritesVerticalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteVerticalOffset;
             Pocket_Watch_ː_Type_L.@Generic.SpritesHorizontalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteHorizontalOffset;
 
-            MainControl.NavigationPanel_ObjectName_Display.SetTopMargin(SelectedAssociativePropery_Shared.Properties.SkillNamesVerticalOffset - 2.3);
             MainControl.SkillNamesReplication_SkillName_ViewBox.SetTopMargin(SelectedAssociativePropery_Shared.Properties.SkillNamesVerticalOffset + 2);
 
 
