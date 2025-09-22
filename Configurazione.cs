@@ -127,8 +127,6 @@ namespace LC_Localization_Task_Absolute
                     }
                     else
                     {
-                        //LoadErrors += $"¤ Cannot find fallback keywords directory \"{DeltaConfig.PreviewSettings.CustomLanguageProperties.KeywordsFallback.FallbackKeywordsDirectory}\" (Can it be on disk D:\\ or E:\\??)\n\n";
-
                         LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.FallbackKeywordsNotFound.Extern(DeltaConfig.PreviewSettings.CustomLanguageProperties.KeywordsFallback.FallbackKeywordsDirectory);
                     }
 
@@ -149,8 +147,6 @@ namespace LC_Localization_Task_Absolute
                     }
                     else
                     {
-                        //LoadErrors += $"¤ Cannot find Custom Language property named \"{SelectedAssociativePropertyName}\"\n\n";
-
                         LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.CustomLanguagePropertyNotFound.Extern(SelectedAssociativePropertyName);
                     }
 
@@ -163,12 +159,15 @@ namespace LC_Localization_Task_Absolute
                         );
                     }
 
-                    ᐁ_Interface_Localization_Loader.ModifyUI(DeltaConfig.Internal.UILanguage);
-                    //UILanguageLoader.InitializeUILanguage(DeltaConfig.Internal.UILanguage);
-                    rin($" UI Language loaded from \"{DeltaConfig.Internal.UILanguage}\"");
-                    ᐁ_Interface_Themes_Loader.ModifyUI(DeltaConfig.Internal.UITheme);
-                    //UIThemesLoader.InitializeUITheme(DeltaConfig.Internal.UITheme);
-                    rin($" UI Theme loaded from \"{DeltaConfig.Internal.UITheme}\"");
+                    try {
+                        ᐁ_Interface_Localization_Loader.ModifyUI(DeltaConfig.Internal.UILanguage);
+                        rin($" UI Language loaded from \"{DeltaConfig.Internal.UILanguage}\"");
+                    } catch { }
+
+                    try {
+                        ᐁ_Interface_Themes_Loader.ModifyUI(DeltaConfig.Internal.UITheme);
+                        rin($" UI Theme loaded from \"{DeltaConfig.Internal.UITheme}\"");
+                    } catch { }
 
                     LimbusPreviewFormatter.UpdateLast();
 
@@ -194,8 +193,6 @@ namespace LC_Localization_Task_Absolute
             }
             else
             {
-                //LoadErrors += $"¤ Cannot find Custom Language keywords directory \"{}\"\n\n";
-
                 LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.KeywordsDirNotFound.Extern(SelectedAssociativePropery.Properties.KeywordsDirectory);
             }
 
@@ -207,19 +204,15 @@ namespace LC_Localization_Task_Absolute
                 }
                 else
                 {
-                    //LoadErrors += $"¤ Cannot find Keywords Multiple Meanings Dictionary \"{}\"\n\n";
-
                     LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.MultipleKeywordsDictionaryMissing.Extern(SelectedAssociativePropery.Properties.KeywordsDirectory);
                 }
             }
 
-            //KeywordSpriteHorizontalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteHorizontalOffset;
-            //KeywordSpriteVerticalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteVerticalOffset;
-
             Pocket_Watch_ː_Type_L.@Generic.SpritesVerticalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteVerticalOffset;
             Pocket_Watch_ː_Type_L.@Generic.SpritesHorizontalOffset = SelectedAssociativePropery_Shared.Properties.KeywordsSpriteHorizontalOffset;
 
-            MainControl.SkillNameReplica_WidthRestrictor.SetTopMargin(SelectedAssociativePropery_Shared.Properties.SkillNamesVerticalOffset);
+            MainControl.NavigationPanel_ObjectName_Display.SetTopMargin(SelectedAssociativePropery_Shared.Properties.SkillNamesVerticalOffset - 2.3);
+            MainControl.SkillNamesReplication_SkillName_ViewBox.SetTopMargin(SelectedAssociativePropery_Shared.Properties.SkillNamesVerticalOffset + 2);
 
 
             LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection = SelectedAssociativePropery.Properties.Keywords_AutodetectionRegex;
@@ -295,7 +288,6 @@ namespace LC_Localization_Task_Absolute
                 }
                 else
                 {
-                    //LoadErrors += $"¤ Cannot find Context Font file \"{Properties.ContextFont}\"\n\n";
                     LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.ContextFontMissing.Extern(Properties.ContextFont);
                     rin($"    - [!] Context font file NOT FOUND (\"{Properties.ContextFont}\")");
                 }
@@ -311,7 +303,7 @@ namespace LC_Localization_Task_Absolute
                     MainControl.NavigationPanel_ObjectName_Display.FontWeight = WeightFrom(Properties.TitleFont_FontWeight);
 
                     // Reset
-                    MainControl.SkillNameReplica.FontSize = 23;
+                    MainControl.SkillNamesReplication_SkillName_Text.FontSize = 23;
                     MainControl.NavigationPanel_ObjectName_Display.FontSize = 25;
                     MainControl.EGOGiftName_PreviewLayout.FontSize = 29;
                     MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.FontSize = 20;
@@ -319,7 +311,7 @@ namespace LC_Localization_Task_Absolute
                     MainControl.PreviewLayout_Keywords_BattleKeywords_Name.FontSize = 20;
 
                     // Set
-                    MainControl.SkillNameReplica.FontSize *= Properties.TitleFont_FontSizeMultipler;
+                    MainControl.SkillNamesReplication_SkillName_Text.FontSize *= Properties.TitleFont_FontSizeMultipler;
                     MainControl.NavigationPanel_ObjectName_Display.FontSize *= Properties.TitleFont_FontSizeMultipler;
                     MainControl.EGOGiftName_PreviewLayout.FontSize *= Properties.TitleFont_FontSizeMultipler;
                     MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.FontSize *= Properties.TitleFont_FontSizeMultipler;
@@ -329,7 +321,6 @@ namespace LC_Localization_Task_Absolute
                 }
                 else
                 {
-                    //LoadErrors += $"¤ Cannot find Title Font file \"{Properties.TitleFont}\"\n\n";
                     LoadErrors += ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.TitleFontMissing.Extern(Properties.TitleFont);
                     rin($"    - [!] Title font file NOT FOUND (\"{Properties.TitleFont}\")");
                 }
@@ -352,10 +343,8 @@ namespace LC_Localization_Task_Absolute
         public static void ShowLoadWarningsWindow()
         {
             MessageBox.Show(
-               // Configurazione.LoadErrors + ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.WarningsDisablingNotice,
                 Configurazione.LoadErrors + ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.WarningsDisablingNotice,
 
-               // ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.WarningsWindowTitle.Extern(Configurazione.SelectedAssociativePropery_Shared.PropertyName),
                 ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.WarningsWindowTitle.Extern(Configurazione.SelectedAssociativePropery_Shared.PropertyName),
 
                 MessageBoxButton.OK,

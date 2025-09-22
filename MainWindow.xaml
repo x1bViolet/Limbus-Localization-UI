@@ -1536,7 +1536,7 @@
 
 
 
-										<Grid x:Name="PreviewLayoutGrid_Skills" Visibility="Collapsed">
+										<Grid Panel.ZIndex="0" x:Name="PreviewLayoutGrid_Skills" Visibility="Collapsed">
 											<Image
 												x:Name="PreviewLayout_RegularSkills_Background"
 												HorizontalAlignment="Left"
@@ -1745,7 +1745,7 @@
 																			Visibility="Visible">
 																			<Grid>
 																				<StackPanel Orientation="Horizontal">
-																					<Grid MinWidth="60">
+																					<Grid MinWidth="60" Visibility="Collapsed">
 																						<Border Margin="0 0 12.8 0" Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}" />
 																						<Border Width="13" Margin="0 0 0.5 0" HorizontalAlignment="Right" Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}">
 																							<Border.OpacityMask>
@@ -1792,6 +1792,66 @@
 																						</Grid.Effect>
 																					</Grid>
 
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					
+																					<Grid Margin="0 0 0 0">
+																						<StackPanel
+																							Orientation="Horizontal"
+																							ClipToBounds="True">
+																							<Border
+																								x:Name="SkillNamesReplication_Background_LeftSidePlainColorFill"
+																								MinWidth="10"
+																								Background="{Binding ElementName=SkillReplicaAffinityColorHolder, Path=Background}"
+																								Margin="-50 0 0 0"
+																								Width="{Binding ElementName=SkillNamesReplication_SkillName_ViewBox, Path=ActualWidth}"/>
+																							<Image
+																								x:Name="SkillNamesReplication_Background_RightSidePatternedImage"
+																								HorizontalAlignment="Left"
+																								Stretch="Fill"
+																								Source="/UI/Limbus/Skills/Name Background/Cut/Wrath.png"
+																								Margin="-1 0 0 0">
+																								<Image.Clip>
+																									<RectangleGeometry Rect="0 0 1000 1000"/>
+																								</Image.Clip>
+																							</Image>
+																						</StackPanel>
+																						<Viewbox
+																							x:Name="SkillNamesReplication_SkillName_ViewBox"
+																							MaxHeight="23.8"
+																							Margin="5 2 0 0"
+																							MaxWidth="430"
+																							HorizontalAlignment="Left">
+
+																							<TextBlock
+																								x:Name="SkillNamesReplication_SkillName_Text"
+																								FontFamily="{Binding ElementName=NavigationPanel_ObjectName_Display, Path=FontFamily}"
+																								FontWeight="{Binding ElementName=NavigationPanel_ObjectName_Display, Path=FontWeight}"
+																								Margin="0 0 20 0"
+																								MaxWidth="780"
+																								HorizontalAlignment="Left"
+																								Foreground="#EBCAA2"
+																								FontSize="23"
+																								TextWrapping="Wrap"
+																								LineHeight="25"
+																								LineStackingStrategy="BlockLineHeight">
+																								
+																								<TextBlock.Effect>
+																									<DropShadowEffect ShadowDepth="2.3" BlurRadius="0" Direction="-50"/>
+																								</TextBlock.Effect>
+																							</TextBlock>
+																						</Viewbox>
+																						<Grid.Effect>
+																							<DropShadowEffect ShadowDepth="4" BlurRadius="0" Direction="230"/>
+																						</Grid.Effect>
+																					</Grid>
 
 																					<Grid x:Name="SkillCopiesGrid" Margin="-10 0 0 0">
 																						<Image
@@ -2078,7 +2138,6 @@
 																			FontSize="23"
 																			FontWeight="{Binding Path=FontWeight, ElementName=NavigationPanel_ObjectName_Display}"
 																			Foreground="#ebcaa2"
-																			MouseRightButtonDown="Actions_Keywords_BufsSpecialNameButton"
 																			SelectionBrush="#ebcaa2"
 																			TextChanged="PreviewLayout_Keywords_Bufs_Name_TextChanged"
 																			TextWrapping="Wrap" />
