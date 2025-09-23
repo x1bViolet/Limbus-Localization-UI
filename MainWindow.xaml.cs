@@ -2780,6 +2780,9 @@ public partial class MainWindow : Window
             #region Decorative cautions
             {
                 var @Cautions = LoadedProject.DecorativeCautions;
+
+                ToggleArknightsMode.IsChecked = Cautions.EnableArknightsMode;
+
                 IdentityPreviewCreator_Cautions_BoomRadiusController.Value = Cautions.CautionBloomRadius;
                 IdentityPreviewCreator_Cautions_OpacityController.Value = Cautions.CautionOpacity;
 
@@ -3022,6 +3025,23 @@ public partial class MainWindow : Window
             Width = 150,
             UniversalDataBindings = new Dictionary<string, dynamic>() { ["Attached item"] = AttachedItem, ["Attached item ID"] = AttachedItemID }
         }.SetBindingWithReturn(UITranslation_Rose.FontFamilyProperty, "FontFamily", Target));
+    }
+
+    private void ToggleArknightsMode_SidedLink(object RequestSender, RoutedEventArgs EventArgs)
+    {
+        CustomIdentityPreviewCreator.ProjectFile.LoadedProject.DecorativeCautions.EnableArknightsMode = (bool)ToggleArknightsMode.IsChecked;
+        if ((bool)ToggleArknightsMode.IsChecked)
+        {
+            ArknightsXLimbusLogo.Visibility = Visible;
+            LeftCornerRegularLogo.Visibility = Collapsed;
+            RightCornerDarkLogo.Source = BitmapFromResource("UI/Limbus/Custom Identity Preview/Spec/Another Icon.png");
+        }
+        else
+        {
+            ArknightsXLimbusLogo.Visibility = Collapsed;
+            LeftCornerRegularLogo.Visibility = Visible;
+            RightCornerDarkLogo.Source = BitmapFromResource("UI/Limbus/Custom Identity Preview/Right Bottom Corner Logo.png");
+        }
     }
 
     private void ToggleWalpurgisFrame_SidedLink(object RequestSender, RoutedEventArgs EventArgs)

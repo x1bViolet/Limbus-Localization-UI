@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>Exe</OutputType>
+    <OutputType>WinExe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>LC_Localization_Task_Absolute</RootNamespace>
     <Nullable>enable</Nullable>
@@ -22,6 +22,7 @@
     <None Remove="UI\Fonts\GOST Type BU.ttf" />
     <None Remove="UI\Fonts\SCDream5.otf" />
     <None Remove="UI\Fonts\Segoe Fluent Icons.ttf" />
+    <None Remove="UI\Fonts\Tagmarker Regular.ttf" />
     <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Envy.png" />
     <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Gloom.png" />
     <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Gluttony.png" />
@@ -76,6 +77,8 @@
     <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Sinclair.png" />
     <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Yi Sang.png" />
     <None Remove="UI\Limbus\Custom Identity Preview\Skill Name abc.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Spec\Another Icon.png" />
+    <None Remove="UI\Limbus\Custom Identity Preview\Spec\Limbus_phrase 231235.png" />
     <None Remove="UI\Limbus\Custom Identity Preview\Walpurgis Night Frame.png" />
     <None Remove="UI\Limbus\Custom Identity Preview\Walpurgisnacht Logo.png" />
     <None Remove="UI\Limbus\Skills\Affinity Icons\Envy.png" />
@@ -169,6 +172,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Fonts\SCDream5.otf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Fonts\Tagmarker Regular.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Envy.png">
@@ -274,6 +280,18 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Yi Sang.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Spec\Another Icon.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Spec\Arknights logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Spec\Limbus_phrase 231235.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Custom Identity Preview\Spec\white single.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Custom Identity Preview\Walpurgis Night Frame.png">

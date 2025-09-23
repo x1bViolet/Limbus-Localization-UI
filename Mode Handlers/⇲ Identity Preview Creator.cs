@@ -167,6 +167,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                 public record DecorativeCautions
                 {
+                    public bool EnableArknightsMode { get; set; } = false;
                     public string CautionType { get; set; } = "SEASON";
                     public double CautionBloomRadius { get; set; } = 5;
                     public double CautionOpacity { get; set; } = 35;

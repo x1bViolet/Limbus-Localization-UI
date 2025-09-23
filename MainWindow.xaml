@@ -4583,6 +4583,24 @@
 																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
 																	VerticalAlignment="Center"
 																	FontSize="18"
+																	RichText="Arknights image mode"
+																	UID="ASDASDADSD" />
+
+																<Viewbox Grid.Column="1" Width="23" HorizontalAlignment="Right">
+																	<CheckBox x:Name="ToggleArknightsMode" Checked="ToggleArknightsMode_SidedLink" IsChecked="False" Unchecked="ToggleArknightsMode_SidedLink" />
+																</Viewbox>
+															</Grid>
+
+															<Grid Margin="0 8 0 0">
+																<Grid.ColumnDefinitions>
+																	<ColumnDefinition />
+																	<ColumnDefinition Width="0.8*" />
+																</Grid.ColumnDefinitions>
+
+																<Terminus:UITranslation_Rose
+																	Grid.Column="0" Foreground="{DynamicResource Theme_UIText__Foreground_IdentityOrEGOPreviewCreator}"
+																	VerticalAlignment="Center"
+																	FontSize="18"
 																	RichText="Caution type"
 																	x:Name="CautionTypeSelector_label"
 																	UID="[C] * [Section:Decorative cautions] Caution type" />
@@ -5852,7 +5870,7 @@
 													IsEnabled="False">
 
 													<Image
-														Name="RightCornerDarkLogo"
+														x:Name="RightCornerDarkLogo"
 														Height="243"
 														HorizontalAlignment="Right"
 														Opacity="0.37"
@@ -5971,12 +5989,71 @@
 									</Grid>
 
 									<Image
-										Name="LeftCornerRegularLogo"
+										x:Name="LeftCornerRegularLogo"
+										Visibility="Visible"
 										Height="61"
 										Margin="21 26 15 15"
 										HorizontalAlignment="Left"
 										VerticalAlignment="Top"
 										Source="/UI/Limbus/Custom Identity Preview/Left Top Corner Logo.png" />
+									<Grid
+										Visibility="Collapsed"
+										x:Name="ArknightsXLimbusLogo"
+										Margin="21 26 15 15"
+										HorizontalAlignment="Left"
+										VerticalAlignment="Top">
+										<Grid.LayoutTransform>
+											<ScaleTransform ScaleX="0.6" ScaleY="0.6"/>
+										</Grid.LayoutTransform>
+										<Grid.Effect>
+											<DropShadowEffect x:Name="asdasdasdadsadsadsads" Color="#FF0059FF" ShadowDepth="0" BlurRadius="25" RenderingBias="Quality" Opacity="0.7"/>
+										</Grid.Effect>
+										<StackPanel Orientation="Horizontal">
+											<StackPanel.Effect>
+												<DropShadowEffect Color="Transparent" ShadowDepth="0" BlurRadius="29" Opacity="{Binding ElementName=asdasdasdadsadsadsads, Path=Opacity}" RenderingBias="Quality" />
+											</StackPanel.Effect>
+											<StackPanel>
+												<Grid>
+													<Image HorizontalAlignment="Left" Margin="2.2 -1 0 0" VerticalAlignment="Top" Source="/UI/Limbus/Custom Identity Preview/Spec/white single.png" Width="35"/>
+													<StackPanel
+															Margin="42 5 0 0">
+														<TextBlock
+															Foreground="White"
+															FontSize="32"
+															HorizontalAlignment="Left"
+															VerticalAlignment="Top"
+															FontFamily="UI/Fonts/#Tagmarker">
+															LIMBUS
+														</TextBlock>
+														<TextBlock
+															Foreground="White"
+															FontSize="25.5"
+															Margin="0 -5 0 0"
+															HorizontalAlignment="Left"
+															VerticalAlignment="Top"
+															FontFamily="UI/Fonts/#Tagmarker">
+															COMPANY
+														</TextBlock>
+													</StackPanel>
+												</Grid>
+												<Border
+													Margin="3 0 0 0"
+													Background="White"
+													Width="118.65"
+													Height="15.1">
+													<Image Source="/UI/Limbus/Custom Identity Preview/Spec/Limbus_phrase 231235.png" Opacity="0.7" Width="90"/>
+												</Border>
+											</StackPanel>
+											<TextBlock
+												Foreground="White"
+												Text="×"
+												FontWeight="Black"
+												FontFamily="asddasads"
+												VerticalAlignment="Center"
+												FontSize="56"/>
+											<Image Source="/UI/Limbus/Custom Identity Preview/Spec/Arknights logo.png" Width="150" VerticalAlignment="Center"/>
+										</StackPanel>
+									</Grid>
 
 									<StackPanel Name="IdentityPreviewCreator_IdentityHeader_ParentGrid" HorizontalAlignment="Left" VerticalAlignment="Top" Orientation="Horizontal">
 										<Border Width="{Binding ElementName=IdentityNamePositionHookBinder, Path=ActualWidth}" Height="10" />
