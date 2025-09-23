@@ -586,7 +586,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     "Envy"     => ToSolidColorBrush("#9808de"),
                     _ => ToSolidColorBrush("#9f6a3a")
                 };
-                MainControl.SkillNamesReplication_Background_RightSidePatternedImage.Source = BitmapFromResource($"/UI/Limbus/Skills/Name Background/Game Colors/{Select_Affinity}.png");
+                MainControl.SkillNamesReplication_Background_RightSidePatternedImage.Source = BitmapFromResource($"UI/Limbus/Skills/Name Background/Game Colors/{Select_Affinity}.png");
 
                 // Frame
                 string FrameName = $"{Select_Affinity} {Info_Main.Specific.Rank}";
@@ -698,7 +698,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 MainControl.SkillLevel.Text = "??";
 
                 MainControl.SkillReplicaAffinityColorHolder.Background = ToSolidColorBrush("#9f6a3a");
-                MainControl.SkillNamesReplication_Background_RightSidePatternedImage.Source = BitmapFromResource($"/UI/Limbus/Skills/Name Background/Game Colors/None.png");
+                MainControl.SkillNamesReplication_Background_RightSidePatternedImage.Source = BitmapFromResource($"UI/Limbus/Skills/Name Background/Game Colors/None.png");
 
                 MainControl.SkilIcon.Source = new BitmapImage();
                 MainControl.SkilFrame.Source = DefaultSkillFrameAlt;
