@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>LC_Localization_Task_Absolute</RootNamespace>
     <Nullable>enable</Nullable>
@@ -18,8 +18,10 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Remove="Identity ¦ E.G.O  Preview Creator\Images\Image Type Foreground.png" />
     <None Remove="UI\Fonts\ExcelsiorSans.ttf" />
     <None Remove="UI\Fonts\GOST Type BU.ttf" />
+    <None Remove="UI\Fonts\Sappy-JpRxm.ttf" />
     <None Remove="UI\Fonts\SCDream5.otf" />
     <None Remove="UI\Fonts\Segoe Fluent Icons.ttf" />
     <None Remove="UI\Fonts\Tagmarker Regular.ttf" />
@@ -53,34 +55,6 @@
     <None Remove="UI\Limbus\Coins\Coin 4.png" />
     <None Remove="UI\Limbus\Coins\Coin 5.png" />
     <None Remove="UI\Limbus\Coins\Coin 6.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Decorative Warning %28Caution%29.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Decorative Warning %28Part%29.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Decorative Warning %28Season%29.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Frame.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\ALEPH.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\HE.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\TETH.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\WAW.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\ZAYIN.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Rarity 0.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Rarity 00.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Rarity 000.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Don Quixote.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Faust.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Gregor.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Heathcliff.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Hong Lu.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Ishmael.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Meursault.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Outis.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Rodion.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Sinclair.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Sinner Icons\Yi Sang.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Skill Name abc.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Spec\Another Icon.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Spec\Limbus_phrase 231235.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Walpurgis Night Frame.png" />
-    <None Remove="UI\Limbus\Custom Identity Preview\Walpurgisnacht Logo.png" />
     <None Remove="UI\Limbus\Skills\Affinity Icons\Envy.png" />
     <None Remove="UI\Limbus\Skills\Affinity Icons\Gloom.png" />
     <None Remove="UI\Limbus\Skills\Affinity Icons\Gluttony.png" />
@@ -159,6 +133,81 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\E.G.O Frame.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\E.G.O Risk Levels\ALEPH.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\E.G.O Risk Levels\HE.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\E.G.O Risk Levels\TETH.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\E.G.O Risk Levels\WAW.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\E.G.O Risk Levels\ZAYIN.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Header\Identity or E.G.O Name.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Header\Sinner Name.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Image Type Foreground.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Logo\Left Top Corner.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Logo\Right Bottom Corner.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Don Quixote.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Faust.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Gregor.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Heathcliff.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Hong Lu.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Ishmael.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Meursault.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Outis.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Rodion.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Ryōshū.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Sinclair.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Sinner Icons\Yi Sang.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Walpurgis Night\Frame.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Walpurgis Night\Logo.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="UI\Fonts\Bebas Neue Cyrillic.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -169,6 +218,9 @@
 
   <ItemGroup>
     <Resource Include="UI\Fonts\GOST Type BU.ttf">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Fonts\Sappy-JpRxm.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Fonts\SCDream5.otf">
@@ -204,100 +256,13 @@
     <Resource Include="UI\Limbus\Coins\Coin 6.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Decorative Warning (Caution).png">
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Identity Rarities\0.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Decorative Warning (Part).png">
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Identity Rarities\00.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Decorative Warning (Season).png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Frame.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\ALEPH.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\HE.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\TETH.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\WAW.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\E.G.O Risk Levels\ZAYIN.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Left Top Corner Logo.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Right Bottom Corner Logo.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Name Background %28Identity%29.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Name Background %28Sinner%29.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Rarity 0.png" />
-    <Resource Include="UI\Limbus\Custom Identity Preview\Rarity 00.png" />
-    <Resource Include="UI\Limbus\Custom Identity Preview\Rarity 000.png" />
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Don Quixote.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Faust.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Gregor.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Heathcliff.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Hong Lu.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Ishmael.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Meursault.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Outis.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Rodion.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Ryōshū.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Sinclair.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Sinner Icons\Yi Sang.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Spec\Another Icon.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Spec\Arknights logo.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Spec\Limbus_phrase 231235.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Spec\white single.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Walpurgis Night Frame.png">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Limbus\Custom Identity Preview\Walpurgisnacht Logo.png">
+    <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Identity Rarities\000.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Skills\Affinity Icons\Envy.png">
@@ -547,9 +512,8 @@
 
   <ItemGroup>
     <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
-    <PackageReference Include="NLog" Version="5.4.0" />
-    <PackageReference Include="SixLabors.ImageSharp" Version="3.1.11" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="NLog" Version="6.0.4" />
     <PackageReference Include="System.Drawing.Common" Version="6.0.0" />
   </ItemGroup>
 

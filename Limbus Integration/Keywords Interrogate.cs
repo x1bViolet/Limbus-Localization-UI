@@ -305,10 +305,10 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                     Keywords_IDName,
 
                     Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter,
-                    Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter,
+                    Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter
 
-                    CollectedKeywordColors,
-                    CollectedSkillTagColors
+                    //CollectedKeywordColors,
+                    //CollectedSkillTagColors
                 );
             }
 
@@ -340,8 +340,8 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 if (AtkWeightLabelFile.Length > 0)
                 {
                     string JsonText = File.ReadAllText(AtkWeightLabelFile[0].FullName);
-                    string FoundText = Regex.Match(JsonText, @"""id"": ""mainui_target_num_label"",(\r)?\n.*?""content"": ""(?<AtkWeightText>.*?)""", RegexOptions.Singleline).Groups["AtkWeightText"].Value;
-                    if (!FoundText.Equals("")) MainControl.AtkWeightText_sub.Text = FoundText.Replace("\\n", "\n").Replace("\\r", "\r").Trim();
+                    string FoundText = Regex.Match(JsonText, @"""id"": ""mainui_target_num_label"",(\r)?\n.*?""content"": ""(?<AtkWeightText>.*?)""(,)?(\r)?\n", RegexOptions.Singleline).Groups["AtkWeightText"].Value;
+                    if (!FoundText.Equals("")) MainControl.AtkWeightText_sub.RichText = FoundText.Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\\"", "\"").Trim();
                 }
 
                 // File with 'View Desc.' label
@@ -349,8 +349,8 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 if (ViewDescLabelFile.Length > 0)
                 {
                     string JsonText = File.ReadAllText(ViewDescLabelFile[0].FullName);
-                    string FoundText = Regex.Match(JsonText, @"""id"": ""mirror_dungoen_ego_gift_history_view_desc"",(\r)?\n.*?""content"": ""(?<ViewDescText>.*?)""", RegexOptions.Singleline).Groups["ViewDescText"].Value;
-                    if (!FoundText.Equals("")) MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.Text = FoundText.Replace("\\n", "\n").Replace("\\r", "\r").Trim();
+                    string FoundText = Regex.Match(JsonText, @"""id"": ""mirror_dungoen_ego_gift_history_view_desc"",(\r)?\n.*?""content"": ""(?<ViewDescText>.*?)""(,)?(\r)?\n", RegexOptions.Singleline).Groups["ViewDescText"].Value;
+                    if (!FoundText.Equals("")) MainControl.STE_EGOGifts_LivePreview_ViewDescButtons.RichText = FoundText.Replace("\\n", "\n").Replace("\\r", "\r").Replace("\\\"", "\"").Trim();
                 }
 
                 FileInfo[] SkillTag_Found = MainSite.GetFiles("*SkillTag.Json", SearchOption.AllDirectories);

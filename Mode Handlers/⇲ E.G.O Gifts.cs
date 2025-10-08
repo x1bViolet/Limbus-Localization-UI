@@ -143,8 +143,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static void TriggerSwitch()
         {
-            MainControl.NavigationPanel_Skills_UptieLevelSelectorGrid.Visibility = Visibility.Collapsed;
-            MainControl.NavigationPanel_Skills_EGOAbnormalityName.Visibility = Visibility.Collapsed;
+            MainControl.NavigationPanel_Skills_UptieLevelSelectorGrid.Visibility = Collapsed;
+            MainControl.NavigationPanel_Skills_EGOAbnormalityName.Visibility = Collapsed;
             MainControl.NavigationPanel_SwitchButtons.Margin = new Thickness(2, 114, 4, 4);
 
             MainControl.PreviewLayouts.Height = 420;
@@ -223,15 +223,17 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             EGOGift FullLink = DelegateEGOGifts[CurrentEGOGiftID];
             /////////////////////////////////////////////////
 
-            for (int i = 1; i <= 6; i++) InterfaceObject<Border>($"STE_DisableCover_EGOGift_SimpleDescription{i}").Visibility = Visibility.Visible;
+            for (int i = 1; i <= 6; i++) InterfaceObject<Border>($"STE_DisableCover_EGOGift_SimpleDescription{i}").Visibility = Visible;
 
-            if (FullLink.SimpleDescriptions != null)
+            if (FullLink.SimpleDescriptions != null && FullLink.SimpleDescriptions.Count > 0)
             {
                 for (int i = 1; i <= FullLink.SimpleDescriptions.Count; i++)
                 {
-                    try
+                    if (FullLink.SimpleDescriptions[i - 1].Description != null)
                     {
-                        if (!FullLink.SimpleDescriptions[i-1].Description.Equals(FullLink.SimpleDescriptions[i - 1].EditorDescription))
+                        InterfaceObject<Border>($"STE_DisableCover_EGOGift_SimpleDescription{i}").Visibility = Collapsed;
+
+                        if (!FullLink.SimpleDescriptions[i - 1].Description.Equals(FullLink.SimpleDescriptions[i - 1].EditorDescription))
                         {
                             ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {i}"]
                                 .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
@@ -243,20 +245,19 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                 .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[E.G.O Gifts / Right Menu] * Simple Desc {i}"].Text;
                         }
                     }
-                    catch { }
                 }
             }
 
-            MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Visibility = Visibility.Collapsed;
-            MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel3.Visibility = Visibility.Collapsed;
+            MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Visibility = Collapsed;
+            MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel3.Visibility = Collapsed;
 
-            MainControl.EGOGiftDisplay_UpgradeLevel2Border.Visibility = Visibility.Collapsed;
-            MainControl.EGOGiftDisplay_UpgradeLevel3Border.Visibility = Visibility.Collapsed;
+            MainControl.EGOGiftDisplay_UpgradeLevel2Border.Visibility = Collapsed;
+            MainControl.EGOGiftDisplay_UpgradeLevel3Border.Visibility = Collapsed;
 
-            MainControl.EGOGiftDisplay_UpgradeLevel2_OnIcon.Visibility = Visibility.Collapsed;
-            MainControl.EGOGiftDisplay_UpgradeLevel3_OnIcon.Visibility = Visibility.Collapsed;
+            MainControl.EGOGiftDisplay_UpgradeLevel2_OnIcon.Visibility = Collapsed;
+            MainControl.EGOGiftDisplay_UpgradeLevel3_OnIcon.Visibility = Collapsed;
 
-            MainControl.EGOGiftDisplay_Keyword.Visibility = Visibility.Collapsed;
+            MainControl.EGOGiftDisplay_Keyword.Visibility = Collapsed;
 
 
             switch (DelegateEGOGifts[CurrentEGOGiftID].UpgradeLevelsAssociativeIDs.Count)
@@ -265,12 +266,12 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     break;
 
                 case 2:
-                    MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Visibility = Visibility.Visible;
+                    MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Visibility = Visible;
                     break;
 
                 case 3:
-                    MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Visibility = Visibility.Visible;
-                    MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel3.Visibility = Visibility.Visible;
+                    MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Visibility = Visible;
+                    MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel3.Visibility = Visible;
                     break;
             }
 
@@ -287,8 +288,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Children[3].Opacity = 1;
                     MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel3.Children[3].Opacity = 0;
 
-                    MainControl.EGOGiftDisplay_UpgradeLevel2Border.Visibility = Visibility.Visible;
-                    MainControl.EGOGiftDisplay_UpgradeLevel2_OnIcon.Visibility = Visibility.Visible;
+                    MainControl.EGOGiftDisplay_UpgradeLevel2Border.Visibility = Visible;
+                    MainControl.EGOGiftDisplay_UpgradeLevel2_OnIcon.Visibility = Visible;
                     break;
 
                 case "3":
@@ -296,10 +297,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Children[3].Opacity = 0;
                     MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel3.Children[3].Opacity = 1;
 
-                    MainControl.EGOGiftDisplay_UpgradeLevel2Border.Visibility = Visibility.Visible;
-                    MainControl.EGOGiftDisplay_UpgradeLevel3Border.Visibility = Visibility.Visible;
-                    MainControl.EGOGiftDisplay_UpgradeLevel2_OnIcon.Visibility = Visibility.Visible;
-                    MainControl.EGOGiftDisplay_UpgradeLevel3_OnIcon.Visibility = Visibility.Visible;
+                    MainControl.EGOGiftDisplay_UpgradeLevel2Border.Visibility = Visible;
+                    MainControl.EGOGiftDisplay_UpgradeLevel3Border.Visibility = Visible;
+                    MainControl.EGOGiftDisplay_UpgradeLevel2_OnIcon.Visibility = Visible;
+                    MainControl.EGOGiftDisplay_UpgradeLevel3_OnIcon.Visibility = Visible;
                     break;
             }
 
@@ -328,7 +329,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                 if (!OrganizedData.DisplayInfo_Attributes[CurrentEGOGiftID].Keyword.Equals("-"))
                 {
-                    MainControl.EGOGiftDisplay_Keyword.Visibility = Visibility.Visible;
+                    MainControl.EGOGiftDisplay_Keyword.Visibility = Visible;
 
                     MainControl.EGOGiftDisplay_Keyword.Source = OrganizedData.DisplayInfo_Attributes[CurrentEGOGiftID].Keyword switch
                     {

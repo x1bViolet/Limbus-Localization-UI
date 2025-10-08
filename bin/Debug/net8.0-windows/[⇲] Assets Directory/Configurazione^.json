@@ -2,7 +2,7 @@
   "Internal": {
     "UI Language": "[⇲] Assets Directory/@ Internal/Translation/English",
     "UI Theme": "[⇲] Assets Directory/@ Internal/Themes/Limbus Localization UI",
-    "Topmost Window": true,
+    "Topmost Window": false,
     "Show Load Warnings": true
   },
   "Preview Settings": {
@@ -37,7 +37,7 @@
         "Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/en"
       },
       "Custom Language Associative Settings": {
-        "Associative Properties Selected": "English (Original)",
+        "Associative Properties Selected": "Korean (Original)",
         "Associative Properties List": [
           {
             "Name": "Example",

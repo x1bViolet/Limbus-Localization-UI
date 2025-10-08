@@ -30,7 +30,6 @@ using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
 using static LC_Localization_Task_Absolute.Json.Custom_Skills_Constructor;
 using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
 using static LC_Localization_Task_Absolute.Json.FilesIntegration;
-using static LC_Localization_Task_Absolute.Mode_Handlers.CustomIdentityPreviewCreator.ProjectFile.Sections;
 using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
 using static System.Globalization.NumberStyles;
@@ -91,6 +90,9 @@ namespace LC_Localization_Task_Absolute
                     [JsonProperty("Background Image Shadow")]
                     public string BackgroundImageShadow { get; set; } = "#0F0F0F";
 
+                    [JsonProperty("Background Image Shadow (Identity/E.G.O Preview creator)")]
+                    public string BackgroundImageShadow_PreviewCreator { get; set; } = "#99000000";
+
                     [JsonProperty("Hide Background Image with minimum window width")]
                     public bool HideBackgroundImageWithMinimumWindowWidth { get; set; } = true;
 
@@ -106,7 +108,9 @@ namespace LC_Localization_Task_Absolute
                         if (File.Exists(BackgroundImagePath)) MainControl.BackgroundImage.Source = BitmapFromFile(BackgroundImagePath);
                         else MainControl.BackgroundImage.Source = new BitmapImage();
 
-                        if (BackgroundImageShadow != null) MainControl.BackgroundImageShadowingColor.Background = ToSolidColorBrush(BackgroundImageShadow);
+                        MainControl.BackgroundImageShadowingColor.Background = ToSolidColorBrush(BackgroundImageShadow);
+                        MainControl.PreviewCreatorThemeImageShadow.Background = ToSolidColorBrush(BackgroundImageShadow_PreviewCreator);
+
 
                         Resource["Theme_Common__RightMenuNavigationPanelBackground"] = ToSolidColorBrush(RightMenuNavigationPanelBackground);
                         Resource["Theme_Common__RightMenuObjectNameForeground"] = ToSolidColorBrush(RightMenuObjectNameForeground);
@@ -218,7 +222,7 @@ namespace LC_Localization_Task_Absolute
                         Resource["Theme_JsonTextEditor__Foreground"] = ToSolidColorBrush(Foreground);
                         Resource["Theme_JsonTextEditor__Background"] = ToSolidColorBrush(Background);
 
-                        Resource["Theme_JsonTextEditor__Font"] = FontFamilyFrom(Font);
+                        Resource["Theme_JsonTextEditor__Font"] = FileToFontFamily(Font);
                         Resource["Theme_JsonTextEditor__FontWeight"] = WeightFrom(FontWeight);
                         Resource["Theme_JsonTextEditor__FontSize"] = FontSize;
 

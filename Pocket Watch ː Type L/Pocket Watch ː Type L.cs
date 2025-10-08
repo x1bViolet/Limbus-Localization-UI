@@ -182,7 +182,7 @@ namespace LC_Localization_Task_Absolute
                             {
                                 Target.FontFamily = @PostInfo.LoadedKnownFonts[TagInfo];
                             }
-                            else if (!MainWindow.PreviewUpdate_TargetSite.Name.StartsWith($"PreviewLayout_"))
+                            else if (!RecentInfo.TextBlockTarget.Name.StartsWith($"PreviewLayout_"))
                             {
                                 if (ᐁ_Interface_Localization_Loader.InterfaceLocalizationModifiers.Font_References_Loaded.ContainsKey(TagInfo))
                                 {
@@ -190,7 +190,7 @@ namespace LC_Localization_Task_Absolute
                                 }
                                 else Target.FontFamily = new FontFamily(TagInfo);
                             }
-                            else if (MainWindow.PreviewUpdate_TargetSite.Name.StartsWith($"PreviewLayout_")) // Btw fix only for limbus preview layouts
+                            else if (RecentInfo.TextBlockTarget.Name.StartsWith($"PreviewLayout_")) // Btw fix only for limbus preview layouts
                             {
                                 /*/
                                  * Special font that turns all text into squares to prevent usage of fonts that are not unity font asset from Limbus Company if attaching <font> tag at limbus text
@@ -474,7 +474,7 @@ namespace LC_Localization_Task_Absolute
                 // Attempt to check the CustomIdentityPreviewCreator.isActive when called from from XAML Designer causes some dumb error with a missing program resource
                 if (DoCustomIdentityPreviewCreatorIsActiveCheck)
                 {
-                    if (CustomIdentityPreviewCreator.IsActive) DisableKeyworLinksCreation = true;
+                    if (PreviewCreator.CurrentInfo.IsActive) DisableKeyworLinksCreation = true;
                 }
 
                 if (DividersMode == null) DividersMode = @PostInfo.FullStopDividers.FullStopDividers_Regular;

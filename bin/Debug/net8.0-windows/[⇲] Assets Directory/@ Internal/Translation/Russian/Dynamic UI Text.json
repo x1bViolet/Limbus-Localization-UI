@@ -36,60 +36,6 @@
         "UID": {"[Main UI] [!] * Default Object name":null},
         "Text": "Ramus Aureus Resonantus Est"
       }
-    ],
-    [
-      {
-        "UID": {"[C] [!] * Added item placeholder text":null},
-        "Font Size": 25,
-        "Variable": {
-          "Skill": "Текстовый элемент\n(Навык, [#[$]])",
-          "Passive": "Текстовый элемент\n(Пассивка, [#[$]])",
-          "Keyword": "Текстовый элемент\n(Ключевое слово, [#[$]])"
-        },
-        "Comment": "Font settings from 'Font Defaults' does not affect this element, Bebas Neue Cyrillic is set by default"
-      },
-      {
-        "UID": {"[C] * Added item context menu — Title":null},
-        "Text": "Элемент <b>#[$]</b>",
-        "Font Size": 14,
-        "Margin": [0, 2, 0, 2],
-        "Width": 145
-      },
-      {
-        "UID": {"[C] * Added item context menu — Move up":null},
-        "Text": "▲ Вверх",
-        "Font Size": 14,
-        "Margin": [0, 2, 0, 2],
-        "Width": 145
-      },
-      {
-        "UID": {"[C] * Added item context menu — Refresh text":null},
-        "Text": "↪ Обновить текст",
-        "Font Size": 14,
-        "Margin": [0, 2, 0, 2],
-        "Width": 145
-      },
-      {
-        "UID": {"[C] * Added item context menu — Move down":null},
-        "Text": "▼ Вниз",
-        "Font Size": 14,
-        "Margin": [0, 2, 0, 2],
-        "Width": 145
-      },
-      {
-        "UID": {"[C] * Added item context menu — Remove":null},
-        "Text": "✕ Удалить",
-        "Font Size": 14,
-        "Margin": [0, 2, 0, 2],
-        "Width": 145
-      }
-    ],
-    [
-      {
-        "UID": {"[C] [!] [^] * Sinner icon selection (Sinner name)":null},
-        "Font Size": 18,
-        "Margin": [6, 0, 0, 0]
-      }
     ]
   ]
 }

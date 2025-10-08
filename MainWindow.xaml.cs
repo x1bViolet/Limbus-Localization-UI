@@ -1,7 +1,9 @@
 ﻿using LC_Localization_Task_Absolute.Json;
 using LC_Localization_Task_Absolute.Limbus_Integration;
 using LC_Localization_Task_Absolute.Mode_Handlers;
+using LC_Localization_Task_Absolute.PreviewCreator;
 using Microsoft.Win32;
+using Newtonsoft.Json;
 using System.IO;
 using System.Numerics;
 using System.Reflection;
@@ -17,14 +19,13 @@ using System.Windows.Media.Imaging;
 using System.Windows.Threading;
 using static LC_Localization_Task_Absolute.Configurazione;
 using static LC_Localization_Task_Absolute.Json.BaseTypes;
+using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_EGOGifts;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Keywords;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Passives;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
-using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_EGOGifts;
 using static LC_Localization_Task_Absolute.Json.Custom_Skills_Constructor;
 using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
 using static LC_Localization_Task_Absolute.Json.FilesIntegration;
-using static LC_Localization_Task_Absolute.Mode_Handlers.CustomIdentityPreviewCreator.ProjectFile.Sections;
 using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
 using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader.InterfaceLocalizationModifiers.Frames.StaticOrDynamic_UI_Text;
@@ -62,6 +63,7 @@ public partial class MainWindow : Window
 
         MainControl = this;
         SettingsWindow.SettingsControl = new SettingsWindow(); // Init settings window
+        //PreviewCreatorWindow.CreatorControl = new PreviewCreatorWindow();
 
         InitSurfaceScroll(NavigationPanel_ObjectName_DisplayScrollViewer);
         InitSurfaceScroll(SurfaceScrollPreview_Skills);
@@ -80,7 +82,7 @@ public partial class MainWindow : Window
     }
 
     private void InitMain()
-    { 
+    {
         if (File.Exists(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip"))
         {
             try
@@ -91,10 +93,25 @@ public partial class MainWindow : Window
             }
             catch { }
         }
-
         PreviewUpdate_TargetSite = PreviewLayoutDef_Default;
 
         File.WriteAllText(@"[⇲] Assets Directory\Latest loading.txt", "");
+
+        { // Element init from .Resources> doesn't work
+            ContextMenu ColItemSettings = CompositionGrid.Resources["ColumnItemContextMenu"] as ContextMenu;
+            UITranslation_Rose Header = ((ColItemSettings.Items[0] as MenuItem).Header as StackPanel).Children[0] as UITranslation_Rose;
+            UITranslation_Rose MoveUp = (ColItemSettings.Items[2] as MenuItem).Header as UITranslation_Rose;
+            UITranslation_Rose RefreshText = (ColItemSettings.Items[3] as MenuItem).Header as UITranslation_Rose;
+            UITranslation_Rose MoveDown = (ColItemSettings.Items[4] as MenuItem).Header as UITranslation_Rose;
+            UITranslation_Rose Delete = (ColItemSettings.Items[6] as MenuItem).Header as UITranslation_Rose;
+
+            PresentedStaticTextEntries["[C] * [Element context menu] Header part"] = Header;
+            PresentedStaticTextEntries["[C] * [Element context menu] Move up"] = MoveUp;
+            PresentedStaticTextEntries["[C] * [Element context menu] Refresh text"] = RefreshText;
+            PresentedStaticTextEntries["[C] * [Element context menu] Move down"] = MoveDown;
+            PresentedStaticTextEntries["[C] * [Element context menu] Delete"] = Delete;
+        }
+
 
         Mode_Skills.LoadDefaultResources();
 
@@ -106,17 +123,11 @@ public partial class MainWindow : Window
         }
         else
         {
-            TextEditor.Text = "                      <font=\"BebasKai SDF\"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'1.2:1</color></size></font>\n\nЧерти вышли из омута";
+            TextEditor.Text = "                      <font=\"BebasKai SDF\"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'1.2:2</color></size></font>\n\nЧерти вышли из омута";
         }
 
         {
-            InitializeIdentityPreviewCreatorProperties();
-
             // Switch ui back to regular on startup (i dont want to change xaml back)
-            IdentityPreviewCreator_TextEntries_ElementsColor.Text = "#abcdef";
-
-            IdentityPreviewCreator_CautionTypeSelector.SelectedIndex = 0;
-            IdentityPreviewCreator_LoadBlankProject();
 
             SwitchUI_Activate(DisableTopmost: false);
 
@@ -125,6 +136,7 @@ public partial class MainWindow : Window
             this.Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
             this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
         }
+        //PreviewCreatorWindow.CreatorControl.Show();
 
         ////Default file load on startup
         //FileInfo SomeFile = new FileInfo(@"Skills_personality-01.json");
@@ -603,7 +615,7 @@ public partial class MainWindow : Window
 
     private void FastSwitch_ToSkillCoinDesc(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        if (!CustomIdentityPreviewCreator.IsActive)
+        if (!PreviewCreator.CurrentInfo.IsActive)
         {
             TMProEmitter Sender = RequestSender as TMProEmitter;
 
@@ -1468,7 +1480,7 @@ public partial class MainWindow : Window
             this.DragMove();
             if (WindowState == WindowState.Maximized)
             {
-                if (CustomIdentityPreviewCreator.IsActive)
+                if (PreviewCreator.CurrentInfo.IsActive)
                 {
                     Rect WorkArea = SystemParameters.WorkArea;
                     this.Left = WorkArea.Left;
@@ -1631,7 +1643,7 @@ public partial class MainWindow : Window
             if (MakeLimbusPreviewScan.IsHitTestVisible) SavePreviewlayoutScan();
         }
 
-        if (Keyboard.IsKeyDown(Key.LeftCtrl) & Keyboard.IsKeyDown(Key.F) & CustomIdentityPreviewCreator.IsActive)
+        if (Keyboard.IsKeyDown(Key.LeftCtrl) & Keyboard.IsKeyDown(Key.F) & PreviewCreator.CurrentInfo.IsActive)
         {
             if (FirstColumnItemsSelector.Visibility == Visible)
             {
@@ -2110,6 +2122,9 @@ public partial class MainWindow : Window
 
     private void Window_Loaded(object RequestSender, RoutedEventArgs EventArgs)
     {
+        SetupPreviewCreator();
+
+
         if (!Configurazione.LoadErrors.Equals("") & Configurazione.DeltaConfig.Internal.ShowLoadWarnings)
         {
             Configurazione.ShowLoadWarningsWindow();
@@ -2152,7 +2167,7 @@ public partial class MainWindow : Window
 
         ScrollViewer CurrentTarget = null;
 
-        if (CustomIdentityPreviewCreator.IsActive)
+        if (PreviewCreator.CurrentInfo.IsActive)
         {
             CurrentTarget = SeriousScrollViewer_1;
 
@@ -2226,835 +2241,6 @@ public partial class MainWindow : Window
                 FirstColumnItemsSelector.Visibility = Visible;
                 SecondColumnItemsSelector.Visibility = Visible;
             }
-        }
-    }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-    /// <summary>
-    /// THERE ARE LINKS CODELENS STOP LYING
-    /// </summary>
-    private void IdentityPreviewCreator_ToggleSectionVisibilityMaster(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        Grid Target = ((RequestSender as UITranslation_Rose).Parent as StackPanel).Children[1] as Grid;
-        Target.Visibility = Target.Visibility == Visible ? Collapsed : Visible;
-    }
-
-
-
-
-    private static Random random = new Random();
-
-    private static string RandomString(int length)
-    {
-        return new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", length)
-            .Select(s => s[random.Next(s.Length)]).ToArray());
-    }
-
-    private List<string> DefinedUIDsForColumnItems = new List<string>();
-    private ItemRepresenter CreatePlaceholder(string NewItemType, string ManualUID = "", AddedTextItems_Single ManualInfoInsert = null)
-    {
-        string UID = ManualUID;
-        if (ManualUID.Equals("")) // If not set (Item creation in ui) -> generate
-        {
-            for (int UIDGeneratorRound = 1; UIDGeneratorRound <= 100; UIDGeneratorRound++)
-            {
-                UID = RandomString(6);
-                if (!DefinedUIDsForColumnItems.Contains(UID))
-                {
-                    DefinedUIDsForColumnItems.Add(UID);
-                    break;
-                } // idk they can be same in 0.00000001% of cases just for safety
-            }
-        }
-        // else being set by loading project
-
-        AddedTextItems_Single InfoToInsert = ManualInfoInsert != null ? ManualInfoInsert : new CustomIdentityPreviewCreator.ProjectFile.Sections.AddedTextItems_Single() { Type = NewItemType };
-
-        ItemRepresenter ColumnItemAdd = new ItemRepresenter()
-        {
-            // Linked with project file data by ReEnumerateColumnItemsInProject() executing after each interactions with column items
-            ItemInfo = InfoToInsert,
-            HorizontalAlignment = HorizontalAlignment.Left,
-            MinWidth = 300,
-            Background = Brushes.Transparent,
-            Uid = UID,
-            Margin = new Thickness(0, 0, 0, 10),
-            Children =
-            {
-                new TextBlock()
-                {
-                    Foreground = Brushes.White,
-                    Opacity = 0.4,
-
-                    FontSize = SpecializedDefs.DefaultFontSizeForPlaceholder,
-                    FontFamily = SpecializedDefs.DefaultFontFamilyForPlaceholder,
-                    FontWeight = SpecializedDefs.DefaultFontWightForPlaceholder,
-                    Text = (NewItemType switch
-                    {
-                        "Skill" => SpecializedDefs.DefaultTextForPlaceholder_Skill,
-                        "Passive" => SpecializedDefs.DefaultTextForPlaceholder_Passive,
-                        "Keyword" => SpecializedDefs.DefaultTextForPlaceholder_Keyword,
-                        _ => SpecializedDefs.DefaultTextForPlaceholder_Keyword,
-                    }).Extern(UID),
-
-                    TextAlignment = TextAlignment.Center,
-                    Effect = new DropShadowEffect() { BlurRadius = 0, ShadowDepth = 3 },
-                    HorizontalAlignment = HorizontalAlignment.Center,
-                    VerticalAlignment = VerticalAlignment.Center,
-                }
-            },
-        };
-
-        InterfaceTranslationParameter MenuItem_Title   = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Title;
-        InterfaceTranslationParameter MenuItem_Up      = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_MoveUp;
-        InterfaceTranslationParameter MenuItem_Down    = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_MoveDown;
-        InterfaceTranslationParameter MenuItem_Remove  = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Remove;
-        InterfaceTranslationParameter MenuItem_Refresh = ᐁ_Interface_Localization_Loader.SpecializedDefs.ColumnItemContextMenu_Refresh;
-
-        ColumnItemAdd.ContextMenu = new ContextMenu()
-        {
-            Items =
-            {
-                new MenuItem() // 0
-                {
-                    Header = new UITranslation_Rose()
-                    {
-                        RichText = MenuItem_Title.Text.Extern(UID),
-                        FontSize = (double)MenuItem_Title.Font_Size,
-                        Width =  (double)MenuItem_Title.Width,
-                        Margin = (Thickness)MenuItem_Title.Margin_Loaded,
-                        FontFamily = (FontFamily)MenuItem_Title.Font_Loaded,
-                        FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
-                        Foreground = ToSolidColorBrush(ᐁ_Interface_Themes_Loader.LoadedTheme.UIText.Foreground),
-                        IsHitTestVisible = false
-                    }
-                },
-                new Separator() { Margin = new Thickness(-30, 2, 0, 2) }, // 1
-                new MenuItem() // 2
-                {
-                    Header = new UITranslation_Rose()
-                    {
-                        SpecProperty_ContextMenuParent = ColumnItemAdd, // ContextMenu parent link because i somehow cant access it through MenuItem.parent.parent.parent
-                        
-                        RichText = MenuItem_Up.Text.Extern(UID),
-                        FontSize = (double)MenuItem_Up.Font_Size,
-                        Width =  (double)MenuItem_Up.Width,
-                        Margin = (Thickness)MenuItem_Up.Margin_Loaded,
-                        FontFamily = (FontFamily)MenuItem_Up.Font_Loaded,
-                        FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
-                        Foreground = ToSolidColorBrush(ᐁ_Interface_Themes_Loader.LoadedTheme.UIText.Foreground),
-                    }
-                },
-                new MenuItem() // 3
-                {
-                    Header = new UITranslation_Rose()
-                    {
-                        SpecProperty_ContextMenuParent = ColumnItemAdd,
-
-                        RichText = MenuItem_Refresh.Text.Extern(UID),
-                        FontSize = (double)MenuItem_Refresh.Font_Size,
-                        Width =  (double)MenuItem_Refresh.Width,
-                        Margin = (Thickness)MenuItem_Refresh.Margin_Loaded,
-                        FontFamily = (FontFamily)MenuItem_Refresh.Font_Loaded,
-                        FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
-                        Foreground = ToSolidColorBrush(ᐁ_Interface_Themes_Loader.LoadedTheme.UIText.Foreground),
-                    }
-                },
-                new MenuItem() // 4
-                {
-                    Header = new UITranslation_Rose()
-                    {
-                        SpecProperty_ContextMenuParent = ColumnItemAdd,
-
-                        RichText = MenuItem_Down.Text.Extern(UID),
-                        FontSize = (double)MenuItem_Down.Font_Size,
-                        Width =  (double)MenuItem_Down.Width,
-                        Margin = (Thickness)MenuItem_Down.Margin_Loaded,
-                        FontFamily = (FontFamily)MenuItem_Down.Font_Loaded,
-                        FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
-                        Foreground = ToSolidColorBrush(ᐁ_Interface_Themes_Loader.LoadedTheme.UIText.Foreground),
-                    }
-                },
-                new Separator() { Margin = new Thickness(-30, 2, 0, 2) }, // 5
-                new MenuItem() // 6
-                {
-                    Header = new UITranslation_Rose()
-                    {
-                        SpecProperty_ContextMenuParent = ColumnItemAdd,
-
-                        RichText = MenuItem_Remove.Text.Extern(UID),
-                        FontSize = (double)MenuItem_Remove.Font_Size,
-                        Width =  (double)MenuItem_Remove.Width,
-                        Margin = (Thickness)MenuItem_Remove.Margin_Loaded,
-                        FontFamily = (FontFamily)MenuItem_Remove.Font_Loaded,
-                        FontWeight = (FontWeight)MenuItem_Title.Font_Weight_Loaded,
-                        Foreground = ToSolidColorBrush(ᐁ_Interface_Themes_Loader.LoadedTheme.UIText.Foreground),
-                    }
-                }
-            }
-        };
-
-        ColumnItemAdd.PreviewMouseLeftButtonDown += SetFocusOnColumnElement_Link;
-
-        (ColumnItemAdd.ContextMenu.Items[2] as MenuItem).Click += MoveColumnItemUp;
-        (ColumnItemAdd.ContextMenu.Items[3] as MenuItem).Click += RefreshTextSize;
-        (ColumnItemAdd.ContextMenu.Items[4] as MenuItem).Click += MoveColumnItemDown;
-        (ColumnItemAdd.ContextMenu.Items[6] as MenuItem).Click += RemoveColumnItem;
-
-        return ColumnItemAdd;
-    }
-
-    private void SetFocusOnColumnElement_Link(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        SeriousScrollViewer_0.ScrollToBottom();
-        SetFocusOnColumnItem(RequestSender as ItemRepresenter);
-    }
-
-    private void MoveColumnItemUp(object RequestSender, RoutedEventArgs EventArgs)
-    {
-        MoveColumnItemMaster(RequestSender, "Up");
-    }
-
-    private void MoveColumnItemDown(object RequestSender, RoutedEventArgs EventArgs)
-    {
-        MoveColumnItemMaster(RequestSender, "Down");
-    }
-
-    private void RefreshTextSize(object RequestSender, RoutedEventArgs EventArgs)
-    {
-        SetFocusOnColumnItem(((RequestSender as MenuItem).Header as UITranslation_Rose).SpecProperty_ContextMenuParent as ItemRepresenter);
-
-        CheckKeywordSelectorAndGenerateKeywordDisplayer();
-        CheckPassiveSelectorAndGeneratePassiveDisplayer();
-        CheckSkillSelectorsAndGenerateSkillDisplayer();
-    }
-
-    private void MoveColumnItemMaster(object ContextMenuItemSender, string Direction)
-    {
-        ItemRepresenter Target = ((ContextMenuItemSender as MenuItem).Header as UITranslation_Rose).SpecProperty_ContextMenuParent as ItemRepresenter;
-
-        StackPanel TargetColumn = Target.Parent as StackPanel;
-
-        if (Direction.Equals("Up")) TargetColumn.MoveItemUp(Target);
-        else TargetColumn.MoveItemDown(Target);
-
-        ReEnumerateColumnItemsInProject();
-    }
-
-    private async void RemoveColumnItem(object RequestSender, RoutedEventArgs EventArgs)
-    {
-        ItemRepresenter Target = ((RequestSender as MenuItem).Header as UITranslation_Rose).SpecProperty_ContextMenuParent as ItemRepresenter;
-
-        StackPanel TargetColumn = Target.Parent as StackPanel;
-
-        await Task.Delay(150); // some white thing appears for 0.1 second if without delay
-
-        DefinedUIDsForColumnItems.Remove(Target.Uid);
-
-        TargetColumn.Children.Remove(Target);
-
-        ReEnumerateColumnItemsInProject();
-    }
-
-
-    // Check column items and update all text info in project file data
-    private void ReEnumerateColumnItemsInProject()
-    {
-        Dictionary<string, AddedTextItems_Single> FirstColumnProjectData = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.FirstColumnItems;
-        Dictionary<string, AddedTextItems_Single> SecondColumnProjectData = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.SecondColumnItems;
-
-        FirstColumnProjectData.Clear();
-        SecondColumnProjectData.Clear();
-
-        foreach (ItemRepresenter TextItemGrid in IdentityPreviewItems_FirstColumn.Children)
-        {
-            FirstColumnProjectData[TextItemGrid.Uid] = TextItemGrid.ItemInfo;
-        }
-
-        foreach (ItemRepresenter TextItemGrid in IdentityPreviewItems_SecondColumn.Children)
-        {
-            SecondColumnProjectData[TextItemGrid.Uid] = TextItemGrid.ItemInfo;
-        }
-    }
-
-
-
-    private StackPanel GetTargetColumn(object Sender)
-    {
-        return ((((Sender as ComboBoxItem).Parent as ComboBox).Parent as Grid).Parent as StackPanel).Children[0] as StackPanel;
-    }
-
-    private void IdentityPreviewCreator_AddSkillToColumn(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(RequestSender), "Skill");
-    }
-    private void IdentityPreviewCreator_AddPassiveToColumn(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(RequestSender), "Passive");
-    }
-    private void IdentityPreviewCreator_AddKeywordToColumn(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        IdentityPreviewCreator_AddItemToColumnFromUIMaster(GetTargetColumn(RequestSender), "Keyword");
-    }
-
-
-
-
-
-
-
-
-    private void IdentityPreviewCreator_AddItemToColumnFromUIMaster(StackPanel TargetColumn, string Type)
-    {
-        ItemRepresenter CreatedColumnItem = CreatePlaceholder(Type);
-        CreatedColumnItem.ColumnNumber = TargetColumn.Uid;
-
-        TargetColumn.Children.Add(CreatedColumnItem);
-        ReEnumerateColumnItemsInProject();
-
-        SetFocusOnColumnItem(CreatedColumnItem);
-    }
-
-    public static ItemRepresenter FocusedColumnItem = null;
-    private void SetFocusOnColumnItem(ItemRepresenter Target, bool UpdateSelectorsAndSliders = true)
-    {
-        MakeAvailable(ItemEditor_ParentGrid); // Unlock from startup state
-
-        ColumnItemFocusingEvent = true;
-
-        #region Static value change (UI elements lock/unlock)
-        FocusedColumnItem = Target;
-
-        SkillsTextIDSelector.Visibility = Collapsed;
-        PassivesTextIDSelector.Visibility = Collapsed;
-        KeywordTextIDSelector.Visibility = Collapsed;
-
-        MakeUnavailable
-        (
-            SkillMainAndCoinDescriptionsWidthController__ParentGrid,
-            PassiveDescriptionWidthController__ParentGrid,
-            KeywordIconFileSelectButton_ParentGrid,
-            ItemSignatureInput_ParentGrid,
-
-            SkillsDisplayInfoIDSelector_ParentGrid
-        );
-
-        SelectedItemSignature.Text = FocusedColumnItem.ItemInfo.TextItemSignature;
-
-        if (UpdateSelectorsAndSliders) KeywordIconSelectionLabel.RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Keyword icon image", "Default");
-
-        if (UpdateSelectorsAndSliders)
-        {
-            SkillsLocalizationIDSelector.SelectedIndex = -1;
-            PassivesLocalizationIDSelector.SelectedIndex = -1;
-            KeywordsLocalizationIDSelector.SelectedIndex = -1;
-            SkillsDisplayInfoIDSelector.SelectedIndex = -1;
-        }
-
-
-        if (FocusedColumnItem.ItemInfo.Type.Equals("Skill"))
-        {
-            if (FocusedColumnItem.Children.Count == 2) MakeAvailable(ItemSignatureInput_ParentGrid);
-
-            MakeAvailable(SkillMainAndCoinDescriptionsWidthController__ParentGrid, SkillsDisplayInfoIDSelector_ParentGrid);
-
-            SkillsTextIDSelector.Visibility = Visible;
-            if (UpdateSelectorsAndSliders)
-            {
-                SkillsLocalizationIDSelector.SelectedIndex = Target.SelectedLocalizationItemIndex;
-                SkillsDisplayInfoIDSelector.SelectedIndex = Target.SelectedSkillDisplayInfoConstructorIndex;
-            }
-        }
-        else
-        {
-            if (FocusedColumnItem.ItemInfo.Type.Equals("Passive"))
-            {
-                if (FocusedColumnItem.Children.Count == 2) MakeAvailable(ItemSignatureInput_ParentGrid);
-
-                MakeAvailable(PassiveDescriptionWidthController__ParentGrid);
-
-                PassivesTextIDSelector.Visibility = Visible;
-                if (UpdateSelectorsAndSliders)
-                {
-                    PassivesLocalizationIDSelector.SelectedIndex = Target.SelectedLocalizationItemIndex;
-                }
-            }
-            else if (FocusedColumnItem.ItemInfo.Type.Equals("Keyword"))
-            {
-                if (FocusedColumnItem.KeywordIcon != null)
-                {
-                    MakeAvailable(KeywordIconFileSelectButton_ParentGrid);
-
-                    if (File.Exists(FocusedColumnItem.ItemInfo.KeywordIconImage))
-                    {
-                        KeywordIconSelectionLabel.RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Keyword icon image", "Selected").Extern(FocusedColumnItem.ItemInfo.KeywordIconImage.GetName());
-                    }
-                }
-
-                KeywordTextIDSelector.Visibility = Visible;
-                if (UpdateSelectorsAndSliders)
-                {
-                    KeywordsLocalizationIDSelector.SelectedIndex = Target.SelectedLocalizationItemIndex;
-                }
-            }
-        }
-        #endregion
-
-        if (UpdateSelectorsAndSliders) ChangeSliderValuesOnFocus();
-
-        IdentityPreviewCreator_EditingItemHeader.RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] * [Section:Text info/Selected item settings] Editing item header").Extern(FocusedColumnItem.Uid);
-
-        ColumnItemFocusingEvent = false;
-    }
-    private void ChangeSliderValuesOnFocus()
-    {
-        ColumnItemVerticalOffsetControllder.Value = FocusedColumnItem.ItemInfo.VerticalOffset;
-        ColumnItemHorizontalOffsetControllder.Value = FocusedColumnItem.ItemInfo.HorizontalOffset;
-
-        NameMaxWidthController.Value = FocusedColumnItem.ItemInfo.NameMaxWidth;
-
-        KeywordOrPassiveDescriptionWidthController.Value = FocusedColumnItem.ItemInfo.PassiveDescriptionWidth;
-
-        SkillMainDescriptionWidthController.Value = FocusedColumnItem.ItemInfo.SkillMainDescriptionWidth;
-        SkillCoinDescriptionsWidthController.Value = FocusedColumnItem.ItemInfo.SkillCoinsDescriptionWidth;
-    }
-
-
-
-
-
-
-
-
-
-    private void IdentityPreviewCreator_LoadProjectFile(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        OpenFileDialog ProjectSelectorDialog = NewOpenFileDialog("Saved project file", ["json"]);
-
-        if (ProjectSelectorDialog.ShowDialog() == true)
-        {
-            FileInfo Target = LoadedProjectFile = new FileInfo(ProjectSelectorDialog.FileName);
-            CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject LoadedProject = Target.Deserealize<CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject>(Context: Target.Directory.FullName.Replace("\\", "/"));
-
-            IdentityPreviewCreator_LoadBlankProject();
-            IdentityPreviewCreator_LoadProjectRecord(LoadedProject);
-        }
-    }
-
-    private bool CanSelectDecorativeCautions = true;
-    private void IdentityPreviewCreator_LoadProjectRecord(CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject LoadedProject)
-    {
-        if (LoadedProject.ActualProject != null)
-        {
-            CustomIdentityPreviewCreator.ProjectFile.LoadedProject = LoadedProject;
-
-            #region Image parameters
-            {
-                var @ImageParameters = LoadedProject.ImageParameters;
-
-                IdentityPreviewCreator_WidthController_FirstStep.Value = ImageParameters.WidthAdjustment_FirstStep;
-                IdentityPreviewCreator_WidthController_SecondStep.Value = ImageParameters.WidthAdjustment_SecondStep;
-
-                IdentityPreviewHeight_IsAuto.IsChecked = ImageParameters.HeightAdjustment_IsAuto;
-                if (!ImageParameters.HeightAdjustment_IsAuto)
-                {
-                    IdentityPreviewCreator_HeightController.Value = ImageParameters.HeightAdjustment;
-                }
-
-                if (File.Exists(ImageParameters.PortraitImage)) SelectIdentityOrEGOPortrait_Action(ImageParameters.PortraitImage);
-                else IdentityPreviewCreator_IdentityPortrait.Source = new BitmapImage();
-
-                IdentityPreviewCreator_AllocatedWidthForPortraitController.Value = ImageParameters.AllocatedWidthForPortrait;
-
-                if (ImageParameters.Type.Equals("E.G.O"))
-                {
-                    PortraitTypeSelector.SelectedIndex = 1;
-                }
-                else
-                {
-                    PortraitTypeSelector.SelectedIndex = 0;
-                }
-
-                ImageTypeText_TextEntry.Text = ImageParameters.ImageTypeSign;
-                if (File.Exists(ImageParameters.ImageTypeSign_AnotherFont)) SelectImageTypeSignFont_Action(ImageParameters.ImageTypeSign_AnotherFont);
-
-                IdentityPreviewCreator_IdentityPortraitScaleController.Value = ImageParameters.IdentityPortraitScale;
-                IdentityPreviewCreator_IdentityPortraitHorizontalOffsetController.Value = ImageParameters.PortraitHorizontalOffset;
-                IdentityPreviewCreator_IdentityPortraitVerticalOffsetController.Value = ImageParameters.PortraitVerticalOffset;
-
-                IdentityPreviewCreator_IdentityHeader_ParentGridMarginController.Value = ImageParameters.HeaderOffset;
-                IdentityPreviewCreator_IdentityHeader_IdentityOrEGONameOffsetController.Value = ImageParameters.IdentityOrEGONameOffset;
-                IdentityPreviewCreator_IdentityHeader_SinnerNameOffsetController.Value = ImageParameters.SinnerNameOffset;
-                IdentityPreviewCreator_IdentityHeader_IdentityRarityHorizontalOffsetController.Value = ImageParameters.RarityOrEGORiskLevelHorizontalOffset;
-                IdentityPreviewCreator_IdentityHeader_IdentityRarityVerticalOffsetController.Value = ImageParameters.RarityOrEGORiskLevelVerticalOffset;
-
-                IdentityPreviewCreator_TextBackgroundFadeoutSoftnessController.Value = ImageParameters.TextBackgroundFadeoutSoftness;
-                IdentityPreviewCreator_VignetteSoftnessController.Value = ImageParameters.VignetteStrength;
-                IdentityPreviewCreator_TopVignetteOffsetController.Value = ImageParameters.TopVignetteOffset;
-                IdentityPreviewCreator_LeftVignetteOffsetController.Value = ImageParameters.LeftVignetteOffset;
-                IdentityPreviewCreator_BottomVignetteOffsetController.Value = ImageParameters.BottomVignetteOffset;
-            }
-            #endregion
-            
-            #region Specific of the sinner and Identity/E.G.O
-            {
-                var @Specific = LoadedProject.Specific;
-
-                string StoredSinnerName = Specific.SinnerName; // Changing icon also changes default sinner name
-                string StoredAmbienceColor = Specific.AmbienceColor; // Same
-                if (Specific.SinnerIcon != null)
-                {
-                    if (File.Exists(Specific.SinnerIcon))
-                    {
-                        // Custom
-                        SelectCustomSinnerIcon_Action(Specific.SinnerIcon);
-                    }
-                    else
-                    {
-                        CanSelectDecorativeCautions = false;
-                        IdentityPreviewCreator_SinnerIconSelector.SelectedIndex = Specific.SinnerIcon switch
-                        {
-                            "Yi Sang" => 0,
-                            "Faust" => 1,
-                            "Don Quixote" => 2,
-                            "Ryōshū" => 3,
-                            "Meursault" => 4,
-                            "Hong Lu" => 5,
-                            "Heathcliff" => 6,
-                            "Ishmael" => 7,
-                            "Rodion" => 8,
-                            "Sinclair" => 9,
-                            "Outis" => 10,
-                            "Gregor" => 11,
-                            _ => 0
-                        };
-                        CanSelectDecorativeCautions = true;
-                    }
-                }
-                
-
-                IdentityPreviewCreator_SinnerIconBrightnessController.Value = Specific.IconBrightness;
-                IdentityPreviewCreator_SinnerIconSizeController.Value = Specific.IconSize;
-
-                IdentityPreviewCreator_TextEntries_ElementsColor.Text = StoredAmbienceColor;
-                if (StoredSinnerName != null) IdentityPreviewCreator_TextEntries_SinnerName.Text = StoredSinnerName;
-                if (Specific.IdentityOrEGOName != null) IdentityPreviewCreator_TextEntries_IdentityOrEGOName.Text = Specific.IdentityOrEGOName;
-
-                CanOverwriteProjectCautionsType = false;
-                IdentityPreviewCreator_TextEntries_ElementsColor.Text = Specific.AmbienceColor;
-                CanOverwriteProjectCautionsType = true;
-
-                if (Specific.RarityOrEGORiskLevel != null)
-                {
-                    IdentityPreviewCreator_IdentityHeader_RarityOrEGORiskLevelSelector.SelectedIndex = Specific.RarityOrEGORiskLevel switch
-                    {
-                        "000" => 0,
-                        "00" => 1,
-                        "0" => 2,
-
-                        "ZAYIN" => 3,
-                        "HE" => 4,
-                        "TETH" => 5,
-                        "WAW" => 6,
-                        "ALEPH" => 7,
-
-                        _ => -1
-                    };
-                }
-            }
-            #endregion
-            
-            #region Decorative cautions
-            {
-                var @Cautions = LoadedProject.DecorativeCautions;
-
-                ToggleArknightsMode.IsChecked = Cautions.EnableArknightsMode;
-
-                IdentityPreviewCreator_Cautions_BoomRadiusController.Value = Cautions.CautionBloomRadius;
-                IdentityPreviewCreator_Cautions_OpacityController.Value = Cautions.CautionOpacity;
-
-                IdentityPreviewCreator_TextEntries_CustomCautionString.Text = Cautions.CustomText.CustomCautionString;
-                if (File.Exists(Cautions.CustomText.AnotherFont)) SelectDecorativeCautionsCustomFont_Action(Cautions.CustomText.AnotherFont);
-
-                CautionsCustomTextVerticalOffsetController.Value = Cautions.CustomText.TextVerticalOffset * 100;
-                CautionsCustomTextSizeController.Value = Cautions.CustomText.TextSize * 100;
-
-                IdentityPreviewCreator_CautionTypeSelector.SelectedIndex = Cautions.CautionType switch
-                {
-                    "SEASON" => 0,
-                    "CAUTION" => 1,
-                    "None" => 2,
-                    "Custom text" => 3,
-                    _ => -1
-                };
-            }
-            #endregion
-
-            #region Text info
-            {
-                var @TextInfo = LoadedProject.Text;
-
-                UnifiedTextSizeController.Value = TextInfo.UnifiedTextSize;
-
-                IdentityPreviewCreator_TextInfo_FirstColumnOffsetController.Value = TextInfo.FirstColumnOffset;
-                IdentityPreviewCreator_TextInfo_SecondColumnOffsetController.Value = TextInfo.SecondColumnOffset;
-
-                FirstColumnItemSignaturesOffsetController.Value = TextInfo.FirstColumnItemSignaturesOffset;
-                SecondColumnItemSignaturesOffsetController.Value = TextInfo.SecondColumnItemSignaturesOffset;
-                if (File.Exists(TextInfo.ItemSignaturesAnotherFont)) SelectAnotherItemSignsFont_Action(TextInfo.ItemSignaturesAnotherFont);
-
-                KeywordBoxesWidthController.Value = TextInfo.KeywordBoxesWidth;
-
-                // Update ID selectors
-                if (File.Exists(TextInfo.SkillsLocalizationFile)) UpdateSelector__SkillLocalizationIDSelector();
-                if (File.Exists(TextInfo.SkillsDisplayInfoConstructorFile)) UpdateSelector__SkillsDisplayInfoIDSelector();
-                if (File.Exists(TextInfo.PassivesLocalizationFile)) UpdateSelector__PassivesLocalizationIDSelector();
-                if (File.Exists(TextInfo.KeywordsLocalizationFile)) UpdateSelector__KeywordsLocalizationIDSelector();
-
-                ReconstructColumnItems();
-            }
-            #endregion
-        }
-    }
-
-
-    private void IdentityPreviewCreator_LoadBlankProject()
-    {
-        IdentityPreviewCreator_LoadProjectRecord(new CustomIdentityPreviewCreator.ProjectFile.CustomIdentityPreviewProject() with { ActualProject = true});
-
-        IdentityPreviewCreator_IdentityPortrait.Source = new BitmapImage();
-
-        IdentityPreviewItems_FirstColumn.Children.Clear();
-        IdentityPreviewItems_SecondColumn.Children.Clear();
-
-        MakeAvailable
-        (
-            IdentityPreviewCreator_SectionHosts_ImageParameters,
-            IdentityPreviewCreator_SectionHosts_SinnerAndIdentityOrEGOSpecific,
-            IdentityPreviewCreator_SectionHosts_DecorativeCaution,
-            IdentityPreviewCreator_SectionHosts_TextInfo,
-            IdentityPreviewCreator_SaveProjectToFileButton,
-            IdentityTextColumns
-        );
-    }
-
-    private void IdentityPreviewCreator_SaveProjectToFile(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        SaveFileDialog SaveLocation = NewSaveFileDialog("Json files", ["json"], "Project.json");
-
-        if (SaveLocation.ShowDialog() == true)
-        {
-            CustomIdentityPreviewCreator.ProjectFile.LoadedProject.SerializeFormatted(SaveLocation.FileName, Context: new FileInfo(SaveLocation.FileName).Directory.FullName.Replace("\\", "/"));
-        }
-    }
-
-    
-
-
-
-
-
-    private Dictionary<int, int> ID_And_Index__Links_Skills = new Dictionary<int, int>();
-    private void UpdateSelector__SkillLocalizationIDSelector()
-    {
-        string TargetFile = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.SkillsLocalizationFile;
-
-        Skills LoadedSkillsLocalizationData = new FileInfo(TargetFile).Deserealize<Skills>();
-
-        if (LoadedSkillsLocalizationData.dataList != null && LoadedSkillsLocalizationData.dataList.Count > 0)
-        {
-            ID_And_Index__Links_Skills.Clear();
-            SkillsLocalizationIDSelector.Items.Clear();
-
-            int ItemEnumerator = 1;
-            foreach (Skill SkillItem in LoadedSkillsLocalizationData.dataList)
-            {
-                if (SkillItem.ID != null && SkillItem.UptieLevels != null && SkillItem.UptieLevels.Count > 0)
-                {
-                    UptieLevel TargetUptieWithDesc = SkillItem.UptieLevels[^1]; // Last uptie
-
-                    string SkillName = TargetUptieWithDesc.Name.nullHandle(NullText: "<i>No name</i>");
-                    
-                    if (TargetUptieWithDesc.OptionalAffinity != null)
-                    {
-                        string AffinityColor = CustomIdentityPreviewCreator.GetAffinityColor(TargetUptieWithDesc.OptionalAffinity).ToString().Replace("#FF", "#");
-                        SkillName = $"<color={AffinityColor}>{SkillName}</color>";
-                    }
-
-                    string ItemName = $"№{ItemEnumerator} — ID {SkillItem.ID} {SkillName}";
-
-                    AddSpecItemToSelector(SkillsLocalizationIDSelector, ItemName, TargetUptieWithDesc, SkillItem.ID);
-                    ID_And_Index__Links_Skills[(int)SkillItem.ID] = ItemEnumerator - 1;
-                }
-
-                ItemEnumerator++;
-            }
-        }
-
-        if (SkillsLocalizationIDSelector.Items.Count > 0)
-        {
-            SelectSkillsLocalizationFile_Label.RichText = ExternTextFor("[C] * [Section:Text info/Text info sources] Skills localization", "Selected").Extern(TargetFile.GetName());
-        }
-    }
-
-    private Dictionary<int, int> ID_And_Index__Links_Passives = new Dictionary<int, int>();
-    private void UpdateSelector__PassivesLocalizationIDSelector()
-    {
-        string TargetFile = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.PassivesLocalizationFile;
-
-        Passives LoadedPassivesLocalizationData = new FileInfo(TargetFile).Deserealize<Passives>();
-
-        if (LoadedPassivesLocalizationData.dataList != null && LoadedPassivesLocalizationData.dataList.Count > 0)
-        {
-            ID_And_Index__Links_Passives.Clear();
-            PassivesLocalizationIDSelector.Items.Clear();
-
-            int ItemEnumerator = 1;
-            foreach (Passive PassiveItem in LoadedPassivesLocalizationData.dataList)
-            {
-                if (PassiveItem.ID != null & PassiveItem.Description != null)
-                {
-                    string ItemName = $"№{ItemEnumerator} — ID {PassiveItem.ID} {PassiveItem.Name.nullHandle(NullText: "<i>No name</i>")}";
-
-                    AddSpecItemToSelector(PassivesLocalizationIDSelector, ItemName, PassiveItem, PassiveItem.ID);
-
-                    ID_And_Index__Links_Passives[(int)PassiveItem.ID] = ItemEnumerator - 1;
-                }
-
-                ItemEnumerator++;
-            }
-        }
-
-        if (PassivesLocalizationIDSelector.Items.Count > 0)
-        {
-            SelectPassivesLocalizationFile_Label.RichText = ExternTextFor("[C] * [Section:Text info/Text info sources] Passives localization", "Selected").Extern(TargetFile.GetName());
-        }
-    }
-
-    private Dictionary<string, int> ID_And_Index__Links_Keywords = new Dictionary<string, int>();
-    private void UpdateSelector__KeywordsLocalizationIDSelector()
-    {
-        string TargetFile = CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.KeywordsLocalizationFile;
-
-        Keywords LoadedKeywordsLocalizationData = new FileInfo(TargetFile).Deserealize<Keywords>();
-
-        if (LoadedKeywordsLocalizationData.dataList != null && LoadedKeywordsLocalizationData.dataList.Count > 0)
-        {
-            ID_And_Index__Links_Keywords.Clear();
-            KeywordsLocalizationIDSelector.Items.Clear();
-
-            int ItemEnumerator = 1;
-            foreach (Keyword KeywordItem in LoadedKeywordsLocalizationData.dataList)
-            {
-                if (KeywordItem.ID != null & KeywordItem.Description != null)
-                {
-                    string ItemName = $"№{ItemEnumerator} — ID {KeywordItem.ID} {KeywordItem.Name.nullHandle(NullText: "<i>No name</i>")}";
-
-                    AddSpecItemToSelector(KeywordsLocalizationIDSelector, ItemName, KeywordItem, KeywordItem.ID);
-
-                    ID_And_Index__Links_Keywords[KeywordItem.ID] = ItemEnumerator - 1;
-                }
-
-                ItemEnumerator++;
-            }
-        }
-
-        if (KeywordsLocalizationIDSelector.Items.Count > 0)
-        {
-            SelectKeywordsLocalizationFile_Label.RichText = ExternTextFor("[C] * [Section:Text info/Text info sources] Keywords localization", "Selected").Extern(TargetFile.GetName());
-        }
-    }
-
-    private Dictionary<BigInteger, int> ID_And_Index__Links_SkillsDisplayInfo = new Dictionary<BigInteger, int>();
-    private void UpdateSelector__SkillsDisplayInfoIDSelector()
-    {
-        FileInfo TargetFile = new FileInfo(CustomIdentityPreviewCreator.ProjectFile.LoadedProject.Text.SkillsDisplayInfoConstructorFile);
-
-        SkillsConstructorFile LoadedSkillsLocalizationData = new FileInfo(TargetFile.FullName).Deserealize<SkillsConstructorFile>(Context: TargetFile.Directory.FullName.Replace("\\", "/"));
-
-        if (LoadedSkillsLocalizationData.List != null && LoadedSkillsLocalizationData.List.Count > 0)
-        {
-            ID_And_Index__Links_SkillsDisplayInfo.Clear();
-            SkillsDisplayInfoIDSelector.Items.Clear();
-
-            int ItemEnumerator = 1;
-            foreach (SkillContstructor Constructor in LoadedSkillsLocalizationData.List)
-            {
-                if (Constructor.ID != null)
-                {
-                    string AffinityColor = CustomIdentityPreviewCreator.GetAffinityColor(Constructor.Specific.Affinity).ToString().Replace("#FF", "#");
-
-                    string TargetName = $"№{ItemEnumerator} — ID {Constructor.ID} <color={AffinityColor}>{Constructor.SkillName.nullHandle(NullText: "<i>No name</i>")}</color>";
-
-                    AddSpecItemToSelector(SkillsDisplayInfoIDSelector, TargetName, Constructor, Constructor.ID);
-
-                    ID_And_Index__Links_SkillsDisplayInfo[(BigInteger)Constructor.ID] = ItemEnumerator - 1;
-                }
-
-                ItemEnumerator++;
-            }
-        }
-
-        if (SkillsDisplayInfoIDSelector.Items.Count > 0)
-        {
-            SelectSkillsDisplayInfoFile_Label.RichText = ExternTextFor("[C] * [Section:Text info/Text info sources] Skills Display Info", "Selected").Extern(TargetFile.Name);
-        }
-    }
-
-
-    private void AddSpecItemToSelector(ComboBox Target, string ItemName, dynamic AttachedItem, dynamic AttachedItemID)
-    {
-        Target.Items.Add(new UITranslation_Rose()
-        {
-            RichText = ItemName,
-            FontSize = 14,
-            Padding = new Thickness(5, 5, 0, 5),
-            Width = 150,
-            UniversalDataBindings = new Dictionary<string, dynamic>() { ["Attached item"] = AttachedItem, ["Attached item ID"] = AttachedItemID }
-        }.SetBindingWithReturn(UITranslation_Rose.FontFamilyProperty, "FontFamily", Target));
-    }
-
-    private void ToggleArknightsMode_SidedLink(object RequestSender, RoutedEventArgs EventArgs)
-    {
-        CustomIdentityPreviewCreator.ProjectFile.LoadedProject.DecorativeCautions.EnableArknightsMode = (bool)ToggleArknightsMode.IsChecked;
-        if ((bool)ToggleArknightsMode.IsChecked)
-        {
-            ArknightsXLimbusLogo.Visibility = Visible;
-            LeftCornerRegularLogo.Visibility = Collapsed;
-            RightCornerDarkLogo.Source = BitmapFromResource("UI/Limbus/Custom Identity Preview/Spec/Another Icon.png");
-        }
-        else
-        {
-            ArknightsXLimbusLogo.Visibility = Collapsed;
-            LeftCornerRegularLogo.Visibility = Visible;
-            RightCornerDarkLogo.Source = BitmapFromResource("UI/Limbus/Custom Identity Preview/Right Bottom Corner Logo.png");
-        }
-    }
-
-    private void ToggleWalpurgisFrame_SidedLink(object RequestSender, RoutedEventArgs EventArgs)
-    {
-        if ((bool)ToggleWalpurgisFrame.IsChecked)
-        {
-            WalpurgisNightFrames.Visibility = Visible;
-            IdentityPreviewCreator_DecorativeCautions_2.Visibility = Collapsed;
-        }
-        else
-        {
-            WalpurgisNightFrames.Visibility = Collapsed;
-            IdentityPreviewCreator_DecorativeCautions_2.Visibility = Visible;
         }
     }
 }

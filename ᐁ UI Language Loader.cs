@@ -6,6 +6,7 @@ using System.Runtime.Serialization;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
+using System.Windows.Data;
 using System.Windows.Media;
 using static LC_Localization_Task_Absolute.Json.FilesIntegration;
 using static LC_Localization_Task_Absolute.Requirements;
@@ -78,6 +79,12 @@ namespace LC_Localization_Task_Absolute
                 typeof(UITranslation_Rose),
                 new PropertyMetadata("", OnUIDChanged));
 
+        public string UID
+        {
+            get => (string)GetValue(UIDProperty);
+            set => SetValue(UIDProperty, value);
+        }
+
         private static void OnUIDChanged(DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs)
         {
             string DefinedUID = ChangeArgs.NewValue as string;
@@ -88,11 +95,35 @@ namespace LC_Localization_Task_Absolute
             }
         }
 
-        public string UID
+
+        public static readonly DependencyProperty PerfectVerticalAlignProperty =
+            DependencyProperty.Register(
+                "PerfectVerticalAlign",
+                typeof(bool),
+                typeof(UITranslation_Rose),
+                new PropertyMetadata(false, OnPerfectVerticalAlignChanged));
+
+        public bool PerfectVerticalAlign
         {
-            get => (string)GetValue(UIDProperty);
-            set => SetValue(UIDProperty, value);
+            get => (bool)GetValue(PerfectVerticalAlignProperty);
+            set => SetValue(PerfectVerticalAlignProperty, value);
         }
+
+        private static void OnPerfectVerticalAlignChanged(DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs)
+        {
+            if ((bool)ChangeArgs.NewValue == true)
+            {
+                (CurrentElement as UITranslation_Rose).SetBinding(TextBlock.LineHeightProperty, new Binding("FontSize")
+                {
+                    RelativeSource = new RelativeSource(RelativeSourceMode.Self)
+                });
+            }
+            else
+            {
+                (CurrentElement as UITranslation_Rose).LineHeight = double.NaN;
+            }
+        }
+
 
 
         public static readonly DependencyProperty RichTextProperty =
@@ -104,13 +135,13 @@ namespace LC_Localization_Task_Absolute
 
         private static void OnRichTextChanged(DependencyObject CurrentElement, DependencyPropertyChangedEventArgs ChangeArgs)
         {
-               Pocket_Watch_ː_Type_L.Actions.Apply(
-                    Target: CurrentElement as UITranslation_Rose,
-                    RichText: ChangeArgs.NewValue as string,
-                    DividersMode: Pocket_Watch_ː_Type_L.@PostInfo.FullStopDividers.FullStopDividers_Regular,
-                    DoCustomIdentityPreviewCreatorIsActiveCheck: false,
-                    DisableKeyworLinksCreation: true
-               );
+            Pocket_Watch_ː_Type_L.Actions.Apply(
+                Target: CurrentElement as UITranslation_Rose,
+                RichText: ChangeArgs.NewValue as string,
+                DividersMode: Pocket_Watch_ː_Type_L.@PostInfo.FullStopDividers.FullStopDividers_Regular,
+                DoCustomIdentityPreviewCreatorIsActiveCheck: false,
+                DisableKeyworLinksCreation: true
+            );
         }
 
         public string RichText
@@ -135,19 +166,22 @@ namespace LC_Localization_Task_Absolute
         private new string Text;
 
 
-        /// <summary>
-        /// For context menu in identity preview creator columns (Unable to normally get parent of ContextMenu with this TextBlock as MenuItem Header)
-        /// </summary>
-        public ItemRepresenter SpecProperty_ContextMenuParent { get; set; }
-
         // For something
         public Dictionary<string, dynamic> UniversalDataBindings = new Dictionary<string, dynamic>();
 
         public UITranslation_Rose()
         {
             TextWrapping = TextWrapping.Wrap;
+            LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
             //Foreground = Brushes.Beige;
+
             FontSize = 13;
+
+            // Not there
+            //this.SetBinding(TextBlock.LineHeightProperty, new Binding("FontSize")
+            //{
+            //    RelativeSource = new RelativeSource(RelativeSourceMode.Self)
+            //});
         }
     }
     #endregion
@@ -268,7 +302,7 @@ namespace LC_Localization_Task_Absolute
                             }
                             if (Padding != null && Padding.Length > 0)
                             {
-                                if (Padding.Length == 1 | Padding.Length == 4) Padding_Loaded = ThicknessFrom(Margin);
+                                if (Padding.Length == 1 | Padding.Length == 4) Padding_Loaded = ThicknessFrom(Padding);
                             }
 
                             if (Visible != null && Visible == false)
@@ -372,7 +406,6 @@ namespace LC_Localization_Task_Absolute
 
         public static Dictionary<string, UITranslation_Rose> PresentedStaticTextEntries = new Dictionary<string, UITranslation_Rose>();
         public static Dictionary<string, UITranslation_Mint> PresentedTextInputEntries = new Dictionary<string, UITranslation_Mint>();
-        public static Dictionary<string, UITranslation_Rose> PresentedDynamicTextEntries = new Dictionary<string, UITranslation_Rose>();
 
         public static Dictionary<string, InterfaceTranslationParameter> LoadedModifiers = new Dictionary<string, InterfaceTranslationParameter>();
 
@@ -397,73 +430,18 @@ namespace LC_Localization_Task_Absolute
             }
         }
         
+        public static void ExternElement(string UID, string VariableKey, string ExternString = "")
+        {
+            PresentedStaticTextEntries[UID].RichText = ExternTextFor(UID, VariableKey).Extern(ExternString);
+        }
+
         public abstract class SpecializedDefs
         {
-            public static InterfaceTranslationParameter ColumnItemContextMenu_MoveUp = new InterfaceTranslationParameter();
-            public static InterfaceTranslationParameter ColumnItemContextMenu_MoveDown = new InterfaceTranslationParameter();
-            public static InterfaceTranslationParameter ColumnItemContextMenu_Refresh = new InterfaceTranslationParameter();
-            public static InterfaceTranslationParameter ColumnItemContextMenu_Remove = new InterfaceTranslationParameter();
-            public static InterfaceTranslationParameter ColumnItemContextMenu_Title = new InterfaceTranslationParameter();
-
-            public static InterfaceTranslationParameter AddedTextItemPlaceholder = new InterfaceTranslationParameter();
-            public static FontFamily DefaultFontFamilyForPlaceholder = Resource<FontFamily>("BebasKaiUniversal");
-            public static FontWeight DefaultFontWightForPlaceholder = FontWeights.Normal;
-            public static double DefaultFontSizeForPlaceholder = 25;
-            public static string DefaultTextForPlaceholder_Skill = "TEXT CONTROL\n(Skill, [Item #[$]])";
-            public static string DefaultTextForPlaceholder_Passive = "TEXT CONTROL\n(Passive, [Item #[$]])";
-            public static string DefaultTextForPlaceholder_Keyword = "TEXT CONTROL\n(Keyword, [Item #[$]])";
             public static string UnsavedChangesMarker = "[$] <size=66%><color=#fc5a03><b>(Changed)</b></color></size>";
             public static string InsertionsDefaultValue = "…";
 
             public static InterfaceLocalizationModifiers.Frames.UnsavedChangesInfo.UnsavedChangesInfo_Main UnsavedChangesInfo = new();
             public static InterfaceLocalizationModifiers.Frames.CustomLangLoadingWarnings CustomLangLoadingWarnings = new();
-
-            public static InterfaceTranslationParameter Transform(InterfaceTranslationParameter Parent, FontFamily DefaultFont, FontWeight DefaultWeight) 
-            {
-                if (Parent.Text == null)
-                {
-                    Parent.Text = $"<size=78%><b>[No \"{Parent.UID}\" entry in translation..]</b></size>";
-                }
-
-                if (Parent.Font_Size == null) Parent.Font_Size = 14;
-
-                Parent.Font_Loaded = DefaultFont;
-                Parent.Font_Weight_Loaded = DefaultWeight;
-
-                if (Parent.Font != null)
-                {
-                    if (InterfaceLocalizationModifiers.@Font_References_Loaded.ContainsKey(Parent.Font))
-                    {
-                        Parent.Font_Loaded = InterfaceLocalizationModifiers.@Font_References_Loaded[Parent.Font];
-                    }
-                    else if (File.Exists(Parent.Font))
-                    {
-                        Parent.Font_Loaded = FileToFontFamily(Parent.Font);
-                    }
-                    else
-                    {
-                        Parent.Font_Loaded = new FontFamily(Parent.Font);
-                    }
-                }
-                if (Parent.Font_Weight != null) Parent.Font_Weight_Loaded = WeightFrom(Parent.Font_Weight);
-                else Parent.Font_Weight_Loaded = FontWeights.Normal;
-
-                if (Parent.Margin != null && Parent.Margin.Length > 0)
-                {
-                    if (Parent.Margin.Length == 1 | Parent.Margin.Length == 4) Parent.Margin_Loaded = ThicknessFrom(Parent.Margin);
-                }
-                else Parent.Margin_Loaded = new Thickness();
-
-                if (Parent.Padding != null && Parent.Padding.Length > 0)
-                {
-                    if (Parent.Padding.Length == 1 | Parent.Padding.Length == 4) Parent.Padding_Loaded = ThicknessFrom(Parent.Padding);
-                }
-                else Parent.Padding_Loaded = new Thickness();
-
-                if (Parent.Width == null) Parent.Width = 145;
-
-                return Parent;
-            }
         }
 
         private static void ModifySingleObject(UILocalization_Entry Target, InterfaceTranslationParameter Param, FontFamily DefaultFontFamily, FontWeight DefaultFontWeight)
@@ -643,64 +621,6 @@ namespace LC_Localization_Task_Absolute
                                             MainWindow.MainControl.NavigationPanel_ObjectName_Display.Text = Param.Text;
                                             break;
 
-                                        case "[C] [!] [^] * Sinner icon selection (Sinner name)":
-                                            int Counter = 1;
-                                            foreach (object Item in MainWindow.MainControl.IdentityPreviewCreator_SinnerIconSelector.Items)
-                                            {
-                                                if (Counter <= 12) // №13 = '[Custom]'
-                                                {
-                                                    UITranslation_Rose Text = (Item as StackPanel).Children[1] as UITranslation_Rose;
-
-                                                    ModifySingleObject(Text, Param, DefaultFont, DefaultWeight);
-                                                }
-                                                Counter++;
-                                            }
-                                            break;
-
-                                        case "[C] * Added item context menu — Title":
-                                            SpecializedDefs.ColumnItemContextMenu_Title = SpecializedDefs.Transform(Param, DefaultFont, DefaultWeight);
-                                            break;
-
-                                        case "[C] * Added item context menu — Move up":
-                                            SpecializedDefs.ColumnItemContextMenu_MoveUp = SpecializedDefs.Transform(Param, DefaultFont, DefaultWeight);
-                                            break;
-
-                                        case "[C] * Added item context menu — Refresh text":
-                                            SpecializedDefs.ColumnItemContextMenu_Refresh = SpecializedDefs.Transform(Param, DefaultFont, DefaultWeight);
-                                            break;
-
-                                        case "[C] * Added item context menu — Move down":
-                                            SpecializedDefs.ColumnItemContextMenu_MoveDown = SpecializedDefs.Transform(Param, DefaultFont, DefaultWeight);
-                                            break;
-
-                                        case "[C] * Added item context menu — Remove":
-                                            SpecializedDefs.ColumnItemContextMenu_Remove = SpecializedDefs.Transform(Param, DefaultFont, DefaultWeight);
-                                            break;
-
-                                        case "[C] [!] * Added item placeholder text":
-                                            if (Param.Variable != null && Param.Variable.Count == 3 && Param.Variable.ContainsKey("Skill") && Param.Variable.ContainsKey("Passive") && Param.Variable.ContainsKey("Keyword"))
-                                            {
-                                                SpecializedDefs.DefaultTextForPlaceholder_Skill = Param.Variable["Skill"];
-                                                SpecializedDefs.DefaultTextForPlaceholder_Passive = Param.Variable["Passive"];
-                                                SpecializedDefs.DefaultTextForPlaceholder_Keyword = Param.Variable["Keyword"];
-
-                                                if (Param.Font_Size != null) SpecializedDefs.DefaultFontSizeForPlaceholder = (double)Param.Font_Size;
-                                                if (Param.Font_Weight != null) SpecializedDefs.DefaultFontWightForPlaceholder = WeightFrom(Param.Font_Weight);
-                                                else SpecializedDefs.DefaultFontWightForPlaceholder = DefaultWeight;
-
-                                                if (Param.Font != null)
-                                                {
-                                                    if (InterfaceLocalizationModifiers.@Font_References_Loaded.ContainsKey(Param.Font))
-                                                    {
-                                                        SpecializedDefs.DefaultFontFamilyForPlaceholder = InterfaceLocalizationModifiers.@Font_References_Loaded[Param.Font];
-                                                    }
-                                                    else if (File.Exists(Param.Font)) SpecializedDefs.DefaultFontFamilyForPlaceholder = FileToFontFamily(Param.Font);
-                                                    else SpecializedDefs.DefaultFontFamilyForPlaceholder = new FontFamily(Param.Font);
-                                                }
-                                                //else SpecializedDefs.DefaultFontFamilyForPlaceholder = DefaultFont;
-                                            }
-                                            break;
-
                                         default: break;
                                     }
                                 }
@@ -742,24 +662,6 @@ namespace LC_Localization_Task_Absolute
                                         UITranslation_Rose Target = ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[UID];
 
                                         ModifySingleObject(Target, Param, DefaultFont, DefaultWeight);
-
-                                        if (UID.StartsWith("[C] * [Section:Text info/Column settings] Add item to Column — "))
-                                        {
-                                            UITranslation_Rose SecondColumnTarget = UID.Split(" — ")[^1] switch
-                                            {
-                                                "Skill" => MainWindow.MainControl.secondcolumn_Skill,
-                                                "Passive" => MainWindow.MainControl.secondcolumn_Passive,
-                                                "Keyword" => MainWindow.MainControl.secondcolumn_Keyword,
-                                                _ => null
-                                            };
-
-                                            ModifySingleObject(
-                                                SecondColumnTarget,
-                                                Param,
-                                                DefaultFont,
-                                                DefaultWeight
-                                            );
-                                        }
                                     }
                                 }
                             }

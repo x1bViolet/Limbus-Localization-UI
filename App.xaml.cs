@@ -68,7 +68,7 @@ public partial class App : Application
     }
     private void LogUnhandledException(Exception Exception, string SetupExceptionHandlingSource)
     {
-        rin($"\n\n[{SetupExceptionHandlingSource} : {Exception.Source}] {Exception.Message}\n{Exception.StackTrace.FormatStackTraceByNamespace("LC_Localization_Task_Absolute", @"C:\Users\javas\OneDrive\Документы\LC Localization Interface (Code)\")}");
+        rin(FormattedStackTrace(Exception, SetupExceptionHandlingSource));
     }
 }
 

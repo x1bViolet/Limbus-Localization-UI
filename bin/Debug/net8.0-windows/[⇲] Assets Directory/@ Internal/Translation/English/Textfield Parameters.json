@@ -134,34 +134,37 @@
     ],
     [
       {
-        "UID": {"[C] * [Section:Image parameters] Image type text":null},
-        "Font Size": 18,
-        "Margin": [0, 1, 2, 1]
+        "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Frame color":null},
+        "Font Size": 20
       },
       {
-        "UID": {"[C] * [Section:Specific] Sinner name":null},
-        "Font Size": 18,
-        "Margin": [0, 1, 2, 1]
+        "UID": {"[C] * [Section:Image parameters / Image label] Image label text":null},
+        "Font Size": 18.5,
+        "Padding": [1, 0, 0, 0]
       },
       {
-        "UID": {"[C] * [Section:Specific] Name of Identity/E.G.O":null},
-        "Font Size": 18,
-        "Margin": [0, 1, 2, 1]
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Header color":null},
+        "Font Size": 20
       },
       {
-        "UID": {"[C] * [Section:Specific] Ambience color":null},
-        "Font Size": 18,
-        "Margin": [0, 1, 2, 1]
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Sinner name":null},
+        "Font Size": 18.5,
+        "Padding": [1, 0, 0, 0]
       },
       {
-        "UID": {"[C] * [Section:Decorative cautions] Custom text string":null},
-        "Font Size": 18,
-        "Margin": [0, 1, 2, 1]
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Identity/E.G.O name":null},
+        "Font Size": 18.5,
+        "Padding": [1, 0, 0, 0]
       },
       {
-        "UID": {"[C] * [Section:Text info/Selected item settings] Item signature":null},
-        "Font Size": 18,
-        "Margin": [0, 1, 2, 1]
+        "UID": {"[C] * [Section:Decorative cautions] Cautions text":null},
+        "Font Size": 18.5,
+        "Padding": [1, 0, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Item signature":null},
+        "Font Size": 18.5,
+        "Padding": [1, 0, 0, 0]
       }
     ]
   ]

@@ -1,10 +1,9 @@
 ﻿using LC_Localization_Task_Absolute.Limbus_Integration;
-using SixLabors.ImageSharp;
-using SixLabors.ImageSharp.PixelFormats;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Timers;
+using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -23,84 +22,6 @@ using Size = System.Windows.Size;
 
 namespace LC_Localization_Task_Absolute
 {
-    public static class SecondaryUtilities
-    {
-        // To apply custom color to white images (Tint), used for creating custom color for sinner name in custom identity preview
-        // Sixlabors because default options of 'foreach (pixel in somewpfbitmapimage)' slow asf
-
-        // ^ BitmapImage --ToSixlaborsImage()-> Image<Rgba32> -> TintWhiteMaskImage(Image<Rgba32>) -> colored Image<Rgba32> --ToBitmapImage()-> colored BitmapImage
-
-        // Some speed shenanigans from SixLabors docs https://docs.sixlabors.com/articles/imagesharp/pixelbuffers.html
-        public static Image<Rgba32> TintWhiteMaskImage(Image<Rgba32> LoadedImage, Rgba32 TintColor)
-        {
-            // Or 'LoadedImage = SixLabors.ImageSharp.Image.Load<SixLabors.ImageSharp.PixelFormats.Rgba32>(@"C:\,some,where,\Import.png");'
-
-            Image<Rgba32> ResultImage = LoadedImage.Clone();
-            ResultImage.ProcessPixelRows(Accessor =>
-            {
-                for (int Y_HeightPixel = 0; Y_HeightPixel < Accessor.Height; Y_HeightPixel++)
-                {
-                    Span<Rgba32> PixelSpan = Accessor.GetRowSpan(Y_HeightPixel);
-
-                    for (int X_WidthPixel = 0; X_WidthPixel < PixelSpan.Length; X_WidthPixel++)
-                    {
-                        ref Rgba32 CurrentPixel = ref PixelSpan[X_WidthPixel];
-
-                        if (CurrentPixel.A > 0)
-                        {
-                            CurrentPixel = new Rgba32
-                            (
-                                (byte)(CurrentPixel.R * TintColor.R / 255),
-                                (byte)(CurrentPixel.G * TintColor.G / 255),
-                                (byte)(CurrentPixel.B * TintColor.B / 255),
-                                CurrentPixel.A
-                            );
-                        }
-                    }
-                }
-            });
-            
-            return ResultImage; // Or 'ResultImage.SaveAsPng(@"C:\,some,where,\Export.png");'
-        }
-
-        public static BitmapImage TintWhiteMaskBitmap(BitmapImage Selected, string HexColor)
-        {
-            SixLabors.ImageSharp.Image<Rgba32> Colored = SecondaryUtilities.TintWhiteMaskImage(Selected.ToSixlaborsImage(), Rgba32.ParseHex(HexColor.Replace("#", "")));
-
-            return Colored.ToBitmapImage();
-        }
-
-        public static Image<Rgba32> ToSixlaborsImage(this BitmapImage WPFImageSource)
-        {
-            int Width = WPFImageSource.PixelWidth;
-            int Height = WPFImageSource.PixelHeight;
-            int ArrayStride = Width * 4; // Four bytes per pixel in BGRA32
-            byte[] PixelData = new byte[Height * ArrayStride];
-
-            WPFImageSource.CopyPixels(PixelData, ArrayStride, 0);
-
-            return SixLabors.ImageSharp.Image.LoadPixelData<Rgba32>(PixelData, Width, Height);
-        }
-
-        public static BitmapImage ToBitmapImage(this Image<Rgba32> SixlaborsImageSource)
-        {
-            using (MemoryStream ImageConvertStream = new MemoryStream())
-            {
-                SixlaborsImageSource.SaveAsPng(ImageConvertStream);
-                ImageConvertStream.Position = 0;
-
-                BitmapImage ResultBitmapImage = new BitmapImage();
-                ResultBitmapImage.BeginInit();
-                ResultBitmapImage.CacheOption = BitmapCacheOption.OnLoad;
-                ResultBitmapImage.StreamSource = ImageConvertStream;
-                ResultBitmapImage.EndInit();
-                ResultBitmapImage.Freeze();
-
-                return ResultBitmapImage;
-            }
-        }
-    }
-
     public static class Requirements
     {
         #region WPF
@@ -137,17 +58,28 @@ namespace LC_Localization_Task_Absolute
             else return new BitmapImage();
         }
 
-        public static byte[] ConvertWebpToPng(byte[] WebpImageData)
+        public static BitmapSource Tint(BitmapImage BitmapImage, Color ChangeColor)
         {
-            using (MemoryStream InputStream = new MemoryStream(WebpImageData))
-            using (SixLabors.ImageSharp.Image OutputImage = SixLabors.ImageSharp.Image.Load(InputStream))
+            WriteableBitmap OutputImage = new WriteableBitmap(BitmapImage);
+
+            int ImageWidth = OutputImage.PixelWidth;
+            int ImageHeight = OutputImage.PixelHeight;
+            int Stride = ImageWidth * (OutputImage.Format.BitsPerPixel / 8);
+            byte[] Pixels = new byte[ImageHeight * Stride];
+
+            OutputImage.CopyPixels(Pixels, Stride, 0);
+
+            Span<byte> PixelSpan = Pixels.AsSpan();
+            for (int PixelIndex = 0; PixelIndex < PixelSpan.Length; PixelIndex += 4)
             {
-                using (MemoryStream OutputStream = new MemoryStream())
-                {
-                    OutputImage.SaveAsPng(OutputStream);
-                    return OutputStream.ToArray();
-                }
+                /* R */ PixelSpan[PixelIndex + 2] = (byte)(PixelSpan[PixelIndex + 2] * ChangeColor.R / 255);
+                /* G */ PixelSpan[PixelIndex + 1] = (byte)(PixelSpan[PixelIndex + 1] * ChangeColor.G / 255);
+                /* B */ PixelSpan[PixelIndex    ] = (byte)(PixelSpan[PixelIndex    ] * ChangeColor.B / 255);
             }
+
+            OutputImage.WritePixels(new Int32Rect(0, 0, ImageWidth, ImageHeight), Pixels, Stride, 0);
+
+            return OutputImage;
         }
 
         public static FontWeight WeightFrom(string StringVariant)
@@ -223,6 +155,41 @@ namespace LC_Localization_Task_Absolute
             ////////////////////////////////////////////////////
             Target.ScrollToVerticalOffset(OriginalVerticalScrollOffset);
             Target.ScrollToHorizontalOffset(OriginalHorizontalScrollOffset);
+        }
+
+        public static bool TryParseColor(string HexColor, out Color OutColor)
+        {
+            if (HexColor == null) return false;
+
+            HexColor = HexColor.Replace("#", "");
+
+            try
+            {
+                if (HexColor.Length == 6)
+                {
+                    OutColor = new Color()
+                    {
+                        A = 255,
+                        R = Convert.ToByte(HexColor.Substring(0, 2), 16),
+                        G = Convert.ToByte(HexColor.Substring(2, 2), 16),
+                        B = Convert.ToByte(HexColor.Substring(4, 2), 16)
+                    };
+                    return true;
+                }
+                else if (HexColor.Length == 8)
+                {
+                    OutColor = new Color()
+                    {
+                        A = Convert.ToByte(HexColor.Substring(0, 2), 16),
+                        R = Convert.ToByte(HexColor.Substring(2, 2), 16),
+                        G = Convert.ToByte(HexColor.Substring(4, 2), 16),
+                        B = Convert.ToByte(HexColor.Substring(6, 2), 16)
+                    };
+                    return true;
+                }
+                else return false;
+            }
+            catch { return false; }
         }
 
         public static Color ToColorBrush(string HexColor)
@@ -314,8 +281,8 @@ namespace LC_Localization_Task_Absolute
             }
             else
             {
-                if (WriteInfo) rin($"      Font file \"{FontPath}\" not found, returning \"Arial\"");
-                return new FontFamily("Arial");
+                if (WriteInfo) rin($"      Font file \"{FontPath}\" not found, string used as name");
+                return new FontFamily(FontPath);
             }
         }
 
@@ -349,6 +316,14 @@ namespace LC_Localization_Task_Absolute
             }
         }
 
+        public static void BindSame(this FrameworkElement BindingTarget, DependencyProperty BindingSameProperty, FrameworkElement BindingSource)
+        {
+            BindingTarget.SetBinding(BindingSameProperty, new Binding(BindingSameProperty.ToString())
+            {
+                Source = BindingSource
+            });
+        }
+
         public static FrameworkElement SetBindingWithReturn(this FrameworkElement Target, DependencyProperty Property, string BindingPropertyName, DependencyObject BindingSource)
         {
             Target.SetBinding(Property, new Binding(BindingPropertyName)
@@ -356,19 +331,6 @@ namespace LC_Localization_Task_Absolute
                 Source = BindingSource
             });
 
-            return Target;
-        }
-
-        public static UIElement SetColumn(this UIElement Target, int ColumnNumber)
-        {
-            Grid.SetColumn(Target, ColumnNumber);
-            return Target;
-        }
-
-        public static TextBlock SetLineHeight(this TextBlock Target, double LineHeight)
-        {
-            Target.LineStackingStrategy = LineStackingStrategy.BlockLineHeight;
-            Target.LineHeight = LineHeight;
             return Target;
         }
 
@@ -406,6 +368,10 @@ namespace LC_Localization_Task_Absolute
         public static void SetBottomMargin(this FrameworkElement Target, double BottomMargin)
         {
             Target.Margin = new Thickness(Target.Margin.Left, Target.Margin.Top, Target.Margin.Right, BottomMargin);
+        }
+        public static void SetRightMargin(this FrameworkElement Target, double RightMargin)
+        {
+            Target.Margin = new Thickness(Target.Margin.Left, Target.Margin.Top, RightMargin, Target.Margin.Bottom);
         }
 
         public static void MoveItemUp(this StackPanel ParentStackPanel, UIElement TargetElement)
@@ -507,6 +473,37 @@ namespace LC_Localization_Task_Absolute
                 return;
             }
         }
+
+
+        /// <summary>
+        /// Set Opacity to 1 and IsHitTestVisible to True
+        /// </summary>
+        public static void MakeAvailable(params UIElement[] Targets)
+        {
+            foreach (UIElement Target in Targets)
+            {
+                Target.Opacity = 1;
+                Target.IsHitTestVisible = true;
+            }
+        }
+
+        /// <summary>
+        /// Set Opacity to 0.55 and IsHitTestVisible to False
+        /// </summary>
+        public static void MakeUnavailable(params UIElement[] Targets)
+        {
+            foreach (UIElement Target in Targets)
+            {
+                Target.Opacity = 0.55;
+                Target.IsHitTestVisible = false;
+            }
+        }
+
+
+
+
+
+
         #endregion
 
 
@@ -620,10 +617,51 @@ namespace LC_Localization_Task_Absolute
 
 
 
+        public static OpenFileDialog NewOpenFileDialog(string FilesHint, IEnumerable<string> Extensions)
+        {
+            List<string> FileFilters_DefaultExt = new List<string>();
+            List<string> FileFilters_Filter = new List<string>();
 
+            foreach (string Filter in Extensions)
+            {
+                FileFilters_DefaultExt.Add($".{Filter}");
+                FileFilters_Filter.Add($"*.{Filter}");
+            }
 
+            OpenFileDialog FileSelection = new OpenFileDialog();
+            FileSelection.DefaultExt = string.Join("|", FileFilters_DefaultExt); // .png|.jpg
+            FileSelection.Filter = $"{FilesHint}|{string.Join(";", FileFilters_Filter)}";  // *.png;*.jpg
 
+            return FileSelection;
+        }
 
+        public static SaveFileDialog NewSaveFileDialog(string FilesHint, IEnumerable<string> Extensions, string FileDefaultName = "")
+        {
+            List<string> FileFilters_DefaultExt = new List<string>();
+            List<string> FileFilters_Filter = new List<string>();
+
+            foreach (string Filter in Extensions)
+            {
+                FileFilters_DefaultExt.Add($".{Filter}");
+                FileFilters_Filter.Add($"*.{Filter}");
+            }
+
+            SaveFileDialog FileSaving = new SaveFileDialog();
+            FileSaving.DefaultExt = string.Join("|", FileFilters_DefaultExt); // .png|.jpg
+            FileSaving.Filter = $"{FilesHint}|{string.Join(";", FileFilters_Filter)}";  // *.png;*.jpg
+            FileSaving.FileName = FileDefaultName;
+
+            return FileSaving;
+        }
+
+        public static string RandomUID(int Length = 5)
+        {
+            return new string(Enumerable.Repeat("ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789", Length).Select(s => s[new Random().Next(s.Length)]).ToArray());
+        }
+        public static string FormattedStackTrace(Exception Info, string SetupExceptionHandlingSource = "")
+        {
+            return $"\n\n[{SetupExceptionHandlingSource} : {Info.Source}] {Info.Message}\n{Info.StackTrace.FormatStackTraceByNamespace("", @"C:\Users\javas\OneDrive\Документы\LC Localization Interface (Code)\")}\n\n";
+        }
 
 
         /// <summary>
@@ -649,10 +687,6 @@ namespace LC_Localization_Task_Absolute
             doubleAnimation.Completed += (Sender, Args) => { CompleteAction(); };
             placeholder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, doubleAnimation);
         }
-        
-        public static int LinesCount(this string check) => check.Count(f => f == '\n');
-
-        public static byte ToByte(this string HexDigit) => byte.Parse(HexDigit, System.Globalization.NumberStyles.HexNumber);
 
         public static List<FileInfo> ToFileInfos(this IEnumerable<string> FilePaths)
         {

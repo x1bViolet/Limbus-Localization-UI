@@ -7,6 +7,8 @@
     "Background Image": "",
     "Background Image Shadow": "#0F0F0F",
 
+    "Background Image Shadow (Identity/E.G.O Preview creator)": "#00000000",
+
     "Hide Background Image with minimum window width": true,
 
     "Right Menu Navigation Panel Background": "#00000000",
