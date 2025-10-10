@@ -521,7 +521,7 @@
       },
       {
         "UID": {"[Settings / Preview Scans] * Background Color":null},
-        "Text": "Exports Background Color (<i>Hex</i> <u>RGB</u> / <u>ARGB</u>)",
+        "Text": "導出背景顏色（<i>十六進位</i> <u>RGB</u>／<u>ARGB</u>）",
         "Font Size": 16,
         "Font": "Linotype Syntax Com"
       },
@@ -572,12 +572,12 @@
     [
       {
         "UID": {"[C] * Open image info":null},
-        "Text": "Open image info",
+        "Text": "開啟圖片資訊",
         "Font Size": 23
       },
       {
         "UID": {"[C] * Save image info":null},
-        "Text": "Save image info",
+        "Text": "儲存圖片資訊",
         "Font Size": 23
       }
     ],
@@ -607,7 +607,7 @@
     [
       {
         "UID": {"[C] * [Section:Image parameters / Portrait image] Title":null},
-        "Text": "<u>Portrait image</u>",
+        "Text": "<u>立繪圖片</u>",
         "Font Size": 20
       },
       {
@@ -653,61 +653,61 @@
     [
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Title":null},
-        "Text": "<u>Portrait parameters [Identity]</u>",
+        "Text": "<u>立繪參數[人格]</u>",
         "Font Size": 20
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Image scale":null},
-        "Text": "Image scale",
+        "Text": "圖片縮放",
         "Font Size": 18.5
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Title":null},
-        "Text": "<u>Portrait parameters [E.G.O]</u>",
+        "Text": "<u>立繪參數[E.G.O]</u>",
         "Font Size": 20
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Inner image scale":null},
-        "Text": "Inner image scale",
+        "Text": "內部圖片縮放",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Scale with frame":null},
-        "Text": "Scale with frame",
+        "Text": "跟隨外框縮放",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Frame color":null},
-        "Text": "Frame color",
+        "Text": "外框顏色",
         "Font Size": 18.5
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Image parameters / Vignette softness] Title":null},
-        "Text": "<u>Vignette softness</u>",
+        "Text": "<u>暗角柔化</u>",
         "Font Size": 20
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette softness] Left / Top / Bottom (General)":null},
-        "Text": "Left / Top / Bottom <b>(General)</b>",
+        "Text": "左側 / 上方 / 下方 <b>（一般）</b>",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette softness] Right (Text background)":null},
-        "Text": "Right <b>(Text background)</b>",
+        "Text": "右側 <b>（文字背景）</b>",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait":null},
-        "Text": "Left behind E.G.O portrait <color=#919188><b><font=\"Times New Roman\">[\u0000i]",
+        "Text": "左側E.G.O 立繪後方<color=#919188><b><font=\"Times New Roman\">[\u0000i]",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait (Tooltip info)":null},
-        "Text": "Designed to shade Text Background Effects",
+        "Text": "用於文字背景效果的陰影",
         "Font Size": 14,
         "Font Weight": "Regular",
         "Foreground": "#ffffff"
@@ -716,40 +716,40 @@
     [
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Title":null},
-        "Text": "<u>Vignette additional length</u>",
+        "Text": "<u>暗角延伸距離</u>",
         "Font Size": 20
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left":null},
-        "Text": "Left",
+        "Text": "左側",
         "Text Alignment": "Center",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Top":null},
-        "Text": "Top",
+        "Text": "上方",
         "Text Alignment": "Center",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Bottom":null},
-        "Text": "Bottom",
+        "Text": "下方",
         "Text Alignment": "Center",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Right (Text background)":null},
-        "Text": "Right <b>(Text background)</b>",
+        "Text": "右側 <b>（文字背景）</b>",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait":null},
-        "Text": "Left behind E.G.O portrait <color=#919188><b><font=\"Times New Roman\">[\u0000i]",
+        "Text": "左側E.G.O 立繪後方<color=#919188><b><font=\"Times New Roman\">[\u0000i]",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait (Tooltip info)":null},
-        "Text": "Designed to shade Text Background Effects",
+        "Text": "用於文字背景效果的陰影",
         "Font Size": 14,
         "Font Weight": "Regular",
         "Foreground": "#ffffff"
@@ -758,20 +758,20 @@
     [
       {
         "UID": {"[C] * [Section:Image parameters / Image label] Title":null},
-        "Text": "<u>Image label</u>",
+        "Text": "<u>圖片標籤</u>",
         "Font Size": 20
       },
       {
         "UID": {"[C] * [Section:Image parameters / Image label] Image label text":null},
-        "Text": "Image label text",
+        "Text": "圖片標籤文字",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Image parameters / Image label] Image label font (Label)":null},
         "Font Size": 18.5,
         "Variable": {
-          "Default": "Image label font",
-          "Selected": "Image label font\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Default": "圖片標籤字體",
+          "Selected": "圖片標籤字體\n<size=78%><color=#fc5a03>[$]</color></size>"
         }
       },
       {
@@ -818,7 +818,7 @@
       },
       {
         "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Header color":null},
-        "Text": "Header color",
+        "Text": "頂部欄位顏色",
         "Font Size": 18.5
       },
       {
@@ -840,7 +840,7 @@
     [
       {
         "UID": {"[C] * [Section:Header] Title":null},
-        "Text": "<u>Header</u>",
+        "Text": "<u>頂部欄位</u>",
         "Font Size": 20
       },
       {
@@ -855,22 +855,22 @@
       },
       {
         "UID": {"[C] * [Section:Header] Sinner name horizontal offset":null},
-        "Text": "Sinner name horizontal offset",
+        "Text": "罪人名稱水平偏移量",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Header] Identity/E.G.O name horizontal offset":null},
-        "Text": "Identity/E.G.O name horizontal offset",
+        "Text": "人格/E.G.O 名稱水平偏移量",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Header] Rarity/Risk level horizontal offset":null},
-        "Text": "Rarity/Risk level horizontal offset",
+        "Text": "稀有度/E.G.O危險等級 水平偏移量",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Header] Rarity/Risk level vertical offset":null},
-        "Text": "Rarity/Risk level vertical offset",
+        "Text": "稀有度/E.G.O危險等級 垂直偏移量",
         "Font Size": 18.5
       }
     ],
@@ -882,12 +882,12 @@
       },
       {
         "UID": {"[C] * [Section:Decorative cautions] Cautions text":null},
-        "Text": "Cautions text",
+        "Text": "警告文字",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Decorative cautions] Cautions color":null},
-        "Text": "Cautions color",
+        "Text": "警告顏色",
         "Font Size": 18.5
       },
       {
@@ -936,18 +936,18 @@
     [
       {
         "UID": {"[C] * [Section:Textual info/General options] Title":null},
-        "Text": "<u>General options</u>",
+        "Text": "<u>通用選項</u>",
         "Font Size": 20
       },
 
       {
         "UID": {"[C] * [Section:Textual info/General options] First column title":null},
-        "Text": "<b>First column</b>",
+        "Text": "<b>欄位1</b>",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Textual info/General options] Second column title":null},
-        "Text": "<b>Second column</b>",
+        "Text": "<b>欄位2</b>",
         "Font Size": 18.5
       },
 
@@ -958,7 +958,7 @@
       },
       {
         "UID": {"[C] * [Section:Textual info/General options] First column - Item signatures offset":null},
-        "Text": "Item signatures offset",
+        "Text": "物件名稱偏移",
         "Font Size": 18.5
       },
 
@@ -969,7 +969,7 @@
       },
       {
         "UID": {"[C] * [Section:Textual info/General options] Second column - Item signatures offset":null},
-        "Text": "Item signatures offset",
+        "Text": "物件名稱偏移",
         "Font Size": 18.5
       }
     ],
@@ -978,8 +978,8 @@
         "UID": {"[C] * [Section:Textual info/General options] Item signatures font (Label)":null},
         "Font Size": 18.5,
         "Variable": {
-          "Default": "Item signatures font",
-          "Selected": "Item signatures font\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Default": "物件名稱字體",
+          "Selected": "物件名稱字體\n<size=78%><color=#fc5a03>[$]</color></size>"
         }
       },
       {
@@ -1010,13 +1010,11 @@
       },
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Skills localization (Button)":null},
-        "Text": "Select json file",
+        "Text": "選擇json文件",
         "Margin": [0, 4, 0, 0],
         "Text Alignment": "Center",
         "Font Size": 18.5
       },
-
-
 
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Skills Display Info (Label)":null},
@@ -1028,13 +1026,11 @@
       },
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Skills Display Info (Button)":null},
-        "Text": "Select json file",
+        "Text": "選擇json文件",
         "Margin": [0, 4, 0, 0],
         "Text Alignment": "Center",
         "Font Size": 18.5
       },
-
-
 
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Passives localization (Label)":null},
@@ -1046,13 +1042,11 @@
       },
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Passives localization (Button)":null},
-        "Text": "Select json file",
+        "Text": "選擇json文件",
         "Margin": [0, 4, 0, 0],
         "Text Alignment": "Center",
         "Font Size": 18.5
       },
-
-
 
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Keywords localization (Label)":null},
@@ -1064,7 +1058,7 @@
       },
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Keywords localization (Button)":null},
-        "Text": "Select json file",
+        "Text": "選擇json文件",
         "Margin": [0, 4, 0, 0],
         "Text Alignment": "Center",
         "Font Size": 18.5
@@ -1089,7 +1083,7 @@
       },
       {
         "UID": {"[C] * [Section:Textual info/Selected item settings] Text ID from localization file":null},
-        "Text": "Text ID from localization file",
+        "Text": "本地化檔案文本 ID",
         "Font Size": 18.5
       },
       {
@@ -1121,7 +1115,7 @@
       },
       {
         "UID": {"[C] * [Section:Textual info/Selected item settings] Horizontal offset":null},
-        "Text": "水平偏移<size=78%>\n（僅添加文字訊息）</size>)",
+        "Text": "水平偏移<size=78%>\n（僅添加文字訊息）</size>",
         "Text Alignment": "Center",
         "Font Size": 18.5
       },
@@ -1150,20 +1144,20 @@
     [
       {
         "UID": {"[C] * [Section:Text background effects] Title":null},
-        "Text": "<u>Text background effects</u>",
+        "Text": "<u>文字背景效果</u>",
         "Font Size": 20
       },
       {
         "UID": {"[C] * [Section:Text background effects] Effects image (Label)":null},
         "Font Size": 18.5,
         "Variable": {
-          "Default": "Effects image <color=#919188><b><font=\"Times New Roman\">[\u0000i]</font></b></color>",
-          "Selected": "Effects image <color=#919188><b><font=\"Times New Roman\">[\u0000i]</font></b></color>\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Default": "效果圖片<color=#919188><b><font=\"Times New Roman\">[\u0000i]</font></b></color>",
+          "Selected": "效果圖片<color=#919188><b><font=\"Times New Roman\">[\u0000i]</font></b></color>\n<size=78%><color=#fc5a03>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Text background effects] Effects image (Label) (Tooltip info)":null},
-        "Text": "If it looks invisible in E.G.O portrait mode, then\nmost likely it is blocked by the <b>'Right'</b> or <b>'Left\nbehind E.G.O portrait'</b> Vignette, try to reduce it",
+        "Text": "如果在 E.G.O 模式下看不到，通常是被 <b>「右側」</b> 或 <b>「左側E.G.O 立繪後方」</b> 的暗角遮擋，請嘗試調低其數值",
         "Font Weight": "Regular",
         "Font Size": 14,
         "Foreground": "#ffffff"
@@ -1176,22 +1170,22 @@
       },
       {
         "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only)":null},
-        "Text": "Placement mode <size=78%>(Identity only)</size>",
+        "Text": "放置模式 <size=78%>（僅限人格）</size>",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — Right vignette":null},
-        "Text": "On right vignette",
+        "Text": "在右側暗角",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — All vignettes":null},
-        "Text": "On all vignettes",
+        "Text": "在所有暗角上",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Text background effects] Opacity":null},
-        "Text": "Opacity",
+        "Text": "不透明度",
         "Font Size": 18.5
       },
       {
@@ -1208,37 +1202,37 @@
     [
       {
         "UID": {"[C] * [Section:Text background effects/Transform] Title":null},
-        "Text": "<u>Transform</u>",
+        "Text": "<u>變形</u>",
         "Font Size": 20
       },
       {
         "UID": {"[C] * [Section:Text background effects/Transform] Scale (X)":null},
-        "Text": "Scale (X)",
+        "Text": "縮放（X軸）",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Text background effects/Transform] Scale (Y)":null},
-        "Text": "Scale (Y)",
+        "Text": "縮放（Y軸）",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Text background effects/Transform] Rotation":null},
-        "Text": "Rotation",
+        "Text": "旋轉",
         "Font Size": 18.5
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Overlay sketch] Title":null},
-        "Text": "<u>Overlay sketch</u>",
+        "Text": "<u>覆蓋草稿</u>",
         "Font Size": 20
       },
       {
         "UID": {"[C] * [Section:Overlay sketch] Sketch image (Label)":null},
         "Font Size": 18.5,
         "Variable": {
-          "Default": "Sketch image",
-          "Selected": "Sketch image\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Default": "草稿圖片",
+          "Selected": "草稿圖片\n<size=78%><color=#fc5a03>[$]</color></size>"
         }
       },
       {
@@ -1249,13 +1243,13 @@
       },
       {
         "UID": {"[C] * [Section:Overlay sketch] Image opacity":null},
-        "Text": "Image opacity",
+        "Text": "圖片不透明度",
         "Text Alignment": "Center",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Overlay sketch] Image size":null},
-        "Text": "Image size",
+        "Text": "圖片大小",
         "Text Alignment": "Center",
         "Font Size": 18.5
       }
@@ -1263,20 +1257,20 @@
     [
       {
         "UID": {"[C] * [Section:Other effects] Title":null},
-        "Text": "<u>Other effects</u>",
+        "Text": "<u>其他效果</u>",
         "Font Size": 20
       },
       {
         "UID": {"[C] * [Section:Other effects] Walpurgis Night logo mode":null},
-        "Text": "Walpurgis Night logo mode",
+        "Text": "瓦爾普吉斯之夜Logo模式",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Other effects] Upper left logo image (Label)":null},
         "Font Size": 18.5,
         "Variable": {
-          "Default": "Upper left logo image",
-          "Selected": "Upper left logo image\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Default": "左上角Logo圖片",
+          "Selected": "左上角Logo圖片\n<size=78%><color=#fc5a03>[$]</color></size>"
         }
       },
       {
@@ -1287,15 +1281,15 @@
       },
       {
         "UID": {"[C] * [Section:Other effects] Upper left logo scale":null},
-        "Text": "Upper left logo scale",
+        "Text": "左上角Logo縮放",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Other effects] Bottom right logo image (Label)":null},
         "Font Size": 18.5,
         "Variable": {
-          "Default": "Bottom right logo image",
-          "Selected": "Bottom right logo image\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Default": "右下角Logo圖片",
+          "Selected": "右下角Logo圖片\n<size=78%><color=#fc5a03>[$]</color></size>"
         }
       },
       {
@@ -1306,12 +1300,12 @@
       },
       {
         "UID": {"[C] * [Section:Other effects] Bottom right logo scale":null},
-        "Text": "Bottom right logo scale",
+        "Text": "右下角Logo縮放",
         "Font Size": 18.5
       },
       {
         "UID": {"[C] * [Section:Other effects] Bottom right logo opacity":null},
-        "Text": "Bottom right logo opacity",
+        "Text": "右下角Logo不透明度",
         "Font Size": 18.5
       }
     ],

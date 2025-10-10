@@ -121,11 +121,14 @@ namespace LC_Localization_Task_Absolute
 
             FrameworkElement PreviewContent = Target.Content as FrameworkElement;
 
-            try
+            if (!PreviewCreator.CurrentInfo.IsActive)
             {
-                (PreviewContent as dynamic).Background = ToSolidColorBrush(Configurazione.DeltaConfig.ScanParameters.BackgroundColor);
+                try
+                {
+                    (PreviewContent as dynamic).Background = ToSolidColorBrush(Configurazione.DeltaConfig.ScanParameters.BackgroundColor);
+                }
+                catch { }
             }
-            catch { }
 
             PreviewContent.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             PreviewContent.Arrange(new Rect(PreviewContent.DesiredSize));
@@ -146,11 +149,14 @@ namespace LC_Localization_Task_Absolute
                 ExportBitmapEncoder.Save(ExportStream);
             }
 
-            try
+            if (!PreviewCreator.CurrentInfo.IsActive)
             {
-                (PreviewContent as dynamic).Background = Brushes.Transparent;
+                try
+                {
+                    (PreviewContent as dynamic).Background = Brushes.Transparent;
+                }
+                catch { }
             }
-            catch { }
 
             ////////////////////////////////////////////////////
             Target.ScrollToVerticalOffset(OriginalVerticalScrollOffset);
