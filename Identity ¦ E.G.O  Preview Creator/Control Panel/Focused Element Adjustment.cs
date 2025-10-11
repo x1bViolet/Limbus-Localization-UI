@@ -108,6 +108,8 @@ public partial class MainWindow
         VC_FocusedColumnElement_HorizontalOffset.Value = FocusedElementInfo.HorizontalOffset;
         VC_FocusedColumnElement_NameMaximumWidth.Value = FocusedElementInfo.MaxWidth_Name;
         VC_FocusedColumnElement_PassiveDescriptionWidth.Value = FocusedElementInfo.MaxWidth_PassiveDescription;
+        VC_FocusedColumnElement_SkillMainDescriptionWidth.Value = FocusedElementInfo.MaxWidth_SkillMainDescription;
+        VC_FocusedColumnElement_SkillCoinDescriptionsWidth.Value = FocusedElementInfo.MaxWidth_SkillCoinsDescription;
         FocusedItem_SignatureInput.Text = FocusedElementInfo.Signature;
         if (!FocusedElementInfo.KeywordIcon_Path.Equals(""))
         {
