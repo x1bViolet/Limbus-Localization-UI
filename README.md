@@ -8,8 +8,8 @@
 ### [GitBook documentation link](https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface)
 
 ### Gallery
-<img alt="Screenshot 2025-09-04 234750" src="https://github.com/user-attachments/assets/f7eeba5f-39c0-4851-9560-27a7b93ed642" />
-<img alt="Screenshot 2025-09-04 234942" src="https://github.com/user-attachments/assets/312ad966-dac6-418a-83c7-3d64a851f0f8" />
-<img alt="Screenshot 2025-09-04 235150" src="https://github.com/user-attachments/assets/5909c741-f392-4c00-bfee-892e217533f6" />
-<img alt="Screenshot"                   src="https://github.com/user-attachments/assets/44b0d220-4b63-4f61-99c3-7fceb399b380" />
-<img alt="Screenshot 2025-09-04 235430" src="https://github.com/user-attachments/assets/70ced082-ede8-48b0-b9ca-2e9d4288e5f3" />
+<img alt="1" src="https://github.com/user-attachments/assets/36350c9f-b825-4976-b200-83a36fc4245c" />
+<img alt="2" src="https://github.com/user-attachments/assets/bb86d2a3-417a-44ab-8293-4b764641a9ad" />
+<img alt="3" src="https://github.com/user-attachments/assets/0e15c4eb-bf4c-4615-910b-4639f1c30f87" />
+<img alt="4" src="https://github.com/user-attachments/assets/28834507-6957-4fb7-989a-7b0a4402b671" />
+<img alt="5" src="https://github.com/user-attachments/assets/28b1cd52-4761-475b-ad34-8406cdefc7fa" />
