@@ -9,7 +9,7 @@
 
     "Background Image Shadow (Identity/E.G.O Preview creator)": "#00000000",
 
-    "Hide Background Image with minimum window width": true,
+    "Hide Background Image with minimum window width": false,
 
     "Right Menu Navigation Panel Background": "#51000000",
     "Right Menu Object name Foreground": "#E6C5C5"
@@ -38,7 +38,7 @@
     "Background": "#AB191919",
 
     "Font": "[⇲] Assets Directory/@ Internal/Themes/A girl who wishes to be pretty/Megrim.ttf",
-    "Font Weight": "Regular",
+    "Font Weight": "Bold",
     "Font Size": 16.8,
 
     "Caret": "#E9DBC6",
