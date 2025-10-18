@@ -103,6 +103,20 @@
         "Font": "Unispace",
         "Font Size": 13.8,
         "Padding": [0, 3, 5, 3]
+      },
+      {
+        "UID": {"[Main UI] * Add additional object button":null},
+        "Text": "建立附加項目..",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI] * Create uptie button":null},
+        "Text": "建立同步等級",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 6, 3]
       }
     ],
     [
@@ -512,7 +526,7 @@
       },
       {
         "UID": {"[Settings / Internal] * Enable manual Json files managing":null},
-        "Text": "Enable manual Json files managing",
+        "Text": "啟用手動管理 JSON 檔案",
         "Font": "Linotype Syntax Com"
       },
       {
@@ -604,19 +618,19 @@
       },
       {
         "UID": {"[Settings / Preview Scans] * Readme 1":null},
-        "Text": "It can be used to translate Previews of new Identities/E.G.O by superimposing the exported image onto the official images. <font=\"Segoe UI\"><b><i>However</i></b></font>, the program already has a special mode for directly creating higly adjustable Previews in a non-roundabout way, docs link below.\n<hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator\"><color=#569cd6><u>Custom Identity/E.G.O Preview creator Documentation</u></color></hyperlink>.",
+        "Text": "此功能可用於將匯出的圖像疊加至官方圖片上，以翻譯新身份／E.G.O 的預覽內容。\n<font=\"Segoe UI\"><b><i>但請注意</i></b></font>，本程式已內建可直接製作並靈活調整預覽圖的專用模式，無需透過此間接方式。\n文件連結如下：<hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator\"><color=#569cd6><u>自訂身份／E.G.O 預覽製作功能說明</u></color></hyperlink>。",
         "Font Size": 14,
         "Font": "Linotype Syntax Com"
       },
       {
         "UID": {"[Settings / Preview Scans] * Readme 2":null},
-        "Text": "Anyway, skills localization file counts as skills for viewer only if you write something in coins and they will be visible. Type 0 width to use default value, all text even outside of window still being rendered and scanned. You can use it for all.",
+        "Text": "無論如何，技能本地化檔案只有在你於「硬幣」欄位中填入內容時，才會在檢視器中被識別為技能。\n若將寬度設定為 0，則會使用預設值。\n即使文字超出視窗範圍，也仍會被渲染並進行掃描。\n此規則適用於所有項目",
         "Font Size": 14,
         "Font": "Linotype Syntax Com"
       },
       {
         "UID": {"[Settings / Preview Scans] * Readme 3":null},
-        "Text": "P.S. Scale factor also affects on exported images from Custom Identity/E.G.O Preview creator.",
+        "Text": "附註：縮放係數（Scale factor）同樣會影響由「自訂身份／E.G.O 預覽建立器」匯出的圖像。",
         "Font Size": 14,
         "Font": "Linotype Syntax Com"
       }
@@ -624,47 +638,47 @@
     [
       {
         "UID": {"[Skills DI Manager] * Title bar button tooltip":null},
-        "Text": "Open Skills Display Info manager"
+        "Text": "開啟技能顯示資訊管理器"
       }
     ],
     [
       {
         "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Move Up)":null},
-        "Text": "Move Up",
+        "Text": "上移",
         "Font Size": 16.5,
-        "Width": 100
+        "Width": 40
       },
       {
         "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Delete)":null},
-        "Text": "Delete",
+        "Text": "刪除",
         "Font Size": 16.5,
-        "Width": 100
+        "Width": 40
       },
       {
         "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Move down)":null},
-        "Text": "Move down",
+        "Text": "下移",
         "Font Size": 16.5,
-        "Width": 100
+        "Width": 40
       }
     ],
     [
       {
         "UID": {"[Skills DI Manager] * Textfields context menu — Copy":null},
-        "Text": "Copy",
+        "Text": "複製",
         "Font Size": 16.5,
-        "Width": 41
+        "Width": 40
       },
       {
         "UID": {"[Skills DI Manager] * Textfields context menu — Cut":null},
-        "Text": "Cut",
+        "Text": "剪下",
         "Font Size": 16.5,
-        "Width": 41
+        "Width": 40
       },
       {
         "UID": {"[Skills DI Manager] * Textfields context menu — Paste":null},
-        "Text": "Paste",
+        "Text": "貼上",
         "Font Size": 16.5,
-        "Width": 41
+        "Width": 40
       }
     ],
     [
@@ -675,27 +689,31 @@
       },
       {
         "UID": {"[Skills DI Manager] [!] * Regular coin option":null},
-        "Text": "Regular coin",
-        "Font Size": 16.5
+        "Text": "普通硬幣",
+        "Font Size": 16.5,
+        "Margin": [0, 0.5, 0, 0]
       },
       {
         "UID": {"[Skills DI Manager] [!] * Unbreakable coin option":null},
-        "Text": "Unbreakable coin",
-        "Font Size": 16.5
+        "Text": "不可摧毀的硬幣",
+        "Font Size": 16.5,
+        "Margin": [0, 0.5, 0, 0]
       }
     ],
     [
       {
         "UID": {"[Skills DI Manager] * Open file button":null},
-        "Text": "Open file",
+        "Text": "開啟檔案",
         "Width": 120,
-        "Font Size": 16.5
+        "Font Size": 16.5,
+        "Margin": [0, 2.5, 0, 0]
       },
       {
         "UID": {"[Skills DI Manager] * Save current button":null},
-        "Text": "Save current",
+        "Text": "儲存檔案",
         "Width": 120,
-        "Font Size": 16.5
+        "Font Size": 16.5,
+        "Margin": [0, 2.5, 0, 0]
       },
       {
         "UID": {"[Skills DI Manager] * Current file name":null},
@@ -711,28 +729,28 @@
       },
       {
         "UID": {"[Skills DI Manager] * New skill constructor button":null},
-        "Text": "<b><font=\"Times New Roman\">+</font></b> New skill constructor",
-        "Margin": [0, 1, 0, 0],
+        "Text": "<b><font=\"Times New Roman\">+</font></b> 新增技能構造器",
+        "Margin": [0, 2.5, 0, 0],
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Skill name":null},
-        "Text": "Skill name",
+        "Text": "技能名稱",
         "Font Size": 20
       },
       {
         "UID": {"[Skills DI Manager] * Skill ID":null},
-        "Text": "Skill ID",
+        "Text": "技能 ID",
         "Font Size": 20
       },
 
-
+      
       {
         "UID": {"[Skills DI Manager] * Icon image (Label)":null},
         "Font Size": 20,
         "Variable": {
-          "Default": "Icon image <size=75%><color=#fc5a03>[None]</color></size>",
-          "Selected": "Icon image <size=75%><color=#fc5a03>[Selected]</color></size>" 
+          "Default": "圖示圖片 <size=75%><color=#fc5a03>[無]</color></size>",
+          "Selected": "圖示圖片 <size=75%><color=#fc5a03>[已選擇]</color></size>"
         }
       },
       {
@@ -742,109 +760,110 @@
       },
       {
         "UID": {"[Skills DI Manager] * Icon image (Button)":null},
-        "Text": "Select image file",
-        "Font Size": 16.5
+        "Text": "選擇圖片檔",
+        "Font Size": 16.5,
+        "Padding": [0, 4, 0, 0]
       },
 
-      
+
       {
         "UID": {"[Skills DI Manager] * Skill action (Label)":null},
-        "Text": "Action",
+        "Text": "動作類型",
         "Font Size": 20
       },
       {
         "UID": {"[Skills DI Manager] * Skill action — Attack":null},
-        "Text": "Attack",
+        "Text": "攻擊",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Skill action — Counter":null},
-        "Text": "Counter",
+        "Text": "反擊",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Skill action — Guard":null},
-        "Text": "Guard",
+        "Text": "防禦",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Skill action — Evade":null},
-        "Text": "Evade",
+        "Text": "閃避",
         "Font Size": 16.5
       },
 
 
       {
         "UID": {"[Skills DI Manager] * Damage type (Label)":null},
-        "Text": "Damage type",
+        "Text": "攻擊類型",
         "Font Size": 20
       },
       {
         "UID": {"[Skills DI Manager] * Damage type — Blunt":null},
-        "Text": "Blunt",
+        "Text": "打擊",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Damage type — Pierce":null},
-        "Text": "Pierce",
+        "Text": "突刺",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Damage type — Slash":null},
-        "Text": "Slash",
+        "Text": "斬擊",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Damage type — None":null},
-        "Text": "None",
+        "Text": "無",
         "Font Size": 16.5
       },
-      
-      
-      
+
+
+
       {
         "UID": {"[Skills DI Manager] * Affinity (Label)":null},
-        "Text": "Affinity",
+        "Text": "罪孽類型",
         "Font Size": 20
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Wrath":null},
-        "Text": "Wrath",
+        "Text": "暴怒",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Lust":null},
-        "Text": "Lust",
+        "Text": "色慾",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Sloth":null},
-        "Text": "Sloth",
+        "Text": "怠惰",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Gluttony":null},
-        "Text": "Gluttony",
+        "Text": "暴食",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Gloom":null},
-        "Text": "Gloom",
+        "Text": "憂鬱",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Pride":null},
-        "Text": "Pride",
+        "Text": "傲慢",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Envy":null},
-        "Text": "Envy",
+        "Text": "忌妒",
         "Font Size": 16.5
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — None":null},
-        "Text": "None",
+        "Text": "無",
         "Font Size": 16.5
       },
 
@@ -852,7 +871,7 @@
 
       {
         "UID": {"[Skills DI Manager] * Rank (Label)":null},
-        "Text": "Rank",
+        "Text": "等級",
         "Font Size": 20
       },
       {
@@ -878,12 +897,12 @@
 
       {
         "UID": {"[Skills DI Manager] * Show affinity icon":null},
-        "Text": "Show affinity icon",
+        "Text": "顯示罪孽圖示",
         "Font Size": 20
       },
       {
         "UID": {"[Skills DI Manager] * Skill coins":null},
-        "Text": "Skill coins",
+        "Text": "技能硬幣",
         "Font Size": 20
       }
     ],
