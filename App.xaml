@@ -4,6 +4,10 @@
              xmlns:local="clr-namespace:LC_Localization_Task_Absolute"
              ShutdownMode="OnMainWindowClose">
     <Application.Resources>
-         
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/ᐁ UI Theme Keys.xaml"/>
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
     </Application.Resources>
 </Application>

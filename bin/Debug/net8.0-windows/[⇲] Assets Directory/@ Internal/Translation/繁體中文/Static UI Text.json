@@ -457,6 +457,11 @@
         "Font": "Linotype Syntax Com"
       },
       {
+        "UID": {"[Settings / Internal] * Enable manual Json files managing":null},
+        "Text": "Enable manual Json files managing",
+        "Font": "Linotype Syntax Com"
+      },
+      {
         "UID": {"[Settings / Internal] * Dropdown lists Readme":null},
         "Text": "下拉選單僅會考慮來自以下資料夾的檔案與資料夾：\n<font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\@ Internal\\Translation</color></b></font> 以及 \n<font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\@ Internal\\Themes</color></b></font>",
         "Font Size": 14,

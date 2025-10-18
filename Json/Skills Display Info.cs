@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
-using System.Numerics;
 using System.Runtime.Serialization;
 using System.Windows;
 using static LC_Localization_Task_Absolute.Requirements;
@@ -10,9 +9,9 @@ using static LC_Localization_Task_Absolute.Requirements;
 
 namespace LC_Localization_Task_Absolute.Json
 {
-    public abstract class Custom_Skills_Constructor
+    public abstract partial class SkillsDisplayInfo
     {
-        public static Dictionary<BigInteger, SkillContstructor> LoadedSkillConstructors = new Dictionary<BigInteger, SkillContstructor>();
+        public static Dictionary<int, SkillConstructor> LoadedSkillConstructors = new Dictionary<int, SkillConstructor>();
 
         public static void ReadSkillConstructors()
         {
@@ -32,16 +31,16 @@ namespace LC_Localization_Task_Absolute.Json
                 foreach (FileInfo ConstructorFile in new DirectoryInfo(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor").GetFiles("*.json", SearchOption.AllDirectories))
                 {
                     LogCustomSkillsConstructor($"{(FirstLogPadding ? "" : "\n\n\n\n\n")}Checking File :: {ConstructorFile.Name}");
-                    SkillsConstructorFile Deserialized = ConstructorFile.Deserealize<SkillsConstructorFile>();
+                    SkillsDisplayInfoFile Deserialized = ConstructorFile.Deserealize<SkillsDisplayInfoFile>();
                     FirstLogPadding = false;
 
                     if (Deserialized.List != null)
                     {
-                        foreach (SkillContstructor Constructor in Deserialized.List)
+                        foreach (SkillConstructor Constructor in Deserialized.List)
                         {
                             if (Constructor.ID != null)
                             {
-                                LoadedSkillConstructors[(BigInteger)Constructor.ID] = Constructor;
+                                LoadedSkillConstructors[(int)Constructor.ID] = Constructor;
                             }
                         }
                     }
@@ -51,20 +50,75 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        public record SkillsConstructorFile
+        public static SkillConstructor WithRemovedSecondary(SkillConstructor Constructor)
+        {
+            Constructor.Characteristics = Constructor.Characteristics with
+            {
+                CoinPower = null,
+                BasePower = null,
+                CoinsType = null,
+                AttackWeight = null,
+                BaseLevel = null,
+                LevelCorrection = null,
+            };
+            Constructor.Attributes = Constructor.Attributes with
+            {
+                Unobservable = null,
+                HideSkillCopies = null,
+                HideBasePower = null,
+                HideCoinPower = null,
+                HideBaseLevel = null,
+                HideAttackWeight = null,
+            };
+
+            return Constructor;
+        }
+        public static SkillConstructor CreateBlankConstructor()
+        {
+            return WithRemovedSecondary(new SkillConstructor()
+            {
+                SkillName = "",
+                ID = 1, IconID = "",
+                Specific = new SkillContstructor_Specific()
+                {
+                    Rank = 1,
+                    Action = "Attack",
+                    Affinity = "None",
+                    DamageType = "Blunt",
+                },
+                Characteristics = new SkillContstructor_Characteristics()
+                {
+                    CoinsList = new List<string>() { "Regular" },
+                },
+                Attributes = new SkillContstructor_Attributes()
+                {
+                    ShowAffinityIcon = true,
+                },
+            });
+        }
+
+        public record SkillsDisplayInfoFile
         {
             [JsonProperty("Skills Info")]
-            public List<SkillContstructor> List { get; set; }
+            public List<SkillConstructor> List { get; set; }
+
+            public void CleanSecondary()
+            {
+                for (int i = 0; i < List.Count; i++)
+                {
+                    List[i] = WithRemovedSecondary(List[i]);
+                }
+            }
         }
-        public record SkillContstructor
+        public record SkillConstructor
         {
-            public BigInteger? ID { get; set; }
+            [JsonProperty("(Name)")]
+            public string? SkillName { get; set; }
+
+            public int? ID { get; set; }
 
             [JsonProperty("Icon ID")]
             public string? IconID { get; set; }
-
-            [JsonProperty("(Name)")]
-            public string? SkillName { get; set; }
 
             [JsonProperty("Specific")]
             public SkillContstructor_Specific Specific { get; set; } = new SkillContstructor_Specific();
@@ -168,6 +222,12 @@ namespace LC_Localization_Task_Absolute.Json
                     LogCustomSkillsConstructor();
                 }
             }
+
+            [OnSerializing]
+            private void HandleRelativePaths_OnSave(StreamingContext ThisFilePathContext)
+            {
+                IconID = IconID.Replace((string)ThisFilePathContext.Context, ":Constructor:");
+            }
         }
 
         public record SkillContstructor_Specific
@@ -191,37 +251,44 @@ namespace LC_Localization_Task_Absolute.Json
 
         public record SkillContstructor_Characteristics
         {
-            [JsonProperty("Coin Power")] public int CoinPower { get; set; } = 0;
-            [JsonProperty("Base Power")] public int BasePower { get; set; } = 0;
+            [JsonProperty("Coin Power")] public int? CoinPower { get; set; } = 0;
+            [JsonProperty("Base Power")] public int? BasePower { get; set; } = 0;
 
             [JsonProperty("Coins List")] public List<string> CoinsList { get; set; } = new List<string>();
             [JsonProperty("Coins Type")] public      string  CoinsType { get; set; } = "Plus";
 
-            [JsonProperty("Attack Weight"   )] public int AttackWeight    { get; set; } = 1;
-            [JsonProperty("Base Level"      )] public int BaseLevel       { get; set; } = 55;
-            [JsonProperty("Level Correction")] public int LevelCorrection { get; set; } = 0;
+            [JsonProperty("Attack Weight"   )] public int? AttackWeight    { get; set; } = 1;
+            [JsonProperty("Base Level"      )] public int? BaseLevel       { get; set; } = 55;
+            [JsonProperty("Level Correction")] public int? LevelCorrection { get; set; } = 0;
 
             [OnDeserialized]
             private void OnDeserialized(StreamingContext Context)
             {
                 CoinsType = CoinsType.Equals("Minus") ? "-" : "+";
                 if (CoinsList.Count == 0) CoinsList.Add("Regular");
+
+                int Indexer = 0;
+                foreach (string Coin in CoinsList)
+                {
+                    if (!Coin.EqualsOneOf("Regular", "Unbreakable")) CoinsList[Indexer] = "Regular";
+                    Indexer++;
+                }
             }
         }
 
         public record SkillContstructor_Attributes
         {
-            [JsonProperty("Unobservable")] public bool Unobservable  { get; set; } = false;
+            [JsonProperty("Unobservable")] public bool? Unobservable  { get; set; } = false;
 
-            [JsonProperty("Hide 'Copies'")] public bool HideSkillCopies { get; set; } = false;
+            [JsonProperty("Hide 'Copies'")] public bool? HideSkillCopies { get; set; } = false;
 
-            [JsonProperty("Hide 'Base Power'")] public bool HideBasePower { get; set; } = false;
-            [JsonProperty("Hide 'Coin Power'")] public bool HideCoinPower { get; set; } = false;
-            [JsonProperty("Hide 'Base Level'")] public bool HideBaseLevel { get; set; } = false;
+            [JsonProperty("Hide 'Base Power'")] public bool? HideBasePower { get; set; } = false;
+            [JsonProperty("Hide 'Coin Power'")] public bool? HideCoinPower { get; set; } = false;
+            [JsonProperty("Hide 'Base Level'")] public bool? HideBaseLevel { get; set; } = false;
 
-            [JsonProperty("Hide 'Attack Weight'")] public bool HideAttackWeight { get; set; } = false;
+            [JsonProperty("Hide 'Attack Weight'")] public bool? HideAttackWeight { get; set; } = false;
 
-            [JsonProperty("Show Affinity Icon")] public bool ShowAffinityIcon { get; set; } = false;
+            [JsonProperty("Show Affinity Icon")] public bool? ShowAffinityIcon { get; set; } = false;
 
             [JsonProperty("Override 'Base Power'")] public string? OverrideBasePower { get; set; }
             [JsonProperty("Override 'Coin Power'")] public string? OverrideCoinPower { get; set; }

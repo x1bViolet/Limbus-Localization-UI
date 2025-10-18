@@ -14,7 +14,7 @@ using static LC_Localization_Task_Absolute.Json.BaseTypes;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Keywords;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Passives;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
-using static LC_Localization_Task_Absolute.Json.Custom_Skills_Constructor;
+using static LC_Localization_Task_Absolute.Json.SkillsDisplayInfo;
 using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
 using static LC_Localization_Task_Absolute.PreviewCreator.CompositionData_PROP.TextColumns_PROP;
 using static LC_Localization_Task_Absolute.Requirements;
@@ -161,7 +161,7 @@ public partial class MainWindow
     {
         if (!CurrentInfo.ComboBoxItemAddEvent & !CurrentInfo.FocusingOnElementEvent & EventArgs.AddedItems.Count > 0)
         {
-            Custom_Skills_Constructor.SkillContstructor SelectedSkillConstructor = (EventArgs.AddedItems[0] as UITranslation_Rose).DataContext as Custom_Skills_Constructor.SkillContstructor;
+            SkillsDisplayInfo.SkillConstructor SelectedSkillConstructor = (EventArgs.AddedItems[0] as UITranslation_Rose).DataContext as SkillsDisplayInfo.SkillConstructor;
             TextItem_PROP TargetElementInfo = CurrentInfo.FocusedColumnElement.DataContext as TextItem_PROP;
             TargetElementInfo.SelectedSkillConstructorID = (EventArgs.AddedItems[0] as UITranslation_Rose).Uid;
 
@@ -173,7 +173,7 @@ public partial class MainWindow
         if (SkillLocalizationIDSelector.SelectedIndex != -1 && SkillConstructorIDSelector.SelectedIndex != -1)
         {
             Type_Skills.UptieLevel SelectedSkill = (SkillLocalizationIDSelector.SelectedItem as UITranslation_Rose).DataContext as Type_Skills.UptieLevel;
-            Custom_Skills_Constructor.SkillContstructor SelectedSkillConstructor = (SkillConstructorIDSelector.SelectedItem as UITranslation_Rose).DataContext as Custom_Skills_Constructor.SkillContstructor;
+            SkillsDisplayInfo.SkillConstructor SelectedSkillConstructor = (SkillConstructorIDSelector.SelectedItem as UITranslation_Rose).DataContext as SkillsDisplayInfo.SkillConstructor;
 
             AssertAndAddDisplaying(CreateSkill(SelectedSkill, SelectedSkillConstructor));
         } 
@@ -432,7 +432,7 @@ public partial class MainWindow
     }
     #endregion
 
-    public static Grid CreateSkill(UptieLevel TextInfo, SkillContstructor DisplayInfo)
+    public static Grid CreateSkill(UptieLevel TextInfo, SkillConstructor DisplayInfo)
     {
         SolidColorBrush AffinityColor = ToSolidColorBrush(ColorInfo.GetAffinityColor_InfoPreviewColors(DisplayInfo.Specific.Affinity));
 
@@ -590,7 +590,7 @@ public partial class MainWindow
             Children =
             {
                 #region Affinity icon
-                (!DisplayInfo.Specific.Affinity.Equals("None") & DisplayInfo.Attributes.ShowAffinityIcon) ? new Image()
+                (!DisplayInfo.Specific.Affinity.Equals("None") & (bool)DisplayInfo.Attributes.ShowAffinityIcon) ? new Image()
                 {
                     Source = BitmapFromResource($"UI/Limbus/Skills/Affinity Icons/{DisplayInfo.Specific.Affinity}.png"),
                     VerticalAlignment = VerticalAlignment.Top,

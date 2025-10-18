@@ -40,9 +40,9 @@ public partial class MainWindow
             switch ((RequestSender as Border).Name)
             {
                 case nameof(SelectPortraitImage_Button): SelectPortraitImage_Action(""); break;
-                case nameof(SelectImageLabelFont_Button): SelectImageLabelFont_Action("#Bebas Neue Cyrillic"); break;
-                case nameof(SelectCautionsFont_Button): SelectCautionsFont_Action("#Bebas Neue Cyrillic"); break;
-                case nameof(SelectItemSignaturesFont_Button): SelectItemSignaturesFont_Action("#Bebas Neue Cyrillic"); break;
+                case nameof(SelectImageLabelFont_Button): SelectImageLabelFont_Action("#Bebas Neue Bold"); break;
+                case nameof(SelectCautionsFont_Button): SelectCautionsFont_Action("#Bebas Neue Bold"); break;
+                case nameof(SelectItemSignaturesFont_Button): SelectItemSignaturesFont_Action("#Bebas Neue Bold"); break;
                 case nameof(SelectTextBackgroundEffectsImage_Button): SelectTextBackgroundEffectsImage_Action(""); break;
                 case nameof(SelectOverlaySketchImage_Button): SelectOverlaySketchImage_Action(""); break;
                 case nameof(SelectUpperLeftLogoImage_Button): SelectUpperLeftLogoImage_Action(""); break;

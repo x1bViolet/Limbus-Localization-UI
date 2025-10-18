@@ -19,6 +19,14 @@
 
   <ItemGroup>
     <None Remove="Identity ¦ E.G.O  Preview Creator\Images\Image Type Foreground.png" />
+    <None Remove="Json\Skills Display Info manager\%28Serious area do not enter without caution%29\Damage types\Blunt.png" />
+    <None Remove="Json\Skills Display Info manager\%28Serious area do not enter without caution%29\Damage types\Pierce.png" />
+    <None Remove="Json\Skills Display Info manager\%28Serious area do not enter without caution%29\Damage types\Slash.png" />
+    <None Remove="Json\Skills Display Info manager\%28Serious area do not enter without caution%29\Skill types\Attack.png" />
+    <None Remove="Json\Skills Display Info manager\%28Serious area do not enter without caution%29\Skill types\Counter.png" />
+    <None Remove="Json\Skills Display Info manager\%28Serious area do not enter without caution%29\Skill types\Evade.png" />
+    <None Remove="Json\Skills Display Info manager\%28Serious area do not enter without caution%29\Skill types\Guard.png" />
+    <None Remove="UI\Fonts\Bebas Neue Bold.ttf" />
     <None Remove="UI\Fonts\ExcelsiorSans.ttf" />
     <None Remove="UI\Fonts\GOST Type BU.ttf" />
     <None Remove="UI\Fonts\Sappy-JpRxm.ttf" />
@@ -133,6 +141,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <Resource Include="Json\Skills Display Info manager\(Serious area do not enter without caution)\Damage types\Blunt.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Json\Skills Display Info manager\(Serious area do not enter without caution)\Damage types\Pierce.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Json\Skills Display Info manager\(Serious area do not enter without caution)\Damage types\Slash.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+  </ItemGroup>
+
+  <ItemGroup>
     <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\E.G.O Frame.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -208,7 +228,19 @@
     <Resource Include="Identity ¦ E.G.O  Preview Creator\Images\Walpurgis Night\Logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-    <Resource Include="UI\Fonts\Bebas Neue Cyrillic.ttf">
+    <Resource Include="Json\Skills Display Info manager\(Serious area do not enter without caution)\Skill types\Attack.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Json\Skills Display Info manager\(Serious area do not enter without caution)\Skill types\Counter.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Json\Skills Display Info manager\(Serious area do not enter without caution)\Skill types\Evade.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="Json\Skills Display Info manager\(Serious area do not enter without caution)\Skill types\Guard.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Fonts\Bebas Neue Bold.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Fonts\ExcelsiorSans.ttf">

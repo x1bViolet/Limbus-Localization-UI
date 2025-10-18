@@ -49,10 +49,18 @@ namespace LC_Localization_Task_Absolute
             InputPreviewUpdateDelay.Text = Settings.PreviewSettings.PreviewSettingsBaseSettings.PreviewUpdateDelay.ToString();
             ToggleTopmostState_I.Visibility = Settings.Internal.IsAlwaysOnTop ? Visible : Collapsed;
             ToggleLoadWarnings_I.Visibility = Settings.Internal.ShowLoadWarnings ? Visible : Collapsed;
+            ToggleManualJsonFilesManaging_I.Visibility = Settings.Internal.EnablemanualJsonFilesManaging ? Visible : Collapsed;
             ToggleEnableSkillNamesReplica_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.EnableSkillNamesReplication ? Visible : Collapsed;
             ToggleKeywordTooltips_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.EnableKeywordTooltips ? Visible : Collapsed;
             ToggleSyntaxHighlight_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.EnableSyntaxHighlight ? Visible : Collapsed;
             HideLimbusPreview_I.Visibility = Settings.PreviewSettings.PreviewSettingsBaseSettings.HidePreview ? Visible : Collapsed;
+
+            if (!MainWindow.PreviewUpdate_TargetSite.Equals(MainControl.PreviewLayoutDef_Default))
+            {
+                MainControl.AppendAdditionalObjectContextMenu.Visibility = ToggleManualJsonFilesManaging_I.Visibility;
+            }
+            MainControl.FilesCreationContextMenu.Visibility = ToggleManualJsonFilesManaging_I.Visibility;
+            MainControl.AddUptieContextMenu.Visibility = ToggleManualJsonFilesManaging_I.Visibility;
 
             rin("\n\n----------------------------------------------------");
 
@@ -191,8 +199,8 @@ namespace LC_Localization_Task_Absolute
                     Mode_Skills.OrganizedDisplayInfo.Clear();
                     Mode_Skills.LoadDisplayInfo();
 
-                    Custom_Skills_Constructor.LoadedSkillConstructors.Clear();
-                    Custom_Skills_Constructor.ReadSkillConstructors();
+                    SkillsDisplayInfo.LoadedSkillConstructors.Clear();
+                    SkillsDisplayInfo.ReadSkillConstructors();
 
                     Mode_Skills.ChangeSkillHeaderReplicaAppearance();
 
@@ -379,6 +387,30 @@ namespace LC_Localization_Task_Absolute
                         };
 
                         ChangeJsonConfigViaRegex("Show Load Warnings", Configurazione.DeltaConfig.Internal.ShowLoadWarnings);
+
+                        break;
+
+
+
+                    case "ToggleManualJsonFilesManaging":
+                        Configurazione.DeltaConfig.Internal.EnablemanualJsonFilesManaging = !Configurazione.DeltaConfig.Internal.EnablemanualJsonFilesManaging;
+                        ToggleManualJsonFilesManaging_I.Visibility = ToggleManualJsonFilesManaging_I.Visibility switch
+                        {
+                            Visible => Collapsed,
+                            _/*Collapsed*/ => Visible
+                        };
+
+                        if (!MainWindow.PreviewUpdate_TargetSite.Equals(MainControl.PreviewLayoutDef_Default))
+                        {
+                            MainControl.AppendAdditionalObjectContextMenu.IsOpen = false;
+                            MainControl.AppendAdditionalObjectContextMenu.Visibility = ToggleManualJsonFilesManaging_I.Visibility;
+                        }
+                        MainControl.FilesCreationContextMenu.IsOpen = false;
+                        MainControl.FilesCreationContextMenu.Visibility = ToggleManualJsonFilesManaging_I.Visibility;
+                        MainControl.AddUptieContextMenu.IsOpen = false;
+                        MainControl.AddUptieContextMenu.Visibility = ToggleManualJsonFilesManaging_I.Visibility;
+
+                        ChangeJsonConfigViaRegex("Enable manual Json files managing", Configurazione.DeltaConfig.Internal.EnablemanualJsonFilesManaging);
 
                         break;
 

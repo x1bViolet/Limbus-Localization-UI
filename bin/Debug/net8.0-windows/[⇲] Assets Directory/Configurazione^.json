@@ -2,8 +2,9 @@
   "Internal": {
     "UI Language": "[⇲] Assets Directory/@ Internal/Translation/English",
     "UI Theme": "[⇲] Assets Directory/@ Internal/Themes/Limbus Localization UI",
-    "Topmost Window": false,
-    "Show Load Warnings": true
+    "Topmost Window": true,
+    "Show Load Warnings": true,
+    "Enable manual Json files managing": false
   },
   "Preview Settings": {
     "Base": {

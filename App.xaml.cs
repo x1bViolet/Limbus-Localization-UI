@@ -68,7 +68,8 @@ public partial class App : Application
     }
     private void LogUnhandledException(Exception Exception, string SetupExceptionHandlingSource)
     {
-        rin(FormattedStackTrace(Exception, SetupExceptionHandlingSource));
+        //rin(FormattedStackTrace(Exception, SetupExceptionHandlingSource));
+        rin(Exception.ToString());
     }
 }
 

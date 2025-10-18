@@ -1,4 +1,6 @@
-﻿using System.Text.RegularExpressions;
+﻿using System.Linq;
+using System.Text.RegularExpressions;
+using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.Configurazione;
 using static LC_Localization_Task_Absolute.Limbus_Integration.KeywordsInterrogate;
 
@@ -70,6 +72,22 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             foreach (KeyValuePair<string, string> Insert in FormatInsertionsReplaceValues)
             {
                 PreviewText = PreviewText.Replace($"{{{Insert.Key}}}", Insert.Value);
+            }
+
+            // Invalid fonts check
+            if (MainWindow.PreviewUpdate_TargetSite.Name.StartsWith("PreviewLayout_") && PreviewText.Contains("<font=\""))
+            {
+                PreviewText = Regex.Replace(PreviewText, @"<font=""(?<FontName>.*?)"">", Match =>
+                {
+                    if (!Pocket_Watch_ː_Type_L.@PostInfo.LoadedKnownFonts.ContainsKey(Match.Groups["FontName"].Value))
+                    {
+                        return Match.Value.Replace("<font=\"", "<\u0001font=\"");
+                    }
+                    else
+                    {
+                        return Match.Value;
+                    }
+                });
             }
 
             // Shorthands

@@ -22,7 +22,7 @@ public partial class MainWindow
 {
     private void PortraitType(object RequestSender, SelectionChangedEventArgs EventArgs)
     {
-        if (IsLoaded)
+        if (IsLoaded && EventArgs.AddedItems.Count > 0)
         {
             if ((EventArgs.AddedItems[0] as FrameworkElement).Uid == "E.G.O")
             {
@@ -45,36 +45,33 @@ public partial class MainWindow
     // To apply sinner color and set name
     private void SinnerIcon(object RequestSender, SelectionChangedEventArgs EventArgs)
     {
-        if (IsLoaded)
+        if (IsLoaded && EventArgs.AddedItems.Count > 0)
         {
-            if (EventArgs.AddedItems.Count > 0)
-            {
-                string SinnerName = (EventArgs.AddedItems[0] as StackPanel).Uid;
+            string SinnerName = (EventArgs.AddedItems[0] as StackPanel).Uid;
             
-                if (SinnerName.EqualsOneOf("Yi Sang", "Faust", "Don Quixote", "Ryōshū", "Meursault", "Hong Lu", "Heathcliff", "Ishmael", "Rodion", "Sinclair", "Outis", "Gregor"))
+            if (SinnerName.EqualsOneOf("Yi Sang", "Faust", "Don Quixote", "Ryōshū", "Meursault", "Hong Lu", "Heathcliff", "Ishmael", "Rodion", "Sinclair", "Outis", "Gregor"))
+            {
+                CustomSinnerIconComboBoxDisplay.Visibility = Visibility.Collapsed;
+                CustomSinnerIconComboBoxDisplay.Source = ((EventArgs.AddedItems[0] as StackPanel).Children[0] as Image).Source; // Display previously selected if clicking on [Custom]
+                if (!PreviewCreator.CurrentInfo.ImageInfoLoadingEvent)
                 {
-                    CustomSinnerIconComboBoxDisplay.Visibility = Visibility.Collapsed;
-                    CustomSinnerIconComboBoxDisplay.Source = ((EventArgs.AddedItems[0] as StackPanel).Children[0] as Image).Source; // Display previously selected if clicking on [Custom]
-                    if (!PreviewCreator.CurrentInfo.ImageInfoLoadingEvent)
+                    // Change header color if identity portrait type
+                    if (VC_PortraitType.SelectedIndex == 0)
                     {
-                        // Change header color if identity portrait type
-                        if (VC_PortraitType.SelectedIndex == 0)
-                        {
-                          _ = VC_Header_ColorInput.Text
-                            = VC_CautionsColorInput.Text
-                            = @ColorInfo.GetSinnerColor(SinnerName).Replace("#", "");
-                        }
+                      _ = VC_Header_ColorInput.Text
+                        = VC_CautionsColorInput.Text
+                        = @ColorInfo.GetSinnerColor(SinnerName).Replace("#", "");
+                    }
 
-                        VC_Header_SinnerNameInput.Text = SinnerName;
-                    }
+                    VC_Header_SinnerNameInput.Text = SinnerName;
                 }
-                else if (!PreviewCreator.CurrentInfo.ImageInfoLoadingEvent) // Custom (Uid = path to image)
+            }
+            else if (!PreviewCreator.CurrentInfo.ImageInfoLoadingEvent) // Custom (Uid = path to image)
+            {
+                OpenFileDialog Select = NewOpenFileDialog("Image files", ["jpg", "png"]);
+                if (Select.ShowDialog() == true)
                 {
-                    OpenFileDialog Select = NewOpenFileDialog("Image files", ["jpg", "png"]);
-                    if (Select.ShowDialog() == true)
-                    {
-                        SinnerIcon_SelectCustom(Select.FileName);
-                    }
+                    SinnerIcon_SelectCustom(Select.FileName);
                 }
             }
         }
@@ -102,7 +99,7 @@ public partial class MainWindow
 
     private void TextBackgroundEffectsClipMode(object RequestSender, SelectionChangedEventArgs EventArgs)
     {
-        if (IsLoaded)
+        if (IsLoaded && EventArgs.AddedItems.Count > 0)
         {
             BindingOperations.SetBinding(TextBackgroundEffectsClipIdentity, VisualBrush.VisualProperty, new Binding()
             {

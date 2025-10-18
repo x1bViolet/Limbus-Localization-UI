@@ -7,17 +7,18 @@ namespace LC_Localization_Task_Absolute.Json
     #pragma warning disable SYSLIB0050 // Idk why not
     public static partial class FilesIntegration
     {
-        public static string SerializeFormatted(this object Source, bool EnableNull = false, string Context = "")
+        public static string SerializeFormatted(this object Source, bool EnableNull = false, string Context = "", bool RemoveCR = false)
         {
             string Output = JsonConvert.SerializeObject(
                 value: Source,
                 formatting: Formatting.Indented,
                 settings: new JsonSerializerSettings { NullValueHandling = EnableNull ? NullValueHandling.Include : NullValueHandling.Ignore, Context = new StreamingContext(StreamingContextStates.Other, Context) }
             );
+            if (RemoveCR) Output = Output.Replace("\r\n", "\n");
             return Output;
         }
 
-        public static void SerializeFormatted(this object Target, string Filename, bool EnableNull = false, string Context = "")
+        public static void SerializeFormattedFile(this object Target, string Filename, bool EnableNull = false, string Context = "")
         {
             string Output = JsonConvert.SerializeObject(
                 value: Target,

@@ -182,26 +182,13 @@ namespace LC_Localization_Task_Absolute
                             {
                                 Target.FontFamily = @PostInfo.LoadedKnownFonts[TagInfo];
                             }
-                            else if (!RecentInfo.TextBlockTarget.Name.StartsWith($"PreviewLayout_"))
+                            else if (!RecentInfo.TextBlockTarget.Name.StartsWith($"PreviewLayout_")) // If not TMProEmitter limbus textblock
                             {
                                 if (ᐁ_Interface_Localization_Loader.InterfaceLocalizationModifiers.Font_References_Loaded.ContainsKey(TagInfo))
                                 {
                                     Target.FontFamily = ᐁ_Interface_Localization_Loader.InterfaceLocalizationModifiers.Font_References_Loaded[TagInfo];
                                 }
                                 else Target.FontFamily = new FontFamily(TagInfo);
-                            }
-                            else if (RecentInfo.TextBlockTarget.Name.StartsWith($"PreviewLayout_")) // Btw fix only for limbus preview layouts
-                            {
-                                /*/
-                                 * Special font that turns all text into squares to prevent usage of fonts that are not unity font asset from Limbus Company if attaching <font> tag at limbus text
-			                     * (`[⇲] Assets Directory\[⇲] Limbus Embedded Fonts` folder)
-			                     * 
-			                     * Allowed only fonts like <font="EN/cur)Caveat-SemiBold/Caveat-SemiBold SDF">, <font="EN/title)mikodacs/Mikodacs SDF"> and etc.
-			                     * See `[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\Usage.txt` for full list of supported game fonts.
-			                     * 
-			                     * P.S. It is used for button icons in program's UI
-                                /*/
-                                Target.FontFamily = Resource<FontFamily>("SegoeFluentIcons_MakeLimbusPreviewInvalid");
                             }
                             break;
 
@@ -461,7 +448,7 @@ namespace LC_Localization_Task_Absolute
                 }
             }
 
-            private protected abstract class @RecentInfo
+            internal protected abstract class @RecentInfo
             {
                 public static TextBlock TextBlockTarget = null;
             }

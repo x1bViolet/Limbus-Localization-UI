@@ -1,8 +1,12 @@
 ﻿using Newtonsoft.Json;
-using System.Numerics;
 using System.Runtime.Serialization;
 using System.IO;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
+
+#pragma warning disable IDE0079
+#pragma warning disable CS0169
+#pragma warning disable CA2211
+#pragma warning disable CS1696
 
 namespace LC_Localization_Task_Absolute.Json
 {
@@ -10,7 +14,7 @@ namespace LC_Localization_Task_Absolute.Json
     {
         public abstract class Type_Skills
         {
-            public record Skills
+            public record SkillsFile
             {
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
@@ -29,6 +33,31 @@ namespace LC_Localization_Task_Absolute.Json
 
                 [JsonProperty("levelList")]
                 public List<UptieLevel> UptieLevels { get; set; }
+
+                public Skill(bool AutoAddUptie = false, bool AddAbNameToThisUptie = false)
+                {
+                    if (AutoAddUptie)
+                    {
+                        UptieLevels = new List<UptieLevel>()
+                        {
+                            new UptieLevel()
+                            {
+                                Uptie = 1,
+                                EGOAbnormalityName = AddAbNameToThisUptie ? "" : null,
+                                Coins = new List<Coin>()
+                                {
+                                    #pragma warning restore Absolutely brand new
+                                    new() { CoinDescriptions = new() { new() } },
+                                    new() { CoinDescriptions = new() { new() } },
+                                    new() { CoinDescriptions = new() { new() } },
+                                    new() { CoinDescriptions = new() { new() } },
+                                    new() { CoinDescriptions = new() { new() } },
+                                    new() { CoinDescriptions = new() { new() } },
+                                }
+                            }
+                        };
+                    }
+                }
             }
             public record UptieLevel
             {
@@ -41,7 +70,7 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonProperty("name")]
-                public string Name { get; set; }
+                public string Name { get; set; } = "";
 
                 [JsonProperty("abName")]
                 public string EGOAbnormalityName { get; set; }
@@ -51,7 +80,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string Description { get; set; } = "";
 
                 [JsonIgnore] // For editor
-                public string EditorDescription { get; set; }
+                public string EditorDescription { get; set; } = "";
 
 
                 [JsonProperty("coinlist")]
@@ -80,7 +109,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string Description { get; set; } = "";
 
                 [JsonIgnore] // For editor
-                public string EditorDescription { get; set; }
+                public string EditorDescription { get; set; } = "";
 
 
                 #region Not used
@@ -97,7 +126,7 @@ namespace LC_Localization_Task_Absolute.Json
 
         public abstract class Type_Passives
         {
-            public record Passives
+            public record PassivesFile
             {
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
@@ -113,7 +142,7 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonProperty("name")]
-                public string Name { get; set; }
+                public string Name { get; set; } = "";
 
 
                 [JsonProperty("desc")]
@@ -124,10 +153,10 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonIgnore] // For editor
-                public string EditorDescription { get; set; }
+                public string EditorDescription { get; set; } = "";
 
                 [JsonIgnore] // For editor
-                public string EditorSummaryDescription { get; set; }
+                public string EditorSummaryDescription { get; set; } = "";
 
 
                 #region Not used
@@ -145,7 +174,7 @@ namespace LC_Localization_Task_Absolute.Json
 
         public abstract class Type_EGOGifts
         {
-            public record EGOGifts
+            public record EGOGiftsFile
             {
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
@@ -168,7 +197,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public string Description { get; set; } = "";
 
                 [JsonIgnore] // For editor
-                public string EditorDescription { get; set; }
+                public string EditorDescription { get; set; } = "";
 
 
                 [JsonProperty("simpleDesc")]
@@ -201,10 +230,10 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonProperty("simpleDesc")]
-                public string Description { get; set; }
+                public string Description { get; set; } = "";
 
                 [JsonIgnore] // For editor
-                public string EditorDescription { get; set; }
+                public string EditorDescription { get; set; } = "";
 
                 #region Not used
                 public string _comment { get; set; }
@@ -220,7 +249,7 @@ namespace LC_Localization_Task_Absolute.Json
 
         public abstract class Type_Keywords
         {
-            public record Keywords
+            public record KeywordsFile
             {
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
@@ -247,9 +276,9 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonIgnore] // For editor
-                public string EditorDescription { get; set; }
+                public string EditorDescription { get; set; } = "";
                 [JsonIgnore] // For editor
-                public string EditorSummaryDescription { get; set; }
+                public string EditorSummaryDescription { get; set; } = "";
 
 
                 [JsonProperty("Color")] // Special settings that can be used instead of "[⇲] Assets Directory\[+] Keywords\Keyword Colors.T[-]"
@@ -274,11 +303,8 @@ namespace LC_Localization_Task_Absolute.Json
     
         public abstract class Type_SkillTag
         {
-            public record SkillTags
+            public record SkillTagsFile
             {
-                [JsonProperty("Manual File Type")]
-                public string ManualFileType { get; set; }
-
                 [JsonProperty("dataList")]
                 public List<SkillTag> dataList { get; set; }
             }
@@ -342,10 +368,10 @@ namespace LC_Localization_Task_Absolute.Json
             public record DetailedInfoItem
             {
                 [JsonProperty("id")]
-                public BigInteger? ID { get; set; }
+                public int? ID { get; set; }
 
                 [JsonProperty("textID")]
-                public BigInteger? LocalizationItemID { get; set; }
+                public int? LocalizationItemID { get; set; }
 
                 [JsonProperty("skillTier")]
                 public int Rank { get; set; } = 1;

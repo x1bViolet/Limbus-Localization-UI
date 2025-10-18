@@ -456,6 +456,11 @@
         "Font": "Linotype Syntax Com"
       },
       {
+        "UID": {"[Settings / Internal] * Enable manual Json files managing":null},
+        "Text": "Enable manual Json files managing",
+        "Font": "Linotype Syntax Com"
+      },
+      {
         "UID": {"[Settings / Internal] * Dropdown lists Readme":null},
         "Text": "Drop-down lists only consider files and folders from\n<font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\@ Internal\\Translation</color></b></font> and <font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\@ Internal\\Themes</color></b></font> respectively",
         "Font Size": 14,

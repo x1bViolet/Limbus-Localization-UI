@@ -1,45 +1,20 @@
-﻿using Newtonsoft.Json;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.Serialization;
-using System.Text;
-using System.Text.Json.Serialization;
-using System.Threading.Tasks;
-using LC_Localization_Task_Absolute.Json;
+﻿using LC_Localization_Task_Absolute.Json;
 using LC_Localization_Task_Absolute.Limbus_Integration;
-using LC_Localization_Task_Absolute.Mode_Handlers;
-using Microsoft.Win32;
+using Newtonsoft.Json;
 using System.IO;
-using System.Numerics;
-using System.Reflection;
-using System.Text.RegularExpressions;
+using System.Runtime.Serialization;
 using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Effects;
 using System.Windows.Media.Imaging;
-using System.Windows.Threading;
-using static LC_Localization_Task_Absolute.Configurazione;
-using static LC_Localization_Task_Absolute.MainWindow;
-using static LC_Localization_Task_Absolute.Json.BaseTypes;
-using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Keywords;
-using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Passives;
-using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
-using static LC_Localization_Task_Absolute.Json.Custom_Skills_Constructor;
-using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
 using static LC_Localization_Task_Absolute.Json.FilesIntegration;
+using static LC_Localization_Task_Absolute.MainWindow;
+using static LC_Localization_Task_Absolute.Json.SkillsDisplayInfoManagerWindow;
 using static LC_Localization_Task_Absolute.Requirements;
-using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
-using static System.Globalization.NumberStyles;
-using static System.Windows.Visibility;
 
 namespace LC_Localization_Task_Absolute
 {
     public abstract class ᐁ_Interface_Themes_Loader
     {
-        private static ResourceDictionary Resource = MainWindow.MainControl.Resources;
+        private static ResourceDictionary Resource = Application.Current.Resources.MergedDictionaries[0]; // ᐁ UI Theme Keys.xaml
 
         public static InterfaceThemeModifiers.Visual LoadedTheme = new InterfaceThemeModifiers.Visual();
 

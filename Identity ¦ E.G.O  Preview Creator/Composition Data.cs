@@ -3,7 +3,6 @@ using LC_Localization_Task_Absolute.Limbus_Integration;
 using LC_Localization_Task_Absolute.PreviewCreator;
 using Newtonsoft.Json;
 using System.IO;
-using System.Numerics;
 using System.Reflection;
 using System.Runtime.Serialization;
 using Microsoft.Win32;
@@ -13,7 +12,6 @@ using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Effects;
-using System.Windows.Media.Imaging;
 using static LC_Localization_Task_Absolute.Json.BaseTypes;
 using static LC_Localization_Task_Absolute.MainWindow;
 using static LC_Localization_Task_Absolute.PreviewCreator.CompositionData_PROP.TextColumns_PROP;
@@ -143,7 +141,7 @@ namespace LC_Localization_Task_Absolute
                                             InterfaceObject<ComboBox>(AffectedComboBox).SelectedIndex = 12;
                                             MainControl.SinnerIcon_SelectCustom(ComboBoxJsonValue);
                                         }
-                                        else InterfaceObject<ComboBox>(AffectedComboBox).SelectedIndex = 0; // If invalid
+                                        else InterfaceObject<ComboBox>(AffectedComboBox).SelectedIndex = -1; // If invalid
                                     }
                                 }
                                 else if (ProcessingMode == "Save")
@@ -231,7 +229,7 @@ namespace LC_Localization_Task_Absolute.PreviewCreator
         public class LoadedFiles
         {
             public static List<Type_Skills.Skill> Skills { get; set; }
-            public static List<Custom_Skills_Constructor.SkillContstructor> Skills_DisplayInfo { get; set; }
+            public static List<SkillsDisplayInfo.SkillConstructor> Skills_DisplayInfo { get; set; }
             public static List<Type_Passives.Passive> Passives { get; set; }
             public static List<Type_Keywords.Keyword> Keywords { get; set; }
         }
@@ -524,7 +522,7 @@ namespace LC_Localization_Task_Absolute.PreviewCreator
             [AssignedComboBox(nameof(UI.VC_SinnerIcon),
                 @"'Yi Sang' = 0, 'Faust' = 1,      'Don Quixote' = 2, 'Ryōshū' = 3, 'Ryoshu' = 3,    'Meursault' = 4, 'Meur' = 4,
                   'Hong Lu' = 5, 'Heathcliff' = 6, 'Ishmael' = 7,     'Rodion' = 8, 'Sinclair' = 9,  'Outis' = 10,    'Gregor' = 11")]
-            public string SelectedImage { get; set; } = "Yi Sang";
+            public string SelectedImage { get; set; } = "";
 
             [JsonProperty("Opacity")]
             [AssignedSlider(nameof(UI.VC_SinnerIconOpacity))]
@@ -558,7 +556,7 @@ namespace LC_Localization_Task_Absolute.PreviewCreator
 
             [JsonProperty("Font")]
             [AssignedFileSelection(nameof(UI.SelectImageLabelFont_Action))]
-            public string Font { get; set; } = "#Bebas Neue Cyrillic";
+            public string Font { get; set; } = "#Bebas Neue Bold";
 
             [JsonProperty("Size")]
             [AssignedSlider(nameof(UI.VC_LabelTextSize))]
@@ -608,7 +606,7 @@ namespace LC_Localization_Task_Absolute.PreviewCreator
 
             [JsonProperty("Font")]
             [AssignedFileSelection(nameof(UI.SelectCautionsFont_Action))]
-            public string Font { get; set; } = "#Bebas Neue Cyrillic";
+            public string Font { get; set; } = "#Bebas Neue Bold";
 
             [JsonProperty("Vertical Offset")]
             [AssignedSlider(nameof(UI.VC_CautionsVerticalOffset))]
@@ -690,7 +688,7 @@ namespace LC_Localization_Task_Absolute.PreviewCreator
 
             [JsonProperty("Signatures Font")]
             [AssignedFileSelection(nameof(UI.SelectItemSignaturesFont_Action))]
-            public string ItemSignaturesFont { get; set; } = "#Bebas Neue Cyrillic";
+            public string ItemSignaturesFont { get; set; } = "#Bebas Neue Bold";
 
             /* ------------------------------- */ public Double __Separator3__ { get; set; } = 0;
 
@@ -817,8 +815,8 @@ namespace LC_Localization_Task_Absolute.PreviewCreator
 
                 TextBlock LabelText = new TextBlock()
                 {
-                    Text = $"Text control\n({Type}, #[$])".Extern(ItemInfo.UID),
-                    FontFamily = FontFromResource("UI/Fonts/", "Bebas Neue Cyrillic"),
+                    Text = $"Text control\n({Type}, #{ItemInfo.UID})",
+                    FontFamily = FontFromResource("UI/Fonts/", "Bebas Neue Bold"),
                     FontSize = 30,
                     Foreground = Brushes.White,
                     Opacity = 0.35,

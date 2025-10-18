@@ -456,6 +456,11 @@
         "Font": "Linotype Syntax Com"
       },
       {
+        "UID": {"[Settings / Internal] * Enable manual Json files managing":null},
+        "Text": "Разрешить ручное управление Json файлами",
+        "Font": "Linotype Syntax Com"
+      },
+      {
         "UID": {"[Settings / Internal] * Dropdown lists Readme":null},
         "Text": "Списки учитывают файлы и папки только из <font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\@ Internal\\Translation</color></b></font> и <font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\@ Internal\\Themes</color></b></font> соответственно",
         "Font Size": 14,

@@ -94,7 +94,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
             if (FoundCounter > 0)
             {
-                Export.SerializeFormatted("Keywords Multiple Meanings.json");
+                Export.SerializeFormattedFile("Keywords Multiple Meanings.json");
                 MessageBox.Show($"Keywords multiple meanings from \"{LocalizationWithKeywordsPath}\" dir exported as \"Keywords Multiple Meanings.json\" at program folder");
             }
         }
@@ -356,7 +356,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 FileInfo[] SkillTag_Found = MainSite.GetFiles("*SkillTag.Json", SearchOption.AllDirectories);
                 if (SkillTag_Found.Length > 0)
                 {
-                    BaseTypes.Type_SkillTag.SkillTags SkillTagsJson = SkillTag_Found[0].Deserealize<SkillTags>();
+                    BaseTypes.Type_SkillTag.SkillTagsFile SkillTagsJson = SkillTag_Found[0].Deserealize<SkillTagsFile>();
 
                     if (SkillTagsJson != null && SkillTagsJson.dataList != null)
                     {
@@ -402,7 +402,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
                 foreach (FileInfo KeywordFileInfo in LoadSite_Bufs)
                 {
-                    Keywords TargetSite = KeywordFileInfo.Deserealize<Keywords>();
+                    KeywordsFile TargetSite = KeywordFileInfo.Deserealize<KeywordsFile>();
 
                     if (TargetSite.dataList != null && TargetSite.dataList.Count > 0)
                     {
@@ -482,7 +482,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 );
                 foreach (FileInfo KeywordFileInfo in LoadSite_BattleKeywords)
                 {
-                    Keywords TargetSite = KeywordFileInfo.Deserealize<Keywords>();
+                    KeywordsFile TargetSite = KeywordFileInfo.Deserealize<KeywordsFile>();
 
                     if (TargetSite.dataList != null && TargetSite.dataList.Count > 0)
                     {

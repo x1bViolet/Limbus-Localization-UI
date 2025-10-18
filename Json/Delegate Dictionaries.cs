@@ -40,7 +40,7 @@ namespace LC_Localization_Task_Absolute.Json
             foreach (dynamic Delegate in Delegates) Delegate.Clear();
         }
 
-        public static void InitializeSkillsDelegateFrom(Type_Skills.Skills? Source)
+        public static void InitializeSkillsDelegateFrom(Type_Skills.SkillsFile? Source)
         {
             if (Source != null && Source.dataList != null)
             {
@@ -66,7 +66,7 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        public static void InitializePassivesDelegateFrom(Type_Passives.Passives Source)
+        public static void InitializePassivesDelegateFrom(Type_Passives.PassivesFile Source)
         {
             if (Source != null && Source.dataList != null)
             {
@@ -87,7 +87,7 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        public static void InitializeKeywordsDelegateFrom(Type_Keywords.Keywords Source)
+        public static void InitializeKeywordsDelegateFrom(Type_Keywords.KeywordsFile Source)
         {
             if (Source != null && Source.dataList != null)
             {
@@ -105,7 +105,7 @@ namespace LC_Localization_Task_Absolute.Json
             }
         }
 
-        public static void InitializeEGOGiftsDelegateFrom(Type_EGOGifts.EGOGifts Source)
+        public static void InitializeEGOGiftsDelegateFrom(Type_EGOGifts.EGOGiftsFile Source)
         {
             if (Source != null && Source.dataList != null)
             {
@@ -113,10 +113,10 @@ namespace LC_Localization_Task_Absolute.Json
                 DelegateEGOGifts_IDList.Clear();
                 Mode_EGOGifts.EGOGifts_NameIDs.Clear();
 
-                foreach (Type_EGOGifts.EGOGift CurrentKeyword in Source.dataList)
+                foreach (Type_EGOGifts.EGOGift CurrentEGOGift in Source.dataList)
                 {
-                    DelegateEGOGifts[CurrentKeyword.ID] = CurrentKeyword;
-                    Mode_EGOGifts.EGOGifts_NameIDs[CurrentKeyword.Name.Trim()] = CurrentKeyword.ID;
+                    DelegateEGOGifts[CurrentEGOGift.ID] = CurrentEGOGift;
+                    Mode_EGOGifts.EGOGifts_NameIDs[CurrentEGOGift.Name.Trim()] = CurrentEGOGift.ID;
                 }
 
                 DelegateEGOGifts_IDList = DelegateEGOGifts.Keys.ToList();

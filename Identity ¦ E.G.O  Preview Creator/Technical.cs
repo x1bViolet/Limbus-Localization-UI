@@ -34,7 +34,10 @@ public partial class MainWindow
             };
             Part_SlashChars.BindSame(TextBlock.ForegroundProperty, MainControl.DecorativeCautions_PropertyBindingSource);
 
-            TextBlock Part_Text = new TextBlock();
+            TextBlock Part_Text = new TextBlock()
+            {
+                Margin = new Thickness(0, -0.6, 0, 0)
+            };
             Part_Text.BindSame(TextBlock.ForegroundProperty, MainControl.DecorativeCautions_PropertyBindingSource);
             Part_Text.BindSame(TextBlock.FontFamilyProperty, MainControl.DecorativeCautions_PropertyBindingSource);
             Part_Text.BindSame(TextBlock.FontSizeProperty, MainControl.DecorativeCautions_PropertyBindingSource);

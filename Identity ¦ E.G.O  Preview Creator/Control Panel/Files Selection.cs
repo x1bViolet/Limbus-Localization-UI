@@ -55,7 +55,7 @@ public partial class MainWindow
     }
     public void SelectImageLabelFont_Action(string FontPath)
     {
-        if (FontPath.Equals("#Bebas Neue Cyrillic")) ImageLabel.FontFamily = Resource<FontFamily>("BebasKaiUniversal");
+        if (FontPath.Equals("#Bebas Neue Bold")) ImageLabel.FontFamily = Resource<FontFamily>("BebasKaiUniversal");
         else
         {
             CurrentInfo.LoadedImageInfo.ImageLabelText.Font = FontPath.Replace("\\", "/");
@@ -79,7 +79,7 @@ public partial class MainWindow
     }
     public void SelectCautionsFont_Action(string FontPath)
     {
-        if (FontPath.Equals("#Bebas Neue Cyrillic")) DecorativeCautions_PropertyBindingSource.FontFamily = Resource<FontFamily>("BebasKaiUniversal");
+        if (FontPath.Equals("#Bebas Neue Bold")) DecorativeCautions_PropertyBindingSource.FontFamily = Resource<FontFamily>("BebasKaiUniversal");
         else
         {
             CurrentInfo.LoadedImageInfo.Cautions.Font = FontPath.Replace("\\", "/");
@@ -103,7 +103,7 @@ public partial class MainWindow
     }
     public void SelectItemSignaturesFont_Action(string FontPath)
     {
-        if (FontPath.Equals("#Bebas Neue Cyrillic")) CompositionResources.TextColumns.ItemSignaturesFont = Resource<FontFamily>("BebasKaiUniversal");
+        if (FontPath.Equals("#Bebas Neue Bold")) CompositionResources.TextColumns.ItemSignaturesFont = Resource<FontFamily>("BebasKaiUniversal");
         else
         {
             CurrentInfo.LoadedImageInfo.TextColumns.ItemSignaturesFont = FontPath.Replace("\\", "/");
@@ -230,7 +230,7 @@ public partial class MainWindow
         {
             FileInfo Target = new FileInfo(Path);
 
-            var LoadedInfo = Target.Deserealize<Type_Skills.Skills>().dataList;
+            var LoadedInfo = Target.Deserealize<Type_Skills.SkillsFile>().dataList;
             if (LoadedInfo != null && LoadedInfo.Count > 0)
             {
                 CurrentInfo.LoadedFiles.Skills = LoadedInfo;
@@ -268,14 +268,14 @@ public partial class MainWindow
         {
             FileInfo Target = new FileInfo(Path);
 
-            var LoadedInfo = Target.Deserealize<Custom_Skills_Constructor.SkillsConstructorFile>(Context: Target.Directory.FullName.Replace("\\", "/")).List;
+            var LoadedInfo = Target.Deserealize<SkillsDisplayInfo.SkillsDisplayInfoFile>(Context: Target.Directory.FullName.Replace("\\", "/")).List;
             if (LoadedInfo != null && LoadedInfo.Count > 0)
             {
                 CurrentInfo.LoadedFiles.Skills_DisplayInfo = LoadedInfo;
                 CurrentInfo.LoadedImageInfo.TextColumns.SelectedFiles.SkillsDisplayInfo = Path.Replace("\\", "/");
                 SkillConstructorIDSelector.Items.Clear();
 
-                foreach (Custom_Skills_Constructor.SkillContstructor Constructor in LoadedInfo)
+                foreach (SkillsDisplayInfo.SkillConstructor Constructor in LoadedInfo)
                 {
                     string Name = $"{Constructor.ID}: <color={GetAffinityColor_GameColors(Constructor.Specific.Affinity)}>{Constructor.SkillName}</color>";
                     AddItemToSelectionMenu(SkillConstructorIDSelector, $"{Constructor.ID}", Name, Constructor, ConstructorIDFromDisplayInfoFile_Label);
@@ -301,7 +301,7 @@ public partial class MainWindow
         {
             FileInfo Target = new FileInfo(Path);
 
-            var LoadedInfo = Target.Deserealize<Type_Passives.Passives>().dataList;
+            var LoadedInfo = Target.Deserealize<Type_Passives.PassivesFile>().dataList;
             if (LoadedInfo != null && LoadedInfo.Count > 0)
             {
                 CurrentInfo.LoadedFiles.Passives = LoadedInfo;
@@ -333,7 +333,7 @@ public partial class MainWindow
         {
             FileInfo Target = new FileInfo(Path);
 
-            var LoadedInfo = Target.Deserealize<Type_Keywords.Keywords>().dataList;
+            var LoadedInfo = Target.Deserealize<Type_Keywords.KeywordsFile>().dataList;
             if (LoadedInfo != null && LoadedInfo.Count > 0)
             {
                 CurrentInfo.LoadedFiles.Keywords = LoadedInfo;

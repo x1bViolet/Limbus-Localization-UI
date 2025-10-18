@@ -17,7 +17,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static string CurrentKeywordID = "";
 
-        public static Keywords DeserializedInfo;
+        public static KeywordsFile DeserializedInfo;
         public static Dictionary<string, string> Keywords_NameIDs = [];
 
         public static string TargetSite_StringLine = "Main Description";
@@ -79,7 +79,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static Task LoadStructure(FileInfo JsonFile)
         {
-            DeserializedInfo = JsonFile.Deserealize<Keywords>();
+            DeserializedInfo = JsonFile.Deserealize<KeywordsFile>();
 
             if (DeserializedInfo != null && DeserializedInfo.dataList != null && DeserializedInfo.dataList.Count > 0)
             {

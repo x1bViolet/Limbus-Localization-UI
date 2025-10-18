@@ -16,7 +16,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static int CurrentPassiveID = -1;
 
-        public static Passives DeserializedInfo;
+        public static PassivesFile DeserializedInfo;
         public static Dictionary<string, int> Passives_NameIDs = [];
 
         public static string TargetSite_StringLine = "Main Description";
@@ -59,7 +59,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static Task LoadStructure(FileInfo JsonFile)
         {
-            DeserializedInfo = JsonFile.Deserealize<Passives>();
+            DeserializedInfo = JsonFile.Deserealize<PassivesFile>();
 
             if (DeserializedInfo != null && DeserializedInfo.dataList != null && DeserializedInfo.dataList.Count > 0)
             {

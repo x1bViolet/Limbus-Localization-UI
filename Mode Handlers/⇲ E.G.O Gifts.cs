@@ -23,7 +23,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
     {
         public static int CurrentEGOGiftID = -1;
 
-        public static EGOGifts DeserializedInfo;
+        public static EGOGiftsFile DeserializedInfo;
         public static Dictionary<string, int> EGOGifts_NameIDs = [];
 
         public static string TargetSite_StringLine = "Main Description";
@@ -165,7 +165,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static void LoadStructure(FileInfo JsonFile)
         {
-            DeserializedInfo = JsonFile.Deserealize<EGOGifts>();
+            DeserializedInfo = JsonFile.Deserealize<EGOGiftsFile>();
 
             if (DeserializedInfo != null && DeserializedInfo.dataList != null && DeserializedInfo.dataList.Count > 0)
             {

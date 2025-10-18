@@ -2,13 +2,12 @@
 using LC_Localization_Task_Absolute.Limbus_Integration;
 using Newtonsoft.Json;
 using System.IO;
-using System.Numerics;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Media.Imaging;
 using static LC_Localization_Task_Absolute.Json.BaseTypes;
 using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
-using static LC_Localization_Task_Absolute.Json.Custom_Skills_Constructor;
+using static LC_Localization_Task_Absolute.Json.SkillsDisplayInfo;
 using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
 using static LC_Localization_Task_Absolute.MainWindow;
 using static LC_Localization_Task_Absolute.Mode_Handlers.Upstairs;
@@ -29,7 +28,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         public static List<int> CurrentCoinDescs_Avalible = [];
         public static int CurrentSkillCoinDescIndex = -1;
 
-        public static Skills DeserializedInfo;
+        public static SkillsFile DeserializedInfo;
         public static Dictionary<string, int> Skills_NameIDs = [];
 
 
@@ -53,7 +52,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         };
 
 
-        public static Dictionary<BigInteger, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem> OrganizedDisplayInfo = new Dictionary<BigInteger, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem>();
+        public static Dictionary<int, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem> OrganizedDisplayInfo = new Dictionary<int, BaseTypes.Type_RawSkillsDisplayInfo.DetailedInfoItem>();
         
         public static readonly BitmapImage RegularCoinIcon = BitmapFromResource($"UI/Limbus/Skills/Regular Coin.png");
         public static readonly BitmapImage UnbreakableCoinIcon = BitmapFromResource($"UI/Limbus/Skills/Unbreakable Coin.png");
@@ -131,7 +130,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                         {
                             if (SkillData.ID != null && SkillData.UptieLevelsDictionary != null)
                             {
-                                OrganizedDisplayInfo[(BigInteger)SkillData.ID] = SkillData;
+                                OrganizedDisplayInfo[(int)SkillData.ID] = SkillData;
                             }
                         }
                     }
@@ -368,9 +367,9 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
 
 
-            else if (Custom_Skills_Constructor.LoadedSkillConstructors.ContainsKey(CurrentSkillID))
+            else if (SkillsDisplayInfo.LoadedSkillConstructors.ContainsKey(CurrentSkillID))
             {
-                SkillContstructor Info_Main = LoadedSkillConstructors[CurrentSkillID];
+                SkillConstructor Info_Main = LoadedSkillConstructors[CurrentSkillID];
 
                 /// Main part
 
@@ -393,12 +392,12 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 MainControl.CoinPowerBackground.Visibility = Collapsed;
 
                 // Attack Weight
-                if (!Info_Main.Attributes.HideAttackWeight)
+                if (Info_Main.Attributes.HideAttackWeight != null && !(bool)Info_Main.Attributes.HideAttackWeight)
                 {
                     MainControl.AttackWeightPanel.Visibility = Visible;
                     if (Info_Main.Characteristics.AttackWeight > 0)
                     {
-                        MainControl.SkillAtkWeight.Text = new string('■', Info_Main.Characteristics.AttackWeight);
+                        MainControl.SkillAtkWeight.Text = new string('■', Info_Main.Characteristics.AttackWeight ?? 1);
                     }
                     else
                     {
@@ -407,7 +406,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 }
 
                 // Offense|Defense Level icons
-                if (!Info_Main.Attributes.HideBaseLevel)
+                if (Info_Main.Attributes.HideBaseLevel != null && !(bool)Info_Main.Attributes.HideBaseLevel)
                 {
                     MainControl.SkillLevel.Visibility = Visible;
                     MainControl.SkillLevelTypeIcons.Visibility = Visible;
@@ -426,7 +425,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 }
 
                 // Copies icon
-                if (!Info_Main.Attributes.HideSkillCopies)
+                if (Info_Main.Attributes.HideSkillCopies != null && !(bool)Info_Main.Attributes.HideSkillCopies)
                 {
                     if (
                         Info_Main.Specific.Action.Equals("Attack") &
@@ -475,7 +474,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 }
 
                 // Unobservable attribute
-                if (Info_Main.Attributes.Unobservable)
+                if ((bool)Info_Main.Attributes.Unobservable)
                 {
                     MainControl.SkillLevel.Visibility = Visible;
                     MainControl.SkillLevel.Text = "???";
@@ -521,7 +520,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                         SkillContstructor_Uptie Info_Uptie = LoadedSkillConstructors[CurrentSkillID].Skill_Upties[$"{CurrentSkillUptieLevel}"];
 
                         // Affinity color
-                        Select_Affinity = Info_Uptie.Affinity;
+                        if (Info_Uptie.Affinity != null) Select_Affinity = Info_Uptie.Affinity;
 
                         // Another Icon
                         if (Info_Uptie.IconID != null) // If icon is alt from some other skill or _4 uptie
@@ -530,7 +529,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                         }
 
                         // No Unobservable attribute
-                        if (!Info_Main.Attributes.Unobservable)
+                        if (Info_Main.Attributes.Unobservable != null && !(bool)Info_Main.Attributes.Unobservable)
                         {
                             // Coin|Base Power values
                             if (Info_Uptie.CoinPower != null)
@@ -560,7 +559,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     }
 
                     // No Unobservable attribute
-                    if (!Info_Main.Attributes.Unobservable)
+                    if (Info_Main.Attributes.Unobservable != null && !(bool)Info_Main.Attributes.Unobservable)
                     {
                         // Coin|Base Power values
                         Select_CoinPower = $"{Info_Main.Characteristics.CoinPower}";
@@ -603,19 +602,19 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 MainControl.SkilIcon.Source = AcquiredImage;
 
                 // Affinity Icon
-                if (Info_Main.Attributes.ShowAffinityIcon && Select_Affinity != null && !Select_Affinity.Equals("None"))
+                if ((bool)Info_Main.Attributes.ShowAffinityIcon && Select_Affinity != null && !Select_Affinity.Equals("None"))
                 {
                     MainControl.SkillAffinityIcon.Source = AffinityIcons[Select_Affinity];
                     MainControl.SkillAffinityIcon.Visibility = Visible;
                 }
 
                 // Unobservable attribute
-                if (!Info_Main.Attributes.Unobservable)
+                if (Info_Main.Attributes.Unobservable != null && !(bool)Info_Main.Attributes.Unobservable)
                 {
                     MainControl.SkillLevel.TextDecorations = TextDecorations.Underline;
 
                     // Level value
-                    if (!Info_Main.Attributes.HideBaseLevel)
+                    if (Info_Main.Attributes.HideBaseLevel != null && !(bool)Info_Main.Attributes.HideBaseLevel)
                     {
                         MainControl.SkillLevel.Visibility = Visible;
 
@@ -630,7 +629,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     }
 
                     // Coin Power
-                    if (!Info_Main.Attributes.HideCoinPower)
+                    if (Info_Main.Attributes.HideCoinPower != null && !(bool)Info_Main.Attributes.HideCoinPower)
                     {
                         MainControl.CoinPowerBackground.Visibility = Visible;
                         if (Info_Main.Attributes.OverrideCoinPower == null)
@@ -650,7 +649,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                     }
 
                     // Base Power
-                    if (!Info_Main.Attributes.HideBasePower)
+                    if (Info_Main.Attributes.HideBasePower != null && !(bool)Info_Main.Attributes.HideBasePower)
                     {
                         if (Info_Main.Attributes.OverrideBasePower == null)
                         {
@@ -828,7 +827,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static Task LoadStructure(FileInfo JsonFile, bool EnableUptieLevels, bool EnableEGOAbnormalityName)
         {
-            DeserializedInfo = JsonFile.Deserealize<Skills>();
+            DeserializedInfo = JsonFile.Deserealize<SkillsFile>();
 
             if (DeserializedInfo != null && DeserializedInfo.dataList != null && DeserializedInfo.dataList.Count > 0)
             {

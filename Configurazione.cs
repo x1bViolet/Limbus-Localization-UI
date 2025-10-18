@@ -99,7 +99,7 @@ namespace LC_Localization_Task_Absolute
             Mode_EGOGifts.OrganizedData.UpdateDisplayInfo();
 
             Mode_Skills.LoadDisplayInfo();
-            Custom_Skills_Constructor.ReadSkillConstructors();
+            SkillsDisplayInfo.ReadSkillConstructors();
 
             KeywordsInterrogate.LoadInlineImages();
 
@@ -388,11 +388,13 @@ namespace LC_Localization_Task_Absolute
             [JsonProperty("Show Load Warnings")]
             public bool ShowLoadWarnings { get; set; } = true;
 
+            [JsonProperty("Enable manual Json files managing")]
+            public bool EnablemanualJsonFilesManaging { get; set; } = false;
+
             [OnDeserialized]
             private void OnDeserialized(StreamingContext context)
             {
                 MainControl.Topmost = IsAlwaysOnTop;
-                rin($" Always on top: {IsAlwaysOnTop}");
             }
         }
         public record PreviewSettings

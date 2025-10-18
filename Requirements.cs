@@ -1,13 +1,14 @@
 ﻿using LC_Localization_Task_Absolute.Limbus_Integration;
+using Microsoft.Win32;
 using System.IO;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Timers;
-using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
+using System.Windows.Input;
 using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
@@ -34,7 +35,14 @@ namespace LC_Localization_Task_Absolute
         }
         public static BitmapImage BitmapFromResource(string ResourecImageName)
         {
-            return new BitmapImage(new Uri($"pack://application:,,,/{ResourecImageName}"));
+            try
+            {
+                return new BitmapImage(new Uri($"pack://application:,,,/{ResourecImageName}"));
+            }
+            catch
+            {
+                return new BitmapImage();
+            }
         }
         public static BitmapImage BitmapFromFile(string ImageFilepath)
         {
@@ -106,7 +114,7 @@ namespace LC_Localization_Task_Absolute
             };
         }
 
-        public static void ScanScrollviewer(ScrollViewer Target, string NameHint, string ManualPath = "", double DpiX = 96d, double DpiY = 96d)
+        public static void ScanScrollviewer(ScrollViewer Target, string NameHint, string ManualPath = "")
         {
             string OutputPath = !ManualPath.Equals("") ? ManualPath : @$"[⇲] Assets Directory\[⇲] Scans\{NameHint} @ {DateTime.Now.ToString("HHːmmːss (dd.MM.yyyy)")}.png";
 
@@ -130,19 +138,7 @@ namespace LC_Localization_Task_Absolute
                 catch { }
             }
 
-            PreviewContent.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
-            PreviewContent.Arrange(new Rect(PreviewContent.DesiredSize));
-            PreviewContent.UpdateLayout();
-
-            int RenderWidth = (int)(PreviewContent.ActualWidth * Upscale);
-            int RenderHeight = (int)(PreviewContent.ActualHeight * Upscale);
-
-            RenderTargetBitmap PreviewLayoutRender = new RenderTargetBitmap(RenderWidth, RenderHeight, DpiX * Upscale, DpiY * Upscale, PixelFormats.Pbgra32);
-
-            PreviewLayoutRender.Render(PreviewContent);
-
-            PngBitmapEncoder ExportBitmapEncoder = new PngBitmapEncoder();
-            ExportBitmapEncoder.Frames.Add(BitmapFrame.Create(PreviewLayoutRender));
+            PngBitmapEncoder ExportBitmapEncoder = ScanFrameworkElement(PreviewContent, Upscale);
 
             using (FileStream ExportStream = new FileStream(path: OutputPath, mode: FileMode.Create))
             {
@@ -161,6 +157,30 @@ namespace LC_Localization_Task_Absolute
             ////////////////////////////////////////////////////
             Target.ScrollToVerticalOffset(OriginalVerticalScrollOffset);
             Target.ScrollToHorizontalOffset(OriginalHorizontalScrollOffset);
+        }
+
+        public static PngBitmapEncoder ScanFrameworkElement(FrameworkElement PreviewContent, double Upscale)
+        {
+            PreviewContent.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
+            PreviewContent.Arrange(new Rect(PreviewContent.DesiredSize));
+            PreviewContent.UpdateLayout();
+
+            int RenderWidth = (int)(PreviewContent.ActualWidth * Upscale);
+            int RenderHeight = (int)(PreviewContent.ActualHeight * Upscale);
+
+            RenderTargetBitmap PreviewLayoutRender = new RenderTargetBitmap(RenderWidth, RenderHeight, 96d * Upscale, 96d * Upscale, PixelFormats.Pbgra32);
+
+            PreviewLayoutRender.Render(PreviewContent);
+
+            PngBitmapEncoder ExportBitmapEncoder = new PngBitmapEncoder();
+            ExportBitmapEncoder.Frames.Add(BitmapFrame.Create(PreviewLayoutRender));
+
+            return ExportBitmapEncoder;
+            // // -> Save
+            //using (FileStream ExportStream = new FileStream(path: @"C:\Save.png", mode: FileMode.Create))
+            //{
+            //    ExportBitmapEncoder.Save(ExportStream);
+            //}
         }
 
         public static bool TryParseColor(string HexColor, out Color OutColor)
@@ -396,6 +416,24 @@ namespace LC_Localization_Task_Absolute
             {
                 ParentStackPanel.Children.RemoveAt(CurrentIndex);
                 ParentStackPanel.Children.Insert(CurrentIndex + 1, TargetElement);
+            }
+        }
+        public static void MoveItemUp(this TabControl ParentTabControl, UIElement TargetElement)
+        {
+            int CurrentIndex = ParentTabControl.Items.IndexOf(TargetElement);
+            if (CurrentIndex > 0)
+            {
+                ParentTabControl.Items.RemoveAt(CurrentIndex);
+                ParentTabControl.Items.Insert(CurrentIndex - 1, TargetElement);
+            }
+        }
+        public static void MoveItemDown(this TabControl ParentTabControl, UIElement TargetElement)
+        {
+            int CurrentIndex = ParentTabControl.Items.IndexOf(TargetElement);
+            if (CurrentIndex >= 0 && CurrentIndex < ParentTabControl.Items.Count - 1)
+            {
+                ParentTabControl.Items.RemoveAt(CurrentIndex);
+                ParentTabControl.Items.Insert(CurrentIndex + 1, TargetElement);
             }
         }
 
@@ -666,7 +704,7 @@ namespace LC_Localization_Task_Absolute
         }
         public static string FormattedStackTrace(Exception Info, string SetupExceptionHandlingSource = "")
         {
-            return $"\n\n[{SetupExceptionHandlingSource} : {Info.Source}] {Info.Message}\n{Info.StackTrace.FormatStackTraceByNamespace("", @"C:\Users\javas\OneDrive\Документы\LC Localization Interface (Code)\")}\n\n";
+            return $"\n\n[{SetupExceptionHandlingSource} : {Info.Source}] {Info.Message}\n{Info.StackTrace.FormatStackTraceByNamespace("LC_Localization_Task_Absolute", @"C:\Users\javas\OneDrive\Документы\LC Localization Interface (Code)\")}\n\n";
         }
 
 
@@ -688,10 +726,10 @@ namespace LC_Localization_Task_Absolute
 
         public static void Await(double Seconds, Action CompleteAction)
         {
-            Grid placeholder = new Grid() { Background = ToSolidColorBrush("#00000000") };
-            DoubleAnimation doubleAnimation = new DoubleAnimation() { Duration = new Duration(TimeSpan.FromSeconds(Seconds)) };
-            doubleAnimation.Completed += (Sender, Args) => { CompleteAction(); };
-            placeholder.Background.BeginAnimation(SolidColorBrush.OpacityProperty, doubleAnimation);
+            DoubleAnimation ImprovisedAwait = new DoubleAnimation() { Duration = new Duration(TimeSpan.FromSeconds(Seconds)) };
+            ImprovisedAwait.Completed += (Sender, Args) => { CompleteAction(); };
+
+            new Grid() { Opacity = 1 }.BeginAnimation(Grid.OpacityProperty, ImprovisedAwait);
         }
 
         public static List<FileInfo> ToFileInfos(this IEnumerable<string> FilePaths)
@@ -867,7 +905,11 @@ namespace LC_Localization_Task_Absolute
         /// </summary>
         public static string Del(this string Target, params string[] FragmentsToRemove)
         {
-            foreach (string Fragment in FragmentsToRemove) Target = Target.Replace(Fragment, "");
+            if (!string.IsNullOrEmpty(Target)) foreach (string? Fragment in FragmentsToRemove)
+            {
+                if (!string.IsNullOrEmpty(Fragment)) Target = Target.Replace(Fragment, "");
+            }
+
             return Target;
         }
 

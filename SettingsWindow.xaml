@@ -1055,6 +1055,30 @@
 													</TextBlock>
 												</Border>
 											</Grid>
+											<Grid Margin="0 5 0 0">
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition />
+													<ColumnDefinition />
+												</Grid.ColumnDefinitions>
+												<local:UITranslation_Rose
+													UID="[Settings / Internal] * Enable manual Json files managing"
+													RichText="Enable manual Json files managing"
+													Grid.Column="0"
+													FontSize="16"
+													Style="{StaticResource SubName_r}"/>
+												<Border
+													x:Name="ToggleManualJsonFilesManaging"
+													Grid.Column="1"
+													Width="26.4"
+													Height="26.4"
+													HorizontalAlignment="Left"
+													PreviewMouseLeftButtonUp="OptionToggle"
+													Style="{StaticResource BorderButton}">
+													<TextBlock x:Name="ToggleManualJsonFilesManaging_I" Style="{StaticResource ButtonInner}">
+														
+													</TextBlock>
+												</Border>
+											</Grid>
 											<local:UITranslation_Rose
 												x:Name="STE_Settings_Internal_Readme"
 												UID="[Settings / Internal] * Dropdown lists Readme"
