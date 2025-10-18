@@ -2968,6 +2968,71 @@
     },
 
 
+    {
+      "ID": 9831,
+      "Image": "Sea Terror Notes",
+      "Affinity": "Envy",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9832,
+      "Image": "Goldforged Compass",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9833,
+      "Image": "Silver Key Bundle",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9834,
+      "Image": "Sea Terror Jerky",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9835,
+      "Image": "Brilliant Lamplight",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9836,
+      "Image": "Aged Sheet Music",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "4"
+    },
+    {
+      "ID": 9837,
+      "Image": "Metal Construct",
+      "Affinity": "Gloom",
+      "Keyword": "Rupture",
+      "Tier": "4"
+    },
+    {
+      "ID": 9838,
+      "Image": "Moonmirror Wine Cup",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 9839,
+      "Image": "Classical-design Letter Opener",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+
+
 
 
 
