@@ -112,6 +112,9 @@ namespace LC_Localization_Task_Absolute.Json
         }
         public record SkillConstructor
         {
+            [JsonIgnore] private const string RelativeMarker = ":Current-Directory:";
+
+
             [JsonProperty("(Name)")]
             public string? SkillName { get; set; }
 
@@ -135,7 +138,7 @@ namespace LC_Localization_Task_Absolute.Json
             [OnDeserialized]
             private void TechnicalProcessing(StreamingContext ThisFilePathContext)
             {
-                if (IconID != null) IconID = IconID.Replace(":Constructor:", $"{ThisFilePathContext.Context}");
+                if (IconID != null) IconID = IconID.Replace(RelativeMarker, $"{ThisFilePathContext.Context}");
 
                 if (ID != null & Configurazione.SettingsLoadingEvent)
                 {
@@ -226,7 +229,7 @@ namespace LC_Localization_Task_Absolute.Json
             [OnSerializing]
             private void HandleRelativePaths_OnSave(StreamingContext ThisFilePathContext)
             {
-                IconID = IconID.Replace((string)ThisFilePathContext.Context, ":Constructor:");
+                IconID = IconID.Replace((string)ThisFilePathContext.Context, RelativeMarker);
             }
         }
 

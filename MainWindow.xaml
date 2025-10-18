@@ -1686,6 +1686,7 @@
 												<MenuItem Click="AppendAdditionalObject">
 													<MenuItem.Header>
 														<Terminus:UITranslation_Rose
+															UID="[Main UI] * Add additional object button"
 															Padding="0 3 0 3"
 															FontFamily="Unispace"
 															FontSize="13.8"
@@ -1735,6 +1736,7 @@
 													<MenuItem Click="AddAdditionalUptie">
 														<MenuItem.Header>
 															<Terminus:UITranslation_Rose
+																UID="[Main UI] * Create uptie button"
 																Padding="0 3 6 3"
 																FontFamily="Unispace"
 																FontSize="13.8"

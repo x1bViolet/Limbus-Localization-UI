@@ -102,6 +102,20 @@
         "Font": "Unispace",
         "Font Size": 13.8,
         "Padding": [0, 3, 5, 3]
+      },
+      {
+        "UID": {"[Main UI] * Add additional object button":null},
+        "Text": "Добавить объект..",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI] * Create uptie button":null},
+        "Text": "Создать уровень свзяи",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 6, 3]
       }
     ],
     [
