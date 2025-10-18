@@ -350,6 +350,17 @@ namespace LC_Localization_Task_Absolute
             });
         }
 
+        public static void BindSameProperties(this FrameworkElement BindingTarget, FrameworkElement BindingSource, params DependencyProperty[] Properties)
+        {
+            foreach (DependencyProperty BindProperty in Properties)
+            {
+                BindingTarget.SetBinding(BindProperty, new Binding(BindProperty.ToString())
+                {
+                    Source = BindingSource
+                });
+            }
+        }
+
         public static FrameworkElement SetBindingWithReturn(this FrameworkElement Target, DependencyProperty Property, string BindingPropertyName, DependencyObject BindingSource)
         {
             Target.SetBinding(Property, new Binding(BindingPropertyName)

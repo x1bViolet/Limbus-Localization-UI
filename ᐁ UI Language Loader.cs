@@ -43,6 +43,22 @@ namespace LC_Localization_Task_Absolute
     /// </summary>
     sealed public partial class UITranslation_Mint : TextBox, UILocalization_Entry
     {
+        /// <summary>
+        /// Create binding of all properties
+        /// </summary>
+        public void InterhintPropertiesFrom(UITranslation_Mint AnotherTextElement)
+        {
+            this.BindSameProperties(
+                AnotherTextElement,
+                [
+                    UITranslation_Mint.FontFamilyProperty, UITranslation_Mint.FontWeightProperty, UITranslation_Mint.FontSizeProperty,
+                    UITranslation_Mint.ForegroundProperty, UITranslation_Mint.TextAlignmentProperty,
+                    UITranslation_Mint.MarginProperty,     UITranslation_Mint.PaddingProperty,
+                    UITranslation_Mint.WidthProperty,      UITranslation_Mint.HeightProperty
+                ]
+            );
+        }
+
         public static readonly DependencyProperty UIDProperty =
             DependencyProperty.Register(
                 "UID",
@@ -72,6 +88,22 @@ namespace LC_Localization_Task_Absolute
     /// </summary>
     sealed public partial class UITranslation_Rose : TextBlock, UILocalization_Entry
     {
+        /// <summary>
+        /// Create binding of all properties (Except <see cref="RichText"/>, regular TextProperty only)
+        /// </summary>
+        public void InterhintPropertiesFrom(UITranslation_Rose AnotherTextElement)
+        {
+            this.BindSameProperties(
+                AnotherTextElement,
+                [
+                    UITranslation_Rose.FontFamilyProperty, UITranslation_Rose.FontWeightProperty, UITranslation_Rose.FontSizeProperty,
+                    UITranslation_Rose.TextProperty,       UITranslation_Rose.ForegroundProperty, UITranslation_Rose.TextAlignmentProperty,
+                    UITranslation_Rose.MarginProperty,     UITranslation_Rose.PaddingProperty,
+                    UITranslation_Rose.WidthProperty,      UITranslation_Rose.HeightProperty
+                ]
+            );
+        }
+
         public static readonly DependencyProperty UIDProperty =
             DependencyProperty.Register(
                 "UID",
@@ -411,7 +443,7 @@ namespace LC_Localization_Task_Absolute
 
         public static List<InterfaceLocalizationModifiers.Frames.StaticOrDynamic_UI_Text.InterfaceTranslationParameter> ExportInfo = new();
 
-        public static string ExternTextFor(string UID, string VariableKey = null)
+        public static string GetLocalizationTextFor(string UID, string VariableKey = null)
         {
             if (VariableKey == null & LoadedModifiers.ContainsKey(UID))
             {
@@ -432,7 +464,7 @@ namespace LC_Localization_Task_Absolute
         
         public static void ExternElement(string UID, string VariableKey, string ExternString = "")
         {
-            PresentedStaticTextEntries[UID].RichText = ExternTextFor(UID, VariableKey).Extern(ExternString);
+            PresentedStaticTextEntries[UID].RichText = GetLocalizationTextFor(UID, VariableKey).Extern(ExternString);
         }
 
         public abstract class SpecializedDefs
@@ -519,18 +551,21 @@ namespace LC_Localization_Task_Absolute
 
             if (Target is UITranslation_Rose RoseumType) // Only one difference
             {
+                string TextToSet = "";
+
                 if (Param.Variable != null && Param.Variable.Keys.Count > 0)
                 {
-                    string TextToSet = Param.Variable.First().Value;
-                    if (TextToSet.Contains("[$]")) TextToSet = TextToSet.Extern(SpecializedDefs.InsertionsDefaultValue);
-                    RoseumType.RichText = TextToSet;
+                    TextToSet = Param.Variable.First().Value;
                 }
                 else if (!Param.Text.IsNullOrEmpty())
                 {
-                    string TextToSet = Param.Text;
-                    if (TextToSet.Contains("[$]")) TextToSet = TextToSet.Extern(SpecializedDefs.InsertionsDefaultValue);
-                    RoseumType.RichText = TextToSet;
+                    TextToSet = Param.Text;
                 }
+
+                if (TextToSet.Contains("[$]")) TextToSet = TextToSet.Extern(SpecializedDefs.InsertionsDefaultValue);
+
+                if (Param.UID.Keys.First().Contains("[!]")) RoseumType.Text = TextToSet;
+                else RoseumType.RichText = TextToSet;
             }
 
             if (Param.Text_Alignment != null)

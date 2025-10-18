@@ -51,6 +51,60 @@
       }
     ],
     [
+      {
+        "UID": {"[Main UI / Create file context menu] * Title":null},
+        "Text": "Создать файл",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 43, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Passives":null},
+        "Text": "Пассивки",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Keywords":null},
+        "Text": "Ключевые слова",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ...":null},
+        "Text": "Навыки ...",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ... No upties":null},
+        "Text": "Без уровней связи",
+        "Text Alignment": "Right",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 5, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ... Identities":null},
+        "Text": "Идентичности",
+        "Text Alignment": "Right",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 5, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ... E.G.O Skills":null},
+        "Text": "ЭГО Навыки",
+        "Text Alignment": "Right",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 5, 3]
+      }
+    ],
+    [
       // You can hide context menu options via `Visible` property
       {
         "UID": {"[Context Menu] * Insert Style":null},
@@ -549,27 +603,293 @@
       },
       {
         "UID": {"[Settings / Preview Scans] * Readme 1":null},
-        "Text": "<font=\"Consolas\"><b><color=#7177ff>Universal Template.json</color></b></font> (.json файл типа Скиллов) в папке <font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\[⇲] Scans</color></b></font> может одновременно использоваться для перевода скиллов, пассивок и эффектов новых айди с использованием одного лишь главного описания для последних двух пунктов. Для стороннего наблюдателя выглядит как скилл, только если видны его монеты. Ширина в 0 пикселей установит значение по умолчанию, всё с предпросмотра даже за его пределами всё равно будет отсканировано.",
+        "Text": "Их внешний вид может использоваться для перевода предпросмотров новых Идентичностей/ЭГО путём наложения экспортированной картинки на официальные изображения. Однако в программе уже есть особый режим для прямого создания таких высококачественных предпросмотров не окольными путями, ссылка на документацию ниже.\n<hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator\"><color=#569cd6><u>Кастомный предпросмотр Идентичностей/ЭГО</u></color></hyperlink>.",
         "Font Size": 14,
         "Font": "Linotype Syntax Com"
       },
       {
         "UID": {"[Settings / Preview Scans] * Readme 2":null},
-        "Text": "Файл распознаётся как шаблонный благодаря строке <font=\"Consolas\"><b><color=#aaace7>\"Template Marker\": \"(Don't remove)\"</color></b></font> внутри, его можно переименовывать.",
+        "Text": "В любом случае: для стороннего наблюдателя навыки выглядит как навыки, только если видны их монеты. Нулевая ширина установит значение по умолчанию, всё с предпросмотра даже за пределами окна всё равно будет отсканировано.",
         "Font Size": 14,
         "Font": "Linotype Syntax Com"
       },
       {
         "UID": {"[Settings / Preview Scans] * Readme 3":null},
-        "Text": "Используйте его для всего этого.",
+        "Text": "P.S. Масштаб влияет на качество экспортированного изображения из режима создания предпросмотров тоже.",
         "Font Size": 14,
         "Font": "Linotype Syntax Com"
       }
     ],
     [
       {
+        "UID": {"[Skills DI Manager] * Title bar button tooltip":null},
+        "Text": "Открыть менеджер информаций отображения скиллов"
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Move Up)":null},
+        "Text": "Переместить вверх",
+        "Font Size": 16.5,
+        "Width": 140
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Delete)":null},
+        "Text": "Удалить навык",
+        "Font Size": 16.5,
+        "Width": 140
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Move down)":null},
+        "Text": "Переместить вниз",
+        "Font Size": 16.5,
+        "Width": 140
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Textfields context menu — Copy":null},
+        "Text": "Копировать",
+        "Font Size": 16.5,
+        "Width": 87
+      },
+      {
+        "UID": {"[Skills DI Manager] * Textfields context menu — Cut":null},
+        "Text": "Вырезать",
+        "Font Size": 16.5,
+        "Width": 87
+      },
+      {
+        "UID": {"[Skills DI Manager] * Textfields context menu — Paste":null},
+        "Text": "Вставить",
+        "Font Size": 16.5,
+        "Width": 87
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button":null},
+        "Font Size": 16,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Skills DI Manager] [!] * Regular coin option":null},
+        "Text": "Обычная монета",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] [!] * Unbreakable coin option":null},
+        "Text": "Нерушимая монета",
+        "Font Size": 16.5
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Open file button":null},
+        "Text": "Открыть файл",
+        "Width": 125,
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Save current button":null},
+        "Text": "Сохранить этот",
+        "Width": 125,
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Current file name":null},
+        "Text": "···.json",
+        "Width": 273, // Maximum width to avoid going over the edges of the window
+        "Font Size": 16,
+        "Margin": [5, 0, 0, 0]
+      },
+      {
+        "UID": {"[Skills DI Manager] * Current file name (Full path tooltip)":null},
+        "Text": "···",
+        "Font Size": 14
+      },
+      {
+        "UID": {"[Skills DI Manager] * New skill constructor button":null},
+        "Text": "<b><font=\"Times New Roman\">+</font></b> Новый конструктор",
+        "Margin": [0, 1, 0, 0],
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill name":null},
+        "Text": "Имя навыка",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill ID":null},
+        "Text": "ID навыка",
+        "Font Size": 20
+      },
+
+
+      {
+        "UID": {"[Skills DI Manager] * Icon image (Label)":null},
+        "Font Size": 20,
+        "Variable": {
+          "Default": "Иконка <size=75%><color=#fc5a03>[Нет]</color></size>",
+          "Selected": "Иконка <size=75%><color=#fc5a03>[Выбрана]</color></size>" 
+        }
+      },
+      {
+        "UID": {"[Skills DI Manager] * Icon image (Label) (Full path tooltip)":null},
+        "Text": "···",
+        "Font Size": 14
+      },
+      {
+        "UID": {"[Skills DI Manager] * Icon image (Button)":null},
+        "Text": "Выбрать файл",
+        "Font Size": 16.5
+      },
+
+      
+      {
+        "UID": {"[Skills DI Manager] * Skill action (Label)":null},
+        "Text": "Действие",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Attack":null},
+        "Text": "Атака",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Counter":null},
+        "Text": "Контратака",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Guard":null},
+        "Text": "Блок",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Evade":null},
+        "Text": "Уворот",
+        "Font Size": 16.5
+      },
+
+
+      {
+        "UID": {"[Skills DI Manager] * Damage type (Label)":null},
+        "Text": "Тип урона",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — Blunt":null},
+        "Text": "Дробящий",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — Pierce":null},
+        "Text": "Пронзающий",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — Slash":null},
+        "Text": "Рубящий",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — None":null},
+        "Text": "Нет",
+        "Font Size": 16.5
+      },
+      
+      
+      
+      {
+        "UID": {"[Skills DI Manager] * Affinity (Label)":null},
+        "Text": "Грех",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Wrath":null},
+        "Text": "Гнев",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Lust":null},
+        "Text": "Похоть",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Sloth":null},
+        "Text": "Леность",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Gluttony":null},
+        "Text": "Чревоугодие",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Gloom":null},
+        "Text": "Уныние",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Pride":null},
+        "Text": "Гордыня",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Envy":null},
+        "Text": "Зависть",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — None":null},
+        "Text": "Нет",
+        "Font Size": 16.5
+      },
+
+
+
+      {
+        "UID": {"[Skills DI Manager] * Rank (Label)":null},
+        "Text": "Ранг",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Rank — 1":null},
+        "Text": "1",
+        "Margin": [1, 0, 0, 0],
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Rank — 2":null},
+        "Text": "2",
+        "Margin": [1, 0, 0, 0],
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Rank — 3":null},
+        "Text": "3",
+        "Margin": [1, 0, 0, 0],
+        "Font Size": 16.5
+      },
+
+
+
+      {
+        "UID": {"[Skills DI Manager] * Show affinity icon":null},
+        "Text": "Иконка греха",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill coins":null},
+        "Text": "Монеты навыка",
+        "Font Size": 20
+      }
+    ],
+    [
+      {
         "UID": {"[C] * Title bar button tooltip":null},
-        "Text": "Switch UI to Identity/E.G.O Preview creator",
+        "Text": "Переключить интерфейс на режим создания предпросмотров",
         "Foreground": "#ffffff"
       }
     ],

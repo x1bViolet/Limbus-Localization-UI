@@ -43,6 +43,7 @@ namespace LC_Localization_Task_Absolute
 
             internal protected static readonly TagType[] IgnoreTags_Default = [];
             internal protected static readonly TagType[] IgnoreTags_UnityTMProExclude = [
+                TagType.Hyperlink,
                 TagType.Background, // <mark> but behind the text, not valid
                 TagType.FontStretch,
                 TagType.InlineImage,
@@ -102,6 +103,10 @@ namespace LC_Localization_Task_Absolute
                     {
                         case TagType.Link:
                             Tag.Info = Tag.Info.Del("link=\"")[0..^1];
+                            break;
+
+                        case TagType.Hyperlink:
+                            Tag.Info = Tag.Info.Del("hyperlink=\"")[0..^1];
                             break;
 
                         case TagType.Font:
@@ -175,6 +180,31 @@ namespace LC_Localization_Task_Absolute
 
                             KeywordsInterrogate.KeywordDescriptionInfoPopup.AttachToInline(Target);
 
+                            break;
+
+                        case TagType.Hyperlink:
+                            Target.PreviewMouseLeftButtonUp += (Sender, Args) =>
+                            {
+                                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
+                                {
+                                    FileName = TagInfo, /*URL*/
+                                    UseShellExecute = true
+                                });
+                            };
+
+                            ToolTipService.SetInitialShowDelay(Target, 100);
+                            Target.ToolTip = new ToolTip()
+                            {
+                                Background = ToSolidColorBrush("#E0676767"),
+                                HorizontalOffset = 20,
+                                Content = new UITranslation_Rose()
+                                {
+                                    Foreground = Brushes.White,
+                                    Text = TagInfo /*URL*/,
+                                    FontFamily = RecentInfo.TextBlockTarget.FontFamily,
+                                    FontWeight = RecentInfo.TextBlockTarget.FontWeight,
+                                }
+                            };
                             break;
 
                         case TagType.Font:
@@ -264,6 +294,7 @@ namespace LC_Localization_Task_Absolute
                 TechnicalNull, // Don't touch
 
                 NoBreak,
+                Hyperlink,
                 Link,
                 Bold,
                 Undeline,
@@ -345,6 +376,8 @@ namespace LC_Localization_Task_Absolute
 
                 new("style", ["/style"], TagType.StyleHighlighter) { UnivocalPropertyKey = Run.ForegroundProperty, UnivocalPropertyValue = ToSolidColorBrush("#f8c200") }, // Highlight color
                 
+                new(@"hyperlink=""(.*?)""", ["/hyperlink"], TagType.Hyperlink),
+
                 new(@"link=""\w+""", ["/link"], TagType.Link),
                 new(@"font="".*?""", ["/font"], TagType.Font),
                 new(@"font-weight=""(100|200|300|400|500|600|700|800|900)""", ["/font-weight"], TagType.FontWeight), // https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/TextMeshPro/RichTextFontWeight.html

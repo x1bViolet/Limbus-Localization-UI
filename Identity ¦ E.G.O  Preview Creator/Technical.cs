@@ -72,9 +72,9 @@ public partial class MainWindow
 
     private void SwitchUIQuestion(object RequestSender, MouseButtonEventArgs EventArgs)
     {
-        string Tilte = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] [!] [&] * UI switch dialog", "Message window title");
-        string Forward = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] [!] [&] * UI switch dialog", "Switch to");
-        string Back = ᐁ_Interface_Localization_Loader.ExternTextFor("[C] [!] [&] * UI switch dialog", "Return back");
+        string Tilte = ᐁ_Interface_Localization_Loader.GetLocalizationTextFor("[C] [!] [&] * UI switch dialog", "Message window title");
+        string Forward = ᐁ_Interface_Localization_Loader.GetLocalizationTextFor("[C] [!] [&] * UI switch dialog", "Switch to");
+        string Back = ᐁ_Interface_Localization_Loader.GetLocalizationTextFor("[C] [!] [&] * UI switch dialog", "Return back");
 
         if (PreviewCreator.CurrentInfo.IsActive)
         {

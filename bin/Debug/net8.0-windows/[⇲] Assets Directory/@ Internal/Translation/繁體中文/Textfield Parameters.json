@@ -134,6 +134,16 @@
     ],
     [
       {
+        "UID": {"[Skills DI Manager] * Skill name":null},
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill ID":null},
+        "Font Size": 16.5
+      }
+    ],
+    [
+      {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Frame color":null},
         "Font Size": 20
       },

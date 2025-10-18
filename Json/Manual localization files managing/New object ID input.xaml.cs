@@ -1,21 +1,9 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Runtime.InteropServices;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Runtime.InteropServices;
+using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
-using System.Windows.Input;
 using System.Windows.Interop;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Shapes;
-using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
-using System.Text.RegularExpressions;
 
 namespace LC_Localization_Task_Absolute.Json.Manual_localization_files_managing
 {
@@ -41,8 +29,6 @@ namespace LC_Localization_Task_Absolute.Json.Manual_localization_files_managing
 
             this.Loaded += Window_Loaded;
 
-
-
             CurrentMode = Mode;
             CheckIDListsCondition = CheckCurrentIDLists;
             //lang=regex
@@ -61,13 +47,13 @@ namespace LC_Localization_Task_Absolute.Json.Manual_localization_files_managing
             };
         }
 
-        private void ConfirmInput_Click(object sender, RoutedEventArgs e)
+        private void ConfirmInput_Click(object RequestSender, RoutedEventArgs EventArgs)
         {
             ResponseText = ObjectIDInput.Text;
             this.DialogResult = true;
         }
 
-        private void ObjectIDInput_TextChanged(object sender, TextChangedEventArgs e)
+        private void ObjectIDInput_TextChanged(object RequestSender, TextChangedEventArgs EventArgs)
         {
             if (IsLoaded)
             {

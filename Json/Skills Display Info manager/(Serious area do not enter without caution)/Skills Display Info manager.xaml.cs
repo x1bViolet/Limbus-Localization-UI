@@ -10,6 +10,7 @@ using System.Windows.Media;
 using static LC_Localization_Task_Absolute.Json.SkillsDisplayInfo;
 using static LC_Localization_Task_Absolute.Json.SkillsDisplayInfoManagerWindow;
 using static LC_Localization_Task_Absolute.Requirements;
+using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
 
 namespace LC_Localization_Task_Absolute.Json
 {
@@ -46,15 +47,11 @@ namespace LC_Localization_Task_Absolute.Json
 
             UITranslation_Rose Header = new()
             {
-                Foreground = ToSolidColorBrush("#D6D6D6"),
-                FontFamily = FontFromResource("UI/Fonts/", "GOST Type BU"),
-                FontSize = 16,
                 Width = 148,
-                PerfectVerticalAlign = true,
-                TextWrapping = TextWrapping.Wrap,
                 VerticalAlignment = VerticalAlignment.Center,
-                Padding = new Thickness(0, 3, 0, 3),
+                PerfectVerticalAlign = true,
             };
+            Header.InterhintPropertiesFrom(SkillsDisplayInfoManager.TabItemHeaderTextBinding);
             this.Children.Add(Header);
         }
     }
@@ -76,26 +73,21 @@ namespace LC_Localization_Task_Absolute.Json
             };
             this.Children.Add(CreatedCoinImage);
 
+            UITranslation_Rose RegularCoinOption = new() { Uid = "Regular" };
+            RegularCoinOption.InterhintPropertiesFrom(SkillsDisplayInfoManager.RegularCoinTextBinding);
 
+            UITranslation_Rose UnbreakableCoinOption = new() { Uid = "Unbreakable" };
+            UnbreakableCoinOption.InterhintPropertiesFrom(SkillsDisplayInfoManager.UnbreakableCoinTextBinding);
 
             ComboBox CreatedCoinTypeSelector = new()
             {
+                Padding = new Thickness(6, 3, 0, 3),
                 Height = 25, Width = 207,
                 SelectedIndex = PresetType == "Unbreakable" ? 1 : 0,
                 Items =
                 {
-                    new UITranslation_Rose()
-                    {
-                        FontSize = 16.5,
-                        RichText = "Regular coin", Uid = "Regular",
-                        FontFamily = FontFromResource("UI/Fonts/", "GOST Type BU"),
-                    },
-                    new UITranslation_Rose()
-                    {
-                        FontSize = 16.5,
-                        RichText = "Unbreakable coin", Uid = "Unbreakable",
-                        FontFamily = FontFromResource("UI/Fonts/", "GOST Type BU"),
-                    }
+                    RegularCoinOption,
+                    UnbreakableCoinOption
                 }
             };
             this.Children.Add(CreatedCoinTypeSelector);
@@ -171,7 +163,7 @@ namespace LC_Localization_Task_Absolute.Json
 
     public partial class SkillsDisplayInfoManagerWindow : Window
     {
-        public static readonly SkillsDisplayInfoManagerWindow SkillsDisplayInfoManager = new();
+        public static SkillsDisplayInfoManagerWindow SkillsDisplayInfoManager;
 
 
         public SkillsDisplayInfoFile LoadedInfo = new() { List = new List<SkillConstructor>() };
@@ -179,18 +171,39 @@ namespace LC_Localization_Task_Absolute.Json
 
         private bool ManualViewUpdateEvent = false;
 
-        private MenuItem TabItemDeleteButton;
+        private MenuItem TabItemDeleteButton; // To disable if there are only one left
 
 
         public SkillsDisplayInfoManagerWindow()
         {
             InitializeComponent();
 
+            ItemCollection TabItemsContextMenu = (MainGrid.Resources["TabItemContextMenu"] as ContextMenu).Items;
+            TabItemDeleteButton = TabItemsContextMenu[1] as MenuItem;
+
+            PresentedStaticTextEntries["[Skills DI Manager] * Skill switch button (Context menu — Move Up)"]
+                = (TabItemsContextMenu[0] as MenuItem).Header as UITranslation_Rose;
+            
+            PresentedStaticTextEntries["[Skills DI Manager] * Skill switch button (Context menu — Delete)"]
+                = (TabItemsContextMenu[1] as MenuItem).Header as UITranslation_Rose;
+            
+            PresentedStaticTextEntries["[Skills DI Manager] * Skill switch button (Context menu — Move down)"]
+                = (TabItemsContextMenu[2] as MenuItem).Header as UITranslation_Rose;
+
+
+            ItemCollection TextfieldsContextMenu = (MainGrid.Resources["TextfieldContextMenu"] as ContextMenu).Items;
+            
+            PresentedStaticTextEntries["[Skills DI Manager] * Textfields context menu — Copy"]
+                = (TextfieldsContextMenu[0] as MenuItem).Header as UITranslation_Rose;
+            
+            PresentedStaticTextEntries["[Skills DI Manager] * Textfields context menu — Cut"]
+                = (TextfieldsContextMenu[1] as MenuItem).Header as UITranslation_Rose;
+            
+            PresentedStaticTextEntries["[Skills DI Manager] * Textfields context menu — Paste"]
+                = (TextfieldsContextMenu[2] as MenuItem).Header as UITranslation_Rose;
+
             this.Closing += (Sender, Args) => { Args.Cancel = true; this.Hide(); };
-
-            TabItemDeleteButton = (MainGrid.Resources["TabItemContextMenu"] as ContextMenu).Items[1] as MenuItem;
-
-            AddSkilLConstructorSelectable(CreateBlankConstructor());
+            this.Loaded += (Sender, Args) => AddSkilLConstructorSelectable(CreateBlankConstructor());
         }
 
         #region Sqare corners
@@ -390,14 +403,15 @@ namespace LC_Localization_Task_Absolute.Json
         {
             if (File.Exists(SelectedConstructor.IconID))
             {
-                SelectSkillIconLabel.RichText = "Icon image <size=75%><color=#fc5a03>[Selected]</color></size>";
+                SelectSkillIconLabel.RichText = GetLocalizationTextFor("[Skills DI Manager] * Icon image (Label)", "Selected");
+
                 SelectSkillIconLabel_Tooltip.Visibility = Visibility.Visible;
                 SelectSkillIconLabel_Tooltip_Text.Text = SelectedConstructor.IconID;
             }
             else
             {
+                SelectSkillIconLabel.RichText = GetLocalizationTextFor("[Skills DI Manager] * Icon image (Label)", "Default");
                 SelectSkillIconLabel_Tooltip.Visibility = Visibility.Collapsed;
-                SelectSkillIconLabel.RichText = "Icon image <size=75%><color=#fc5a03>[None]</color></size>";
             }
         }
         private void ResetSelectedSkillIcon(object RequestSender, MouseButtonEventArgs EventArgs)
@@ -509,14 +523,14 @@ namespace LC_Localization_Task_Absolute.Json
             FocusManager.SetFocusedElement(FocusManager.GetFocusScope(Target), null);
             Keyboard.ClearFocus();
         }
+
         private void SkillNameTextInput_KeyDown(object RequestSender, KeyEventArgs EventArgs)
         {
-            if (EventArgs.Key == Key.Enter) UnfocusMint(SkillNameTextInput);
+            if (EventArgs.Key == Key.Enter | EventArgs.Key == Key.Escape) UnfocusMint(SkillNameTextInput);
         }
-
         private void SkillIDTextInput_KeyDown(object RequestSender, KeyEventArgs EventArgs)
         {
-            if (EventArgs.Key == Key.Enter) UnfocusMint(SkillIDTextInput);
+            if (EventArgs.Key == Key.Enter | EventArgs.Key == Key.Escape) UnfocusMint(SkillIDTextInput);
         }
     }
 }

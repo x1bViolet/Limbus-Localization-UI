@@ -55,6 +55,7 @@ public partial class MainWindow : Window
 
         MainControl = this;
         SettingsWindow.SettingsControl = new SettingsWindow(); // Init settings window
+        SkillsDisplayInfoManagerWindow.SkillsDisplayInfoManager = new SkillsDisplayInfoManagerWindow();
         AddUptieContextMenu = UptieButtonsGrid.Resources["AddUptieContextMenu"] as ContextMenu;
         //PreviewCreatorWindow.CreatorControl = new PreviewCreatorWindow();
 
@@ -129,7 +130,6 @@ public partial class MainWindow : Window
             this.Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
             this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
         }
-        //PreviewCreatorWindow.CreatorControl.Show();
 
         ////Default file load on startup
         //FileInfo SomeFile = new FileInfo(@"Skills_personality-01.json");

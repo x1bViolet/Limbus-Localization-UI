@@ -187,7 +187,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             
             MainControl.STE_NavigationPanel_ObjectID_Display
-                .RichText = ᐁ_Interface_Localization_Loader.ExternTextFor("[Main UI] * ID Copy Button")
+                .RichText = ᐁ_Interface_Localization_Loader.GetLocalizationTextFor("[Main UI] * ID Copy Button")
                 .Extern(CurrentEGOGiftID);
             
 

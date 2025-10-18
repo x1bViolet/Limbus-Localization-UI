@@ -32,7 +32,6 @@
     <None Remove="UI\Fonts\Sappy-JpRxm.ttf" />
     <None Remove="UI\Fonts\SCDream5.otf" />
     <None Remove="UI\Fonts\Segoe Fluent Icons.ttf" />
-    <None Remove="UI\Fonts\Tagmarker Regular.ttf" />
     <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Envy.png" />
     <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Gloom.png" />
     <None Remove="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Gluttony.png" />
@@ -256,9 +255,6 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Fonts\SCDream5.otf">
-      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
-    </Resource>
-    <Resource Include="UI\Fonts\Tagmarker Regular.ttf">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Backgrounds\Affinity-Colored E.G.O Gifts Name Backgrounds\Envy.png">

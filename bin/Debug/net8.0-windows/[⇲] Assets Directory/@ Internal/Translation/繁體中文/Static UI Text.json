@@ -52,6 +52,60 @@
       }
     ],
     [
+      {
+        "UID": {"[Main UI / Create file context menu] * Title":null},
+        "Text": "Create file",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 15, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Passives":null},
+        "Text": "Passives",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Keywords":null},
+        "Text": "Keywords",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ...":null},
+        "Text": "Skills ...",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ... No upties":null},
+        "Text": "No upties",
+        "Text Alignment": "Right",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 5, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ... Identities":null},
+        "Text": "Identities",
+        "Text Alignment": "Right",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 5, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ... E.G.O Skills":null},
+        "Text": "E.G.O Skills",
+        "Text Alignment": "Right",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 5, 3]
+      }
+    ],
+    [
       // You can hide context menu options via `Visible` property
       {
         "UID": {"[Context Menu] * Insert Style":null},
@@ -550,21 +604,287 @@
       },
       {
         "UID": {"[Settings / Preview Scans] * Readme 1":null},
-        "Text": "位於<font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\[⇲] Scans</color></b></font>\n的<font=\"Consolas\"><b><color=#7177ff>Universal Template.json</color></b></font>（空白技能 .json 檔案）\n可用於翻譯新人格預覽的技能與被動，以及狀態效果（前提是你將面板寬度調整到合適的值）\n只有當你在硬幣（coins）欄位填寫內容時，這些才會被視為技能並在檢視器中顯示。\n輸入 0 即可重置為預設寬度，即使文字超出視窗範圍，仍會被渲染和輸出。",
+        "Text": "It can be used to translate Previews of new Identities/E.G.O by superimposing the exported image onto the official images. <font=\"Segoe UI\"><b><i>However</i></b></font>, the program already has a special mode for directly creating higly adjustable Previews in a non-roundabout way, docs link below.\n<hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator\"><color=#569cd6><u>Custom Identity/E.G.O Preview creator Documentation</u></color></hyperlink>.",
         "Font Size": 14,
         "Font": "Linotype Syntax Com"
       },
       {
         "UID": {"[Settings / Preview Scans] * Readme 2":null},
-        "Text": "如果你複製並重新命名這個檔案，只要檔案內包含特殊行<font=\"Consolas\"><b><color=#aaace7>\"Template Marker\": \"(Don't remove)\"</color></b></font>\n程式仍會自動識別它。",
+        "Text": "Anyway, skills localization file counts as skills for viewer only if you write something in coins and they will be visible. Type 0 width to use default value, all text even outside of window still being rendered and scanned. You can use it for all.",
         "Font Size": 14,
         "Font": "Linotype Syntax Com"
       },
       {
         "UID": {"[Settings / Preview Scans] * Readme 3":null},
-        "Text": "直接使用就好。",
+        "Text": "P.S. Scale factor also affects on exported images from Custom Identity/E.G.O Preview creator.",
         "Font Size": 14,
         "Font": "Linotype Syntax Com"
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Title bar button tooltip":null},
+        "Text": "Open Skills Display Info manager"
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Move Up)":null},
+        "Text": "Move Up",
+        "Font Size": 16.5,
+        "Width": 100
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Delete)":null},
+        "Text": "Delete",
+        "Font Size": 16.5,
+        "Width": 100
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Move down)":null},
+        "Text": "Move down",
+        "Font Size": 16.5,
+        "Width": 100
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Textfields context menu — Copy":null},
+        "Text": "Copy",
+        "Font Size": 16.5,
+        "Width": 41
+      },
+      {
+        "UID": {"[Skills DI Manager] * Textfields context menu — Cut":null},
+        "Text": "Cut",
+        "Font Size": 16.5,
+        "Width": 41
+      },
+      {
+        "UID": {"[Skills DI Manager] * Textfields context menu — Paste":null},
+        "Text": "Paste",
+        "Font Size": 16.5,
+        "Width": 41
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button":null}, // Affinity icon and skill name in the left list, no text by default
+        "Font Size": 16,
+        "Padding": [0, 4, 0, 2]
+      },
+      {
+        "UID": {"[Skills DI Manager] [!] * Regular coin option":null},
+        "Text": "Regular coin",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] [!] * Unbreakable coin option":null},
+        "Text": "Unbreakable coin",
+        "Font Size": 16.5
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Open file button":null},
+        "Text": "Open file",
+        "Width": 120,
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Save current button":null},
+        "Text": "Save current",
+        "Width": 120,
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Current file name":null},
+        "Text": "···.json",
+        "Width": 283, // Maximum width to avoid going over the edges of the window
+        "Font Size": 16,
+        "Margin": [5, 0, 0, 0]
+      },
+      {
+        "UID": {"[Skills DI Manager] * Current file name (Full path tooltip)":null},
+        "Text": "···",
+        "Font Size": 14
+      },
+      {
+        "UID": {"[Skills DI Manager] * New skill constructor button":null},
+        "Text": "<b><font=\"Times New Roman\">+</font></b> New skill constructor",
+        "Margin": [0, 1, 0, 0],
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill name":null},
+        "Text": "Skill name",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill ID":null},
+        "Text": "Skill ID",
+        "Font Size": 20
+      },
+
+
+      {
+        "UID": {"[Skills DI Manager] * Icon image (Label)":null},
+        "Font Size": 20,
+        "Variable": {
+          "Default": "Icon image <size=75%><color=#fc5a03>[None]</color></size>",
+          "Selected": "Icon image <size=75%><color=#fc5a03>[Selected]</color></size>" 
+        }
+      },
+      {
+        "UID": {"[Skills DI Manager] * Icon image (Label) (Full path tooltip)":null},
+        "Text": "···",
+        "Font Size": 14
+      },
+      {
+        "UID": {"[Skills DI Manager] * Icon image (Button)":null},
+        "Text": "Select image file",
+        "Font Size": 16.5
+      },
+
+      
+      {
+        "UID": {"[Skills DI Manager] * Skill action (Label)":null},
+        "Text": "Action",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Attack":null},
+        "Text": "Attack",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Counter":null},
+        "Text": "Counter",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Guard":null},
+        "Text": "Guard",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Evade":null},
+        "Text": "Evade",
+        "Font Size": 16.5
+      },
+
+
+      {
+        "UID": {"[Skills DI Manager] * Damage type (Label)":null},
+        "Text": "Damage type",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — Blunt":null},
+        "Text": "Blunt",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — Pierce":null},
+        "Text": "Pierce",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — Slash":null},
+        "Text": "Slash",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — None":null},
+        "Text": "None",
+        "Font Size": 16.5
+      },
+      
+      
+      
+      {
+        "UID": {"[Skills DI Manager] * Affinity (Label)":null},
+        "Text": "Affinity",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Wrath":null},
+        "Text": "Wrath",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Lust":null},
+        "Text": "Lust",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Sloth":null},
+        "Text": "Sloth",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Gluttony":null},
+        "Text": "Gluttony",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Gloom":null},
+        "Text": "Gloom",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Pride":null},
+        "Text": "Pride",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Envy":null},
+        "Text": "Envy",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — None":null},
+        "Text": "None",
+        "Font Size": 16.5
+      },
+
+
+
+      {
+        "UID": {"[Skills DI Manager] * Rank (Label)":null},
+        "Text": "Rank",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Rank — 1":null},
+        "Text": "1",
+        "Margin": [1, 0, 0, 0],
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Rank — 2":null},
+        "Text": "2",
+        "Margin": [1, 0, 0, 0],
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Rank — 3":null},
+        "Text": "3",
+        "Margin": [1, 0, 0, 0],
+        "Font Size": 16.5
+      },
+
+
+
+      {
+        "UID": {"[Skills DI Manager] * Show affinity icon":null},
+        "Text": "Show affinity icon",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill coins":null},
+        "Text": "Skill coins",
+        "Font Size": 20
       }
     ],
     [
