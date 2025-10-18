@@ -9,6 +9,9 @@ dotnet_diagnostic.IDE0019.severity = none
 # shutup
 dotnet_diagnostic.CS8604.severity = none
 dotnet_diagnostic.CS8509.severity = none
+dotnet_diagnostic.CS8524.severity = none
+dotnet_diagnostic.IDE0028.severity = none
+dotnet_diagnostic.IDE0090.severity = none
 
 # CA1829: Используйте свойство Length/Count вместо Count(), если оно доступно
 dotnet_diagnostic.CA1829.severity = none
@@ -42,9 +45,6 @@ dotnet_diagnostic.CS8600.severity = none
 
 # IDE0059: Ненужное присваивание значения
 dotnet_diagnostic.IDE0059.severity = none
-
-# Default severity for analyzer diagnostics with category 'Style'
-dotnet_analyzer_diagnostic.category-Style.severity = none
 
 # CS8629: Тип значения, допускающего NULL, может быть NULL.
 dotnet_diagnostic.CS8629.severity = none
