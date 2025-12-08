@@ -1,13 +1,72 @@
-﻿<Application x:Class="LC_Localization_Task_Absolute.App"
-             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
-             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-             xmlns:local="clr-namespace:LC_Localization_Task_Absolute"
-             ShutdownMode="OnMainWindowClose">
-    <Application.Resources>
+﻿<Application
+	x:Class="LC_Localization_Task_Absolute.App"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	ShutdownMode="OnMainWindowClose">
+	<Application.Resources>
 		<ResourceDictionary>
 			<ResourceDictionary.MergedDictionaries>
-				<ResourceDictionary Source="/ᐁ UI Theme Keys.xaml"/>
+				<ResourceDictionary Source="/UI/Language and Theme/ᐁ UI Theme Keys.xaml" />
+				<ResourceDictionary Source="/Limbus/Font References.xaml" />
 			</ResourceDictionary.MergedDictionaries>
+			
+			<sys:String x:Key="Caption_MainWindow">LC Localization Interface</sys:String>
+			<sys:String x:Key="Caption_SettingsWindow">Settings</sys:String>
+			<sys:String x:Key="Caption_SkillsDisplayInfoManagerWindow">Skills Display Info manager</sys:String>
+			<sys:String x:Key="Caption_ObjectIDInputDialog">New object ID</sys:String>
+
+			<Style x:Key="Base:TitleBar.Button" TargetType="{x:Type Button}">
+				<Setter Property="Width" Value="34" />
+				<Setter Property="Height" Value="34" />
+				<Setter Property="IsDefault" Value="True" />
+				<Setter Property="Foreground" Value="{DynamicResource Theme:TitleBar.Icons}" />
+				<Setter Property="FontFamily" Value="/UI/Fonts/#Segoe Fluent Icons" />
+				<Setter Property="FontSize" Value="20" />
+				<Setter Property="Template">
+					<Setter.Value>
+						<ControlTemplate TargetType="{x:Type Button}">
+							<Grid Background="Transparent">
+								<Border x:Name="MainBorder" CornerRadius="4">
+									<ContentPresenter Margin="{TemplateBinding Padding}" HorizontalAlignment="Center" VerticalAlignment="Center" />
+								</Border>
+								<Border
+									x:Name="DisabledStateCovering"
+									Background="{DynamicResource Theme:SquareButtons.DisabledButtonsShadowing}"
+									CornerRadius="4"
+									Visibility="Collapsed" />
+							</Grid>
+							<ControlTemplate.Triggers>
+
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="IsMouseOver" Value="True" />
+										<Condition Property="IsDefault" Value="True" />
+									</MultiTrigger.Conditions>
+									<Setter TargetName="MainBorder" Property="Background" Value="{DynamicResource Theme:TitleBar.Buttons.Highlighted}" />
+									<!--    Minimize/Reload config buttons gray highlight if IsDefault set to True    -->
+								</MultiTrigger>
+
+								<MultiTrigger>
+									<MultiTrigger.Conditions>
+										<Condition Property="IsMouseOver" Value="True" />
+										<Condition Property="IsDefault" Value="False" />
+									</MultiTrigger.Conditions>
+									<Setter TargetName="MainBorder" Property="Background" Value="{DynamicResource Theme:TitleBar.Buttons.Highlighted.ExitButton}" />
+									<!--    Close button red higlight if IsDefault set to False    -->
+								</MultiTrigger>
+
+								<Trigger Property="IsEnabled" Value="False">
+									<Setter TargetName="DisabledStateCovering" Property="Visibility" Value="Visible" />
+								</Trigger>
+
+							</ControlTemplate.Triggers>
+						</ControlTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+
 		</ResourceDictionary>
-    </Application.Resources>
+	</Application.Resources>
 </Application>

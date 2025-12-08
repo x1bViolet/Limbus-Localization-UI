@@ -1,0 +1,145 @@
+{
+  // Accepts keys pressed in any order, Left Alt + Key also works despite the Windows warning sound
+  "Hotkeys": [
+    {
+      "Command": "Insert Style",
+      "Keys": ["LeftCtrl", "NumPad1"] // As example
+    },
+
+    // You can combine them to sequences by order and same keys (As example "Unevident To [KeywordID]" and then "[KeywordID] To <TMPro>", they will be called sequentially one after another if keys for them are the same, thus forming the option "Unevident To <TMPro>")
+    
+    // Define keys for others as you wish (See "Keyboard keys" below for buttons exact names)
+    {
+      "Command": "<TMPro> To [KeywordID]",
+      "Keys": []
+    },
+    {
+      "Command": "<TMPro> To Shorthands",
+      "Keys": []
+    },
+    {
+      "Command": "Unevident To [KeywordID]",
+      "Keys": []
+    },
+    {
+      "Command": "Unevident To Shorthands",
+      "Keys": []
+    },
+    {
+      "Command": "[KeywordID] To Shorthands",
+      "Keys": []
+    },
+    {
+      "Command": "[KeywordID] To <TMPro>",
+      "Keys": []
+    },
+    {
+      "Command": "Extra 1",
+      "Keys": []
+    },
+    {
+      "Command": "Extra 2",
+      "Keys": []
+    }
+
+    // You can define more shortcuts with different keys for the same command
+  ],
+
+
+
+  "Command names": [
+    "Insert Style",
+    "<TMPro> To [KeywordID]",
+    "<TMPro> To Shorthands",
+    "Unevident To [KeywordID]",
+    "Unevident To Shorthands",
+    "[KeywordID] To Shorthands",
+    "[KeywordID] To <TMPro>",
+
+    "Extra {DIGIT}" // This command is for Context Menu Extra replacements, '{DIGIT}' should display the serial number of the option from this context menu (Left Shift + RMB), 'Extra 1', 'Extra 2' as example to use options №1 and №2 (Counting from top to bottom)
+  ],
+
+
+
+  // C# "System.Windows.Input.Key" Enumeration (https://learn.microsoft.com/en-us/dotnet/api/System.Windows.Input.Key <- full list)
+  "Keyboard keys": [
+    "D1", "D2", "D3", "D4", "D5", "D6", "D7", "D8", "D9", "D0", // Numbers over keyboard
+    "A", "B", "C", "D", "E", "F", "G", "H", "I", "J", "K", "L", "M", "N", "O", "P", "Q", "R", "S", "T", "U", "V", "W", "X", "Y", "Z", // Main keyboard keys (The case of letters is not taken into account, neither is the language selected in Windows)
+    
+    "LeftShift", "RightShift",
+    "LeftCtrl", "RightCtrl",
+    "LeftAlt", "RightAlt",
+    
+    "F1", "F2", "F3", "F4", "F5", "F6", "F7", "F8", "F9", "F10", "F11", "F12", // And up to F24
+    "NumPad1", "NumPad2", "NumPad3", "NumPad4", "NumPad5", "NumPad6", "NumPad7", "NumPad8", "NumPad9", "NumPad0",
+    "Left", "Up", "Right", "Down",
+    
+    
+    
+    
+    // Other
+    "Enter",
+    "Tab",
+    "Space",
+    "Back", // (Backspace)
+    "Insert",
+    
+    "Multiply",  // '*'
+    "Add",       // '+'
+    "Subtract",  // '-'
+    "Decimal",   // '.' on numpad
+    "Divide",    // '/'
+    
+    "PageDown",
+    "PageUp",
+    "Delete",
+    "Home", 
+    "End",
+    "CapsLock",
+    "None",
+    "Cancel",
+    "LineFeed",
+    "Clear",
+    "Pause",
+    "LWin",
+    "RWin",
+    "Separator",
+    "Capital", // Caps Lock
+    "KanaMode", // HangulMode
+    "HanjaMode", // KanjiMode
+    "JunjaMode",
+    "FinalMode",
+    "ImeConvert",
+    "ImeNonConvert",
+    "ImeAccept",
+    "ImeModeChange",
+    "Select",
+    "Print",
+    "Execute",
+    "Snapshot",
+    "Help",
+    "Apps",
+    "Sleep",
+    "NumLock",
+    "Scroll",
+    "BrowserBack",
+    "BrowserForward",
+    "BrowserRefresh",
+    "BrowserStop",
+    "BrowserSearch",
+    "BrowserFavorites",
+    "BrowserHome",
+    "VolumeMute",
+    "VolumeDown",
+    "VolumeUp",
+    "MediaNextTrack",
+    "MediaPreviousTrack",
+    "MediaStop",
+    "MediaPlayPause",
+    "LaunchMail",
+    "SelectMedia",
+    "System"
+
+    // And more after ('Oem*' and etc unneccessary.. see link above for full list if .. .. idk)
+  ]
+}

@@ -1,0 +1,147 @@
+{
+  "Readme": [
+    "[0, 0, 0, 0] Margin — [Left, Top, Right, Bottom]  or  [Single number for each 4 values]",
+    "[0, 0, 0, 0] Corner Radius — [Left-Top, Right-Top, Bottom-Right, Bottom-Left]  or  [Single number for each 4 values]"
+  ],
+  "Title Bar": {
+    "Background": "#101117",
+    "Icons": "#9D9D9D",
+    "Titles Foreground": "#473131",
+    "Buttons Highlight": "#302829",
+    "Buttons Highlight (Exit button)": "#A52C42"
+  },
+  "Common": {
+    "Background Image": "",
+
+    "Background Color": "#0F0F0F", // Behind all (May be merged with Image Shadow if it is transperent and there are no background image)
+    
+    "Background Image Shadow": "#0F0F0F",
+    "Background Image Shadow (Settings)": "#191818",
+    "Background Image Shadow (Identity/E.G.O Preview creator)": "#00000000",
+
+    "Hide Background Image with minimum window width": true,
+
+    "Right Menu Navigation Panel Background": "#00000000",
+    "Right Menu Object name Foreground": "#E6C5C5",
+    "Right Menu Uptie buttons background": "#0E0907"
+  },
+  "UI Text": {
+    "Foreground": "#D5CDCD",
+    "Foreground (Settings)": "#FAFAFA",
+    "Foreground (Settings (Comments))": "#C7BCBC",
+    "Foreground (Identity/E.G.O Preview creator)": "#F5F5DC"
+  },
+  "UI Textfields": {
+    "Foreground": "#B1B1B9",
+    "Foreground (Shadow text)": "#514C46",
+
+    "Background": "#181818",
+
+    "Border": "#333333",
+    "Border Thickness": [1.7],
+    "Border Corner Radius": [1.5],
+
+    "Caret": "#C4B0B6",
+    "Selection": "#C4B0B6",
+
+    // For textfields with syntax highlighting in the settings (They do not have auto-adjusted transparency)
+    "Special textfields": {
+      "Selection": "#55C4B0B6",
+      "Caret": "#FFFFFF", // And caret is semi transperent by default without ability to adjust opacity (AvalonEdit (`ヘ´))
+      
+      "Syntax highlightion 1": "#F54927",
+      "Syntax highlightion 2": "#F52727",
+      "Syntax highlightion 3": "#E24A4A",
+      "Syntax highlightion 4": "#e2734a"
+    }
+  },
+  "Json Text Editor": {
+    "Show Line Numbers": true,
+
+    "Foreground": "#ABA193",
+    "Background": "#191919",
+
+    "Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/Pretendard-Regular.ttf",
+    "Font Weight": "Regular",
+    "Font Size": 16.8,
+
+    "Caret": "#E9DBC6",
+
+    "Border": "#333333",
+    "Border Corner Radius": [1.5],
+    "Border Thickness": [1],
+
+    "Selection": {
+      "Foreground": "#ABA193",
+      "Background": "#55B4B4B4",
+
+      "Border": "#66D4D4D4",
+      "Border Thickness": 1,
+      "Border Corner Radius": 3.5
+    }
+  },
+  "Square Buttons": { // Change name, open file, (next/previous/copy id too)
+    "Disabled Buttons Shadowing": "#77000000",
+
+    "Icons": "#DEDEDE",
+    
+    "Background": "#181818",
+    "Background (Pressed)": "#282828",
+    "Background (Highlighted)": "#282828",
+    
+    "Border": "#333333",
+    "Border Thickness": [1.7],
+    "Border Corner Radius": [1.5]
+  },
+  "Elongated Buttons": { // Desc switch buttons
+    "Disabled Buttons Shadowing": "#77000000",
+
+    "Text": "#C4B0B6",
+
+    "Background": "#181818",
+    "Background (Pressed)": "#282828",
+    "Background (Highlighted)": "#282828",
+
+    "Border": "#333333",
+    "Border Thickness": [1.7],
+    "Border Corner Radius": [1.5]
+  },
+  "Scrollbars": {
+    "Line": "#333333",
+    "Line Thickness": 2,
+    
+    "Up/Down Buttons": {
+      "Icon": "#DEDEDE",
+
+      "Background": "#181818",
+      "Background (Pressed)": "#282828",
+      "Background (Highlighted)": "#282828",
+
+      "Border": "#333333",
+      "Border Thickness": [1.7],
+      "Border Corner Radius": [1.5]
+    },
+
+    "Thumb": {
+      "Background": "#181818",
+      "Background (Pressed)": "#282828",
+      "Background (Highlighted)": "#282828",
+
+      "Border": "#333333",
+      "Border Thickness": [1.7],
+      "Border Corner Radius": [1.5]
+    }
+  },
+  "Other Border-like things": {
+    "Background": "#181818",
+
+    "Border": "#333333",
+    "Border Thickness": [1.7],
+    "Border Corner Radius": [1.5]
+  },
+  "Json Editor Syntax": {
+    "Tags": "#CCCCCC",
+    "Tags Value": "#F54927",
+    "[TabExplain]": "#2779F5"
+  }
+}

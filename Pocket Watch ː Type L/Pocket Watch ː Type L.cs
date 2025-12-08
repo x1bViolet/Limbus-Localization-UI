@@ -2,47 +2,54 @@
 
 using LC_Localization_Task_Absolute.Limbus_Integration;
 using LC_Localization_Task_Absolute.Mode_Handlers;
+using LC_Localization_Task_Absolute.PreviewCreator;
+using System.Collections.Immutable;
+using System.Diagnostics;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Documents;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using static LC_Localization_Task_Absolute.Pocket_Watch_ː_Type_L.Actions;
+using static LC_Localization_Task_Absolute.Pocket_Watch_ː_Type_L.@PostInfo.FullStopDividers;
+using static LC_Localization_Task_Absolute.Pocket_Watch_ː_Type_L.Tags;
 using static LC_Localization_Task_Absolute.Requirements;
+using static LC_Localization_Task_Absolute.Configurazione;
+using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
 
 namespace LC_Localization_Task_Absolute
 {
-    internal interface Pocket_Watch_ː_Type_L
+    public interface Pocket_Watch_ː_Type_L
     {
-        internal protected abstract class @Generic
+        public ref struct @Generic
         {
-            internal protected static Dictionary<string, BitmapImage> SpriteImages = KeywordsInterrogate.KeywordImages;
-            internal protected static double SpritesVerticalOffset   = 0;
-            internal protected static double SpritesHorizontalOffset = 0;
+            public static Dictionary<string, BitmapImage> SpriteImages => KeywordsInterrogation.KeywordImages;
+            public static double SpritesVerticalOffset => (double)@CurrentConfess.SelectedCustomLang.Properties.KeywordsSpriteVerticalOffset;
+            public static double SpritesHorizontalOffset => (double)@CurrentConfess.SelectedCustomLang.Properties.KeywordsSpriteHorizontalOffset;
         }
-        internal protected abstract class @PostInfo
+        public ref struct @PostInfo
         {
-            internal protected static readonly Dictionary<string, FontFamily> LoadedKnownFonts = new Dictionary<string, FontFamily>()
+            public static readonly Dictionary<string, FontFamily> LoadedKnownFonts = new()
             {
-                ["BebasKai SDF"     ] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\BebasKai.otf"),
-                ["ExcelsiorSans SDF"] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\ExcelsiorSans.ttf"),
+                ["BebasKai SDF"     ] = FileToFontFamily(@"[⇲] Assets Directory\Limbus Embedded Fonts\BebasKai.otf"),
+                ["ExcelsiorSans SDF"] = FileToFontFamily(@"[⇲] Assets Directory\Limbus Embedded Fonts\ExcelsiorSans.ttf"),
                
-                ["KR/p)SCDream(light)/SCDream5 SDF"  ] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\SCDream5.otf"),
-                ["KR/title)KOTRA_BOLD/KOTRA_BOLD SDF"] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\KOTRA_BOLD.ttf", "KOTRA BOLD"),
+                ["KR/p)SCDream(light)/SCDream5 SDF"  ] = FileToFontFamily(@"[⇲] Assets Directory\Limbus Embedded Fonts\SCDream5.otf"),
+                ["KR/title)KOTRA_BOLD/KOTRA_BOLD SDF"] = FileToFontFamily(@"[⇲] Assets Directory\Limbus Embedded Fonts\KOTRA_BOLD.ttf", "KOTRA BOLD"),
                 
-                ["EN/title)mikodacs/Mikodacs SDF"      ] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\Mikodacs.otf"),
-                ["EN/Pretendard/Pretendard-Regular SDF"] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\Pretendard-Regular.ttf"),
-                ["EN/cur)Caveat-SemiBold/Caveat-SemiBold SDF"] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\Caveat SemiBold.ttf"),
+                ["EN/title)mikodacs/Mikodacs SDF"      ] = FileToFontFamily(@"[⇲] Assets Directory\Limbus Embedded Fonts\Mikodacs.otf"),
+                ["EN/Pretendard/Pretendard-Regular SDF"] = FileToFontFamily(@"[⇲] Assets Directory\Limbus Embedded Fonts\Pretendard-Regular.ttf"),
+                ["EN/cur)Caveat-SemiBold/Caveat-SemiBold SDF"] = FileToFontFamily(@"[⇲] Assets Directory\Limbus Embedded Fonts\Caveat SemiBold.ttf"),
 
-                ["JP/HigashiOme/HigashiOme-Gothic-C-1"                       ] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\HigashiOme-Gothic-C-1.3.ttf"),
-                ["JP/title)corporate logo(bold)/Corporate-Logo-Bold-ver2 SDF"] = FileToFontFamily(@"[⇲] Assets Directory\[⇲] Limbus Embedded Fonts\Corporate-Logo-Bold-ver2.otf"),
+                ["JP/HigashiOme/HigashiOme-Gothic-C-1"                       ] = FileToFontFamily(@"[⇲] Assets Directory\Limbus Embedded Fonts\HigashiOme-Gothic-C-1.3.ttf"),
+                ["JP/title)corporate logo(bold)/Corporate-Logo-Bold-ver2 SDF"] = FileToFontFamily(@"[⇲] Assets Directory\Limbus Embedded Fonts\Corporate-Logo-Bold-ver2.otf"),
             };
 
-            internal protected static readonly bool DoLineBreakWithSprites = true;
+            public static readonly bool DoLineBreakWithSprites = true;
 
-            internal protected static readonly TagType[] IgnoreTags_Default = [];
-            internal protected static readonly TagType[] IgnoreTags_UnityTMProExclude = [
+            public static readonly TagType[] IgnoreTags_Default = [];
+            public static readonly TagType[] IgnoreTags_UnityTMProExclude =
+            [
                 TagType.Hyperlink,
                 TagType.Background, // <mark> but behind the text, not valid
                 TagType.FontStretch,
@@ -52,7 +59,9 @@ namespace LC_Localization_Task_Absolute
                 TagType.InlineImages_YOffset,
             ];
 
-            internal protected static readonly Dictionary<string, FontWeight> UnityTMProFontWeightValues = new Dictionary<string, FontWeight>()
+            // FontStretch and FontWeight is not Enum :'
+            // https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/TextMeshPro/RichTextFontWeight.html
+            public static readonly Dictionary<string, FontWeight> UnityTMProFontWeightValues = new()
             {
                 ["100"] = FontWeights.Thin,
                 ["200"] = FontWeights.ExtraLight,
@@ -64,8 +73,7 @@ namespace LC_Localization_Task_Absolute
                 ["800"] = FontWeights.Heavy,
                 ["900"] = FontWeights.Black,
             };
-
-            internal protected static readonly Dictionary<string, FontStretch> FontStretchValues = new Dictionary<string, FontStretch>()
+            public static readonly Dictionary<string, FontStretch> FontStretchValues = new()
             {
                 ["Condensed"     ] = FontStretches.Condensed,
                 ["Expanded"      ] = FontStretches.Expanded,
@@ -78,220 +86,27 @@ namespace LC_Localization_Task_Absolute
                 ["UltraCondensed"] = FontStretches.UltraCondensed,
                 ["UltraExpanded" ] = FontStretches.UltraExpanded,
             };
-            internal protected abstract class FullStopDividers
-            {
-                internal protected static readonly List<Tuple<string, string>> FullStopDividers_TMPro = new List<Tuple<string, string>>()
-                {
-                    new Tuple<string, string>(@"<", @">"),
-                };
 
-                internal protected static readonly List<Tuple<string, string>> FullStopDividers_Regular = new List<Tuple<string, string>>()
-                {
-                    new Tuple<string, string>(@"\[", @"\]"),
-                    new Tuple<string, string>(@"<", @">"),
-                };
+            /*lang=regex*/
+            public ref struct FullStopDividers
+            {
+                public readonly record struct FullStopDivider(string Open, string Close);
+
+
+                public static readonly List<FullStopDivider> FullStopDividers_TMPro = [new FullStopDivider(Open:@"<", Close:@">")];
+                public static readonly List<FullStopDivider> FullStopDividers_Regular =
+                [
+                    new FullStopDivider(Open:@"\[", Close:@"\]"),
+                    new FullStopDivider(Open:@"<" , Close:@">"),
+                ];
             }
         }
-
-        internal protected abstract class Actions
+        public static class @Tags
         {
-            private protected abstract class TagProcessors
-            {
-                internal protected static void OnFormatting(InlineTagData Tag, TagType TranzitType)
-                {
-                    switch (TranzitType) // Simplify tag .Info based on type
-                    {
-                        case TagType.Link:
-                            Tag.Info = Tag.Info.Del("link=\"")[0..^1];
-                            break;
-
-                        case TagType.Hyperlink:
-                            Tag.Info = Tag.Info.Del("hyperlink=\"")[0..^1];
-                            break;
-
-                        case TagType.Font:
-                            Tag.Info = Tag.Info.Del("font=\"")[0..^1];
-                            break;
-
-                        case TagType.FontWeight:
-                            Tag.Info = Tag.Info.Del("font-weight=\"")[0..^1];
-                            break;
-
-                        case TagType.FontStretch:
-                            Tag.Info = Tag.Info.Del("font-stretch=\"")[0..^1];
-                            break;
-
-                        case TagType.SizeMultiplier:
-                            Tag.Info = Tag.Info.Del("size=")[0..^1].Replace('.', ',');
-                            break;
-
-                        case TagType.Color:
-                            Tag.Info = Tag.Info.Del("color=");
-                            break;
-
-                        case TagType.Background:
-                            Tag.Info = Tag.Info.Del("background=");
-                            break;
-
-                        case TagType.Sprite:
-                            Tag.SpriteOrNoBreakData_SubItems = new List<StableTextConstruction>();
-                            Tag.Info = Tag.Info.Del("sprite name=\"")[0..^1]; // Sprite id
-                            break;
-
-                        case TagType.InlineImage:
-                            Tag.Info = Tag.Info.Del("image id=\"")[0..^1]; // Image id
-                            break;
-
-                        case TagType.InlineImages_Size:
-                            Tag.Info = Tag.Info.Del("images-size=").Replace('.', ',');
-                            break;
-
-                        case TagType.InlineImages_XOffset:
-                            Tag.Info = Tag.Info.Del("images-xoffset=").Replace('.', ',');
-                            break;
-
-                        case TagType.InlineImages_YOffset:
-                            Tag.Info = Tag.Info.Del("images-yoffset=").Replace('.', ',');
-                            break;
-
-                        case TagType.NoBreak:
-                            Tag.SpriteOrNoBreakData_SubItems = new List<StableTextConstruction>();
-                            break;
-
-                        default: break;
-                    }
-                }
-
-                internal protected static void OnApplying(Run Target, KeyValuePair<TagType, InlineTagData> Tag)
-                {
-                    string TagInfo = Tag.Value.Info;
-                    switch (Tag.Key) // Tag actions
-                    {
-                        case TagType.Color:
-                            Target.Foreground = ToSolidColorBrush(TagInfo);
-                            break;
-
-                        case TagType.Background:
-                            Target.Background = ToSolidColorBrush(TagInfo);
-                            break;
-
-                        case TagType.Link:
-                            Target.Name = TagInfo; // Name = Keyword ID
-
-                            KeywordsInterrogate.KeywordDescriptionInfoPopup.AttachToInline(Target);
-
-                            break;
-
-                        case TagType.Hyperlink:
-                            Target.PreviewMouseLeftButtonUp += (Sender, Args) =>
-                            {
-                                System.Diagnostics.Process.Start(new System.Diagnostics.ProcessStartInfo()
-                                {
-                                    FileName = TagInfo, /*URL*/
-                                    UseShellExecute = true
-                                });
-                            };
-
-                            ToolTipService.SetInitialShowDelay(Target, 100);
-                            Target.ToolTip = new ToolTip()
-                            {
-                                Background = ToSolidColorBrush("#E0676767"),
-                                HorizontalOffset = 20,
-                                Content = new UITranslation_Rose()
-                                {
-                                    Foreground = Brushes.White,
-                                    Text = TagInfo /*URL*/,
-                                    FontFamily = RecentInfo.TextBlockTarget.FontFamily,
-                                    FontWeight = RecentInfo.TextBlockTarget.FontWeight,
-                                }
-                            };
-                            break;
-
-                        case TagType.Font:
-                            if (@PostInfo.LoadedKnownFonts.ContainsKey(TagInfo))
-                            {
-                                Target.FontFamily = @PostInfo.LoadedKnownFonts[TagInfo];
-                            }
-                            else if (!RecentInfo.TextBlockTarget.Name.StartsWith($"PreviewLayout_")) // If not TMProEmitter limbus textblock
-                            {
-                                if (ᐁ_Interface_Localization_Loader.InterfaceLocalizationModifiers.Font_References_Loaded.ContainsKey(TagInfo))
-                                {
-                                    Target.FontFamily = ᐁ_Interface_Localization_Loader.InterfaceLocalizationModifiers.Font_References_Loaded[TagInfo];
-                                }
-                                else Target.FontFamily = new FontFamily(TagInfo);
-                            }
-                            break;
-
-                        case TagType.FontWeight:
-                            if (@PostInfo.UnityTMProFontWeightValues.ContainsKey(TagInfo))
-                            {
-                                Target.FontWeight = @PostInfo.UnityTMProFontWeightValues[TagInfo];
-                            }
-                            break;
-
-                        case TagType.FontStretch:
-                            if (@PostInfo.UnityTMProFontWeightValues.ContainsKey(TagInfo))
-                            {
-                                Target.FontStretch = @PostInfo.FontStretchValues[TagInfo];
-                            }
-                            break;
-
-                        case TagType.SizeMultiplier:
-                            if (double.TryParse(TagInfo, out double FontSizeMultiplyValue))
-                            {
-                                double ApplyValue = FontSizeMultiplyValue / (double)100;
-                                if (ApplyValue == 0) ApplyValue = 0.01;
-                                Target.FontSize = @RecentInfo.TextBlockTarget.FontSize * ApplyValue;
-                            }
-                            break;
-
-                        case TagType.Subscript:
-                            Target.FontSize = @RecentInfo.TextBlockTarget.FontSize * 0.7;
-                            Target.BaselineAlignment = BaselineAlignment.Subscript;
-                            break;
-
-                        case TagType.Superscript:
-                            Target.FontSize = @RecentInfo.TextBlockTarget.FontSize * 0.7;
-                            Target.BaselineAlignment = BaselineAlignment.Superscript;
-                            break;
-                    }
-                }
-            }
-
-            private protected static void SetRunFormatting(Run Target, Dictionary<TagType, InlineTagData> AssignedTags, params TagType[] IgnoreTags)
-            {
-                foreach (KeyValuePair<TagType, InlineTagData> Tag in AssignedTags)
-                {
-                    if (!IgnoreTags.Contains(Tag.Key))
-                    {
-                        if (RegisteredTags[Tag.Key].UnivocalPropertyKey != null)
-                        {
-                            Target.SetValue(RegisteredTags[Tag.Key].UnivocalPropertyKey, RegisteredTags[Tag.Key].UnivocalPropertyValue);
-                        }
-                        else
-                        {
-                            TagProcessors.OnApplying(Target, Tag);
-                        }
-                    }
-                }
-            }
-
-            private protected static TagType EnumTransform(string From)
-            {
-                if (Enum.TryParse<TagType>(From, out TagType result))
-                {
-                    return result;
-                }
-                else
-                {
-                    throw new Exception($"Unknown tag type '{From}' not found in TagType enum params");
-                }
-            }
-
-            internal protected enum TagType
+            public enum TagType
             {
                 CloseSequence, // BreakPoints automatically applied type
-                TechnicalNull, // Don't touch
+                NaN, // Because of ContainsKey(null) for notnull keys at dictionaries
 
                 NoBreak,
                 Hyperlink,
@@ -316,136 +131,300 @@ namespace LC_Localization_Task_Absolute
                 InlineImages_YOffset,
             };
 
-            private protected sealed record PatternAndTypeMatch
-            {
-                public TagType? MainTag { get; set; }
 
-                public TagType? CloseSequenceParentTag { get; set; }
 
-                public PatternAndTypeMatch(TagType Main) { MainTag = Main; }
-            }
-            private protected sealed record FullStopTag
+            public readonly record struct PatternAndTypeMatcher(TagType MainTag, TagType? CloseSequenceParentTag = null);
+
+            public static readonly Dictionary<string, PatternAndTypeMatcher> @PatternAndTypeMatch = [];
+            public static readonly Dictionary<TagType, FullStopTag> @RegisteredTags = [];
+
+            public readonly record struct FullStopTag
             {
                 // Regex patterns for tag endings (Modified to @"^String$")
-                public string[] BreakPoints { get; set; }
+                public string[] BreakPoints { get; }
 
-                public DependencyProperty UnivocalPropertyKey { get; set; }
+                public Dictionary<DependencyProperty, object> UnivocalProperties { get; } = null;
 
-                public object UnivocalPropertyValue { get; set; }
+                public Regex TagRegex { get; }
 
-                public FullStopTag(string PatternToMatch, string[] BreakPoints, TagType Type)
+                /// <param name="PatternToMatch">Pattern that will be used to determine actual tags in the text by regular expression, tag value is supposted to be inside the first match group</param>
+                /// <param name="BreakPointsInput">Breakpoints that stops tag from applying</param>
+                /// <param name="Type"><see cref="TagType"/> enum that indicates identifier</param>
+                /// <param name="Univocal">
+                ///  Dictionary with explicit properties and values to set for <see cref="Run"/> inline objects instead of processing them manually
+                ///  <br/>
+                ///  inside <see cref="Actions.SetRunFormatting(Run, Dictionary{TagType, Actions.InlineTagData}, TagType[])"/>
+                /// </param>
+                public FullStopTag(string PatternToMatch, string[] BreakPointsInput, TagType Type, Dictionary<DependencyProperty, object> Univocal = null)
                 {
-                    if (BreakPoints != null)
+                    if (Univocal != null) this.UnivocalProperties = Univocal;
+
+                    if (BreakPointsInput != null)
                     {
-                        this.BreakPoints = BreakPoints.Select(x => $"^{x}$").ToArray();
-                        foreach (string BreakPoint in BreakPoints) RegisteredTags_PatternAndTypeMatch[BreakPoint] = new PatternAndTypeMatch(TagType.CloseSequence)
+                        this.BreakPoints = [.. BreakPointsInput.Select(BreakPoinString => $"^{BreakPoinString}$")];
+                        foreach (string BreakPoint in BreakPointsInput)
                         {
-                            CloseSequenceParentTag = Type
-                        };
+                            // Assing close tags
+                            PatternAndTypeMatch[BreakPoint] = new PatternAndTypeMatcher(TagType.CloseSequence, CloseSequenceParentTag: Type);
+                        }
                     }
 
-                    RegisteredTags_PatternAndTypeMatch[PatternToMatch] = new PatternAndTypeMatch(Type);
+                    TagRegex = new Regex(PatternToMatch, RegexOptions.Compiled);
 
-                    if (!RegisteredTags.ContainsKey(Type)) RegisteredTags[Type] = this;
+                    PatternAndTypeMatch[PatternToMatch] = new PatternAndTypeMatcher(Type);
+
+                    if (!@RegisteredTags.ContainsKey(Type)) @RegisteredTags[Type] = this;
                     else throw new Exception($"Tag definition with same type already defined ({Type})");
                 }
             }
 
-            private protected static Dictionary<TagType, FullStopTag> RegisteredTags = new Dictionary<TagType, FullStopTag>();
-
+            /* lang=regex */
             /// <summary>
-            /// To replace true tags in text with unique text construction 
+            /// All tags is being defined there
             /// </summary>
-            private protected static Dictionary<string, PatternAndTypeMatch> RegisteredTags_PatternAndTypeMatch = new Dictionary<string, PatternAndTypeMatch>();
-
-            /* lang=regex  defines new instances of FullStopTag records that executes all further sequence */
-            private protected static List<FullStopTag> TagDefinitions = new List<FullStopTag>()
+            public static readonly List<FullStopTag> TagDefinitions = new()
             {
                                                         // Evident tag types, regardless of values like in <font> or <color>
-                new("b", ["/b"], TagType.Bold)          { UnivocalPropertyKey = Run.FontWeightProperty, UnivocalPropertyValue = FontWeights.Bold  },
-                new("i", ["/i"], TagType.Italic)        { UnivocalPropertyKey = Run.FontStyleProperty , UnivocalPropertyValue = FontStyles.Italic },
-                new("u", ["/u"], TagType.Undeline)      { UnivocalPropertyKey = Run.TextDecorationsProperty, UnivocalPropertyValue = TextDecorations.Underline     },
-                new("s", ["/s"], TagType.Strikethrough) { UnivocalPropertyKey = Run.TextDecorationsProperty, UnivocalPropertyValue = TextDecorations.Strikethrough },
+                new("b", ["/b"], TagType.Bold,          Univocal: new() { [Run.FontWeightProperty] = FontWeights.Bold }),
+                new("i", ["/i"], TagType.Italic,        Univocal: new() { [Run.FontStyleProperty] = FontStyles.Italic }),
+                new("u", ["/u"], TagType.Undeline,      Univocal: new() { [Run.TextDecorationsProperty] = TextDecorations.Underline }),
+                new("s", ["/s"], TagType.Strikethrough, Univocal: new() { [Run.TextDecorationsProperty] = TextDecorations.Strikethrough }),
 
                 new("nobr", ["/nobr"], TagType.NoBreak),
 
                 new("sub", ["/sub"], TagType.Subscript),
                 new("sup", ["/sup"], TagType.Superscript),
 
-               // new("noparse", ["/noparse"], TagType.TechnicalNull), Being applied on formatting stage as \0 after tag dividers in <noparse></noparse> range, see at Apply()
+                // new("noparse", ["/noparse"]), Being applied on formatting stage as \0 after tag dividers in <noparse></noparse> range, see at Apply()
 
-                new("style", ["/style"], TagType.StyleHighlighter) { UnivocalPropertyKey = Run.ForegroundProperty, UnivocalPropertyValue = ToSolidColorBrush("#f8c200") }, // Highlight color
+                new("style", ["/style"], TagType.StyleHighlighter, Univocal:  new() { [Run.ForegroundProperty] = ToSolidColorBrush("#f8c200") }), // Highlight color
                 
                 new(@"hyperlink=""(.*?)""", ["/hyperlink"], TagType.Hyperlink),
 
-                new(@"link=""\w+""", ["/link"], TagType.Link),
-                new(@"font="".*?""", ["/font"], TagType.Font),
+                new(@"link=""(\w+)""", ["/link"], TagType.Link),
+                new(@"font=""(.*?)""", ["/font"], TagType.Font),
                 new(@"font-weight=""(100|200|300|400|500|600|700|800|900)""", ["/font-weight"], TagType.FontWeight), // https://docs.unity3d.com/Packages/com.unity.ugui@2.0/manual/TextMeshPro/RichTextFontWeight.html
                 new(@"font-stretch=""(Condensed|Expanded|ExtraCondensed|ExtraExpanded|Medium|Normal|SemiCondensed|SemiExpanded|UltraCondensed|UltraExpanded)""", ["/font-stretch"], TagType.FontStretch),
-                new(@"size=(\d+)(\.\d+)?%", ["/size"], TagType.SizeMultiplier),
+                new(@"size=((\d+)((\.|\,)\d+)?)%", ["/size"], TagType.SizeMultiplier),
                 new(@"color=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/color"], TagType.Color),
                 new(@"background=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/background"], TagType.Background),
-                new(@"sprite name=""\w+""", null, TagType.Sprite),
+                new(@"sprite name=""(\w+)""", null, TagType.Sprite),
 
-                new(@"image id=""\w+""", null, TagType.InlineImage),
-                new(@"images-size=(\d+)(\.\d+)?", ["/images-size"], TagType.InlineImages_Size),
-                new(@"images-xoffset=(\-|\+)?(\d+)(\.\d+)?", ["/images-xoffset"], TagType.InlineImages_XOffset),
-                new(@"images-yoffset=(\-|\+)?(\d+)(\.\d+)?", ["/images-yoffset"], TagType.InlineImages_YOffset),
+                new(@"image id=""(\w+)""", null, TagType.InlineImage),
+                new(@"images-size=(\d+)((\.|\,)\d+)?", ["/images-size"], TagType.InlineImages_Size),
+                new(@"images-xoffset=((\-|\+)?(\d+)((\.|\,)\d+)?)", ["/images-xoffset"], TagType.InlineImages_XOffset),
+                new(@"images-yoffset=((\-|\+)?(\d+)((\.|\,)\d+)?)", ["/images-yoffset"], TagType.InlineImages_YOffset),
             };
+        }
 
-            /// <summary>
-            /// Contains text segment and tags to apply
-            /// </summary>
-            internal protected sealed record StableTextConstruction
+        public static class Actions
+        {
+            private static void ApplyInlineTagDataFormatting(Run TargetRun, KeyValuePair<TagType, InlineTagData> Tag)
             {
-                public string TextSentence { get; set; }
-                public Dictionary<TagType, InlineTagData> AssignedTags { get; set; } = new Dictionary<TagType, InlineTagData>();
-
-                public bool IsTagItself { get; set; } = false;
-                public InlineTagData InnerTagData { get; set; }
-
-                public StableTextConstruction(string BaseText)
+                string TagInfo = Tag.Value.Info;
+                switch (Tag.Key) // Tag actions
                 {
-                    TextSentence = BaseText;
-                    if (BaseText.Contains('\xF8FE'))
+                    case TagType.Color: TargetRun.Foreground = ToSolidColorBrush(TagInfo);
+                        break;
+
+                    case TagType.Background: TargetRun.Background = ToSolidColorBrush(TagInfo);
+                        break;
+
+                    case TagType.Link:
+                        TargetRun.Name = TagInfo; // Name = Keyword ID
+
+                        KeywordsInterrogation.KeywordDescriptionInfoPopup.AttachToInline(TargetRun);
+
+                        break;
+
+                    case TagType.Hyperlink:
+                        TargetRun.PreviewMouseLeftButtonUp += (Sender, Args) =>
+                        {
+                            Process.Start(new ProcessStartInfo()
+                            {
+                                FileName = TagInfo, /*URL*/
+                                UseShellExecute = true
+                            });
+                        };
+
+                        ToolTipService.SetInitialShowDelay(TargetRun, 100);
+                        TargetRun.ToolTip = new ToolTip()
+                        {
+                            Background = ToSolidColorBrush("#E0676767"),
+                            HorizontalOffset = 20,
+                            Content = new TextBlock()
+                            {
+                                FontSize = 12,
+                                Foreground = Brushes.White,
+                                Text = TagInfo /*URL*/,
+                            }.BindSamePropertiesWithReturn(@RecentInfo.TextBlockTarget, [
+                                TextBlock.FontFamilyProperty, TextBlock.FontWeightProperty
+                            ])
+                        };
+                        break;
+
+                    case TagType.Font:
+                        if (@PostInfo.LoadedKnownFonts.ContainsKey(TagInfo))
+                        {
+                            TargetRun.FontFamily = @PostInfo.LoadedKnownFonts[TagInfo];
+                        }
+                        else if (!@RecentInfo.TextBlockTarget.Name.StartsWith($"PreviewLayout_")) // If not TMProEmitter limbus textblock
+                        {
+                            if (InterfaceLocalizationModifiers.Font_References_Loaded.ContainsKey(TagInfo))
+                            {
+                                TargetRun.FontFamily = InterfaceLocalizationModifiers.Font_References_Loaded[TagInfo];
+                            }
+                            else TargetRun.FontFamily = new FontFamily(TagInfo);
+                        }
+                        break;
+
+                    case TagType.FontWeight:
+                        TargetRun.FontWeight = @PostInfo.UnityTMProFontWeightValues[TagInfo];
+                        break;
+
+                    case TagType.FontStretch:
+                        TargetRun.FontStretch = @PostInfo.FontStretchValues[TagInfo];
+                        break;
+
+                    case TagType.SizeMultiplier:
+                        if (double.TryParse(TagInfo.Replace(".", ","), out double FontSizeMultiplyValue))
+                        {
+                            double ApplyValue = FontSizeMultiplyValue / 100.0;
+                            if (ApplyValue == 0) ApplyValue = 0.01;
+                            TargetRun.FontSize = @RecentInfo.TextBlockTarget.FontSize * ApplyValue;
+                        }
+                        break;
+
+                    case TagType.Subscript:
+                        TargetRun.FontSize = @RecentInfo.TextBlockTarget.FontSize * 0.7;
+                        TargetRun.BaselineAlignment = BaselineAlignment.Subscript;
+                        break;
+
+                    case TagType.Superscript:
+                        TargetRun.FontSize = @RecentInfo.TextBlockTarget.FontSize * 0.7;
+                        TargetRun.BaselineAlignment = BaselineAlignment.Superscript;
+                        break;
+                }
+            }
+
+
+            private static void SetRunFormatting
+            (
+                Run Target,
+                Dictionary<TagType, InlineTagData> AssignedTags,
+                params TagType[] IgnoreTags
+            )
+            {
+                foreach (KeyValuePair<TagType, InlineTagData> Tag in AssignedTags)
+                {
+                    if (!IgnoreTags.Contains(Tag.Key))
                     {
-                        IsTagItself = true;
-                        InnerTagData = new InlineTagData(TextSentence, out string PlainTagReturn);
-                        TextSentence = PlainTagReturn;
+                        if (@RegisteredTags[Tag.Key].UnivocalProperties != null)
+                        {
+                            foreach (var Univocal in @RegisteredTags[Tag.Key].UnivocalProperties)
+                            {
+                                Target.SetValue(Univocal.Key, Univocal.Value);
+                            }
+                        }
+                        else
+                        {
+                            ApplyInlineTagDataFormatting(Target, Tag);
+                        }
+                    }
+                }
+            }
+
+
+            
+            /// <summary>
+            /// Part of the text splitted by tags, can be regular text part or tag value expression itself
+            /// </summary>
+            public record StableTextConstruction
+            {
+                /// <summary>
+                /// Tag info or plain text
+                /// </summary>
+                public string TextSentence { get; set; }
+
+                /// <summary>
+                /// Tags and their info to apply to this <see cref="StableTextConstruction"/> if it is regular text part
+                /// </summary>
+                public Dictionary<TagType, InlineTagData> AssignedTags { get; } = [];
+
+                /// <summary>
+                /// <see langword="true"/> if this <see cref="StableTextConstruction"/> is tag (Will be set to <see langword="false"/> for <see cref="TagType.Sprite"/> or <see cref="TagType.InlineImage"/> during <see cref="Actions.Apply(TextBlock, string, List{FullStopDivider}, bool, TagType[])"/>)
+                /// </summary>
+                public bool IsTagItself { get; set; } = false; // Can be changed during process
+
+                /// <summary>
+                /// Tag data if tag itself
+                /// </summary>
+                public InlineTagData InnerTagData { get; }
+
+                public StableTextConstruction(string BaseTextSentence)
+                {
+                    this.TextSentence = BaseTextSentence;
+
+                    if (BaseTextSentence.Contains('\xF8FE')) // If tag expression ( $"\xFFFE{TagType}\xF8FE{Tag Info}\xFFFF" where xF8FE is type and info divider)
+                    {
+                        this.IsTagItself = true;
+                        this.InnerTagData = new InlineTagData(this.TextSentence, out string PlainTagInfoReturn);
+                        this.TextSentence = PlainTagInfoReturn;
                     }
                 }
             }
 
             /// <summary>
-            /// Tag data, set when creating EstablishedSequence and TextSentence contains \xF8FE (10 lines upper)
+            /// Special info created for <see cref="StableTextConstruction"/> object if it is tag
             /// </summary>
-            internal protected sealed record InlineTagData
+            public record InlineTagData
             {
-                public TagType Type { get; set; }
+                public TagType Type { get; }
 
-                public string Info { get; set; }
+                public string Info { get; }
 
-                public string[] BreakPoints { get; set; }
+                public string[] BreakPoints { get; }
 
-                public List<StableTextConstruction> SpriteOrNoBreakData_SubItems { get; set; } // (Sprite: first word from next segment + quote mark after) (NoBreak: all segments inside)
+                /// <summary>
+                /// Another '@EstablishedSequence' specially for &lt;sprite&gt; or &lt;nobr&gt; tags that supposed to contain their own text sequences
+                /// <br/>
+                /// <br/>
+                /// (Sprite: first word from next StableTextConstruction + quote mark after) (NoBreak: all StableTextConstruction objects inside)
+                /// </summary>
+                public List<StableTextConstruction>? SpriteOrNoBreakData_SubItems { get; set; } = null;
 
-                public InlineTagData(string BaseTextString, out string PlainTagReturn)
+                public InlineTagData(string BaseTextString, out string PlainTagInfoReturn)
                 {
                     string[] TagDefinition = BaseTextString.Split('\xF8FE');
 
-                    TagType TranzitType = this.Type = EnumTransform(TagDefinition[0]);
-                    Info = PlainTagReturn = TagDefinition[^1];
+                    this.Type = Enum.Parse<TagType>(TagDefinition[0]);
+                    this.Info = PlainTagInfoReturn = TagDefinition[^1];
 
-                    if (TranzitType != TagType.CloseSequence) BreakPoints = RegisteredTags[TranzitType].BreakPoints;
+                    if (this.Type != TagType.CloseSequence)
+                    {
+                        this.Info = @RegisteredTags[this.Type].TagRegex.Match(this.Info).Groups[1].Value;
 
-                    TagProcessors.OnFormatting(this, TranzitType);
+                        this.BreakPoints = @RegisteredTags[this.Type].BreakPoints;
+                        if (this.Type == TagType.Sprite | this.Type == TagType.NoBreak)
+                        {
+                            this.SpriteOrNoBreakData_SubItems = new List<StableTextConstruction>();
+                        }
+                    }
                 }
             }
 
-            private protected static void ApplyCascadeSequence(List<StableTextConstruction> @Sequence, int StartIndex, InlineTagData TagDataToAdd, TagType ButRemoveThisTag = TagType.TechnicalNull, TagType ButIgnoreIfThisTagOccurs = TagType.TechnicalNull)
+
+            private static void ApplyCascadeSequence
+            (
+                List<StableTextConstruction> @Sequence,
+                int TextSegmentStartIndex,
+                InlineTagData TagDataToAdd,
+                TagType? ButRemoveThisTag = null,
+                TagType ButIgnoreIfThisTagOccurs = TagType.NaN
+            )
             {
                 int SkipWhileThereAreSameTagOpened_Stack = 0;
-                foreach (StableTextConstruction MidTextSegment in @Sequence[(StartIndex + 1)..])
+                foreach (StableTextConstruction MidTextSegment in @Sequence[(TextSegmentStartIndex + 1)..])
                 {
                     if (MidTextSegment.IsTagItself && MidTextSegment.InnerTagData.Type == TagDataToAdd.Type)
                     {
@@ -463,9 +442,9 @@ namespace LC_Localization_Task_Absolute
                             {
                                 MidTextSegment.AssignedTags[TagDataToAdd.Type] = TagDataToAdd;
 
-                                if (ButRemoveThisTag != TagType.TechnicalNull)
+                                if (ButRemoveThisTag != null)
                                 {
-                                    MidTextSegment.AssignedTags.Remove(ButRemoveThisTag);
+                                    MidTextSegment.AssignedTags.Remove((TagType)ButRemoveThisTag);
                                 }
                             }
                             else if (MidTextSegment.IsTagItself && (MidTextSegment.InnerTagData.Type == TagType.InlineImage || MidTextSegment.InnerTagData.Type == TagType.Sprite))
@@ -481,68 +460,72 @@ namespace LC_Localization_Task_Absolute
                 }
             }
 
-            internal protected abstract class @RecentInfo
+            public static class @RecentInfo
             {
                 public static TextBlock TextBlockTarget = null;
             }
 
-            internal protected static void Apply(TextBlock Target, string RichText, List<Tuple<string, string>> DividersMode = null, bool DisableKeyworLinksCreation = false, bool DoCustomIdentityPreviewCreatorIsActiveCheck = true, params TagType[] IgnoreTags)
-            {
-                //CustomIdentityPreviewCreator.IsActive
-                if (!Configurazione.DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableKeywordTooltips) DisableKeyworLinksCreation = true;
+            public static void Apply
+            (
+                TextBlock Target,
+                string RichText,
+                List<FullStopDivider> DividersMode = null,
+                bool DisableKeyworLinksCreation = false,
+                params TagType[] IgnoreTags
+            ) {
+                if (!LoadedProgramConfig.PreviewSettings.PreviewSettingsBaseSettings.EnableKeywordTooltips) DisableKeyworLinksCreation = true;
 
-                // Attempt to check the CustomIdentityPreviewCreator.isActive when called from from XAML Designer causes some dumb error with a missing program resource
-                if (DoCustomIdentityPreviewCreatorIsActiveCheck)
-                {
-                    if (PreviewCreator.CurrentInfo.IsActive) DisableKeyworLinksCreation = true;
-                }
+                if (@CurrentPreviewCreator.IsActive) DisableKeyworLinksCreation = true;
+                
+                DividersMode ??= FullStopDividers_Regular;
 
-                if (DividersMode == null) DividersMode = @PostInfo.FullStopDividers.FullStopDividers_Regular;
-
-                if (IgnoreTags != null) IgnoreTags = IgnoreTags.Union(@PostInfo.IgnoreTags_Default).ToArray();
+                if (IgnoreTags != null) IgnoreTags = [.. IgnoreTags.Union(@PostInfo.IgnoreTags_Default)];
                 else IgnoreTags = @PostInfo.IgnoreTags_Default;
+
+                RichText = Regex.Replace(RichText, @"<style=(""highlight""|""upgradeHighlight"")>", "<style>"); // Unify to just <style></style>, doesn't matter -> yellow color
+
 
                 @RecentInfo.TextBlockTarget = Target;
 
-                RichText = RichText.RegexRemove(new(@"=(""highlight""|""upgradeHighlight"")")); // Unify to just <style></style>, doesn't matter -> yellow color
-
-                foreach (Tuple<string, string> FullStopTagDivider in DividersMode)
+                foreach (FullStopDivider FullStopTagDivider in DividersMode)
                 {
-                    string TagKey_Open = FullStopTagDivider.Item1;
-                    string TagKey_Close = FullStopTagDivider.Item2;
+                    string TagOpen = FullStopTagDivider.Open;
+                    string TagClose = FullStopTagDivider.Close;
 
                     if (RichText.Contains("noparse"))
                     {
-                        RichText = Regex.Replace(RichText, @$"{FullStopTagDivider.Item1}noparse{FullStopTagDivider.Item2}(.*?){FullStopTagDivider.Item1}/noparse{FullStopTagDivider.Item2}", Match =>
+                        RichText = Regex.Replace(RichText, @$"{TagOpen}noparse{TagClose}(.*?){TagOpen}/noparse{TagClose}", Match =>
                         {
-                            return Match.Groups[1].Value.Replace(FullStopTagDivider.Item1, $"{FullStopTagDivider.Item1}\u0001");
+                            return Match.Groups[1].Value.Replace(TagOpen, $"{TagOpen}\u0001");
                         }, RegexOptions.Singleline);
                     }
 
-                    foreach (KeyValuePair<string, PatternAndTypeMatch> TagInfo in RegisteredTags_PatternAndTypeMatch)
+                    foreach (KeyValuePair<string, PatternAndTypeMatcher> TagInfo in PatternAndTypeMatch)
                     {
                         string TagBodyPattern = TagInfo.Key;
-                        TagType TagEnumSign = (TagType)TagInfo.Value.MainTag;
+                        TagType TagEnumSign = TagInfo.Value.MainTag;
 
                         TagType TagEnumSignToCheckIgnore = (TagType)(TagInfo.Value.CloseSequenceParentTag != null ? TagInfo.Value.CloseSequenceParentTag : TagInfo.Value.MainTag);
 
                         // <color=#f8c200> -> '{\xFFFE}TagType.Color{\xF8FE}color=#f8c200{\xFFFF}' where {\x} is special unicode character
                         if (!IgnoreTags.Contains(TagEnumSignToCheckIgnore))
                         {
-                            RichText = Regex.Replace(RichText, TagKey_Open + $"({TagBodyPattern})" + TagKey_Close, Match =>
+                            RichText = Regex.Replace(RichText, TagOpen+$"({TagBodyPattern})"+TagClose, Match =>
                             {
                                 if (DisableKeyworLinksCreation && TagEnumSignToCheckIgnore == TagType.Link)
                                 {
                                     return "";
                                 }
-
-                                return $"\xFFFE{(TagEnumSign)}\xF8FE{Match.Groups[1].Value}\xFFFF";
+                                else
+                                {
+                                    return $"\xFFFE{TagEnumSign}\xF8FE{Match.Groups[1].Value}\xFFFF"; // Where xF8FE is type and info divider
+                                }
                             });
                         }
                     }
                 }
 
-                List<StableTextConstruction> @Segments = new List<StableTextConstruction>(RichText.Replace("\r", "").Split(['\xFFFE', '\xFFFF'], StringSplitOptions.RemoveEmptyEntries).Select(RegularText => new StableTextConstruction(RegularText)));
+                List<StableTextConstruction> @Segments = [.. RichText.Replace("\r", "").Split(['\xFFFE', '\xFFFF'], StringSplitOptions.RemoveEmptyEntries).Select(RegularText => new StableTextConstruction(RegularText))];
 
 
                 int CurrentIndex = 0;
@@ -617,7 +600,7 @@ namespace LC_Localization_Task_Absolute
                 }
                 CurrentIndex = 0;
 
-                /* SECOND ORDER TAGS [Apply <style> highlight tag to every segment without <link> attached and also replace any <color> with self (So only <link></link> text regions are protected (Keywords)), sub/sup weird on keywords] */
+                /* SECOND ORDER TAGS [Apply <style> highlight tag to every segment without <link> attached and also replace any <color> with self (So only <link></link> text regions are (Keywords)), sub/sup weird on keywords] */
                 if (RichText.ContainsOneOf("\xFFFEStyleHighlighter\xF8FEstyle\xFFFF", "\xFFFESubscript\xF8FEsub\xFFFF", "\xFFFESuperscript\xF8FEsup\xFFFF"))
                 {
                     foreach (StableTextConstruction TextSegment in @Segments)
@@ -648,7 +631,7 @@ namespace LC_Localization_Task_Absolute
                                 foreach (StableTextConstruction SubNoBreakSegmentSegment in Segments[SubNoBreakSegmentIndex..])
                                 {
                                     if (SubNoBreakSegmentSegment.IsTagItself &&
-                                        SubNoBreakSegmentSegment.TextSentence.MatchesWithOneOf(RegisteredTags[TagType.NoBreak].BreakPoints)
+                                        SubNoBreakSegmentSegment.TextSentence.MatchesWithOneOf(@RegisteredTags[TagType.NoBreak].BreakPoints)
                                     ) break;
                                     else
                                     {
@@ -661,7 +644,7 @@ namespace LC_Localization_Task_Absolute
                                 }
 
                                 // Clear empty just as EstablishedSequence
-                                TextSegment.InnerTagData.SpriteOrNoBreakData_SubItems = TextSegment.InnerTagData.SpriteOrNoBreakData_SubItems.Where(x => x.TextSentence != "").ToList();
+                                TextSegment.InnerTagData.SpriteOrNoBreakData_SubItems = [.. TextSegment.InnerTagData.SpriteOrNoBreakData_SubItems.Where(x => x.TextSentence != "")];
                             }
                         }
                         CurrentIndex++;
@@ -669,13 +652,18 @@ namespace LC_Localization_Task_Absolute
                     CurrentIndex = 0;
                 }
 
-                List<StableTextConstruction> EstablishedSequence = new List<StableTextConstruction>(@Segments.Where(x => (!x.IsTagItself & x.TextSentence != "")));
+                List<StableTextConstruction> EstablishedSequence = [.. @Segments.Where(x => !x.IsTagItself & x.TextSentence != "")];
 
                 // ProcessEstablishedSequence contains a lot of ui interactions, i dont want to attach Dispatcher.Invoke everywhere
                 ProcessEstablishedSequence(EstablishedSequence, Target);
             }
 
-            private protected static void ProcessEstablishedSequence(List<StableTextConstruction> TargetSequence, TextBlock TargetTextBlock, bool NoBreakMode = false)
+            private static void ProcessEstablishedSequence
+            (
+                List<StableTextConstruction> TargetSequence,
+                TextBlock TargetTextBlock,
+                bool NoBreakMode = false
+            )
             {
                 #if DebugPrintInfo
                 if (!NoBreakMode)
@@ -716,21 +704,22 @@ namespace LC_Localization_Task_Absolute
                         double SpriteSizeMultiplier = 1;
                         if (SequenceItem.AssignedTags.ContainsKey(TagType.SizeMultiplier))
                         {
-                            if (double.TryParse(SequenceItem.AssignedTags[TagType.SizeMultiplier].Info, out double Value))
+                            if (double.TryParse(SequenceItem.AssignedTags[TagType.SizeMultiplier].Info.Replace(".", ","), out double Value))
                             {
-                                SpriteSizeMultiplier *= Value / (double)100;
+                                SpriteSizeMultiplier *= Value / 100.0;
                             }
                         }
 
                         BitmapImage ImageSource = @Generic.SpriteImages.ContainsKey(SpriteID) ? @Generic.SpriteImages[SpriteID] : @Generic.SpriteImages["Unknown"];
 
-                        StackPanel GrabbedText = new StackPanel() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Bottom };
+                        StackPanel GrabbedText = new() { Orientation = Orientation.Horizontal, VerticalAlignment = VerticalAlignment.Bottom };
                         foreach (StableTextConstruction AttachedTextItem in SequenceItem.InnerTagData.SpriteOrNoBreakData_SubItems)
                         {
                             Run GeneratedTextItem = new Run(AttachedTextItem.TextSentence);
-                            SetRunFormatting(GeneratedTextItem, AttachedTextItem.AssignedTags, IgnoreTags: SequenceItem.AssignedTags.ContainsKey(TagType.Background) ? TagType.Background : TagType.TechnicalNull);
+                            SetRunFormatting(GeneratedTextItem, AttachedTextItem.AssignedTags, IgnoreTags: SequenceItem.AssignedTags.ContainsKey(TagType.Background) ? TagType.Background : TagType.NaN);
                             GrabbedText.Children.Add(TargetTextBlock.ImposedClone(Content: GeneratedTextItem));
                         }
+
 
                         TargetTextBlock.Inlines.Add(new InlineUIContainer()
                         {
@@ -755,7 +744,9 @@ namespace LC_Localization_Task_Absolute
                                         {
                                             new Image()
                                             {
-                                                Source = ImageSource, Height = TargetTextBlock.FontSize * SpriteSizeMultiplier,
+                                                Width = TargetTextBlock.FontSize * SpriteSizeMultiplier,
+                                                Height = TargetTextBlock.FontSize * SpriteSizeMultiplier,
+                                                Source = ImageSource,
                                             },
                                         }
                                     },
@@ -791,26 +782,27 @@ namespace LC_Localization_Task_Absolute
                         double OffsetY = 0;
 
                         if (SequenceItem.AssignedTags.ContainsKey(TagType.InlineImages_Size) &&
-                            double.TryParse(SequenceItem.AssignedTags[TagType.InlineImages_Size].Info, out double SizeValue))
+                            double.TryParse(SequenceItem.AssignedTags[TagType.InlineImages_Size].Info.Replace(".", ","), out double SizeValue))
                         {
                             ImageSize = SizeValue;
                         }
                         if (SequenceItem.AssignedTags.ContainsKey(TagType.InlineImages_XOffset) &&
-                            double.TryParse(SequenceItem.AssignedTags[TagType.InlineImages_XOffset].Info, out double XOffsetValue))
+                            double.TryParse(SequenceItem.AssignedTags[TagType.InlineImages_XOffset].Info.Replace(".", ","), out double XOffsetValue))
                         {
                             OffsetX = XOffsetValue;
                         }
                         if (SequenceItem.AssignedTags.ContainsKey(TagType.InlineImages_YOffset) &&
-                            double.TryParse(SequenceItem.AssignedTags[TagType.InlineImages_YOffset].Info, out double YOffsetValue))
+                            double.TryParse(SequenceItem.AssignedTags[TagType.InlineImages_YOffset].Info.Replace(".", ","), out double YOffsetValue))
                         {
                             OffsetY = YOffsetValue;
                         }
 
-                        BitmapImage Source = new BitmapImage();
-                        if (KeywordsInterrogate.KeywordImages.ContainsKey(SequenceItem.InnerTagData.Info))
+                        BitmapImage Source = new();
+                        if (KeywordsInterrogation.KeywordImages.ContainsKey(SequenceItem.InnerTagData.Info))
                         {
-                            Source = KeywordsInterrogate.KeywordImages[SequenceItem.InnerTagData.Info];
+                            Source = KeywordsInterrogation.KeywordImages[SequenceItem.InnerTagData.Info];
                         }
+                        // Try check E.G.O Gift integer ID
                         else if (int.TryParse(SequenceItem.InnerTagData.Info, out int IntID))
                         {
                             if (Mode_EGOGifts.OrganizedData.DisplayInfo_Icons.ContainsKey(IntID))
@@ -820,32 +812,43 @@ namespace LC_Localization_Task_Absolute
                         }
                         else
                         {
-                            Source = KeywordsInterrogate.KeywordImages["Unknown"];
+                            Source = KeywordsInterrogation.KeywordImages["Unknown"];
                         }
 
-                        TargetTextBlock.Inlines.Add(new InlineUIContainer(new Canvas()
+                        TargetTextBlock.Inlines.Add(new InlineUIContainer()
                         {
-                            Children =
+                            BaselineAlignment = BaselineAlignment.Top,
+                            Child = new Canvas()
                             {
-                                new Image()
+                                Children =
                                 {
-                                    Source = Source,
-                                 // RenderTransform = new TranslateTransform() { X = OffsetX, Y = OffsetY },
-                                    Margin = new Thickness(OffsetX, OffsetY, 0, 0),
-                                    RenderTransformOrigin = new Point(0.5, 0.5),
-                                    Width = ImageSize,
-                                    Height = ImageSize,
-                                }
+                                    new Image()
+                                    {
+                                        Source = Source,
+                                        Margin = new Thickness(OffsetX, OffsetY, 0, 0),
+                                        RenderTransformOrigin = new Point(0.5, 0.5),
+                                        Width = ImageSize,
+                                        Height = ImageSize,
+                                    }
+                                },
+                                Width = ImageSize,
+                                VerticalAlignment = VerticalAlignment.Top
                             },
-                            Width = ImageSize, VerticalAlignment = VerticalAlignment.Top
-                        }) { BaselineAlignment = BaselineAlignment.Top });
+                        });
                     }
                 }
             }
 
             #region Tech info
-            private protected static readonly string DMarker = "\x1b[48;5;196m[Debug]\x1b[0m";
-            private protected static void PrintDebugInfo_RegularText(StableTextConstruction About, bool AddAsSpriteSegment = false, bool IsLastFromSprite = false, bool AddAsNoBreakSegment = false, bool IsLastFromNoBreak = false)
+            private static readonly string DMarker = "\x1b[48;5;196m[Debug]\x1b[0m";
+            private static void PrintDebugInfo_RegularText
+            (
+                StableTextConstruction About,
+                bool AddAsSpriteSegment = false,
+                bool IsLastFromSprite = false,
+                bool AddAsNoBreakSegment = false,
+                bool IsLastFromNoBreak = false
+            )
             {
                 string Additional_header = "";
                 string Additional_item = "";
@@ -879,7 +882,12 @@ namespace LC_Localization_Task_Absolute
                 }
                 if (!AddAsSpriteSegment) rin($"{DMarker}{(AddAsNoBreakSegment & !IsLastFromNoBreak ? " \x1b[5m│\x1b[0m" : "")}");
             }
-            private protected static void PrintDebugInfo_Sprite(StableTextConstruction About, bool AddAsNoBreakSegment = false, bool IsLastFromNoBreak = false)
+            private static void PrintDebugInfo_Sprite
+            (
+                StableTextConstruction About,
+                bool AddAsNoBreakSegment = false,
+                bool IsLastFromNoBreak = false
+            )
             {
                 rin($"{DMarker} {(AddAsNoBreakSegment ? (IsLastFromNoBreak ? "\x1b[5m└─\x1b[0m" : "\x1b[5m├─\x1b[0m") : "")}Image \"@\x1b[4m{About.InnerTagData.Info}\x1b[0m\"");
                 if (About.InnerTagData.SpriteOrNoBreakData_SubItems != null)
@@ -894,7 +902,7 @@ namespace LC_Localization_Task_Absolute
                     rin($"{DMarker}{(AddAsNoBreakSegment & !IsLastFromNoBreak ? " \x1b[5m│\x1b[0m" : "")}");
                 }
             }
-            private protected static void PrintDebugInfo_NoBreak(StableTextConstruction About)
+            private static void PrintDebugInfo_NoBreak(StableTextConstruction About)
             {
                 rin($"{DMarker} \x1b[5m[No break region]\x1b[0m (:\x1b[4m{About.InnerTagData.SpriteOrNoBreakData_SubItems.Where(x => !x.IsTagItself).Count()}\x1b[0m)");
 

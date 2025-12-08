@@ -3,7 +3,7 @@ using LC_Localization_Task_Absolute.Json.Manual_localization_files_managing;
 using Microsoft.Win32;
 using System.Windows;
 using System.Windows.Controls;
-using static LC_Localization_Task_Absolute.Json.BaseTypes;
+using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes;
 using static LC_Localization_Task_Absolute.Requirements;
 
 #pragma warning disable IDE0079
@@ -71,7 +71,7 @@ public partial class MainWindow
                 },
                 dataList = new()
                 {
-                    new Type_Skills.Skill(AutoAddUptie: true, AddAbNameToThisUptie: Type.Equals("E.G.O Skills"))
+                    new Type_Skills.Skill(AutoAddUptie: true, AddAbNameToThisUptie: Type == "E.G.O Skills")
                     {
                         ID = int.Parse(SkillIDInput.ResponseText)
                     }
@@ -92,9 +92,9 @@ public partial class MainWindow
         SaveFileDialog SaveLocation = NewSaveFileDialog("Json files", ["json"], InitialName);
         if (SaveLocation.ShowDialog() == true)
         {
-            JsonToSave.SerializeFormattedFile(SaveLocation.FileName);
+            JsonToSave.SerializeToFormattedFile(SaveLocation.FileName);
 
-            LoadFileAndSetFocus(SaveLocation.FileName);
+            TryLoadFileAndSetFocus(SaveLocation.FileName);
         }
     }
 }

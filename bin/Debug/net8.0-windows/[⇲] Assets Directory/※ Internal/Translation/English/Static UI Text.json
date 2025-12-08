@@ -1,0 +1,1975 @@
+{
+  "Font Defaults": {
+    "Font": "GOST Type BU",
+    "Font Weight": "Regular"
+  },
+  "Readme": [
+    "[C] — Custom Identity/E.G.O Preview creator",
+    "[!] — Does not support rich text"
+  ],
+  "List<Translation>": [
+    [
+      {
+        "UID": {"[Main UI] * Program Title":null},
+        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">LC Localization Interface",
+        "Font": "Bookman Old Style",
+        "Margin": [1.8, 3.5, 0, 0],
+        "Font Size": 23,
+        "Foreground": "#473131"
+      },
+      {
+        "UID": {"[Main UI] [!] * Program Title (Window Caption)":null},
+        "Text": "LC Localization Interface"
+      },
+      {
+        "UID": {"[Main UI] * Json Path (Shadow Text)":null},
+        "Text": "Json file path",
+        "Font Size": 24,
+        "Margin": [5, 0, 0, 0]
+      },
+      {
+        "UID": {"[Main UI] * Json Path — 'Open with external editor' context menu":null},
+        "Text": "Open with external editor",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 3, 3]
+      },
+      {
+        "UID": {"[Main UI] * Export Preview as PNG Tooltip":null},
+        "Text": "Export preview to PNG (To <font=\"Consolas\"><b>[⇲] Assets Directory\\[⇲] Scans</b></font> directory)"
+      },
+      {
+        "UID": {"[Main UI] * ID Copy Button":null},
+        "Text": "[$]", // Do not change this text
+        "Font": "Bookman Old Style",
+        "Height": 14,
+        "Width": 141,
+        "Margin": [0, -2, 0, 0]
+      },
+      {
+        "UID": {"[Main UI] * ID Copy Button (Copied)":null},
+        "Text": "ID Copied",
+        "Font": "Bookman Old Style",
+        "Height": 14,
+        "Width": 141,
+        "Margin": [0, -2, 0, 0]
+      },
+      {
+        "UID": {"[Main UI] * Version title":null},
+        "Text": "Version",
+        "Margin": [5],
+        "Font Size": 28,
+        "Font Weight": "Black"
+      }
+    ],
+    [
+      {
+        "UID": {"[Main UI / Create file context menu] * Title":null},
+        "Text": "Create file",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 15, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Passives":null},
+        "Text": "Passives",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Keywords":null},
+        "Text": "Keywords",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ...":null},
+        "Text": "Skills ...",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ... No upties":null},
+        "Text": "No upties",
+        "Text Alignment": "Right",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 5, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ... Identities":null},
+        "Text": "Identities",
+        "Text Alignment": "Right",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 5, 3]
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills ... E.G.O Skills":null},
+        "Text": "E.G.O Skills",
+        "Text Alignment": "Right",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 5, 3]
+      },
+      {
+        "UID": {"[Main UI] * Add additional object button":null},
+        "Text": "Create additional..",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Main UI] * Create uptie button":null},
+        "Text": "Create uptie",
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 3, 6, 3]
+      }
+    ],
+    [
+      // You can hide context menu options via `Visible` property
+      {
+        "UID": {"[Context Menu] * Insert Style":null},
+        "Width": 270, // This width value can expand context menu width
+        "Font": "Unispace",
+        "Text": "※ Insert <color=#f8c200><\u0000style> Higlight</color>", // <style> is override yellow highlight tag at internal rich text system
+        "Font Size": 13.8,
+        "Padding": [0, 2.5, 0, 2.5],
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * TextMeshPro to [KeywordID]":null},
+        "Font": "Unispace",
+        "Text": "<images-yoffset=-4><images-size=22><image id=\"2038\"><u>TextMeshPro</u> to <image id=\"9732\"><u>[KeywordID]</u>",
+        "Font Size": 13.8,
+        "Padding": [0, 2.5, 0, 2.5],
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * TextMeshPro to Shorthands":null},
+        "Font": "Unispace",
+        "Text": "<images-yoffset=-4><images-size=22><image id=\"2038\"><u>TextMeshPro</u> to <image id=\"9202\"><u>Shorthands</u>",
+        "Font Size": 13.8,
+        "Padding": [0, 2.5, 0, 2.5],
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * Unevident to [KeywordID]":null},
+        "Font": "Unispace",
+        "Text": "<images-yoffset=-4><images-size=22><image id=\"9085\"><u>Unevident</u> to <image id=\"9732\"><u>[KeywordID]</u>",
+        "Font Size": 13.8,
+        "Padding": [0, 2.5, 0, 2.5],
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * Unevident to Shorthands":null},
+        "Font": "Unispace",
+        "Text": "<images-yoffset=-4><images-size=22><image id=\"9085\"><u>Unevident</u> to <image id=\"9202\"><u>Shorthands</u>",
+        "Font Size": 13.8,
+        "Padding": [0, 2.5, 0, 2.5],
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * [KeywordID] to Shorthands":null},
+        "Font": "Unispace",
+        "Text": "<images-yoffset=-4><images-size=22><image id=\"9732\"><u>[KeywordID]</u> to <image id=\"9202\"><u>Shorthands</u>",
+        "Font Size": 13.8,
+        "Padding": [0, 2.5, 0, 2.5],
+        "Visible": true
+      },
+      {
+        "UID": {"[Context Menu] * [KeywordID] to TextMeshPro":null},
+        "Font": "Unispace",
+        "Text": "<images-yoffset=-4><images-size=22><image id=\"9732\"><u>[KeywordID]</u> to <image id=\"2038\"><u>TextMeshPro</u>",
+        "Font Size": 13.8,
+        "Padding": [0, 2.5, 0, 2.5],
+        "Visible": true
+      },
+
+      {
+        "UID": {"[Context Menu] * Extra replacements item header":null},
+        "Font": "Unispace",
+        "Font Size": 13.8,
+        "Padding": [0, 2.5, 6, 2.5]
+      }
+    ],
+    [
+      {
+        "UID": {"[Unsaved Changes] * Title":null},
+        "Text": "Unsaved Changes",
+        "Margin": [0, 1, 0, 0], "Font": "Excelsior Sans",
+        "Foreground": "#CFCFCF",
+        "Font Size": 40
+      },
+      {
+        "UID": {"[Unsaved Changes] * Confirm Exit":null},
+        "Text": "Proceed",
+        "Foreground": "#CFCFCF", "Font": "Excelsior Sans",
+        "Font Size": 25
+      },
+      {
+        "UID": {"[Unsaved Changes] * Cancel":null},
+        "Text": "Cancel",
+        "Foreground": "#CFCFCF", "Font": "Excelsior Sans",
+        "Font Size": 25
+      },
+      {
+        "UID": {"[Unsaved Changes] [-] * Information Text":null},
+        "Foreground": "#D2D2D2",
+        "Font Size": 21
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills / Right menu] * Skill main name (Background text)":null},
+        "Text": "Skill name",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * E.G.O Skill abnormality name (Background text)":null},
+        "Text": "E.G.O Abnormality",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill main desc":null},
+        "Text": "Main Description",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Affinity — Wrath":null},
+        "Text": "Wrath",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Affinity — Lust":null},
+        "Text": "Lust",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Affinity — Sloth":null},
+        "Text": "Sloth",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Affinity — Gluttony":null},
+        "Text": "Gluttony",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Affinity — Gloom":null},
+        "Text": "Gloom",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Affinity — Pride":null},
+        "Text": "Pride",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Affinity — Envy":null},
+        "Text": "Envy",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Affinity — None":null},
+        "Text": "No affinity",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 1":null},
+        "Text": "Skill Coin №1",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 2":null},
+        "Text": "Skill Coin №2",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 3":null},
+        "Text": "Skill Coin №3",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 4":null},
+        "Text": "Skill Coin №4",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 5":null},
+        "Text": "Skill Coin №5",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 6":null},
+        "Text": "Skill Coin №6",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 7":null},
+        "Text": "Skill Coin №7",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 8":null},
+        "Text": "Skill Coin №8",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 9":null},
+        "Text": "Skill Coin №9",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin 10":null},
+        "Text": "Skill Coin №10",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin descs title":null},
+        "Text": "Coin <b>№[$]</b> descs:",
+        "Margin": [0, 15, 0, 0],
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin desc number":null},
+        "Text": "№[$]",
+        "Font Size": 18
+      }
+    ],
+    [
+      {
+        "UID": {"[Passives / Right menu] * Passive name (Shadow Text)":null},
+        "Text": "Passive name",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Passives / Right menu] * Passive desc":null},
+        "Text": "Main Description",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Passives / Right menu] * Passive summary":null},
+        "Text": "Summary Description",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Passives / Right menu] * Add Passive summary description tooltip":null},
+        "Text": "Add Summary Description",
+        "Font Size": 18,
+        "Width": 268,
+        "Height": 24,
+        "Margin": [0, 5.5, 0, 0]
+      }
+    ],
+    [
+      {
+        "UID": {"[Keywords / Right Menu] * Keyword name (Shadow Text)":null},
+        "Text": "Keyword name",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Keyword color (Shadow Text)":null},
+        "Text": "Keyword color (Hex)",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Keyword desc":null},
+        "Text": "Main Description",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Keyword summary":null},
+        "Text": "Summary Description",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Keywords format insertions button":null},
+        "Text": "<b>Format Insertions</b>",
+        "Margin": [15, -1, 0, 0],
+        "Font Size": 13,
+        "Width": 139
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {0} (Shadow Text)":null},
+        "Text": "Insertion {0}",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {1} (Shadow Text)":null},
+        "Text": "Insertion {1}",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {2} (Shadow Text)":null},
+        "Text": "Insertion {2}",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {3} (Shadow Text)":null},
+        "Text": "Insertion {3}",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {4} (Shadow Text)":null},
+        "Text": "Insertion {4}",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {5} (Shadow Text)":null},
+        "Text": "Insertion {5}",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {6} (Shadow Text)":null},
+        "Text": "Insertion {6}",
+        "Font Size": 22
+      }
+    ],
+    [
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Name (Shadow Text)":null},
+        "Text": "E.G.O Gift name",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Desc":null},
+        "Text": "Main Description",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 1":null},
+        "Text": "Simple Desc №1",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 2":null},
+        "Text": "Simple Desc №2",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 3":null},
+        "Text": "Simple Desc №3",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 4":null},
+        "Text": "Simple Desc №4",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 5":null},
+        "Text": "Simple Desc №5",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 6":null},
+        "Text": "Simple Desc №6",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 7":null},
+        "Text": "Simple Desc №7",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 8":null},
+        "Text": "Simple Desc №8",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 9":null},
+        "Text": "Simple Desc №9",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 10":null},
+        "Text": "Simple Desc №10",
+        "Font Size": 22
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings] * Settings Title":null},
+        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">Settings",
+        "Font": "Bookman Old Style",
+        "Margin": [1.8, 3.5, 0, 0],
+        "Font Size": 23,
+        "Foreground": "#473131"
+      },
+      {
+        "UID": {"[Settings] [!] * Settings Title (Window Caption)":null},
+        "Text": "Settings"
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Limbus Preview] * Section Name":null},
+        "Text": "⦁ Limbus Preview",
+        "Font Size": 26,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Toggle Syntax Highlight":null},
+        "Text": "Enable Syntax Highlight",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Hide Limbus Text Preview":null},
+        "Text": "Hide Limbus Text Preview",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Highlight style":null},
+        "Text": "Highlight <\u0000style>",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Highlight Skill Descs on click":null},
+        "Text": "Highlight Skill Descs on right click",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Highlight Skill Descs on manual switch":null},
+        "Text": "Highlight Skill Descs on manual switch",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Enable Skill Names Replication":null},
+        "Text": "Enable Skill Names Replication",
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Enable Keyword tooltips":null},
+        "Text": "Enable Keyword tooltips",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Enable 7~10 Coin Buttons":null},
+        "Text": "Enable 7~10 Coin buttons",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Limbus Preview] * Preview update delay":null},
+        "Text": "Limbus Preview update delay",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Custom Language] * Section Name":null},
+        "Text": "⦁ Limbus Custom Language <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/custom-localization-properties\"><color=#569cd6>⯑</color></hyperlink>",
+        "Font Size": 26,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Selected Properties":null},
+        "Text": "Selected",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Show advanced":null},
+        "Text": "Show advanced",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Keywords Directory":null},
+        "Text": "Keywords Directory",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+
+      {
+        "UID": {"[Settings / Custom Language] * Title Font":null},
+        "Text": "Title font",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Title Font — Weight":null},
+        "Text": "Font weight",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Title Font — Size multiplier":null},
+        "Text": "Size multiplier",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Title Font — Override read name":null},
+        "Text": "Override name",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+
+      {
+        "UID": {"[Settings / Custom Language] * Context Font":null},
+        "Text": "Context font",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Context Font — Weight":null},
+        "Text": "Font weight",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Context Font — Size multiplier":null},
+        "Text": "Size multiplier",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Context Font — Override read name":null},
+        "Text": "Override name",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+
+      {
+        "UID": {"[Settings / Custom Language] * Sprites horizontal offset":null},
+        "Text": "Sprites horizontal offset",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Sprites vertical offset":null},
+        "Text": "Sprites vertical offset",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+
+
+      {
+        "UID": {"[Settings / Custom Language] * Keywords autodetection Regex pattern":null},
+        "Text": "Keywords autodetection Regex pattern",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Keywords Multiple meanings dictionary file":null},
+        "Text": "Keywords Multiple meanings dictionary file",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Context Menu Extra replacements file":null},
+        "Text": "Context Menu Extra replacements file",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+
+      {
+        "UID": {"[Settings / Custom Language] * Shorthands Regex pattern":null},
+        "Text": "Shorthands Regex pattern",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Shorthands Context Menu insertion shape":null},
+        "Text": "Shorthands Context Menu insertion shape",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Shorthands Context Menu insertion shape (<KeywordColor>)":null},
+        "Text": "Shorthands Context Menu insertion shape (<KeywordColor>)",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      
+
+      {
+        "UID": {"[Settings / Custom Language] * Additional Keywords Directory":null},
+        "Text": "Additional Keywords Directory",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Fallback Keywords Directory":null},
+        "Text": "Fallback Keywords Directory",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Internal] * Section Name":null},
+        "Text": "⦁ Internal",
+        "Font Size": 26,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Internal] * Selected UI Lanugage":null},
+        "Text": "UI Language",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Internal] * Selected UI Theme":null},
+        "Text": "UI Theme",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Internal] * Toggle Topmost state":null},
+        "Text": "Topmost Window",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Internal] * Enable Load Warnings":null},
+        "Text": "Enable Load Warnings",
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Internal] * Enable manual Json files managing":null},
+        "Text": "Enable manual Json files managing <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator#requirements-creation\"><color=#569cd6>⯑</color></hyperlink>",
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Internal] * Dropdown lists Readme":null},
+        "Text": "Drop-down lists only consider folders from\n<font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\※ Internal\\Translation</color></b></font> and <font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\※ Internal\\Themes</color></b></font> respectively",
+        "Font Size": 14,
+        "Font": "Linotype Syntax Com"
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Resources Reload] * Section Name":null},
+        "Text": "⦁ Resources Reload",
+        "Font Size": 26,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Resources Reload] * Custom Language Keywords":null},
+        "Text": "Custom Lang Keywords",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Resources Reload] * Keyword Icons":null},
+        "Text": "Keyword Icons",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Resources Reload] * Skills Icons and Display Info":null},
+        "Text": "Skills Display Info and Icons",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Resources Reload] * E.G.O Gifts Icons and Display Info":null},
+        "Text": "E.G.O Gifts Display Info and Icons",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Resources Reload] * Keyboard Shortcuts":null},
+        "Text": "Keyboard Shortcuts",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Preview Scans] * Section Name":null},
+        "Text": "⦁ Preview Scans",
+        "Font Size": 26,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Toggle Skills scan area view":null},
+        "Text": "Toggle skills scan area view",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Width of Skills Preview":null},
+        "Text": "Skills Panel Width",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Scale Factor":null},
+        "Text": "Scale Factor",
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Background Color":null},
+        "Text": "Exports Background Color (<i>Hex</i> <u>RGB</u> / <u>ARGB</u>)",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Display Keyword Sprites":null},
+        "Text": "Display keywords sprite (Per-session)",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Display Keyword Underline":null},
+        "Text": "Display keywords underline (Per-session)",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Readme Title":null},
+        "Text": "Readme (Why Skills width adjustment only)",
+        "Font Size": 16,
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Readme 1":null},
+        "Text": "It can be used to translate Previews of new Identities/E.G.O by superimposing the exported image onto the official images. <font=\"Segoe UI\"><b><i>However</i></b></font>, the program already has a special mode for directly creating higly adjustable Previews in a non-roundabout way, docs link below.\n<hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator\"><color=#569cd6><u>Custom Identity/E.G.O Preview creator Documentation</u></color></hyperlink>.",
+        "Font Size": 14,
+        "Text Alignment": "Justify",
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Readme 2":null},
+        "Text": "Anyway, skills localization file counts as skills for viewer only if you write something in coins and they will be visible. Type 0 width to use default value, all text even outside of window still being rendered and scanned. You can use it for all.",
+        "Font Size": 14,
+        "Text Alignment": "Justify",
+        "Font": "Linotype Syntax Com"
+      },
+      {
+        "UID": {"[Settings / Preview Scans] * Readme 3":null},
+        "Text": "P.S. Scale factor also affects on exported images from Custom Identity/E.G.O Preview creator.",
+        "Font Size": 14,
+        "Text Alignment": "Justify",
+        "Font": "Linotype Syntax Com"
+      }
+    ],
+    [
+      {
+        "UID": {"[New Object ID Input] [!] * New Object ID Input Title (Window Caption)":null},
+        "Text": "Новый ID"
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Title bar button tooltip":null},
+        "Text": "Open Skills Display Info manager"
+      },
+      {
+        "UID": {"[Skills DI Manager] [!] * Skills Display Info manager Title (Window Caption)":null},
+        "Text": "Skills Display Info manager"
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Move Up)":null},
+        "Text": "Move Up",
+        "Font Size": 16.5,
+        "Width": 100
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Delete)":null},
+        "Text": "Delete",
+        "Font Size": 16.5,
+        "Width": 100
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Move down)":null},
+        "Text": "Move down",
+        "Font Size": 16.5,
+        "Width": 100
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Textfields context menu — Copy":null},
+        "Text": "Copy",
+        "Font Size": 16.5,
+        "Width": 41
+      },
+      {
+        "UID": {"[Skills DI Manager] * Textfields context menu — Cut":null},
+        "Text": "Cut",
+        "Font Size": 16.5,
+        "Width": 41
+      },
+      {
+        "UID": {"[Skills DI Manager] * Textfields context menu — Paste":null},
+        "Text": "Paste",
+        "Font Size": 16.5,
+        "Width": 41
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Skill switch button":null}, // Affinity icon and skill name in the left list, no text by default
+        "Font Size": 16,
+        "Padding": [0, 3, 0, 3]
+      },
+      {
+        "UID": {"[Skills DI Manager] [!] * Regular coin option":null},
+        "Text": "Regular coin",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] [!] * Unbreakable coin option":null},
+        "Text": "Unbreakable coin",
+        "Font Size": 16.5
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Open file button":null},
+        "Text": "Open file",
+        "Width": 120,
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Save current button":null},
+        "Text": "Save current",
+        "Width": 120,
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Current file name":null},
+        "Text": "···.json",
+        "Width": 283, // Maximum width to avoid going over the edges of the window
+        "Font Size": 16,
+        "Margin": [5, 0, 0, 0]
+      },
+      {
+        "UID": {"[Skills DI Manager] * Current file name (Full path tooltip)":null},
+        "Text": "···",
+        "Font Size": 14
+      },
+      {
+        "UID": {"[Skills DI Manager] * New skill constructor button":null},
+        "Text": "<b><font=\"Times New Roman\">+</font></b> New skill constructor",
+        "Margin": [0, 1, 0, 0],
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill name":null},
+        "Text": "Skill name",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill ID":null},
+        "Text": "Skill ID",
+        "Font Size": 20
+      },
+
+
+      {
+        "UID": {"[Skills DI Manager] * Icon image (Label)":null},
+        "Font Size": 20,
+        "Variable": {
+          "Default": "Icon image <size=75%><color=#fc5a03>[None]</color></size>",
+          "Selected": "Icon image <size=75%><color=#fc5a03>[Selected]</color></size>" 
+        }
+      },
+      {
+        "UID": {"[Skills DI Manager] * Icon image (Label) (Full path tooltip)":null},
+        "Text": "···",
+        "Font Size": 14
+      },
+      {
+        "UID": {"[Skills DI Manager] * Icon image (Button)":null},
+        "Text": "Select image file",
+        "Font Size": 16.5
+      },
+
+      
+      {
+        "UID": {"[Skills DI Manager] * Skill action (Label)":null},
+        "Text": "Action",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Attack":null},
+        "Text": "Attack",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Counter":null},
+        "Text": "Counter",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Guard":null},
+        "Text": "Guard",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill action — Evade":null},
+        "Text": "Evade",
+        "Font Size": 16.5
+      },
+
+
+      {
+        "UID": {"[Skills DI Manager] * Damage type (Label)":null},
+        "Text": "Damage type",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — Blunt":null},
+        "Text": "Blunt",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — Pierce":null},
+        "Text": "Pierce",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — Slash":null},
+        "Text": "Slash",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Damage type — None":null},
+        "Text": "None",
+        "Font Size": 16.5
+      },
+      
+      
+      
+      {
+        "UID": {"[Skills DI Manager] * Affinity (Label)":null},
+        "Text": "Affinity",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Wrath":null},
+        "Text": "Wrath",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Lust":null},
+        "Text": "Lust",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Sloth":null},
+        "Text": "Sloth",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Gluttony":null},
+        "Text": "Gluttony",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Gloom":null},
+        "Text": "Gloom",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Pride":null},
+        "Text": "Pride",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — Envy":null},
+        "Text": "Envy",
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Affinity — None":null},
+        "Text": "None",
+        "Font Size": 16.5
+      },
+
+
+
+      {
+        "UID": {"[Skills DI Manager] * Rank (Label)":null},
+        "Text": "Rank",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Rank — 1":null},
+        "Text": "1",
+        "Margin": [1, 0, 0, 0],
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Rank — 2":null},
+        "Text": "2",
+        "Margin": [1, 0, 0, 0],
+        "Font Size": 16.5
+      },
+      {
+        "UID": {"[Skills DI Manager] * Rank — 3":null},
+        "Text": "3",
+        "Margin": [1, 0, 0, 0],
+        "Font Size": 16.5
+      },
+
+
+
+      {
+        "UID": {"[Skills DI Manager] * Show affinity icon":null},
+        "Text": "Show affinity icon",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[Skills DI Manager] * Skill coins":null},
+        "Text": "Skill coins",
+        "Font Size": 20
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * Title bar button tooltip":null},
+        "Text": "Switch UI to Identity/E.G.O Preview creator",
+        "Foreground": "#ffffff"
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * Open image info":null},
+        "Text": "Open image info",
+        "Font Size": 23
+      },
+      {
+        "UID": {"[C] * Save image info":null},
+        "Text": "Save image info",
+        "Font Size": 23
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Image parameters] Title":null},
+        "Text": "<u>Image parameters</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image height":null},
+        "Text": "Image height",
+        "Font Size": 18,
+        "Margin": [-41, 95, 0, 0]
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image width (First step)":null},
+        "Text": "Image width (First step)",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image width (Second step)":null},
+        "Text": "Image width (Second step)",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait image] Title":null},
+        "Text": "<u>Portrait image</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait image] Portrait image (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Portrait image <b><size=78%><color=#fc5a03>...</color></size>",
+          "Selected": "Portrait image\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait image] Portrait image (Button)":null},
+        "Text": "Select image file",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait image] Portrait type":null},
+        "Text": "Portrait type",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait image] Portrait type — Identity":null},
+        "Text": "Identity",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait image] Portrait type — E.G.O":null},
+        "Text": "E.G.O",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait image] Horizontal offset":null},
+        "Text": "Horizontal offset",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait image] Vertical offset":null},
+        "Text": "Vertical offset",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Title":null},
+        "Text": "<u>Portrait parameters [Identity]</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Image scale":null},
+        "Text": "Image scale",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Title":null},
+        "Text": "<u>Portrait parameters [E.G.O]</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Inner image scale":null},
+        "Text": "Inner image scale",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Scale with frame":null},
+        "Text": "Scale with frame",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Frame color":null},
+        "Text": "Frame color",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette softness] Title":null},
+        "Text": "<u>Vignette softness</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left / Top / Bottom (General)":null},
+        "Text": "Left / Top / Bottom <b>(General)</b>",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette softness] Right (Text background)":null},
+        "Text": "Right <b>(Text background)</b>",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait":null},
+        "Text": "Left behind E.G.O portrait <color=#919188><b><font=\"Times New Roman\">[\u0000i]",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait (Tooltip info)":null},
+        "Text": "Designed to shade <b>'Text Background Effects'</b>.",
+        "Font Size": 14,
+        "Foreground": "#ffffff"
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Title":null},
+        "Text": "<u>Vignette additional length</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left":null},
+        "Text": "Left",
+        "Text Alignment": "Center",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Top":null},
+        "Text": "Top",
+        "Text Alignment": "Center",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Bottom":null},
+        "Text": "Bottom",
+        "Text Alignment": "Center",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Right (Text background)":null},
+        "Text": "Right <b>(Text background)</b>",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait":null},
+        "Text": "Left behind E.G.O portrait <color=#919188><b><font=\"Times New Roman\">[\u0000i]",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait (Tooltip info)":null},
+        "Text": "Designed to shade <b>'Text Background Effects'</b>.",
+        "Font Size": 14,
+        "Foreground": "#ffffff"
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Image parameters / Image label] Title":null},
+        "Text": "<u>Image label</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Image label] Image label text":null},
+        "Text": "Image label text",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Image label] Image label font (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Image label font",
+          "Selected": "Image label font\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Image label] Image label font (Button)":null},
+        "Text": "Select font file",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Image label] Text size":null},
+        "Text": "Text size",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Image label] Vertical offset":null},
+        "Text": "Vertical offset",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Title":null},
+        "Text": "<u>Sinner and Identity/E.G.O specific</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Sinner icon":null},
+        "Text": "Sinner icon",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Sinner icon — Custom":null},
+        "Text": "[Custom]"
+      },
+      {
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Icon brightness":null},
+        "Text": "Icon brightness",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Icon size":null},
+        "Text": "Icon size",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Header color":null},
+        "Text": "Header color",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Sinner name":null},
+        "Text": "Sinner name",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Identity/E.G.O name":null},
+        "Text": "Identity/E.G.O name",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Rarity/Risk level":null},
+        "Text": "Rarity/Risk level",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Header] Title":null},
+        "Text": "<u>Header</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Header] Horizontal offset":null},
+        "Text": "Horizontal offset",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Header] Vertical offset":null},
+        "Text": "Vertical offset",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Header] Sinner name horizontal offset":null},
+        "Text": "Sinner name horizontal offset",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Header] Identity/E.G.O name horizontal offset":null},
+        "Text": "Identity/E.G.O name horizontal offset",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Header] Rarity/Risk level horizontal offset":null},
+        "Text": "Rarity/Risk level horizontal offset",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Header] Rarity/Risk level vertical offset":null},
+        "Text": "Rarity/Risk level vertical offset",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Title":null},
+        "Text": "<u>Decorative cautions</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Cautions text":null},
+        "Text": "Cautions text",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Cautions color":null},
+        "Text": "Cautions color",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Bloom radius":null},
+        "Text": "Bloom radius",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Opacity":null},
+        "Text": "Opacity",
+        "Font Size": 18.5
+      },
+
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Custom font (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Custom font",
+          "Selected": "Custom font\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Custom font (Button)":null},
+        "Text": "Select font file",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Vertical offset":null},
+        "Text": "Vertical offset",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Decorative cautions] Text size":null},
+        "Text": "Text size",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Textual info] Title":null},
+        "Text": "<u>Textual info</u>",
+        "Font Size": 20
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Textual info/General options] Title":null},
+        "Text": "<u>General options</u>",
+        "Font Size": 20
+      },
+
+      {
+        "UID": {"[C] * [Section:Textual info/General options] First column title":null},
+        "Text": "<b>First column</b>",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/General options] Second column title":null},
+        "Text": "<b>Second column</b>",
+        "Font Size": 18.5
+      },
+
+      {
+        "UID": {"[C] * [Section:Textual info/General options] First column - Horizontal offset":null},
+        "Text": "Horizontal offset",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/General options] First column - Item signatures offset":null},
+        "Text": "Item signatures offset",
+        "Font Size": 18.5
+      },
+
+      {
+        "UID": {"[C] * [Section:Textual info/General options] Second column - Horizontal offset":null},
+        "Text": "Horizontal offset",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/General options] Second column - Item signatures offset":null},
+        "Text": "Item signatures offset",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Textual info/General options] Item signatures font (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Item signatures font",
+          "Selected": "Item signatures font\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/General options] Item signatures font (Button)":null},
+        "Text": "Select font file",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/General options] Keyword containers width":null},
+        "Text": "Keyword containers width",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Textual info/Text sources] Title":null},
+        "Text": "<u>Text info sources</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Text sources] Skills localization (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Skills localization",
+          "Selected": "Skills localization\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Text sources] Skills localization (Button)":null},
+        "Text": "Select json file",
+        "Text Alignment": "Center",
+        "Font Size": 18.5
+      },
+
+
+
+      {
+        "UID": {"[C] * [Section:Textual info/Text sources] Skills Display Info (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Skills Display Info",
+          "Selected": "Skills Display Info\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Text sources] Skills Display Info (Button)":null},
+        "Text": "Select json file",
+        "Text Alignment": "Center",
+        "Font Size": 18.5
+      },
+
+
+
+      {
+        "UID": {"[C] * [Section:Textual info/Text sources] Passives localization (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Passives localization",
+          "Selected": "Passives localization\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Text sources] Passives localization (Button)":null},
+        "Text": "Select json file",
+        "Text Alignment": "Center",
+        "Font Size": 18.5
+      },
+
+
+
+      {
+        "UID": {"[C] * [Section:Textual info/Text sources] Keywords localization (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Status effects localization",
+          "Selected": "Status effects localization\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Text sources] Keywords localization (Button)":null},
+        "Text": "Select json file",
+        "Text Alignment": "Center",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Title":null},
+        "Text": "<u>Selected item settings</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Adjusting element header":null},
+        "Text": "Adjusting element <b>#[$]</b>",
+        "Text Alignment": "Center",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Item signature":null},
+        "Text": "Item signature",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Text ID from localization file":null},
+        "Text": "Text ID from localization file",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Skill Constructor ID from display info":null},
+        "Text": "Skill Constructor ID from display info",
+        "Font Size": 18.5
+      },
+
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Keyword icon (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Keyword icon",
+          "Selected": "Keyword icon\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Keyword icon (Button)":null},
+        "Text": "Select image file",
+        "Font Size": 18.5
+      },
+
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Vertical offset":null},
+        "Text": "Vertical offset",
+        "Text Alignment": "Center",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Horizontal offset":null},
+        "Text": "Horizontal offset\n<size=78%>(Content only)</size>",
+        "Text Alignment": "Center",
+        "Font Size": 18.5
+      },
+
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Name maximum length":null},
+        "Text": "Name maximum length",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Passive description width":null},
+        "Text": "Passive description width",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Skill main description width":null},
+        "Text": "Skill main description width",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/Selected item settings] Skill coin descriptions width":null},
+        "Text": "Skill coin descriptions width",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Text background effects] Title":null},
+        "Text": "<u>Text background effects</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects] Effects image (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Effects image <color=#919188><b><font=\"Times New Roman\">[\u0000i]</font></b></color>",
+          "Selected": "Effects image <color=#919188><b><font=\"Times New Roman\">[\u0000i]</font></b></color>\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects] Effects image (Label) (Tooltip info)":null},
+        "Text": "If it looks invisible in E.G.O portrait mode, then\nmost likely it is blocked by the <b>'Right'</b> or <b>'Left\nbehind E.G.O portrait'</b> Vignette, try to reduce it.",
+        "Font Size": 14,
+        "Foreground": "#ffffff"
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects] Effects image (Button)":null},
+        "Text": "Select image file",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only)":null},
+        "Text": "Placement mode <size=78%>(Identity only)</size>",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — Right vignette":null},
+        "Text": "On right vignette",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — All vignettes":null},
+        "Text": "On all vignettes",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects] Opacity":null},
+        "Text": "Opacity",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects] Horizontal offset":null},
+        "Text": "Horizontal offset",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects] Vertical offset":null},
+        "Text": "Vertical offset",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Text background effects/Transform] Title":null},
+        "Text": "<u>Transform</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects/Transform] Scale (X)":null},
+        "Text": "Scale (X)",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects/Transform] Scale (Y)":null},
+        "Text": "Scale (Y)",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Text background effects/Transform] Rotation":null},
+        "Text": "Rotation",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Overlay sketch] Title":null},
+        "Text": "<u>Overlaid sketch</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Overlay sketch] Sketch image (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Sketch image",
+          "Selected": "Sketch image\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Overlay sketch] Sketch image (Button)":null},
+        "Text": "Select image file",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Overlay sketch] Image opacity":null},
+        "Text": "Image opacity",
+        "Text Alignment": "Center",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Overlay sketch] Image size":null},
+        "Text": "Image size",
+        "Text Alignment": "Center",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Other effects] Title":null},
+        "Text": "<u>Other effects</u>",
+        "Font Size": 20
+      },
+      {
+        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo mode":null},
+        "Text": "Walpurgis Night logo mode",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo image (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Walpurgis Night logo image",
+          "Selected": "Walpurgis Night logo image\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo image (Button)":null},
+        "Text": "Select image file",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo scale":null},
+        "Text": "Walpurgis Night logo scale",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Other effects] Upper left logo image (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Upper left logo image",
+          "Selected": "Upper left logo image\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Other effects] Upper left logo image (Button)":null},
+        "Text": "Select image file",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Other effects] Upper left logo scale":null},
+        "Text": "Upper left logo scale",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Other effects] Bottom right logo image (Label)":null},
+        "Font Size": 18.5,
+        "Variable": {
+          "Default": "Bottom right logo image",
+          "Selected": "Bottom right logo image\n<size=78%><color=#fc5a03>[$]</color></size>"
+        }
+      },
+      {
+        "UID": {"[C] * [Section:Other effects] Bottom right logo image (Button)":null},
+        "Text": "Select image file",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Other effects] Bottom right logo scale":null},
+        "Text": "Bottom right logo scale",
+        "Font Size": 18.5
+      },
+      {
+        "UID": {"[C] * [Section:Other effects] Bottom right logo opacity":null},
+        "Text": "Bottom right logo opacity",
+        "Font Size": 18.5
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Element context menu] Header part":null},
+        "Text": "Element <b>#</b>",
+        "Font Size": 16
+      },
+      {
+        "UID": {"[C] * [Element context menu] Move up":null},
+        "Text": "▲ Move Up",
+        "Font Size": 16,
+        "Width": 145
+      },
+      {
+        "UID": {"[C] * [Element context menu] Refresh text":null},
+        "Text": "↪ Refresh Text",
+        "Font Size": 16,
+        "Width": 145
+      },
+      {
+        "UID": {"[C] * [Element context menu] Move down":null},
+        "Text": "▼ Move Down",
+        "Font Size": 16,
+        "Width": 145
+      },
+      {
+        "UID": {"[C] * [Element context menu] Delete":null},
+        "Text": "✕ Delete",
+        "Font Size": 16,
+        "Width": 145
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Text columns] Add item to column 1 label":null},
+        "Text": "[Column №1] Add..",
+        "Font Size": 19,
+        "Width": 165,
+        "Padding": [5, 0, 13, 0],
+        "Margin": [0]
+      },
+      {
+        "UID": {"[C] * [Text columns] Add item to column 2 label":null},
+        "Text": "[Column №2] Add..",
+        "Font Size": 19,
+        "Width": 165,
+        "Padding": [5, 0, 13, 0],
+        "Margin": [0]
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Text columns] Add skill option (Column 1)":null},
+        "Text": "Skill",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Text columns] Add passive option (Column 1)":null},
+        "Text": "Passive",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Text columns] Add keyword option (Column 1)":null},
+        "Text": "Keyword",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Text columns] Add skill option (Column 2)":null},
+        "Text": "Skill",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Text columns] Add passive option (Column 2)":null},
+        "Text": "Passive",
+        "Font Size": 18
+      },
+      {
+        "UID": {"[C] * [Text columns] Add keyword option (Column 2)":null},
+        "Text": "Keyword",
+        "Font Size": 18
+      }
+    ]
+  ]
+}

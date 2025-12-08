@@ -10,10 +10,9 @@ bin/Debug/net8.0-windows/LC Localization Interface.*
 
 LC Localization Interface.csproj.user
 
-bin/Debug/net8.0-windows/\[⇲\] Assets Directory/\[⇲\] Limbus Images/Skills/\[⇲\] Display Info/Raw Json/*.json
+bin/Debug/net8.0-windows/\[⇲\] Assets Directory/Limbus Images/Skills/Display Info/*.json
 
 bin/Debug/net8.0-windows/\[⇲\] Assets Directory/Latest loading.txt
-bin/Debug/net8.0-windows/\[⇲\] Assets Directory/\[⇲\] Limbus Images/Skills/\[⇲\] Display Info/Constructor/Recognizing Log.txt
 
-bin/Debug/net8.0-windows/\[⇲\] Assets Directory/\[⇲\] Limbus Images/Keywords/**/*.png
-bin/Debug/net8.0-windows/\[⇲\] Assets Directory/\[⇲\] Limbus Images/E.G.O Gifts/*.png
+bin/Debug/net8.0-windows/\[⇲\] Assets Directory/Limbus Images/Keywords/**/*.png
+bin/Debug/net8.0-windows/\[⇲\] Assets Directory/Limbus Images/E.G.O Gifts/*.png

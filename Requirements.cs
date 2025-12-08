@@ -1,19 +1,19 @@
 ﻿using LC_Localization_Task_Absolute.Limbus_Integration;
+using LC_Localization_Task_Absolute.PreviewCreator;
 using Microsoft.Win32;
 using System.IO;
+using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
-using System.Timers;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Documents;
 using System.Windows.Input;
 using System.Windows.Media;
-using System.Windows.Media.Animation;
 using System.Windows.Media.Imaging;
-using Color = System.Windows.Media.Color;
-using Size = System.Windows.Size;
+using System.Windows.Threading;
+using static LC_Localization_Task_Absolute.Configurazione;
 
 /*/
  * 
@@ -28,6 +28,8 @@ namespace LC_Localization_Task_Absolute
         #region WPF
         public static ResourceType Resource<ResourceType>(string xKey) where ResourceType : class => MainWindow.MainControl.FindResource(xKey) as ResourceType;
         public static ObjectType InterfaceObject<ObjectType>(string xName) where ObjectType : class => MainWindow.MainControl.FindName(xName) as ObjectType;
+        
+        public static ObjectType InterfaceObject<ObjectType>(this FrameworkElement ParentElement, string xName) where ObjectType : class => ParentElement.FindName(xName) as ObjectType;
 
         public static FontFamily FontFromResource(string FontResourceLocation, string FontFamilyName)
         {
@@ -94,21 +96,21 @@ namespace LC_Localization_Task_Absolute
         {
             return StringVariant switch
             {
-                "Black" => FontWeights.Black,
-                "Bold" => FontWeights.Bold,
-                "Demi Bold" => FontWeights.DemiBold,
+                "Black"       => FontWeights.Black,
+                "Bold"        => FontWeights.Bold,
+                "Demi Bold"   => FontWeights.DemiBold,
                 "Extra Black" => FontWeights.ExtraBlack,
-                "Extra Bold" => FontWeights.ExtraBold,
+                "Extra Bold"  => FontWeights.ExtraBold,
                 "Extra Light" => FontWeights.ExtraLight,
-                "Heavy" => FontWeights.Heavy,
-                "Light" => FontWeights.Light,
-                "Medium" => FontWeights.Medium,
-                "Normal" => FontWeights.Normal,
-                "Regular" => FontWeights.Regular,
-                "Semibold" => FontWeights.SemiBold,
-                "Thin" => FontWeights.Thin,
+                "Heavy"       => FontWeights.Heavy,
+                "Light"       => FontWeights.Light,
+                "Medium"      => FontWeights.Medium,
+                "Normal"      => FontWeights.Normal,
+                "Regular"     => FontWeights.Regular,
+                "Semibold"    => FontWeights.SemiBold,
+                "Thin"        => FontWeights.Thin,
                 "Ultra Black" => FontWeights.UltraBlack,
-                "Ultra Bold" => FontWeights.UltraBold,
+                "Ultra Bold"  => FontWeights.UltraBold,
                 "Ultra Light" => FontWeights.UltraLight,
                 _ => FontWeights.Normal,
             };
@@ -116,36 +118,37 @@ namespace LC_Localization_Task_Absolute
 
         public static void ScanScrollviewer(ScrollViewer Target, string NameHint, string ManualPath = "")
         {
-            string OutputPath = !ManualPath.Equals("") ? ManualPath : @$"[⇲] Assets Directory\[⇲] Scans\{NameHint} @ {DateTime.Now.ToString("HHːmmːss (dd.MM.yyyy)")}.png";
+            string OutputPath = ManualPath != "" ? ManualPath : @$"[⇲] Assets Directory\Scans\{NameHint} @ {DateTime.Now:HHːmmːss (dd.MM.yyyy)}.jpg";
 
-            ////////////////////////////////////////////////////
             double OriginalVerticalScrollOffset = Target.VerticalOffset;
             double OriginalHorizontalScrollOffset = Target.HorizontalOffset;
             Target.ScrollToVerticalOffset(0);
             Target.ScrollToHorizontalOffset(0);
             // Because text on image somehow will slide up if preview was scrolled
 
-            double Upscale = Configurazione.DeltaConfig.ScanParameters.ScaleFactor;
+            double Upscale = LoadedProgramConfig.ScanParameters.ScaleFactor;
 
             FrameworkElement PreviewContent = Target.Content as FrameworkElement;
 
-            if (!PreviewCreator.CurrentInfo.IsActive)
+            if (!@CurrentPreviewCreator.IsActive)
             {
                 try
                 {
-                    (PreviewContent as dynamic).Background = ToSolidColorBrush(Configurazione.DeltaConfig.ScanParameters.BackgroundColor);
+                    (PreviewContent as dynamic).Background = ToSolidColorBrush(LoadedProgramConfig.ScanParameters.BackgroundColor);
                 }
                 catch { }
             }
 
-            PngBitmapEncoder ExportBitmapEncoder = ScanFrameworkElement(PreviewContent, Upscale);
+            BitmapEncoder ExportBitmapEncoder = @CurrentPreviewCreator.IsActive
+                ? ScanFrameworkElement<JpegBitmapEncoder>(PreviewContent, Upscale)
+                : ScanFrameworkElement<PngBitmapEncoder>(PreviewContent, Upscale);
 
             using (FileStream ExportStream = new FileStream(path: OutputPath, mode: FileMode.Create))
             {
                 ExportBitmapEncoder.Save(ExportStream);
             }
 
-            if (!PreviewCreator.CurrentInfo.IsActive)
+            if (!@CurrentPreviewCreator.IsActive)
             {
                 try
                 {
@@ -154,12 +157,11 @@ namespace LC_Localization_Task_Absolute
                 catch { }
             }
 
-            ////////////////////////////////////////////////////
             Target.ScrollToVerticalOffset(OriginalVerticalScrollOffset);
             Target.ScrollToHorizontalOffset(OriginalHorizontalScrollOffset);
         }
 
-        public static PngBitmapEncoder ScanFrameworkElement(FrameworkElement PreviewContent, double Upscale)
+        public static EncoderType ScanFrameworkElement<EncoderType>(FrameworkElement PreviewContent, double Upscale) where EncoderType : BitmapEncoder, new()
         {
             PreviewContent.Measure(new Size(double.PositiveInfinity, double.PositiveInfinity));
             PreviewContent.Arrange(new Rect(PreviewContent.DesiredSize));
@@ -172,7 +174,7 @@ namespace LC_Localization_Task_Absolute
 
             PreviewLayoutRender.Render(PreviewContent);
 
-            PngBitmapEncoder ExportBitmapEncoder = new PngBitmapEncoder();
+            EncoderType ExportBitmapEncoder = new EncoderType();
             ExportBitmapEncoder.Frames.Add(BitmapFrame.Create(PreviewLayoutRender));
 
             return ExportBitmapEncoder;
@@ -218,7 +220,7 @@ namespace LC_Localization_Task_Absolute
             catch { return false; }
         }
 
-        public static Color ToColorBrush(string HexColor)
+        public static Color ToColor(string HexColor)
         {
             if (HexColor == null) return Colors.White;
 
@@ -294,40 +296,20 @@ namespace LC_Localization_Task_Absolute
             }
         }
 
-
-        public static FontFamily FileToFontFamily(string FontPath, string OverrideFontInternalName = "", bool WriteInfo = false)
+        public static FontFamily FileToFontFamily(string FontPathOrName, string OverrideFontInternalName = "", bool WriteInfo = false)
         {
-            if (File.Exists(FontPath))
+            if (File.Exists(FontPathOrName))
             {
-                string FontFullPath = new FileInfo(FontPath).FullName;
+                string FontFullPath = new FileInfo(FontPathOrName).FullName;
                 Uri FontUri = new Uri(FontFullPath, UriKind.Absolute);
-                string FontInternalName = OverrideFontInternalName.Equals("") ? GetFontName(FontFullPath) : OverrideFontInternalName;
-                if (WriteInfo) rin($"      Successful font loading from file as `{FontInternalName}`");
+                string FontInternalName = OverrideFontInternalName == "" ? GetFontName(FontFullPath) : OverrideFontInternalName;
+                if (WriteInfo) rin($"  Loaded as `{FontInternalName}`");
                 return new FontFamily(FontUri, $"./#{FontInternalName}");
             }
             else
             {
-                if (WriteInfo) rin($"      Font file \"{FontPath}\" not found, string used as name");
-                return new FontFamily(FontPath);
-            }
-        }
-
-        public static FontFamily FileToFontFamily_WithNameReturn(string FontPath, out string AcquiredFontName)
-        {
-            if (File.Exists(FontPath))
-            {
-                string FontFullPath = new FileInfo(FontPath).FullName;
-                Uri FontUri = new Uri(FontFullPath, UriKind.Absolute);
-
-                AcquiredFontName = GetFontName(FontFullPath);
-
-                return new FontFamily(FontUri, $"./#{AcquiredFontName}");
-            }
-            else
-            {
-                AcquiredFontName = "?";
-
-                return new FontFamily("Arial");
+                if (WriteInfo) rin($"  Font file \"{FontPathOrName}\" not found, considering given path as font name");
+                return new FontFamily(FontPathOrName);
             }
         }
 
@@ -359,6 +341,19 @@ namespace LC_Localization_Task_Absolute
                     Source = BindingSource
                 });
             }
+        }
+
+        public static FrameworkElement BindSamePropertiesWithReturn(this FrameworkElement BindingTarget, FrameworkElement BindingSource, params DependencyProperty[] Properties)
+        {
+            foreach (DependencyProperty BindProperty in Properties)
+            {
+                BindingTarget.SetBinding(BindProperty, new Binding(BindProperty.ToString())
+                {
+                    Source = BindingSource
+                });
+            }
+
+            return BindingTarget;
         }
 
         public static FrameworkElement SetBindingWithReturn(this FrameworkElement Target, DependencyProperty Property, string BindingPropertyName, DependencyObject BindingSource)
@@ -461,13 +456,8 @@ namespace LC_Localization_Task_Absolute
             else return new CornerRadius(0);
         }
 
-        public static FontFamily FontFamilyFrom(string FilePathOrFamilyName)
-        {
-            if (File.Exists(FilePathOrFamilyName)) return FileToFontFamily(FilePathOrFamilyName);
-            else return new FontFamily(FilePathOrFamilyName);
-        }
 
-        public static DependencyProperty Register<OwnerType, PropertyType>(string Name, object DefaultValue, PropertyChangedCallback ValueSetEvent)
+        public static DependencyProperty Register<OwnerType, PropertyType>(string Name, PropertyType DefaultValue, PropertyChangedCallback ValueSetEvent = null)
         {
             return DependencyProperty.Register(
                name: Name, ownerType: typeof(OwnerType), propertyType: typeof(PropertyType),
@@ -501,7 +491,7 @@ namespace LC_Localization_Task_Absolute
             Decorator Decorator = ParentObject as Decorator;
             if (Decorator != null)
             {
-                if (Decorator.Child == TargetChild)
+                if (Decorator.Child.Equals(TargetChild))
                 {
                     Decorator.Child = null;
                 }
@@ -511,7 +501,7 @@ namespace LC_Localization_Task_Absolute
             ContentPresenter ContentPresenter = ParentObject as ContentPresenter;
             if (ContentPresenter != null)
             {
-                if (ContentPresenter.Content == TargetChild)
+                if (ContentPresenter.Content.Equals(TargetChild))
                 {
                     ContentPresenter.Content = null;
                 }
@@ -521,7 +511,7 @@ namespace LC_Localization_Task_Absolute
             ContentControl ContentControl = ParentObject as ContentControl;
             if (ContentControl != null)
             {
-                if (ContentControl.Content == TargetChild)
+                if (ContentControl.Content.Equals(TargetChild))
                 {
                     ContentControl.Content = null;
                 }
@@ -555,11 +545,24 @@ namespace LC_Localization_Task_Absolute
         }
 
 
-
-
-
+        public static void HandleIfNotMatches(this TextCompositionEventArgs PreviewTextInputArgs, Regex Pattern)
+        {
+            if (!Pattern.Match(PreviewTextInputArgs.Text).Success) PreviewTextInputArgs.Handled = true;
+        }
 
         #endregion
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
@@ -605,10 +608,25 @@ namespace LC_Localization_Task_Absolute
         }
 
 
-        // KeywordsInterrogate.Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter
+        public static bool ContainsKeyCaseInsensitive<DictionaryValuesType>(this Dictionary<string, DictionaryValuesType> Source, string TargetKey, out string? FoundKey)
+        {
+            FoundKey = null;
+
+            foreach (string Key in Source.Keys)
+            {
+                if (Key.Equals(TargetKey, StringComparison.OrdinalIgnoreCase))
+                {
+                    FoundKey = Key;
+                    return true;
+                }
+            }
+
+            return false;
+        }
+
         public static Dictionary<string, string> RemoveItemWithValue(this Dictionary<string, string> TargetDictionary, string RemoveValue)
         {
-            foreach (KeyValuePair<string, string> StringItem in TargetDictionary.Where(KeyValuePair => KeyValuePair.Value == RemoveValue).ToList())
+            foreach (KeyValuePair<string, string> StringItem in TargetDictionary.Where(KeyValuePair => KeyValuePair.Value.Equals(RemoveValue)).ToList())
             {
                 TargetDictionary.Remove(StringItem.Key);
             }
@@ -629,7 +647,7 @@ namespace LC_Localization_Task_Absolute
         /// </summary>
         public static string Exform(this string TargetString, params object[] Replacements)
         {
-            Dictionary<string, string> IndexReplacements = new Dictionary<string, string>();
+            Dictionary<string, string> IndexReplacements = [];
             int ReplacementsIndexer = 1;
             foreach (object Replacement in Replacements)
             {
@@ -644,19 +662,6 @@ namespace LC_Localization_Task_Absolute
 
             return TargetString;
         }
-
-
-        public static void LogCustomSkillsConstructor(params object[] s)
-        {
-            string LogFile = @"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Constructor\Recognizing Log.txt";
-            if (!File.Exists(LogFile))
-            {
-                File.WriteAllText(LogFile, "");
-                File.SetAttributes(LogFile, File.GetAttributes(LogFile) | FileAttributes.Hidden);
-            }
-
-            File.AppendAllText(LogFile, String.Join(' ', s) + "\n");
-        }
         #endregion
 
 
@@ -670,12 +675,25 @@ namespace LC_Localization_Task_Absolute
 
 
 
+        public static bool HasAttribute<AttributeType>(this PropertyInfo Property, out AttributeType AcquiredAttribute) where AttributeType : Attribute
+        {
+            AcquiredAttribute = null;
+            AttributeType? GettedAttribute = Property.GetCustomAttribute<AttributeType>();
 
+            if (GettedAttribute != null)
+            {
+                AcquiredAttribute = GettedAttribute;
+                return true;
+            }
+            else return false;
+        }
+
+        public static bool HasAttribute<AttributeType>(this PropertyInfo Property) where AttributeType : Attribute => Property.GetCustomAttribute<AttributeType>() != null;
 
         public static OpenFileDialog NewOpenFileDialog(string FilesHint, IEnumerable<string> Extensions)
         {
-            List<string> FileFilters_DefaultExt = new List<string>();
-            List<string> FileFilters_Filter = new List<string>();
+            List<string> FileFilters_DefaultExt = [];
+            List<string> FileFilters_Filter = [];
 
             foreach (string Filter in Extensions)
             {
@@ -692,8 +710,8 @@ namespace LC_Localization_Task_Absolute
 
         public static SaveFileDialog NewSaveFileDialog(string FilesHint, IEnumerable<string> Extensions, string FileDefaultName = "")
         {
-            List<string> FileFilters_DefaultExt = new List<string>();
-            List<string> FileFilters_Filter = new List<string>();
+            List<string> FileFilters_DefaultExt = [];
+            List<string> FileFilters_Filter = [];
 
             foreach (string Filter in Extensions)
             {
@@ -715,12 +733,17 @@ namespace LC_Localization_Task_Absolute
         }
         public static string FormattedStackTrace(Exception Info, string SetupExceptionHandlingSource = "")
         {
-            return $"\n\n[{SetupExceptionHandlingSource} : {Info.Source}] {Info.Message}\n{Info.StackTrace.FormatStackTraceByNamespace("LC_Localization_Task_Absolute", @"C:\Users\javas\OneDrive\Документы\LC Localization Interface (Code)\")}\n\n";
+            return $"\n\n[{SetupExceptionHandlingSource} : {Info.Source}] {Info.Message}\n\nInner: {Info.InnerException}\n\n{Info.StackTrace.FormatStackTraceByNamespace("LC_Localization_Task_Absolute", @"C:\Users\javas\OneDrive\Документы\LC Localization Interface (Code)\")}\n\n";
+        }
+
+        public static string FormatStackTraceByNamespace(this string StackTrace, string Namepsace, string DeletePart = "")
+        {
+            return string.Join('\n', StackTrace.Split('\n').Where(x => x.Contains(Namepsace))).Del(DeletePart);
         }
 
 
         /// <summary>
-        /// where <paramref name="IEnumerableTargets"/> : IEnumerable with .Clear()
+        /// where <paramref name="IEnumerableTargets"/> : <see cref="IEnumerable{T}"/> with .Clear() method
         /// </summary>
         public static void ClearMany(params dynamic[] IEnumerableTargets)
         {
@@ -730,22 +753,20 @@ namespace LC_Localization_Task_Absolute
             }
         }
 
-        public static string FormatStackTraceByNamespace(this string StackTrace, string Namepsace, string DeletePart = "")
-        {
-            return string.Join('\n', StackTrace.Split('\n').Where(x => x.Contains(Namepsace))).Del(DeletePart);
-        }
-
         public static void Await(double Seconds, Action CompleteAction)
         {
-            DoubleAnimation ImprovisedAwait = new DoubleAnimation() { Duration = new Duration(TimeSpan.FromSeconds(Seconds)) };
-            ImprovisedAwait.Completed += (Sender, Args) => { CompleteAction(); };
-
-            new Grid() { Opacity = 1 }.BeginAnimation(Grid.OpacityProperty, ImprovisedAwait);
+            DispatcherTimer Timer = new() { Interval = TimeSpan.FromSeconds(Seconds) };
+            Timer.Tick += (Sender, Args) =>
+            {
+                Timer.Stop();
+                CompleteAction();
+            };
+            Timer.Start();
         }
 
         public static List<FileInfo> ToFileInfos(this IEnumerable<string> FilePaths)
         {
-            List<FileInfo> Output = new List<FileInfo>();
+            List<FileInfo> Output = [];
             foreach (string TargetFile in FilePaths)
             {
                 Output.Add(new FileInfo(TargetFile));
@@ -782,6 +803,15 @@ namespace LC_Localization_Task_Absolute
 
             return false;
         }
+        public static bool EqualsOneOf(this Enum CheckEnum, params Enum[] CheckSource)
+        {
+            foreach (Enum Check in CheckSource)
+            {
+                if (CheckEnum.Equals(Check)) return true;
+            }
+
+            return false;
+        }
         public static bool MatchesWithOneOf(this string CheckString, params string[] Patterns)
         {
             foreach (string Checkpattern in Patterns)
@@ -798,7 +828,7 @@ namespace LC_Localization_Task_Absolute
             {
                 return true;
             }
-            else if (CheckString.Equals("") | CheckString == string.Empty)
+            else if (CheckString.Equals("") | CheckString.Equals(string.Empty))
             {
                 return true;
             }
@@ -808,7 +838,7 @@ namespace LC_Localization_Task_Absolute
             }
         }
 
-        public static bool StartsWithOneOf(this string CheckString, IEnumerable<string> CheckSource)
+        public static bool StartsWithOneOf(this string CheckString, params string[] CheckSource)
         {
             foreach (string Check in CheckSource)
             {
@@ -840,7 +870,7 @@ namespace LC_Localization_Task_Absolute
 
         public static List<string> ItemsThatContain(this IEnumerable<string> CheckSource, string CheckString)
         {
-            List<string> Export = new List<string>() { };
+            List<string> Export = [];
             foreach (string Check in CheckSource)
             {
                 if (Check.Contains(CheckString))
@@ -854,7 +884,7 @@ namespace LC_Localization_Task_Absolute
 
         public static List<string> ItemsThatStartsWith(this IEnumerable<string> CheckSource, string CheckString)
         {
-            List<string> Export = new List<string>() { "" };
+            List<string> Export = [""];
             foreach (string Check in CheckSource)
             {
                 if (Check.StartsWith(CheckString))
@@ -869,7 +899,7 @@ namespace LC_Localization_Task_Absolute
 
         public static List<string> ItemsThatEndsWith(this IEnumerable<string> CheckSource, string CheckString)
         {
-            List<string> Export = new List<string>() { "" };
+            List<string> Export = [""];
             foreach (string Check in CheckSource)
             {
                 if (Check.EndsWith(CheckString))
@@ -929,12 +959,12 @@ namespace LC_Localization_Task_Absolute
         /// </summary>
         public static string nullHandle(this object? Source, string NullText = "null")
         {
-            return $"{(Source == null ? NullText : Source)}";
+            return $"{Source ?? NullText}";
         }
 
         public static bool HasProperty(this Type Target, string PropertyName)
         {
-            return Target.GetProperties().Where(property => property.Name.Equals(PropertyName)).Any();
+            return Target.GetProperties().Any(property => property.Name.Equals(PropertyName));
         }
     }
 }

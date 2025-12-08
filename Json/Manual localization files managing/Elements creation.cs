@@ -2,8 +2,9 @@
 using LC_Localization_Task_Absolute.Mode_Handlers;
 using System.Windows;
 using System.Windows.Controls;
-using static LC_Localization_Task_Absolute.Json.BaseTypes;
+using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes;
 using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
+using static LC_Localization_Task_Absolute.Mode_Handlers.Upstairs;
 
 #pragma warning disable CS1633
 
@@ -31,27 +32,31 @@ public partial class MainWindow
                 new() { CoinDescriptions = new() { new() } },
                 new() { CoinDescriptions = new() { new() } },
                 new() { CoinDescriptions = new() { new() } },
+                new() { CoinDescriptions = new() { new() } },
+                new() { CoinDescriptions = new() { new() } },
+                new() { CoinDescriptions = new() { new() } },
+                new() { CoinDescriptions = new() { new() } },
             }
         };
 
         TargetCurrentSkill.UptieLevels.Add(AppendUptie);
-        TargetCurrentSkill.UptieLevels = TargetCurrentSkill.UptieLevels.OrderBy(x => x.Uptie).ToList();
+        TargetCurrentSkill.UptieLevels = [.. TargetCurrentSkill.UptieLevels.OrderBy(UptieLevel => UptieLevel.Uptie)];
 
-        DelegateSkills[Mode_Skills.CurrentSkillID][NewUptie] = AppendUptie;
+        Mode_Skills.@Current.Skill[NewUptie] = AppendUptie;
         Mode_Skills.TransformToSkill(Mode_Skills.CurrentSkillID, NewUptie);
     }
 
     private void AppendAdditionalObject(object RequestSender, RoutedEventArgs EventArgs)
     {
-        switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
+        switch (ActiveProperties.Key)
         {
-            case "Skills":
-
+            case EditorMode.Skills:
                 ObjectIDInputDialog SkillIDInput = new ObjectIDInputDialog(Mode: ObjectIDInputDialog.StringCheckMode.Skill);
                 if (SkillIDInput.ShowDialog() == true)
                 {
                     int NewSkillItem_ID = int.Parse(SkillIDInput.ResponseText);
-                    Mode_Skills.DeserializedInfo.dataList.Add(new Type_Skills.Skill(
+                    Mode_Skills.DeserializedInfo.dataList.Add(new Type_Skills.Skill
+                    (
                         AutoAddUptie: true,
                         AddAbNameToThisUptie: PreviewLayout_EGOSkills_Background.Visibility == Visibility.Visible
                     ) {
@@ -61,12 +66,11 @@ public partial class MainWindow
                     {
                         [1] = Mode_Skills.DeserializedInfo.dataList[^1].UptieLevels[0]
                     };
-                    DelegateSkills_IDList.Add(NewSkillItem_ID);
                     Mode_Skills.TransformToSkill(NewSkillItem_ID);
                 }
                 break;
 
-            case "Passives":
+            case EditorMode.Passives:
                 ObjectIDInputDialog PassiveIDInput = new ObjectIDInputDialog(Mode: ObjectIDInputDialog.StringCheckMode.Passive);
                 if (PassiveIDInput.ShowDialog() == true)
                 {
@@ -76,12 +80,11 @@ public partial class MainWindow
                         ID = NewPassiveItem_ID,
                     });
                     DelegatePassives[NewPassiveItem_ID] = Mode_Passives.DeserializedInfo.dataList[^1];
-                    DelegatePassives_IDList.Add(NewPassiveItem_ID);
                     Mode_Passives.TransformToPassive(NewPassiveItem_ID);
                 } 
                 break;
 
-            case "Keywords":
+            case EditorMode.Keywords:
                 ObjectIDInputDialog KeywordIDInput = new ObjectIDInputDialog(Mode: ObjectIDInputDialog.StringCheckMode.Keyword);
                 if (KeywordIDInput.ShowDialog() == true)
                 {
@@ -92,7 +95,6 @@ public partial class MainWindow
                         Name = NewKeywordItem_ID,
                     });
                     DelegateKeywords[NewKeywordItem_ID] = Mode_Keywords.DeserializedInfo.dataList[^1];
-                    DelegateKeywords_IDList.Add(NewKeywordItem_ID);
                     Mode_Keywords.TransformToKeyword(NewKeywordItem_ID);
                 }
                 break;

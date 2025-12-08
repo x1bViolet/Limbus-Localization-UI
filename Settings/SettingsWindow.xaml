@@ -1,0 +1,699 @@
+﻿<Window
+	x:Class="LC_Localization_Task_Absolute.ConfigurationWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:T="clr-namespace:LC_Localization_Task_Absolute.BaseUIElements"
+	xmlns:Terminus="clr-namespace:LC_Localization_Task_Absolute.UITranslationHandlers"
+	xmlns:local="clr-namespace:LC_Localization_Task_Absolute"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	Title="{DynamicResource Caption_SettingsWindow}"
+	Width="420"
+	Height="495"
+	Closing="Window_Closing"
+	ResizeMode="CanMinimize"
+	Topmost="True"
+	WindowStyle="None">
+	<Window.Resources>
+		<ResourceDictionary>
+
+
+			<Style x:Key="ReloadResourceButton" BasedOn="{StaticResource Theme:ControlStyles.SquareButton}" TargetType="{x:Type Button}">
+				<Setter Property="Width" Value="26.4" />
+				<Setter Property="Height" Value="26.4" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
+				<EventSetter Event="Click" Handler="Button_SharedPressed" />
+				<Setter Property="ContentTemplate">
+					<Setter.Value>
+						<DataTemplate>
+							<Viewbox>
+								<TextBlock Margin="0.5" FontFamily="/UI/Fonts/#Segoe Fluent Icons" Foreground="{DynamicResource Theme:SquareButtons.Icons}" Text="" />
+							</Viewbox>
+						</DataTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+			<Style x:Key="ConfirmValueButton" BasedOn="{StaticResource Theme:ControlStyles.SquareButton}" TargetType="{x:Type Button}">
+				<Setter Property="Width" Value="26.4" />
+				<Setter Property="Height" Value="26.4" />
+				<Setter Property="HorizontalAlignment" Value="Left" />
+				<EventSetter Event="Click" Handler="Button_SharedPressed" />
+				<Setter Property="ContentTemplate">
+					<Setter.Value>
+						<DataTemplate>
+							<Viewbox>
+								<TextBlock Margin="0.5" FontFamily="/UI/Fonts/#Segoe Fluent Icons" Foreground="{DynamicResource Theme:SquareButtons.Icons}" Text="" />
+							</Viewbox>
+						</DataTemplate>
+					</Setter.Value>
+				</Setter>
+			</Style>
+
+		</ResourceDictionary>
+	</Window.Resources>
+
+	<Border BorderBrush="#3A3A3A" BorderThickness="1">
+
+		<Grid Background="#000000">
+
+			<Grid.RowDefinitions>
+				<RowDefinition Height="34" />
+				<RowDefinition />
+			</Grid.RowDefinitions>
+
+			<Grid Grid.Row="0" Background="{DynamicResource Theme:TitleBar.Background}" MouseLeftButtonDown="Window_DragMove">
+				<Grid ClipToBounds="True">
+					<Terminus:UITranslation_Rose Margin="0 0 96 0" FontSize="23" Foreground="{DynamicResource Theme:TitleBar.Titles}" RichText="Settings" UID="[Settings] * Settings Title" />
+				</Grid>
+
+				<StackPanel x:Name="TitleBarButtons" HorizontalAlignment="Right" Orientation="Horizontal">
+
+					<StackPanel.Resources>
+						<Style BasedOn="{StaticResource Base:TitleBar.Button}" TargetType="{x:Type Button}" />
+					</StackPanel.Resources>
+
+					<Button Padding="0 9.5 0 0" Click="Settings_Minimize" Content="" />
+					<Button Click="Settings_ReloadConfig" Content="" />
+					<Button Click="Settings_Close" Content="" IsDefault="False" />
+
+				</StackPanel>
+			</Grid>
+
+			<Grid Grid.Row="1">
+				<Image x:Name="BackgroundImage" Height="459" HorizontalAlignment="Right" VerticalAlignment="Top" Stretch="UniformToFill" />
+
+				<Border x:Name="BackgroundImageShadowing" Background="#00000000" />
+
+				<ScrollViewer Margin="5" Style="{StaticResource Theme:ControlStyles.ScrollViewer}">
+					<ScrollViewer.Resources>
+
+						<Style TargetType="{x:Type Terminus:UITranslation_Rose}">
+							<Setter Property="Foreground" Value="{DynamicResource Theme:UIText.Foreground.Settings}" />
+							<Setter Property="FontFamily" Value="/UI/Fonts/#Linotype Syntax Com Regular" />
+							<Setter Property="VerticalAlignment" Value="Center" />
+							<Setter Property="Margin" Value="0 0 4 0" />
+						</Style>
+
+						<Style BasedOn="{StaticResource Theme:ControlStyles.UITextfield}" TargetType="{x:Type Terminus:UITranslation_Mint}">
+							<Setter Property="FontSize" Value="18" />
+							<Setter Property="FontWeight" Value="Bold" />
+							<Setter Property="FontFamily" Value="/UI/Fonts/#Linotype Syntax Com Regular" />
+							<EventSetter Event="PreviewTextInput" Handler="Mint_SharedPreviewTextInput" />
+						</Style>
+
+						<Style BasedOn="{StaticResource Theme:ControlStyles.UITextfield.Border}" TargetType="{x:Type T:TextfieldCorners}">
+							<Setter Property="Height" Value="26.4" />
+						</Style>
+
+						<Style TargetType="{x:Type T:TwoColumned}">
+							<Setter Property="Margin" Value="0 5 0 0" />
+						</Style>
+
+						<Style BasedOn="{StaticResource Theme:ControlStyles.CheckBox}" TargetType="{x:Type CheckBox}">
+							<Setter Property="HorizontalAlignment" Value="Left" />
+							<Setter Property="Width" Value="26.4" />
+							<Setter Property="Height" Value="26.4" />
+							<Setter Property="IsChecked" Value="{x:Null}" />
+							<EventSetter Event="Checked" Handler="CheckBox_SharedCheckedUnchecked" />
+							<EventSetter Event="Unchecked" Handler="CheckBox_SharedCheckedUnchecked" />
+						</Style>
+
+						<Style BasedOn="{StaticResource Theme:ControlStyles.ComboBox}" TargetType="{x:Type ComboBox}">
+							<EventSetter Event="SelectionChanged" Handler="ComboBox_SharedSelectionChanged" />
+						</Style>
+
+					</ScrollViewer.Resources>
+
+
+					<StackPanel Margin="8 0 8 0">
+
+						<T:Section Margin="0 3 0 0" Visibility="Visible">
+
+							<Terminus:UITranslation_Rose FontSize="26" RichText="⦁ Limbus Preview" UID="[Settings / Limbus Preview] * Section Name" />
+
+							<T:TwoColumned Margin="0">
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Enable syntax highlight" UID="[Settings / Limbus Preview] * Toggle Syntax Highlight" />
+								<CheckBox x:Name="SV_EnableSyntaxHighlight" Grid.Column="1" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Hide Limbus text preview" UID="[Settings / Limbus Preview] * Hide Limbus Text Preview" />
+								<CheckBox x:Name="SV_HideLimbusTextPreview" Grid.Column="1" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Highlight &lt;​style&gt;" UID="[Settings / Limbus Preview] * Highlight style" />
+								<CheckBox x:Name="SV_HighlightStyle" Grid.Column="1" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Highlight Skill Descs on right click" UID="[Settings / Limbus Preview] * Highlight Skill Descs on click" />
+								<CheckBox x:Name="SV_HighlightSkillDescsOnRightClick" Grid.Column="1" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Highlight Skill Descs on manual switch" UID="[Settings / Limbus Preview] * Highlight Skill Descs on manual switch" />
+								<CheckBox x:Name="SV_HighlightSkillDescsOnManualSwitch" Grid.Column="1" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Enable Skill Names replication" UID="[Settings / Limbus Preview] * Enable Skill Names Replication" />
+								<CheckBox x:Name="SV_EnableSkillNamesRepliaction" Grid.Column="1" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Enable Keyword tooltips" UID="[Settings / Limbus Preview] * Enable Keyword tooltips" />
+								<CheckBox x:Name="SV_EnableKeywordTooltips" Grid.Column="1" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Enable 7~10 Coin buttons" UID="[Settings / Limbus Preview] * Enable 7~10 Coin Buttons" />
+								<CheckBox x:Name="SV_Enable7to10coins" Grid.Column="1" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Preview update delay (Seconds)" UID="[Settings / Limbus Preview] * Preview update delay" />
+								<T:TwoColumned Grid.Column="1" Width2="26.4">
+									<T:TextfieldCorners Margin="0 0 5 0">
+										<Terminus:UITranslation_Mint x:Name="SV_PreviewUpdateDelay" Text="0,0" UID="[Settings / Limbus Preview] * Preview update delay" />
+									</T:TextfieldCorners>
+									<Button x:Name="SV_PreviewUpdateDelay_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+								</T:TwoColumned>
+							</T:TwoColumned>
+
+						</T:Section>
+
+
+						<T:Section Margin="0 15 0 0" Visibility="Visible">
+
+							<Terminus:UITranslation_Rose FontSize="26" RichText="⦁ Custom Language" UID="[Settings / Custom Language] * Section Name" />
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Selected" UID="[Settings / Custom Language] * Selected Properties" />
+								<ComboBox x:Name="SV_SelectingCustomLanguage" Grid.Column="1" Height="26.4">
+									<ComboBox.Items>
+										<Terminus:UITranslation_Rose FontSize="13" Text="English (Original)" />
+										<Terminus:UITranslation_Rose FontSize="13" Text="Korean (Original)" />
+										<Terminus:UITranslation_Rose FontSize="13" Text="Japanese (Original)" />
+									</ComboBox.Items>
+								</ComboBox>
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Show advanced" UID="[Settings / Custom Language] * Show advanced" />
+								<CheckBox x:Name="ShowAllCustomLanguageOptions" Grid.Column="1" Checked="CheckBox_SharedCheckedUnchecked" IsChecked="False" />
+							</T:TwoColumned>
+
+							<Border Margin="5" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}" CornerRadius="0">
+								<Border.RenderTransform>
+									<ScaleTransform ScaleY="0.5" />
+								</Border.RenderTransform>
+							</Border>
+
+							<StackPanel>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Keywords directory" UID="[Settings / Custom Language] * Keywords Directory" />
+								<T:TwoColumned Margin="0 1 0 0" Width2="26.4">
+									<T:TextfieldCorners Margin="0 0 5 0">
+										<Terminus:UITranslation_Mint x:Name="SV_KeywordsDirectory" UID="[Settings / Custom Language] * Keywords Directory" />
+									</T:TextfieldCorners>
+									<Button x:Name="SV_KeywordsDirectory_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+								</T:TwoColumned>
+							</StackPanel>
+
+							<StackPanel x:Name="CustomLangMain_TitleFont" Margin="0 5 0 0">
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Title font" UID="[Settings / Custom Language] * Title Font" />
+								<T:TwoColumned Margin="0 1 0 0" Width2="26.4">
+									<T:TextfieldCorners Margin="0 0 5 0">
+										<Terminus:UITranslation_Mint x:Name="SV_TitleFont" UID="[Settings / Custom Language] * Title Font" />
+									</T:TextfieldCorners>
+									<Button x:Name="SV_TitleFont_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+								</T:TwoColumned>
+								<Grid x:Name="CustomLangExtra_TitleFontOptions" Margin="0 1 0 0" Visibility="Collapsed">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition />
+										<ColumnDefinition />
+										<ColumnDefinition />
+									</Grid.ColumnDefinitions>
+									<StackPanel Margin="0 0 5 0">
+										<Terminus:UITranslation_Rose FontSize="16" RichText="Font weight" UID="[Settings / Custom Language] * Title Font — Weight" />
+										<ComboBox x:Name="SV_TitleFont_FontWeight" Height="26.4" SelectedIndex="3">
+											<ComboBox.Items>
+												<Terminus:UITranslation_Rose FontSize="13" Text="Black" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Bold" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Demi Bold" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Extra Black" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Extra Bold" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Extra Light" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Heavy" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Light" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Medium" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Normal" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Regular" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Semibold" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Thin" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Ultra Black" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Ultra Bold" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Ultra Light" />
+											</ComboBox.Items>
+										</ComboBox>
+									</StackPanel>
+									<StackPanel Grid.Column="1" Margin="5 0 5 0">
+										<Terminus:UITranslation_Rose FontSize="16" RichText="Size multiplier" UID="[Settings / Custom Language] * Title Font — Size multiplier" />
+										<T:TwoColumned Margin="0" Width2="26.4">
+											<T:TextfieldCorners Margin="0 0 5 0">
+												<Terminus:UITranslation_Mint x:Name="SV_TitleFont_SizeMultiplier" UID="[Settings / Custom Language] * Title Font — Size multiplier" Padding="0 2 0 0" Text="1.0" />
+											</T:TextfieldCorners>
+											<Button x:Name="SV_TitleFont_SizeMultiplier_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+										</T:TwoColumned>
+									</StackPanel>
+									<StackPanel Grid.Column="2" Margin="5 0 0 0">
+										<Terminus:UITranslation_Rose FontSize="16" RichText="Override name" UID="[Settings / Custom Language] * Title Font — Override read name" />
+										<T:TwoColumned Margin="0" Width2="26.4">
+											<T:TextfieldCorners Margin="0 0 5 0">
+												<Terminus:UITranslation_Mint x:Name="SV_TitleFont_OverrideName" UID="[Settings / Custom Language] * Title Font — Override read name" />
+											</T:TextfieldCorners>
+											<Button x:Name="SV_TitleFont_OverrideName_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+										</T:TwoColumned>
+									</StackPanel>
+								</Grid>
+							</StackPanel>
+
+
+							<StackPanel x:Name="CustomLangMain_ContextFont" Margin="0 5 0 0">
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Context font" UID="[Settings / Custom Language] * Context Font" />
+
+								<T:TwoColumned Margin="0 1 0 0" Width2="26.4">
+									<T:TextfieldCorners Margin="0 0 5 0">
+										<Terminus:UITranslation_Mint x:Name="SV_ContextFont" UID="[Settings / Custom Language] * Context Font" />
+									</T:TextfieldCorners>
+									<Button x:Name="SV_ContextFont_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+								</T:TwoColumned>
+								<Grid x:Name="CustomLangExtra_ContextFontOptions" Margin="0 1 0 0" Visibility="Collapsed">
+									<Grid.ColumnDefinitions>
+										<ColumnDefinition />
+										<ColumnDefinition />
+										<ColumnDefinition />
+									</Grid.ColumnDefinitions>
+									<StackPanel Margin="0 0 5 0">
+										<Terminus:UITranslation_Rose FontSize="16" RichText="Font weight" UID="[Settings / Custom Language] * Context Font — Weight" />
+										<ComboBox x:Name="SV_ContextFont_FontWeight" Height="26.4" SelectedIndex="3">
+											<ComboBox.Items>
+												<Terminus:UITranslation_Rose FontSize="13" Text="Black" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Bold" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Demi Bold" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Extra Black" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Extra Bold" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Extra Light" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Heavy" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Light" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Medium" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Normal" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Regular" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Semibold" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Thin" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Ultra Black" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Ultra Bold" />
+												<Terminus:UITranslation_Rose FontSize="13" Text="Ultra Light" />
+											</ComboBox.Items>
+										</ComboBox>
+									</StackPanel>
+									<StackPanel Grid.Column="1" Margin="5 0 5 0">
+										<Terminus:UITranslation_Rose FontSize="16" RichText="Size multiplier" UID="[Settings / Custom Language] * Context Font — Size multiplier" />
+										<T:TwoColumned Margin="0" Width2="26.4">
+											<T:TextfieldCorners Margin="0 0 5 0">
+												<Terminus:UITranslation_Mint x:Name="SV_ContextFont_SizeMultiplier" UID="[Settings / Custom Language] * Context Font — Size multiplier" Padding="0 2 0 0" Text="1.0" />
+											</T:TextfieldCorners>
+											<Button x:Name="SV_ContextFont_SizeMultiplier_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+										</T:TwoColumned>
+									</StackPanel>
+									<StackPanel Grid.Column="2" Margin="5 0 0 0">
+										<Terminus:UITranslation_Rose FontSize="16" RichText="Override name" UID="[Settings / Custom Language] * Context Font — Override read name" />
+										<T:TwoColumned Margin="0" Width2="26.4">
+											<T:TextfieldCorners Margin="0 0 5 0">
+												<Terminus:UITranslation_Mint x:Name="SV_ContextFont_OverrideName" UID="	" />
+											</T:TextfieldCorners>
+											<Button x:Name="SV_ContextFont_OverrideName_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+										</T:TwoColumned>
+									</StackPanel>
+								</Grid>
+
+							</StackPanel>
+
+
+							<T:TwoColumned x:Name="CustomLangExtra_SpritesOffset" Margin="0 18 0 0" Visibility="Collapsed">
+
+								<StackPanel Grid.Column="0" Margin="0 0 5 0">
+									<Terminus:UITranslation_Rose FontSize="16" RichText="Sprites horizontal offset" UID="[Settings / Custom Language] * Sprites horizontal offset" />
+									<T:TwoColumned Margin="0" Width2="26.4">
+										<T:TextfieldCorners Margin="0 0 5 0">
+											<Grid>
+												<Terminus:UITranslation_Mint Padding="0 2 0 0" Text="0.0" x:Name="SV_SpritesHorizontalOffset" UID="[Settings / Custom Language] * Sprites horizontal offset" />
+												<StackPanel VerticalAlignment="Center" HorizontalAlignment="Right">
+													<Button x:Uid="Up" Click="IncreaseDecreaseSpritesHorOffset" Height="11.5" Width="20" Style="{StaticResource Theme:ControlStyles.SquareButton}" BorderThickness="0" BorderBrush="Transparent">
+														<Path Data="M 0 0 L 5 7 L 10 0 Z" Fill="{DynamicResource Theme:SquareButtons.Icons}" RenderTransformOrigin="0.5 0.5">
+															<Path.RenderTransform>
+																<RotateTransform Angle="180"/>
+															</Path.RenderTransform>
+														</Path>
+													</Button>
+													<Button x:Uid="Down" Click="IncreaseDecreaseSpritesHorOffset" Height="11.5" Style="{StaticResource Theme:ControlStyles.SquareButton}" BorderThickness="0" BorderBrush="Transparent">
+														<Path Data="M 0 0 L 5 7 L 10 0 Z" Fill="{DynamicResource Theme:SquareButtons.Icons}" />
+													</Button>
+												</StackPanel>
+											</Grid>
+
+										</T:TextfieldCorners>
+										<Button x:Name="SV_SpritesHorizontalOffset_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+									</T:TwoColumned>
+								</StackPanel>
+
+								<StackPanel Grid.Column="1" Margin="5 0 0 0">
+									<Terminus:UITranslation_Rose FontSize="16" RichText="Sprites vertical offset" UID="[Settings / Custom Language] * Sprites vertical offset" />
+									<T:TwoColumned Margin="0" Width2="26.4">
+										<T:TextfieldCorners Margin="0 0 5 0">
+											<Grid>
+												<Terminus:UITranslation_Mint Padding="0 2 0 0" Text="0.0" x:Name="SV_SpritesVerticalOffset" UID="[Settings / Custom Language] * Sprites vertical offset" />
+												<StackPanel VerticalAlignment="Center" HorizontalAlignment="Right">
+													<Button x:Uid="Up" Click="IncreaseDecreaseSpritesVerOffset" Height="11.5" Width="20" Style="{StaticResource Theme:ControlStyles.SquareButton}" BorderThickness="0" BorderBrush="Transparent">
+														<Path Data="M 0 0 L 5 7 L 10 0 Z" Fill="{DynamicResource Theme:SquareButtons.Icons}" RenderTransformOrigin="0.5 0.5">
+															<Path.RenderTransform>
+																<RotateTransform Angle="180"/>
+															</Path.RenderTransform>
+														</Path>
+													</Button>
+													<Button x:Uid="Down" Click="IncreaseDecreaseSpritesVerOffset" Height="11.5" Style="{StaticResource Theme:ControlStyles.SquareButton}" BorderThickness="0" BorderBrush="Transparent">
+														<Path Data="M 0 0 L 5 7 L 10 0 Z" Fill="{DynamicResource Theme:SquareButtons.Icons}" />
+													</Button>
+												</StackPanel>
+											</Grid>
+										</T:TextfieldCorners>
+										<Button x:Name="SV_SpritesVerticalOffset_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+									</T:TwoColumned>
+								</StackPanel>
+
+							</T:TwoColumned>
+
+
+
+							<StackPanel x:Name="CustomLangExtra_KeywordsOther" Visibility="Collapsed">
+
+								<StackPanel Margin="0 18 0 0">
+									<Terminus:UITranslation_Rose FontSize="16" RichText="Keywords autodetection Regex pattern" UID="[Settings / Custom Language] * Keywords autodetection Regex pattern" />
+									<T:TwoColumned Margin="0 1 0 0" Width2="26.4">
+										<T:TextfieldCorners Margin="0 0 5 0">
+											<Terminus:UITranslation_Hyacinth x:Name="SV_KeywordsAutoDetectionRegex" UID="[Settings / Custom Language] * Keywords autodetection Regex pattern" />
+										</T:TextfieldCorners>
+										<Button x:Name="SV_KeywordsAutoDetectionRegex_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+									</T:TwoColumned>
+								</StackPanel>
+
+								<StackPanel Margin="0 18 0 0">
+									<Terminus:UITranslation_Rose FontSize="16" RichText="Keywords Multiple meanings dictionary file" UID="[Settings / Custom Language] * Keywords Multiple meanings dictionary file" />
+									<T:TwoColumned Margin="0 1 0 0" Width2="26.4">
+										<T:TextfieldCorners Margin="0 0 5 0">
+											<Terminus:UITranslation_Mint x:Name="SV_KeywordsMultipleMeaningsDictionary" UID="[Settings / Custom Language] * Keywords Multiple meanings dictionary file" />
+										</T:TextfieldCorners>
+										<Button x:Name="SV_KeywordsMultipleMeaningsDictionary_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+									</T:TwoColumned>
+								</StackPanel>
+
+								<StackPanel Margin="0 18 0 0">
+									<Terminus:UITranslation_Rose FontSize="16" RichText="Context Menu Extra replacements file" UID="[Settings / Custom Language] * Context Menu Extra replacements file" />
+									<T:TwoColumned Margin="0 1 0 0" Width2="26.4">
+										<T:TextfieldCorners Margin="0 0 5 0">
+											<Terminus:UITranslation_Mint x:Name="SV_ContextMenuExtraReplacements" UID="[Settings / Custom Language] * Context Menu Extra replacements file" />
+										</T:TextfieldCorners>
+										<Button x:Name="SV_ContextMenuExtraReplacements_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+									</T:TwoColumned>
+								</StackPanel>
+
+								<StackPanel Margin="0 18 0 0">
+									<Terminus:UITranslation_Rose FontSize="16" RichText="Shorthands Regex pattern" UID="[Settings / Custom Language] * Shorthands Regex pattern" />
+									<T:TwoColumned Margin="0 1 0 0" Width2="26.4">
+										<T:TextfieldCorners Margin="0 0 5 0">
+											<Terminus:UITranslation_Hyacinth x:Name="SV_ShorthandsRegex" UID="[Settings / Custom Language] * Shorthands Regex pattern" />
+										</T:TextfieldCorners>
+										<Button x:Name="SV_ShorthandsRegex_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+									</T:TwoColumned>
+								</StackPanel>
+								<StackPanel Margin="0 5 0 0">
+									<Terminus:UITranslation_Rose FontSize="16" RichText="Shorthands Context Menu insertion shape" UID="[Settings / Custom Language] * Shorthands Context Menu insertion shape" />
+									<T:TwoColumned Margin="0 1 0 0" Width2="26.4">
+										<T:TextfieldCorners Margin="0 0 5 0">
+											<Terminus:UITranslation_Hyacinth x:Name="SV_ShorthandsCMInsertionShape" UID="[Settings / Custom Language] * Shorthands Context Menu insertion shape" />
+										</T:TextfieldCorners>
+										<Button x:Name="SV_ShorthandsCMInsertionShape_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+									</T:TwoColumned>
+								</StackPanel>
+								<StackPanel Margin="0 5 0 0">
+									<Terminus:UITranslation_Rose FontSize="16" RichText="Shorthands Context Menu insertion shape (&lt;KeywordColor&gt;)" UID="[Settings / Custom Language] * Shorthands Context Menu insertion shape (&lt;KeywordColor&gt;)" />
+									<T:TwoColumned Margin="0 1 0 0" Width2="26.4">
+										<T:TextfieldCorners Margin="0 0 5 0">
+											<Terminus:UITranslation_Hyacinth x:Name="SV_ShorthandsCMInsertionShape_KeywordColor" UID="[Settings / Custom Language] * Shorthands Context Menu insertion shape (&lt;KeywordColor&gt;)" />
+										</T:TextfieldCorners>
+										<Button x:Name="SV_ShorthandsCMInsertionShape_KeywordColor_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+									</T:TwoColumned>
+								</StackPanel>
+							</StackPanel>
+
+
+
+
+
+							<Border Margin="5" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}" CornerRadius="0">
+								<Border.RenderTransform>
+									<ScaleTransform ScaleY="0.5" />
+								</Border.RenderTransform>
+							</Border>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+							<StackPanel Margin="0 15 0 0">
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Fallback Keywords directory" UID="[Settings / Custom Language] * Fallback Keywords Directory" />
+
+								<T:TwoColumned Margin="0 1 0 0" Width2="26.4">
+									<T:TextfieldCorners Margin="0 0 5 0">
+										<Terminus:UITranslation_Mint x:Name="SV_FallbackKeywordDirectory" UID="[Settings / Custom Language] * Fallback Keywords Directory" />
+									</T:TextfieldCorners>
+									<Button x:Name="SV_FallbackKeywordDirectory_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+								</T:TwoColumned>
+							</StackPanel>
+
+
+							<StackPanel x:Name="CustomLangExtra_AdditionalKeywordsDirectory" Visibility="Collapsed" Margin="0 5 0 0">
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Additional Keywords directory" UID="[Settings / Custom Language] * Additional Keywords Directory" />
+
+								<T:TwoColumned Margin="0 1 0 0" Width2="26.4">
+									<T:TextfieldCorners Margin="0 0 5 0">
+										<Terminus:UITranslation_Mint x:Name="SV_AdditionalKeywordsDirectory" UID="[Settings / Custom Language] * Additional Keywords Directory" />
+									</T:TextfieldCorners>
+									<Button x:Name="SV_AdditionalKeywordsDirectory_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+								</T:TwoColumned>
+							</StackPanel>
+
+						</T:Section>
+
+
+						<T:Section Margin="0 15 0 0" Visibility="Visible">
+
+							<Terminus:UITranslation_Rose FontSize="26" RichText="⦁ Internal" UID="[Settings / Internal] * Section Name" />
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Interface language" UID="[Settings / Internal] * Selected UI Lanugage" />
+								<ComboBox x:Name="SV_SelectingInterfaceLanguage" Grid.Column="1" Height="26.4">
+									<ComboBox.Items>
+										<Terminus:UITranslation_Rose FontSize="13" Text="English" />
+										<Terminus:UITranslation_Rose FontSize="13" Text="Русский" />
+										<Terminus:UITranslation_Rose FontSize="13" Text="繁體中文" />
+									</ComboBox.Items>
+								</ComboBox>
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Interface theme" UID="[Settings / Internal] * Selected UI Theme" />
+								<ComboBox x:Name="SV_SelectingInterfaceTheme" Grid.Column="1" Height="26.4">
+									<ComboBox.Items>
+										<Terminus:UITranslation_Rose FontSize="13" Text="A girl who wishes to be pretty" />
+										<Terminus:UITranslation_Rose FontSize="13" Text="Floor of Literature" />
+										<Terminus:UITranslation_Rose FontSize="13" Text="Limbus Localization UI" />
+									</ComboBox.Items>
+								</ComboBox>
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Topmost window" UID="[Settings / Internal] * Toggle Topmost state" />
+								<CheckBox x:Name="SV_TopmostWindow" Grid.Column="1" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Enable load warnings" UID="[Settings / Internal] * Enable Load Warnings" />
+								<CheckBox x:Name="SV_EnableLoadWarnings" Grid.Column="1" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Enable manual Json files managing" UID="[Settings / Internal] * Enable manual Json files managing" />
+								<CheckBox x:Name="SV_EnableManualJsonFilesManaging" Grid.Column="1" />
+							</T:TwoColumned>
+
+							<Terminus:UITranslation_Rose Margin="0 5 0 0" FontSize="14" Foreground="{DynamicResource Theme:UIText.Foreground.Settings.Comments}" RichText="Drop-down lists only consider files and folders from «[⇲] Assets Directory\[+] Languages» and «[⇲] Assets Directory\[+] Themes» respectively" UID="[Settings / Internal] * Dropdown lists Readme" />
+
+						</T:Section>
+
+						<T:Section Margin="0 15 0 0">
+
+							<Terminus:UITranslation_Rose FontSize="26" RichText="⦁ Resources Reload" UID="[Settings / Resources Reload] * Section Name" />
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Custom language" UID="[Settings / Resources Reload] * Custom Language Keywords" />
+								<Button x:Name="SV_ReloadCustomLanguage" Grid.Column="1" Style="{StaticResource ReloadResourceButton}" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Keyword icons" UID="[Settings / Resources Reload] * Keyword Icons" />
+								<Button x:Name="SV_ReloadKeywordIcons" Grid.Column="1" Style="{StaticResource ReloadResourceButton}" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Skills Display Info" UID="[Settings / Resources Reload] * Skills Icons and Display Info" />
+								<Button x:Name="SV_ReloadSkillsDisplayInfo" Grid.Column="1" Style="{StaticResource ReloadResourceButton}" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="E.G.O Gifts Display Info" UID="[Settings / Resources Reload] * E.G.O Gifts Icons and Display Info" />
+								<Button x:Name="SV_ReloadEGOGiftsDisplayInfo" Grid.Column="1" Style="{StaticResource ReloadResourceButton}" />
+							</T:TwoColumned>
+							
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Keyboard Shortcuts" UID="[Settings / Resources Reload] * Keyboard Shortcuts" />
+								<Button x:Name="SV_ReloadHotkeys" Grid.Column="1" Style="{StaticResource ReloadResourceButton}" />
+							</T:TwoColumned>
+
+						</T:Section>
+
+						<T:Section Margin="0 15 0 0">
+
+							<Terminus:UITranslation_Rose FontSize="26" RichText="⦁ Preview Scans" UID="[Settings / Preview Scans] * Section Name" />
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Enable Skills scan area view" UID="[Settings / Preview Scans] * Toggle Skills scan area view" />
+								<CheckBox x:Name="SV_EnableSkillsScanAreaView" Grid.Column="1" IsChecked="False" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Skills Panel Width" UID="[Settings / Preview Scans] * Width of Skills Preview" />
+
+								<T:TwoColumned Grid.Column="1" Margin="0" Width2="26.4">
+									<T:TextfieldCorners Margin="0 0 5 0">
+										<Terminus:UITranslation_Mint x:Name="SV_SkillsPanelWidth" Text="0,0" UID="[Settings / Preview Scans] * Width of Skills Preview" />
+									</T:TextfieldCorners>
+									<Button x:Name="SV_SkillsPanelWidth_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+								</T:TwoColumned>
+
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Scans Scale Factor" UID="[Settings / Preview Scans] * Scale Factor" />
+
+								<T:TwoColumned Grid.Column="1" Margin="0" Width2="26.4">
+									<T:TextfieldCorners Margin="0 0 5 0">
+										<Terminus:UITranslation_Mint x:Name="SV_ScansScaleFactor" Text="4,0" UID="[Settings / Preview Scans] * Scale Factor" />
+									</T:TextfieldCorners>
+									<Button x:Name="SV_ScansScaleFactor_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+								</T:TwoColumned>
+
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Skills Background Color (Hex [u]RGB[/u] / [u]ARGB[/u])" UID="[Settings / Preview Scans] * Background Color" />
+
+								<T:TwoColumned Grid.Column="1" Margin="0" Width2="26.4">
+
+									<T:TextfieldCorners Margin="0 0 5 0">
+										<Grid>
+											<Terminus:UITranslation_Mint
+												Margin="{Binding ElementName=SV_ScansBackgroundColor, Path=Margin}"
+												Focusable="False"
+												FontFamily="{Binding ElementName=SV_ScansBackgroundColor, Path=FontFamily}"
+												FontSize="{Binding ElementName=SV_ScansBackgroundColor, Path=FontSize}"
+												FontWeight="{Binding ElementName=SV_ScansBackgroundColor, Path=FontWeight}"
+												Text="#">
+												<Terminus:UITranslation_Mint.RenderTransform>
+													<TranslateTransform Y="{Binding ElementName=SV_ScansBackgroundColor, Path=Padding.Top}" />
+												</Terminus:UITranslation_Mint.RenderTransform>
+											</Terminus:UITranslation_Mint>
+											<Terminus:UITranslation_Mint
+												x:Name="SV_ScansBackgroundColor"
+												MinWidth="108.5"
+												Padding="14.5 0 0 0"
+												MaxLength="8"
+												Text="00202020"
+												TextChanged="SV_ScansBackgroundColor_TextChanged"
+												UID="[Settings / Preview Scans] * Background Color" />
+
+											<Border x:Name="ScansBackgroundColor_Display" Width="43.38" HorizontalAlignment="Right" Background="#ffffff">
+												<Border.OpacityMask>
+													<LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+														<GradientStop Offset="1" Color="#ffffff" />
+														<GradientStop Offset="0.9" Color="#ffffff" />
+														<GradientStop Offset="0" Color="#00000000" />
+													</LinearGradientBrush>
+												</Border.OpacityMask>
+											</Border>
+										</Grid>
+									</T:TextfieldCorners>
+									<Button x:Name="SV_ScansBackgroundColor_ConfirmButton" Grid.Column="1" Style="{StaticResource ConfirmValueButton}" />
+								</T:TwoColumned>
+
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Display keywords sprite (Per-session)" UID="[Settings / Preview Scans] * Display Keyword Sprites" />
+								<CheckBox x:Name="SV_DisplayKeywordIDSprites" Grid.Column="1" IsChecked="True" />
+							</T:TwoColumned>
+
+							<T:TwoColumned>
+								<Terminus:UITranslation_Rose FontSize="16" RichText="Display keywords underline (Per-session)" UID="[Settings / Preview Scans] * Display Keyword Underline" />
+								<CheckBox x:Name="SV_DisplayKeywordIDUnderline" Grid.Column="1" IsChecked="True" />
+							</T:TwoColumned>
+
+							<Terminus:UITranslation_Rose Margin="0 5 0 0" FontSize="16" RichText="Readme (Why Skills width adjustment only)" UID="[Settings / Preview Scans] * Readme Title" />
+
+							<StackPanel Margin="8 8 8 0">
+								<Terminus:UITranslation_Rose FontSize="14" Foreground="{DynamicResource Theme:UIText.Foreground.Settings.Comments}" RichText="Readme[1]" TextAlignment="Justify" UID="[Settings / Preview Scans] * Readme 1" />
+								<Terminus:UITranslation_Rose
+									Margin="0 5 0 0"
+									FontSize="14"
+									Foreground="{DynamicResource Theme:UIText.Foreground.Settings.Comments}"
+									RichText="Readme[2]"
+									TextAlignment="Justify"
+									UID="[Settings / Preview Scans] * Readme 2" />
+								<Terminus:UITranslation_Rose
+									Margin="0 5 0 0"
+									FontSize="14"
+									Foreground="{DynamicResource Theme:UIText.Foreground.Settings.Comments}"
+									RichText="Readme[3]"
+									TextAlignment="Justify"
+									UID="[Settings / Preview Scans] * Readme 3" />
+							</StackPanel>
+
+						</T:Section>
+
+					</StackPanel>
+				</ScrollViewer>
+			</Grid>
+		</Grid>
+	</Border>
+</Window>

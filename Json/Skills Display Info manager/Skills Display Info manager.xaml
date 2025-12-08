@@ -1,0 +1,452 @@
+﻿<Window
+	x:Class="LC_Localization_Task_Absolute.Json.SkillsDisplayInfoManagerWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Icons="clr-namespace:Visual_Studio_controls.Icons"
+	xmlns:T="clr-namespace:LC_Localization_Task_Absolute.BaseUIElements"
+	xmlns:TC="clr-namespace:LC_Localization_Task_Absolute.BaseUIElements.PreviewCreator"
+	xmlns:Terminus="clr-namespace:LC_Localization_Task_Absolute.UITranslationHandlers"
+	xmlns:local="clr-namespace:LC_Localization_Task_Absolute.Json"
+	Title="{DynamicResource Caption_SkillsDisplayInfoManagerWindow}"
+	Height="510"
+	MinWidth="571"
+	MinHeight="510"
+	MaxWidth="571"
+	Loaded="Window_Loaded"
+	Topmost="True"
+	WindowStartupLocation="CenterScreen">
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/Border.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/ScrollBar.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/ScrollViewer.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/ContextMenu.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/Button.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/ComboBox.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/ComboBoxItem.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/TextBox.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/CheckBox.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/TabControl.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/TabItem.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Window.Resources>
+	<Grid Margin="0 0 -0.2 -0.2" Background="#1f1f1f">
+
+		<Grid.Resources>
+			<Style TargetType="{x:Type Terminus:UITranslation_Rose}">
+				<Setter Property="Foreground" Value="#F5F5DC" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="PerfectVerticalAlign" Value="True" />
+			</Style>
+		</Grid.Resources>
+
+		<Grid Height="23.96" Margin="5 5 5 5" VerticalAlignment="Top">
+			<StackPanel Orientation="Horizontal">
+				<Button Height="23.96" Click="LoadDisplayInfoFile">
+					<Terminus:UITranslation_Rose
+						Width="120"
+						FontFamily="/UI/Fonts/#GOST type BU"
+						FontSize="16.5"
+						RichText="Open file"
+						TextAlignment="Center"
+						UID="[Skills DI Manager] * Open file button" />
+				</Button>
+				<Button Height="23.96" Margin="5 0 0 0" Click="SaveDisplayInfoFile">
+					<Terminus:UITranslation_Rose
+						Width="120"
+						FontFamily="/UI/Fonts/#GOST type BU"
+						FontSize="16.5"
+						RichText="Save current"
+						TextAlignment="Center"
+						UID="[Skills DI Manager] * Save current button" />
+				</Button>
+				<Terminus:UITranslation_Rose
+					x:Name="SelectedFileLabel"
+					MaxWidth="283"
+					Margin="5 0 0 0"
+					HorizontalAlignment="Left"
+					FontFamily="/UI/Fonts/#GOST type BU"
+					FontSize="16"
+					Text="···.json"
+					TextTrimming="CharacterEllipsis"
+					TextWrapping="NoWrap"
+					ToolTipService.InitialShowDelay="0"
+					UID="[Skills DI Manager] * Current file name">
+					<Terminus:UITranslation_Rose.ToolTip>
+						<ToolTip Background="#E0676767" HorizontalOffset="20">
+							<Terminus:UITranslation_Rose x:Name="SelectedFileLabel_Tooltip" FontFamily="/UI/Fonts/#GOST type BU" FontSize="14" Text="···" UID="[Skills DI Manager] * Current file name (Full path tooltip)" />
+						</ToolTip>
+					</Terminus:UITranslation_Rose.ToolTip>
+				</Terminus:UITranslation_Rose>
+			</StackPanel>
+		</Grid>
+
+		<Grid x:Name="MainGrid" Margin="5 35 5 6">
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="197.85" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Grid.Resources>
+				<PopupAnimation x:Key="{x:Static SystemParameters.MenuPopupAnimationKey}">None</PopupAnimation>
+
+				<ContextMenu x:Key="TabItemContextMenu">
+
+					<ContextMenu.Resources>
+						<Style TargetType="{x:Type Terminus:UITranslation_Rose}">
+							<Setter Property="Foreground" Value="#D6D6D6" />
+							<Setter Property="FontSize" Value="16" />
+						</Style>
+					</ContextMenu.Resources>
+
+					<MenuItem Click="MoveTabItemUp" FontSize="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header.FontSize}">
+						<MenuItem.Icon>
+							<Icons:ArrowUp />
+						</MenuItem.Icon>
+						<MenuItem.Header>
+							<Terminus:UITranslation_Rose Text="Move up" UID="[Skills DI Manager] * Skill switch button (Context menu — Move up)" />
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem Click="DeleteTabItem" FontSize="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header.FontSize}">
+						<MenuItem.Icon>
+							<Icons:Delete />
+						</MenuItem.Icon>
+						<MenuItem.Header>
+							<Terminus:UITranslation_Rose Text="Delete" UID="[Skills DI Manager] * Skill switch button (Context menu — Delete)" />
+						</MenuItem.Header>
+					</MenuItem>
+					<MenuItem Click="MoveTabItemDown" FontSize="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header.FontSize}">
+						<MenuItem.Icon>
+							<Icons:ArrowDown />
+						</MenuItem.Icon>
+						<MenuItem.Header>
+							<Terminus:UITranslation_Rose Text="Move down" UID="[Skills DI Manager] * Skill switch button (Context menu — Move down)" />
+						</MenuItem.Header>
+					</MenuItem>
+				</ContextMenu>
+
+				<ContextMenu x:Key="TextfieldContextMenu">
+
+					<ContextMenu.Resources>
+						<Style TargetType="{x:Type Terminus:UITranslation_Rose}">
+							<Setter Property="Foreground" Value="#D6D6D6" />
+							<Setter Property="FontSize" Value="16" />
+							<Setter Property="Width" Value="100" />
+						</Style>
+					</ContextMenu.Resources>
+
+					<ContextMenu.Items>
+						<MenuItem Command="ApplicationCommands.Copy" FontSize="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header.FontSize}">
+							<MenuItem.Icon>
+								<Icons:Copy />
+							</MenuItem.Icon>
+							<MenuItem.Header>
+								<Terminus:UITranslation_Rose Text="Copy" UID="[Skills DI Manager] * Textfields context menu — Copy" />
+							</MenuItem.Header>
+						</MenuItem>
+						<MenuItem Command="ApplicationCommands.Cut" FontSize="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header.FontSize}">
+							<MenuItem.Icon>
+								<Icons:Cut />
+							</MenuItem.Icon>
+							<MenuItem.Header>
+								<Terminus:UITranslation_Rose Text="Cut" UID="[Skills DI Manager] * Textfields context menu — Cut" />
+							</MenuItem.Header>
+						</MenuItem>
+						<MenuItem Command="ApplicationCommands.Paste" FontSize="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header.FontSize}">
+							<MenuItem.Icon>
+								<Icons:Paste />
+							</MenuItem.Icon>
+							<MenuItem.Header>
+								<Terminus:UITranslation_Rose Text="Paste" UID="[Skills DI Manager] * Textfields context menu — Paste" />
+							</MenuItem.Header>
+						</MenuItem>
+					</ContextMenu.Items>
+				</ContextMenu>
+
+				<Style BasedOn="{StaticResource {x:Type TextBox}}" TargetType="{x:Type Terminus:UITranslation_Mint}">
+					<Setter Property="Padding" Value="0 1 0 0" />
+					<Setter Property="Height" Value="23.96" />
+					<Setter Property="FontSize" Value="16.5" />
+					<Setter Property="ContextMenu" Value="{DynamicResource TextfieldContextMenu}" />
+				</Style>
+				<Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+					<Setter Property="Height" Value="23.96" />
+				</Style>
+				<Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+					<Setter Property="Height" Value="23.96" />
+				</Style>
+				<Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
+					<Setter Property="ContextMenu" Value="{StaticResource TabItemContextMenu}" />
+				</Style>
+				<Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+					<Setter Property="Height" Value="23.96" />
+					<Setter Property="Width" Value="23.96" />
+					<Setter Property="HorizontalAlignment" Value="Left" />
+					<Setter Property="VerticalAlignment" Value="Center" />
+				</Style>
+			</Grid.Resources>
+
+			<Terminus:UITranslation_Rose
+				x:Name="TabItemHeaderTextBinding"
+				Width="148"
+				Padding="0 3 0 3"
+				FontFamily="/UI/Fonts/#GOST type BU"
+				FontSize="16"
+				TextWrapping="Wrap"
+				UID="[Skills DI Manager] * Skill switch button"
+				Visibility="Collapsed" />
+			<TabControl x:Name="CurrentConstructorsList" Margin="0 0 0 29" SelectionChanged="UpdateCurrentConstructorView" />
+
+			<Button
+				x:Name="AddConstructorButton"
+				Width="198"
+				Height="24"
+				Padding="5 -1 0 0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Bottom"
+				HorizontalContentAlignment="Left"
+				Click="AddConstructorButton_Click">
+				<Terminus:UITranslation_Rose FontFamily="/UI/Fonts/#GOST type BU" FontSize="16.5" RichText="[b]+[/b] New skill constructor" UID="[Skills DI Manager] * New skill constructor button" />
+			</Button>
+
+			<ScrollViewer Grid.Column="1" Margin="5 0 0 0" VerticalScrollBarVisibility="Hidden">
+				<StackPanel MinWidth="308.5">
+					<T:TwoColumned>
+						<Terminus:UITranslation_Rose FontFamily="/UI/Fonts/#GOST type BU" FontSize="20" RichText="Skill name" UID="[Skills DI Manager] * Skill name" />
+						<Terminus:UITranslation_Mint
+							x:Name="SkillNameTextInput"
+							Grid.Column="1"
+							FontFamily="/UI/Fonts/#GOST type BU"
+							KeyDown="EscapeOrEnterUnfocus"
+							TextChanged="SkillNameTextInput_TextChanged"
+							UID="[Skills DI Manager] * Skill name" />
+					</T:TwoColumned>
+					<T:TwoColumned Margin="0 5 0 0">
+						<Terminus:UITranslation_Rose FontFamily="/UI/Fonts/#GOST type BU" FontSize="20" RichText="Skill ID" UID="[Skills DI Manager] * Skill ID" />
+						<Terminus:UITranslation_Mint
+							x:Name="SkillIDTextInput"
+							Grid.Column="1"
+							FontFamily="/UI/Fonts/#GOST type BU"
+							KeyDown="EscapeOrEnterUnfocus"
+							TextChanged="SkillIDTextInput_TextChanged"
+							UID="[Skills DI Manager] * Skill ID" />
+						<Border x:Name="SkillIDTextInput_InvalidIndicator" Grid.Column="1" BorderBrush="Transparent" />
+					</T:TwoColumned>
+					<T:TwoColumned Margin="0 5 0 0">
+						<Terminus:UITranslation_Rose
+							x:Name="SelectSkillIconLabel"
+							FontFamily="/UI/Fonts/#GOST type BU"
+							FontSize="20"
+							RichText="Icon image [size=75%][color=#fc5a03][None][/size]"
+							ToolTipService.InitialShowDelay="0"
+							UID="[Skills DI Manager] * Icon image (Label)">
+							<Terminus:UITranslation_Rose.ToolTip>
+								<ToolTip x:Name="SelectSkillIconLabel_Tooltip" Background="#E0676767" HorizontalOffset="20">
+									<Terminus:UITranslation_Rose x:Name="SelectSkillIconLabel_Tooltip_Text" FontFamily="/UI/Fonts/#GOST type BU" FontSize="14" RichText="···" UID="[Skills DI Manager] * Icon image (Label) (Full path tooltip)" />
+								</ToolTip>
+							</Terminus:UITranslation_Rose.ToolTip>
+						</Terminus:UITranslation_Rose>
+						<Button Grid.Column="1" Click="SelectSkillIcon" MouseRightButtonDown="ResetSelectedSkillIcon">
+							<Terminus:UITranslation_Rose FontFamily="/UI/Fonts/#GOST type BU" FontSize="16.5" RichText="Select image file" UID="[Skills DI Manager] * Icon image (Button)" />
+						</Button>
+					</T:TwoColumned>
+					<StackPanel Margin="0 5 0 0">
+						<StackPanel.Resources>
+							<Style TargetType="{x:Type Image}">
+								<Setter Property="Width" Value="19" />
+								<Setter Property="Margin" Value="0 -1 0 0" />
+							</Style>
+						</StackPanel.Resources>
+						<T:TwoColumned>
+							<Terminus:UITranslation_Rose x:Name="SkillTypeSelectLabel" FontFamily="/UI/Fonts/#GOST type BU" FontSize="20" RichText="Action" UID="[Skills DI Manager] * Skill action (Label)" />
+							<ComboBox x:Name="SkillTypeSelector" Grid.Column="1" SelectedIndex="0" SelectionChanged="SkillTypeSelector_SelectionChanged">
+								<ComboBox.Resources>
+									<Style TargetType="{x:Type Terminus:UITranslation_Rose}">
+										<Setter Property="FontFamily" Value="{Binding ElementName=SkillTypeSelectLabel, Path=FontFamily}" />
+										<Setter Property="FontWeight" Value="{Binding ElementName=SkillTypeSelectLabel, Path=FontWeight}" />
+										<Setter Property="FontSize" Value="16.5" />
+									</Style>
+									<Style TargetType="{x:Type StackPanel}">
+										<Setter Property="Orientation" Value="Horizontal" />
+									</Style>
+								</ComboBox.Resources>
+								<StackPanel x:Uid="Attack">
+									<Image Source="/Json/Skills Display Info manager/Skill types/Attack.png" />
+									<Terminus:UITranslation_Rose RichText="Attack" UID="[Skills DI Manager] * Skill action — Attack" />
+								</StackPanel>
+								<StackPanel x:Uid="Counter">
+									<Image Source="/Json/Skills Display Info manager/Skill types/Counter.png" />
+									<Terminus:UITranslation_Rose RichText="Counter" UID="[Skills DI Manager] * Skill action — Counter" />
+								</StackPanel>
+								<StackPanel x:Uid="Guard">
+									<Image Source="/Json/Skills Display Info manager/Skill types/Guard.png" />
+									<Terminus:UITranslation_Rose RichText="Guard" UID="[Skills DI Manager] * Skill action — Guard" />
+								</StackPanel>
+								<StackPanel x:Uid="Evade">
+									<Image Source="/Json/Skills Display Info manager/Skill types/Evade.png" />
+									<Terminus:UITranslation_Rose RichText="Evade" UID="[Skills DI Manager] * Skill action — Evade" />
+								</StackPanel>
+							</ComboBox>
+						</T:TwoColumned>
+						<T:TwoColumned Margin="0 5 0 0">
+							<Terminus:UITranslation_Rose x:Name="DamageTypeSelectLabel" FontFamily="/UI/Fonts/#GOST type BU" FontSize="20" RichText="Damage type" UID="[Skills DI Manager] * Damage type (Label)" />
+							<ComboBox x:Name="DamageTypeSelectSelector" Grid.Column="1" SelectedIndex="0" SelectionChanged="DamageTypeSelectSelector_SelectionChanged">
+								<ComboBox.Resources>
+									<Style TargetType="{x:Type Terminus:UITranslation_Rose}">
+										<Setter Property="FontFamily" Value="{Binding ElementName=DamageTypeSelectLabel, Path=FontFamily}" />
+										<Setter Property="FontWeight" Value="{Binding ElementName=DamageTypeSelectLabel, Path=FontWeight}" />
+										<Setter Property="FontSize" Value="16.5" />
+									</Style>
+									<Style TargetType="{x:Type StackPanel}">
+										<Setter Property="Orientation" Value="Horizontal" />
+									</Style>
+								</ComboBox.Resources>
+								<StackPanel x:Uid="Blunt">
+									<Image Source="/Json/Skills Display Info manager/Damage types/Blunt.png" />
+									<Terminus:UITranslation_Rose RichText="Blunt" UID="[Skills DI Manager] * Damage type — Blunt" />
+								</StackPanel>
+								<StackPanel x:Uid="Pierce">
+									<Image Source="/Json/Skills Display Info manager/Damage types/Pierce.png" />
+									<Terminus:UITranslation_Rose RichText="Pierce" UID="[Skills DI Manager] * Damage type — Pierce" />
+								</StackPanel>
+								<StackPanel x:Uid="Slash">
+									<Image Source="/Json/Skills Display Info manager/Damage types/Slash.png" />
+									<Terminus:UITranslation_Rose RichText="Slash" UID="[Skills DI Manager] * Damage type — Slash" />
+								</StackPanel>
+								<ComboBoxItem x:Name="NoneDamageTypeOption" Visibility="Collapsed">
+									<StackPanel x:Uid="None" Opacity="0.45">
+										<Canvas Width="19">
+											<TextBlock Margin="0.5 -3.5 0 0" FontFamily="Segoe UI" FontSize="19" Text="⌀" />
+										</Canvas>
+										<Terminus:UITranslation_Rose RichText="None" UID="[Skills DI Manager] * Damage type — None" />
+									</StackPanel>
+								</ComboBoxItem>
+							</ComboBox>
+						</T:TwoColumned>
+						<T:TwoColumned Margin="0 5 0 0">
+							<Terminus:UITranslation_Rose x:Name="AffinitySelectLabel" FontFamily="/UI/Fonts/#GOST type BU" FontSize="20" RichText="Affinity" UID="[Skills DI Manager] * Affinity (Label)" />
+							<ComboBox x:Name="AffinitySelector" Grid.Column="1" SelectedIndex="0" SelectionChanged="AffinitySelector_SelectionChanged">
+								<ComboBox.Resources>
+									<Style TargetType="{x:Type Terminus:UITranslation_Rose}">
+										<Setter Property="FontFamily" Value="{Binding ElementName=AffinitySelectLabel, Path=FontFamily}" />
+										<Setter Property="FontWeight" Value="{Binding ElementName=AffinitySelectLabel, Path=FontWeight}" />
+										<Setter Property="FontSize" Value="16.5" />
+									</Style>
+									<Style TargetType="{x:Type StackPanel}">
+										<Setter Property="Orientation" Value="Horizontal" />
+									</Style>
+								</ComboBox.Resources>
+								<StackPanel x:Uid="Wrath">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Wrath.png" />
+									<Terminus:UITranslation_Rose RichText="Wrath" UID="[Skills DI Manager] * Affinity — Wrath" />
+								</StackPanel>
+								<StackPanel x:Uid="Lust">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Lust.png" />
+									<Terminus:UITranslation_Rose RichText="Lust" UID="[Skills DI Manager] * Affinity — Lust" />
+								</StackPanel>
+								<StackPanel x:Uid="Sloth">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Sloth.png" />
+									<Terminus:UITranslation_Rose RichText="Sloth" UID="[Skills DI Manager] * Affinity — Sloth" />
+								</StackPanel>
+								<StackPanel x:Uid="Gluttony">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Gluttony.png" />
+									<Terminus:UITranslation_Rose RichText="Gluttony" UID="[Skills DI Manager] * Affinity — Gluttony" />
+								</StackPanel>
+								<StackPanel x:Uid="Gloom">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Gloom.png" />
+									<Terminus:UITranslation_Rose RichText="Gloom" UID="[Skills DI Manager] * Affinity — Gloom" />
+								</StackPanel>
+								<StackPanel x:Uid="Pride">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Pride.png" />
+									<Terminus:UITranslation_Rose RichText="Pride" UID="[Skills DI Manager] * Affinity — Pride" />
+								</StackPanel>
+								<StackPanel x:Uid="Envy">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Envy.png" />
+									<Terminus:UITranslation_Rose RichText="Envy" UID="[Skills DI Manager] * Affinity — Envy" />
+								</StackPanel>
+								<StackPanel x:Uid="None">
+									<Canvas Width="19">
+										<TextBlock Margin="0.5 -3.5 0 0" FontFamily="Segoe UI" FontSize="19" Text="⌀" />
+									</Canvas>
+									<Terminus:UITranslation_Rose RichText="None" UID="[Skills DI Manager] * Affinity — None" />
+								</StackPanel>
+							</ComboBox>
+						</T:TwoColumned>
+					</StackPanel>
+					<T:TwoColumned Margin="0 5 0 0">
+						<Terminus:UITranslation_Rose x:Name="SkillRankSelectLabel" FontFamily="/UI/Fonts/#GOST type BU" FontSize="20" RichText="Rank" UID="[Skills DI Manager] * Rank (Label)" />
+						<ComboBox x:Name="SkillRankSelector" Grid.Column="1" SelectedIndex="0" SelectionChanged="SkillRankSelector_SelectionChanged">
+							<ComboBox.Resources>
+								<Style TargetType="{x:Type Terminus:UITranslation_Rose}">
+									<Setter Property="FontFamily" Value="{Binding ElementName=DamageTypeSelectLabel, Path=FontFamily}" />
+									<Setter Property="FontWeight" Value="{Binding ElementName=DamageTypeSelectLabel, Path=FontWeight}" />
+									<Setter Property="FontSize" Value="16.5" />
+									<Setter Property="Margin" Value="1 0 0 0" />
+								</Style>
+							</ComboBox.Resources>
+							<Terminus:UITranslation_Rose x:Uid="1" RichText="1" UID="[Skills DI Manager] * Rank — 1" />
+							<Terminus:UITranslation_Rose x:Uid="2" RichText="2" UID="[Skills DI Manager] * Rank — 2" />
+							<Terminus:UITranslation_Rose x:Uid="3" RichText="3" UID="[Skills DI Manager] * Rank — 3" />
+						</ComboBox>
+					</T:TwoColumned>
+					<T:TwoColumned Margin="0 5 0 0">
+						<Terminus:UITranslation_Rose FontFamily="/UI/Fonts/#GOST type BU" FontSize="20" RichText="Show affinity icon" UID="[Skills DI Manager] * Show affinity icon" />
+						<CheckBox x:Name="ShowAffinityIconCheck" Grid.Column="1" Checked="ShowAffinityIconCheck_CheckedUnchecked" IsChecked="True" Unchecked="ShowAffinityIconCheck_CheckedUnchecked" />
+					</T:TwoColumned>
+					<StackPanel Margin="0 5 0 0">
+						<T:TwoColumned>
+							<Terminus:UITranslation_Rose FontFamily="/UI/Fonts/#GOST type BU" FontSize="20" RichText="Skill coins" UID="[Skills DI Manager] * Skill coins" />
+							<Button Grid.Column="1" Width="23.96" Height="23.96" HorizontalAlignment="Left" Click="AddCoinDefinitionDisplay_Button">
+								<Terminus:UITranslation_Rose
+									Margin="0 0 0 1.5"
+									FontFamily="Segoe UI"
+									FontSize="29"
+									FontWeight="Bold"
+									RichText="+"
+									TextAlignment="Center" />
+							</Button>
+						</T:TwoColumned>
+						<Terminus:UITranslation_Rose
+							x:Name="RegularCoinTextBinding"
+							FontFamily="/UI/Fonts/#GOST type BU"
+							FontSize="16.5"
+							Text="Regular coin"
+							UID="[Skills DI Manager] [!] * Regular coin option"
+							Visibility="Collapsed" />
+						<Terminus:UITranslation_Rose
+							x:Name="UnbreakableCoinTextBinding"
+							FontFamily="/UI/Fonts/#GOST type BU"
+							FontSize="16.5"
+							Text="Unbreakable coin"
+							UID="[Skills DI Manager] [!] * Unbreakable coin option"
+							Visibility="Collapsed" />
+						<Border Margin="0 5 0 0" Padding="0 2 2 2">
+							<ScrollViewer Height="165" Padding="0 -3 0 0">
+								<StackPanel x:Name="CoinsListPanel" x:Uid="Coins list">
+
+
+									<StackPanel x:Uid="Single coin adjust button (CoinAdjustInteract template)" Margin="0 3 0 0" Orientation="Horizontal">
+										<Image Width="30" Height="25" Source="/UI/Limbus/Skills/Regular Coin.png" />
+										<ComboBox Width="224" Height="25" SelectedIndex="0">
+											<Terminus:UITranslation_Rose FontFamily="/UI/Fonts/#GOST type BU" FontSize="16.5" RichText="Regular coin" />
+											<Terminus:UITranslation_Rose FontFamily="/UI/Fonts/#GOST type BU" FontSize="16.5" RichText="Unbreakable coin" />
+										</ComboBox>
+										<Button Width="25" Height="25" Margin="2 0 0 0" Content="" FontFamily="/UI/Fonts/#Segoe Fluent Icons" />
+										<Button Width="25" Height="25" Margin="2 0 0 0" Content="" FontFamily="/UI/Fonts/#Segoe Fluent Icons" />
+										<Button Width="25" Height="25" Margin="2 0 0 0" Content="" FontFamily="/UI/Fonts/#Segoe Fluent Icons" />
+									</StackPanel>
+
+
+								</StackPanel>
+							</ScrollViewer>
+						</Border>
+					</StackPanel>
+
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+	</Grid>
+</Window>

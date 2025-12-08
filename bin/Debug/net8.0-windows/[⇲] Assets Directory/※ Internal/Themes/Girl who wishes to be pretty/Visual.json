@@ -1,0 +1,145 @@
+{
+  "Readme": [
+    "[0, 0, 0, 0] Margin — [Left, Top, Right, Bottom]  or  [Single number for each 4 values]",
+    "[0, 0, 0, 0] Corner Radius — [Left-Top, Right-Top, Bottom-Right, Bottom-Left]  or  [Single number for each 4 values]"
+  ],
+  "Title Bar": {
+    "Background": "#101117",
+    "Icons": "#9D9D9D",
+    "Titles Foreground": "#473131",
+    "Buttons Highlight": "#302829",
+    "Buttons Highlight (Exit button)": "#A52C42"
+  },
+  "Common": {
+    "Background Image": "[⇲] Assets Directory/※ Internal/Themes/Girl who wishes to be pretty/10697.png",
+
+    "Background Color": "#0b0e14", // Behind all (May be merged with Image Shadow if it is transperent and there are no background image)
+    
+    "Background Image Shadow": "#51000000",
+    "Background Image Shadow (Settings)": "#85030612",
+    "Background Image Shadow (Identity/E.G.O Preview creator)": "#00000000",
+
+    "Hide Background Image with minimum window width": false,
+
+    "Right Menu Navigation Panel Background": "#51000000",
+    "Right Menu Object name Foreground": "#E6C5C5",
+    "Right Menu Uptie buttons background": "#0E0907"
+  },
+  "UI Text": {
+    "Foreground": "#E6C5C5",
+    "Foreground (Settings)": "#FAFAFA",
+    "Foreground (Settings (Comments))": "#C7BCBC",
+    "Foreground (Identity/E.G.O Preview creator)": "#F5F5DC"
+  },
+  "UI Textfields": {
+    "Foreground": "#B1B1B9",
+    "Foreground (Shadow text)": "#514C46",
+
+    "Background": "#070D17",
+
+    "Border": "#192A49",
+    "Border Thickness": [2.4],
+    "Border Corner Radius": [6, 6, 6, 0],
+
+    "Caret": "#C4B0B6",
+    "Selection": "#C4B0B6",
+
+    // For textfields with syntax highlighting in the settings (They do not have auto-adjusted transparency)
+    "Special textfields": {
+      "Selection": "#55C4B0B6",
+      "Caret": "#FFFFFF", // And caret is semi transperent by default without ability to adjust opacity (AvalonEdit (`ヘ´))
+      
+      "Syntax highlightion 1": "#F54927",
+      "Syntax highlightion 2": "#F52727",
+      "Syntax highlightion 3": "#E24A4A",
+      "Syntax highlightion 4": "#e2734a"
+    }
+  },
+  "Json Text Editor": {
+    "Show Line Numbers": true,
+
+    "Foreground": "#ABA193",
+    "Background": "#AB191919",
+
+    "Font": "[⇲] Assets Directory/※ Internal/Themes/Girl who wishes to be pretty/Megrim.ttf",
+    "Font Weight": "Bold",
+    "Font Size": 16.8,
+
+    "Caret": "#E9DBC6",
+
+    "Border": "#192A49",
+    "Border Corner Radius": [6, 6, 6, 0],
+    "Border Thickness": [1],
+
+    "Selection": {
+      "Foreground": "#ABA193",
+      "Background": "#55B4B4B4",
+
+      "Border": "#66D4D4D4",
+      "Border Thickness": 1,
+      "Border Corner Radius": 3.5
+    }
+  },
+  "Square Buttons": { // Change name, open file, (next/previous/copy id too)
+    "Disabled Buttons Shadowing": "#B2000000",
+
+    "Icons": "#C4B0B6",
+    
+    "Background": "#070D17",
+    "Background (Pressed)": "#282828",
+    "Background (Highlighted)": "#282828",
+    
+    "Border": "#192A49",
+    "Border Thickness": [2.4],
+    "Border Corner Radius": [6, 6, 6, 0]
+  },
+  "Elongated Buttons": { // Desc switch buttons
+    "Disabled Buttons Shadowing": "#B2000000",
+
+    "Background": "#070D17",
+    "Background (Pressed)": "#282828",
+    "Background (Highlighted)": "#282828",
+
+    "Border": "#192A49",
+    "Border Thickness": [2.4],
+    "Border Corner Radius": [6, 6, 6, 0]
+  },
+  "Scrollbars": {
+    "Line": "#192A49",
+    "Line Thickness": 3,
+    
+    "Up/Down Buttons": {
+      "Icon": "#DEDEDE",
+
+      "Background": "#070D17",
+      "Background (Pressed)": "#282828",
+      "Background (Highlighted)": "#282828",
+
+      "Border": "#192A49",
+      "Border Thickness": [1.7],
+      "Border Corner Radius": [1]
+    },
+
+    "Thumb": {
+      "Background": "#070D17",
+      "Background (Pressed)": "#282828",
+      "Background (Highlighted)": "#282828",
+
+      "Border": "#192A49",
+      "Border Thickness": [1.7],
+      "Border Corner Radius": [2, 0, 0, 2]
+    }
+  },
+  "Other Border-like things": {
+    "Background": "#070D17",
+
+    "Border": "#192A49",
+    "Border Thickness": [2.4],
+    "Border Corner Radius": [6, 6, 6, 0]
+  },
+  "Json Editor Syntax": {
+    "Tags": "#CCCCCC",
+    "Tags Value": "#F54927",
+    "[TabExplain]": "#2779F5"
+  }
+}

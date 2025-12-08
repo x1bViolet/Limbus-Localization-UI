@@ -7,11 +7,15 @@ dotnet_diagnostic.CA1822.severity = silent
 dotnet_diagnostic.IDE0019.severity = none
 
 # shutup
-dotnet_diagnostic.CS8604.severity = none
+dotnet_diagnostic.CS1633.severity = none
+dotnet_diagnostic.CA2211.severity = none
 dotnet_diagnostic.CS8509.severity = none
 dotnet_diagnostic.CS8524.severity = none
+dotnet_diagnostic.CS8604.severity = none
 dotnet_diagnostic.IDE0028.severity = none
+dotnet_diagnostic.IDE0062.severity = none
 dotnet_diagnostic.IDE0090.severity = none
+dotnet_diagnostic.IDE0250.severity = none
 
 # CA1829: Используйте свойство Length/Count вместо Count(), если оно доступно
 dotnet_diagnostic.CA1829.severity = none

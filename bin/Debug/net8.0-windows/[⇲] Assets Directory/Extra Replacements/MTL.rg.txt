@@ -1,0 +1,100 @@
+{Regex Option} - Счётчик
+
+* Pattern: Inflict \+(\d+) \[Vibration\] Count
+  Replace: Повышает счётчик [Vibration:`Тремора`] на $1
+
+* Pattern: Inflict \+(\d+) \[Sinking\] Count
+  Replace: Повышает счётчик [Sinking:`Утопания`] на $1
+
+* Pattern: Inflict \+(\d+) \[Burst\] Count
+  Replace: Повышает счётчик [Burst:`Разрыва`] на $1
+
+* Pattern: Inflict \+(\d+) \[Laceration\] Count
+  Replace: Повышает счётчик [Laceration:`Кровотечения`] на $1
+
+* Pattern: Inflict \+(\d+) \[Combustion\] Count
+  Replace: Повышает счётчик [Combustion:`Огня`] на $1
+
+
+
+
+{Regex Option} - Счётчик (Цели)
+
+* Pattern: Inflict \+(\d+) \[Vibration\] Count
+  Replace: Повышает счётчик [Vibration:`Тремора`] цели на $1
+
+* Pattern: Inflict \+(\d+) \[Sinking\] Count
+  Replace: Повышает счётчик [Sinking:`Утопания`] цели на $1
+
+* Pattern: Inflict \+(\d+) \[Burst\] Count
+  Replace: Повышает счётчик [Burst:`Разрыва`] цели на $1
+
+* Pattern: Inflict \+(\d+) \[Laceration\] Count
+  Replace: Повышает счётчик [Laceration:`Кровотечения`] цели на $1
+
+* Pattern: Inflict \+(\d+) \[Combustion\] Count
+  Replace: Повышает счётчик [Combustion:`Огня`] цели на $1
+
+
+
+
+{Regex Option} - Свой счётчик
+  
+* Pattern: Gain \+(\d+) \[Vibration\] Count
+  Replace: Повышает свой счётчик [Vibration:`Тремора`] на $1
+  
+* Pattern: Gain \+(\d+) \[Breath\] Count
+  Replace: Повышает свой счётчик [Breath:`Дыхания`] на $1
+
+
+
+
+{Regex Option} - Сила эффектов
+
+* Pattern: Inflict 1 \[Vibration\]
+  Replace: Наносит 1 [Vibration:`Тремор`]
+
+* Pattern: Inflict (\d+) \[Vibration\]
+  Replace: Наносит $1 [Vibration:`Тремора`]
+
+
+* Pattern: Inflict 1 \[Sinking\]
+  Replace: Наносит 1 [Sinking:`Утопание`]
+  
+* Pattern: Inflict (\d+) \[Sinking\]
+  Replace: Наносит $1 [Sinking:`Утопания`]
+
+
+* Pattern: Inflict 1 \[Burst\]
+  Replace: Наносит 1 [Burst:`Разрыв`]
+  
+* Pattern: Inflict ([2-4]) \[Burst\]
+  Replace: Наносит $1 [Burst:`Разрыва`]
+  
+* Pattern: Inflict (\d+) \[Burst\]
+  Replace: Наносит $1 [Burst:`Разрывов`]
+
+
+* Pattern: Inflict 1 \[Laceration\]
+  Replace: Наносит 1 [Laceration:`Кровотечение`]
+  
+* Pattern: Inflict (\d+) \[Laceration\]
+  Replace: Наносит $1 [Laceration:`Кровотечения`]
+
+
+* Pattern: Inflict 1 \[Combustion\]
+  Replace: Наносит 1 [Combustion:`Огонь`]
+  
+* Pattern: Inflict (\d+) \[Combustion\]
+  Replace: Наносит $1 [Combustion:`Огня`]
+
+
+
+
+{Regex Option} - <sprite name="VibrationExplosion"><color=#e30000><u>Провокация Тремора</u></color>
+  
+* Pattern: Trigger \[VibrationExplosion\]; then, reduce target's \[Vibration\] Count by (\d+)
+  Replace: [VibrationExplosion:`Провоцирует Тремор`] и понижает его счётчик на $1
+  
+* Pattern: Trigger \[VibrationExplosion\]
+  Replace: [VibrationExplosion:`Провоцирует Тремор`]

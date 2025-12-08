@@ -1,63 +1,61 @@
 ﻿using LC_Localization_Task_Absolute.Json;
 using LC_Localization_Task_Absolute.Limbus_Integration;
 using LC_Localization_Task_Absolute.Mode_Handlers;
+using LC_Localization_Task_Absolute.PreviewCreator;
+using LC_Localization_Task_Absolute.UITranslationHandlers;
 using Microsoft.Win32;
+using System.Diagnostics;
 using System.IO;
-using System.Reflection;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
 using System.Windows.Media.Animation;
 using System.Windows.Threading;
 using static LC_Localization_Task_Absolute.Configurazione;
-using static LC_Localization_Task_Absolute.Json.BaseTypes;
-using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_EGOGifts;
-using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Keywords;
-using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Passives;
-using static LC_Localization_Task_Absolute.Json.BaseTypes.Type_Skills;
 using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
-using static LC_Localization_Task_Absolute.Json.FilesIntegration;
+using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes;
+using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes.Type_EGOGifts;
+using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes.Type_Keywords;
+using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes.Type_Passives;
+using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes.Type_Skills;
+using static LC_Localization_Task_Absolute.Json.Serialization;
+using static LC_Localization_Task_Absolute.Mode_Handlers.Upstairs;
 using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
 using static System.Windows.Visibility;
 
-#pragma warning disable IDE0079
-#pragma warning disable CS0169
-#pragma warning disable CA2211
 
 namespace LC_Localization_Task_Absolute;
 
 public partial class MainWindow : Window
 {
-    #region Initials
     public static MainWindow MainControl;
-    public static bool ManualTextLoadEvent = false;
 
-    public static Dictionary<string, TMProEmitter> PreviewLayoutControls;
+    public static readonly List<TMProEmitter> PreviewLayoutsList = [];
+    public static readonly Dictionary<TMProEmitter, double> PrimaryRegisteredFontSizes = [];
+    public static readonly List<UIElement> FocusableTextBoxes = [];
+    public static List<UITranslation_Mint> NameInputs = [];
 
-    public static List<TMProEmitter> PreviewLayoutsList = [];
-    public static Dictionary<TMProEmitter, double> PrimaryRegisteredFontSizes = [];
-    public static List<TextBox> FocusableTextBoxes = [];
-    
-    public static TMProEmitter PreviewUpdate_TargetSite; // = PreviewLayout_Default by default from InitMain()
+    public static TMProEmitter TargetPreviewLayout; // = PreviewLayout_Default by default from InitMain()
 
-    public static FileInfo CurrentFile;
+    public static FileInfo CurrentFile = null;
     public static Encoding CurrentFileEncoding = new UTF8Encoding();
-    #endregion
-    public ContextMenu AddUptieContextMenu;
+
+    public ContextMenu AddUptieContextMenu => MainControl.UptieSwitchButtons.Resources["AddUptieContextMenu"] as ContextMenu; // Localization elements from ResourceDictionary
+    
 
     public MainWindow()
     {
         InitializeComponent();
 
         MainControl = this;
-        SettingsWindow.SettingsControl = new SettingsWindow(); // Init settings window
-        SkillsDisplayInfoManagerWindow.SkillsDisplayInfoManager = new SkillsDisplayInfoManagerWindow();
-        AddUptieContextMenu = UptieButtonsGrid.Resources["AddUptieContextMenu"] as ContextMenu;
-        //PreviewCreatorWindow.CreatorControl = new PreviewCreatorWindow();
+
+        File.WriteAllText(@"[⇲] Assets Directory\Latest loading.txt", "");
+
+        ConfigurationWindow.ConfigControl = new ConfigurationWindow();
+        SkillsDisplayInfoManagerWindow.SkillsDisplayInfoManagerControl = new SkillsDisplayInfoManagerWindow();
 
         InitSurfaceScroll(NavigationPanel_ObjectName_DisplayScrollViewer);
         InitSurfaceScroll(SurfaceScrollPreview_Skills);
@@ -68,48 +66,59 @@ public partial class MainWindow : Window
         InitSurfaceScroll(SurfaceScrollPreview_Default);
         InitSurfaceScroll(SurfaceScroll_UnsavedChangesInfo);
 
-        PreviewMouseDown += MouseDownEvent;
-
         ProcessLogicalTree(this);
-
         InitMain();
     }
 
+    
+
     private void InitMain()
     {
-        if (File.Exists(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip"))
-        {
-            try
+        { // UITranslation_Rose constructors from ResourceDictionary doesn't work
+            #region Identity/E.G.O Preview Creator column items context menu
             {
-                System.IO.Compression.ZipFile.ExtractToDirectory(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip", @"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json");
+                ContextMenu ColumnItemsContextMenu = CompositionGrid.Resources["ColumnItemContextMenu"] as ContextMenu; // First ColumnItemContextMenu's MenuItem Header is StackPanel
+                List<UITranslation_Rose> Headers = [.. ColumnItemsContextMenu.Items.OfType<MenuItem>().Select(MenuItem => MenuItem.Header is UITranslation_Rose Rose ? Rose : null)];
 
-                //File.Delete(@"[⇲] Assets Directory\[⇲] Limbus Images\Skills\[⇲] Display Info\Raw Json\Raw Json $Unpack.zip");
+                PresentedStaticTextEntries["[C] * [Element context menu] Header part"] = ((ColumnItemsContextMenu.Items[0] as MenuItem).Header as StackPanel).Children[0] as UITranslation_Rose;
+                PresentedStaticTextEntries["[C] * [Element context menu] Move up"] = Headers[1];
+                PresentedStaticTextEntries["[C] * [Element context menu] Refresh text"] = Headers[2];
+                PresentedStaticTextEntries["[C] * [Element context menu] Move down"] = Headers[3];
+                PresentedStaticTextEntries["[C] * [Element context menu] Delete"] = Headers[4];
             }
-            catch { }
-        }
-        PreviewUpdate_TargetSite = PreviewLayoutDef_Default;
+            #endregion
 
-        File.WriteAllText(@"[⇲] Assets Directory\Latest loading.txt", "");
+            #region Json text editor context menu
+            {
+                ContextMenu JsonTextEditorContextMenu = Editor_Background.Resources["DefaultContextMenu"] as ContextMenu;
+                List<UITranslation_Rose> Headers = [.. JsonTextEditorContextMenu.Items.OfType<MenuItem>().Select(MenuItem => (UITranslation_Rose)MenuItem.Header)];
 
-        { // Element init from .Resources> doesn't work
-            ContextMenu ColItemSettings = CompositionGrid.Resources["ColumnItemContextMenu"] as ContextMenu;
-            UITranslation_Rose Header = ((ColItemSettings.Items[0] as MenuItem).Header as StackPanel).Children[0] as UITranslation_Rose;
-            UITranslation_Rose MoveUp = (ColItemSettings.Items[2] as MenuItem).Header as UITranslation_Rose;
-            UITranslation_Rose RefreshText = (ColItemSettings.Items[3] as MenuItem).Header as UITranslation_Rose;
-            UITranslation_Rose MoveDown = (ColItemSettings.Items[4] as MenuItem).Header as UITranslation_Rose;
-            UITranslation_Rose Delete = (ColItemSettings.Items[6] as MenuItem).Header as UITranslation_Rose;
-
-            PresentedStaticTextEntries["[C] * [Element context menu] Header part"] = Header;
-            PresentedStaticTextEntries["[C] * [Element context menu] Move up"] = MoveUp;
-            PresentedStaticTextEntries["[C] * [Element context menu] Refresh text"] = RefreshText;
-            PresentedStaticTextEntries["[C] * [Element context menu] Move down"] = MoveDown;
-            PresentedStaticTextEntries["[C] * [Element context menu] Delete"] = Delete;
+                PresentedStaticTextEntries["[Context Menu] * Insert Style"] = Headers[0];
+                PresentedStaticTextEntries["[Context Menu] * TextMeshPro to [KeywordID]"] = Headers[1];
+                PresentedStaticTextEntries["[Context Menu] * TextMeshPro to Shorthands"] = Headers[2];
+                PresentedStaticTextEntries["[Context Menu] * Unevident to [KeywordID]"] = Headers[3];
+                PresentedStaticTextEntries["[Context Menu] * Unevident to Shorthands"] = Headers[4];
+                PresentedStaticTextEntries["[Context Menu] * [KeywordID] to Shorthands"] = Headers[5];
+                PresentedStaticTextEntries["[Context Menu] * [KeywordID] to TextMeshPro"] = Headers[6];
+            }
+            #endregion
         }
 
+        TargetPreviewLayout = PreviewLayoutDef_Default;
+        NameInputs =
+        [
+            MainControl.SWBT_Skills_MainSkillName,
+            MainControl.SWBT_Skills_EGOAbnormalitySkillName,
+            MainControl.SWBT_Keywords_KeywordName,
+            MainControl.SWBT_Passives_MainPassiveName,
+            MainControl.SWBT_EGOGifts_EGOGiftName,
+        ];
 
-        Mode_Skills.LoadDefaultResources();
+        SetupIDCopyAnimation();
+        SetupPreviewCreator();
 
-        Configurazione.PullLoad();
+        ReadConfigurazioneFile();
+        ContextMenuHotkeys.ReadFile();
 
         if (File.Exists(@"[⇲] Assets Directory\Default Text.txt"))
         {
@@ -117,33 +126,16 @@ public partial class MainWindow : Window
         }
         else
         {
-            TextEditor.Text = "                      <font=\"BebasKai SDF\"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'1.2:2</color></size></font>\n\nЧерти вышли из омута";
+            TextEditor.Text = "                    <font=\"BebasKai SDF\"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'1.3:0</color></size></font>\n\nЧерти вышли из омута";
         }
-
-        {
-            // Switch ui back to regular on startup (i dont want to change xaml back)
-
-            SwitchUI_Activate(DisableTopmost: false);
-
-            SwitchUI_Deactivate();
-
-            this.Left = (SystemParameters.PrimaryScreenWidth - this.Width) / 2;
-            this.Top = (SystemParameters.PrimaryScreenHeight - this.Height) / 2;
-        }
-
-        ////Default file load on startup
-        //FileInfo SomeFile = new FileInfo(@"Skills_personality-01.json");
-
-        //FocusOnFile(SomeFile);
-        //Mode_Skills.LoadStructure(SomeFile);
-        //Mode_Skills.TransformToSkill(1011302);
     }
 
 
 
     #region Limbus live preview
     public static bool IsPendingPreviewUpdate = false;
-    private void Editor_TextChanged(object RequestSender, EventArgs EventArgs)
+    public static bool ManualTextLoadEvent = false;
+    private void TextEditor_TextChanged(object RequestSender, EventArgs EventArgs)
     {
         if (!ManualTextLoadEvent)
         {
@@ -152,13 +144,13 @@ public partial class MainWindow : Window
                 IsPendingPreviewUpdate = true;
                 try
                 {
-                    DispatcherTimer Timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.PreviewUpdateDelay) };
+                    DispatcherTimer Timer = new DispatcherTimer { Interval = TimeSpan.FromSeconds(LoadedProgramConfig.PreviewSettings.PreviewSettingsBaseSettings.PreviewUpdateDelay) };
                     Timer.Start();
 
                     Timer.Tick += (Sender, Args) =>
                     {
                         Timer.Stop();
-                        PullUpdatePreview(TextEditor.Text);
+                        PullUpdatePreview(TextEditor.Text.Replace("\r", ""));
 
                         IsPendingPreviewUpdate = false;
                     };
@@ -168,103 +160,68 @@ public partial class MainWindow : Window
         }
         else
         {
-            PullUpdatePreview(TextEditor.Text);
+            PullUpdatePreview(TextEditor.Text.Replace("\r", ""));
         }
-
-        //if (Mode_Handlers.Upstairs.ActiveProperties.Key.Equals("Skills"))
-        //{
-        //    //////////////////////////////////////////////////////////////////////////////////////////////
-        //    UptieLevel FullLink = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel];
-        //    //////////////////////////////////////////////////////////////////////////////////////////////
-        //    if (FullLink.Coins != null)
-        //    {
-        //        if (FullLink.Coins.Count > 0)
-        //        {
-        //            Mode_Skills.CheckSkillNameReplicaCoins_FromLocalizationFile();
-        //        }
-        //    }
-        //}
     }
 
+    /// <summary>
+    /// Write info to deserialized local json and update UI text elements
+    /// </summary>
     public static void PullUpdatePreview(string EditorText)
     {
-        switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
+        #region UI/json update
+        switch (ActiveProperties.Key)
         {
-            case "Skills":
+            case EditorMode.Skills:
                 if (Mode_Skills.CurrentSkillID != -1)
                 {
-                    if (!EditorText.Equals(""))
+                    TargetPreviewLayout.Visibility = EditorText != "" ? Visible : Collapsed;
+
+
+                    Mode_Skills.LastPreviewUpdatesBank[TargetPreviewLayout] = EditorText;
+
+                    if (TargetPreviewLayout.Equals(MainControl.PreviewLayout_Skills_MainDesc))
                     {
-                        PreviewUpdate_TargetSite.Visibility = Visible;
-                    }
-                    else
-                    {
-                        PreviewUpdate_TargetSite.Visibility = Collapsed;
-                    }
+                        Mode_Skills.@Current.Uptie.EditorDescription = EditorText;
 
-                    Mode_Skills.LastPreviewUpdatesBank[PreviewUpdate_TargetSite] = EditorText.Replace("\r", "");
-
-                    if (PreviewUpdate_TargetSite.Equals(MainControl.PreviewLayout_Skills_MainDesc))
-                    {
-                        /////////////////////////////////////////////////////////////////////////////////////////////
-                        UptieLevel FullLink = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel];
-                        /////////////////////////////////////////////////////////////////////////////////////////////
-
-                        FullLink.EditorDescription = EditorText.Replace("\r", "");
-
-                        if (!FullLink.Description
-                            .Equals(FullLink.EditorDescription))
+                        if (Mode_Skills.@Current.Uptie.Description != Mode_Skills.@Current.Uptie.EditorDescription)
                         {
-                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill main desc"]
-                                .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker.Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill main desc"].Text);
+                            PresentedStaticTextEntries[$"[Skills / Right menu] * Skill main desc"].MarkWithUnsaved();
                         }
                         else
                         {
-                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill main desc"]
-                                .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill main desc"].Text;
+                            PresentedStaticTextEntries[$"[Skills / Right menu] * Skill main desc"].SetDefaultText();
                         }
                     }
                     else
                     {
-                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        CoinDesc FullLink = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Coins[Mode_Skills.CurrentSkillCoinIndex].CoinDescriptions[Mode_Skills.CurrentSkillCoinDescIndex];
-                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        FullLink.EditorDescription = EditorText.Replace("\r", "");
+                        Mode_Skills.@Current.CoinDesc.EditorDescription = EditorText;
 
-                        if (!FullLink.Description
-                            .Equals(FullLink.EditorDescription))
+                        if (Mode_Skills.@Current.CoinDesc.Description != Mode_Skills.@Current.CoinDesc.EditorDescription)
                         {
-                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
-                                .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
-                                    .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text.Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1));
+                            PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
+                                .MarkWithUnsaved(ExtraExtern: Mode_Skills.CurrentSkillCoinDescIndex + 1);
                         }
                         else
                         {
-                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
-                                .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text
-                                    .Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1);
+                            PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
+                                .SetDefaultText(ExtraExtern: Mode_Skills.CurrentSkillCoinDescIndex + 1);
                         }
 
-                        if (DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Coins[Mode_Skills.CurrentSkillCoinIndex].CoinDescriptions
-                            .Where(x => x.Description != x.EditorDescription).Any())
+                        if (Mode_Skills.@Current.Coin.CoinDescriptions.Any(CoinDesc => CoinDesc.Description != CoinDesc.EditorDescription))
                         {
-                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]
-                                .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
-                                    .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"].Text);
+                            PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]
+                                .MarkWithUnsaved();
                         }
                         else
                         {
-                            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]
-                                .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"].Text;
+                            PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]
+                                .SetDefaultText();
                         }
 
 
                         // Auto hide coin if its empty
-                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        Coin CoinInfoFullLink = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Coins[Mode_Skills.CurrentSkillCoinIndex];
-                        //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                        
-                        if (CoinInfoFullLink.CoinDescriptions.Where(x => x.EditorDescription.EqualsOneOf("", "<style=\"highlight\"></style>")).Count() == CoinInfoFullLink.CoinDescriptions.Count)
+                        if (Mode_Skills.@Current.Coin.CoinDescriptions.Where(x => x.EditorDescription.EqualsOneOf("", "<style=\"highlight\"></style>")).Count() == Mode_Skills.@Current.Coin.CoinDescriptions.Count)
                         {
                             InterfaceObject<Grid>($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}").Visibility = Collapsed;
                         }
@@ -280,46 +237,39 @@ public partial class MainWindow : Window
 
 
 
-            case "Passives":
+            case EditorMode.Passives:
                 if (Mode_Passives.CurrentPassiveID != -1)
                 {
-                    ///////////////////////////////////////////////////////////////
-                    Passive FullLink = DelegatePassives[Mode_Passives.CurrentPassiveID];
-                    ///////////////////////////////////////////////////////////////
-
-                    if (Mode_Passives.TargetSite_StringLine.Equals("Main Description")) FullLink.EditorDescription = EditorText.Replace("\r", "");
+                    if (Mode_Passives.CurrentDescriptionType == DualDescriptionType.Main)
+                    {
+                        Mode_Passives.@Current.Passive.EditorMainDescription = EditorText;
+                    }
                     else
                     {
-                        FullLink.EditorSummaryDescription = EditorText.Replace("\r", "");
+                        Mode_Passives.@Current.Passive.EditorSummaryDescription = EditorText;
                     }
 
-                    switch (Mode_Passives.TargetSite_StringLine)
+                    switch (Mode_Passives.CurrentDescriptionType)
                     {
-                        case "Main Description":
-                            if (!FullLink.Description.Equals(FullLink.EditorDescription))
+                        case DualDescriptionType.Main:
+                            if (Mode_Passives.@Current.Passive.MainDescription != Mode_Passives.@Current.Passive.EditorMainDescription)
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
-                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive desc"].Text);
+                                PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"].MarkWithUnsaved();
                             }
                             else
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive desc"].Text;
+                                PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"].SetDefaultText();
                             }
                             break;
 
-                        case "Summary Description":
-                            if (!FullLink.SummaryDescription.Equals(FullLink.EditorSummaryDescription))
+                        case DualDescriptionType.Summary:
+                            if (Mode_Passives.@Current.Passive.SummaryDescription != Mode_Passives.@Current.Passive.EditorSummaryDescription)
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
-                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text);
+                                PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"].MarkWithUnsaved();
                             }
                             else
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text;
+                                PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"].SetDefaultText();
                             }
                             break;
                     }
@@ -331,46 +281,39 @@ public partial class MainWindow : Window
 
 
 
-            case "Keywords":
-                if (!Mode_Keywords.CurrentKeywordID.Equals(""))
+            case EditorMode.Keywords:
+                if (Mode_Keywords.CurrentKeywordID != "")
                 {
-                    ///////////////////////////////////////////////////////////////
-                    Keyword FullLink = DelegateKeywords[Mode_Keywords.CurrentKeywordID];
-                    ///////////////////////////////////////////////////////////////
-
-                    if (Mode_Keywords.TargetSite_StringLine.Equals("Main Description")) FullLink.EditorDescription = EditorText.Replace("\r", "");
+                    if (Mode_Keywords.CurrentDescriptionType == DualDescriptionType.Main)
+                    {
+                        Mode_Keywords.@Current.Keyword.EditorMainDescription = EditorText;
+                    }
                     else
                     {
-                        FullLink.EditorSummaryDescription = EditorText.Replace("\r", "");
+                        Mode_Keywords.@Current.Keyword.EditorSummaryDescription = EditorText;
                     }
 
-                    switch (Mode_Keywords.TargetSite_StringLine)
+                    switch (Mode_Keywords.CurrentDescriptionType)
                     {
-                        case "Main Description":
-                            if (!FullLink.Description.Equals(FullLink.EditorDescription))
+                        case DualDescriptionType.Main:
+                            if (Mode_Keywords.@Current.Keyword.MainDescription != Mode_Keywords.@Current.Keyword.EditorMainDescription)
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
-                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword desc"].Text);
+                                PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"].MarkWithUnsaved();
                             }
                             else
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword desc"].Text;
+                                PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"].SetDefaultText();
                             }
                             break;
 
-                        case "Summary Description":
-                            if (!FullLink.SummaryDescription.Equals(FullLink.EditorSummaryDescription))
+                        case DualDescriptionType.Summary:
+                            if (Mode_Keywords.@Current.Keyword.SummaryDescription != Mode_Keywords.@Current.Keyword.EditorSummaryDescription)
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
-                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text);
+                                PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].MarkWithUnsaved();
                             }
                             else
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text;
+                                PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].SetDefaultText();
                             }
                             break;
                     }
@@ -382,50 +325,40 @@ public partial class MainWindow : Window
 
 
 
-            case "E.G.O Gifts":
-                if (!Mode_EGOGifts.CurrentEGOGiftID.Equals(-1))
+            case EditorMode.EGOGifts:
+                if (Mode_EGOGifts.CurrentEGOGiftID != -1)
                 {
-                    ///////////////////////////////////////////////////////////////
-                    Type_EGOGifts.EGOGift FullLink = DelegateEGOGifts[Mode_EGOGifts.CurrentEGOGiftID];
-                    ///////////////////////////////////////////////////////////////
-                    switch (Mode_EGOGifts.TargetSite_StringLine)
+                    switch (Mode_EGOGifts.CurrentDescriptionType_String)
                     {
                         case "Main Description":
 
-                            FullLink.EditorDescription = EditorText.Replace("\r", "");
+                            Mode_EGOGifts.@Current.EGOGift.EditorMainDescription = EditorText;
 
-                            if (!FullLink.Description.Equals(FullLink.EditorDescription))
+                            if (Mode_EGOGifts.@Current.EGOGift.MainDescription != Mode_EGOGifts.@Current.EGOGift.EditorMainDescription)
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
-                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].Text);
+                                PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].MarkWithUnsaved();
                             }
                             else
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].Text;
+                                PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].SetDefaultText();
                             }
                             break;
 
                         default:
 
-                            string SimpleDescNumber = $"{Mode_EGOGifts.TargetSite_StringLine[^1]}";
-                            
+                            string SimpleDescNumber = Regex.Match(Mode_EGOGifts.CurrentDescriptionType_String, @"Simple Description №(\d+)").Groups[1].Value;
+
                             int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
 
-                            FullLink.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription = EditorText.Replace("\r", "");
+                            Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription = EditorText;
 
-
-                            if (!FullLink.SimpleDescriptions[TargetSimpleDescIndex].Description.Equals(FullLink.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription))
+                            if (Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].Description != Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription)
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesMarker
-                                        .Extern(ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].Text);;
+                                PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].MarkWithUnsaved();
                             }
                             else
                             {
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].Text;
+                                PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].SetDefaultText();
                             }
 
                             break;
@@ -434,551 +367,266 @@ public partial class MainWindow : Window
 
                 break;
 
+
+
+
+
             default: break;
         }
+        #endregion
 
-        if (PreviewUpdate_TargetSite != null)
+        // Update preview itself
+        if (TargetPreviewLayout != null && !LoadedProgramConfig.PreviewSettings.PreviewSettingsBaseSettings.HidePreview)
         {
-            PreviewUpdate_TargetSite.RichText = EditorText;
+            TargetPreviewLayout.RichText = EditorText;
         }
     }
     #endregion
 
 
 
-    #region Surfacescroll
-    public static void InitSurfaceScroll(ScrollViewer Target)
+    private void ProcessLogicalTree(object Current)
     {
-        Target.PreviewMouseLeftButtonDown += SurfaceScroll_MouseLeftButtonDown;
-        Target.PreviewMouseMove += SurfaceScroll_MouseMove;
-        Target.PreviewMouseLeftButtonUp += SurfaceScroll_MouseLeftButtonUp;
-    }
-    public static bool SurfaceScroll_isDragging = false;
-    public static Point SurfaceScroll_lastMousePosition;
-    public static ScrollViewer LastCapturedScrollViewer = null;
-    public static void SurfaceScroll_MouseLeftButtonDown(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        if (!MainControl.PreviewLayout_Keywords_Bufs_Name.IsMouseOver)
+        if (Current is FrameworkElement)
         {
-            LastCapturedScrollViewer = RequestSender as ScrollViewer;
-            SurfaceScroll_isDragging = true;
-            SurfaceScroll_lastMousePosition = EventArgs.GetPosition(LastCapturedScrollViewer);
-            LastCapturedScrollViewer.CaptureMouse();
-        }
-    }
-    public static void SurfaceScroll_MouseMove(object RequestSender, MouseEventArgs EventArgs)
-    {
-        if (SurfaceScroll_isDragging)
-        {
-            System.Windows.Point currentPosition = EventArgs.GetPosition(RequestSender as ScrollViewer);
-            System.Windows.Vector diff = SurfaceScroll_lastMousePosition - currentPosition;
-            (RequestSender as ScrollViewer).ScrollToVerticalOffset((RequestSender as ScrollViewer).VerticalOffset + diff.Y);
-            (RequestSender as ScrollViewer).ScrollToHorizontalOffset((RequestSender as ScrollViewer).HorizontalOffset + diff.X);
-            SurfaceScroll_lastMousePosition = currentPosition;
-        }
-    }
-    public static void SurfaceScroll_MouseLeftButtonUp(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        SurfaceScroll_isDragging = false;
-        (RequestSender as ScrollViewer).ReleaseMouseCapture();
-    }
-    #endregion
+            // Fill special lists
 
-    
-
-    #region Skills switches
-    private void Skills_HighlightUptieLevel(object RequestSender, MouseEventArgs EventArgs)
-    {
-        Border Sender = RequestSender as Border;
-        int SenderNumber = int.Parse($"{Sender.Name[^1]}");
-
-        if (Mode_Skills.CurrentSkillUptieLevel != SenderNumber)
-        {
-            InterfaceObject<Image>($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{SenderNumber}").Visibility = Visible;
-        }
-    }
-    private void Skills_DeHighlightUptieLevel(object RequestSender, MouseEventArgs EventArgs)
-    {
-        Border Sender = RequestSender as Border;
-        int SenderNumber = int.Parse($"{Sender.Name[^1]}");
-
-        if (Mode_Skills.CurrentSkillUptieLevel != SenderNumber)
-        {
-            InterfaceObject<Image>($"NavigationPanel_Skills_UptieLevelSwitch_HighlightImage_{SenderNumber}").Visibility = Collapsed;
-        }
-    }
-
-
-    private void ChangeSkillEGOAbnormalityName(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        /////////////////////////////////////////////////////////////////////////////////////////////
-        UptieLevel FullLink = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel];
-        /////////////////////////////////////////////////////////////////////////////////////////////
-
-        if (!SWBT_Skills_EGOAbnormalitySkillName.Text.Equals(FullLink.EGOAbnormalityName))
-        {
-            FullLink.EGOAbnormalityName = SWBT_Skills_EGOAbnormalitySkillName.Text;
-
-            Mode_Skills.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-        }
-    }
-
-
-    private void NavigationPanel_Skills_SwitchToUptieLevel(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        Border Sender = RequestSender as Border;
-        string UptieLevelNumber = $"{Sender.Name[^1]}";
-
-        Mode_Skills.TransformToSkill(Mode_Skills.CurrentSkillID, int.Parse(UptieLevelNumber));
-    }
-
-    private void SwitchToFifthUptie(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        Mode_Skills.TransformToSkill(Mode_Skills.CurrentSkillID, 5);
-    }
-
-    private void Actions_Skills_SwitchToMainDesc(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        Mode_Skills.SwitchToDesc();
-
-        if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnManualSwitch)
-        {
-            FastSwitch_ToSkillMainDesc__Highlight();
-        }
-    }
-
-    private void Actions_Skills_SetCoinFocus(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        Border Sender = RequestSender as Border;
-        string CoinNumber = $"{Sender.Name[^1]}";
-        Mode_Handlers.Mode_Skills.SetCoinFocus(int.Parse(CoinNumber));
-
-        if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnManualSwitch)
-        {
-            TMProEmitter HighlightTarget = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}_Desc{Mode_Skills.CurrentSkillCoinDescIndex + 1}");
-            FastSwitch_ToSkillCoinDesc__Highlight(HighlightTarget);
-            HighlightTarget.Focus();
-        }
-    }
-
-    private void NavigationPanel_Skills_SwitchToCoinDesc(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        Border Sender = RequestSender as Border;
-
-        string Direction = Sender.Name.Split("NavigationPanel_Skills_CoinDesc_")[^1];
-        int IndexOfCurrentCoinDesc = Mode_Skills.CurrentCoinDescs_Avalible.IndexOf(Mode_Skills.CurrentSkillCoinDescIndex);
-        int TargetSwitchIndex = Direction.Equals("Next") ? IndexOfCurrentCoinDesc + 1 : IndexOfCurrentCoinDesc - 1;
-
-        Mode_Skills.SwitchToCoinDesc(TargetSwitchIndex);
-
-        if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnManualSwitch)
-        {
-            TMProEmitter HighlightTarget = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}_Desc{Mode_Skills.CurrentSkillCoinDescIndex + 1}");
-            FastSwitch_ToSkillCoinDesc__Highlight(HighlightTarget);
-            HighlightTarget.Focus();
-        }
-    }
-
-    public static void NavigationPanel_Skills_SwitchToCoinDesc_CheckAvalibles()
-    {
-        int IndexOfCurrentCoinDesc = Mode_Skills.CurrentCoinDescs_Avalible.IndexOf(Mode_Skills.CurrentSkillCoinDescIndex);
-
-        // If first item -> Hide 'Previous'
-        if (IndexOfCurrentCoinDesc == 0)
-        {
-            MainControl.NavigationPanel_Skills_CoinDesc_Previous_DisableCover.Visibility = Visible;
-        }
-        else
-        {
-            MainControl.NavigationPanel_Skills_CoinDesc_Previous_DisableCover.Visibility = Collapsed;
-        }
-
-        // If last item -> Hide 'Next'
-        if ((IndexOfCurrentCoinDesc + 1) == Mode_Skills.CurrentCoinDescs_Avalible.Count)
-        {
-            MainControl.NavigationPanel_Skills_CoinDesc_Next_DisableCover.Visibility = Visible;
-        }
-        else
-        {
-            MainControl.NavigationPanel_Skills_CoinDesc_Next_DisableCover.Visibility = Collapsed;
-        }
-    }
-
-
-
-    private void FastSwitch_ToSkillCoinDesc(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        if (!PreviewCreator.CurrentInfo.IsActive)
-        {
-            TMProEmitter Sender = RequestSender as TMProEmitter;
-
-            string CoinNumber = $"{Sender.Name.Split("PreviewLayout_Skills_Coin")[1][0]}";
-            string CoinDescNumber = $"{Sender.Name.Split("_Desc")[1]}";
-
-            Mode_Skills.SetCoinFocus(int.Parse(CoinNumber));
-            Mode_Skills.SwitchToCoinDesc(int.Parse(CoinDescNumber) - 1);
-
-            if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnRightClick)
+            string ElementName = (Current as FrameworkElement).Name;
+            if (ElementName.StartsWith("PreviewLayout_") && Current is TMProEmitter LimbusPreviewLayout)
             {
-                FastSwitch_ToSkillCoinDesc__Highlight(Sender);
+                PreviewLayoutsList.Add(LimbusPreviewLayout);
+                PrimaryRegisteredFontSizes[LimbusPreviewLayout] = LimbusPreviewLayout.FontSize;
+            }
+            else if (Current is TextBox | Current is UITranslation_Mint | Current is UITranslation_Hyacinth)
+            {
+                FocusableTextBoxes.Add(Current as UIElement);
+            }
+        }
+
+        DependencyObject AsDependencyObjectParent = Current as DependencyObject;
+
+        if (AsDependencyObjectParent != null)
+        {
+            foreach (object Child in LogicalTreeHelper.GetChildren(AsDependencyObjectParent))
+            {
+                ProcessLogicalTree(Child);
+            }
+        }
+    }
+    private void Window_Loaded(object RequestSender, RoutedEventArgs EventArgs)
+    {
+        if (LoadErrors != "" & LoadedProgramConfig.Internal.ShowLoadWarnings)
+        {
+            ShowLoadWarningsWindow();
+        }
+
+        if (LoadedProgramConfig.TechnicalActions.KeywordsDictionary.GenerateOnStartup && !File.Exists("Keywords Multiple Meanings.json"))
+        {
+            if (Directory.Exists(LoadedProgramConfig.TechnicalActions.KeywordsDictionary.SourcePath))
+            {
+                KeywordsInterrogation.ExportKeywordsMultipleMeaningsDictionary(
+                    LoadedProgramConfig.TechnicalActions.KeywordsDictionary.SourcePath
+                );
+            }
+            else
+            {
+                MessageBox.Show($"Keywords multiple meanings dir \"{LoadedProgramConfig.TechnicalActions.KeywordsDictionary.SourcePath}\" not found");
             }
         }
     }
 
-    private void FastSwitch_ToSkillCoinDesc__Highlight(TMProEmitter TargetDesc)
+
+
+    private void OpenCurrentFileWithExternalEditor(object RequestSender, RoutedEventArgs EventArgs)
     {
-        TargetDesc.Background = ToSolidColorBrush("#FF262626");
-
-        TargetDesc.Background.BeginAnimation(SolidColorBrush.OpacityProperty, new DoubleAnimation()
+        if (JsonFilePath.Text != "")
         {
-            From = 1, To = 0, Duration = new Duration(TimeSpan.FromSeconds(0.4))
-        });
-    }
+            using Process fileopener = new Process();
 
-    private void FastSwitch_ToSkillMainDesc(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        Actions_Skills_SwitchToMainDesc(STE_Action_Skills_MainDescription, null);
-
-        if (DeltaConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnRightClick)
-        {
-            FastSwitch_ToSkillMainDesc__Highlight();
+            fileopener.StartInfo.FileName = "explorer";
+            fileopener.StartInfo.Arguments = "\"" + JsonFilePath.Text + "\"";
+            fileopener.Start();
         }
     }
-
-    private void FastSwitch_ToSkillMainDesc__Highlight()
-    {
-        PreviewLayout_Skills_MainDesc.Background = ToSolidColorBrush("#FF262626");
-
-        PreviewLayout_Skills_MainDesc.Background.BeginAnimation(SolidColorBrush.OpacityProperty, new DoubleAnimation()
-        {
-            From = 1, To = 0, Duration = new Duration(TimeSpan.FromSeconds(0.4))
-        });
-    }
-    #endregion
-
-
-
-    #region Passive switches
-    private void Actions_Passives_SwitchToMainDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_Passives.SwitchToMainDesc();
-    private void Actions_Passives_SwitchToSummaryDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_Passives.SwitchToSummaryDesc();
-    private void Passives_CreateSummaryDescription(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        CanSwitchID = false;
-
-        DelegatePassives[Mode_Passives.CurrentPassiveID].SummaryDescription = "\0";
-        DelegatePassives[Mode_Passives.CurrentPassiveID].EditorSummaryDescription = "";
-
-        Mode_Passives.TargetSite_StringLine = "Summary Description";
-
-        TextEditor.Text = DelegatePassives[Mode_Passives.CurrentPassiveID].EditorSummaryDescription;
-
-        STE_DisableCover_Passives_SummaryDescription.Background = ToSolidColorBrush("#00000000");
-        ColorAnimation DisableCoverFadeout = new ColorAnimation()
-        {
-            From = ToColorBrush(Resource<SolidColorBrush>("Theme_ElongatedButtons__DisabledButtonsShadowing").ToString()),
-            To = ToColorBrush("#00000000"),
-            Duration = new Duration(TimeSpan.FromSeconds(0.38))
-        };
-        DisableCoverFadeout.Completed += (s, e) =>
-        {
-            STE_DisableCover_Passives_SummaryDescription.Visibility = Collapsed;
-            STE_DisableCover_Passives_SummaryDescription.Background = Resource<SolidColorBrush>("Theme_ElongatedButtons__DisabledButtonsShadowing");
-
-            CanSwitchID = true;
-        };
-        STE_DisableCover_Passives_SummaryDescription.Background.BeginAnimation(SolidColorBrush.ColorProperty, DisableCoverFadeout);
-    }
-    #endregion
-
-
-
-    #region Keywords switches
-    private void Actions_Keywords_SwitchToMainDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_Keywords.SwitchToMainDesc();
-    private void Actions_Keywords_SwitchToSummaryDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_Keywords.SwitchToSummaryDesc();
-    private void Actions_Keywords_ToggleFormatInsertions(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        switch (Keywords_FormatInsertions_StackPanel.Visibility)
-        {
-            case Visibility.Visible:
-                Keywords_FormatInsertions_StackPanel.Visibility = Visibility.Collapsed;
-                Keyword_DropdownFormatInsertions_IndicatorAngle.Angle = 0;
-                break;
-
-            case Visibility.Collapsed:
-                Keywords_FormatInsertions_StackPanel.Visibility = Visibility.Visible;
-                Keyword_DropdownFormatInsertions_IndicatorAngle.Angle = 180;
-                break;
-        }
-    }
-
-    #region Bufs interactive button
-    private void Actions_Keywords_InteractiveBufsButton_Highlight(object RequestSender, MouseEventArgs EventArgs)
-    {
-        Actions_Keywords_InteractiveBufsButton_Image.BeginAnimation(Image.OpacityProperty, new DoubleAnimation()
-        {
-            From = 0, To = 1, Duration = TimeSpan.FromSeconds(0.265)
-        });
-    }
-
-    private void Actions_Keywords_InteractiveBufsButton_StopHighlight(object RequestSender, MouseEventArgs EventArgs)
-    {
-        Actions_Keywords_InteractiveBufsButton_Image.BeginAnimation(Image.OpacityProperty, new DoubleAnimation()
-        {
-            From = 1, To = 0, Duration = TimeSpan.FromSeconds(0.120)
-        });
-        Keywords_InteractiveBufsButton_Scale.ScaleX = 1;
-        Keywords_InteractiveBufsButton_Scale.ScaleY = 1;
-    }
-
-    private void Actions_Keywords_InteractiveBufsButtonDown(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        Keywords_InteractiveBufsButton_Scale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation()
-        {
-            From = 1, To = 0.98, Duration = TimeSpan.FromSeconds(0.1)
-        });
-        Keywords_InteractiveBufsButton_Scale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation()
-        {
-            From = 1, To = 0.98, Duration = TimeSpan.FromSeconds(0.1)
-        });
-    }
-    private void Actions_Keywords_InteractiveBufsButtonUp(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        Keywords_InteractiveBufsButton_Scale.BeginAnimation(ScaleTransform.ScaleXProperty, new DoubleAnimation()
-        {
-            From = 0.98, To = 1, Duration = TimeSpan.FromSeconds(0.1)
-        });
-        Keywords_InteractiveBufsButton_Scale.BeginAnimation(ScaleTransform.ScaleYProperty, new DoubleAnimation()
-        {
-            From = 0.98, To = 1, Duration = TimeSpan.FromSeconds(0.1)
-        });
-
-        //////////////////////////////////////////////////////////////////////
-        Keyword FullLinkKeyword = DelegateKeywords[Mode_Keywords.CurrentKeywordID];
-        //////////////////////////////////////////////////////////////////////
-        bool AnyChanges = false;
-        if (!FullLinkKeyword.Description.Equals(FullLinkKeyword.EditorDescription))
-        {
-            FullLinkKeyword.Description = FullLinkKeyword.EditorDescription;
-
-            ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"]
-                .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword desc"].Text;
-
-            AnyChanges = true;
-        }
-
-        if (FullLinkKeyword.SummaryDescription != null)
-        {
-            if (!FullLinkKeyword.SummaryDescription.Equals(FullLinkKeyword.EditorSummaryDescription))
-            {
-                FullLinkKeyword.SummaryDescription = FullLinkKeyword.EditorSummaryDescription;
-
-                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
-                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text;
-
-                AnyChanges = true;
-            }
-        }
-
-        if (!SWBT_Keywords_KeywordName.Text.Equals(FullLinkKeyword.Name))
-        {
-            FullLinkKeyword.Name = SWBT_Keywords_KeywordName.Text.Trim();
-            NavigationPanel_ObjectName_Display.Text = FullLinkKeyword.Name;
-
-            AnyChanges = true;
-        }
-
-        if (AnyChanges) Mode_Keywords.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-    }
-    #endregion
-
-    #endregion
-
-
-
-    #region E.G.O Gifts switches
-    private void PreviewLayout_Keywords_Bufs_Name_TextChanged(object RequestSender, TextChangedEventArgs EventArgs)
-    {
-        SWBT_Keywords_KeywordName.Text = PreviewLayout_Keywords_Bufs_Name.Text;
-    }
-
-    private void EGOGiftDisplay_HotSwitchToUpgradeLevel_MouseEnter(object RequestSender, MouseEventArgs EventArgs)
-    {
-        (RequestSender as Grid).Children[2].Opacity = 1;
-    }
-
-    private void EGOGiftDisplay_HotSwitchToUpgradeLevel_MouseLeave(object RequestSender, MouseEventArgs EventArgs)
-    {
-        (RequestSender as Grid).Children[2].Opacity = 0;
-    }
-
-    private void EGOGiftDisplay_HotSwitchToUpgradeLevel_SwitchButton(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        int TargetUpgradeLevel = int.Parse($"{(RequestSender as Grid).Name[^1]}") - 1;
-
-        if (DelegateEGOGifts[Mode_EGOGifts.CurrentEGOGiftID].UpgradeLevelsAssociativeIDs.Count > 0)
-        {
-            Mode_EGOGifts.TransformToEGOGift(DelegateEGOGifts[Mode_EGOGifts.CurrentEGOGiftID].UpgradeLevelsAssociativeIDs[TargetUpgradeLevel]);
-        }
-    }
-
-    private void Actions_EGOGifts_SwitchToMainDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_EGOGifts.SwitchToMainDesc();
-    private void Actions_EGOGifts_SwitchToSimpleDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_EGOGifts.SwitchToSimpleDesc($"{(RequestSender as Border).Name[^1]}");
-    #endregion
 
 
 
     #region ID Switch system
-    public static bool SwitchToFirstItem = false;
-    public static bool SwitchToLastItem = false;
-    public static bool CanSwitchID = true;
-    private void NavigationPanel_IDSwitch(object RequestSender, MouseButtonEventArgs EventArgs)
+    private bool SwitchToFirstItem = false;
+    private bool SwitchToLastItem = false;
+
+    private void NavigationPanel_IDSwitch(object RequestSender, RoutedEventArgs EventArgs)
     {
-        if (CanSwitchID)
+        FrameworkElement Sender = RequestSender as FrameworkElement;
+        string Direction = Sender.Name.Split("NavigationPanel_IDSwitch_")[^1];
+
+        bool SuccessSwitch = false;
+
+        switch (ActiveProperties.Key)
         {
-            Border Sender = RequestSender as Border;
-            string Direction = Sender.Name.Split("NavigationPanel_IDSwitch_")[^1];
+            case EditorMode.Skills:
+                {
+                    int IndexOfCurrentID = DelegateSkills_IDList.IndexOf(Mode_Skills.CurrentSkillID);
+                    int TargetSwitchIDIndex = Direction == "Next" ? IndexOfCurrentID + 1 : IndexOfCurrentID - 1;
 
-            bool SuccessSwitch = false;
-
-            switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
-            {
-                case "Skills":
+                    if (TargetSwitchIDIndex <= (DelegateSkills_IDList.Count - 1) & TargetSwitchIDIndex >= 0)
                     {
-                        int IndexOfCurrentID = DelegateSkills_IDList.IndexOf(Mode_Handlers.Mode_Skills.CurrentSkillID);
-                        int TargetSwitchIDIndex = Direction.Equals("Next") ? IndexOfCurrentID + 1 : IndexOfCurrentID - 1;
-
-                        if (TargetSwitchIDIndex <= (DelegateSkills_IDList.Count() - 1) & TargetSwitchIDIndex >= 0)
+                        if (!(SwitchToFirstItem | SwitchToLastItem))
                         {
-                            if (!(SwitchToFirstItem | SwitchToLastItem))
-                            {
-                                Mode_Handlers.Mode_Skills.TransformToSkill(DelegateSkills_IDList[TargetSwitchIDIndex]);
-                            }
-                            else
-                            {
-                                Mode_Handlers.Mode_Skills.TransformToSkill(DelegateSkills_IDList[SwitchToFirstItem ? 0 : (DelegateSkills_IDList.Count - 1)]);
-                            }
-                            SuccessSwitch = true;
+                            Mode_Skills.TransformToSkill(DelegateSkills_IDList[TargetSwitchIDIndex]);
                         }
-
+                        else
+                        {
+                            Mode_Skills.TransformToSkill(DelegateSkills_IDList[SwitchToFirstItem ? 0 : (DelegateSkills_IDList.Count - 1)]);
+                        }
+                        SuccessSwitch = true;
                     }
-                    break;
+                }
+                break;
 
-                case "Passives":
+            case EditorMode.Passives:
+                {
+                    int IndexOfCurrentID = DelegatePassives_IDList.IndexOf(Mode_Passives.CurrentPassiveID);
+                    int TargetSwitchIDIndex = Direction == "Next" ? IndexOfCurrentID + 1 : IndexOfCurrentID - 1;
+
+                    if (TargetSwitchIDIndex <= (DelegatePassives_IDList.Count - 1) & TargetSwitchIDIndex >= 0)
                     {
-                        int IndexOfCurrentID = DelegatePassives_IDList.IndexOf(Mode_Handlers.Mode_Passives.CurrentPassiveID);
-                        int TargetSwitchIDIndex = Direction.Equals("Next") ? IndexOfCurrentID + 1 : IndexOfCurrentID - 1;
-
-                        if (TargetSwitchIDIndex <= (DelegatePassives_IDList.Count() - 1) & TargetSwitchIDIndex >= 0)
+                        if (!(SwitchToFirstItem | SwitchToLastItem))
                         {
-                            if (!(SwitchToFirstItem | SwitchToLastItem))
-                            {
-                                Mode_Handlers.Mode_Passives.TransformToPassive(DelegatePassives_IDList[TargetSwitchIDIndex]);
-                            }
-                            else
-                            {
-                                Mode_Handlers.Mode_Passives.TransformToPassive(DelegatePassives_IDList[SwitchToFirstItem ? 0 : (DelegatePassives_IDList.Count - 1)]);
-                            }
-                            SuccessSwitch = true;
+                            Mode_Passives.TransformToPassive(DelegatePassives_IDList[TargetSwitchIDIndex]);
                         }
+                        else
+                        {
+                            Mode_Passives.TransformToPassive(DelegatePassives_IDList[SwitchToFirstItem ? 0 : (DelegatePassives_IDList.Count - 1)]);
+                        }
+                        SuccessSwitch = true;
                     }
-                    break;
+                }
+                break;
 
-                case "Keywords":
+            case EditorMode.Keywords:
+                {
+                    int IndexOfCurrentID = DelegateKeywords_IDList.IndexOf(Mode_Keywords.CurrentKeywordID);
+                    int TargetSwitchIDIndex = Direction == "Next" ? IndexOfCurrentID + 1 : IndexOfCurrentID - 1;
+
+                    if (TargetSwitchIDIndex <= (DelegateKeywords_IDList.Count - 1) & TargetSwitchIDIndex >= 0)
                     {
-                        int IndexOfCurrentID = DelegateKeywords_IDList.IndexOf(Mode_Handlers.Mode_Keywords.CurrentKeywordID);
-                        int TargetSwitchIDIndex = Direction.Equals("Next") ? IndexOfCurrentID + 1 : IndexOfCurrentID - 1;
-
-                        if (TargetSwitchIDIndex <= (DelegateKeywords_IDList.Count() - 1) & TargetSwitchIDIndex >= 0)
+                        if (!(SwitchToFirstItem | SwitchToLastItem))
                         {
-                            if (!(SwitchToFirstItem | SwitchToLastItem))
-                            {
-                                Mode_Handlers.Mode_Keywords.TransformToKeyword(DelegateKeywords_IDList[TargetSwitchIDIndex]);
-                            }
-                            else
-                            {
-                                Mode_Handlers.Mode_Keywords.TransformToKeyword(DelegateKeywords_IDList[SwitchToFirstItem ? 0 : (DelegateKeywords_IDList.Count - 1)]);
-                            }
-                            SuccessSwitch = true;
+                            Mode_Keywords.TransformToKeyword(DelegateKeywords_IDList[TargetSwitchIDIndex]);
                         }
+                        else
+                        {
+                            Mode_Keywords.TransformToKeyword(DelegateKeywords_IDList[SwitchToFirstItem ? 0 : (DelegateKeywords_IDList.Count - 1)]);
+                        }
+                        SuccessSwitch = true;
                     }
-                    break;
+                }
+                break;
 
-                case "E.G.O Gifts":
+            case EditorMode.EGOGifts:
+                {
+                    int IndexOfCurrentID = DelegateEGOGifts_IDList.IndexOf(Mode_EGOGifts.CurrentEGOGiftID);
+                    int TargetSwitchIDIndex = Direction == "Next" ? IndexOfCurrentID + 1 : IndexOfCurrentID - 1;
+
+                    if (TargetSwitchIDIndex <= (DelegateEGOGifts_IDList.Count - 1) & TargetSwitchIDIndex >= 0)
                     {
-                        int IndexOfCurrentID = DelegateEGOGifts_IDList.IndexOf(Mode_Handlers.Mode_EGOGifts.CurrentEGOGiftID);
-                        int TargetSwitchIDIndex = Direction.Equals("Next") ? IndexOfCurrentID + 1 : IndexOfCurrentID - 1;
-
-                        if (TargetSwitchIDIndex <= (DelegateEGOGifts_IDList.Count() - 1) & TargetSwitchIDIndex >= 0)
+                        if (!(SwitchToFirstItem | SwitchToLastItem))
                         {
-                            if (!(SwitchToFirstItem | SwitchToLastItem))
-                            {
-                                Mode_Handlers.Mode_EGOGifts.TransformToEGOGift(DelegateEGOGifts_IDList[TargetSwitchIDIndex]);
-                            }
-                            else
-                            {
-                                Mode_Handlers.Mode_EGOGifts.TransformToEGOGift(DelegateEGOGifts_IDList[SwitchToFirstItem ? 0 : (DelegateEGOGifts_IDList.Count - 1)]);
-                            }
-                            SuccessSwitch = true;
+                            Mode_EGOGifts.TransformToEGOGift(DelegateEGOGifts_IDList[TargetSwitchIDIndex]);
                         }
+                        else
+                        {
+                            Mode_EGOGifts.TransformToEGOGift(DelegateEGOGifts_IDList[SwitchToFirstItem ? 0 : (DelegateEGOGifts_IDList.Count - 1)]);
+                        }
+                        SuccessSwitch = true;
                     }
-                    break;
-            }
-            if (SuccessSwitch) NavigationPanel_IDSwitch_ManualInput_Stop();
+                }
+                break;
         }
+
+
+        if (SuccessSwitch) NavigationPanel_IDSwitch_ManualInput_Stop();
     }
 
+    #region To Last/First
+    private void PreventAppendAdditionalObjectTooltip(object RequestSender, ContextMenuEventArgs EventArgs) => EventArgs.Handled = true;
+    private void NavigationPanel_IDSwitch_ToLast(object RequestSender, RoutedEventArgs EventArgs)
+    {
+        // Temporary disable context menu open on RMB click
+        AppendAdditionalObjectContextMenu_ParentBorder.ContextMenuOpening += PreventAppendAdditionalObjectTooltip;
+
+        SwitchToLastItem = true;
+        NavigationPanel_IDSwitch(RequestSender, EventArgs);
+        SwitchToLastItem = false;
+
+        Await(0.5, () => { AppendAdditionalObjectContextMenu_ParentBorder.ContextMenuOpening -= PreventAppendAdditionalObjectTooltip; });
+    }
+    private void NavigationPanel_IDSwitch_ToFirst(object RequestSender, RoutedEventArgs EventArgs)
+    {
+        SwitchToFirstItem = true;
+        NavigationPanel_IDSwitch(RequestSender, EventArgs);
+        SwitchToFirstItem = false;
+    }
+    #endregion
+    
     public static void NavigationPanel_IDSwitch_CheckAvalibles()
     {
-        void Check(int IndexOfCurrentID, int MaxID)
+        static void Check(int IndexOfCurrentID, int MaxID)
         {
             // If first item -> Hide 'Previous'
             if (IndexOfCurrentID == 0)
             {
-                MainControl.NavigationPanel_IDSwitch_Previous_DisableCover.Visibility = Visible;
+                MainControl.NavigationPanel_IDSwitch_Previous.IsEnabled = false;
             }
-            else MainControl.NavigationPanel_IDSwitch_Previous_DisableCover.Visibility = Collapsed;
+            else MainControl.NavigationPanel_IDSwitch_Previous.IsEnabled = true;
 
             // If last item -> Hide 'Next'
             if ((IndexOfCurrentID + 1) == MaxID)
             {
-                MainControl.NavigationPanel_IDSwitch_Next_DisableCover.Visibility = Visible;
+                MainControl.NavigationPanel_IDSwitch_Next.IsEnabled = false;
+                MainControl.AppendAdditionalObjectContextMenu_ParentBorder.Visibility = Visibility.Visible;
             }
-            else MainControl.NavigationPanel_IDSwitch_Next_DisableCover.Visibility = Collapsed;
+            else
+            {
+                MainControl.NavigationPanel_IDSwitch_Next.IsEnabled = true;
+                MainControl.AppendAdditionalObjectContextMenu_ParentBorder.Visibility = Visibility.Collapsed;
+            }
         }
 
 
-        switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
+        switch (ActiveProperties.Key)
         {
-            case "Skills":
+            case EditorMode.Skills:
                 {
-                    int IndexOfCurrentID = DelegateSkills_IDList.IndexOf(Mode_Handlers.Mode_Skills.CurrentSkillID);
+                    int IndexOfCurrentID = DelegateSkills_IDList.IndexOf(Mode_Skills.CurrentSkillID);
                     int MaximumID = DelegateSkills_IDList.Count;
 
                     Check(IndexOfCurrentID, MaximumID);
                 }
                 break;
 
-            case "Passives":
+            case EditorMode.Passives:
                 {
-                    int IndexOfCurrentID = DelegatePassives_IDList.IndexOf(Mode_Handlers.Mode_Passives.CurrentPassiveID);
+                    int IndexOfCurrentID = DelegatePassives_IDList.IndexOf(Mode_Passives.CurrentPassiveID);
                     int MaximumID = DelegatePassives_IDList.Count;
 
                     Check(IndexOfCurrentID, MaximumID);
                 }
                 break;
 
-            case "Keywords":
+            case EditorMode.Keywords:
                 {
-                    int IndexOfCurrentID = DelegateKeywords_IDList.IndexOf(Mode_Handlers.Mode_Keywords.CurrentKeywordID);
+                    int IndexOfCurrentID = DelegateKeywords_IDList.IndexOf(Mode_Keywords.CurrentKeywordID);
                     int MaximumID = DelegateKeywords_IDList.Count;
 
                     Check(IndexOfCurrentID, MaximumID);
                 }
                 break;
 
-            case "E.G.O Gifts":
+            case EditorMode.EGOGifts:
                 {
-                    int IndexOfCurrentID = DelegateEGOGifts_IDList.IndexOf(Mode_Handlers.Mode_EGOGifts.CurrentEGOGiftID);
+                    int IndexOfCurrentID = DelegateEGOGifts_IDList.IndexOf(Mode_EGOGifts.CurrentEGOGiftID);
                     int MaximumID = DelegateEGOGifts_IDList.Count;
 
                     Check(IndexOfCurrentID, MaximumID);
@@ -989,32 +637,12 @@ public partial class MainWindow : Window
         }
     }
 
-    private void PreventAppendAdditionalObjectTooltip(object RequestSender, ContextMenuEventArgs EventArgs) => EventArgs.Handled = true;
-    private void NavigationPanel_IDSwitch_ToLast(object RequestSender, MouseButtonEventArgs EventArgs)
+
+    #region ID Manual input
+    private void NavigationPanel_IDSwitch_ManualInput_Start(object RequestSender, RoutedEventArgs EventArgs)
     {
-        NavigationPanel_IDSwitch_Next_DisableCover.ContextMenuOpening += PreventAppendAdditionalObjectTooltip;
-
-        SwitchToLastItem = true;
-        NavigationPanel_IDSwitch(RequestSender, EventArgs);
-        SwitchToLastItem = false;
-
-        Await(0.5, () => { NavigationPanel_IDSwitch_Next_DisableCover.ContextMenuOpening -= PreventAppendAdditionalObjectTooltip; });
-    }
-
-    private void NavigationPanel_IDSwitch_ToFirst(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        SwitchToFirstItem = true;
-        NavigationPanel_IDSwitch(RequestSender, EventArgs);
-        SwitchToFirstItem = false;
-    }
-
-    /// <summary>
-    /// -> action in 'Manual ID Switch' region
-    /// </summary>
-    private void NavigationPanel_IDSwitch_ManualInput_Start(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        string IDText = STE_NavigationPanel_ObjectID_Display.CurrentRichText;
-        if (!IDText.Equals(ᐁ_Interface_Localization_Loader.SpecializedDefs.InsertionsDefaultValue))
+        string IDText = STE_NavigationPanel_ObjectID_Display.RichText;
+        if (IDText != SpecializedDefs.InsertionsDefaultValue)
         {
             STE_NavigationPanel_ObjectID_Display.Visibility = Collapsed;
             STE_NavigationPanel_ObjectID_Display_IDCopied.Visibility = Collapsed;
@@ -1023,83 +651,59 @@ public partial class MainWindow : Window
             NavigationPanel_IDSwitch_ManualInput_Textfield.Visibility = Visible;
 
             NavigationPanel_IDSwitch_ManualInput_Textfield.Focus();
+
+            // 'Enter' press at the Window_PreviewKeyDown()
         }
     }
-
-    public static void NavigationPanel_IDSwitch_ManualInput_Stop()
+    public void NavigationPanel_IDSwitch_ManualInput_Stop()
     {
-        MainControl.STE_NavigationPanel_ObjectID_Display.Visibility = Visible;
-        MainControl.STE_NavigationPanel_ObjectID_Display_IDCopied.Visibility = Visible;
-        MainControl.NavigationPanel_IDSwitch_ManualInput_Textfield.Visibility = Collapsed;
+        STE_NavigationPanel_ObjectID_Display.Visibility = Visible;
+        STE_NavigationPanel_ObjectID_Display_IDCopied.Visibility = Visible;
+        NavigationPanel_IDSwitch_ManualInput_Textfield.Visibility = Collapsed;
 
-        UnfocusElement(MainControl.NavigationPanel_IDSwitch_ManualInput_Textfield);
+        UnfocusElement(NavigationPanel_IDSwitch_ManualInput_Textfield);
 
-        MainControl.NavigationPanel_IDSwitch_ManualInput_Textfield.Text = "";
+        NavigationPanel_IDSwitch_ManualInput_Textfield.Text = "";
     }
+    #endregion
 
-    bool AlreadyAnimatingCopiedInfo = false;
-    private void CopyID(object RequestSender, MouseButtonEventArgs EventArgs)
+
+
+    #region ID copying animation
+    private static bool AlreadyAnimatingCopiedInfo = false;
+    private static double FadeInOutTime = 0.118;
+    private static double AnimPauseTime = 0.35;
+    private DoubleAnimation FadeIn_IDSign        = new DoubleAnimation() { From = 0, To = 1, Duration = new(TimeSpan.FromSeconds(FadeInOutTime)) };
+    private DoubleAnimation FadeOut_IDCopiedText = new DoubleAnimation() { From = 1, To = 0, Duration = new(TimeSpan.FromSeconds(FadeInOutTime)) };
+    private DoubleAnimation FadeIn_IDCopiedText  = new DoubleAnimation() { From = 0, To = 1, Duration = new(TimeSpan.FromSeconds(FadeInOutTime)) };
+    private DoubleAnimation FadeOut_IDSign       = new DoubleAnimation() { From = 1, To = 0, Duration = new(TimeSpan.FromSeconds(FadeInOutTime)) };
+    private void SetupIDCopyAnimation()
+    {
+        // Hide ID, show 'ID Copied' text
+        FadeOut_IDSign.Completed       += (s, e) => STE_NavigationPanel_ObjectID_Display_IDCopied.BeginAnimation(OpacityProperty, FadeIn_IDCopiedText);
+        FadeIn_IDCopiedText.Completed  += (s, e) => Await(AnimPauseTime, () => { STE_NavigationPanel_ObjectID_Display_IDCopied.BeginAnimation(OpacityProperty, FadeOut_IDCopiedText); });
+
+        // Hide 'ID Copied' text, show ID
+        FadeOut_IDCopiedText.Completed += (s, e) => STE_NavigationPanel_ObjectID_Display.BeginAnimation(OpacityProperty, FadeIn_IDSign);
+        FadeIn_IDSign.Completed        += (s, e) => AlreadyAnimatingCopiedInfo = false;
+    }
+    #endregion
+
+    private void CopyID(object RequestSender, RoutedEventArgs EventArgs)
     {
         if (!NavigationPanel_IDSwitch_ManualInput_Textfield.IsFocused)
         {
             try
             {
-                string IDText = STE_NavigationPanel_ObjectID_Display.CurrentRichText;
-                if (!IDText.Equals(ᐁ_Interface_Localization_Loader.SpecializedDefs.InsertionsDefaultValue))
+                string IDText = STE_NavigationPanel_ObjectID_Display.RichText;
+                if (IDText != SpecializedDefs.InsertionsDefaultValue)
                 {
-                    Clipboard.SetDataObject(STE_NavigationPanel_ObjectID_Display.CurrentRichText as string);
-
-                    double FadeInOutTime = 0.118;
-                    double PauseTime = 0.35;
+                    Clipboard.SetDataObject(STE_NavigationPanel_ObjectID_Display.RichText); // SetText() causes exceptions sometimes
 
                     if (!AlreadyAnimatingCopiedInfo)
                     {
                         AlreadyAnimatingCopiedInfo = true;
-                        CanSwitchID = false;
-
-                        DoubleAnimation FadeIn_ID = new DoubleAnimation()
-                        {
-                            From = 0, To = 1, Duration = new Duration(TimeSpan.FromSeconds(FadeInOutTime))
-                        };
-                        // Finish
-                        FadeIn_ID.Completed += (s, e) =>
-                        {
-                            AlreadyAnimatingCopiedInfo = false;
-                        };
-
-                        DoubleAnimation FadeOut_InfoText = new DoubleAnimation()
-                        {
-                            From = 1, To = 0, Duration = new Duration(TimeSpan.FromSeconds(FadeInOutTime))
-                        };
-                        FadeOut_InfoText.Completed += (s, e) =>
-                        {
-                            STE_NavigationPanel_ObjectID_Display.BeginAnimation(FrameworkElement.OpacityProperty, FadeIn_ID);
-                        };
-
-                        DoubleAnimation FadeIn_InfoText = new DoubleAnimation()
-                        {
-                            From = 0, To = 1, Duration = new Duration(TimeSpan.FromSeconds(FadeInOutTime))
-                        };
-                        FadeIn_InfoText.Completed += (s, e) =>
-                        {
-                            Await(PauseTime, () =>
-                            {
-                                CanSwitchID = true;
-                                STE_NavigationPanel_ObjectID_Display_IDCopied.BeginAnimation(FrameworkElement.OpacityProperty, FadeOut_InfoText);
-                            });
-                        };
-
-                        DoubleAnimation FadeOut_ID = new DoubleAnimation()
-                        {
-                            From = 1, To = 0, Duration = new Duration(TimeSpan.FromSeconds(FadeInOutTime))
-                        };
-                        FadeOut_ID.Completed += (s, e) =>
-                        {
-                            STE_NavigationPanel_ObjectID_Display_IDCopied.BeginAnimation(FrameworkElement.OpacityProperty, FadeIn_InfoText);
-                        };
-                        // Timeline goes backwards
-
-                        STE_NavigationPanel_ObjectID_Display.BeginAnimation(FrameworkElement.OpacityProperty, FadeOut_ID);
+                        STE_NavigationPanel_ObjectID_Display.BeginAnimation(OpacityProperty, FadeOut_IDSign);
                     }
                 }
             }
@@ -1111,200 +715,147 @@ public partial class MainWindow : Window
 
 
     #region Shared
-    private void ChangeObjectName(object RequestSender, MouseButtonEventArgs EventArgs)
+    private void ChangeObjectName(object RequestSender, RoutedEventArgs EventArgs)
     {
-        switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
+        switch (ActiveProperties.Key)
         {
-            case "Skills":
+            case EditorMode.Skills:
 
-                /////////////////////////////////////////////////////////////////////////////////////////////
-                UptieLevel FullLinkSkills = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel];
-                /////////////////////////////////////////////////////////////////////////////////////////////
-
-                if (!SWBT_Skills_MainSkillName.Text.Equals(FullLinkSkills.Name))
+                if (Keyboard.IsKeyDown(Key.LeftShift))
                 {
-                    FullLinkSkills.Name = SWBT_Skills_MainSkillName.Text.Trim();
-                    NavigationPanel_ObjectName_Display.Text = FullLinkSkills.Name;
-
-                    Mode_Skills.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
+                    foreach (var Uptie in Mode_Skills.@Current.Skill) Uptie.Value.Name = SWBT_Skills_MainSkillName.Text.Replace("\\n", "\n");
                 }
+                else
+                {
+                    Mode_Skills.@Current.Uptie.Name = SWBT_Skills_MainSkillName.Text.Replace("\\n", "\n");
+                }
+                NavigationPanel_ObjectName_Display.Text = Mode_Skills.@Current.Uptie.Name;
 
-                break;
-
-
-            case "Passives":
-
-                ///////////////////////////////////////////////////////////////////////
-                Passive FullLinkPassives = DelegatePassives[Mode_Passives.CurrentPassiveID];
-                ///////////////////////////////////////////////////////////////////////
+                Mode_Skills.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
                 
-                if (!SWBT_Passives_MainPassiveName.Text.Equals(FullLinkPassives.Name))
-                {
-                    FullLinkPassives.Name = SWBT_Passives_MainPassiveName.Text.Trim();
-                    NavigationPanel_ObjectName_Display.Text = FullLinkPassives.Name;
-
-                    Mode_Passives.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-                }
-
                 break;
 
-            case "Keywords":
 
-                ///////////////////////////////////////////////////////////////////////
-                Keyword FullLinkKeywords = DelegateKeywords[Mode_Keywords.CurrentKeywordID];
-                ///////////////////////////////////////////////////////////////////////
+            case EditorMode.Passives:
 
-                if (!SWBT_Keywords_KeywordName.Text.Equals(FullLinkKeywords.Name))
-                {
-                    FullLinkKeywords.Name = SWBT_Keywords_KeywordName.Text.Trim();
-                    NavigationPanel_ObjectName_Display.Text = FullLinkKeywords.Name;
+                Mode_Passives.@Current.Passive.Name = SWBT_Passives_MainPassiveName.Text.Replace("\\n", "\n");
+                NavigationPanel_ObjectName_Display.Text = Mode_Passives.@Current.Passive.Name;
 
-                    Mode_Keywords.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-                }
-
+                Mode_Passives.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
+                
                 break;
 
-            case "E.G.O Gifts":
 
-                ///////////////////////////////////////////////////////////////////////
-                EGOGift FullLinkEGOGifts = DelegateEGOGifts[Mode_EGOGifts.CurrentEGOGiftID];
-                ///////////////////////////////////////////////////////////////////////
+            case EditorMode.Keywords:
 
-                if (!SWBT_EGOGifts_EGOGiftName.Text.Equals(FullLinkEGOGifts.Name))
-                {
-                    FullLinkEGOGifts.Name = SWBT_EGOGifts_EGOGiftName.Text.Trim();
-                    NavigationPanel_ObjectName_Display.Text = FullLinkEGOGifts.Name;
+                Mode_Keywords.@Current.Keyword.Name = SWBT_Keywords_KeywordName.Text.Replace("\\n", "\n");
+                NavigationPanel_ObjectName_Display.Text = Mode_Keywords.@Current.Keyword.Name;
 
-                    Mode_EGOGifts.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-                }
+                Mode_Keywords.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
+                
+                break;
 
+
+            case EditorMode.EGOGifts:
+
+                Mode_EGOGifts.@Current.EGOGift.Name = SWBT_EGOGifts_EGOGiftName.Text.Replace("\\n", "\n");
+                NavigationPanel_ObjectName_Display.Text = Mode_EGOGifts.@Current.EGOGift.Name;
+
+                Mode_EGOGifts.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
+                
                 break;
         }
     }
 
-    public void FocusOnFile(FileInfo Target)
+    private void SelectFile_ButtonClick(object RequestSender, RoutedEventArgs EventArgs) => CheckUnsavedChanges(SelectFileOnEnd: true);
+    public void SelectFile_Action()
     {
-        CurrentFile = Target;
-        CurrentFileEncoding = Target.GetFileEncoding();
-        JsonFilePath.Text = CurrentFile.FullName;
-        JsonFilePath.ScrollToHorizontalOffset(10000);
-        AppendAdditionalObjectContextMenu.IsOpen = false;
-        if (Configurazione.DeltaConfig.Internal.EnablemanualJsonFilesManaging) AppendAdditionalObjectContextMenu.Visibility = Visibility.Visible;
+        OpenFileDialog JsonFileSelector = NewOpenFileDialog("Limbus localization files", ["json"]);
+
+        if (JsonFileSelector.ShowDialog() == true)
+        {
+            TryLoadFileAndSetFocus(JsonFileSelector.FileName);
+        }
     }
 
-    public void Actions_FILE_SelectFile_Acutal()
-    {
-        OpenFileDialog JsonFileSelector = new OpenFileDialog();
-        JsonFileSelector.DefaultExt = ".json";
-        JsonFileSelector.Filter = "Limbus localization files |*.json";
-
-        bool? Result = JsonFileSelector.ShowDialog();
-
-        if (Result == true) LoadFileAndSetFocus(JsonFileSelector.FileName);
-    }
-
-    private void LoadFileAndSetFocus(string FilePath)
+    private void TryLoadFileAndSetFocus(string FilePath)
     {
         FileInfo TemplateTarget = new FileInfo(FilePath);
 
-        string CheckName = TemplateTarget.Name.RemovePrefix(["JP_", "KR_", "EN_"]);
+        string CheckName = TemplateTarget.Name.RemovePrefix("JP_", "KR_", "EN_");
 
-        string? PredefinedFileTypeNameChanger = TryAcquireManualFileType(TemplateTarget.FullName);
-        if (PredefinedFileTypeNameChanger != null)
+        if (TryAcquireManualFileType(TemplateTarget.FullName, out string AcquiredType))
         {
-            CheckName = PredefinedFileTypeNameChanger;
+            CheckName = AcquiredType;
         }
 
         if (CheckName.StartsWith("Skills"))
         {
-            FocusOnFile(TemplateTarget);
-
-            Mode_Skills.LoadStructure(
+            Mode_Skills.ValidateAndLoadStructure(
                 JsonFile: TemplateTarget,
-                EnableUptieLevels: CheckName.ContainsOneOf("Skills_Ego_Personality-", "Skills_personality-", "Skills.json", "Skills_Ego.json", "Skills_Assist.json"),
-                EnableEGOAbnormalityName: CheckName.ContainsOneOf("Skills_Ego_Personality-", "Skills_Ego.json")
+                EnableUptieLevels: CheckName.ContainsOneOf(
+                    "Skills_Ego_Personality-",
+                    "Skills_personality-",
+                    "Skills.json",
+                    "Skills_Ego.json",
+                    "Skills_Assist.json"
+                ),
+                EnableEGOAbnormalityName: CheckName.ContainsOneOf(
+                    "Skills_Ego_Personality-",
+                    "Skills_Ego.json"
+                )
             );
         }
-        else if (CheckName.StartsWith("Passive"))
+        else if (CheckName.StartsWith("Passive")) Mode_Passives.ValidateAndLoadStructure(TemplateTarget);
+        else if (CheckName.StartsWith("EGOgift")) Mode_EGOGifts.ValidateAndLoadStructure(TemplateTarget);
+        else if (CheckName.StartsWithOneOf("BattleKeywords", "Bufs"))
         {
-            FocusOnFile(TemplateTarget);
-
-            Mode_Passives.LoadStructure(CurrentFile);
-        }
-        else if (CheckName.StartsWithOneOf(["BattleKeywords", "Bufs"]))
-        {
-            FocusOnFile(TemplateTarget);
-
-            Mode_Keywords.LoadStructure(CurrentFile);
-        }
-        else if (CheckName.StartsWith("EGOgift"))
-        {
-            FocusOnFile(TemplateTarget);
-
-            Mode_EGOGifts.LoadStructure(CurrentFile);
+            Mode_Keywords.ValidateAndLoadStructure(TemplateTarget, KeywordsType: CheckName);
         }
 
-        SyntaxedTextEditor.RecompileEditorSyntax();
+        JsonTextEditor.RecompileEditorSyntax();
     }
-
-    private void Actions_FILE_SelectFile(object RequestSender, MouseButtonEventArgs EventArgs)
+    public static void FocusOnFile(FileInfo Target) // Called after successful validation of dataList at the ValidateAnd method of each editor mode
     {
-        CheckUnsavedChanges(SelectFileOnEnd: true);
+        CurrentFile = Target;
+        CurrentFileEncoding = Target.GetFileEncoding();
+        MainControl.JsonFilePath.Text = CurrentFile.FullName;
+        MainControl.JsonFilePath.ScrollToHorizontalOffset(double.PositiveInfinity);
+        MainControl.AppendAdditionalObjectContextMenu.IsOpen = false;
+        if (LoadedProgramConfig.Internal.EnableManualJsonFilesManaging)
+        {
+            MainControl.AppendAdditionalObjectContextMenu_ParentBorder.Visibility = Visible;
+        }
     }
     #endregion
 
 
 
     #region Technical
-    public static Assembly LCLocalizationTaskAbsolute = Assembly.GetExecutingAssembly();
-    public static string LoadFromEmbeddedResources(string FullName)
-    {
-        using (Stream stream = LCLocalizationTaskAbsolute.GetManifestResourceStream(FullName))
-        {
-            using (StreamReader reader = new StreamReader(stream))
-            {
-                return reader.ReadToEnd();
-            }
-        }
-    }
 
-    
-
-    private void Window_SizeChanged(object RequestSender, SizeChangedEventArgs EventArgs)
-    {
-        if ((Width <= Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinWidth + 2 & Height <= Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinHeight + 2)
-            | (((ᐁ_Interface_Themes_Loader.LoadedTheme != null ? ᐁ_Interface_Themes_Loader.LoadedTheme.Common.HideBackgroundImageWithMinimumWindowWidth : false) & Width <= Mode_Handlers.Upstairs.ActiveProperties.DefaultValues.MinWidth + 2)))
-        {
-            BackgroundImage.Visibility = Visibility.Collapsed;
-        }
-        else
-        {
-            BackgroundImage.Visibility = Visibility.Visible;
-        }
-    }
-
-
+    #region Unsaved changes
+    private bool GlobalSelectFileOnEnd = false;
     public void CheckUnsavedChanges(bool ExitOnEnd = false, bool SelectFileOnEnd = false)
     {
         int UnsavedChangesCount = 0;
         string UnsavedChangesInfo = "";
 
-        switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
+        switch (ActiveProperties.Key)
         {
-            case "Passives":
-                foreach (KeyValuePair<int, Type_Passives.Passive> CheckPassive in DelegatePassives)
+            case EditorMode.Passives:
+                foreach (KeyValuePair<int, Passive> CheckPassive in DelegatePassives)
                 {
                     bool UnsavedChangesInPassiveDesc = false;
                     bool UnsavedChangesInPassiveSummary = false;
 
-                    if (!CheckPassive.Value.Description.Equals(CheckPassive.Value.EditorDescription))
+                    if (CheckPassive.Value.MainDescription != CheckPassive.Value.EditorMainDescription)
                     {
                         UnsavedChangesInPassiveDesc = true;
                         UnsavedChangesCount++;
                     }
                     if (CheckPassive.Value.SummaryDescription != null)
                     {
-                        if (!CheckPassive.Value.SummaryDescription.Equals(CheckPassive.Value.EditorSummaryDescription))
+                        if (CheckPassive.Value.SummaryDescription != CheckPassive.Value.EditorSummaryDescription)
                         {
                             UnsavedChangesInPassiveSummary = true;
                             UnsavedChangesCount++;
@@ -1313,14 +864,14 @@ public partial class MainWindow : Window
 
                     if (UnsavedChangesInPassiveDesc | UnsavedChangesInPassiveSummary)
                     {
-                        UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Passives.IDHeader.Exform(CheckPassive.Key, CheckPassive.Value.Name);
+                        UnsavedChangesInfo += SpecializedDefs.UnsavedChangesInfo.Passives.IDHeader.Exform(CheckPassive.Key, CheckPassive.Value.Name);
                         if (UnsavedChangesInPassiveDesc)
                         {
-                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Passives.MainDesc;
+                            UnsavedChangesInfo += SpecializedDefs.UnsavedChangesInfo.Passives.MainDesc;
                         }
                         if (UnsavedChangesInPassiveSummary)
                         {
-                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Passives.SummaryDesc;
+                            UnsavedChangesInfo += SpecializedDefs.UnsavedChangesInfo.Passives.SummaryDesc;
                         }
                     }
                 }
@@ -1328,17 +879,17 @@ public partial class MainWindow : Window
                 break;
 
 
-            case "Skills":
-                foreach (KeyValuePair<int, Dictionary<int, Type_Skills.UptieLevel>> CheckSkill in DelegateSkills)
+            case EditorMode.Skills:
+                foreach (KeyValuePair<int, Dictionary<int, UptieLevel>> CheckSkill in DelegateSkills)
                 {
                     bool AlreadyAddedThisID = false;
                     string SkillName = "";
-                    foreach (Type_Skills.UptieLevel UptieLevel in CheckSkill.Value.Values)
+                    foreach (UptieLevel UptieLevel in CheckSkill.Value.Values)
                     {
                         SkillName = UptieLevel.Name;
                         bool AnythingChanged = false;
                         
-                        if (!UptieLevel.Description.Equals(UptieLevel.EditorDescription))
+                        if (UptieLevel.Description != UptieLevel.EditorDescription)
                         {
                             AnythingChanged = true;
                         }
@@ -1353,7 +904,7 @@ public partial class MainWindow : Window
                                     {
                                         if (CoinDesc != null && CoinDesc.Description != null)
                                         {
-                                            if (!CoinDesc.Description.Equals(CoinDesc.EditorDescription)) AnythingChanged = true;
+                                            if (CoinDesc.Description != CoinDesc.EditorDescription) AnythingChanged = true;
                                         }
                                     }
                                 }
@@ -1365,30 +916,30 @@ public partial class MainWindow : Window
                         {
                             if (!AlreadyAddedThisID)
                             {
-                                UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Skills.IDHeader.Exform(CheckSkill.Key, SkillName);
+                                UnsavedChangesInfo += SpecializedDefs.UnsavedChangesInfo.Skills.IDHeader.Exform(CheckSkill.Key, SkillName);
                                 AlreadyAddedThisID = true;
                             }
-                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Skills.UptieLevel.Extern($"{UptieLevel.Uptie}");
+                            UnsavedChangesInfo += SpecializedDefs.UnsavedChangesInfo.Skills.UptieLevel.Extern($"{UptieLevel.Uptie}");
                         }
                     }
                 }
                 break;
 
 
-            case "Keywords":
-                foreach (KeyValuePair<string, Type_Keywords.Keyword> CheckKeyword in DelegateKeywords)
+            case EditorMode.Keywords:
+                foreach (KeyValuePair<string, Keyword> CheckKeyword in DelegateKeywords)
                 {
                     bool UnsavedChangesInKeywordDesc = false;
                     bool UnsavedChangesInKeywordSummary = false;
 
-                    if (!CheckKeyword.Value.Description.Equals(CheckKeyword.Value.EditorDescription))
+                    if (CheckKeyword.Value.MainDescription != CheckKeyword.Value.EditorMainDescription)
                     {
                         UnsavedChangesInKeywordDesc = true;
                         UnsavedChangesCount++;
                     }
                     if (CheckKeyword.Value.SummaryDescription != null)
                     {
-                        if (!CheckKeyword.Value.SummaryDescription.Equals(CheckKeyword.Value.EditorSummaryDescription))
+                        if (CheckKeyword.Value.SummaryDescription != CheckKeyword.Value.EditorSummaryDescription)
                         {
                             UnsavedChangesInKeywordSummary = true;
                             UnsavedChangesCount++;
@@ -1397,53 +948,53 @@ public partial class MainWindow : Window
 
                     if (UnsavedChangesInKeywordDesc | UnsavedChangesInKeywordSummary)
                     {
-                        UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Keywords.IDHeader.Exform(CheckKeyword.Key, CheckKeyword.Value.Name);
+                        UnsavedChangesInfo += SpecializedDefs.UnsavedChangesInfo.Keywords.IDHeader.Exform(CheckKeyword.Key, CheckKeyword.Value.Name);
                         if (UnsavedChangesInKeywordDesc)
                         {
-                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Keywords.MainDesc;
+                            UnsavedChangesInfo += SpecializedDefs.UnsavedChangesInfo.Keywords.MainDesc;
                         }
                         if (UnsavedChangesInKeywordSummary)
                         {
-                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.Passives.MainDesc;
+                            UnsavedChangesInfo += SpecializedDefs.UnsavedChangesInfo.Passives.MainDesc;
                         }
                     }
                 }
                 break;
 
 
-            case "E.G.O Gifts":
+            case EditorMode.EGOGifts:
                 if (DelegateEGOGifts.Keys.Count != 0)
                 {
-                    foreach (KeyValuePair<int, Type_EGOGifts.EGOGift> CheckEGOGift in DelegateEGOGifts)
+                    foreach (KeyValuePair<int, EGOGift> CheckEGOGift in DelegateEGOGifts)
                     {
                         string ChangedSimpleDescs = "";
                         bool ChangedDesc = false;
-                        if (!CheckEGOGift.Value.Description.Equals(CheckEGOGift.Value.EditorDescription))
+                        if (CheckEGOGift.Value.MainDescription != CheckEGOGift.Value.EditorMainDescription)
                         {
                             ChangedDesc = true;
                         }
                         if (CheckEGOGift.Value.SimpleDescriptions != null)
                         {
                             int SimpleDescIndexer = 1;
-                            foreach (Type_EGOGifts.SimpleDescription SimpleDesc in CheckEGOGift.Value.SimpleDescriptions)
+                            foreach (SimpleDescription SimpleDesc in CheckEGOGift.Value.SimpleDescriptions)
                             {
-                                if (!SimpleDesc.Description.Equals(SimpleDesc.EditorDescription))
+                                if (SimpleDesc.Description != SimpleDesc.EditorDescription)
                                 {
-                                    ChangedSimpleDescs += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.EGOGifts.SimpleDesc.Extern(SimpleDescIndexer);
+                                    ChangedSimpleDescs += SpecializedDefs.UnsavedChangesInfo.EGOGifts.SimpleDesc.Extern(SimpleDescIndexer);
                                 }
 
                                 SimpleDescIndexer++;
                             }
                         }
 
-                        if (ChangedDesc | !ChangedSimpleDescs.Equals(""))
+                        if (ChangedDesc | ChangedSimpleDescs != "")
                         {
-                            UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.EGOGifts.IDHeader.Exform(CheckEGOGift.Key, CheckEGOGift.Value.Name);
+                            UnsavedChangesInfo += SpecializedDefs.UnsavedChangesInfo.EGOGifts.IDHeader.Exform(CheckEGOGift.Key, CheckEGOGift.Value.Name);
                             if (ChangedDesc)
                             {
-                                UnsavedChangesInfo += ᐁ_Interface_Localization_Loader.SpecializedDefs.UnsavedChangesInfo.EGOGifts.MainDesc;
+                                UnsavedChangesInfo += SpecializedDefs.UnsavedChangesInfo.EGOGifts.MainDesc;
                             }
-                            if (!ChangedSimpleDescs.Equals(""))
+                            if (ChangedSimpleDescs != "")
                             {
                                 UnsavedChangesInfo += ChangedSimpleDescs;
                             }
@@ -1452,550 +1003,79 @@ public partial class MainWindow : Window
                 }
                 break;
         }
-        if (!UnsavedChangesInfo.Equals(""))
+        
+        if (UnsavedChangesInfo != "")
         {
-            DTE_UnsavedChangesInfo.RichText = UnsavedChangesInfo.Trim();
-            BackgroundCover_UnsavedChanges.Visibility = Visible;
-            if (SelectFileOnEnd) SelectFileInstead = true;
+            if (@CurrentPreviewCreator.IsActive) SwitchUI_Deactivate();
+
+            UnsavedChangesInfoTextDisplayer.RichText = UnsavedChangesInfo.Trim();
+            UnsavedChangesInfoGrid.Visibility = Visible;
+            if (SelectFileOnEnd) GlobalSelectFileOnEnd = true;
         }
         else
         {
             if (ExitOnEnd) Application.Current.Shutdown();
-            if (SelectFileOnEnd) Actions_FILE_SelectFile_Acutal();
+            else if (SelectFileOnEnd) SelectFile_Action();
         }
     }
-    public bool SelectFileInstead = false;
-
-    private bool CanDragMove = true;
-    private void Window_DragMove(object RequestSender, MouseButtonEventArgs EventArgs)
+    private void UnsavedChangesDialog_ConfirmProceed(object RequestSender, RoutedEventArgs EventArgs)
     {
-        if (CanDragMove)
+        if (GlobalSelectFileOnEnd)
         {
-            if (WindowState == WindowState.Maximized)
-            {
-                WindowState = WindowState.Normal;
-                this.Left = 0;
-                this.Top = 0;
-            }
-            this.DragMove();
-            if (WindowState == WindowState.Maximized)
-            {
-                if (PreviewCreator.CurrentInfo.IsActive)
-                {
-                    Rect WorkArea = SystemParameters.WorkArea;
-                    this.Left = WorkArea.Left;
-                    this.Top = WorkArea.Top;
-                    this.Width = WorkArea.Width;
-                    this.Height = WorkArea.Height;
-                    this.WindowState = WindowState.Normal;
-                }
-                else
-                {
-                    MainWindowContentControl.Margin = new Thickness(6, 6, 0, 6);
-                }
-            }
-            else
-            {
-                MainWindowContentControl.Margin = new Thickness(0);
-            }
-        }
-    }
-    private void Minimize(object RequestSender, MouseButtonEventArgs EventArgs) => WindowState = WindowState.Minimized;
-    private void Shutdown(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        CheckUnsavedChanges(ExitOnEnd: true);
-    }
-    private void UnsavedChangesDialog_ConfirmProceed(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        if (SelectFileInstead)
-        {
-            Actions_FILE_SelectFile_Acutal();
-            BackgroundCover_UnsavedChanges.Visibility = Collapsed;
-            SelectFileInstead = false;
+            SelectFile_Action();
+            UnsavedChangesInfoGrid.Visibility = Collapsed;
+            GlobalSelectFileOnEnd = false;
         }
         else Application.Current.Shutdown();
     }
-
-    private void UnsavedChangesDialog_Cancel(object RequestSender, MouseButtonEventArgs EventArgs)
+    private void UnsavedChangesDialog_Cancel(object RequestSender, RoutedEventArgs EventArgs)
     {
-        BackgroundCover_UnsavedChanges.Visibility = Collapsed;
+        UnsavedChangesInfoGrid.Visibility = Collapsed;
+        GlobalSelectFileOnEnd = false;
     }
-
-
-
-    private void ProcessLogicalTree(object Current)
-    {
-        if (Current is FrameworkElement)
-        {
-            // Setup line height on all tmproemitters based on type
-
-            string ElementName = (Current as FrameworkElement).Name;
-            if (ElementName.StartsWith("PreviewLayout_") && Current is TMProEmitter LimbusPreviewLayout)
-            {
-                PreviewLayoutsList.Add(LimbusPreviewLayout);
-                PrimaryRegisteredFontSizes[LimbusPreviewLayout] = LimbusPreviewLayout.FontSize;
-
-                if (ElementName.Equals("PreviewLayout_EGOGifts"))
-                {
-                    LimbusPreviewLayout.LineHeight = 24.9;
-                }
-                else
-                {
-                    LimbusPreviewLayout.LineHeight = 27.0;
-                }
-            }
-            else if (ElementName.StartsWith("Special_PreviewLayout_") && Current is TMProEmitter LimbusPreviewLayout2)
-            {
-                PreviewLayoutsList.Add(LimbusPreviewLayout2);
-                PrimaryRegisteredFontSizes[LimbusPreviewLayout2] = LimbusPreviewLayout2.FontSize;
-
-                if (ElementName.Equals("Special_PreviewLayout_Keywords_BattleKeywords_Desc"))
-                {
-                    LimbusPreviewLayout2.LineHeight = 25.0;
-                }
-                else
-                {
-                    LimbusPreviewLayout2.LineHeight = 20.0;
-                }
-            }
-            else if (!ElementName.StartsWith("SeriousScrollViewer") & Current is ScrollViewer)
-            {
-                try
-                {
-                    (Current as ScrollViewer).Resources.Add(SystemParameters.VerticalScrollBarWidthKey, 0.0);
-                }
-                catch { } // DISABLE SCROLLBAR
-            }
-            else if (Current is TextBox | Current is UITranslation_Mint)
-            {
-                FocusableTextBoxes.Add(Current as TextBox);
-            }
-        }
-
-        DependencyObject DependencyObjectParent = Current as DependencyObject;
-
-        if (DependencyObjectParent != null)
-        {
-            foreach (object Child in LogicalTreeHelper.GetChildren(DependencyObjectParent))
-            {
-                ProcessLogicalTree(Child);
-            }
-        }
-    }
+    #endregion
 
     // Auto hide shadow text for textfields
     private void SWBT_TextChanged_Shared(object RequestSender, TextChangedEventArgs EventArgs)
     {
-        TextBox Sender = RequestSender as TextBox;
-        Grid TagetSite = Sender.Parent as Grid;
-        FrameworkElement ShadowText = TagetSite.Children[0] as FrameworkElement;
+        UITranslation_Mint Textfield = RequestSender as UITranslation_Mint;
+        UITranslation_Rose ShadowText = (Textfield.Parent as Grid).Children[0] as UITranslation_Rose;
 
-        ShadowText.Visibility = Sender.Text switch
+        ShadowText.Visibility = Textfield.Text == "" ? Visible : Collapsed;
+
+        switch (Textfield.Name)
         {
-            "" => Visible,
-            _  => Collapsed,
-        };
-
-        if (Sender.Name.Equals("SWBT_Skills_MainSkillName"))
-        {
-            //SkillNameReplica.Text = SWBT_Skills_MainSkillName.Text;
-            SkillNamesReplication_SkillName_Text.Text = SWBT_Skills_MainSkillName.Text;
-        }
-
-        if (Sender.Name.Contains("Keywords_FormatInsertion"))
-        {
-            string FormatInsertionNumber = Sender.Name.Split("Keywords_FormatInsertion_")[^1];
-
-            LimbusPreviewFormatter.FormatInsertionsReplaceValues[FormatInsertionNumber] = Sender.Text.Equals("") ? $"{{{FormatInsertionNumber}}}" : Sender.Text;
-            PullUpdatePreview(TextEditor.Text);
-        }
-
-        if (Sender.Name.Equals("SWBT_Keywords_KeywordName") & !PreviewLayout_Keywords_Bufs_Name.IsFocused)
-        {
-            PreviewLayout_Keywords_Bufs_Name.Text = SWBT_Keywords_KeywordName.Text;
-            PreviewLayout_Keywords_BattleKeywords_Name.Text = SWBT_Keywords_KeywordName.Text;
-        }
-
-        if (Sender.Name.Equals("SWBT_EGOGifts_EGOGiftName")) EGOGiftName_PreviewLayout.Text = SWBT_EGOGifts_EGOGiftName.Text;
-    }
-
-    #region Mouse and Keyboard shortcuts
-    public static bool IsAnyTextBoxFocused()
-    {
-        if (FocusableTextBoxes.Where(textbox => textbox.IsFocused == true).Any()) return true;
-        else return false;
-    }
-    public static void UnfocusAllTextBoxes()
-    {
-        IEnumerable<TextBox> FocusedTextBoxes = FocusableTextBoxes.Where(textbox => textbox.IsFocused == true);
-        UnfocusElement(MainControl.TextEditor.TextArea);
-        if (FocusedTextBoxes.Any())
-        {
-            foreach (TextBox FocusedTextBox in FocusedTextBoxes) UnfocusElement(FocusedTextBox);
-        }
-    }
-
-    private static bool IsCtrlSPressed = false;
-    private void Window_PreviewKeyDown(object RequestSender, KeyEventArgs EventArgs)
-    {
-        if (Keyboard.IsKeyDown(Key.LeftCtrl) & Keyboard.IsKeyDown(Key.P))
-        {
-            if (MakeLimbusPreviewScan.IsHitTestVisible) SavePreviewlayoutScan();
-        }
-
-        if (Keyboard.IsKeyDown(Key.LeftCtrl) & Keyboard.IsKeyDown(Key.F) & PreviewCreator.CurrentInfo.IsActive)
-        {
-            if (FirstColumnItemsSelector.Visibility == Visible)
-            {
-                FirstColumnItemsSelector.Visibility = Collapsed;
-                SecondColumnItemsSelector.Visibility = Collapsed;
-            }
-            else
-            {
-                FirstColumnItemsSelector.Visibility = Visible;
-                SecondColumnItemsSelector.Visibility = Visible;
-            }
-        }
-
-        #region Files saving
-        if (Keyboard.IsKeyDown(Key.LeftCtrl) || Keyboard.IsKeyDown(Key.RightCtrl))
-        {
-            if (EventArgs.Key == Key.S && !IsCtrlSPressed)
-            {
-                IsCtrlSPressed = true;
-
-                if (PreviewUpdate_TargetSite != PreviewLayoutDef_Default)
-                {
-                    switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
-                    {
-                        case "Skills":
-
-                            if (PreviewUpdate_TargetSite.Equals(PreviewLayout_Skills_MainDesc))
-                            {
-                                DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Description = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].EditorDescription;
-
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill main desc"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill main desc"].Text;
-
-                                Mode_Skills.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-                            }
-                            else
-                            {
-                                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-                                List<CoinDesc> FullLinkSkill = DelegateSkills[Mode_Skills.CurrentSkillID][Mode_Skills.CurrentSkillUptieLevel].Coins[Mode_Skills.CurrentSkillCoinIndex].CoinDescriptions;
-                                //////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////////
-
-                                FullLinkSkill[Mode_Skills.CurrentSkillCoinDescIndex].Description = FullLinkSkill[Mode_Skills.CurrentSkillCoinDescIndex].EditorDescription;
-
-                                if (!FullLinkSkill.Where(x => !x.Description.Equals(x.EditorDescription)).Any())
-                                {
-                                    ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]
-                                        .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"].Text;
-                                }
-
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Skills / Right menu] * Skill Coin desc number"].Text
-                                        .Extern(Mode_Skills.CurrentSkillCoinDescIndex + 1);
-
-                                Mode_Skills.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-                            }
-
-                            break;
-
-
-                        case "Passives":
-
-                            //////////////////////////////////////////////////////////////////////
-                            Passive FullLinkPassive = DelegatePassives[Mode_Passives.CurrentPassiveID];
-                            //////////////////////////////////////////////////////////////////////
-
-                            if (Mode_Passives.TargetSite_StringLine.Equals("Main Description"))
-                            {
-                                FullLinkPassive.Description = FullLinkPassive.EditorDescription;
-
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive desc"].Text;
-
-                                Mode_Passives.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-                            }
-                            else if (Mode_Passives.TargetSite_StringLine.Equals("Summary Description"))
-                            {
-                                FullLinkPassive.SummaryDescription = FullLinkPassive.EditorSummaryDescription;
-
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Passives / Right menu] * Passive summary"].Text;
-
-                                Mode_Passives.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-                            }
-
-                            break;
-
-
-                        case "Keywords":
-                            //////////////////////////////////////////////////////////////////////
-                            Keyword FullLinkKeyword = DelegateKeywords[Mode_Keywords.CurrentKeywordID];
-                            //////////////////////////////////////////////////////////////////////
-
-                            if (Mode_Keywords.TargetSite_StringLine.Equals("Main Description"))
-                            {
-                                FullLinkKeyword.Description = FullLinkKeyword.EditorDescription;
-
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword desc"].Text;
-
-
-                                Mode_Keywords.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-                            }
-                            else if (Mode_Keywords.TargetSite_StringLine.Equals("Summary Description"))
-                            {
-                                FullLinkKeyword.SummaryDescription = FullLinkKeyword.EditorSummaryDescription;
-
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[Keywords / Right Menu] * Keyword summary"].Text;
-
-                                Mode_Keywords.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-                            }
-
-                            break;
-
-
-                        case "E.G.O Gifts":
-                            //////////////////////////////////////////////////////////////////////
-                            EGOGift FullLinkEGOGift = DelegateEGOGifts[Mode_EGOGifts.CurrentEGOGiftID];
-                            //////////////////////////////////////////////////////////////////////
-
-                            if (Mode_EGOGifts.TargetSite_StringLine.Equals("Main Description"))
-                            {
-                                FullLinkEGOGift.Description = FullLinkEGOGift.EditorDescription;
-
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].Text;
-
-                                Mode_EGOGifts.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-                            }
-                            else
-                            {
-                                string SimpleDescNumber = $"{Mode_EGOGifts.TargetSite_StringLine[^1]}";
-
-                                int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
-
-                                FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].Description = FullLinkEGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
-
-                                ᐁ_Interface_Localization_Loader.PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"]
-                                    .RichText = ᐁ_Interface_Localization_Loader.LoadedModifiers[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].Text;
-
-
-                                Mode_EGOGifts.DeserializedInfo.SerializeFormattedFile(CurrentFile.FullName);
-                            }
-
-                            break;
-                    }
-                }
-            }
-        }
-        #endregion
-
-        else if (EventArgs.Key == Key.Left | EventArgs.Key == Key.Right)
-        {
-            if (EventArgs.Key == Key.Right)
-            {
-                if (!IsAnyTextBoxFocused() & !TextEditor.TextArea.IsFocused) NavigationPanel_IDSwitch(NavigationPanel_IDSwitch_Next, null);
-            }
-            else if (EventArgs.Key == Key.Left)
-            {
-                if (!IsAnyTextBoxFocused() & !TextEditor.TextArea.IsFocused) NavigationPanel_IDSwitch(NavigationPanel_IDSwitch_Previous, null);
-            }
-        }
-        else if (EventArgs.Key == Key.Escape)
-        {
-            if (NavigationPanel_IDSwitch_ManualInput_Textfield.IsFocused)
-            {
-                NavigationPanel_IDSwitch_ManualInput_Stop();
-            }
-            UnfocusAllTextBoxes();
-        }
-
-        #region Manual ID Switch
-        else if (EventArgs.Key == Key.Enter)
-        {
-            if (NavigationPanel_IDSwitch_ManualInput_Textfield.IsFocused)
-            {
-                string IDString = NavigationPanel_IDSwitch_ManualInput_Textfield.Text.Trim();
-
-                Dictionary<string, int> TargetSite_NameIDs = Mode_Handlers.Upstairs.ActiveProperties.Key switch
-                {
-                    "Skills"   => Mode_Skills  .Skills_NameIDs,
-                    "Passives" => Mode_Passives.Passives_NameIDs,
-                    "E.G.O Gifts" => Mode_EGOGifts.EGOGifts_NameIDs,
-                    _ => new Dictionary<string, int> { }
-                };
-
-                int RegularObjectTargetID = -1;
-                string KeywordObjectTargetID = "";
-
-                if (Mode_Handlers.Upstairs.ActiveProperties.Key.Equals("Keywords"))
-                {
-                    KeywordObjectTargetID = IDString;
-
-                    if (Mode_Keywords.Keywords_NameIDs.ContainsKey(KeywordObjectTargetID))
-                    {
-                        KeywordObjectTargetID = Mode_Keywords.Keywords_NameIDs[KeywordObjectTargetID];
-                    }
-                    else
-                    {
-                        if (!DelegateKeywords_IDList.Contains(KeywordObjectTargetID))
-                        {
-                            RegularObjectTargetID = -1;
-                        }
-                    }
-                }
-                else
-                {
-                    try
-                    {
-                        RegularObjectTargetID = int.Parse(IDString);
-                    }
-                    catch
-                    {
-                        if (TargetSite_NameIDs.ContainsKey(IDString))
-                        {
-                            RegularObjectTargetID = TargetSite_NameIDs[IDString];
-                        }
-                    }
-                }
-
-                if (!RegularObjectTargetID.Equals(-1))
-                {
-                    switch (Mode_Handlers.Upstairs.ActiveProperties.Key)
-                    {
-                        case "Skills":
-                            if (DelegateSkills_IDList.Contains(RegularObjectTargetID)) Mode_Handlers.Mode_Skills.TransformToSkill(RegularObjectTargetID);
-                            break;
-
-                        case "Passives":
-                            if (DelegatePassives_IDList.Contains(RegularObjectTargetID)) Mode_Handlers.Mode_Passives.TransformToPassive(RegularObjectTargetID);
-                            break;
-                        
-                        case "E.G.O Gifts":
-                            if (DelegateEGOGifts_IDList.Contains(RegularObjectTargetID)) Mode_Handlers.Mode_EGOGifts.TransformToEGOGift(RegularObjectTargetID);
-                            break;
-                    }
-                }
-                // Else if Keywords
-                else if (!KeywordObjectTargetID.Equals("") & DelegateKeywords_IDList.Contains(KeywordObjectTargetID))
-                {
-                    Mode_Handlers.Mode_Keywords.TransformToKeyword(KeywordObjectTargetID);
-                }
-
-                NavigationPanel_IDSwitch_ManualInput_Stop();
-            }
-        }
-        #endregion
-    }
-
-    private void MakeLimbusPreviewScan_Do(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        SurfaceScrollPreview_Skills.ReconnectAsChildTo(SkillsPreviewFreeBordersCanvas);
-        if (Configurazione.DeltaConfig.ScanParameters.AreaWidth == 0)
-        {
-            PreviewLayoutGrid_Skills_ContentControlStackPanel.Width = Mode_Skills.LastRegisteredWidth;
-        }
-        else
-        {
-            PreviewLayoutGrid_Skills_ContentControlStackPanel.Width = Configurazione.DeltaConfig.ScanParameters.AreaWidth;
-        }
-
-        
-        SavePreviewlayoutScan();
-
-
-        SurfaceScrollPreview_Skills.ReconnectAsChildTo(PreviewLayoutGrid_Skills);
-        PreviewLayoutGrid_Skills_ContentControlStackPanel.Width = Mode_Skills.LastRegisteredWidth;
-    }
-
-    private void Window_PreviewKeyUp(object RequestSender, KeyEventArgs EventArgs)
-    {
-        if (EventArgs.Key == Key.S) IsCtrlSPressed = false;
-    }
-
-    private new async void MouseDownEvent(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        switch (EventArgs.ChangedButton)
-        {
-            case MouseButton.XButton1: //Back
-                PreviewLayout_Keywords_Bufs_Name.Focusable = false;
-
-                if (Mode_Handlers.Upstairs.ActiveProperties.Key.Equals("Skills") & Keyboard.IsKeyDown(Key.LeftShift))
-                {
-                    int currentuptie = Mode_Skills.CurrentSkillUptieLevel;
-                    List<int> avalible = new List<int>();
-                    foreach (KeyValuePair<int, Type_Skills.UptieLevel> Skill in DelegateSkills[Mode_Skills.CurrentSkillID])
-                    {
-                        avalible.Add(Skill.Value.Uptie);
-                    }
-
-                    int indexof = avalible.IndexOf(currentuptie);
-                    int previndex = indexof - 1;
-                    if (previndex != -1)
-                    {
-                        if (avalible[previndex] != Mode_Skills.CurrentSkillUptieLevel)
-                        {
-                            Mode_Skills.TransformToSkill(Mode_Skills.CurrentSkillID, avalible[previndex]);
-                        }
-                    }
-                }
-                else
-                {
-                    NavigationPanel_IDSwitch(NavigationPanel_IDSwitch_Previous, null);
-                }
-
-                await Task.Delay(100); PreviewLayout_Keywords_Bufs_Name.Focusable = true;
+            case nameof(SWBT_Skills_MainSkillName):
+                SkillNamesReplication_SkillName_Text.RichText = SWBT_Skills_MainSkillName.Text.Replace("\\n", "\n");
                 break;
 
-            case MouseButton.XButton2: //Forward
-                PreviewLayout_Keywords_Bufs_Name.Focusable = false;
-
-                if (Mode_Handlers.Upstairs.ActiveProperties.Key.Equals("Skills") & Keyboard.IsKeyDown(Key.LeftShift))
-                {
-                    int currentuptie = Mode_Skills.CurrentSkillUptieLevel;
-                    List<int> avalible = new List<int>();
-                    foreach (KeyValuePair<int, Type_Skills.UptieLevel> Skill in DelegateSkills[Mode_Skills.CurrentSkillID])
-                    {
-                        avalible.Add(Skill.Value.Uptie);
-                    }
-
-                    int indexof = avalible.IndexOf(currentuptie);
-                    int nextindex = indexof + 1;
-                    if (avalible.Count >= nextindex + 1)
-                    {
-                        if (avalible[nextindex] != Mode_Skills.CurrentSkillUptieLevel)
-                        {
-                            Mode_Skills.TransformToSkill(Mode_Skills.CurrentSkillID, avalible[nextindex]);
-                        }
-                    }
-                }
-                else
-                {
-                    NavigationPanel_IDSwitch(NavigationPanel_IDSwitch_Next, null);
-                }
-
-                await Task.Delay(100); PreviewLayout_Keywords_Bufs_Name.Focusable = true;
+            case nameof(SWBT_Passives_MainPassiveName):
+                PassiveNamesReplication_PassiveName_Text.RichText = SWBT_Passives_MainPassiveName.Text.Replace("\\n", "\n");
                 break;
 
-            case MouseButton.Left:
-                if (NavigationPanel_IDSwitch_ManualInput_Textfield.IsFocused)
-                {
-                    if (!IDButton_Container.IsMouseOver)
-                    {
-                        NavigationPanel_IDSwitch_ManualInput_Stop();
-                    }
-                }
+            case nameof(SWBT_Keywords_KeywordName):
+                PreviewLayout_Keywords_Bufs_Name.RichText = SWBT_Keywords_KeywordName.Text.Replace("\\n", "\n");
+                PreviewLayout_Keywords_BattleKeywords_Name.RichText = SWBT_Keywords_KeywordName.Text.Replace("\\n", "\n");
                 break;
 
-            default: break;
+            case nameof(SWBT_EGOGifts_EGOGiftName):
+                EGOGiftName_PreviewLayout.RichText = SWBT_EGOGifts_EGOGiftName.Text.Replace("\\n", "\n");
+                break;
+
+            default:
+
+                if (Textfield.UID.StartsWith("[Keywords / Right Menu] * Format Insertion "))
+                {
+                    string FormatInsertionNumber = Textfield.Uid;
+
+                    LimbusPreviewFormatter.FormatInsertionsReplaceValues[FormatInsertionNumber] = Textfield.Text == "" ? $"{{{FormatInsertionNumber}}}" : Textfield.Text.Replace("\\n", "\n");
+                    TextEditor_TextChanged(null, null);
+                }
+
+                break;
         }
     }
-    #endregion
+    
 
     public static void UnfocusElement(DependencyObject Target)
     {
@@ -2012,22 +1092,39 @@ public partial class MainWindow : Window
 
 
 
+
+
     #region Editor context Menu
-    private void Actions_ContextMenu_Shared(object RequestSender, RoutedEventArgs EventArgs)
+
+    // Switch to extra replacements when left shift is pressed
+    private void TextEditor_ContextMenuOpening(object RequestSender, ContextMenuEventArgs EventArgs)
     {
-        string Editor_SelectedTextTemplate = TextEditor.SelectedText;
-        
-        switch ((RequestSender as MenuItem).Name.Split("ContextMenuItem_")[^1])
+        if (Keyboard.IsKeyDown(Key.LeftShift))
+        {
+            TextEditor.ContextMenu = @ExtraReplacements.ContextMenu;
+        }
+    }
+    private void TextEditor_ContextMenuClosing(object RequestSender, ContextMenuEventArgs EventArgs)
+    {
+        TextEditor.ContextMenu = Editor_Background.Resources["DefaultContextMenu"] as ContextMenu;
+    }
+
+
+    public void TextEditor_SharedContextMenuClick(object RequestSender, RoutedEventArgs EventArgs)
+    {
+        string SelectedTextToEdit = TextEditor.SelectedText;
+        MenuItem ActualSender = RequestSender as MenuItem;
+        switch (ActualSender.Name)
         {
             case "InsertStyle":
-                Editor_SelectedTextTemplate = $"<style=\"{(Mode_Handlers.Upstairs.ActiveProperties.Key.Equals("Skills") ? "highlight" : "upgradeHighlight")}\">{Editor_SelectedTextTemplate}</style>";
+                SelectedTextToEdit = $"<style=\"{(ActiveProperties.Key.EqualsOneOf(EditorMode.Skills, EditorMode.Passives) ? "highlight" : "upgradeHighlight")}\">{SelectedTextToEdit}</style>";
                 break;
 
-            case "TMProToKeywordLinks":
-                Editor_SelectedTextTemplate = LimbusPreviewFormatter.RemoteRegexPatterns.TMProKeyword.Replace(Editor_SelectedTextTemplate, Match =>
+            case "TMProToKeywordID":
+                SelectedTextToEdit = LimbusPreviewFormatter.RemoteRegexPatterns.TMProKeyword.Replace(SelectedTextToEdit, Match =>
                 {
                     string ID = Match.Groups["ID"].Value;
-                    if (KeywordsInterrogate.KeywordsGlossary.ContainsKey(ID))
+                    if (KeywordsInterrogation.Keywords_Bufs.ContainsKey(ID))
                     {
                         return $"[{ID}]";
                     }
@@ -2037,20 +1134,22 @@ public partial class MainWindow : Window
                 break;
 
             case "TMProToShorthands":
-                Editor_SelectedTextTemplate = LimbusPreviewFormatter.RemoteRegexPatterns.TMProKeyword.Replace(Editor_SelectedTextTemplate, Match =>
+                SelectedTextToEdit = LimbusPreviewFormatter.RemoteRegexPatterns.TMProKeyword.Replace(SelectedTextToEdit, Match =>
                 {
                     string ID = Match.Groups["ID"].Value;
                     string Color = Match.Groups["Color"].Value;
                     string Name = Match.Groups["Name"].Value;
-                    if (KeywordsInterrogate.KeywordsGlossary.ContainsKey(ID))
+                    if (KeywordsInterrogation.Keywords_Bufs.ContainsKey(ID))
                     {
                         string CustomColorAttach = "";
-                        if (!Color.Equals(KeywordsInterrogate.KeywordsGlossary[ID].StringColor))
+                        if (Color != KeywordsInterrogation.Keywords_Bufs[ID].StringColor)
                         {
-                            CustomColorAttach = Configurazione.ShorthandsInsertionShape.InsertionShape_Color.Replace("<HexColor>", Color);
+                            CustomColorAttach = @CurrentConfess.ShorthandsInsertionParams.InsertionShape_Color.Replace("<HexColor>", Color);
+                            //CustomColorAttach = ShorthandsInsertionShape.InsertionShape_Color.Replace("<HexColor>", Color);
                         }
 
-                        string OutputShorthand = Configurazione.ShorthandsInsertionShape.InsertionShape.Replace("<KeywordID>", ID).Replace("<KeywordName>", Name).Replace("<KeywordColor>", CustomColorAttach);
+                        //string OutputShorthand = ShorthandsInsertionShape.InsertionShape.Replace("<KeywordID>", ID).Replace("<KeywordName>", Name).Replace("<KeywordColor>", CustomColorAttach);
+                        string OutputShorthand = @CurrentConfess.ShorthandsInsertionParams.InsertionShape.Replace("<KeywordID>", ID).Replace("<KeywordName>", Name).Replace("<KeywordColor>", CustomColorAttach);
 
                         return OutputShorthand;
                     }
@@ -2058,12 +1157,12 @@ public partial class MainWindow : Window
                 });
                 break;
 
-            case "UnevidentKeywordsToKeywordLinks":
-                foreach (KeyValuePair<string, string> UnevidentKeyword in KeywordsInterrogate.Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter)
+            case "UnevidentToKeywordID":
+                foreach (KeyValuePair<string, string> UnevidentKeyword in KeywordsInterrogation.Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter)
                 {
                     if (TextEditor.Text.Contains(UnevidentKeyword.Key))
                     {
-                        Editor_SelectedTextTemplate = Regex.Replace(Editor_SelectedTextTemplate, LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection.Replace("KeywordNameWillBeHere", UnevidentKeyword.Key.ToEscapeRegexString()), Match =>
+                        SelectedTextToEdit = Regex.Replace(SelectedTextToEdit, LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection.Replace("KeywordNameWillBeHere", UnevidentKeyword.Key.ToEscapeRegexString()), Match =>
                         {
                             return $"[{UnevidentKeyword.Value}]";
                         });
@@ -2071,26 +1170,29 @@ public partial class MainWindow : Window
                 }
                 break;
 
-            case "UnevidentKeywordsToShorthands":
-                foreach (KeyValuePair<string, string> UnevidentKeyword in KeywordsInterrogate.Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter)
+            case "UnevidentToShorthands":
+                foreach (KeyValuePair<string, string> UnevidentKeyword in KeywordsInterrogation.Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter)
                 {
-                    if (Editor_SelectedTextTemplate.Contains(UnevidentKeyword.Key))
+                    if (SelectedTextToEdit.Contains(UnevidentKeyword.Key))
                     {
-                        Editor_SelectedTextTemplate = Regex.Replace(Editor_SelectedTextTemplate, LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection.Replace("KeywordNameWillBeHere", UnevidentKeyword.Key.ToEscapeRegexString()), Match =>
+                        SelectedTextToEdit = Regex.Replace(SelectedTextToEdit, LimbusPreviewFormatter.RemoteRegexPatterns.AutoKeywordsDetection.Replace("KeywordNameWillBeHere", UnevidentKeyword.Key.ToEscapeRegexString()), Match =>
                         {
-                            return Configurazione.ShorthandsInsertionShape.InsertionShape.Replace("<KeywordID>", UnevidentKeyword.Value).Replace("<KeywordName>", UnevidentKeyword.Key.Replace(" ", "<\0TMPSPACE>")).Replace("<KeywordColor>", "");
+                            //return ShorthandsInsertionShape.InsertionShape.Replace("<KeywordID>", UnevidentKeyword.Value).Replace("<KeywordName>", UnevidentKeyword.Key.Replace(" ", "<\0TMPSPACE>")).Replace("<KeywordColor>", "");
+                            return @CurrentConfess.ShorthandsInsertionParams.InsertionShape.Replace("<KeywordID>", UnevidentKeyword.Value).Replace("<KeywordName>", UnevidentKeyword.Key.Replace(" ", "<\0TMPSPACE>")).Replace("<KeywordColor>", "");
                         });
                     }
                 }
                 break;
 
-            case "KeywordLinksToShorthand":
-                Editor_SelectedTextTemplate = LimbusPreviewFormatter.RemoteRegexPatterns.SquareBracketLike.Replace(Editor_SelectedTextTemplate, Match =>
+            case "KeywordIDToShorthands":
+                SelectedTextToEdit = LimbusPreviewFormatter.RemoteRegexPatterns.SquareBracketLike.Replace(SelectedTextToEdit, Match =>
                 {
                     string ID = Match.Groups["ID"].Value;
-                    if (KeywordsInterrogate.KeywordsGlossary.ContainsKey(ID))
+                    if (KeywordsInterrogation.Keywords_Bufs.ContainsKey(ID))
                     {
-                        return Configurazione.ShorthandsInsertionShape.InsertionShape.Replace("<KeywordID>", ID).Replace("<KeywordName>", KeywordsInterrogate.KeywordsGlossary[ID].Name).Replace("<KeywordColor>", "");
+                        
+                        //return ShorthandsInsertionShape.InsertionShape.Replace("<KeywordID>", ID).Replace("<KeywordName>", KeywordsInterrogate.KeywordsGlossary[ID].Name).Replace("<KeywordColor>", "");
+                        return @CurrentConfess.ShorthandsInsertionParams.InsertionShape.Replace("<KeywordID>", ID).Replace("<KeywordName>", KeywordsInterrogation.Keywords_Bufs[ID].Name).Replace("<KeywordColor>", "");
                     }
                     else
                     {
@@ -2099,152 +1201,93 @@ public partial class MainWindow : Window
                 });
                 break;
 
-            case "KeywordLinksToTMPro":
-                Editor_SelectedTextTemplate = LimbusPreviewFormatter.RemoteRegexPatterns.SquareBracketLike.Replace(Editor_SelectedTextTemplate, Match =>
+            case "KeywordIDToTMPro":
+                SelectedTextToEdit = LimbusPreviewFormatter.RemoteRegexPatterns.SquareBracketLike.Replace(SelectedTextToEdit, Match =>
                 {
                     string ID = Match.Groups["ID"].Value;
-                    if (KeywordsInterrogate.KeywordsGlossary.ContainsKey(ID))
+                    if (KeywordsInterrogation.Keywords_Bufs.ContainsKey(ID))
                     {
-                        string Name = KeywordsInterrogate.KeywordsGlossary[ID].Name;
-                        string Color = KeywordsInterrogate.KeywordsGlossary[ID].StringColor;
+                        string Name = KeywordsInterrogation.Keywords_Bufs[ID].Name;
+                        string Color = KeywordsInterrogation.Keywords_Bufs[ID].StringColor;
 
                         return $"<sprite name=\"{ID}\"><color={Color}><u><link=\"{ID}\">{Name}</link></u></color>";
                     }
                     else return Match.Groups[0].Value;
                 });
                 break;
-        }
-        // tmpspace to avoid conversion of same keywords within other, as example 'Attack Power Up' with 'Power Up' inside that being converted too without tmpspace
-        if (!Editor_SelectedTextTemplate.Equals(TextEditor.SelectedText)) TextEditor.SelectedText = Editor_SelectedTextTemplate.Replace("<\0TMPSPACE>", " ");
-    }
 
+            default:
+
+                if (ActualSender.DataContext != null) // @ExtraReplacements.ContextMenu item
+                {
+                    var RegexReplacements = ActualSender.DataContext as List<@ExtraReplacements.RegexReplaceOption>;
+
+                    foreach (var RegexReplacement in RegexReplacements)
+                    {
+                        SelectedTextToEdit = RegexReplacement.RegularExpression.Replace(SelectedTextToEdit, RegexReplacement.Replacement);
+                    }
+                }
+                else // Call from Window_PreviewKeyDown() Hotkeys but with invalid name
+                {
+                    MessageBox.Show($"Unknown context menu command from hotkeys: \"{ContextMenuHotkeys.LatestHotkeyCommandName}\"\n\n(You can only use those listed in THE \"[⇲] Assets Directory\\Context Menu Hotkeys.json\" file)", "Invalid hotkey command", MessageBoxButton.OK, MessageBoxImage.Warning);
+                }
+
+                break;
+        }
+
+        #pragma '<\0TMPSPACE>' to avoid conversion of same keywords within each other when converting Unevident to Shorthands
+        // As example: "Повышение силы атаки" (Attack Power Up) with "Повышение силы" (Power Up) inside that being converted too without tmpspace ("[Enhancement:`Повышение силы атаки`]" (First 'Match =>' replace step by AutoKeywordsDetection) -> "[Enhancement:`[ResultEnhancement:`Повышение силы`] атаки`]" (Second and last 'Match =>' replace step by AutoKeywordsDetection))
+        if (SelectedTextToEdit != TextEditor.SelectedText) TextEditor.SelectedText = SelectedTextToEdit.Replace("<\0TMPSPACE>", " ");
+    }
     #endregion
 
-    private void Window_Loaded(object RequestSender, RoutedEventArgs EventArgs)
+    void tempreplace()
     {
-        SetupPreviewCreator();
-
-
-        if (!Configurazione.LoadErrors.Equals("") & Configurazione.DeltaConfig.Internal.ShowLoadWarnings)
+        // RR1 BokGak 'Skills_Abnormality_Refraction1_bokgak.json' skill names replacing shenanigans
+        static Dictionary<int, string> GetNamedDictionary(List<Skill> SkillsList)
         {
-            Configurazione.ShowLoadWarningsWindow();
+            return SkillsList.Select(x => new KeyValuePair<int, string>((int)x.ID, x.UptieLevels[0].Name)).ToDictionary();
         }
 
-        if (DeltaConfig.TechnicalActions.KeywordsDictionary.Generate & !File.Exists("Keywords Multiple Meanings.json"))
+
+        var Names1_Original = GetNamedDictionary(new FileInfo(@"C:\Program Files (x86)\Steam\steamapps\common\Limbus Company\LimbusCompany_Data\Assets\Resources_moved\Localize\en\EN_Skills_Abnormality.json").Deserealize<SkillsFile>().dataList);
+        var Names2_Original = GetNamedDictionary(new FileInfo(@"C:\Program Files (x86)\Steam\steamapps\common\Limbus Company\LimbusCompany_Data\Assets\Resources_moved\Localize\en\EN_Skills_Abnormality_Refraction.json").Deserealize<SkillsFile>().dataList);
+        var Names3_Original = GetNamedDictionary(new FileInfo(@"C:\Program Files (x86)\Steam\steamapps\common\Limbus Company\LimbusCompany_Data\Assets\Resources_moved\Localize\en\EN_Skills_Enemy.json").Deserealize<SkillsFile>().dataList);
+
+
+        var Names1_Translated = GetNamedDictionary(new FileInfo(@"C:\Dream-Devouring Siltcurrent\@LimbusCompany MTL'RU\localize\Skills_Abnormality.json").Deserealize<SkillsFile>().dataList);
+        var Names2_Translated = GetNamedDictionary(new FileInfo(@"C:\Dream-Devouring Siltcurrent\@LimbusCompany MTL'RU\localize\Skills_Abnormality_Refraction.json").Deserealize<SkillsFile>().dataList);
+        var Names3_Translated = GetNamedDictionary(new FileInfo(@"C:\Dream-Devouring Siltcurrent\@LimbusCompany MTL'RU\localize\Skills_Enemy.json").Deserealize<SkillsFile>().dataList);
+
+        // Eng name -> Ru name
+        Dictionary<string, string> Comparsions = [];
+
+        foreach (var i in Names1_Original)
+            Comparsions[Names1_Original[i.Key]] = Names1_Translated[i.Key];
+
+        foreach (var i in Names2_Original)
+            Comparsions[Names2_Original[i.Key]] = Names2_Translated[i.Key];
+
+        foreach (var i in Names3_Original)
+            Comparsions[Names3_Original[i.Key]] = Names3_Translated[i.Key];
+
+        SkillsFile BokGakFile = new FileInfo(@"C:\Dream-Devouring Siltcurrent\@LimbusCompany MTL'RU\localize\Skills_Abnormality_Refraction1_bokgak.json").Deserealize<SkillsFile>();
+
+        foreach (Skill AbSkill in BokGakFile.dataList)
         {
-            if (Directory.Exists(DeltaConfig.TechnicalActions.KeywordsDictionary.Path))
+            string SkillName = AbSkill.UptieLevels[0].Name;
+            //rin($"{AbSkill.ID}: {SkillName}");
+            if (Comparsions.ContainsKey(SkillName))
             {
-                KeywordsInterrogate.ExportKeywordsMultipleMeaningsDictionary(
-                    DeltaConfig.TechnicalActions.KeywordsDictionary.Path
-                );
+                rin($"\"{SkillName}\" переведено как \"{Comparsions[SkillName]}\"");
+                AbSkill.UptieLevels[0].Name = Comparsions[SkillName];
             }
             else
             {
-                MessageBox.Show($"Keywords multiple meanings dir \"{DeltaConfig.TechnicalActions.KeywordsDictionary.Path}\" not found");
-            }
-        }
-    }
-
-    public static void ReloadConfig_Direct()
-    {
-        Configurazione.PullLoad();
-    }
-    
-    private void OpenSettings(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        SettingsWindow.SettingsControl.Show();
-        SettingsWindow.SettingsControl.WindowState = WindowState.Normal;
-        SettingsWindow.SettingsControl.Focus();
-    }
-
-    private void SavePreviewlayoutScan()
-    {
-        string NameHint = "";
-        string ManualPath = "";
-
-        ScrollViewer CurrentTarget = null;
-
-        if (PreviewCreator.CurrentInfo.IsActive)
-        {
-            CurrentTarget = SeriousScrollViewer_1;
-
-            SaveFileDialog OutputPathSelector = NewSaveFileDialog("Image files", ["png"]);
-            OutputPathSelector.FileName = $"{DateTime.Now.ToString("HHːmmːss (dd.MM.yyyy)")}.png";
-            if (OutputPathSelector.ShowDialog() == true)
-            {
-                ManualPath = OutputPathSelector.FileName;
-            }
-            else CurrentTarget = null;
-        }
-        else
-        {
-            switch (Upstairs.ActiveProperties.Key)
-            {
-                case "Skills":
-                    CurrentTarget = SurfaceScrollPreview_Skills;
-                    NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
-                               $"ID {Mode_Skills.CurrentSkillID}" +
-                               (CurrentFile.Name.Contains("personality", comparisonType: StringComparison.OrdinalIgnoreCase) ? $", Uptie {Mode_Skills.CurrentSkillUptieLevel}" : "");
-                    break;
-
-                case "Passives":
-                    CurrentTarget = SurfaceScrollPreview_Passives;
-                    NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
-                               $"ID {Mode_Passives.CurrentPassiveID}";
-                    break;
-
-                case "Keywords":
-                    CurrentTarget =
-                        PreviewLayoutGrid_Keywords_Sub_Bufs.Visibility == Visibility.Visible ?
-                            Scanable__PreviewLayout_Keywords_Bufs_Desc
-                            :
-                            SurfaceScrollPreview_Keywords__BattleKeywords;
-                    NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
-                               $"ID {Mode_Keywords.CurrentKeywordID}";
-                    break;
-
-                case "E.G.O Gifts":
-                    if (CurrentFile != null)
-                    {
-                        CurrentTarget = SurfaceScrollPreview_EGOGifts;
-                        NameHint = $"{CurrentFile.Name.Replace(".json", "")}, " +
-                                   $"ID {Mode_EGOGifts.CurrentEGOGiftID}";
-                    }
-                    break;
-
-                default: break;
-            }
-            if (!Directory.Exists(@"[⇲] Assets Directory\[⇲] Scans"))
-            {
-                Directory.CreateDirectory(@"[⇲] Assets Directory\[⇲] Scans");
+                rin($"!! !! !! нет имени {SkillName}");
             }
         }
 
-
-        if (CurrentTarget != null)
-        {
-            bool ManuallyHiddenSelectors = false;
-            if (FirstColumnItemsSelector.Visibility == Visible)
-            {
-                FirstColumnItemsSelector.Visibility = Collapsed;
-                SecondColumnItemsSelector.Visibility = Collapsed;
-            }
-            else ManuallyHiddenSelectors = true;
-
-            ScanScrollviewer(CurrentTarget, NameHint, ManualPath);
-
-            if (!ManuallyHiddenSelectors)
-            {
-                FirstColumnItemsSelector.Visibility = Visible;
-                SecondColumnItemsSelector.Visibility = Visible;
-            }
-        }
-    }
-
-    private void OpenDisplayInfoManager(object RequestSender, MouseButtonEventArgs EventArgs)
-    {
-        SkillsDisplayInfoManagerWindow.SkillsDisplayInfoManager.Show();
-        SkillsDisplayInfoManagerWindow.SkillsDisplayInfoManager.WindowState = WindowState.Normal;
-        SkillsDisplayInfoManagerWindow.SkillsDisplayInfoManager.Focus();
+        BokGakFile.SerializeToFormattedFile(@"C:\Dream-Devouring Siltcurrent\@LimbusCompany MTL'RU\localize\Skills_Abnormality_Refraction1_bokgak-REPLACEDNAMES.json");
     }
 }

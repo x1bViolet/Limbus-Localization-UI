@@ -1,0 +1,24 @@
+{Regex Option} - English localization rephrasing
+
+  // $2 is the (\w+) 'Single word' Group №2 that supposted to be a keyword id, $1 is (\d+) Group that matches any amount of numbers
+* Pattern: Inflict \+(\d+) \[(\w+)\] Count
+  Replace: Raises [$2] Count by $1
+
+  // There $1 is value of (\d+) at the end of Pattern 
+* Pattern: Trigger \[VibrationExplosion\]; then, reduce \[Vibration\] Count by (\d+)
+  Replace: Trigger [VibrationExplosion] and reduce it's Count by $1
+
+
+And any other text there, syntax matching is not serious, '//' for comments is optional decoration
+
+
+// (You also can use rich text in option names (Backslashes are not needed, this file is not json))
+{Regex Option} - RuMTL translation '<sprite name="Burst"><color=#00ffe1><u>Rupture</u></color> Count'
+* Pattern: Inflict 1 \[Burst\]
+  Replace: Наносит 1 [Burst:`Разрыв`]
+  
+* Pattern: Inflict ([2-4]) \[Burst\]
+  Replace: Наносит $1 [Burst:`Разрыва`]
+  
+* Pattern: Inflict (\d+) \[Burst\]
+  Replace: Наносит $1 [Burst:`Разрывов`]

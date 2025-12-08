@@ -1,7 +1,7 @@
 {
   "Internal": {
-    "UI Language": "[⇲] Assets Directory/@ Internal/Translation/English",
-    "UI Theme": "[⇲] Assets Directory/@ Internal/Themes/Limbus Localization UI",
+    "UI Language": "[⇲] Assets Directory/※ Internal/Translation/English",
+    "UI Theme": "[⇲] Assets Directory/※ Internal/Themes/Limbus Localization UI",
     "Topmost Window": true,
     "Show Load Warnings": true,
     "Enable manual Json files managing": false
@@ -10,16 +10,13 @@
     "Base": {
       "Enable Syntax Highlight": true,
       "Hide Limbus Text Preview": false,
-
       "Highlight <style>": true,
-      
       "Highlight Skill Descs on right click": true,
       "Highlight Skill Descs on manual switch": false,
-      
       "Enable Skill Names Replication": true,
       "Enable Keyword Tooltips": true,
-
-      "Preview Update Delay (Seconds)": 0
+      "Enable 7~10 coin buttons": false,
+      "Preview Update Delay (Seconds)": 0.0
     },
     "Custom Language Properties": {
       "Keywords Ignore": [
@@ -34,224 +31,179 @@
         "AttackLevelAdder",
         "Keyword will not be loaded if its ID contains one of these lines"
       ],
-      "Keywords Fallback": {
-        "Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/en"
-      },
+      "Keywords Fallback": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/en",
+      "Additional Keywords Directory": "",
       "Custom Language Associative Settings": {
         "Associative Properties Selected": "English (Original)",
         "Associative Properties List": [
           {
-            "Name": "Example",
-            "Hide in list": true,
-            "Properties": {
-
-              "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/lang1",
-              "Keywords Autodetection Regex Pattern": "(KeywordNameWillBeHere)(?![\\p{L}\\[\\])\\-_<'\":+])",
-              "Keywords Shorthands Regex Pattern": "\\[(?<ID>\\w+):`(?<Name>.*?)`\\](\\((?<Color>#[a-fA-F0-9]{6})\\))?",
-              "Keywords Shorthands Contextmenu Insertion Shape": "[<KeywordID>:`<KeywordName>`]<KeywordColor>",
-              "Keywords Shorthands Contextmenu Insertion Shape <KeywordColor>": "(<HexColor>)",
-              "Keywords Multiple Meanings Dictionary": "[⇲] Assets Directory/[+] Keywords/Another/MTL Keywords Dictionary.json",
-              "Keywords Sprite Horizontal Offset": 0,
-              "Keywords Sprite Vertical Offset": 0,
-
-              "Skill Names Vertical Offset": 0,
-
-              "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/lang1/Font/Title/Mikodacs.ttf",
-              "Title Font (Override Read Name)": "Mikodacs",
-              "Title Font (Font Weight)": "Regular",
-              "Title Font (Font Size Multipler)": 1.0,
-
-              "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/lang1/Font/Context/Pretendard.ttf",
-              "Context Font (Override Read Name)": "Pretendard",
-              "Context Font (Font Weight)": "Regular",
-              "Context Font (Font Size Multipler)": 1.0
-              
-            }
-          },
-
-          
-          
-          {
             "Name": "English (Original)",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/en",
-
-              "Title Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/Mikodacs.otf",
-              "Context Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/Pretendard-Regular.ttf"
+              "Title Font": "[⇲] Assets Directory/Limbus Embedded Fonts/Mikodacs.otf",
+              "Context Font": "[⇲] Assets Directory/Limbus Embedded Fonts/Pretendard-Regular.ttf"
             }
           },
           {
             "Name": "Korean (Original)",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/kr",
-              
-              "Keywords Sprite Vertical Offset": -1,
-              "Skill Names Vertical Offset": 3,
-
-              "Title Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/KOTRA_BOLD.ttf",
-              "Title Font (Font Size Multipler)": 0.88,
+              "Keywords Sprite Vertical Offset": -1.0,
+              "Title Font": "[⇲] Assets Directory/Limbus Embedded Fonts/KOTRA_BOLD.ttf",
               "Title Font (Override Read Name)": "KOTRA BOLD",
-              "Context Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/SCDream5.otf"
+              "Title Font (Font Size Multipler)": 0.88,
+              "Context Font": "[⇲] Assets Directory/Limbus Embedded Fonts/SCDream5.otf"
             }
           },
           {
             "Name": "Japanese (Original)",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/jp",
-
-              "Title Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/Corporate-Logo-Bold-ver2.otf",
+              "Title Font": "[⇲] Assets Directory/Limbus Embedded Fonts/Corporate-Logo-Bold-ver2.otf",
               "Title Font (Font Size Multipler)": 0.93,
-              "Context Font": "[⇲] Assets Directory/[⇲] Limbus Embedded Fonts/HigashiOme-Gothic-C-1.3.ttf"
+              "Context Font": "[⇲] Assets Directory/Limbus Embedded Fonts/HigashiOme-Gothic-C-1.3.ttf"
             }
           },
-          
-
-
           {
             "Name": "CLT-LCBR",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ptbr-CLT",
-
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ptbr-CLT/Font/Title/TitleFont.otf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ptbr-CLT/Font/Context/ContextFont.otf"
             }
           },
           {
             "Name": "Localize Limbus Company",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/zh-CN",
-
-              "Skill Names Vertical Offset": -1.5,
-
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/zh-CN/Font/Title/ChineseFont.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/zh-CN/Font/Context/ChineseFont.ttf"
             }
           },
           {
             "Name": "Limbus Traditional Mandarin",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-LTM",
-
-              "Skill Names Vertical Offset": -1.5,
-
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-LTM/Font/Title/TitleFont.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-LTM/Font/Context/ContextFont.ttf"
             }
           },
           {
             "Name": "Retirement Home Old Yard",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-RHOY",
-
-              "Skill Names Vertical Offset": -1.5,
-
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-RHOY/Font/Title/TitleFont.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/hant-RHOY/Font/Context/ContextFont.ttf"
             }
           },
           {
             "Name": "Espresso Office",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/it-espresso",
-
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/it-espresso/Font/Title/Mikodacs.otf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/it-espresso/Font/Context/Pretendard-Regular.otf"
             }
           },
           {
             "Name": "Dreams Office",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/es-DreamsOffice",
-
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/es-DreamsOffice/Font/Title/Mikodacs.otf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/es-DreamsOffice/Font/Context/Pretendard-Regular.otf"
             }
           },
           {
             "Name": "Russian (Crescent Corporation)",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-CresCorp",
-              "Keywords Autodetection Regex Pattern": "(KeywordNameWillBeHere)(?![\\p{L}\\[\\])\\-_<*'\":+])",
+              "Keywords Autodetection Regex Pattern": "(KeywordNameWillBeHere)(?![\\p{L}\\[\\]\\)\\-_<*'\":+])",
+              "Keywords Shorthands Regex Pattern": "\\[(?<ID>\\w+):\\*(?<Name>.*?)\\*\\](\\((?<Color>#[a-fA-F0-9]{6})\\))?",
               "Keywords Shorthands Contextmenu Insertion Shape": "[<KeywordID>:*<KeywordName>*]<KeywordColor>",
               "Keywords Shorthands Contextmenu Insertion Shape <KeywordColor>": "(<HexColor>)",
-              "Keywords Shorthands Regex Pattern": "\\[(?<ID>\\w+):\\*(?<Name>.*?)\\*\\](\\((?<Color>#[a-fA-F0-9]{6})\\))?",
-
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-CresCorp/Font/Title/Mikodacs.otf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-CresCorp/Font/Context/PretendardVariable.ttf"
             }
           },
           {
             "Name": "Russian (Divine Company)",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-Divine",
-              "Keywords Autodetection Regex Pattern": "(KeywordNameWillBeHere)(?![\\p{L}\\[\\])\\-_<`'\":+])",
+              "Keywords Autodetection Regex Pattern": "(KeywordNameWillBeHere)(?![\\p{L}\\[\\]\\)\\-_<`'\":+])",
+              "Keywords Shorthands Regex Pattern": "\\[(?<ID>\\w+):`(?<Name>.*?)`\\](\\((?<Color>#[a-fA-F0-9]{6})\\))?",
               "Keywords Shorthands Contextmenu Insertion Shape": "[<KeywordID>:`<KeywordName>`]<KeywordColor>",
               "Keywords Shorthands Contextmenu Insertion Shape <KeywordColor>": "(<HexColor>)",
-              "Keywords Shorthands Regex Pattern": "\\[(?<ID>\\w+):`(?<Name>.*?)`\\](\\((?<Color>#[a-fA-F0-9]{6})\\))?",
-
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-Divine/Font/Title/MikodacsRu.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-Divine/Font/Context/PretendardRegularRu.ttf"
             }
           },
           {
             "Name": "Russian (MTL)",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-mtl",
-              "Keywords Autodetection Regex Pattern": "(KeywordNameWillBeHere)(?![\\p{L}\\[\\])\\-_<`'\":+])",
+              "Keywords Autodetection Regex Pattern": "(KeywordNameWillBeHere)(?![\\p{L}\\[\\]\\)\\-_<`'\":+])",
               "Keywords Shorthands Regex Pattern": "\\[(?<ID>\\w+):`(?<Name>.*?)`\\](\\((?<Color>#[a-fA-F0-9]{6})\\))?",
               "Keywords Shorthands Contextmenu Insertion Shape": "[<KeywordID>:`<KeywordName>`]<KeywordColor>",
               "Keywords Shorthands Contextmenu Insertion Shape <KeywordColor>": "(<HexColor>)",
-              "Keywords Multiple Meanings Dictionary": "[⇲] Assets Directory/[+] Keywords/Another/MTL Keywords Dictionary.json",
-
+              "Keywords Multiple Meanings Dictionary": "[⇲] Assets Directory/Keywords Multiple Meanings Dictionaries/MTL Keywords Dictionary.json",
+              "Context Menu Extra Replacements": "[⇲] Assets Directory/Extra Replacements/MTL.rg.txt",
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-mtl/Font/Title/Title.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-mtl/Font/Context/Context.ttf"
             }
           },
           {
             "Name": "Rainbus Company Rofls",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-RCR",
-              "Keywords Autodetection Regex Pattern": "(KeywordNameWillBeHere)(?![\\p{L}\\[\\])\\-_<`'\":+])",
+              "Keywords Autodetection Regex Pattern": "(KeywordNameWillBeHere)(?![\\p{L}\\[\\]\\)\\-_<`'\":+])",
               "Keywords Shorthands Regex Pattern": "\\[(?<ID>\\w+):`(?<Name>.*?)`\\](\\((?<Color>#[a-fA-F0-9]{6})\\))?",
               "Keywords Shorthands Contextmenu Insertion Shape": "[<KeywordID>:`<KeywordName>`]<KeywordColor>",
               "Keywords Shorthands Contextmenu Insertion Shape <KeywordColor>": "(<HexColor>)",
-
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-RCR/Font/Title/Mikodacs.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-RCR/Font/Context/Pretendard.ttf"
             }
           },
           {
             "Name": "LimbusThai by stlinx",
+            "Hide in list": false,
             "Properties": {
               "Keywords Directory": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/th-stlinx",
-
-              "Keywords Sprite Vertical Offset": -4,
-              "Skill Names Vertical Offset": 5,
-
+              "Keywords Sprite Vertical Offset": -4.0,
               "Title Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/th-stlinx/Font/Title/แคนคะนวยคงรวยคงทวยแทน.ttf",
               "Context Font": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/th-stlinx/Font/Context/แคนคะนวยคงรวยคงทวยแทน.ttf"
             }
           }
         ]
-      },
-      "Additional Keywords Directory": "Something there (Loads after fallback and custom)"
+      }
     }
   },
   "Scan Parameters": {
-    "Skills Area Width": 700,
-    "Scale Factor": 3,
+    "Skills Area Width": 900.0,
+    "Scale Factor": 4.5,
     "Background Color": "#00202020",
     "Comments": [
       "'Skills Area Width' as 0 means default width",
       "'Background Color' can be ARGB",
-      "'Scale Factor' highly affects on text quality, bigger values cuses long export time, max value is 20 (About ~7 seconds of absurdres image exporting)"
+      "'Scale Factor' highly affects on text quality, bigger values cuses long export time, max value is 15 (About ~7 seconds of absurdres image exporting)"
     ]
   },
   "Technical Actions": {
     "Keywords Multiple Meanings Dictionary": {
       "Generate On Startup": false,
-      "Source Path": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-mtl",
-      "Comment": "It analyzes only a TextMeshPro versions of keywords (<sprite name=\"KeywordID\"><..>Keyword Name<..></color>)"
+      "Source Path": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/language-name",
+      "Comment": "It analyzes only a TextMeshPro versions of keywords (`<sprite name=\"KeywordID\"><..>Keyword Name<..>`, `<..>` is any order of <color> <u> <link> tags)"
     }
   }
 }

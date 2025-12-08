@@ -10,7 +10,7 @@ namespace LC_Localization_Task_Absolute;
 
 public partial class App : Application
 {
-    private abstract class QuickConfigAndLanguage
+    private static class QuickConfigAndLanguage
     {
         public record ConfigDelta
         {
@@ -33,7 +33,6 @@ public partial class App : Application
         catch { }
 
         string LogoPath = "UI/Logo.png";
-
         try
         {
             if (new FileInfo(@"[⇲] Assets Directory\Configurazione^.json").Deserealize<QuickConfigAndLanguage.ConfigDelta>().Internal.UILanguage.EndsWith("繁體中文"))
@@ -66,9 +65,10 @@ public partial class App : Application
             EventArgs.SetObserved();
         };
     }
-    private void LogUnhandledException(Exception Exception, string SetupExceptionHandlingSource)
+    private void LogUnhandledException(Exception Exception, string HandlingSource)
     {
-        //rin(FormattedStackTrace(Exception, SetupExceptionHandlingSource));
+        //MessageBox.Show(FormattedStackTrace(Exception, HandlingSource), caption: "Some error", button: MessageBoxButton.OK, icon: MessageBoxImage.Error);
+        //rin(FormattedStackTrace(Exception, HandlingSource));
         rin(Exception.ToString());
     }
 }

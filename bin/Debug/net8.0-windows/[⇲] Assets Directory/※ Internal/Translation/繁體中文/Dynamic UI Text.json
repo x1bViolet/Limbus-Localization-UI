@@ -1,0 +1,41 @@
+{
+  "Font Defaults": {
+    "Font": "GOST Type BU",
+    "Font Weight": "Black"
+  },
+  "Readme": [
+    "[C] — 自訂人格／E.G.O 預覽建立器",
+
+    "[0, 0, 0, 0] 邊距 — [左, 上, 右, 下]  或  [單一數字代表四個值]",
+
+    "[!] — 不支援Rich Text",
+    "[-] — 文字不可編輯，只能調整屬性",
+    "[&] — 僅支援文字"
+  ],
+  "List<Translation>": [
+    [
+      {
+        "UID": { "[C] [!] [&] * UI switch dialog": null },
+        "Variable": {
+          "Switch to": "要切換介面到 人格/E.G.O 預覽建立器嗎？",
+          "Return back": "要切換介面回到一般編輯器嗎？",
+          "Message window title": "介面切換"
+        }
+      }
+    ],
+    [
+      {
+        "UID": {"[Main UI] Unsaved changes marker":null},
+        "Text": "[$] <size=66%><color=#fc5a03><b>（已變更）</b></color></size>"
+      },
+      {
+        "UID": {"[Main UI] Default insertion value":null},
+        "Text": "…"
+      },
+      {
+        "UID": {"[Main UI] [!] * Default Object name":null},
+        "Text": "金枝共鳴"
+      }
+    ]
+  ]
+}
