@@ -1,3 +1,7 @@
+## Limbus Company gameplay localization files editor with text preview.
+
+### Latest version: [1.3:0 Release](https://github.com/x1bViolet/Limbus-Localization-UI/releases/tag/1.3%CB%900)
+
 ### Able to edit:
 - `Bufs*.json` and `BattleKeywords*.json`
 - `Skills*.json`
