@@ -3033,7 +3033,62 @@
     },
 
 
-
+    {
+      "ID": 9840,
+      "Image": "W Corp. Standard Issue Cap",
+      "Affinity": "Envy",
+      "Keyword": "Charge",
+      "Tier": "2"
+    },
+    {
+      "ID": 9841,
+      "Image": "Cleanup Agent Gear Set C",
+      "Affinity": "Envy",
+      "Keyword": "Charge",
+      "Tier": "4"
+    },
+    {
+      "ID": 9842,
+      "Image": "Bloody Flesh, Fleshy Blood",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9843,
+      "Image": "Hardblood Glaive",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9205,
+      "Image": "WB Flask",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9206,
+      "Image": "Sanguine Fragrance Descends",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9818,
+      "Image": "Discarded Dimensional Gauntlet",
+      "Affinity": "Envy",
+      "Keyword": "Charge",
+      "Tier": "3"
+    },
+    {
+      "ID": 9817,
+      "Image": "Blue Starshard",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
 
 
 
