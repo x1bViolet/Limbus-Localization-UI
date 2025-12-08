@@ -44,7 +44,10 @@ namespace LC_Localization_Task_Absolute
         /// <summary>
         /// Unifier of <see cref="UITranslation_Mint"/> and <see cref="UITranslation_Hyacinth"/> for <see cref="PresentedTextInputEntries"/>
         /// </summary>
-        public interface UITranslationTextfield : UITranslationEntry;
+        public interface UITranslationTextfield : UITranslationEntry
+        {
+            public string Text { get; set; }
+        }
 
 
         /// <summary>

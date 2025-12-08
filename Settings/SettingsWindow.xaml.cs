@@ -401,7 +401,7 @@ namespace LC_Localization_Task_Absolute
 
             InputText = ActualSender.Name.StartsWith("SV_Reload")
                 ? "" // Reload button does not have assigned textbox
-                : ConfigControl.InterfaceObject<UITranslation_Mint>(ActualSender.Name.Del("_ConfirmButton")).Text.Replace("\\", "/");
+                : ConfigControl.InterfaceObject<UITranslationTextfield>(ActualSender.Name.Del("_ConfirmButton")).Text.Replace("\\", "/");
 
             switch (ActualSender.Name)
             {
@@ -607,11 +607,15 @@ namespace LC_Localization_Task_Absolute
                     break;
 
                 case nameof(SV_ShorthandsCMInsertionShape_ConfirmButton):
-                    CurrentCustomLang.Keywords_ShorthandsContextMenuInsertionShape = InputText;
+                    _ = CurrentCustomLang.Keywords_ShorthandsContextMenuInsertionShape
+                      = @CurrentConfess.ShorthandsInsertionParams.InsertionShape
+                      = InputText;
                     break;
 
                 case nameof(SV_ShorthandsCMInsertionShape_KeywordColor_ConfirmButton):
-                    CurrentCustomLang.Keywords_ShorthandsContextMenuInsertionShape_HexColor = InputText;
+                    _ = CurrentCustomLang.Keywords_ShorthandsContextMenuInsertionShape_HexColor
+                      = @CurrentConfess.ShorthandsInsertionParams.InsertionShape_Color
+                      = InputText;
                     break;
 
 
