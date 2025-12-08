@@ -473,9 +473,9 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 {
                     foreach (Keyword KeywordItem in TargetSite.dataList)
                     {
-                        if (!string.IsNullOrEmpty(KeywordItem.ID) && KeywordItem.MainDescription != null) // Empty desc allowed
+                        if (!string.IsNullOrEmpty(KeywordItem.ID) && KeywordItem.PresentMainDescription != null) // Empty desc allowed
                         {
-                            Keywords_BattleKeywords[KeywordItem.ID] = new KeywordDescriptor(KeywordItem.Name, KeywordItem.MainDescription, null);
+                            Keywords_BattleKeywords[KeywordItem.ID] = new KeywordDescriptor(KeywordItem.Name, KeywordItem.PresentMainDescription, null);
                         }
                     }
                 }

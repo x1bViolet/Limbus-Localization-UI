@@ -171,7 +171,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             ActiveProperties = SwitchedInterfaceProperties;
 
             AdjustUI(ActiveProperties.WindowSizesInfo);
-            LockEditorUndo();
 
             HideNavigationPanelButtons(
                   ExceptButtonsPanel: MainControl.SwitchButtons_EGOGifts,
@@ -236,11 +235,11 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 for (int i = 1; i <= @Current.EGOGift.SimpleDescriptions.Count & i <= 10; i++)
                 {
-                    if (@Current.EGOGift.SimpleDescriptions[i - 1].Description != null)
+                    if (@Current.EGOGift.SimpleDescriptions[i - 1].PresentDescription != null)
                     {
                         InterfaceObject<Button>($"SimpleDescSwitchButton_{i}").IsEnabled = true;
 
-                        if (@Current.EGOGift.SimpleDescriptions[i - 1].Description != @Current.EGOGift.SimpleDescriptions[i - 1].EditorDescription)
+                        if (@Current.EGOGift.SimpleDescriptions[i - 1].PresentDescription != @Current.EGOGift.SimpleDescriptions[i - 1].EditorDescription)
                         {
                             PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {i}"].MarkWithUnsaved();
                         }
@@ -283,58 +282,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             MainControl.EGOGiftDisplay_UpgradeLevel2_OnIcon.Visibility = Collapsed;
             MainControl.EGOGiftDisplay_UpgradeLevel3_OnIcon.Visibility = Collapsed;
-
-
-
-            //MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Visibility = Collapsed;
-            //MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel3.Visibility = Collapsed;
-
-            //switch (Mode_EGOGifts.@Current.EGOGift.UpgradeLevelsAssociativeIDs.Count)
-            //{
-            //    case 1:
-            //        break;
-
-            //    case 2:
-                    
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Visibility = Visible;
-            //        break;
-
-            //    case 3:
-                   
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Visibility = Visible;
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel3.Visibility = Visible;
-            //        break;
-            //}
-
-            //switch (@Current.EGOGift.UpgradeLevel)
-            //{
-            //    case "1":
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel1.Children[3].Opacity = 1;
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Children[3].Opacity = 0;
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel3.Children[3].Opacity = 0;
-
-            //        break;
-
-            //    case "2":
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel1.Children[3].Opacity = 0;
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Children[3].Opacity = 1;
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel3.Children[3].Opacity = 0;
-
-            //        MainControl.EGOGiftDisplay_UpgradeLevel2Border.Visibility = Visible;
-            //        MainControl.EGOGiftDisplay_UpgradeLevel2_OnIcon.Visibility = Visible;
-            //        break;
-
-            //    case "3":
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel1.Children[3].Opacity = 0;
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel2.Children[3].Opacity = 0;
-            //        MainControl.EGOGiftDisplay_HotSwitchToUpgradeLevel3.Children[3].Opacity = 1;
-
-            //        MainControl.EGOGiftDisplay_UpgradeLevel2Border.Visibility = Visible;
-            //        MainControl.EGOGiftDisplay_UpgradeLevel3Border.Visibility = Visible;
-            //        MainControl.EGOGiftDisplay_UpgradeLevel2_OnIcon.Visibility = Visible;
-            //        MainControl.EGOGiftDisplay_UpgradeLevel3_OnIcon.Visibility = Visible;
-            //        break;
-            //}
 
 
             try
@@ -431,16 +378,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             CurrentDescriptionType_String = "Main Description";
 
-            if (@Current.EGOGift.MainDescription != @Current.EGOGift.EditorMainDescription)
-            {
-                MainControl.TextEditor.Text = @Current.EGOGift.EditorMainDescription;
-            }
-            else
-            {
-                MainControl.TextEditor.Text = @Current.EGOGift.MainDescription;
-            }
-
-            LockEditorUndo();
+            MainControl.TextEditor.Document = @Current.EGOGift.DedicatedDocument;
 
             {
                 ManualTextLoadEvent = true;
@@ -458,16 +396,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             CurrentDescriptionType_String = $"Simple Description №{SimpleDescNumber}";
 
             int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
-            if (@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].Description != @Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription)
-            {
-                MainControl.TextEditor.Text = @Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
-            }
-            else
-            {
-                MainControl.TextEditor.Text = @Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].Description;
-            }
 
-            LockEditorUndo();
+            SimpleDescription SimpleDesc = @Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex];
+
+            MainControl.TextEditor.Document = SimpleDesc.DedicatedDocument;
 
             {
                 ManualTextLoadEvent = true;

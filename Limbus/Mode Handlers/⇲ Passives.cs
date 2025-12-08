@@ -51,7 +51,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             ActiveProperties = SwitchedInterfaceProperties;
 
             AdjustUI(ActiveProperties.WindowSizesInfo);
-            LockEditorUndo();
 
             HideNavigationPanelButtons(
                   ExceptButtonsPanel: MainControl.SwitchButtons_Passives,
@@ -96,7 +95,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             MainControl.NavigationPanel_ObjectName_Display.Text = @Current.Passive.Name;
             MainControl.SWBT_Passives_MainPassiveName.Text = @Current.Passive.Name.Replace("\n", "\\n");
 
-            ReCheckPassiveInfo();
+            ReCheckPassiveSummaryButton();
 
             SwitchToMainDesc();
             
@@ -105,13 +104,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
         }
 
-        public static void ReCheckPassiveInfo()
+        public static void ReCheckPassiveSummaryButton()
         {
             MainControl.PassiveSummarySwitchButton.IsEnabled = false;
 
-            if (@Current.Passive.SummaryDescription != null)
+            if (@Current.Passive.PresentSummaryDescription != null)
             {
-                if (@Current.Passive.SummaryDescription != @Current.Passive.EditorSummaryDescription)
+                if (@Current.Passive.PresentSummaryDescription != @Current.Passive.EditorSummaryDescription)
                 {
                     PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"].MarkWithUnsaved();
                 }
@@ -125,8 +124,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"].SetDefaultText();
             }
-
-            SwitchToMainDesc();
         }
 
         public static void SwitchToMainDesc()
@@ -137,16 +134,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             CurrentDescriptionType = DualDescriptionType.Main;
 
-            if (@Current.Passive.MainDescription != @Current.Passive.EditorMainDescription)
-            {
-                MainControl.TextEditor.Text = @Current.Passive.EditorMainDescription;
-            }
-            else
-            {   
-                MainControl.TextEditor.Text = @Current.Passive.MainDescription;
-            }
-
-            LockEditorUndo();
+            MainControl.TextEditor.Document = @Current.Passive.DedicatedDocument_MainDesc;
 
             {
                 ManualTextLoadEvent = true;
@@ -161,16 +149,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             CurrentDescriptionType = DualDescriptionType.Summary;
 
-            if (@Current.Passive.SummaryDescription != @Current.Passive.EditorSummaryDescription)
-            {
-                MainControl.TextEditor.Text = @Current.Passive.EditorSummaryDescription;
-            }
-            else
-            {
-                MainControl.TextEditor.Text = @Current.Passive.SummaryDescription;
-            }
-
-            LockEditorUndo();
+            MainControl.TextEditor.Document = @Current.Passive.DedicatedDocument_SummaryDesc;
 
             {
                 ManualTextLoadEvent = true;
@@ -188,13 +167,15 @@ namespace LC_Localization_Task_Absolute
         private void Passives_SwitchToSummaryDesc(object RequestSender, RoutedEventArgs EventArgs) => Mode_Passives.SwitchToSummaryDesc();
         private void Passives_CreateSummaryDescription(object RequestSender, RoutedEventArgs EventArgs)
         {
-
-            Mode_Passives.@Current.Passive.SummaryDescription = " ";
+            Mode_Passives.@Current.Passive.PresentSummaryDescription = " ";
             Mode_Passives.@Current.Passive.EditorSummaryDescription = "";
+
+            Mode_Passives.@Current.Passive.DedicatedDocument_SummaryDesc.Text = Mode_Passives.@Current.Passive.EditorSummaryDescription;
+            Mode_Passives.@Current.Passive.DedicatedDocument_SummaryDesc.UndoStack.ClearAll();
 
             Mode_Passives.CurrentDescriptionType = DualDescriptionType.Summary;
 
-            TextEditor.Text = Mode_Passives.@Current.Passive.EditorSummaryDescription;
+            TextEditor.Document = Mode_Passives.@Current.Passive.DedicatedDocument_SummaryDesc;
             PassiveSummarySwitchButton.IsEnabled = true;
         }
     }

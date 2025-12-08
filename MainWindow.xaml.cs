@@ -184,7 +184,7 @@ public partial class MainWindow : Window
                     {
                         Mode_Skills.@Current.Uptie.EditorDescription = EditorText;
 
-                        if (Mode_Skills.@Current.Uptie.Description != Mode_Skills.@Current.Uptie.EditorDescription)
+                        if (Mode_Skills.@Current.Uptie.PresentDescription != Mode_Skills.@Current.Uptie.EditorDescription)
                         {
                             PresentedStaticTextEntries[$"[Skills / Right menu] * Skill main desc"].MarkWithUnsaved();
                         }
@@ -197,7 +197,7 @@ public partial class MainWindow : Window
                     {
                         Mode_Skills.@Current.CoinDesc.EditorDescription = EditorText;
 
-                        if (Mode_Skills.@Current.CoinDesc.Description != Mode_Skills.@Current.CoinDesc.EditorDescription)
+                        if (Mode_Skills.@Current.CoinDesc.PresentDescription != Mode_Skills.@Current.CoinDesc.EditorDescription)
                         {
                             PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"]
                                 .MarkWithUnsaved(ExtraExtern: Mode_Skills.CurrentSkillCoinDescIndex + 1);
@@ -208,7 +208,7 @@ public partial class MainWindow : Window
                                 .SetDefaultText(ExtraExtern: Mode_Skills.CurrentSkillCoinDescIndex + 1);
                         }
 
-                        if (Mode_Skills.@Current.Coin.CoinDescriptions.Any(CoinDesc => CoinDesc.Description != CoinDesc.EditorDescription))
+                        if (Mode_Skills.@Current.Coin.CoinDescriptions.Any(CoinDesc => CoinDesc.PresentDescription != CoinDesc.EditorDescription))
                         {
                             PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"]
                                 .MarkWithUnsaved();
@@ -252,7 +252,7 @@ public partial class MainWindow : Window
                     switch (Mode_Passives.CurrentDescriptionType)
                     {
                         case DualDescriptionType.Main:
-                            if (Mode_Passives.@Current.Passive.MainDescription != Mode_Passives.@Current.Passive.EditorMainDescription)
+                            if (Mode_Passives.@Current.Passive.PresentMainDescription != Mode_Passives.@Current.Passive.EditorMainDescription)
                             {
                                 PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"].MarkWithUnsaved();
                             }
@@ -263,7 +263,7 @@ public partial class MainWindow : Window
                             break;
 
                         case DualDescriptionType.Summary:
-                            if (Mode_Passives.@Current.Passive.SummaryDescription != Mode_Passives.@Current.Passive.EditorSummaryDescription)
+                            if (Mode_Passives.@Current.Passive.PresentSummaryDescription != Mode_Passives.@Current.Passive.EditorSummaryDescription)
                             {
                                 PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"].MarkWithUnsaved();
                             }
@@ -296,7 +296,7 @@ public partial class MainWindow : Window
                     switch (Mode_Keywords.CurrentDescriptionType)
                     {
                         case DualDescriptionType.Main:
-                            if (Mode_Keywords.@Current.Keyword.MainDescription != Mode_Keywords.@Current.Keyword.EditorMainDescription)
+                            if (Mode_Keywords.@Current.Keyword.PresentMainDescription != Mode_Keywords.@Current.Keyword.EditorMainDescription)
                             {
                                 PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"].MarkWithUnsaved();
                             }
@@ -307,7 +307,7 @@ public partial class MainWindow : Window
                             break;
 
                         case DualDescriptionType.Summary:
-                            if (Mode_Keywords.@Current.Keyword.SummaryDescription != Mode_Keywords.@Current.Keyword.EditorSummaryDescription)
+                            if (Mode_Keywords.@Current.Keyword.PresentSummaryDescription != Mode_Keywords.@Current.Keyword.EditorSummaryDescription)
                             {
                                 PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].MarkWithUnsaved();
                             }
@@ -332,9 +332,9 @@ public partial class MainWindow : Window
                     {
                         case "Main Description":
 
-                            Mode_EGOGifts.@Current.EGOGift.EditorMainDescription = EditorText;
+                            Mode_EGOGifts.@Current.EGOGift.EditorDescription = EditorText;
 
-                            if (Mode_EGOGifts.@Current.EGOGift.MainDescription != Mode_EGOGifts.@Current.EGOGift.EditorMainDescription)
+                            if (Mode_EGOGifts.@Current.EGOGift.PresentDescription != Mode_EGOGifts.@Current.EGOGift.EditorDescription)
                             {
                                 PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].MarkWithUnsaved();
                             }
@@ -352,7 +352,7 @@ public partial class MainWindow : Window
 
                             Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription = EditorText;
 
-                            if (Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].Description != Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription)
+                            if (Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].PresentDescription != Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription)
                             {
                                 PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].MarkWithUnsaved();
                             }
@@ -848,14 +848,14 @@ public partial class MainWindow : Window
                     bool UnsavedChangesInPassiveDesc = false;
                     bool UnsavedChangesInPassiveSummary = false;
 
-                    if (CheckPassive.Value.MainDescription != CheckPassive.Value.EditorMainDescription)
+                    if (CheckPassive.Value.PresentMainDescription != CheckPassive.Value.EditorMainDescription)
                     {
                         UnsavedChangesInPassiveDesc = true;
                         UnsavedChangesCount++;
                     }
-                    if (CheckPassive.Value.SummaryDescription != null)
+                    if (CheckPassive.Value.PresentSummaryDescription != null)
                     {
-                        if (CheckPassive.Value.SummaryDescription != CheckPassive.Value.EditorSummaryDescription)
+                        if (CheckPassive.Value.PresentSummaryDescription != CheckPassive.Value.EditorSummaryDescription)
                         {
                             UnsavedChangesInPassiveSummary = true;
                             UnsavedChangesCount++;
@@ -889,7 +889,7 @@ public partial class MainWindow : Window
                         SkillName = UptieLevel.Name;
                         bool AnythingChanged = false;
                         
-                        if (UptieLevel.Description != UptieLevel.EditorDescription)
+                        if (UptieLevel.PresentDescription != UptieLevel.EditorDescription)
                         {
                             AnythingChanged = true;
                         }
@@ -902,9 +902,9 @@ public partial class MainWindow : Window
                                 {
                                     foreach (CoinDesc CoinDesc in Coin.CoinDescriptions)
                                     {
-                                        if (CoinDesc != null && CoinDesc.Description != null)
+                                        if (CoinDesc != null && CoinDesc.PresentDescription != null)
                                         {
-                                            if (CoinDesc.Description != CoinDesc.EditorDescription) AnythingChanged = true;
+                                            if (CoinDesc.PresentDescription != CoinDesc.EditorDescription) AnythingChanged = true;
                                         }
                                     }
                                 }
@@ -932,14 +932,14 @@ public partial class MainWindow : Window
                     bool UnsavedChangesInKeywordDesc = false;
                     bool UnsavedChangesInKeywordSummary = false;
 
-                    if (CheckKeyword.Value.MainDescription != CheckKeyword.Value.EditorMainDescription)
+                    if (CheckKeyword.Value.PresentMainDescription != CheckKeyword.Value.EditorMainDescription)
                     {
                         UnsavedChangesInKeywordDesc = true;
                         UnsavedChangesCount++;
                     }
-                    if (CheckKeyword.Value.SummaryDescription != null)
+                    if (CheckKeyword.Value.PresentSummaryDescription != null)
                     {
-                        if (CheckKeyword.Value.SummaryDescription != CheckKeyword.Value.EditorSummaryDescription)
+                        if (CheckKeyword.Value.PresentSummaryDescription != CheckKeyword.Value.EditorSummaryDescription)
                         {
                             UnsavedChangesInKeywordSummary = true;
                             UnsavedChangesCount++;
@@ -969,7 +969,7 @@ public partial class MainWindow : Window
                     {
                         string ChangedSimpleDescs = "";
                         bool ChangedDesc = false;
-                        if (CheckEGOGift.Value.MainDescription != CheckEGOGift.Value.EditorMainDescription)
+                        if (CheckEGOGift.Value.PresentDescription != CheckEGOGift.Value.EditorDescription)
                         {
                             ChangedDesc = true;
                         }
@@ -978,7 +978,7 @@ public partial class MainWindow : Window
                             int SimpleDescIndexer = 1;
                             foreach (SimpleDescription SimpleDesc in CheckEGOGift.Value.SimpleDescriptions)
                             {
-                                if (SimpleDesc.Description != SimpleDesc.EditorDescription)
+                                if (SimpleDesc.PresentDescription != SimpleDesc.EditorDescription)
                                 {
                                     ChangedSimpleDescs += SpecializedDefs.UnsavedChangesInfo.EGOGifts.SimpleDesc.Extern(SimpleDescIndexer);
                                 }
@@ -1082,11 +1082,6 @@ public partial class MainWindow : Window
         FocusManager.SetFocusedElement(FocusManager.GetFocusScope(Target), null);
         Keyboard.ClearFocus();
         MainControl.Focus();
-    }
-
-    public static void LockEditorUndo()
-    {
-        MainControl.TextEditor.Document.UndoStack.ClearAll();
     }
     #endregion
 

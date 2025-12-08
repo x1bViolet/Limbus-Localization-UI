@@ -73,7 +73,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             ActiveProperties = SwitchedInterfaceProperties;
 
             AdjustUI(ActiveProperties.WindowSizesInfo);
-            LockEditorUndo();
 
             HideNavigationPanelButtons(
                   ExceptButtonsPanel: MainControl.SwitchButtons_Keywords,
@@ -132,7 +131,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             MainControl.PreviewLayout_Keywords_Bufs_Name.RichText = @Current.Keyword.Name;
             MainControl.PreviewLayout_Keywords_BattleKeywords_Name.RichText = @Current.Keyword.Name;
 
-            ReCheckKeywordInfo();
+            ReCheckKeywordSummaryButton();
 
             SwitchToMainDesc();
             
@@ -141,13 +140,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
         }
 
-        public static void ReCheckKeywordInfo()
+        public static void ReCheckKeywordSummaryButton()
         {
             MainControl.KeywordSummarySwitchButton.IsEnabled = false;
 
-            if (@Current.Keyword.SummaryDescription != null)
+            if (@Current.Keyword.PresentSummaryDescription != null)
             {
-                if (@Current.Keyword.SummaryDescription != @Current.Keyword.EditorSummaryDescription)
+                if (@Current.Keyword.PresentSummaryDescription != @Current.Keyword.EditorSummaryDescription)
                 {
                     PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].MarkWithUnsaved();
                 }
@@ -173,16 +172,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             CurrentDescriptionType = DualDescriptionType.Main;
 
-            if (@Current.Keyword.MainDescription != @Current.Keyword.EditorMainDescription)
-            {
-                MainControl.TextEditor.Text = @Current.Keyword.EditorMainDescription;
-            }
-            else
-            {
-                MainControl.TextEditor.Text = @Current.Keyword.MainDescription;
-            }
-
-            LockEditorUndo();
+            MainControl.TextEditor.Document = @Current.Keyword.DedicatedDocument_MainDesc;
 
             {
                 ManualTextLoadEvent = true;
@@ -197,16 +187,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             CurrentDescriptionType = DualDescriptionType.Summary;
 
-            if (@Current.Keyword.SummaryDescription != @Current.Keyword.EditorSummaryDescription)
-            {
-                MainControl.TextEditor.Text = @Current.Keyword.EditorSummaryDescription;
-            }
-            else
-            {
-                MainControl.TextEditor.Text = @Current.Keyword.SummaryDescription;
-            }
-
-            LockEditorUndo();
+            MainControl.TextEditor.Document = @Current.Keyword.DedicatedDocument_SummaryDesc;
 
             {
                 ManualTextLoadEvent = true;
@@ -247,20 +228,20 @@ namespace LC_Localization_Task_Absolute
         private void Keywords_InteractiveBufsOKButton_Click(object RequestSender, RoutedEventArgs EventArgs)
         {
             bool AnyChanges = false;
-            if (Mode_Keywords.@Current.Keyword.MainDescription != Mode_Keywords.@Current.Keyword.EditorMainDescription)
+            if (Mode_Keywords.@Current.Keyword.PresentMainDescription != Mode_Keywords.@Current.Keyword.EditorMainDescription)
             {
-                Mode_Keywords.@Current.Keyword.MainDescription = Mode_Keywords.@Current.Keyword.EditorMainDescription;
+                Mode_Keywords.@Current.Keyword.PresentMainDescription = Mode_Keywords.@Current.Keyword.EditorMainDescription;
 
                 PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"].SetDefaultText();
 
                 AnyChanges = true;
             }
 
-            if (Mode_Keywords.@Current.Keyword.SummaryDescription != null)
+            if (Mode_Keywords.@Current.Keyword.PresentSummaryDescription != null)
             {
-                if (Mode_Keywords.@Current.Keyword.SummaryDescription != Mode_Keywords.@Current.Keyword.EditorSummaryDescription)
+                if (Mode_Keywords.@Current.Keyword.PresentSummaryDescription != Mode_Keywords.@Current.Keyword.EditorSummaryDescription)
                 {
-                    Mode_Keywords.@Current.Keyword.SummaryDescription = Mode_Keywords.@Current.Keyword.EditorSummaryDescription;
+                    Mode_Keywords.@Current.Keyword.PresentSummaryDescription = Mode_Keywords.@Current.Keyword.EditorSummaryDescription;
 
                     PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].SetDefaultText();
 

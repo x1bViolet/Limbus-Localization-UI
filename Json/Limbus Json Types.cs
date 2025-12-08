@@ -1,16 +1,17 @@
 ﻿using Newtonsoft.Json;
 using System.IO;
 using System.Runtime.Serialization;
+using ICSharpCode.AvalonEdit.Document;
 
 #pragma warning disable IDE0079
-#pragma warning disable CS0169
-#pragma warning disable CA2211
 #pragma warning disable CS1696
 
 namespace LC_Localization_Task_Absolute.Json
 {
     public static class LimbusJsonTypes
     {
+        #pragma PresentDescription is the current text inside deserialized json, EditorDescription is the text modified in text editor
+
         public static class Type_Skills
         {
             public record SkillsFile
@@ -83,10 +84,14 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonProperty("desc")]
-                public string Description { get; set; } = "";
+                public string PresentDescription { get; set; } = "";
 
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; } = "";
+
+
+                [JsonIgnore]
+                public TextDocument DedicatedDocument { get; set; } = new();
 
 
                 [JsonProperty("coinlist")]
@@ -98,7 +103,11 @@ namespace LC_Localization_Task_Absolute.Json
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
-                    EditorDescription = Description;
+                    EditorDescription = PresentDescription;
+
+                    DedicatedDocument.Text = EditorDescription;
+
+                    DedicatedDocument.UndoStack.ClearAll();
                 }
             }
             public record Coin
@@ -109,10 +118,14 @@ namespace LC_Localization_Task_Absolute.Json
             public record CoinDesc
             {
                 [JsonProperty("desc")]
-                public string Description { get; set; } = "";
+                public string PresentDescription { get; set; } = "";
 
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; } = "";
+
+
+                [JsonIgnore]
+                public TextDocument DedicatedDocument { get; set; } = new();
 
 
                 #region Not used
@@ -122,7 +135,11 @@ namespace LC_Localization_Task_Absolute.Json
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
-                    EditorDescription = Description;
+                    EditorDescription = PresentDescription;
+
+                    DedicatedDocument.Text = EditorDescription;
+
+                    DedicatedDocument.UndoStack.ClearAll();
                 }
             }
         }
@@ -149,10 +166,10 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonProperty("desc")]
-                public string MainDescription { get; set; } = "";
+                public string PresentMainDescription { get; set; } = "";
 
                 [JsonProperty("summary")]
-                public string SummaryDescription { get; set; }
+                public string PresentSummaryDescription { get; set; }
 
 
                 [JsonIgnore] // For editor
@@ -161,13 +178,27 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore] // For editor
                 public string EditorSummaryDescription { get; set; } = "";
 
+
+                [JsonIgnore]
+                public TextDocument DedicatedDocument_MainDesc { get; set; } = new();
+
+                [JsonIgnore]
+                public TextDocument DedicatedDocument_SummaryDesc { get; set; } = new();
+
+
                 public string _comment { get; set; }
 
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
-                    EditorMainDescription = MainDescription;
-                    EditorSummaryDescription = SummaryDescription;
+                    EditorMainDescription = PresentMainDescription;
+                    EditorSummaryDescription = PresentSummaryDescription;
+
+                    DedicatedDocument_MainDesc.Text = EditorMainDescription;
+                    if (EditorSummaryDescription != null) DedicatedDocument_SummaryDesc.Text = EditorSummaryDescription;
+
+                    DedicatedDocument_MainDesc.UndoStack.ClearAll();
+                    DedicatedDocument_SummaryDesc.UndoStack.ClearAll();
                 }
             }
         }
@@ -194,10 +225,14 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonProperty("desc")]
-                public string MainDescription { get; set; } = "";
+                public string PresentDescription { get; set; } = "";
 
                 [JsonIgnore] // For editor
-                public string EditorMainDescription { get; set; } = "";
+                public string EditorDescription { get; set; } = "";
+
+
+                [JsonIgnore]
+                public TextDocument DedicatedDocument { get; set; } = new();
 
 
                 [JsonProperty("simpleDesc")]
@@ -215,7 +250,11 @@ namespace LC_Localization_Task_Absolute.Json
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
-                    EditorMainDescription = MainDescription;
+                    EditorDescription = PresentDescription;
+
+                    DedicatedDocument.Text = EditorDescription;
+
+                    DedicatedDocument.UndoStack.ClearAll();
                 }
             }
             public record SimpleDescription
@@ -225,17 +264,26 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonProperty("simpleDesc")]
-                public string Description { get; set; } = "";
+                public string PresentDescription { get; set; } = "";
 
                 [JsonIgnore] // For editor
                 public string EditorDescription { get; set; } = "";
+
+
+                [JsonIgnore]
+                public TextDocument DedicatedDocument { get; set; } = new();
+
 
                 public string _comment { get; set; }
 
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
-                    EditorDescription = Description;
+                    EditorDescription = PresentDescription;
+
+                    DedicatedDocument.Text = EditorDescription;
+
+                    DedicatedDocument.UndoStack.ClearAll();
                 }
             }
         }
@@ -262,16 +310,24 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonProperty("desc")]
-                public string MainDescription { get; set; } = "";
+                public string PresentMainDescription { get; set; } = "";
 
                 [JsonProperty("summary")]
-                public string SummaryDescription { get; set; }
+                public string PresentSummaryDescription { get; set; }
 
 
                 [JsonIgnore] // For editor
                 public string EditorMainDescription { get; set; } = "";
+                
                 [JsonIgnore] // For editor
                 public string EditorSummaryDescription { get; set; } = "";
+
+
+                [JsonIgnore]
+                public TextDocument DedicatedDocument_MainDesc { get; set; } = new();
+
+                [JsonIgnore]
+                public TextDocument DedicatedDocument_SummaryDesc { get; set; } = new();
 
 
                 [JsonProperty("Color")] // Special settings that can be used instead of "[⇲] Assets Directory\Color Dictionaries\Keyword Colors.cd.txt"
@@ -289,8 +345,14 @@ namespace LC_Localization_Task_Absolute.Json
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
-                    EditorMainDescription = MainDescription;
-                    EditorSummaryDescription = SummaryDescription;
+                    EditorMainDescription = PresentMainDescription;
+                    EditorSummaryDescription = PresentSummaryDescription;
+
+                    DedicatedDocument_MainDesc.Text = EditorMainDescription;
+                    if (EditorSummaryDescription != null) DedicatedDocument_SummaryDesc.Text = EditorSummaryDescription;
+
+                    DedicatedDocument_MainDesc.UndoStack.ClearAll();
+                    DedicatedDocument_SummaryDesc.UndoStack.ClearAll();
                 }
             }
         }

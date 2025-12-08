@@ -620,7 +620,7 @@ public partial class MainWindow
         };
 
         #region Main skill description
-        if (!string.IsNullOrEmpty(TextInfo.Description))
+        if (!string.IsNullOrEmpty(TextInfo.PresentDescription))
         {
             TMProEmitter SubPart_SkillMainDesc = new()
             {
@@ -633,7 +633,7 @@ public partial class MainWindow
                 Margin = new Thickness(9, 0, 0, 7),
                 HorizontalAlignment = HorizontalAlignment.Left,
             };
-            SubPart_SkillMainDesc.RichText = TextInfo.Description;
+            SubPart_SkillMainDesc.RichText = TextInfo.PresentDescription;
 
             @CurrentPreviewCreator.FocusedColumnElementContext.Link_SkillMainDescription = SubPart_SkillMainDesc;
 
@@ -665,7 +665,7 @@ public partial class MainWindow
                 {
                     foreach (CoinDesc Desc in Coin.CoinDescriptions)
                     {
-                        if (!string.IsNullOrEmpty(Desc.Description)) CollectedCoinDescriptions.Add(Desc.Description);
+                        if (!string.IsNullOrEmpty(Desc.PresentDescription)) CollectedCoinDescriptions.Add(Desc.PresentDescription);
                     }
                 }
                 if (CollectedCoinDescriptions.Count > 0)
@@ -770,7 +770,7 @@ public partial class MainWindow
             HorizontalAlignment = HorizontalAlignment.Left,
             LayoutTransform = new ScaleTransform(0.48, 0.48),
         };
-        PassiveDescription.RichText = TextInfo.MainDescription;
+        PassiveDescription.RichText = TextInfo.PresentMainDescription;
 
         @CurrentPreviewCreator.FocusedColumnElementContext.Link_PassiveDescription = PassiveDescription;
 
@@ -843,7 +843,7 @@ public partial class MainWindow
             HorizontalAlignment = HorizontalAlignment.Left,
             LayoutTransform = new ScaleTransform(0.48, 0.48),
         };
-        KeywordDescription.RichText = TextInfo.MainDescription;
+        KeywordDescription.RichText = TextInfo.PresentMainDescription;
 
 
         Border KeywordContainer = new()

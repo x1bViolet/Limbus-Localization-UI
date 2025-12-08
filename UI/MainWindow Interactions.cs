@@ -211,7 +211,7 @@ namespace LC_Localization_Task_Absolute
 
                                 if (TargetPreviewLayout == PreviewLayout_Skills_MainDesc)
                                 {
-                                    Mode_Skills.@Current.Uptie.Description = Mode_Skills.@Current.Uptie.EditorDescription;
+                                    Mode_Skills.@Current.Uptie.PresentDescription = Mode_Skills.@Current.Uptie.EditorDescription;
 
                                     PresentedStaticTextEntries["[Skills / Right menu] * Skill main desc"].SetDefaultText();
 
@@ -219,8 +219,8 @@ namespace LC_Localization_Task_Absolute
                                 }
                                 else
                                 {
-                                    Mode_Skills.@Current.CoinDesc.Description = Mode_Skills.@Current.CoinDesc.EditorDescription;
-                                    if (!Mode_Skills.@Current.CoinDescs.Any(CoinDesc => CoinDesc.Description != CoinDesc.EditorDescription))
+                                    Mode_Skills.@Current.CoinDesc.PresentDescription = Mode_Skills.@Current.CoinDesc.EditorDescription;
+                                    if (!Mode_Skills.@Current.CoinDescs.Any(CoinDesc => CoinDesc.PresentDescription != CoinDesc.EditorDescription))
                                     {
                                         PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"].SetDefaultText();
                                     }
@@ -237,7 +237,7 @@ namespace LC_Localization_Task_Absolute
 
                                 if (Mode_Passives.CurrentDescriptionType == DualDescriptionType.Main)
                                 {
-                                    Mode_Passives.@Current.Passive.MainDescription = Mode_Passives.@Current.Passive.EditorMainDescription;
+                                    Mode_Passives.@Current.Passive.PresentMainDescription = Mode_Passives.@Current.Passive.EditorMainDescription;
 
                                     PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"].SetDefaultText();
 
@@ -245,7 +245,7 @@ namespace LC_Localization_Task_Absolute
                                 }
                                 else if (Mode_Passives.CurrentDescriptionType == DualDescriptionType.Summary)
                                 {
-                                    Mode_Passives.@Current.Passive.SummaryDescription = Mode_Passives.@Current.Passive.EditorSummaryDescription;
+                                    Mode_Passives.@Current.Passive.PresentSummaryDescription = Mode_Passives.@Current.Passive.EditorSummaryDescription;
 
                                     PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"].SetDefaultText();
 
@@ -259,7 +259,7 @@ namespace LC_Localization_Task_Absolute
 
                                 if (Mode_Keywords.CurrentDescriptionType == DualDescriptionType.Main)
                                 {
-                                    Mode_Keywords.@Current.Keyword.MainDescription = Mode_Keywords.@Current.Keyword.EditorMainDescription;
+                                    Mode_Keywords.@Current.Keyword.PresentMainDescription = Mode_Keywords.@Current.Keyword.EditorMainDescription;
 
                                     PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"].SetDefaultText();
 
@@ -268,7 +268,7 @@ namespace LC_Localization_Task_Absolute
                                 }
                                 else if (Mode_Keywords.CurrentDescriptionType == DualDescriptionType.Summary)
                                 {
-                                    Mode_Keywords.@Current.Keyword.SummaryDescription = Mode_Keywords.@Current.Keyword.EditorSummaryDescription;
+                                    Mode_Keywords.@Current.Keyword.PresentSummaryDescription = Mode_Keywords.@Current.Keyword.EditorSummaryDescription;
 
                                     PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].SetDefaultText();
 
@@ -282,7 +282,7 @@ namespace LC_Localization_Task_Absolute
 
                                 if (Mode_EGOGifts.CurrentDescriptionType_String == "Main Description")
                                 {
-                                    Mode_EGOGifts.@Current.EGOGift.MainDescription = Mode_EGOGifts.@Current.EGOGift.EditorMainDescription;
+                                    Mode_EGOGifts.@Current.EGOGift.PresentDescription = Mode_EGOGifts.@Current.EGOGift.EditorDescription;
 
                                     PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].SetDefaultText();
 
@@ -294,7 +294,7 @@ namespace LC_Localization_Task_Absolute
 
                                     int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
 
-                                    Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].Description = Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
+                                    Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].PresentDescription = Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
 
                                     PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].SetDefaultText();
 

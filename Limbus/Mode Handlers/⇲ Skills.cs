@@ -494,7 +494,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             ActiveProperties = SwitchedInterfaceProperties;
 
             AdjustUI(ActiveProperties.WindowSizesInfo);
-            LockEditorUndo();
 
             HideNavigationPanelButtons(
                 ExceptButtonsPanel  : MainControl.SwitchButtons_Skills,
@@ -639,14 +638,14 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 {
                     if (CurrentCoin.CoinDescriptions != null && CurrentCoin.CoinDescriptions.Count > 0)
                     {
-                        if (CurrentCoin.CoinDescriptions.Where(x => x.Description == null).Count() != CurrentCoin.CoinDescriptions.Count)
+                        if (CurrentCoin.CoinDescriptions.Where(x => x.PresentDescription == null).Count() != CurrentCoin.CoinDescriptions.Count)
                         {
                             Grid MainCoinPanel = InterfaceObject<Grid>($"PreviewLayout_Skills_Coin{CoinNumber}");
 
                             if (MainCoinPanel != null)
                             {
 
-                                if (@Current.Uptie.Coins[CoinNumber - 1].CoinDescriptions.Any(x => x.Description != x.EditorDescription))
+                                if (@Current.Uptie.Coins[CoinNumber - 1].CoinDescriptions.Any(x => x.PresentDescription != x.EditorDescription))
                                 {
                                     PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {CoinNumber}"].MarkWithUnsaved();
                                 }
@@ -669,7 +668,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                 int CoinDescNumber = 1;
                                 foreach (CoinDesc CoinDescription in CurrentCoin.CoinDescriptions)
                                 {
-                                    if (CoinDescription.Description != null)
+                                    if (CoinDescription.PresentDescription != null)
                                     {
                                         TMProEmitter ThisCoinDescPanel = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{CoinNumber}_Desc{CoinDescNumber}");
                                         if (ThisCoinDescPanel != null)
@@ -685,7 +684,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                                             LastPreviewUpdatesBank[ThisCoinDescPanel] = CoinDescription.EditorDescription;
 
-                                            if (CoinDescription.Description != CoinDescription.EditorDescription)
+                                            if (CoinDescription.PresentDescription != CoinDescription.EditorDescription)
                                             {
                                                 PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {CoinNumber}"].MarkWithUnsaved();
                                             }
@@ -757,7 +756,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             int CoinDescIndexer = 0;
             foreach (CoinDesc CoinDescription in @Current.CoinDescs)
             {
-                if (CoinDescription.Description != null)
+                if (CoinDescription.PresentDescription != null)
                 {
                     CurrentCoinDescs_Avalible.Add(CoinDescIndexer);
                 }
@@ -777,22 +776,9 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             CurrentSkillCoinDescIndex = CoinDescIndex;
 
-            if (@Current.CoinDesc.Description != @Current.CoinDesc.EditorDescription)
-            {
-                MainControl.TextEditor.Text = @Current.CoinDesc.EditorDescription;
-
-                PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"].MarkWithUnsaved(ExtraExtern: CoinDescIndex + 1);
-            }
-            else
-            {
-                MainControl.TextEditor.Text = @Current.CoinDesc.Description;
-
-                PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"].SetDefaultText(ExtraExtern: CoinDescIndex + 1);
-            }
+            MainControl.TextEditor.Document = @Current.CoinDesc.DedicatedDocument;
 
             MainWindow.Skills_SwitchToCoinDesc_CheckAvalibles();
-
-            LockEditorUndo();
 
             {
                 ManualTextLoadEvent = true;
@@ -814,22 +800,9 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             TargetPreviewLayout = MainControl.PreviewLayout_Skills_MainDesc;
 
-            // ... -> MainWindow.Editor_TextChanged() -> update main desc
-            if (@Current.Uptie.Description != @Current.Uptie.EditorDescription)
-            {
-                MainControl.TextEditor.Text = @Current.Uptie.EditorDescription;
-
-                LastPreviewUpdatesBank[MainControl.PreviewLayout_Skills_MainDesc] = @Current.Uptie.EditorDescription;
-            }
-            else
-            {
-                MainControl.TextEditor.Text = @Current.Uptie.Description;
-                LastPreviewUpdatesBank[MainControl.PreviewLayout_Skills_MainDesc] = @Current.Uptie.Description;
-            }
+            MainControl.TextEditor.Document = @Current.Uptie.DedicatedDocument;
 
             if (MainControl.TextEditor.Text == "") TargetPreviewLayout.Visibility = Collapsed;
-
-            LockEditorUndo();
 
             {
                 ManualTextLoadEvent = false;
