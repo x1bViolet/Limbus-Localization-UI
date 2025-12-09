@@ -72,6 +72,9 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             },
         };
 
+        public static int MaxCoinsAmount => MainControl.CoinsStackPanel.Children.Count;
+        public static int MaxCoinDescsAmount => MainControl.FirstCoinDescs.Children.Count;
+
         /// <summary>
         /// For <see cref="LimbusPreviewFormatter.UpdateLast"/> to fully update skill instead of only one of descs
         /// </summary>
@@ -588,14 +591,14 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             
             MainControl.SkillAffinitySelector.SelectedIndex = @Current.Uptie.OptionalAffinity switch
             {
-                "Wrath" => 0,
-                "Lust" => 1,
-                "Sloth" => 2,
+                   "Wrath" => 0,
+                    "Lust" => 1,
+                   "Sloth" => 2,
                 "Gluttony" => 3,
-                "Gloom" => 4,
-                "Pride" => 5,
-                "Envy" => 6,
-                "None" => 7,
+                   "Gloom" => 4,
+                   "Pride" => 5,
+                    "Envy" => 6,
+                    "None" => 7,
                 _ => 7
             };
 
@@ -671,37 +674,39 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                                     if (CoinDescription.PresentDescription != null)
                                     {
                                         TMProEmitter ThisCoinDescPanel = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{CoinNumber}_Desc{CoinDescNumber}");
-                                        if (ThisCoinDescPanel != null)
+                                        
+                                        InterfaceObject<Button>($"CoinSwitchButton_{CoinNumber}").IsEnabled = true; // Make coin switch button enabled
+
+                                        #pragma EditorDescription is always actual recently edited text!!!!!!!!!!!!!!!!!!!
+                                        if (CoinDescription.EditorDescription != "")
                                         {
-                                            InterfaceObject<Button>($"CoinSwitchButton_{CoinNumber}").IsEnabled = true; // Make coin switch button enabled
+                                            VisibilityChangeQuery[ThisCoinDescPanel] = Visible;
+                                            ThisCoinDescPanel.RichText = CoinDescription.EditorDescription;
+                                        }
 
-                                            #pragma EditorDescription is always actual recently edited text!!!!!!!!!!!!!!!!!!!
-                                            if (CoinDescription.EditorDescription != "")
-                                            {
-                                                VisibilityChangeQuery[ThisCoinDescPanel] = Visible;
-                                                ThisCoinDescPanel.RichText = CoinDescription.EditorDescription;
-                                            }
+                                        LastPreviewUpdatesBank[ThisCoinDescPanel] = CoinDescription.EditorDescription;
 
-                                            LastPreviewUpdatesBank[ThisCoinDescPanel] = CoinDescription.EditorDescription;
-
-                                            if (CoinDescription.PresentDescription != CoinDescription.EditorDescription)
-                                            {
-                                                PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {CoinNumber}"].MarkWithUnsaved();
-                                            }
-                                            else
-                                            {
-                                                PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {CoinNumber}"].SetDefaultText();
-                                            }
+                                        if (CoinDescription.PresentDescription != CoinDescription.EditorDescription)
+                                        {
+                                            PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {CoinNumber}"].MarkWithUnsaved();
+                                        }
+                                        else
+                                        {
+                                            PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {CoinNumber}"].SetDefaultText();
                                         }
                                     }
+
+                                    if (CoinDescNumber == MaxCoinDescsAmount) break;
+
                                     CoinDescNumber++;
                                 }
                             }
                         }
                     }
+
+                    if (CoinNumber == MaxCoinsAmount) break;
                     
                     CoinNumber++;
-                    if (CoinNumber == 11) break;
                 }
             }
 
@@ -724,9 +729,9 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 InterfaceObject<UptieLevelButton>($"SwitchUptieLevelButton_{UptieLevelNumber}").IsSelected = false;
             }
 
-            for (int CoinNumber = 1; CoinNumber <= 10; CoinNumber++)
+            for (int CoinNumber = 1; CoinNumber <= MaxCoinsAmount; CoinNumber++)
             {
-                for (int CoinDescNumber = 1; CoinDescNumber <= 12; CoinDescNumber++)
+                for (int CoinDescNumber = 1; CoinDescNumber <= MaxCoinDescsAmount; CoinDescNumber++)
                 {
                     TMProEmitter CoinDescPanel = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{CoinNumber}_Desc{CoinDescNumber}");
                     CoinDescPanel.RichText = "";
@@ -737,51 +742,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
                 InterfaceObject<Button>($"CoinSwitchButton_{CoinNumber}").IsEnabled = false;
                 InterfaceObject<Grid>($"PreviewLayout_Skills_Coin{CoinNumber}").Visibility = Collapsed;
-            }
-        }
-
-        public static void SetCoinFocus(int CoinNumber, bool AutoSwitchToFirstCoinDesc = true)
-        {
-            MainControl.CoinDescSwitchButton_Next.IsEnabled = false;
-            MainControl.CoinDescSwitchButton_Prev.IsEnabled = false;
-            MainControl.CurrentCoinDesc_Display.IsEnabled = true;
-
-            PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin descs title"].SetDefaultText(ExtraExtern: CoinNumber);
-
-
-
-            CurrentCoinDescs_Avalible.Clear();
-            CurrentSkillCoinIndex = CoinNumber - 1;
-
-            int CoinDescIndexer = 0;
-            foreach (CoinDesc CoinDescription in @Current.CoinDescs)
-            {
-                if (CoinDescription.PresentDescription != null)
-                {
-                    CurrentCoinDescs_Avalible.Add(CoinDescIndexer);
-                }
-                CoinDescIndexer++;
-            }
-
-            if (AutoSwitchToFirstCoinDesc) SwitchToCoinDesc(CurrentCoinDescs_Avalible[0]);
-        }
-
-        public static void SwitchToCoinDesc(int CoinDescIndex)
-        {
-            {
-                ManualTextLoadEvent = true;
-            }
-
-            TargetPreviewLayout = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{CurrentSkillCoinIndex + 1}_Desc{CoinDescIndex + 1}");
-
-            CurrentSkillCoinDescIndex = CoinDescIndex;
-
-            MainControl.TextEditor.Document = @Current.CoinDesc.DedicatedDocument;
-
-            MainWindow.Skills_SwitchToCoinDesc_CheckAvalibles();
-
-            {
-                ManualTextLoadEvent = true;
             }
         }
 
@@ -802,17 +762,60 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             MainControl.TextEditor.Document = @Current.Uptie.DedicatedDocument;
 
-            if (MainControl.TextEditor.Text == "") TargetPreviewLayout.Visibility = Collapsed;
-
             {
                 ManualTextLoadEvent = false;
+            }
+        }
+
+        public static void SetCoinFocus(int CoinNumber, bool AutoSwitchToFirstCoinDesc = true)
+        {
+            MainControl.CoinDescSwitchButton_Next.IsEnabled = false;
+            MainControl.CoinDescSwitchButton_Prev.IsEnabled = false;
+            MainControl.CurrentCoinDesc_Display.IsEnabled = true;
+
+            PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin descs title"].SetDefaultText(ExtraExtern: CoinNumber);
+
+            CurrentCoinDescs_Avalible.Clear();
+            CurrentSkillCoinIndex = CoinNumber - 1;
+
+            int CoinDescIndexer = 0;
+            foreach (CoinDesc CoinDescription in @Current.CoinDescs)
+            {
+                if (CoinDescription.PresentDescription != null)
+                {
+                    CurrentCoinDescs_Avalible.Add(CoinDescIndexer);
+                }
+                CoinDescIndexer++;
+            }
+
+            if (AutoSwitchToFirstCoinDesc) SwitchToCoinDesc(CurrentCoinDescs_Avalible[0]);
+        }
+
+        public static void SwitchToCoinDesc(int TargetCoinDescIndex)
+        {
+            {
+                ManualTextLoadEvent = true;
+            }
+
+            TargetPreviewLayout = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{CurrentSkillCoinIndex + 1}_Desc{TargetCoinDescIndex + 1}");
+
+            CurrentSkillCoinDescIndex = TargetCoinDescIndex;
+
+            MainControl.TextEditor.Document = @Current.CoinDesc.DedicatedDocument;
+
+            MainWindow.Skills_SwitchToCoinDesc_CheckAvalibles();
+
+            {
+                ManualTextLoadEvent = true;
             }
         }
 
         public static void Toggle7to10CoinsVisibility(bool Is)
         {
             for (int CoinButtonNumer = 7; CoinButtonNumer <= 10; CoinButtonNumer++)
+            {
                 InterfaceObject<Button>($"CoinSwitchButton_{CoinButtonNumer}").Visibility = Is ? Visible : Collapsed;
+            }
         }
     }
 }
@@ -916,24 +919,10 @@ namespace LC_Localization_Task_Absolute
             int IndexOfCurrentCoinDesc = Mode_Skills.CurrentCoinDescs_Avalible.IndexOf(Mode_Skills.CurrentSkillCoinDescIndex);
 
             // If first item -> Hide 'Previous'
-            if (IndexOfCurrentCoinDesc == 0)
-            {
-                MainControl.CoinDescSwitchButton_Prev.IsEnabled = false;
-            }
-            else
-            {
-                MainControl.CoinDescSwitchButton_Prev.IsEnabled = true;
-            }
+            MainControl.CoinDescSwitchButton_Prev.IsEnabled = IndexOfCurrentCoinDesc != 0;
 
             // If last item -> Hide 'Next'
-            if ((IndexOfCurrentCoinDesc + 1) == Mode_Skills.CurrentCoinDescs_Avalible.Count)
-            {
-                MainControl.CoinDescSwitchButton_Next.IsEnabled = false;
-            }
-            else
-            {
-                MainControl.CoinDescSwitchButton_Next.IsEnabled = true;
-            }
+            MainControl.CoinDescSwitchButton_Next.IsEnabled = (IndexOfCurrentCoinDesc + 1) < Mode_Skills.CurrentCoinDescs_Avalible.Count;
         }
 
 
@@ -960,19 +949,15 @@ namespace LC_Localization_Task_Absolute
         private void FastSwitch_ToSkillCoinDesc__Highlight(TMProEmitter TargetDesc)
         {
             TargetDesc.Background = ToSolidColorBrush("#FF262626");
-
             TargetDesc.Background.BeginAnimation(SolidColorBrush.OpacityProperty, new DoubleAnimation()
             {
-                From = 1,
-                To = 0,
-                Duration = new Duration(TimeSpan.FromSeconds(0.4))
+                From = 1, To = 0, Duration = new Duration(TimeSpan.FromSeconds(0.4))
             });
         }
 
         private void FastSwitch_ToSkillMainDesc(object RequestSender, MouseButtonEventArgs EventArgs)
         {
             Skills_SwitchToMainDesc(null, null);
-
             if (LoadedProgramConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnRightClick)
             {
                 FastSwitch_ToSkillMainDesc__Highlight();
@@ -982,12 +967,9 @@ namespace LC_Localization_Task_Absolute
         private void FastSwitch_ToSkillMainDesc__Highlight()
         {
             PreviewLayout_Skills_MainDesc.Background = ToSolidColorBrush("#FF262626");
-
             PreviewLayout_Skills_MainDesc.Background.BeginAnimation(SolidColorBrush.OpacityProperty, new DoubleAnimation()
             {
-                From = 1,
-                To = 0,
-                Duration = new Duration(TimeSpan.FromSeconds(0.4))
+                From = 1, To = 0, Duration = new Duration(TimeSpan.FromSeconds(0.4))
             });
         }
         #endregion

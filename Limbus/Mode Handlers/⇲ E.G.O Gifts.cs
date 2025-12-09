@@ -395,11 +395,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             CurrentDescriptionType_String = $"Simple Description №{SimpleDescNumber}";
 
-            int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
-
-            SimpleDescription SimpleDesc = @Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex];
-
-            MainControl.TextEditor.Document = SimpleDesc.DedicatedDocument;
+            MainControl.TextEditor.Document = @Current.EGOGift.SimpleDescriptions[int.Parse(SimpleDescNumber) - 1].DedicatedDocument;
 
             {
                 ManualTextLoadEvent = true;

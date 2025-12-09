@@ -681,7 +681,7 @@
 
 														<Grid x:Name="PreviewLayout_Skills_Coin1" Margin="0 3 0 0">
 															<Image Source="/UI/Limbus/Skills/Coins/Coin 1.png" Style="{StaticResource Coin}" />
-															<StackPanel Margin="55 15 0 0">
+															<StackPanel Margin="55 15 0 0" x:Name="FirstCoinDescs">
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin1_Desc1" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin1_Desc2" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin1_Desc3" Style="{StaticResource CoinDesc}" />
@@ -694,6 +694,9 @@
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin1_Desc10" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin1_Desc11" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin1_Desc12" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin1_Desc13" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin1_Desc14" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin1_Desc15" Style="{StaticResource CoinDesc}" />
 															</StackPanel>
 														</Grid>
 														<Grid x:Name="PreviewLayout_Skills_Coin2" Margin="0 3 0 0">
@@ -711,6 +714,9 @@
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin2_Desc10" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin2_Desc11" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin2_Desc12" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin2_Desc13" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin2_Desc14" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin2_Desc15" Style="{StaticResource CoinDesc}" />
 															</StackPanel>
 														</Grid>
 														<Grid x:Name="PreviewLayout_Skills_Coin3" Margin="0 3 0 0">
@@ -728,6 +734,9 @@
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin3_Desc10" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin3_Desc11" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin3_Desc12" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin3_Desc13" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin3_Desc14" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin3_Desc15" Style="{StaticResource CoinDesc}" />
 															</StackPanel>
 														</Grid>
 														<Grid x:Name="PreviewLayout_Skills_Coin4" Margin="0 3 0 0">
@@ -745,6 +754,9 @@
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin4_Desc10" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin4_Desc11" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin4_Desc12" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin4_Desc13" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin4_Desc14" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin4_Desc15" Style="{StaticResource CoinDesc}" />
 															</StackPanel>
 														</Grid>
 														<Grid x:Name="PreviewLayout_Skills_Coin5" Margin="0 3 0 0">
@@ -762,6 +774,9 @@
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin5_Desc10" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin5_Desc11" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin5_Desc12" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin5_Desc13" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin5_Desc14" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin5_Desc15" Style="{StaticResource CoinDesc}" />
 															</StackPanel>
 														</Grid>
 														<Grid x:Name="PreviewLayout_Skills_Coin6" Margin="0 3 0 0">
@@ -779,6 +794,9 @@
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin6_Desc10" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin6_Desc11" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin6_Desc12" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin6_Desc13" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin6_Desc14" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin6_Desc15" Style="{StaticResource CoinDesc}" />
 															</StackPanel>
 														</Grid>
 														<Grid x:Name="PreviewLayout_Skills_Coin7" Margin="0 3 0 0">
@@ -796,6 +814,9 @@
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin7_Desc10" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin7_Desc11" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin7_Desc12" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin7_Desc13" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin7_Desc14" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin7_Desc15" Style="{StaticResource CoinDesc}" />
 															</StackPanel>
 														</Grid>
 														<Grid x:Name="PreviewLayout_Skills_Coin8" Margin="0 3 0 0">
@@ -813,6 +834,9 @@
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin8_Desc10" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin8_Desc11" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin8_Desc12" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin8_Desc13" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin8_Desc14" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin8_Desc15" Style="{StaticResource CoinDesc}" />
 															</StackPanel>
 														</Grid>
 														<Grid x:Name="PreviewLayout_Skills_Coin9" Margin="0 3 0 0">
@@ -830,6 +854,9 @@
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin9_Desc10" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin9_Desc11" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin9_Desc12" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin9_Desc13" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin9_Desc14" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin9_Desc15" Style="{StaticResource CoinDesc}" />
 															</StackPanel>
 														</Grid>
 														<Grid x:Name="PreviewLayout_Skills_Coin10" Margin="0 3 0 0">
@@ -847,6 +874,9 @@
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin10_Desc10" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin10_Desc11" Style="{StaticResource CoinDesc}" />
 																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin10_Desc12" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin10_Desc13" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin10_Desc14" Style="{StaticResource CoinDesc}" />
+																<Limbus:TMProEmitter x:Name="PreviewLayout_Skills_Coin10_Desc15" Style="{StaticResource CoinDesc}" />
 															</StackPanel>
 														</Grid>
 													</StackPanel>
@@ -4412,7 +4442,7 @@
 											</TextBlock>
 											<TextBlock
 												x:Name="ImageLabel"
-												Margin="0 39 21.5 0"
+												Margin="0 39 20 0"
 												HorizontalAlignment="Right"
 												VerticalAlignment="Top"
 												FontFamily="/UI/Fonts/#Bebas Neue Bold"
@@ -4574,7 +4604,7 @@
 
 										<TextBlock
 											x:Uid="Credits"
-											Margin="0 0 6 0"
+											Margin="0 0 4 0"
 											FontSize="10"
 											HorizontalAlignment="Right"
 											VerticalAlignment="Center"

@@ -658,8 +658,6 @@ public partial class MainWindow
             int CurrentCoinNumber = 1;
             foreach (Coin Coin in TextInfo.Coins)
             {
-                if (CurrentCoinNumber == 11) break; // no
-
                 List<string> CollectedCoinDescriptions = [];
                 if (Coin.CoinDescriptions != null)
                 {
@@ -702,6 +700,8 @@ public partial class MainWindow
                         }
                     });
                 }
+
+                if (CurrentCoinNumber == Mode_Skills.MaxCoinsAmount) break;
 
                 CurrentCoinNumber++;
             }
