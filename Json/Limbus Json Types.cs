@@ -240,7 +240,7 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonIgnore] // For Preview
-                public string UpgradeLevel { get; set; } = "1";
+                public int UpgradeLevel { get; set; } = 1;
 
                 [JsonIgnore] // For Preview
                 public List<int> UpgradeLevelsAssociativeIDs { get; } = [];

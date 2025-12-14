@@ -116,7 +116,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                             DelegateEGOGifts[ExpectedID_UpgradeLevel2].UpgradeLevelsAssociativeIDs.Add(EGOGiftID);
                             DelegateEGOGifts[ExpectedID_UpgradeLevel2].UpgradeLevelsAssociativeIDs.Add(ExpectedID_UpgradeLevel2);
 
-                            DelegateEGOGifts[ExpectedID_UpgradeLevel2].UpgradeLevel = "2";
+                            DelegateEGOGifts[ExpectedID_UpgradeLevel2].UpgradeLevel = 2;
                         }
                     }
 
@@ -132,7 +132,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                             DelegateEGOGifts[ExpectedID_UpgradeLevel3].UpgradeLevelsAssociativeIDs.Add(ExpectedID_UpgradeLevel2);
                             DelegateEGOGifts[ExpectedID_UpgradeLevel3].UpgradeLevelsAssociativeIDs.Add(ExpectedID_UpgradeLevel3);
 
-                            DelegateEGOGifts[ExpectedID_UpgradeLevel3].UpgradeLevel = "3";
+                            DelegateEGOGifts[ExpectedID_UpgradeLevel3].UpgradeLevel = 3;
                         }
                     }
                 }
@@ -277,11 +277,13 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             InterfaceObject<EGOGiftUpgradeLevelSwitch>($"EGOGift_FastSwitch_{@Current.EGOGift.UpgradeLevel}").IsSelected = true;
 
 
-            MainControl.EGOGiftDisplay_UpgradeLevel2Border.Visibility = Collapsed;
-            MainControl.EGOGiftDisplay_UpgradeLevel3Border.Visibility = Collapsed;
+            _ = MainControl.EGOGiftDisplay_UpgradeLevel2Border.Visibility
+              = MainControl.EGOGiftDisplay_UpgradeLevel2_OnIcon.Visibility
+              = @Current.EGOGift.UpgradeLevel >= 2 ? Visible : Collapsed;
 
-            MainControl.EGOGiftDisplay_UpgradeLevel2_OnIcon.Visibility = Collapsed;
-            MainControl.EGOGiftDisplay_UpgradeLevel3_OnIcon.Visibility = Collapsed;
+            _ = MainControl.EGOGiftDisplay_UpgradeLevel3Border.Visibility
+              = MainControl.EGOGiftDisplay_UpgradeLevel3_OnIcon.Visibility
+              = @Current.EGOGift.UpgradeLevel == 3 ? Visible : Collapsed; ;
 
 
             try
