@@ -733,7 +733,10 @@ namespace LC_Localization_Task_Absolute
         }
         public static string FormattedStackTrace(Exception Info, string SetupExceptionHandlingSource = "")
         {
-            return $"\n\n[{SetupExceptionHandlingSource} : {Info.Source}] {Info.Message}\n\nInner: {Info.InnerException}\n\n{Info.StackTrace.FormatStackTraceByNamespace("LC_Localization_Task_Absolute", @"C:\Users\javas\OneDrive\Документы\LC Localization Interface (Code)\")}\n\n";
+            string AdditionalInfo = "";
+            if (Info.Source.Contains("Newtonsoft.Json")) AdditionalInfo = "\n\n\nThis may mean that this json file has an incorrect syntax or a property value type.";
+
+            return $"\n\nThe vile exception Abruptly appears!!!!:\n[{{{SetupExceptionHandlingSource}}} : {Info.Source}] {Info.Message}\nInner: {Info.InnerException}\n\n{Info.StackTrace.FormatStackTraceByNamespace("LC_Localization_Task_Absolute", @"C:\Users\javas\OneDrive\Документы\LC Localization Interface (Code)\")}{AdditionalInfo}\n\n";
         }
 
         public static string FormatStackTraceByNamespace(this string StackTrace, string Namepsace, string DeletePart = "")

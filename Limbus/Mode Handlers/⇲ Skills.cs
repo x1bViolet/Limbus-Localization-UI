@@ -229,17 +229,17 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                         // Affinity color and frame
                         if (Info_Uptie.Affinity_UPTIE != null)
                         {
-                            MainControl.SkillReplicaAffinityColorHolder.Background = Info_Uptie.Affinity_UPTIE switch
+                            MainControl.SkillReplicaAffinityColorHolder.Background = ToSolidColorBrush(Info_Uptie.Affinity_UPTIE switch
                             {
-                                "Wrath"    => ToSolidColorBrush("#fe0302"),
-                                "Lust"     => ToSolidColorBrush("#fe6e04"),
-                                "Sloth"    => ToSolidColorBrush("#fed133"),
-                                "Gluttony" => ToSolidColorBrush("#a5fe06"),
-                                "Gloom"    => ToSolidColorBrush("#1ec6ef"),
-                                "Pride"    => ToSolidColorBrush("#044ed6"),
-                                "Envy"     => ToSolidColorBrush("#9808de"),
-                                _ => ToSolidColorBrush("#9f6a3a")
-                            };
+                                "Wrath"    => "#fe0302",
+                                "Lust"     => "#fe6e04",
+                                "Sloth"    => "#fed133",
+                                "Gluttony" => "#a5fe06",
+                                "Gloom"    => "#1ec6ef",
+                                "Pride"    => "#044ed6",
+                                "Envy"     => "#9808de",
+                                _ => "#9f6a3a"
+                            });
                             MainControl.SkillNamesReplication_Background_RightSidePatternedImage.Source = BitmapFromResource($"UI/Limbus/Skills/Name Background/Game Colors/{Info_Uptie.Affinity_UPTIE}.png");
 
                             // Frame

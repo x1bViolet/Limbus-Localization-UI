@@ -5,6 +5,6 @@
   "Custom Language Context Font not found": "¤ 找不到名為「[$]」的內文字型檔案\n\n",
   "Custom Language Title Font not found": "¤ 找不到名為「[$]」的標題字型檔案\n\n",
   "Custom Language Keywords Multiple Meanings Dictionary not found": "¤ 找不到名為「[$]」的關鍵詞多義詞典\n\n",
-  "Warnings disabling notice": "\n（你可以在設定的「內部設定」區段中關閉此警告）",
+  "Warnings disabling notice": "\n\n（你可以在設定的「內部設定」區段中關閉此警告）",
   "Warnings window title": "正在載入例外狀況 @ [$]"
 }

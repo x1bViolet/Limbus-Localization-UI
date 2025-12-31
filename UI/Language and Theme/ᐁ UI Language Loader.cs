@@ -421,7 +421,7 @@ namespace LC_Localization_Task_Absolute
                     public string ContextMenuExtraReplacementsMissing { get; set; } = "¤ Cannot find Context Menu Extra replacements \"[$]\"\n\n";
 
                     [JsonProperty("Warnings disabling notice")]
-                    public string WarningsDisablingNotice { get; set; } = "\n(You can disable this warning in Settings at 'Internal' section)";
+                    public string WarningsDisablingNotice { get; set; } = "\n\n(You can disable this warning in Settings at 'Internal' section)";
 
                     [JsonProperty("Warnings window title")]
                     public string WarningsWindowTitle { get; set; } = "Loading exceptions @ [$]";

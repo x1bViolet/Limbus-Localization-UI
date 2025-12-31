@@ -67,9 +67,7 @@ public partial class App : Application
     }
     private void LogUnhandledException(Exception Exception, string HandlingSource)
     {
-        //MessageBox.Show(FormattedStackTrace(Exception, HandlingSource), caption: "Some error", button: MessageBoxButton.OK, icon: MessageBoxImage.Error);
-        //rin(FormattedStackTrace(Exception, HandlingSource));
-        rin(Exception.ToString());
+        rin(FormattedStackTrace(Exception, HandlingSource));
     }
 }
 

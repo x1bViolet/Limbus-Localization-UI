@@ -72,22 +72,21 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             try   { LimbusText = string.Format(LimbusText, FormatInsertionsReplaceValues.Values.ToArray()); }
             catch { }
 
-
             // Invalid fonts check
-            if (MainWindow.TargetPreviewLayout.Name.StartsWith("PreviewLayout_") && LimbusText.Contains("<font=\""))
-            {
-                LimbusText = Regex.Replace(LimbusText, @"<font=""(?<FontName>.*?)"">", Match =>
-                {
-                    if (!Pocket_Watch_ː_Type_L.@PostInfo.LoadedKnownFonts.ContainsKey(Match.Groups["FontName"].Value))
-                    {
-                        return Match.Value.Replace("<font=\"", "<\u0001font=\"");
-                    }
-                    else
-                    {
-                        return Match.Value;
-                    }
-                });
-            }
+            //if (LimbusText.Contains("<font=\""))
+            //{
+            //    LimbusText = Regex.Replace(LimbusText, @"<font=""(?<FontName>.*?)"">", Match =>
+            //    {
+            //        if (!Pocket_Watch_ː_Type_L.@PostInfo.LoadedKnownFonts.ContainsKey(Match.Groups["FontName"].Value))
+            //        {
+            //            return Match.Value.Replace("<font=\"", "<\u0001font=\"");
+            //        }
+            //        else
+            //        {
+            //            return Match.Value;
+            //        }
+            //    });
+            //}
 
             // Shorthands
             if (@CurrentConfess.SelectedCustomLang.Properties.Keywords_ShorthandsRegex != "")

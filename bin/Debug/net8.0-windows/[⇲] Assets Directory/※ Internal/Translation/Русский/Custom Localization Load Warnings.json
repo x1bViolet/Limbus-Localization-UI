@@ -5,6 +5,6 @@
   "Custom Language Context Font not found": "¤ Не удалось найти Context шрифт \"[$]\"\n\n",
   "Custom Language Title Font not found": "¤ Не удалось найти Title шрифт \"[$]\"\n\n",
   "Custom Language Keywords Multiple Meanings Dictionary not found": "¤ Не удалось найти словарь с ключевыми словами \"[$]\"\n\n",
-  "Warnings disabling notice": "\n(Это предупреждение можно выключить в разделе 'Внутренние настройки')",
+  "Warnings disabling notice": "\n\n(Это предупреждение можно выключить в разделе 'Внутренние настройки')",
   "Warnings window title": "Ошибки загрузки @ [$]"
 }

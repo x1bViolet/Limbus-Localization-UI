@@ -243,7 +243,8 @@ namespace LC_Localization_Task_Absolute
                         KeywordsInterrogation.InitializeGlossaryFrom
                         (
                             KeywordsDirectory: AdditionalKeywords,
-                            WriteOverFallback: true
+                            WriteOverFallback: true,
+                            IgnoreUILabels: true
                         );
                     }
 
@@ -424,7 +425,7 @@ namespace LC_Localization_Task_Absolute
         public static void ShowLoadWarningsWindow()
         {
             MessageBox.Show(
-                Configurazione.LoadErrors + ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.WarningsDisablingNotice,
+                (Configurazione.LoadErrors + ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.WarningsDisablingNotice).Trim(),
 
                 ᐁ_Interface_Localization_Loader.SpecializedDefs.CustomLangLoadingWarnings.WarningsWindowTitle.Extern(@CurrentConfess.SelectedCustomLang.PropertyName),
 

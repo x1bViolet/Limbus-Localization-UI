@@ -286,18 +286,15 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                     Dictionary<string, string> LocalizeInfo = FoundFiles[0].Deserealize<AbstractDataListFile>().dataList
                         .Select(AbstractObject => new KeyValuePair<string, string>((string)AbstractObject.id, (string)AbstractObject.content))
                             .ToDictionary();
-                    if (LocalizeInfo.ContainsKey(ID))
-                    {
-                        return LocalizeInfo[ID];
-                    }
-                    else return Fallback;
+
+                    return LocalizeInfo.ContainsKey(ID) ? LocalizeInfo[ID] : Fallback;
                 }
                 catch (Exception ex) { rin(FormattedStackTrace(ex, $"\"{ID}\" localize text acquiring")); return Fallback; } // If json file read error or something (what if 'id' is suddenly int)
             }
             else return Fallback;
         }
 
-        public static void InitializeGlossaryFrom(string KeywordsDirectory, bool WriteOverFallback = false, string FilesPrefix = "")
+        public static void InitializeGlossaryFrom(string KeywordsDirectory, bool WriteOverFallback = false, string FilesPrefix = "", bool IgnoreUILabels = false)
         {
             if (!WriteOverFallback) // if (Fallback keywords loading)
             {
@@ -305,10 +302,10 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                     Keywords_Bufs,
 
                     SkillTags,
-                    Keywords_BattleKeywords,
+                    Keywords_BattleKeywords
 
-                    Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter,
-                    Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter
+                    //Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter,
+                    //Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter
 
                     //CollectedKeywordColors,
                     //CollectedSkillTagColors
@@ -351,10 +348,12 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             }
 
 
-
-            MainControl.SkillAtkWeightSign .RichText = MainSite.TryAcquireLocalizeLine("*MainUIText_UPDATE_ON_0720.json", "mainui_target_num_label", Fallback: "Atk Weight");
-            MainControl.SkillUptieLevelSign.RichText = MainSite.TryAcquireLocalizeLine("*Filter.json", "filter_awaken_state", Fallback: "Uptie Tier");
-            MainControl.EGOGiftViewDescSign.RichText = MainSite.TryAcquireLocalizeLine("*MirrorDungeonUI_3.json", "mirror_dungoen_ego_gift_history_view_desc", Fallback: "View Desc.");
+            if (!IgnoreUILabels)
+            {
+                MainControl.SkillAtkWeightSign .RichText = MainSite.TryAcquireLocalizeLine("*MainUIText_UPDATE_ON_0720.json", "mainui_target_num_label", Fallback: "Atk Weight");
+                MainControl.SkillUptieLevelSign.RichText = MainSite.TryAcquireLocalizeLine("*Filter.json", "filter_awaken_state", Fallback: "Uptie Tier");
+                MainControl.EGOGiftViewDescSign.RichText = MainSite.TryAcquireLocalizeLine("*MirrorDungeonUI_3.json", "mirror_dungoen_ego_gift_history_view_desc", Fallback: "View Desc.");
+            }
 
 
 
@@ -394,56 +393,66 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
             foreach (FileInfo KeywordFileInfo in LoadSite_Bufs)
             {
-                KeywordsFile? TargetSite = KeywordFileInfo.Deserealize<KeywordsFile>();
-
-                if (TargetSite.dataList != null && TargetSite.dataList.Count > 0)
+                try
                 {
-                    foreach (Keyword KeywordItem in TargetSite.dataList)
+                    KeywordsFile? TargetSite = KeywordFileInfo.Deserealize<KeywordsFile>();
+
+                    if (TargetSite.dataList != null && TargetSite.dataList.Count > 0)
                     {
-                        if (!string.IsNullOrEmpty(KeywordItem.ID))
+                        foreach (Keyword KeywordItem in TargetSite.dataList)
                         {
-                            if (!KeywordItem.ID.ContainsOneOf(LoadedProgramConfig.PreviewSettings.CustomLanguageProperties.KeywordsIgnore))
+                            if (!string.IsNullOrEmpty(KeywordItem.ID))
                             {
-                                string DefinedColor = "#9f6a3a";
-
-                                if (KeywordItem.Color != null)
+                                if (!KeywordItem.ID.ContainsOneOf(LoadedProgramConfig.PreviewSettings.CustomLanguageProperties.KeywordsIgnore))
                                 {
-                                    DefinedColor = KeywordItem.Color;
-                                }
-                                else if (KeywordColors.ContainsKey(KeywordItem.ID))
-                                {
-                                    DefinedColor = KeywordColors[KeywordItem.ID];
-                                }
+                                    string DefinedColor = "#9f6a3a";
 
-                                CollectedKeywordColors[KeywordItem.ID] = DefinedColor;
-
-                                Keywords_Bufs[KeywordItem.ID] = new KeywordDescriptor(KeywordItem.Name, null, DefinedColor);
-
-                                if (!KeywordItem.ID.EndsWithOneOf(["_Re", "Re", "Mirror"]))
-                                {
-                                    //Fallback overwrite
-                                    if (Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter.ContainsValue(KeywordItem.ID) & WriteOverFallback)
+                                    if (KeywordItem.Color != null)
                                     {
-                                        Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter =
-                                            Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter.RemoveItemWithValue(KeywordItem.ID);
+                                        DefinedColor = KeywordItem.Color;
+                                    }
+                                    else if (KeywordColors.ContainsKey(KeywordItem.ID))
+                                    {
+                                        DefinedColor = KeywordColors[KeywordItem.ID];
                                     }
 
-                                    // Take first encountered and no more
-                                    if (!Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter.ContainsKey(KeywordItem.Name))
+                                    CollectedKeywordColors[KeywordItem.ID] = DefinedColor;
+
+                                    Keywords_Bufs[KeywordItem.ID] = new KeywordDescriptor(KeywordItem.Name, null, DefinedColor);
+
+                                    if (!KeywordItem.ID.EndsWithOneOf(["_Re", "Re", "Mirror"]))
                                     {
-                                        Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter[KeywordItem.Name] = KeywordItem.ID;
-                                    }
+                                        //Fallback overwrite
+                                        if (Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter.ContainsValue(KeywordItem.ID) & WriteOverFallback)
+                                        {
+                                            Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter =
+                                                Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter.RemoveItemWithValue(KeywordItem.ID);
+                                        }
+
+                                        // Take first encountered and no more
+                                        if (!Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter.ContainsKey(KeywordItem.Name))
+                                        {
+                                            Keywords_NamesWithIDs_OrderByLength_ForLimbusPreviewFormatter[KeywordItem.Name] = KeywordItem.ID;
+                                        }
 
                                     
-                                    Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter[KeywordItem.Name] = KeywordItem.ID;
+                                        Keywords_NamesWithIDs_OrderByLength_ForContextMenuUnevidentConverter[KeywordItem.Name] = KeywordItem.ID;
+                                    }
                                 }
                             }
                         }
                     }
+                    else
+                    {
+                        rin($"  [!] Null dataList or 0 items at the {KeywordFileInfo.Name} file");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    rin($"  [!] Null dataList or 0 items at the {KeywordFileInfo.Name} file");
+                    string Error = FormattedStackTrace(ex, $"Limbus json file reading: {KeywordFileInfo.Name}");
+                    if (MainControl.IsLoaded) MessageBox.Show(Error.Trim());
+                    if (!MainControl.IsLoaded) LoadErrors += "\n\n" + Error.Trim();
+                    rin(Error);
                 }
             }
 
@@ -467,21 +476,31 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             );
             foreach (FileInfo KeywordFileInfo in LoadSite_BattleKeywords)
             {
-                KeywordsFile? TargetSite = KeywordFileInfo.Deserealize<KeywordsFile>();
-
-                if (TargetSite != null && TargetSite.dataList != null)
+                try
                 {
-                    foreach (Keyword KeywordItem in TargetSite.dataList)
+                    KeywordsFile? TargetSite = KeywordFileInfo.Deserealize<KeywordsFile>();
+
+                    if (TargetSite != null && TargetSite.dataList != null)
                     {
-                        if (!string.IsNullOrEmpty(KeywordItem.ID) && KeywordItem.PresentMainDescription != null) // Empty desc allowed
+                        foreach (Keyword KeywordItem in TargetSite.dataList)
                         {
-                            Keywords_BattleKeywords[KeywordItem.ID] = new KeywordDescriptor(KeywordItem.Name, KeywordItem.PresentMainDescription, null);
+                            if (!string.IsNullOrEmpty(KeywordItem.ID) && KeywordItem.PresentMainDescription != null) // Empty desc allowed
+                            {
+                                Keywords_BattleKeywords[KeywordItem.ID] = new KeywordDescriptor(KeywordItem.Name, KeywordItem.PresentMainDescription, null);
+                            }
                         }
                     }
+                    else
+                    {
+                        rin($"  [!] Null dataList or 0 items at the {KeywordFileInfo.Name} file");
+                    }
                 }
-                else
+                catch (Exception ex)
                 {
-                    rin($"  [!] Null dataList or 0 items at the {KeywordFileInfo.Name} file");
+                    string Error = FormattedStackTrace(ex, $"Limbus json file reading: {KeywordFileInfo.Name}");
+                    if (MainControl.IsLoaded) MessageBox.Show(Error.Trim());
+                    if (!MainControl.IsLoaded) LoadErrors += "\n\n" + Error.Trim();
+                    rin(Error);
                 }
             }
 
