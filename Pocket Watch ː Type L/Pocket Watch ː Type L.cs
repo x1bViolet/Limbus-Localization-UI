@@ -120,6 +120,7 @@ namespace LC_Localization_Task_Absolute
                 StyleHighlighter,
                 Color,
                 Background,
+                Mark,
                 Font,
                 FontWeight,
                 FontStretch,
@@ -208,6 +209,7 @@ namespace LC_Localization_Task_Absolute
                 new(@"size=((\d+)((\.|\,)\d+)?)%", ["/size"], TagType.SizeMultiplier),
                 new(@"color=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/color"], TagType.Color),
                 new(@"background=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/background"], TagType.Background),
+                new(@"mark color=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/mark"], TagType.Mark),
                 new(@"sprite name=""(\w+)""", null, TagType.Sprite),
 
                 new(@"image id=""(\w+)""", null, TagType.InlineImage),
@@ -228,6 +230,10 @@ namespace LC_Localization_Task_Absolute
                         break;
 
                     case TagType.Background: TargetRun.Background = ToSolidColorBrush(TagInfo);
+                        break;
+
+                    // <mark color=#rrggbbAA> in unity, not #AArrggbb :/          mark is still background,,
+                    case TagType.Mark: TargetRun.Background = ToSolidColorBrush(TagInfo[^2..] + TagInfo[0..^2]);
                         break;
 
                     case TagType.Link:

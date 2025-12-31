@@ -86,7 +86,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             );
 
             MainRuleSet.Spans.Add(new SingleContentRuleSpan(
-                StartAndEndPattern: [new(@"<color="), new(@">")],
+                StartAndEndPattern: [new(@"<(color|mark color)="), new(@">")],
                 StartAndEndStyle: new HighlightingColor() { Foreground = new HighlightionBrush(TagsBody_Color), },
                 ContentPattern: new(@"^#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})$"),
                 ContentStyle: new HighlightingColor()
