@@ -209,7 +209,7 @@ namespace LC_Localization_Task_Absolute
                 new(@"size=((\d+)((\.|\,)\d+)?)%", ["/size"], TagType.SizeMultiplier),
                 new(@"color=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/color"], TagType.Color),
                 new(@"background=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/background"], TagType.Background),
-                new(@"mark color=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/mark"], TagType.Mark),
+                new(@"mark( color)?=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/mark"], TagType.Mark),
                 new(@"sprite name=""(\w+)""", null, TagType.Sprite),
 
                 new(@"image id=""(\w+)""", null, TagType.InlineImage),
