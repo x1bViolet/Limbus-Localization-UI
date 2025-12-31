@@ -3,6 +3,7 @@ using Newtonsoft.Json;
 using System.IO;
 using System.Text;
 using System.Windows;
+using System.Windows.Input;
 using static LC_Localization_Task_Absolute.Requirements;
 
 
@@ -68,6 +69,7 @@ public partial class App : Application
     private void LogUnhandledException(Exception Exception, string HandlingSource)
     {
         rin(FormattedStackTrace(Exception, HandlingSource));
+        if (!LC_Localization_Task_Absolute.MainWindow.MainControl.IsLoaded) Application.Current.Shutdown();
     }
 }
 
