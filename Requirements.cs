@@ -220,35 +220,27 @@ namespace LC_Localization_Task_Absolute
             catch { return false; }
         }
 
-        public static Color ToColor(string HexColor)
+        public static Color ToColor(string HexColor, bool AlphaAtTheEnd = false)
         {
             if (HexColor == null) return Colors.White;
 
             HexColor = HexColor.Replace("#", "");
-
             try
             {
-                if (HexColor.Length == 6)
+                if (HexColor.Length != 8 & HexColor.Length != 6) return Colors.White;
+
+                static byte AsByte(string Hex) => Convert.ToByte(Hex, 16);
+
+                string RGB = HexColor.Length == 8 ? (AlphaAtTheEnd ? HexColor[0..6] : HexColor[2..8]) : HexColor;
+                string Alpha = HexColor.Length == 8 ? (AlphaAtTheEnd ? HexColor[^2..] : HexColor[0..2]) : "FF";
+
+                return new Color()
                 {
-                    return new Color()
-                    {
-                        A = 255,
-                        R = Convert.ToByte(HexColor.Substring(0, 2), 16),
-                        G = Convert.ToByte(HexColor.Substring(2, 2), 16),
-                        B = Convert.ToByte(HexColor.Substring(4, 2), 16)
-                    };
-                }
-                else if (HexColor.Length == 8)
-                {
-                    return new Color()
-                    {
-                        A = Convert.ToByte(HexColor.Substring(0, 2), 16),
-                        R = Convert.ToByte(HexColor.Substring(2, 2), 16),
-                        G = Convert.ToByte(HexColor.Substring(4, 2), 16),
-                        B = Convert.ToByte(HexColor.Substring(6, 2), 16)
-                    };
-                }
-                else return Colors.White;
+                    A = AsByte(Alpha),
+                    R = AsByte(RGB[0..2]),
+                    G = AsByte(RGB[2..4]),
+                    B = AsByte(RGB[4..6]),
+                };
             }
             catch
             {
@@ -260,41 +252,7 @@ namespace LC_Localization_Task_Absolute
         /// Accepts RGB or ARGB hex sequence (#rrggbb / #AArrggbb)<br/>
         /// Returns transperent if HexString is null/"" or if HexString is not color
         /// </summary>
-        public static SolidColorBrush ToSolidColorBrush(string HexColor)
-        {
-            if (HexColor == null) return Brushes.White;
-
-            HexColor = HexColor.Replace("#", "");
-
-            try
-            {
-                if (HexColor.Length == 6)
-                {
-                    return new SolidColorBrush(new Color()
-                    {
-                        A = 255,
-                        R = Convert.ToByte(HexColor.Substring(0, 2), 16),
-                        G = Convert.ToByte(HexColor.Substring(2, 2), 16),
-                        B = Convert.ToByte(HexColor.Substring(4, 2), 16)
-                    });
-                }
-                else if (HexColor.Length == 8)
-                {
-                    return new SolidColorBrush(new Color()
-                    {
-                        A = Convert.ToByte(HexColor.Substring(0, 2), 16),
-                        R = Convert.ToByte(HexColor.Substring(2, 2), 16),
-                        G = Convert.ToByte(HexColor.Substring(4, 2), 16),
-                        B = Convert.ToByte(HexColor.Substring(6, 2), 16)
-                    });
-                }
-                else return Brushes.White;
-            }
-            catch
-            {
-                return Brushes.White;
-            }
-        }
+        public static SolidColorBrush ToSolidColorBrush(string HexColor, bool AlphaAtTheEnd = false) => new SolidColorBrush(ToColor(HexColor, AlphaAtTheEnd));
 
         public static FontFamily FileToFontFamily(string FontPathOrName, string OverrideFontInternalName = "", bool WriteInfo = false)
         {

@@ -148,6 +148,8 @@ namespace LC_Localization_Task_Absolute
 
                 public Regex TagRegex { get; }
 
+                public dynamic ValueGroupNameOrNumber { get; }
+
                 /// <param name="PatternToMatch">Pattern that will be used to determine actual tags in the text by regular expression, tag value is supposted to be inside the first match group</param>
                 /// <param name="BreakPointsInput">Breakpoints that stops tag from applying</param>
                 /// <param name="Type"><see cref="TagType"/> enum that indicates identifier</param>
@@ -156,8 +158,13 @@ namespace LC_Localization_Task_Absolute
                 ///  <br/>
                 ///  inside <see cref="Actions.SetRunFormatting(Run, Dictionary{TagType, Actions.InlineTagData}, TagType[])"/>
                 /// </param>
-                public FullStopTag(string PatternToMatch, string[] BreakPointsInput, TagType Type, Dictionary<DependencyProperty, object> Univocal = null)
+                /// <param name="ValueGroupNameOrNumber">Used for tag <see cref="Match.Groups"/> to get value of tag, 1 by default (First group),<br/>you can also put string there as name of the group because <see cref="Match.Groups"/> accepts both <see cref="int"/> and <see cref="string"/> as key (Group ordinal number or its name)</param>
+                public FullStopTag(string PatternToMatch, string[] BreakPointsInput, TagType Type, Dictionary<DependencyProperty, object> Univocal = null, dynamic ValueGroupNameOrNumber = null)
                 {
+                    ValueGroupNameOrNumber ??= 1;
+
+                    this.ValueGroupNameOrNumber = ValueGroupNameOrNumber;
+
                     if (Univocal != null) this.UnivocalProperties = Univocal;
 
                     if (BreakPointsInput != null)
@@ -209,7 +216,7 @@ namespace LC_Localization_Task_Absolute
                 new(@"size=((\d+)((\.|\,)\d+)?)%", ["/size"], TagType.SizeMultiplier),
                 new(@"color=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/color"], TagType.Color),
                 new(@"background=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/background"], TagType.Background),
-                new(@"mark( color)?=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/mark"], TagType.Mark),
+                new(@"mark( color)?=#([a-fA-F0-9]{8}|[a-fA-F0-9]{6})", ["/mark"], TagType.Mark, ValueGroupNameOrNumber: 2),
                 new(@"sprite name=""(\w+)""", null, TagType.Sprite),
 
                 new(@"image id=""(\w+)""", null, TagType.InlineImage),
@@ -226,14 +233,13 @@ namespace LC_Localization_Task_Absolute
                 string TagInfo = Tag.Value.Info;
                 switch (Tag.Key) // Tag actions
                 {
-                    case TagType.Color: TargetRun.Foreground = ToSolidColorBrush(TagInfo);
+                    case TagType.Color: TargetRun.Foreground = ToSolidColorBrush(TagInfo, AlphaAtTheEnd: @RecentInfo.IsLimbusText);
                         break;
 
-                    case TagType.Background: TargetRun.Background = ToSolidColorBrush(TagInfo);
+                    case TagType.Background: TargetRun.Background = ToSolidColorBrush(TagInfo, AlphaAtTheEnd: @RecentInfo.IsLimbusText);
                         break;
 
-                    // <mark color=#rrggbbAA> in unity, not #AArrggbb :/          mark is still background,,
-                    case TagType.Mark: TargetRun.Background = ToSolidColorBrush(TagInfo[^2..] + TagInfo[0..^2]);
+                    case TagType.Mark: TargetRun.Background = ToSolidColorBrush(TagInfo, AlphaAtTheEnd: @RecentInfo.IsLimbusText);
                         break;
 
                     case TagType.Link:
@@ -408,7 +414,7 @@ namespace LC_Localization_Task_Absolute
 
                     if (this.Type != TagType.CloseSequence)
                     {
-                        this.Info = @RegisteredTags[this.Type].TagRegex.Match(this.Info).Groups[1].Value;
+                        this.Info = @RegisteredTags[this.Type].TagRegex.Match(this.Info).Groups[@RegisteredTags[this.Type].ValueGroupNameOrNumber].Value;
 
                         this.BreakPoints = @RegisteredTags[this.Type].BreakPoints;
                         if (this.Type == TagType.Sprite | this.Type == TagType.NoBreak)
@@ -468,6 +474,7 @@ namespace LC_Localization_Task_Absolute
 
             public static class @RecentInfo
             {
+                public static bool IsLimbusText => TextBlockTarget is TMProEmitter;
                 public static TextBlock TextBlockTarget = null;
             }
 
