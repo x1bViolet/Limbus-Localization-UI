@@ -109,7 +109,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
             #region Base tags
             MainRuleSet.Rules.Add(new HighlightingRule()
             {
-                Regex = new Regex(@"<(b|i|u|s|nobr|sub|sup|noparse)>|</(b|i|u|s|nobr|sub|sup|noparse|link|font|font-weight|size|color)>"),
+                Regex = new Regex(@"<(b|i|u|s|nobr|sub|sup|noparse)>|</(b|i|u|s|nobr|sub|sup|noparse|link|font|font-weight|size|color|mark)>"),
                 Color = new HighlightingColor()
                 {
                     Foreground = new HighlightionBrush(TagsBody_Color)
