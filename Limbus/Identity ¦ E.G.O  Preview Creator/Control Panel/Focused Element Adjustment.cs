@@ -647,6 +647,7 @@ public partial class MainWindow
         {
             StackPanel SubPart_SkillCoinDescs = new StackPanel()
             {
+                Margin = new Thickness(12, 0, 0, 0),
                 MaxWidth = @CurrentPreviewCreator.FocusedColumnElementContext.MaxWidth_SkillCoinsDescription,
                 VerticalAlignment = VerticalAlignment.Top,
                 HorizontalAlignment = HorizontalAlignment.Left,
