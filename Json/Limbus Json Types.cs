@@ -179,6 +179,10 @@ namespace LC_Localization_Task_Absolute.Json
                 public string EditorSummaryDescription { get; set; } = "";
 
 
+                [JsonProperty("flavor")]
+                public string Flavor { get; set; }
+
+
                 [JsonIgnore]
                 public TextDocument DedicatedDocument_MainDesc { get; set; } = new();
 
