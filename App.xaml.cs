@@ -68,8 +68,8 @@ public partial class App : Application
     }
     private void LogUnhandledException(Exception Exception, string HandlingSource)
     {
-        rin(FormattedStackTrace(Exception, HandlingSource));
-        if (!LC_Localization_Task_Absolute.MainWindow.MainControl.IsLoaded) Application.Current.Shutdown();
+        rin($"\n\nThe vile exception Abruptly appears!!!!\n{Exception}\n\n");
+        if (LC_Localization_Task_Absolute.MainWindow.MainControl == null) Application.Current.Shutdown();
     }
 }
 

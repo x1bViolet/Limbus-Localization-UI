@@ -340,6 +340,11 @@ namespace LC_Localization_Task_Absolute.Json
                 public string undefined { get; set; }
                 #endregion
 
+
+                [JsonProperty("flavor")]
+                public string Flavor { get; set; }
+
+
                 public string _comment { get; set; }
 
                 [OnDeserialized]
