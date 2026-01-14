@@ -887,7 +887,7 @@
 
 									<Grid x:Name="PreviewLayoutGrid_Passives" Visibility="Collapsed">
 										<Image Width="702" HorizontalAlignment="Left" VerticalAlignment="Bottom" Source="/UI/Limbus/Skills/Background.png" />
-										<ScrollViewer x:Name="SurfaceScrollPreview_Passives" Margin="10 20 40 70" VerticalAlignment="Top">
+										<ScrollViewer x:Name="SurfaceScrollPreview_Passives" Margin="10 20 23 70" VerticalAlignment="Top">
 
 											<ScrollViewer.Resources>
 												<sys:Double x:Key="{x:Static SystemParameters.VerticalScrollBarWidthKey}">0</sys:Double>
@@ -1929,6 +1929,20 @@
 												<Setter Property="HorizontalAlignment" Value="Right" />
 											</Style>
 
+											<Style TargetType="{x:Type ToolTip}" x:Key="PopupButton">
+												<Setter Property="Background" Value="Transparent" />
+												<Setter Property="BorderThickness" Value="0" />
+												<Setter Property="HorizontalOffset" Value="-6.5" />
+												<Setter Property="Placement" Value="Relative" />
+												<Setter Property="VerticalOffset" Value="-4" />
+											</Style>
+											<Style TargetType="{x:Type Border}" x:Key="PopupButton_Parent">
+												<Setter Property="Background" Value="Transparent" />
+												<Setter Property="Margin" Value="0 -33.5 0 0" />
+												<Setter Property="Height" Value="33.5" />
+												<Setter Property="ToolTipService.InitialShowDelay" Value="43" />
+											</Style>
+
 										</Grid.Resources>
 
 
@@ -2130,9 +2144,9 @@
 													<Terminus:UITranslation_Rose Text="Суммарное описание" UID="[Passives / Right menu] * Passive summary" />
 												</Button>
 
-												<Border Height="33.5" Margin="0 -33.5 0 0" Background="Transparent" PreviewMouseLeftButtonDown="Passives_CreateSummaryDescription" ToolTipService.InitialShowDelay="43">
+												<Border PreviewMouseLeftButtonDown="Passives_CreateSummaryDescription">
 													<Border.ToolTip>
-														<ToolTip Background="Transparent" BorderThickness="0" HorizontalOffset="-6.5" Placement="Relative" VerticalOffset="-4">
+														<ToolTip Style="{StaticResource PopupButton}">
 															<Border Width="276" Height="33.5" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
 																<Canvas>
 																	<Terminus:UITranslation_Rose
@@ -2148,13 +2162,51 @@
 														</ToolTip>
 													</Border.ToolTip>
 													<Border.Style>
-														<Style TargetType="{x:Type Border}">
+														<Style TargetType="{x:Type Border}" BasedOn="{StaticResource PopupButton_Parent}">
 															<Style.Setters>
 																<Setter Property="Visibility" Value="Visible" />
 															</Style.Setters>
 															<Style.Triggers>
 																<DataTrigger Binding="{Binding ElementName=PassiveSummarySwitchButton, Path=IsEnabled}" Value="True">
 																	<!--    Hide when PassiveSummarySwitchButton enabled    -->
+																	<Setter Property="Visibility" Value="Collapsed" />
+																</DataTrigger>
+															</Style.Triggers>
+														</Style>
+													</Border.Style>
+												</Border>
+
+
+
+												<Button x:Name="PassiveFlavorSwitchButton" IsEnabled="False" PreviewMouseLeftButtonDown="Passives_SwitchToFlavorDesc">
+													<Terminus:UITranslation_Rose Text="Flavor" UID="[Passives / Right menu] * Passive flavor" />
+												</Button>
+
+												<Border x:Name="AddPassiveFlavorSwitchButtonTooltip" PreviewMouseLeftButtonDown="Passives_CreateFlavorDescription">
+													<Border.ToolTip>
+														<ToolTip Style="{StaticResource PopupButton}">
+															<Border Width="276" Height="33.5" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
+																<Canvas>
+																	<Terminus:UITranslation_Rose
+																		VerticalAlignment="Center"
+																		FontSize="18"
+																		Foreground="{DynamicResource Theme:UIText.Foreground}"
+																		PerfectVerticalAlign="True"
+																		RichText="Добавить 'flavor' описание"
+																		TextAlignment="Center"
+																		UID="[Passives / Right menu] * Add Passive flavor description tooltip" />
+																</Canvas>
+															</Border>
+														</ToolTip>
+													</Border.ToolTip>
+													<Border.Style>
+														<Style TargetType="{x:Type Border}" BasedOn="{StaticResource PopupButton_Parent}">
+															<Style.Setters>
+																<Setter Property="Visibility" Value="Visible" />
+															</Style.Setters>
+															<Style.Triggers>
+																<DataTrigger Binding="{Binding ElementName=PassiveFlavorSwitchButton, Path=IsEnabled}" Value="True">
+																	<!--    Hide when PassiveFlavorSwitchButton enabled    -->
 																	<Setter Property="Visibility" Value="Collapsed" />
 																</DataTrigger>
 															</Style.Triggers>
@@ -2200,6 +2252,10 @@
 
 												<Button x:Name="KeywordSummarySwitchButton" IsEnabled="False" PreviewMouseLeftButtonDown="Keywords_SwitchToSummaryDesc">
 													<Terminus:UITranslation_Rose Text="Суммарное описание" UID="[Keywords / Right Menu] * Keyword summary" />
+												</Button>
+
+												<Button x:Name="KeywordFlavorSwitchButton" IsEnabled="False" PreviewMouseLeftButtonDown="Keywords_SwitchToFlavorDesc">
+													<Terminus:UITranslation_Rose Text="Flavor" UID="[Keywords / Right Menu] * Keyword flavor" />
 												</Button>
 
 

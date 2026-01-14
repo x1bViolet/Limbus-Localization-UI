@@ -1,7 +1,8 @@
-﻿using Newtonsoft.Json;
+﻿using ICSharpCode.AvalonEdit.Document;
+using Newtonsoft.Json;
+using Newtonsoft.Json.Linq;
 using System.IO;
 using System.Runtime.Serialization;
-using ICSharpCode.AvalonEdit.Document;
 
 #pragma warning disable IDE0079
 #pragma warning disable CS1696
@@ -12,9 +13,15 @@ namespace LC_Localization_Task_Absolute.Json
     {
         #pragma PresentDescription is the current text inside deserialized json, EditorDescription is the text modified in text editor
 
+        public abstract record @IJsonExtensionData
+        {
+            [JsonExtensionData]
+            public Dictionary<string, JToken> AdditionalData = [];
+        }
+
         public static class Type_Skills
         {
-            public record SkillsFile
+            public record SkillsFile : @IJsonExtensionData
             {
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
@@ -26,13 +33,13 @@ namespace LC_Localization_Task_Absolute.Json
                 public string ScansTemplateMarker { get; set; }
             }
 
-            public record Skill
+            public record Skill : @IJsonExtensionData
             {
                 [JsonProperty("id")]
                 public int? ID { get; set; }
 
                 [JsonProperty("levelList")]
-                public List<UptieLevel> UptieLevels { get; set; } = new();
+                public List<UptieLevel> UptieLevels { get; set; } = [];
 
                 public Skill(bool AutoAddUptie = false, bool AddAbNameToThisUptie = false)
                 {
@@ -63,7 +70,7 @@ namespace LC_Localization_Task_Absolute.Json
                     }
                 }
             }
-            public record UptieLevel
+            public record UptieLevel : @IJsonExtensionData
             {
                 [JsonProperty("Affinity")]
                 public string OptionalAffinity { get; set; }
@@ -78,9 +85,6 @@ namespace LC_Localization_Task_Absolute.Json
 
                 [JsonProperty("abName")]
                 public string EGOAbnormalityName { get; set; }
-
-                // Unused
-                public List<string> keywords { get; set; }
 
 
                 [JsonProperty("desc")]
@@ -98,8 +102,6 @@ namespace LC_Localization_Task_Absolute.Json
                 public List<Coin> Coins { get; set; }
 
 
-                public string _comment { get; set; }
-
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
@@ -110,12 +112,12 @@ namespace LC_Localization_Task_Absolute.Json
                     DedicatedDocument.UndoStack.ClearAll();
                 }
             }
-            public record Coin
+            public record Coin : @IJsonExtensionData
             {
                 [JsonProperty("coindescs")]
                 public List<CoinDesc> CoinDescriptions { get; set; }
             }
-            public record CoinDesc
+            public record CoinDesc : @IJsonExtensionData
             {
                 [JsonProperty("desc")]
                 public string PresentDescription { get; set; } = "";
@@ -127,10 +129,6 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore]
                 public TextDocument DedicatedDocument { get; set; } = new();
 
-
-                #region Not used
-                public string summary { get; set; } // Rare
-                #endregion
 
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
@@ -146,7 +144,7 @@ namespace LC_Localization_Task_Absolute.Json
 
         public static class Type_Passives
         {
-            public record PassivesFile
+            public record PassivesFile : @IJsonExtensionData
             {
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
@@ -155,7 +153,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public List<Passive> dataList { get; set; }
             }
 
-            public record Passive
+            public record Passive : @IJsonExtensionData
             {
                 [JsonProperty("id")]
                 public int? ID { get; set; }
@@ -172,15 +170,22 @@ namespace LC_Localization_Task_Absolute.Json
                 public string PresentSummaryDescription { get; set; }
 
 
+                [JsonProperty("undefined")]
+                public string Undefined { get; set; } // ?
+
+
+                [JsonProperty("flavor")]
+                public string PresentFlavorDescription { get; set; }
+
+
                 [JsonIgnore] // For editor
                 public string EditorMainDescription { get; set; } = "";
 
                 [JsonIgnore] // For editor
                 public string EditorSummaryDescription { get; set; } = "";
 
-
-                [JsonProperty("flavor")]
-                public string Flavor { get; set; }
+                [JsonIgnore] // For editor
+                public string EditorFlavorDescription { get; set; } = "";
 
 
                 [JsonIgnore]
@@ -189,27 +194,31 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore]
                 public TextDocument DedicatedDocument_SummaryDesc { get; set; } = new();
 
+                [JsonIgnore]
+                public TextDocument DedicatedDocument_FlavorDesc { get; set; } = new();
 
-                public string _comment { get; set; }
 
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
                     EditorMainDescription = PresentMainDescription;
                     EditorSummaryDescription = PresentSummaryDescription;
+                    EditorFlavorDescription = PresentFlavorDescription;
 
                     DedicatedDocument_MainDesc.Text = EditorMainDescription;
                     if (EditorSummaryDescription != null) DedicatedDocument_SummaryDesc.Text = EditorSummaryDescription;
+                    if (EditorFlavorDescription != null) DedicatedDocument_FlavorDesc.Text = EditorFlavorDescription;
 
                     DedicatedDocument_MainDesc.UndoStack.ClearAll();
                     DedicatedDocument_SummaryDesc.UndoStack.ClearAll();
+                    DedicatedDocument_FlavorDesc.UndoStack.ClearAll();
                 }
             }
         }
 
         public static class Type_EGOGifts
         {
-            public record EGOGiftsFile
+            public record EGOGiftsFile : @IJsonExtensionData
             {
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
@@ -218,7 +227,7 @@ namespace LC_Localization_Task_Absolute.Json
                 public List<EGOGift> dataList { get; set; }
             }
 
-            public record EGOGift
+            public record EGOGift : @IJsonExtensionData
             {
                 [JsonProperty("id")]
                 public int? ID { get; set; }
@@ -249,7 +258,6 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore] // For Preview
                 public List<int> UpgradeLevelsAssociativeIDs { get; } = [];
 
-                public string _comment { get; set; }
 
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
@@ -261,7 +269,7 @@ namespace LC_Localization_Task_Absolute.Json
                     DedicatedDocument.UndoStack.ClearAll();
                 }
             }
-            public record SimpleDescription
+            public record SimpleDescription : @IJsonExtensionData
             {
                 [JsonProperty("abilityID")]
                 public int ID { get; set; }
@@ -278,8 +286,6 @@ namespace LC_Localization_Task_Absolute.Json
                 public TextDocument DedicatedDocument { get; set; } = new();
 
 
-                public string _comment { get; set; }
-
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
@@ -294,7 +300,7 @@ namespace LC_Localization_Task_Absolute.Json
 
         public static class Type_Keywords
         {
-            public record KeywordsFile
+            public record KeywordsFile : @IJsonExtensionData
             {
                 [JsonProperty("Manual File Type")]
                 public string ManualFileType { get; set; }
@@ -303,14 +309,21 @@ namespace LC_Localization_Task_Absolute.Json
                 public List<Keyword> dataList { get; set; }
             }
 
-            public record Keyword
+            public record Keyword : @IJsonExtensionData
             {
                 [JsonProperty("id")]
-                public string ID { get; set; } = "NOTHING THERE \0 \0";
+                public string ID { get; set; } = "NOTHING THERE \0 \0"; // Idk don't touch
+
+
+                [JsonProperty("iconId")]
+                public object IconID_1 { get; set; } // ?
+
+                [JsonProperty("iconID")]
+                public object IconID_2 { get; set; } // ?
 
 
                 [JsonProperty("name")]
-                public string Name { get; set; } = "NOTHING THERE \0 \0";
+                public string Name { get; set; } = "NOTHING THERE \0 \0"; // Idk don't touch
 
 
                 [JsonProperty("desc")]
@@ -320,11 +333,26 @@ namespace LC_Localization_Task_Absolute.Json
                 public string PresentSummaryDescription { get; set; }
 
 
+                [JsonProperty("undefined")]
+                public string Undefined { get; set; } // ?
+
+
+                [JsonProperty("flavor")]
+                public string PresentFlavorDescription { get; set; }
+
+
+                [JsonProperty("Color")] // Special settings that can be used instead of "[⇲] Assets Directory\Color Dictionaries\Keyword Colors.cd.txt"
+                public string? Color { get; set; }
+
+
                 [JsonIgnore] // For editor
                 public string EditorMainDescription { get; set; } = "";
                 
                 [JsonIgnore] // For editor
                 public string EditorSummaryDescription { get; set; } = "";
+
+                [JsonIgnore] // For editor
+                public string EditorFlavorDescription { get; set; } = "";
 
 
                 [JsonIgnore]
@@ -333,39 +361,35 @@ namespace LC_Localization_Task_Absolute.Json
                 [JsonIgnore]
                 public TextDocument DedicatedDocument_SummaryDesc { get; set; } = new();
 
+                [JsonIgnore]
+                public TextDocument DedicatedDocument_FlavorDesc { get; set; } = new();
 
-                [JsonProperty("Color")] // Special settings that can be used instead of "[⇲] Assets Directory\Color Dictionaries\Keyword Colors.cd.txt"
-                public string? Color { get; set; }
-
-
-                #region Unused (Maybe?)
-                public string iconId { get; set; }
-                public string IconID { get; set; }
-                public string undefined { get; set; }
-                #endregion
-
-
-                [JsonProperty("flavor")]
-                public string Flavor { get; set; }
-
-
-                public string _comment { get; set; }
 
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
                     EditorMainDescription = PresentMainDescription;
                     EditorSummaryDescription = PresentSummaryDescription;
+                    EditorFlavorDescription = PresentFlavorDescription;
 
                     DedicatedDocument_MainDesc.Text = EditorMainDescription;
                     if (EditorSummaryDescription != null) DedicatedDocument_SummaryDesc.Text = EditorSummaryDescription;
+                    if (EditorFlavorDescription != null) DedicatedDocument_FlavorDesc.Text = EditorFlavorDescription;
 
                     DedicatedDocument_MainDesc.UndoStack.ClearAll();
                     DedicatedDocument_SummaryDesc.UndoStack.ClearAll();
+                    DedicatedDocument_FlavorDesc.UndoStack.ClearAll();
                 }
             }
         }
-    
+        
+
+
+
+
+
+
+
         public static class Type_SkillTag
         {
             public record SkillTagsFile

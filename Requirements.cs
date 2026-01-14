@@ -185,41 +185,37 @@ namespace LC_Localization_Task_Absolute
             //}
         }
 
+        public static byte AsByte(string Hex) => Convert.ToByte(Hex, 16);
+
         public static bool TryParseColor(string HexColor, out Color OutColor)
         {
             if (HexColor == null) return false;
 
             HexColor = HexColor.Replace("#", "");
-
             try
             {
-                if (HexColor.Length == 6)
+                if (HexColor.Length != 8 & HexColor.Length != 6) return false;
+
+                string RGB = HexColor.Length == 8 ? HexColor[2..8] : HexColor;
+                string Alpha = HexColor.Length == 8 ? HexColor[0..2] : "FF";
+
+                OutColor = new Color()
                 {
-                    OutColor = new Color()
-                    {
-                        A = 255,
-                        R = Convert.ToByte(HexColor.Substring(0, 2), 16),
-                        G = Convert.ToByte(HexColor.Substring(2, 2), 16),
-                        B = Convert.ToByte(HexColor.Substring(4, 2), 16)
-                    };
-                    return true;
-                }
-                else if (HexColor.Length == 8)
-                {
-                    OutColor = new Color()
-                    {
-                        A = Convert.ToByte(HexColor.Substring(0, 2), 16),
-                        R = Convert.ToByte(HexColor.Substring(2, 2), 16),
-                        G = Convert.ToByte(HexColor.Substring(4, 2), 16),
-                        B = Convert.ToByte(HexColor.Substring(6, 2), 16)
-                    };
-                    return true;
-                }
-                else return false;
+                    A = AsByte(Alpha),
+                    R = AsByte(RGB[0..2]),
+                    G = AsByte(RGB[2..4]),
+                    B = AsByte(RGB[4..6]),
+                };
+
+                return true;
             }
             catch { return false; }
         }
 
+        /// <summary>
+        /// Accepts RGB or ARGB hex sequence (#rrggbb / #AArrggbb), use <paramref name="AlphaAtTheEnd"/> = <see langword="true"/> for #rrggbbAA hex sequence<br/>
+        /// </summary>
+        /// <returns><see cref="Colors.White"/> if input is invalid (<see langword="null"/> string, invalid bytes (Not A~F / 0~9), invalid hex length (Not 6 or 8 without '#'))</returns>
         public static Color ToColor(string HexColor, bool AlphaAtTheEnd = false)
         {
             if (HexColor == null) return Colors.White;
@@ -228,8 +224,6 @@ namespace LC_Localization_Task_Absolute
             try
             {
                 if (HexColor.Length != 8 & HexColor.Length != 6) return Colors.White;
-
-                static byte AsByte(string Hex) => Convert.ToByte(Hex, 16);
 
                 string RGB = HexColor.Length == 8 ? (AlphaAtTheEnd ? HexColor[0..6] : HexColor[2..8]) : HexColor;
                 string Alpha = HexColor.Length == 8 ? (AlphaAtTheEnd ? HexColor[^2..] : HexColor[0..2]) : "FF";
@@ -249,10 +243,11 @@ namespace LC_Localization_Task_Absolute
         }
 
         /// <summary>
-        /// Accepts RGB or ARGB hex sequence (#rrggbb / #AArrggbb)<br/>
-        /// Returns transperent if HexString is null/"" or if HexString is not color
+        /// Accepts RGB or ARGB hex sequence (#rrggbb / #AArrggbb), use <paramref name="AlphaAtTheEnd"/> = <see langword="true"/> for #rrggbbAA hex sequence<br/>
         /// </summary>
+        /// <returns><see cref="Brushes.White"/> if input is invalid (<see langword="null"/> string, invalid bytes (Not A~F / 0~9), invalid hex length (Not 6 or 8 without '#'))</returns>
         public static SolidColorBrush ToSolidColorBrush(string HexColor, bool AlphaAtTheEnd = false) => new SolidColorBrush(ToColor(HexColor, AlphaAtTheEnd));
+
 
         public static FontFamily FileToFontFamily(string FontPathOrName, string OverrideFontInternalName = "", bool WriteInfo = false)
         {
@@ -538,12 +533,12 @@ namespace LC_Localization_Task_Absolute
 
 
         // Readed file encoding
-        public static Encoding GetFileEncoding(this FileInfo TargetFile)
+        public static bool IsUTF8BOM(this FileInfo TargetFile)
         {
-            using (StreamReader Reader = new StreamReader(TargetFile.FullName, Encoding.Default, true))
+            using (StreamReader Reader = new(TargetFile.FullName, new UTF8Encoding(encoderShouldEmitUTF8Identifier: false)))
             {
-                Reader.Peek();
-                return Reader.CurrentEncoding;
+                Reader.Read(); // Read the first character to trigger encoding detection
+                return Reader.CurrentEncoding.GetPreamble().Length != 0;
             }
         }
 

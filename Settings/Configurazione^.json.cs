@@ -63,7 +63,7 @@ namespace LC_Localization_Task_Absolute
                 }
             }
 
-            SettingsCopy.SerializeToFormattedFile(@"[⇲] Assets Directory\Configurazione^.json");
+            SettingsCopy.SerializeToFormattedFile_Regular(@"[⇲] Assets Directory\Configurazione^.json");
         }
 
         public ref struct @ExtraReplacements

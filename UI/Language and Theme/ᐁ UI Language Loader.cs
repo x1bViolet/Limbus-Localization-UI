@@ -7,7 +7,7 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Media;
-using static LC_Localization_Task_Absolute.Json.Serialization;
+using static LC_Localization_Task_Absolute.Json.JsonSerialization;
 using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.@SyntaxedTextEditor;
 using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;

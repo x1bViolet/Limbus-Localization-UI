@@ -358,8 +358,22 @@
         "Font Size": 22
       },
       {
+        "UID":{"[Passives / Right menu] * Passive flavor":null},
+        "Text": "Нарративное описание (flavor)",
+        "Margin": [0, 4, 0, 0],
+        "Font Size": 22
+      },
+      {
         "UID": {"[Passives / Right menu] * Add Passive summary description tooltip":null},
         "Text": "Добавить суммарное описание",
+        "Font Size": 18,
+        "Width": 268,
+        "Height": 24,
+        "Margin": [0, 5.5, 0, 0]
+      },
+      {
+        "UID": {"[Passives / Right menu] * Add Passive flavor description tooltip":null},
+        "Text": "Добавить нарративное описание",
         "Font Size": 18,
         "Width": 268,
         "Height": 24,
@@ -385,6 +399,11 @@
       {
         "UID": {"[Keywords / Right Menu] * Keyword summary":null},
         "Text": "Суммароное описание",
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Keyword flavor":null},
+        "Text": "Нарративное описание",
         "Font Size": 22
       },
       {

@@ -62,7 +62,7 @@ namespace LC_Localization_Task_Absolute
             {
                 ExchangeJsonValues(@CurrentPreviewCreator.LoadedImageInfo, ExchangingType.Save);
 
-                string Serialized = @CurrentPreviewCreator.LoadedImageInfo.SerializeToFormattedString(Context: Path.GetDirectoryName(SaveLocation.FileName).Replace("\\", "/"));
+                string Serialized = @CurrentPreviewCreator.LoadedImageInfo.SerializeToFormattedText(Context: Path.GetDirectoryName(SaveLocation.FileName).Replace("\\", "/"));
                 Serialized = Serialized.RegexRemove(new(@"""__Separator\d+__"": 0\.0(,)?"));
 
                 File.WriteAllText(SaveLocation.FileName, Serialized);

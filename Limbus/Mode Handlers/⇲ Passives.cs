@@ -5,6 +5,7 @@ using System.Windows;
 using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes.Type_Passives;
 using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
 using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
+using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.MainWindow;
 using static LC_Localization_Task_Absolute.Mode_Handlers.Upstairs;
 using static System.Windows.Visibility;
@@ -14,10 +15,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
     public interface Mode_Passives
     {
-        public static int CurrentPassiveID = -1;
+        public static int CurrentPassiveID = int.MinValue;
 
         public static PassivesFile DeserializedInfo;
-        public static DualDescriptionType CurrentDescriptionType = DualDescriptionType.Main;
+        public static TripleDescriptionType CurrentDescriptionType = TripleDescriptionType.Main;
 
         public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new SwitchedInterfaceProperties()
         {
@@ -95,7 +96,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             MainControl.NavigationPanel_ObjectName_Display.Text = @Current.Passive.Name;
             MainControl.SWBT_Passives_MainPassiveName.Text = @Current.Passive.Name.Replace("\n", "\\n");
 
-            ReCheckPassiveSummaryButton();
+            ReCheckPassiveSummaryAndFlavorButtons();
 
             SwitchToMainDesc();
             
@@ -104,9 +105,11 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
         }
 
-        public static void ReCheckPassiveSummaryButton()
+        public static void ReCheckPassiveSummaryAndFlavorButtons()
         {
             MainControl.PassiveSummarySwitchButton.IsEnabled = false;
+            MainControl.PassiveFlavorSwitchButton.IsEnabled = false;
+
 
             if (@Current.Passive.PresentSummaryDescription != null)
             {
@@ -124,6 +127,24 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"].SetDefaultText();
             }
+
+
+            if (@Current.Passive.PresentFlavorDescription != null)
+            {
+                if (@Current.Passive.PresentFlavorDescription != @Current.Passive.EditorFlavorDescription)
+                {
+                    PresentedStaticTextEntries["[Passives / Right menu] * Passive flavor"].MarkWithUnsaved();
+                }
+                else
+                {
+                    PresentedStaticTextEntries["[Passives / Right menu] * Passive flavor"].SetDefaultText();
+                }
+                MainControl.PassiveFlavorSwitchButton.IsEnabled = true;
+            }
+            else
+            {
+                PresentedStaticTextEntries["[Passives / Right menu] * Passive flavor"].SetDefaultText();
+            }
         }
 
         public static void SwitchToMainDesc()
@@ -132,7 +153,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 ManualTextLoadEvent = true;
             }
 
-            CurrentDescriptionType = DualDescriptionType.Main;
+            CurrentDescriptionType = TripleDescriptionType.Main;
 
             MainControl.TextEditor.Document = @Current.Passive.DedicatedDocument_MainDesc;
 
@@ -147,9 +168,24 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 ManualTextLoadEvent = true;
             }
 
-            CurrentDescriptionType = DualDescriptionType.Summary;
+            CurrentDescriptionType = TripleDescriptionType.Summary;
 
             MainControl.TextEditor.Document = @Current.Passive.DedicatedDocument_SummaryDesc;
+
+            {
+                ManualTextLoadEvent = true;
+            }
+        }
+
+        public static void SwitchToFlavorDesc()
+        {
+            {
+                ManualTextLoadEvent = true;
+            }
+
+            CurrentDescriptionType = TripleDescriptionType.Flavor;
+
+            MainControl.TextEditor.Document = @Current.Passive.DedicatedDocument_FlavorDesc;
 
             {
                 ManualTextLoadEvent = true;
@@ -165,6 +201,8 @@ namespace LC_Localization_Task_Absolute
     {
         private void Passives_SwitchToMainDesc(object RequestSender, RoutedEventArgs EventArgs) => Mode_Passives.SwitchToMainDesc();
         private void Passives_SwitchToSummaryDesc(object RequestSender, RoutedEventArgs EventArgs) => Mode_Passives.SwitchToSummaryDesc();
+        private void Passives_SwitchToFlavorDesc(object RequestSender, RoutedEventArgs EventArgs) => Mode_Passives.SwitchToFlavorDesc();
+        
         private void Passives_CreateSummaryDescription(object RequestSender, RoutedEventArgs EventArgs)
         {
             Mode_Passives.@Current.Passive.PresentSummaryDescription = " ";
@@ -173,10 +211,23 @@ namespace LC_Localization_Task_Absolute
             Mode_Passives.@Current.Passive.DedicatedDocument_SummaryDesc.Text = Mode_Passives.@Current.Passive.EditorSummaryDescription;
             Mode_Passives.@Current.Passive.DedicatedDocument_SummaryDesc.UndoStack.ClearAll();
 
-            Mode_Passives.CurrentDescriptionType = DualDescriptionType.Summary;
+            Mode_Passives.CurrentDescriptionType = TripleDescriptionType.Summary;
 
             TextEditor.Document = Mode_Passives.@Current.Passive.DedicatedDocument_SummaryDesc;
             PassiveSummarySwitchButton.IsEnabled = true;
+        }
+        private void Passives_CreateFlavorDescription(object RequestSender, RoutedEventArgs EventArgs)
+        {
+            Mode_Passives.@Current.Passive.PresentFlavorDescription = " ";
+            Mode_Passives.@Current.Passive.EditorFlavorDescription = "";
+
+            Mode_Passives.@Current.Passive.DedicatedDocument_FlavorDesc.Text = Mode_Passives.@Current.Passive.EditorFlavorDescription;
+            Mode_Passives.@Current.Passive.DedicatedDocument_FlavorDesc.UndoStack.ClearAll();
+
+            Mode_Passives.CurrentDescriptionType = TripleDescriptionType.Flavor;
+
+            TextEditor.Document = Mode_Passives.@Current.Passive.DedicatedDocument_FlavorDesc;
+            PassiveFlavorSwitchButton.IsEnabled = true;
         }
     }
 }

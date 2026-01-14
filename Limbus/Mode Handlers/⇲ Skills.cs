@@ -51,7 +51,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
     public interface Mode_Skills
     {
-        public static int CurrentSkillID = -1;
+        public static int CurrentSkillID = int.MinValue;
         public static int CurrentSkillUptieLevel = -1;
         public static int CurrentSkillCoinIndex = -1;
         public static int CurrentSkillCoinDescIndex = -1;
@@ -832,7 +832,7 @@ namespace LC_Localization_Task_Absolute
                 string Affinity = (SkillAffinitySelector.SelectedItem as StackPanel).Uid;
                 Mode_Skills.@Current.Uptie.OptionalAffinity = Affinity != "None" ? Affinity : null;
 
-                Mode_Skills.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
+                Mode_Skills.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
             }
         }
 
@@ -851,7 +851,7 @@ namespace LC_Localization_Task_Absolute
                     Mode_Skills.@Current.Uptie.EGOAbnormalityName = SWBT_Skills_EGOAbnormalitySkillName.Text.Replace("\\n", "\n"); ;
                 }
 
-                Mode_Skills.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
+                Mode_Skills.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
             }
         }
 

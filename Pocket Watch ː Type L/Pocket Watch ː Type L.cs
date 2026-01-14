@@ -130,6 +130,8 @@ namespace LC_Localization_Task_Absolute
                 InlineImages_Size,
                 InlineImages_XOffset,
                 InlineImages_YOffset,
+
+                FlavorTextOverrideFormatting,
             };
 
 
@@ -203,6 +205,9 @@ namespace LC_Localization_Task_Absolute
                 new("sub", ["/sub"], TagType.Subscript),
                 new("sup", ["/sup"], TagType.Superscript),
 
+                // Unique tag only for Limbus texts to forcibility set specific formatting without ability to remove it with </color></i>
+                new(@"flavor\uAAFF", [@"/flavor\uAAFF"], TagType.FlavorTextOverrideFormatting, Univocal: new() { [Run.ForegroundProperty] = ToSolidColorBrush("#9f6a3a"), [Run.FontStyleProperty] = FontStyles.Italic }),
+                
                 // new("noparse", ["/noparse"]), Being applied on formatting stage as \0 after tag dividers in <noparse></noparse> range, see at Apply()
 
                 new("style", ["/style"], TagType.StyleHighlighter, Univocal:  new() { [Run.ForegroundProperty] = ToSolidColorBrush("#f8c200") }), // Highlight color

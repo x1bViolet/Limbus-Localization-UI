@@ -209,7 +209,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
             if (FoundCounter > 0)
             {
-                Export.SerializeToFormattedFile("Keywords Multiple Meanings.json");
+                Export.SerializeToFormattedFile_Regular("Keywords Multiple Meanings.json");
                 MessageBox.Show($"Keywords multiple meanings from \"{LocalizationWithKeywordsPath}\" folder exported as \"Keywords Multiple Meanings.json\" to the program folder");
             }
         }

@@ -217,6 +217,7 @@ namespace LC_Localization_Task_Absolute
                 case nameof(SV_HighlightStyle):
                     LoadedProgramConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightStyle = IsChecked;
                     LimbusPreviewFormatter.UpdateLast();
+                    JsonTextEditor.RecompileEditorSyntax();
                     break;
 
 

@@ -27,10 +27,11 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             UseCurrentActiveProperties
         }
 
-        public enum DualDescriptionType
+        public enum TripleDescriptionType
         {
             Main,
-            Summary
+            Summary,
+            Flavor
         }
 
         public static SwitchedInterfaceProperties ActiveProperties = new()

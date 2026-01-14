@@ -35,7 +35,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 {
     public interface Mode_EGOGifts
     {
-        public static int CurrentEGOGiftID = -1;
+        public static int CurrentEGOGiftID = int.MinValue;
 
         public static EGOGiftsFile DeserializedInfo;
         public static string CurrentDescriptionType_String { get; set; } = "Main Description"; // String instead of DualDescriptionType to insert current simple desc number at the end

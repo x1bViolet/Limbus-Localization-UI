@@ -20,7 +20,7 @@ using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes.Type_EGOGifts;
 using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes.Type_Keywords;
 using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes.Type_Passives;
 using static LC_Localization_Task_Absolute.Json.LimbusJsonTypes.Type_Skills;
-using static LC_Localization_Task_Absolute.Json.Serialization;
+using static LC_Localization_Task_Absolute.Json.JsonSerialization;
 using static LC_Localization_Task_Absolute.Mode_Handlers.Upstairs;
 using static LC_Localization_Task_Absolute.Requirements;
 using static LC_Localization_Task_Absolute.ᐁ_Interface_Localization_Loader;
@@ -40,8 +40,10 @@ public partial class MainWindow : Window
 
     public static TMProEmitter TargetPreviewLayout; // = PreviewLayout_Default by default from InitMain()
 
-    public static FileInfo CurrentFile = null;
-    public static Encoding CurrentFileEncoding = new UTF8Encoding();
+    public static FileInfo CurrentFile;
+    public static UTF8Encoding CurrentFileEncoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: false);
+    public static LineBreakMode CurrentLineBreakMode = LineBreakMode.LF;
+    public static int CurrentIndentationSize = 2;
 
     public ContextMenu AddUptieContextMenu => MainControl.UptieSwitchButtons.Resources["AddUptieContextMenu"] as ContextMenu; // Localization elements from ResourceDictionary
     
@@ -167,22 +169,22 @@ public partial class MainWindow : Window
     /// <summary>
     /// Write info to deserialized local json and update UI text elements
     /// </summary>
-    public static void PullUpdatePreview(string EditorText)
+    public static void PullUpdatePreview(string InputEditorText)
     {
         #region UI/json update
         switch (ActiveProperties.Key)
         {
             case EditorMode.Skills:
-                if (Mode_Skills.CurrentSkillID != -1)
+                if (Mode_Skills.CurrentSkillID != int.MinValue)
                 {
-                    TargetPreviewLayout.Visibility = EditorText != "" ? Visible : Collapsed;
+                    TargetPreviewLayout.Visibility = InputEditorText != "" ? Visible : Collapsed;
 
 
-                    Mode_Skills.LastPreviewUpdatesBank[TargetPreviewLayout] = EditorText;
+                    Mode_Skills.LastPreviewUpdatesBank[TargetPreviewLayout] = InputEditorText;
 
                     if (TargetPreviewLayout.Equals(MainControl.PreviewLayout_Skills_MainDesc))
                     {
-                        Mode_Skills.@Current.Uptie.EditorDescription = EditorText;
+                        Mode_Skills.@Current.Uptie.EditorDescription = InputEditorText;
 
                         if (Mode_Skills.@Current.Uptie.PresentDescription != Mode_Skills.@Current.Uptie.EditorDescription)
                         {
@@ -195,7 +197,7 @@ public partial class MainWindow : Window
                     }
                     else
                     {
-                        Mode_Skills.@Current.CoinDesc.EditorDescription = EditorText;
+                        Mode_Skills.@Current.CoinDesc.EditorDescription = InputEditorText;
 
                         if (Mode_Skills.@Current.CoinDesc.PresentDescription != Mode_Skills.@Current.CoinDesc.EditorDescription)
                         {
@@ -238,20 +240,19 @@ public partial class MainWindow : Window
 
 
             case EditorMode.Passives:
-                if (Mode_Passives.CurrentPassiveID != -1)
+                if (Mode_Passives.CurrentPassiveID != int.MinValue)
                 {
-                    if (Mode_Passives.CurrentDescriptionType == DualDescriptionType.Main)
-                    {
-                        Mode_Passives.@Current.Passive.EditorMainDescription = EditorText;
-                    }
-                    else
-                    {
-                        Mode_Passives.@Current.Passive.EditorSummaryDescription = EditorText;
-                    }
-
                     switch (Mode_Passives.CurrentDescriptionType)
                     {
-                        case DualDescriptionType.Main:
+                        case TripleDescriptionType.Main:
+                            Mode_Passives.@Current.Passive.EditorMainDescription = InputEditorText;
+
+                            if (!string.IsNullOrWhiteSpace(Mode_Passives.@Current.Passive.EditorFlavorDescription))
+                            {
+                                InputEditorText = $"{Mode_Passives.@Current.Passive.EditorMainDescription}\n\n" +
+                                                  $"<flavor\uAAFF>{Mode_Passives.@Current.Passive.EditorFlavorDescription}</flavor\uAAFF>";
+                            }
+
                             if (Mode_Passives.@Current.Passive.PresentMainDescription != Mode_Passives.@Current.Passive.EditorMainDescription)
                             {
                                 PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"].MarkWithUnsaved();
@@ -262,7 +263,9 @@ public partial class MainWindow : Window
                             }
                             break;
 
-                        case DualDescriptionType.Summary:
+                        case TripleDescriptionType.Summary:
+                            Mode_Passives.@Current.Passive.EditorSummaryDescription = InputEditorText;
+                            
                             if (Mode_Passives.@Current.Passive.PresentSummaryDescription != Mode_Passives.@Current.Passive.EditorSummaryDescription)
                             {
                                 PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"].MarkWithUnsaved();
@@ -271,6 +274,27 @@ public partial class MainWindow : Window
                             {
                                 PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"].SetDefaultText();
                             }
+                            break;
+
+                        case TripleDescriptionType.Flavor:
+                            Mode_Passives.@Current.Passive.EditorFlavorDescription = InputEditorText;
+
+                            if (!string.IsNullOrWhiteSpace(Mode_Passives.@Current.Passive.EditorFlavorDescription))
+                            {
+                                InputEditorText = $"{Mode_Passives.@Current.Passive.EditorMainDescription}\n\n" +
+                                                  $"<flavor\uAAFF>{Mode_Passives.@Current.Passive.EditorFlavorDescription}</flavor\uAAFF>";
+                            }
+                            else InputEditorText = Mode_Passives.@Current.Passive.EditorMainDescription;
+
+                            if (Mode_Passives.@Current.Passive.PresentFlavorDescription != Mode_Passives.@Current.Passive.EditorFlavorDescription)
+                            {
+                                PresentedStaticTextEntries["[Passives / Right menu] * Passive flavor"].MarkWithUnsaved();
+                            }
+                            else
+                            {
+                                PresentedStaticTextEntries["[Passives / Right menu] * Passive flavor"].SetDefaultText();
+                            }
+
                             break;
                     }
                 }
@@ -284,18 +308,17 @@ public partial class MainWindow : Window
             case EditorMode.Keywords:
                 if (Mode_Keywords.CurrentKeywordID != "")
                 {
-                    if (Mode_Keywords.CurrentDescriptionType == DualDescriptionType.Main)
-                    {
-                        Mode_Keywords.@Current.Keyword.EditorMainDescription = EditorText;
-                    }
-                    else
-                    {
-                        Mode_Keywords.@Current.Keyword.EditorSummaryDescription = EditorText;
-                    }
-
                     switch (Mode_Keywords.CurrentDescriptionType)
                     {
-                        case DualDescriptionType.Main:
+                        case TripleDescriptionType.Main:
+                            Mode_Keywords.@Current.Keyword.EditorMainDescription = InputEditorText;
+
+                            if (!string.IsNullOrWhiteSpace(Mode_Keywords.@Current.Keyword.EditorFlavorDescription))
+                            {
+                                InputEditorText = $"{Mode_Keywords.@Current.Keyword.EditorMainDescription}\n\n" +
+                                                  $"<flavor\uAAFF>{Mode_Keywords.@Current.Keyword.EditorFlavorDescription}</flavor\uAAFF>";
+                            }
+
                             if (Mode_Keywords.@Current.Keyword.PresentMainDescription != Mode_Keywords.@Current.Keyword.EditorMainDescription)
                             {
                                 PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"].MarkWithUnsaved();
@@ -306,7 +329,29 @@ public partial class MainWindow : Window
                             }
                             break;
 
-                        case DualDescriptionType.Summary:
+                        case TripleDescriptionType.Summary:
+                            Mode_Keywords.@Current.Keyword.EditorSummaryDescription = InputEditorText;
+
+                            if (Mode_Keywords.@Current.Keyword.PresentSummaryDescription != Mode_Keywords.@Current.Keyword.EditorSummaryDescription)
+                            {
+                                PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].MarkWithUnsaved();
+                            }
+                            else
+                            {
+                                PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].SetDefaultText();
+                            }
+                            break;
+
+                        case TripleDescriptionType.Flavor:
+                            Mode_Keywords.@Current.Keyword.EditorFlavorDescription = InputEditorText;
+
+                            if (!string.IsNullOrWhiteSpace(Mode_Keywords.@Current.Keyword.EditorFlavorDescription))
+                            {
+                                InputEditorText = $"{Mode_Keywords.@Current.Keyword.EditorMainDescription}\n\n" +
+                                                  $"<flavor\uAAFF>{Mode_Keywords.@Current.Keyword.EditorFlavorDescription}</flavor\uAAFF>";
+                            }
+                            else InputEditorText = Mode_Keywords.@Current.Keyword.EditorMainDescription;
+
                             if (Mode_Keywords.@Current.Keyword.PresentSummaryDescription != Mode_Keywords.@Current.Keyword.EditorSummaryDescription)
                             {
                                 PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].MarkWithUnsaved();
@@ -326,13 +371,13 @@ public partial class MainWindow : Window
 
 
             case EditorMode.EGOGifts:
-                if (Mode_EGOGifts.CurrentEGOGiftID != -1)
+                if (Mode_EGOGifts.CurrentEGOGiftID != int.MinValue)
                 {
                     switch (Mode_EGOGifts.CurrentDescriptionType_String)
                     {
                         case "Main Description":
 
-                            Mode_EGOGifts.@Current.EGOGift.EditorDescription = EditorText;
+                            Mode_EGOGifts.@Current.EGOGift.EditorDescription = InputEditorText;
 
                             if (Mode_EGOGifts.@Current.EGOGift.PresentDescription != Mode_EGOGifts.@Current.EGOGift.EditorDescription)
                             {
@@ -350,7 +395,7 @@ public partial class MainWindow : Window
 
                             int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
 
-                            Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription = EditorText;
+                            Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription = InputEditorText;
 
                             if (Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].PresentDescription != Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription)
                             {
@@ -378,7 +423,7 @@ public partial class MainWindow : Window
         // Update preview itself
         if (TargetPreviewLayout != null && !LoadedProgramConfig.PreviewSettings.PreviewSettingsBaseSettings.HidePreview)
         {
-            TargetPreviewLayout.RichText = EditorText;
+            TargetPreviewLayout.RichText = InputEditorText;
         }
     }
     #endregion
@@ -731,7 +776,7 @@ public partial class MainWindow : Window
                 }
                 NavigationPanel_ObjectName_Display.Text = Mode_Skills.@Current.Uptie.Name;
 
-                Mode_Skills.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
+                Mode_Skills.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
                 
                 break;
 
@@ -741,7 +786,7 @@ public partial class MainWindow : Window
                 Mode_Passives.@Current.Passive.Name = SWBT_Passives_MainPassiveName.Text.Replace("\\n", "\n");
                 NavigationPanel_ObjectName_Display.Text = Mode_Passives.@Current.Passive.Name;
 
-                Mode_Passives.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
+                Mode_Passives.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
                 
                 break;
 
@@ -751,7 +796,7 @@ public partial class MainWindow : Window
                 Mode_Keywords.@Current.Keyword.Name = SWBT_Keywords_KeywordName.Text.Replace("\\n", "\n");
                 NavigationPanel_ObjectName_Display.Text = Mode_Keywords.@Current.Keyword.Name;
 
-                Mode_Keywords.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
+                Mode_Keywords.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
                 
                 break;
 
@@ -761,7 +806,7 @@ public partial class MainWindow : Window
                 Mode_EGOGifts.@Current.EGOGift.Name = SWBT_EGOGifts_EGOGiftName.Text.Replace("\\n", "\n");
                 NavigationPanel_ObjectName_Display.Text = Mode_EGOGifts.@Current.EGOGift.Name;
 
-                Mode_EGOGifts.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
+                Mode_EGOGifts.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
                 
                 break;
         }
@@ -818,7 +863,12 @@ public partial class MainWindow : Window
     public static void FocusOnFile(FileInfo Target) // Called after successful validation of dataList at the ValidateAnd method of each editor mode
     {
         CurrentFile = Target;
-        CurrentFileEncoding = Target.GetFileEncoding();
+
+        string TempFileText = File.ReadAllText(CurrentFile.FullName);
+        CurrentIndentationSize = TempFileText.GetJsonIndentationSize();
+        CurrentLineBreakMode = TempFileText.DetermineLineBreakType();
+        CurrentFileEncoding = new UTF8Encoding(encoderShouldEmitUTF8Identifier: CurrentFile.IsUTF8BOM());
+
         MainControl.JsonFilePath.Text = CurrentFile.FullName;
         MainControl.JsonFilePath.ScrollToHorizontalOffset(double.PositiveInfinity);
         MainControl.AppendAdditionalObjectContextMenu.IsOpen = false;
@@ -1235,54 +1285,4 @@ public partial class MainWindow : Window
         if (SelectedTextToEdit != TextEditor.SelectedText) TextEditor.SelectedText = SelectedTextToEdit.Replace("<\0TMPSPACE>", " ");
     }
     #endregion
-
-    void tempreplace()
-    {
-        // RR1 BokGak 'Skills_Abnormality_Refraction1_bokgak.json' skill names replacing shenanigans
-        static Dictionary<int, string> GetNamedDictionary(List<Skill> SkillsList)
-        {
-            return SkillsList.Select(x => new KeyValuePair<int, string>((int)x.ID, x.UptieLevels[0].Name)).ToDictionary();
-        }
-
-
-        var Names1_Original = GetNamedDictionary(new FileInfo(@"C:\Program Files (x86)\Steam\steamapps\common\Limbus Company\LimbusCompany_Data\Assets\Resources_moved\Localize\en\EN_Skills_Abnormality.json").Deserealize<SkillsFile>().dataList);
-        var Names2_Original = GetNamedDictionary(new FileInfo(@"C:\Program Files (x86)\Steam\steamapps\common\Limbus Company\LimbusCompany_Data\Assets\Resources_moved\Localize\en\EN_Skills_Abnormality_Refraction.json").Deserealize<SkillsFile>().dataList);
-        var Names3_Original = GetNamedDictionary(new FileInfo(@"C:\Program Files (x86)\Steam\steamapps\common\Limbus Company\LimbusCompany_Data\Assets\Resources_moved\Localize\en\EN_Skills_Enemy.json").Deserealize<SkillsFile>().dataList);
-
-
-        var Names1_Translated = GetNamedDictionary(new FileInfo(@"C:\Dream-Devouring Siltcurrent\@LimbusCompany MTL'RU\localize\Skills_Abnormality.json").Deserealize<SkillsFile>().dataList);
-        var Names2_Translated = GetNamedDictionary(new FileInfo(@"C:\Dream-Devouring Siltcurrent\@LimbusCompany MTL'RU\localize\Skills_Abnormality_Refraction.json").Deserealize<SkillsFile>().dataList);
-        var Names3_Translated = GetNamedDictionary(new FileInfo(@"C:\Dream-Devouring Siltcurrent\@LimbusCompany MTL'RU\localize\Skills_Enemy.json").Deserealize<SkillsFile>().dataList);
-
-        // Eng name -> Ru name
-        Dictionary<string, string> Comparsions = [];
-
-        foreach (var i in Names1_Original)
-            Comparsions[Names1_Original[i.Key]] = Names1_Translated[i.Key];
-
-        foreach (var i in Names2_Original)
-            Comparsions[Names2_Original[i.Key]] = Names2_Translated[i.Key];
-
-        foreach (var i in Names3_Original)
-            Comparsions[Names3_Original[i.Key]] = Names3_Translated[i.Key];
-
-        SkillsFile BokGakFile = new FileInfo(@"C:\Dream-Devouring Siltcurrent\@LimbusCompany MTL'RU\localize\Skills_Abnormality_Refraction1_bokgak.json").Deserealize<SkillsFile>();
-
-        foreach (Skill AbSkill in BokGakFile.dataList)
-        {
-            string SkillName = AbSkill.UptieLevels[0].Name;
-            //rin($"{AbSkill.ID}: {SkillName}");
-            if (Comparsions.ContainsKey(SkillName))
-            {
-                rin($"\"{SkillName}\" переведено как \"{Comparsions[SkillName]}\"");
-                AbSkill.UptieLevels[0].Name = Comparsions[SkillName];
-            }
-            else
-            {
-                rin($"!! !! !! нет имени {SkillName}");
-            }
-        }
-
-        BokGakFile.SerializeToFormattedFile(@"C:\Dream-Devouring Siltcurrent\@LimbusCompany MTL'RU\localize\Skills_Abnormality_Refraction1_bokgak-REPLACEDNAMES.json");
-    }
 }

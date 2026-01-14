@@ -252,7 +252,7 @@ namespace LC_Localization_Task_Absolute.Json
             SaveFileDialog SaveLocation = NewSaveFileDialog("LCLI Skills Display Info files", ["json"], "Skills Display Info.json");
             if (SaveLocation.ShowDialog() == true)
             {
-                string Json = LoadedInfo.SerializeToFormattedString(Context: Path.GetDirectoryName(SaveLocation.FileName).Replace("\\", "/"));
+                string Json = LoadedInfo.SerializeToFormattedText(Context: Path.GetDirectoryName(SaveLocation.FileName).Replace("\\", "/"));
                 SelectedFileLabel.Text = Path.GetFileName(SaveLocation.FileName);
                 SelectedFileLabel_Tooltip.Text = SaveLocation.FileName;
 

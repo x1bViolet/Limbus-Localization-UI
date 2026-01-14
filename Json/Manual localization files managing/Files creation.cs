@@ -92,7 +92,7 @@ public partial class MainWindow
         SaveFileDialog SaveLocation = NewSaveFileDialog("Json files", ["json"], InitialName);
         if (SaveLocation.ShowDialog() == true)
         {
-            JsonToSave.SerializeToFormattedFile(SaveLocation.FileName);
+            JsonToSave.SerializeToFormattedFile_Regular(SaveLocation.FileName);
 
             TryLoadFileAndSetFocus(SaveLocation.FileName);
         }

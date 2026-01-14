@@ -1,5 +1,6 @@
 ﻿using ICSharpCode.AvalonEdit.Highlighting;
 using System.Text.RegularExpressions;
+using System.Windows;
 using System.Windows.Input;
 using static LC_Localization_Task_Absolute.Configurazione;
 using static LC_Localization_Task_Absolute.Mode_Handlers.Upstairs;
@@ -198,18 +199,37 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
 
             #region <style> tag
-            if (ActiveProperties.Key != EditorMode.Keywords) MainRuleSet.Spans.Add(new HighlightingSpan()
+            if (ActiveProperties.Key != EditorMode.Keywords)
             {
-                RuleSet = MainRuleSet, // Copy all highlight rules
+                if (LoadedProgramConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightStyle)
+                {
+                    MainRuleSet.Spans.Add(new HighlightingSpan()
+                    {
+                        RuleSet = MainRuleSet, // Copy all highlight rules
 
-                StartExpression = new Regex(ActiveProperties.Key.EqualsOneOf(EditorMode.Passives, EditorMode.Skills) ? @"<style=""highlight"">" : @"<style=""upgradeHighlight"">"),
-                EndExpression = new Regex(@"</style>"),
+                        StartExpression = new Regex(ActiveProperties.Key.EqualsOneOf(EditorMode.Passives, EditorMode.Skills) ? @"<style=""highlight"">" : @"<style=""upgradeHighlight"">"),
+                        EndExpression = new Regex(@"</style>"),
 
-                StartColor = new HighlightingColor() { Foreground = new HighlightionBrush("#f8c200") },
-                EndColor = new HighlightingColor() { Foreground = new HighlightionBrush("#f8c200") },
+                        StartColor = new HighlightingColor() { Foreground = new HighlightionBrush("#f8c200") },
+                        EndColor = new HighlightingColor() { Foreground = new HighlightionBrush("#f8c200") },
 
-                SpanColor = new HighlightingColor() { Foreground = new HighlightionBrush("#f8c200") }
-            });
+                        SpanColor = new HighlightingColor() { Foreground = new HighlightionBrush("#f8c200") }
+                    });
+                }
+                else
+                {
+                    MainRuleSet.Rules.Add(new HighlightingRule()
+                    {
+                        Regex = new Regex(@"</style>"),
+                        Color = new HighlightingColor() { Foreground = new HighlightionBrush("#f8c200") }
+                    });
+                    MainRuleSet.Rules.Add(new HighlightingRule()
+                    {
+                        Regex = new Regex(ActiveProperties.Key.EqualsOneOf(EditorMode.Passives, EditorMode.Skills) ? @"<style=""highlight"">" : @"<style=""upgradeHighlight"">"),
+                        Color = new HighlightingColor() { Foreground = new HighlightionBrush("#f8c200") }
+                    });
+                }
+            }
             #endregion
         }
     }

@@ -9,7 +9,7 @@ using System.Windows.Input;
 using LC_Localization_Task_Absolute.PreviewCreator;
 using static LC_Localization_Task_Absolute.Configurazione;
 using static LC_Localization_Task_Absolute.Json.DelegateDictionaries;
-using static LC_Localization_Task_Absolute.Json.Serialization;
+using static LC_Localization_Task_Absolute.Json.JsonSerialization;
 using static LC_Localization_Task_Absolute.MainWindow.ContextMenuHotkeys;
 using static LC_Localization_Task_Absolute.Mode_Handlers.Upstairs;
 using static LC_Localization_Task_Absolute.Requirements;
@@ -149,6 +149,141 @@ namespace LC_Localization_Task_Absolute
 
 
 
+        public void SaveCurrentDescription()
+        {
+            switch (ActiveProperties.Key)
+            {
+                case EditorMode.Skills:
+
+                    if (TargetPreviewLayout == PreviewLayout_Skills_MainDesc)
+                    {
+                        Mode_Skills.@Current.Uptie.PresentDescription = Mode_Skills.@Current.Uptie.EditorDescription;
+
+                        PresentedStaticTextEntries["[Skills / Right menu] * Skill main desc"].SetDefaultText();
+
+                        Mode_Skills.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
+                    }
+                    else
+                    {
+                        Mode_Skills.@Current.CoinDesc.PresentDescription = Mode_Skills.@Current.CoinDesc.EditorDescription;
+                        if (!Mode_Skills.@Current.CoinDescs.Any(CoinDesc => CoinDesc.PresentDescription != CoinDesc.EditorDescription))
+                        {
+                            PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"].SetDefaultText();
+                        }
+
+                        PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"].SetDefaultText(ExtraExtern: Mode_Skills.CurrentSkillCoinDescIndex + 1);
+
+                        Mode_Skills.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
+                    }
+
+                    break;
+
+
+
+                case EditorMode.Passives:
+
+                    switch (Mode_Passives.CurrentDescriptionType)
+                    {
+                        case TripleDescriptionType.Main:
+                            Mode_Passives.@Current.Passive.PresentMainDescription = Mode_Passives.@Current.Passive.EditorMainDescription;
+
+                            PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"].SetDefaultText();
+
+                            Mode_Passives.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
+                            break;
+
+
+                        case TripleDescriptionType.Summary:
+                            Mode_Passives.@Current.Passive.PresentSummaryDescription = Mode_Passives.@Current.Passive.EditorSummaryDescription;
+
+                            PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"].SetDefaultText();
+
+                            Mode_Passives.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
+                            break;
+
+
+                        case TripleDescriptionType.Flavor:
+                            Mode_Passives.@Current.Passive.PresentFlavorDescription = Mode_Passives.@Current.Passive.EditorFlavorDescription;
+
+                            PresentedStaticTextEntries["[Passives / Right menu] * Passive flavor"].SetDefaultText();
+
+                            Mode_Passives.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
+                            break;
+                    }
+
+                    break;
+
+
+
+                case EditorMode.Keywords:
+
+                    switch (Mode_Keywords.CurrentDescriptionType)
+                    {
+                        case TripleDescriptionType.Main:
+                            Mode_Keywords.@Current.Keyword.PresentMainDescription = Mode_Keywords.@Current.Keyword.EditorMainDescription;
+
+                            PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"].SetDefaultText();
+
+                            Mode_Keywords.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
+                            break;
+
+
+                        case TripleDescriptionType.Summary:
+                            Mode_Keywords.@Current.Keyword.PresentSummaryDescription = Mode_Keywords.@Current.Keyword.EditorSummaryDescription;
+
+                            PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].SetDefaultText();
+
+                            Mode_Keywords.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
+                            break;
+
+
+                        case TripleDescriptionType.Flavor:
+                            Mode_Keywords.@Current.Keyword.PresentFlavorDescription = Mode_Keywords.@Current.Keyword.EditorFlavorDescription;
+
+                            PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword flavor"].SetDefaultText();
+
+                            Mode_Keywords.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
+                            break;
+                    }
+
+                    break;
+
+
+
+                case EditorMode.EGOGifts:
+
+                    if (Mode_EGOGifts.CurrentDescriptionType_String == "Main Description")
+                    {
+                        Mode_EGOGifts.@Current.EGOGift.PresentDescription = Mode_EGOGifts.@Current.EGOGift.EditorDescription;
+
+                        PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].SetDefaultText();
+
+                        Mode_EGOGifts.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
+                    }
+                    else
+                    {
+                        string SimpleDescNumber = Regex.Match(Mode_EGOGifts.CurrentDescriptionType_String, @"Simple Description №(\d+)").Groups[1].Value;
+
+                        int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
+
+                        Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].PresentDescription = Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
+
+                        PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].SetDefaultText();
+
+
+                        Mode_EGOGifts.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
+                    }
+
+                    break;
+            }
+
+            if (NameInputs.Any(x => x.IsFocused))
+            {
+                ChangeObjectName(null, null);
+            }
+        }
+
+
 
         private static bool IsCtrlPressed = false;
         private void Window_PreviewKeyDown(object RequestSender, KeyEventArgs EventArgs)
@@ -205,110 +340,7 @@ namespace LC_Localization_Task_Absolute
                     IsCtrlPressed = true;
                     if (!TargetPreviewLayout.Equals(PreviewLayoutDef_Default))
                     {
-                        switch (ActiveProperties.Key)
-                        {
-                            case EditorMode.Skills:
-
-                                if (TargetPreviewLayout == PreviewLayout_Skills_MainDesc)
-                                {
-                                    Mode_Skills.@Current.Uptie.PresentDescription = Mode_Skills.@Current.Uptie.EditorDescription;
-
-                                    PresentedStaticTextEntries["[Skills / Right menu] * Skill main desc"].SetDefaultText();
-
-                                    Mode_Skills.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
-                                }
-                                else
-                                {
-                                    Mode_Skills.@Current.CoinDesc.PresentDescription = Mode_Skills.@Current.CoinDesc.EditorDescription;
-                                    if (!Mode_Skills.@Current.CoinDescs.Any(CoinDesc => CoinDesc.PresentDescription != CoinDesc.EditorDescription))
-                                    {
-                                        PresentedStaticTextEntries[$"[Skills / Right menu] * Skill Coin {Mode_Skills.CurrentSkillCoinIndex + 1}"].SetDefaultText();
-                                    }
-
-                                    PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"].SetDefaultText(ExtraExtern: Mode_Skills.CurrentSkillCoinDescIndex + 1);
-
-                                    Mode_Skills.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
-                                }
-
-                                break;
-
-
-                            case EditorMode.Passives:
-
-                                if (Mode_Passives.CurrentDescriptionType == DualDescriptionType.Main)
-                                {
-                                    Mode_Passives.@Current.Passive.PresentMainDescription = Mode_Passives.@Current.Passive.EditorMainDescription;
-
-                                    PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"].SetDefaultText();
-
-                                    Mode_Passives.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
-                                }
-                                else if (Mode_Passives.CurrentDescriptionType == DualDescriptionType.Summary)
-                                {
-                                    Mode_Passives.@Current.Passive.PresentSummaryDescription = Mode_Passives.@Current.Passive.EditorSummaryDescription;
-
-                                    PresentedStaticTextEntries["[Passives / Right menu] * Passive summary"].SetDefaultText();
-
-                                    Mode_Passives.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
-                                }
-
-                                break;
-
-
-                            case EditorMode.Keywords:
-
-                                if (Mode_Keywords.CurrentDescriptionType == DualDescriptionType.Main)
-                                {
-                                    Mode_Keywords.@Current.Keyword.PresentMainDescription = Mode_Keywords.@Current.Keyword.EditorMainDescription;
-
-                                    PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"].SetDefaultText();
-
-
-                                    Mode_Keywords.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
-                                }
-                                else if (Mode_Keywords.CurrentDescriptionType == DualDescriptionType.Summary)
-                                {
-                                    Mode_Keywords.@Current.Keyword.PresentSummaryDescription = Mode_Keywords.@Current.Keyword.EditorSummaryDescription;
-
-                                    PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].SetDefaultText();
-
-                                    Mode_Keywords.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
-                                }
-
-                                break;
-
-
-                            case EditorMode.EGOGifts:
-
-                                if (Mode_EGOGifts.CurrentDescriptionType_String == "Main Description")
-                                {
-                                    Mode_EGOGifts.@Current.EGOGift.PresentDescription = Mode_EGOGifts.@Current.EGOGift.EditorDescription;
-
-                                    PresentedStaticTextEntries["[E.G.O Gifts / Right Menu] * E.G.O Gift Desc"].SetDefaultText();
-
-                                    Mode_EGOGifts.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
-                                }
-                                else
-                                {
-                                    string SimpleDescNumber = Regex.Match(Mode_EGOGifts.CurrentDescriptionType_String, @"Simple Description №(\d+)").Groups[1].Value;
-
-                                    int TargetSimpleDescIndex = int.Parse(SimpleDescNumber) - 1;
-
-                                    Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].PresentDescription = Mode_EGOGifts.@Current.EGOGift.SimpleDescriptions[TargetSimpleDescIndex].EditorDescription;
-
-                                    PresentedStaticTextEntries[$"[E.G.O Gifts / Right Menu] * Simple Desc {SimpleDescNumber}"].SetDefaultText();
-
-
-                                    Mode_EGOGifts.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
-                                }
-
-                                break;
-                        }
-                    
-                        if (NameInputs.Any(x => x.IsFocused))
-                        {
-                            ChangeObjectName(null, null);
-                        }
+                        SaveCurrentDescription();
                     }
                 }
             }

@@ -387,12 +387,26 @@
         "Font Size": 22
       },
       {
+        "UID":{"[Passives / Right menu] * Passive flavor":null},
+        "Text": "敘述文字",
+        "Margin": [0, 4, 0, 0],
+        "Font Size": 22
+      },
+      {
         "UID":{"[Passives / Right menu] * Add Passive summary description tooltip":null},
         "Text": "新增摘要",
         "Font Size": 19,
         "Width": 268,
         "Height": 26,
         "Margin": [0, 7, 0, 0]
+      },
+      {
+        "UID": {"[Passives / Right menu] * Add Passive flavor description tooltip":null},
+        "Text": "新增敘述文字",
+        "Font Size": 18,
+        "Width": 268,
+        "Height": 24,
+        "Margin": [0, 5.5, 0, 0]
       }
     ],
     [
@@ -418,6 +432,11 @@
         "UID":{"[Keywords / Right Menu] * Keyword summary":null},
         "Text": "關鍵詞摘要",
         "Margin": [0, 4, 0, 0],
+        "Font Size": 22
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Keyword flavor":null},
+        "Text": "敘述文字",
         "Font Size": 22
       },
       {

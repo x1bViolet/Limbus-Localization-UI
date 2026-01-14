@@ -20,7 +20,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static KeywordsFile DeserializedInfo;
 
-        public static DualDescriptionType CurrentDescriptionType = DualDescriptionType.Main;
+        public static TripleDescriptionType CurrentDescriptionType = TripleDescriptionType.Main;
 
         public static SwitchedInterfaceProperties SwitchedInterfaceProperties = new SwitchedInterfaceProperties()
         {
@@ -131,7 +131,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             MainControl.PreviewLayout_Keywords_Bufs_Name.RichText = @Current.Keyword.Name;
             MainControl.PreviewLayout_Keywords_BattleKeywords_Name.RichText = @Current.Keyword.Name;
 
-            ReCheckKeywordSummaryButton();
+            ReCheckKeywordSummaryAndFlavorButtons();
 
             SwitchToMainDesc();
             
@@ -140,9 +140,11 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             }
         }
 
-        public static void ReCheckKeywordSummaryButton()
+        public static void ReCheckKeywordSummaryAndFlavorButtons()
         {
             MainControl.KeywordSummarySwitchButton.IsEnabled = false;
+            MainControl.KeywordFlavorSwitchButton.IsEnabled = false;
+
 
             if (@Current.Keyword.PresentSummaryDescription != null)
             {
@@ -161,7 +163,23 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].SetDefaultText();
             }
 
-            SwitchToMainDesc();
+
+            if (@Current.Keyword.PresentFlavorDescription != null)
+            {
+                if (@Current.Keyword.PresentFlavorDescription != @Current.Keyword.EditorFlavorDescription)
+                {
+                    PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword flavor"].MarkWithUnsaved();
+                }
+                else
+                {
+                    PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword flavor"].SetDefaultText();
+                }
+                MainControl.KeywordFlavorSwitchButton.IsEnabled = true;
+            }
+            else
+            {
+                PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword flavor"].SetDefaultText();
+            }
         }
 
         public static void SwitchToMainDesc()
@@ -170,7 +188,7 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 ManualTextLoadEvent = true;
             }
 
-            CurrentDescriptionType = DualDescriptionType.Main;
+            CurrentDescriptionType = TripleDescriptionType.Main;
 
             MainControl.TextEditor.Document = @Current.Keyword.DedicatedDocument_MainDesc;
 
@@ -185,9 +203,24 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 ManualTextLoadEvent = true;
             }
 
-            CurrentDescriptionType = DualDescriptionType.Summary;
+            CurrentDescriptionType = TripleDescriptionType.Summary;
 
             MainControl.TextEditor.Document = @Current.Keyword.DedicatedDocument_SummaryDesc;
+
+            {
+                ManualTextLoadEvent = true;
+            }
+        }
+
+        public static void SwitchToFlavorDesc()
+        {
+            {
+                ManualTextLoadEvent = true;
+            }
+
+            CurrentDescriptionType = TripleDescriptionType.Flavor;
+
+            MainControl.TextEditor.Document = @Current.Keyword.DedicatedDocument_FlavorDesc;
 
             {
                 ManualTextLoadEvent = true;
@@ -203,6 +236,7 @@ namespace LC_Localization_Task_Absolute
     {
         private void Keywords_SwitchToMainDesc(object RequestSender, RoutedEventArgs EventArgs) => Mode_Keywords.SwitchToMainDesc();
         private void Keywords_SwitchToSummaryDesc(object RequestSender, RoutedEventArgs EventArgs) => Mode_Keywords.SwitchToSummaryDesc();
+        private void Keywords_SwitchToFlavorDesc(object RequestSender, RoutedEventArgs EventArgs) => Mode_Keywords.SwitchToFlavorDesc();
         private void Keywords_ToggleFormatInsertions(object RequestSender, RoutedEventArgs EventArgs)
         {
             switch (Keywords_FormatInsertions_StackPanel.Visibility)
@@ -222,7 +256,7 @@ namespace LC_Localization_Task_Absolute
         private void Keywords_ChangeKeywordColor(object RequestSender, RoutedEventArgs EventArgs)
         {
             Mode_Keywords.@Current.Keyword.Color = SWBT_Keywords_KeywordColor.Text.Trim() == "" ? null : SWBT_Keywords_KeywordColor.Text;
-            Mode_Keywords.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
+            Mode_Keywords.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
         }
 
         private void Keywords_InteractiveBufsOKButton_Click(object RequestSender, RoutedEventArgs EventArgs)
@@ -257,7 +291,7 @@ namespace LC_Localization_Task_Absolute
                 AnyChanges = true;
             }
 
-            if (AnyChanges) Mode_Keywords.DeserializedInfo.SerializeToFormattedFile(CurrentFile.FullName);
+            if (AnyChanges) Mode_Keywords.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
         }
     }
 }
