@@ -966,3 +966,77 @@ CrushMarks ¤ #e30000
 ChickenFightlust ¤ #f8c200
 
 ProtectStanceRyoshu ¤ #f8c200
+
+BlueSand ¤ #e30000
+LCA_Bullet ¤ #9f6a3a
+SheutFracture ¤ #e30000
+TheUdjatOutis ¤ #f8c200
+
+BlessingOfIndexPrescriptAlly ¤ #f8c200
+IndexPrescript_Base ¤ #9f6a3a
+IndexPrescriptFaust_0 ¤ #9f6a3a
+IndexPrescriptFaust_1 ¤ #9f6a3a
+IndexPrescriptFaust_2 ¤ #9f6a3a
+IndexPrescriptFaust_3 ¤ #9f6a3a
+IndexPrescriptTargetMarkToEnemy ¤ #9f6a3a
+IndexPrescriptTargetToEnemy ¤ #9f6a3a
+KarmaOfIndexAlly ¤ #e30000
+
+MuscleContraction ¤ #f8c200 
+DuelEdge ¤ #e30000
+HostageCharon ¤ #e30000
+SeveredTendon ¤ #e30000
+HowDareYouApple ¤ #f8c200
+RapidGrowthApple ¤ #e30000
+HumanFleshTheRings ¤ #f8c200
+BoneBladeTheRings ¤ #f8c200
+UnsteadyTheRings ¤ #e30000
+DicipleLittleFinger ¤ #9f6a3a
+RyoshuSlotPlusA1C9 ¤ #f8c200
+ObservationMoses ¤ #f8c200
+CalmAnalysisMoses ¤ #f8c200
+TeachersCommand ¤ #e30000
+RyoshuStartA1C9 ¤ #f8c200
+
+NiddleEGO ¤ #e30000
+IDMicroChip ¤ #e30000
+
+PhantomIncision ¤ #e30000
+PhantomIncisionTotal ¤ #9f6a3a
+LvDownLittleFingerBoss ¤ #9f6a3a
+TimeGapAb ¤ #f8c200
+TimeEntangleDesc ¤ #9f6a3a
+TimeEntangleFour ¤ #9f6a3a
+TimeEntangleThree ¤ #9f6a3a
+TimeEntangleTwo ¤ #9f6a3a
+TimeEntangleOne ¤ #9f6a3a
+LittleFingerBoss_Shin ¤ #f8c200
+IndexPrescriptTargetToPersonality ¤ #9f6a3a
+IndexPrescriptStudent_0 ¤ #9f6a3a
+IndexPrescriptStudent_1 ¤ #9f6a3a
+IndexPrescriptStudent_2 ¤ #9f6a3a
+IndexPrescriptStudent_3 ¤ #9f6a3a
+Blandishment ¤ #f8c200
+Blandishment_Enemy ¤ #f8c200
+Blandishment_Shin ¤ #f8c200
+Blandishment_Shin_Enemy ¤ #f8c200
+UnlockBuff_Base ¤ #f8c200
+UnlockBuff_1 ¤ #f8c200
+UnlockBuff_2 ¤ #f8c200
+UnlockBuff_3 ¤ #f8c200
+UnlockBuffAlly_1 ¤ #f8c200
+UnlockBuffAlly_2 ¤ #f8c200
+UnlockBuffAlly_3 ¤ #f8c200
+PressureOfPrescript ¤ #9f6a3a
+PressureOfPrescript_2nd ¤ #9f6a3a
+KarmaOfIndexStudent ¤ #e30000
+Ryoshu_IndexFightBuff ¤ #f8c200
+BlessingOfIndexPrescriptEnemy ¤ #f8c200
+Malkuth_Imperfect ¤ #9f6a3a
+
+YellowHarpoon ¤ #9f6a3a
+YellowHarpoonSin ¤ #9f6a3a
+BeeSting ¤ #e30000
+ArtifactBeeSting ¤ #e30000
+HornetPoison ¤ #e30000
+CriticalDmgUpVespa ¤ #f8c200
