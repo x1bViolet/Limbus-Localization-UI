@@ -1,6 +1,7 @@
 ﻿using LC_Localization_Task_Absolute.Limbus_Integration;
 using LC_Localization_Task_Absolute.PreviewCreator;
 using Microsoft.Win32;
+using System.Globalization;
 using System.IO;
 using System.Reflection;
 using System.Text;
@@ -881,6 +882,19 @@ namespace LC_Localization_Task_Absolute
             {
                 return null;
             }
+        }
+
+        public static double GetInlineTextHeight(this TextBlock Source)
+        {
+            return new FormattedText(
+                "Text",
+                CultureInfo.CurrentCulture,
+                FlowDirection.LeftToRight,
+                new Typeface(Source.FontFamily, Source.FontStyle, Source.FontWeight, FontStretches.Normal),
+                Source.FontSize,
+                Brushes.Black,
+                VisualTreeHelper.GetDpi(Application.Current.MainWindow).PixelsPerDip
+            ).Height;
         }
 
         public static string GetText(this FileInfo file)

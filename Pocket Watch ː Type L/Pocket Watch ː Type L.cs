@@ -477,9 +477,11 @@ namespace LC_Localization_Task_Absolute
                 }
             }
 
-            public static class @RecentInfo
+            public ref struct @RecentInfo
             {
+                public static double CurrentInlinesHeight => TextBlockTarget.GetInlineTextHeight();
                 public static bool IsLimbusText => TextBlockTarget is TMProEmitter;
+
                 public static TextBlock TextBlockTarget = null;
             }
 
@@ -738,6 +740,7 @@ namespace LC_Localization_Task_Absolute
                             GrabbedText.Children.Add(TargetTextBlock.ImposedClone(Content: GeneratedTextItem));
                         }
 
+                        double SpriteHeightWidth = TargetTextBlock.FontSize * SpriteSizeMultiplier;
 
                         TargetTextBlock.Inlines.Add(new InlineUIContainer()
                         {
@@ -745,10 +748,21 @@ namespace LC_Localization_Task_Absolute
                             Child = new StackPanel()
                             {
                                 //Background = ToSolidColorBrush("#f95e00"), // Debug color for image containers
-                                Background = SequenceItem.AssignedTags.ContainsKey(TagType.Background) ? ToSolidColorBrush(SequenceItem.AssignedTags[TagType.Background].Info) : Brushes.Transparent,
+
                                 Orientation = Orientation.Horizontal,
                                 Children =
                                 {
+                                    new Grid() // Sprite background
+                                    {
+                                        Background = SequenceItem.AssignedTags.ContainsKey(TagType.Background)
+                                            ? ToSolidColorBrush(SequenceItem.AssignedTags[TagType.Background].Info, AlphaAtTheEnd: @RecentInfo.IsLimbusText)
+                                            : SequenceItem.AssignedTags.ContainsKey(TagType.Mark)
+                                                ? ToSolidColorBrush(SequenceItem.AssignedTags[TagType.Mark].Info, AlphaAtTheEnd: @RecentInfo.IsLimbusText)
+                                                : Brushes.Transparent,
+                                        Height = @RecentInfo.CurrentInlinesHeight,
+                                        Width = SpriteHeightWidth,
+                                        Margin = new Thickness(0, 0, -SpriteHeightWidth, 0)
+                                    },
                                     new Grid()
                                     {
                                         VerticalAlignment = VerticalAlignment.Bottom,
@@ -762,8 +776,8 @@ namespace LC_Localization_Task_Absolute
                                         {
                                             new Image()
                                             {
-                                                Width = TargetTextBlock.FontSize * SpriteSizeMultiplier,
-                                                Height = TargetTextBlock.FontSize * SpriteSizeMultiplier,
+                                                Width = SpriteHeightWidth,
+                                                Height = SpriteHeightWidth,
                                                 Source = ImageSource,
                                             },
                                         }
