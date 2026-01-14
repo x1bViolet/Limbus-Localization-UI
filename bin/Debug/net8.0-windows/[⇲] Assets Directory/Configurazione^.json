@@ -20,15 +20,6 @@
     },
     "Custom Language Properties": {
       "Keywords Ignore": [
-        "MRR",
-        "MD",
-        "MDH",
-        "MDHc",
-        "MRc",
-        "Refraction",
-        "RailBuff",
-        "S2Mirror",
-        "AttackLevelAdder",
         "Keyword will not be loaded if its ID contains one of these lines"
       ],
       "Keywords Fallback": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/en",
