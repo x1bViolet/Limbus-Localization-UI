@@ -2457,7 +2457,7 @@
 														RichText="Version"
 														UID="[Main UI] * Version title" />
 													<Terminus:UITranslation_Rose Margin="5" FontFamily="{Binding ElementName=PROGRAM_Version, Path=FontFamily}" FontSize="{Binding ElementName=PROGRAM_Version, Path=FontSize}" FontWeight="{Binding ElementName=PROGRAM_Version, Path=FontWeight}" RichText="※" />
-													<Terminus:UITranslation_Rose Margin="5" FontFamily="{Binding ElementName=PROGRAM_Version, Path=FontFamily}" FontSize="{Binding ElementName=PROGRAM_Version, Path=FontSize}" FontWeight="{Binding ElementName=PROGRAM_Version, Path=FontWeight}" RichText="1.3ː0" />
+													<Terminus:UITranslation_Rose Margin="5" FontFamily="{Binding ElementName=PROGRAM_Version, Path=FontFamily}" FontSize="{Binding ElementName=PROGRAM_Version, Path=FontSize}" FontWeight="{Binding ElementName=PROGRAM_Version, Path=FontWeight}" RichText="1.3ː1" />
 												</StackPanel>
 											</StackPanel>
 										</Grid>

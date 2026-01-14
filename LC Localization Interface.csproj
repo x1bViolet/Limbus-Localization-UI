@@ -13,7 +13,7 @@
     <PackageProjectUrl>https://github.com/x1bViolet/Limbus-Localization-UI</PackageProjectUrl>
     <FileVersion></FileVersion>
     <AssemblyVersion></AssemblyVersion>
-    <Version>1.3.0</Version>
+    <Version>1.3.1</Version>
     <Description>Limbus Company json localization editor</Description>
     <Copyright>github.com/x1bViolet</Copyright>
   </PropertyGroup>

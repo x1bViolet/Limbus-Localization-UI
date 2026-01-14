@@ -128,7 +128,7 @@ public partial class MainWindow : Window
         }
         else
         {
-            TextEditor.Text = "                    <font=\"BebasKai SDF\"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'1.3:0</color></size></font>\n\nЧерти вышли из омута";
+            TextEditor.Text = "                    <font=\"BebasKai SDF\"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'1.3:1</color></size></font>\n\nЧерти вышли из омута";
         }
     }
 
