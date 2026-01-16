@@ -163,6 +163,14 @@ namespace LC_Localization_Task_Absolute
 
                         Mode_Skills.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
                     }
+                    else if (TargetPreviewLayout == PreviewLayout_Skills_FlavorDesc)
+                    {
+                        Mode_Skills.@Current.Uptie.PresentFlavorDescription = Mode_Skills.@Current.Uptie.EditorFlavorDescription;
+
+                        PresentedStaticTextEntries["[Skills / Right menu] * Skill flavor desc"].SetDefaultText();
+
+                        Mode_Skills.DeserializedInfo.SerializeToFormattedFile_CurrentLimbusJson(CurrentFile.FullName);
+                    }
                     else
                     {
                         Mode_Skills.@Current.CoinDesc.PresentDescription = Mode_Skills.@Current.CoinDesc.EditorDescription;
