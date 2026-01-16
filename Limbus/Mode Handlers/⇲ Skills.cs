@@ -639,7 +639,6 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
             if (@Current.Uptie.EditorFlavorDescription != null)
             {
-                rin($"EditorFlavor is: \"{@Current.Uptie.EditorFlavorDescription}\"");
                 MainControl.Skills_FlavorDescButton.Visibility = Visible;
                 MainControl.PreviewLayout_Skills_FlavorDesc.RichText = @Current.Uptie.EditorFlavorDescription;
                 if (@Current.Uptie.EditorFlavorDescription != "")
