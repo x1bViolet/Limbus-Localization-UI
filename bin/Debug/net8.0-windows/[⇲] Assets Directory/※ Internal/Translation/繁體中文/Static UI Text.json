@@ -296,6 +296,11 @@
         "Font Size": 22
       },
       {
+        "UID": {"[Skills / Right menu] * Skill flavor desc":null},
+        "Text": "敘述文字",
+        "Font Size": 22
+      },
+      {
         "UID":{"[Skills / Right menu] * Skill Coin 1":null},
         "Text": "技能硬幣 №1",
         "Margin": [0, 4, 0, 0],

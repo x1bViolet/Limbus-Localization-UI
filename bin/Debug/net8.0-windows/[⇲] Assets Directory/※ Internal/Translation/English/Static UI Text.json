@@ -240,6 +240,11 @@
         "Font Size": 22
       },
       {
+        "UID": {"[Skills / Right menu] * Skill flavor desc":null},
+        "Text": "Flavor Description",
+        "Font Size": 22
+      },
+      {
         "UID": {"[Skills / Right menu] * Affinity — Wrath":null},
         "Text": "Wrath",
         "Font Size": 22

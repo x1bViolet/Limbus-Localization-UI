@@ -280,6 +280,11 @@
         "Font Size": 22
       },
       {
+        "UID": {"[Skills / Right menu] * Skill main desc":null},
+        "Text": "Нарративное описание",
+        "Font Size": 22
+      },
+      {
         "UID": {"[Skills / Right menu] * Skill Coin 1":null},
         "Text": "Описание монеты №1",
         "Font Size": 22
@@ -359,7 +364,7 @@
       },
       {
         "UID":{"[Passives / Right menu] * Passive flavor":null},
-        "Text": "Нарративное описание (flavor)",
+        "Text": "Нарративное описание",
         "Margin": [0, 4, 0, 0],
         "Font Size": 22
       },

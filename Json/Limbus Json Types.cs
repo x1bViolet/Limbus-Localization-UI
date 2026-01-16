@@ -88,14 +88,24 @@ namespace LC_Localization_Task_Absolute.Json
 
 
                 [JsonProperty("desc")]
-                public string PresentDescription { get; set; } = "";
+                public string PresentMainDescription { get; set; } = "";
+
+                [JsonProperty("flavor")]
+                public string PresentFlavorDescription { get; set; }
+
 
                 [JsonIgnore] // For editor
-                public string EditorDescription { get; set; } = "";
+                public string EditorMainDescription { get; set; } = "";
+
+                [JsonIgnore] // For editor
+                public string EditorFlavorDescription { get; set; } = "";
 
 
                 [JsonIgnore]
-                public TextDocument DedicatedDocument { get; set; } = new();
+                public TextDocument DedicatedDocument_MainDesc { get; set; } = new();
+
+                [JsonIgnore]
+                public TextDocument DedicatedDocument_FlavorDesc { get; set; } = new();
 
 
                 [JsonProperty("coinlist")]
@@ -105,11 +115,14 @@ namespace LC_Localization_Task_Absolute.Json
                 [OnDeserialized]
                 private void OnDeserialized(StreamingContext Context)
                 {
-                    EditorDescription = PresentDescription;
+                    EditorMainDescription = PresentMainDescription;
+                    EditorFlavorDescription = PresentFlavorDescription;
 
-                    DedicatedDocument.Text = EditorDescription;
+                    DedicatedDocument_MainDesc.Text = EditorMainDescription;
+                    if (EditorFlavorDescription != null) DedicatedDocument_FlavorDesc.Text = EditorFlavorDescription;
 
-                    DedicatedDocument.UndoStack.ClearAll();
+                    DedicatedDocument_MainDesc.UndoStack.ClearAll();
+                    DedicatedDocument_FlavorDesc.UndoStack.ClearAll();
                 }
             }
             public record Coin : @IJsonExtensionData

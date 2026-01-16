@@ -157,7 +157,7 @@ namespace LC_Localization_Task_Absolute
 
                     if (TargetPreviewLayout == PreviewLayout_Skills_MainDesc)
                     {
-                        Mode_Skills.@Current.Uptie.PresentDescription = Mode_Skills.@Current.Uptie.EditorDescription;
+                        Mode_Skills.@Current.Uptie.PresentMainDescription = Mode_Skills.@Current.Uptie.EditorMainDescription;
 
                         PresentedStaticTextEntries["[Skills / Right menu] * Skill main desc"].SetDefaultText();
 

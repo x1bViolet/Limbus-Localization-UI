@@ -173,18 +173,22 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 foreach (FileInfo SkillDataFile in new DirectoryInfo(@"[⇲] Assets Directory\Limbus Images\Skills\Display Info").GetFiles("*.json", SearchOption.AllDirectories))
                 {
-                    Type_RawSkillsDisplayInfo.SkillsDetailedInfo Deserialized = SkillDataFile.Deserealize<Type_RawSkillsDisplayInfo.SkillsDetailedInfo>();
-
-                    if (Deserialized.List != null)
+                    try
                     {
-                        foreach (Type_RawSkillsDisplayInfo.DetailedInfoItem SkillData in Deserialized.List)
+                        Type_RawSkillsDisplayInfo.SkillsDetailedInfo Deserialized = SkillDataFile.Deserealize<Type_RawSkillsDisplayInfo.SkillsDetailedInfo>();
+
+                        if (Deserialized.List != null)
                         {
-                            if (SkillData.ID != null && SkillData.UptieLevelsDictionary != null)
+                            foreach (Type_RawSkillsDisplayInfo.DetailedInfoItem SkillData in Deserialized.List)
                             {
-                                OrganizedDisplayInfo[(int)SkillData.ID] = SkillData;
+                                if (SkillData.ID != null && SkillData.UptieLevelsDictionary != null)
+                                {
+                                    OrganizedDisplayInfo[(int)SkillData.ID] = SkillData;
+                                }
                             }
                         }
                     }
+                    catch { }
                 }
             }
         }
@@ -633,6 +637,24 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 catch (Exception ex) { rin(FormattedStackTrace(ex, "Skill name construction")); }
             }
 
+            if (@Current.Uptie.EditorFlavorDescription != null)
+            {
+                rin($"EditorFlavor is: \"{@Current.Uptie.EditorFlavorDescription}\"");
+                MainControl.Skills_FlavorDescButton.Visibility = Visible;
+                MainControl.PreviewLayout_Skills_FlavorDesc.RichText = @Current.Uptie.EditorFlavorDescription;
+                if (@Current.Uptie.EditorFlavorDescription != "")
+                {
+                    MainControl.PreviewLayout_Skills_FlavorDesc.Visibility = Visible;
+                }
+                if (@Current.Uptie.PresentFlavorDescription != @Current.Uptie.EditorFlavorDescription)
+                {
+                    PresentedStaticTextEntries["[Skills / Right menu] * Skill flavor desc"].MarkWithUnsaved();
+                }
+            }
+            else
+            {
+                MainControl.PreviewLayout_Skills_FlavorDesc.Visibility = Collapsed;
+            }
 
             if (@Current.Uptie.Coins != null)
             {
@@ -729,6 +751,10 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 InterfaceObject<UptieLevelButton>($"SwitchUptieLevelButton_{UptieLevelNumber}").IsSelected = false;
             }
 
+            MainControl.Skills_FlavorDescButton.Visibility = Collapsed;
+            MainControl.PreviewLayout_Skills_FlavorDesc.Visibility = Collapsed;
+            PresentedStaticTextEntries[$"[Skills / Right menu] * Skill flavor desc"].SetDefaultText();
+
             for (int CoinNumber = 1; CoinNumber <= MaxCoinsAmount; CoinNumber++)
             {
                 for (int CoinDescNumber = 1; CoinDescNumber <= MaxCoinDescsAmount; CoinDescNumber++)
@@ -751,16 +777,11 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 ManualTextLoadEvent = true;
             }
 
-            MainControl.CoinDescSwitchButton_Next.IsEnabled = false;
-            MainControl.CoinDescSwitchButton_Prev.IsEnabled = false;
-            MainControl.CurrentCoinDesc_Display.IsEnabled = false;
-
-            PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin descs title"].SetDefaultText(ExtraExtern: SpecializedDefs.InsertionsDefaultValue);
-            PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"].SetDefaultText(ExtraExtern: SpecializedDefs.InsertionsDefaultValue);
+            ResetCoinDisplayingInfo();
 
             TargetPreviewLayout = MainControl.PreviewLayout_Skills_MainDesc;
 
-            MainControl.TextEditor.Document = @Current.Uptie.DedicatedDocument;
+            MainControl.TextEditor.Document = @Current.Uptie.DedicatedDocument_MainDesc;
 
             {
                 ManualTextLoadEvent = false;
@@ -809,6 +830,36 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 ManualTextLoadEvent = true;
             }
         }
+
+
+        public static void SwitchToFlavorDesc()
+        {
+            {
+                ManualTextLoadEvent = true;
+            }
+
+            ResetCoinDisplayingInfo();
+
+            TargetPreviewLayout = MainControl.PreviewLayout_Skills_FlavorDesc;
+
+            MainControl.TextEditor.Document = @Current.Uptie.DedicatedDocument_FlavorDesc;
+
+            {
+                ManualTextLoadEvent = false;
+            }
+        }
+
+
+        public static void ResetCoinDisplayingInfo()
+        {
+            MainControl.CoinDescSwitchButton_Next.IsEnabled = false;
+            MainControl.CoinDescSwitchButton_Prev.IsEnabled = false;
+            MainControl.CurrentCoinDesc_Display.IsEnabled = false;
+
+            PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin descs title"].SetDefaultText(ExtraExtern: SpecializedDefs.InsertionsDefaultValue);
+            PresentedStaticTextEntries["[Skills / Right menu] * Skill Coin desc number"].SetDefaultText(ExtraExtern: SpecializedDefs.InsertionsDefaultValue);
+        }
+
 
         public static void Toggle7to10CoinsVisibility(bool Is)
         {
@@ -875,6 +926,8 @@ namespace LC_Localization_Task_Absolute
             }
         }
 
+        private void Skills_SwitchToFlavorDesc(object RequestSender, MouseButtonEventArgs EventArgs) => Mode_Skills.SwitchToFlavorDesc();
+
         private void Skills_SetCoinFocus(object RequestSender, RoutedEventArgs EventArgs)
         {
             string CoinNumber = (RequestSender as Button).Uid;
@@ -887,7 +940,7 @@ namespace LC_Localization_Task_Absolute
                 TMProEmitter HighlightTarget = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}_Desc{Mode_Skills.CurrentSkillCoinDescIndex + 1}");
                 if (HighlightTarget != null)
                 {
-                    FastSwitch_ToSkillCoinDesc__Highlight(HighlightTarget);
+                    FastSwitch_ToSkillSomeDesc__Highlight(HighlightTarget);
                     HighlightTarget.Focus();
                 }
             }
@@ -908,7 +961,7 @@ namespace LC_Localization_Task_Absolute
                 TMProEmitter HighlightTarget = InterfaceObject<TMProEmitter>($"PreviewLayout_Skills_Coin{Mode_Skills.CurrentSkillCoinIndex + 1}_Desc{Mode_Skills.CurrentSkillCoinDescIndex + 1}");
                 if (HighlightTarget != null)
                 {
-                    FastSwitch_ToSkillCoinDesc__Highlight(HighlightTarget);
+                    FastSwitch_ToSkillSomeDesc__Highlight(HighlightTarget);
                     HighlightTarget.Focus();
                 }
             }
@@ -941,12 +994,23 @@ namespace LC_Localization_Task_Absolute
 
                 if (LoadedProgramConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnRightClick)
                 {
-                    FastSwitch_ToSkillCoinDesc__Highlight(Sender);
+                    FastSwitch_ToSkillSomeDesc__Highlight(Sender);
                 }
             }
         }
 
-        private void FastSwitch_ToSkillCoinDesc__Highlight(TMProEmitter TargetDesc)
+
+        private void FastSwitch_ToSkillFlavorDesc(object RequestSender, MouseButtonEventArgs EventArgs)
+        {
+            Mode_Skills.SwitchToFlavorDesc();
+            if (LoadedProgramConfig.PreviewSettings.PreviewSettingsBaseSettings.HighlightSkillDescsOnRightClick)
+            {
+                FastSwitch_ToSkillSomeDesc__Highlight(PreviewLayout_Skills_FlavorDesc);
+            }
+        }
+
+
+        private void FastSwitch_ToSkillSomeDesc__Highlight(TMProEmitter TargetDesc)
         {
             TargetDesc.Background = ToSolidColorBrush("#FF262626");
             TargetDesc.Background.BeginAnimation(SolidColorBrush.OpacityProperty, new DoubleAnimation()

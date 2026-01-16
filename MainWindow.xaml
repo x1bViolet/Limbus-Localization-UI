@@ -880,6 +880,17 @@
 															</StackPanel>
 														</Grid>
 													</StackPanel>
+
+													<Limbus:TMProEmitter
+														x:Name="PreviewLayout_Skills_FlavorDesc"
+														Margin="5 25 0 0"
+														Limbus:FontType="Context"
+														Limbus:TextProcessingMode="Skills"
+														FontSize="17.5"
+														FontStyle="Italic"
+														Foreground="#9f6a3a"
+														PreviewMouseRightButtonDown="FastSwitch_ToSkillFlavorDesc" />
+
 												</StackPanel>
 											</Grid>
 										</ScrollViewer>
@@ -2033,6 +2044,10 @@
 
 												<Button PreviewMouseLeftButtonDown="Skills_SwitchToMainDesc">
 													<Terminus:UITranslation_Rose Text="Главное описание" UID="[Skills / Right menu] * Skill main desc" />
+												</Button>
+
+												<Button x:Name="Skills_FlavorDescButton" PreviewMouseLeftButtonDown="Skills_SwitchToFlavorDesc">
+													<Terminus:UITranslation_Rose Text="Нарративное описание" UID="[Skills / Right menu] * Skill flavor desc" />
 												</Button>
 
 												<Button x:Name="CoinSwitchButton_1" Uid="1">

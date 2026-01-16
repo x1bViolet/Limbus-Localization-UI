@@ -620,7 +620,7 @@ public partial class MainWindow
         };
 
         #region Main skill description
-        if (!string.IsNullOrEmpty(TextInfo.PresentDescription))
+        if (!string.IsNullOrEmpty(TextInfo.PresentMainDescription))
         {
             TMProEmitter SubPart_SkillMainDesc = new()
             {
@@ -633,7 +633,7 @@ public partial class MainWindow
                 Margin = new Thickness(9, 0, 0, 7),
                 HorizontalAlignment = HorizontalAlignment.Left,
             };
-            SubPart_SkillMainDesc.RichText = TextInfo.PresentDescription;
+            SubPart_SkillMainDesc.RichText = TextInfo.PresentMainDescription;
 
             @CurrentPreviewCreator.FocusedColumnElementContext.Link_SkillMainDescription = SubPart_SkillMainDesc;
 

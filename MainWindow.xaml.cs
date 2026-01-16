@@ -184,15 +184,28 @@ public partial class MainWindow : Window
 
                     if (TargetPreviewLayout.Equals(MainControl.PreviewLayout_Skills_MainDesc))
                     {
-                        Mode_Skills.@Current.Uptie.EditorDescription = InputEditorText;
+                        Mode_Skills.@Current.Uptie.EditorMainDescription = InputEditorText;
 
-                        if (Mode_Skills.@Current.Uptie.PresentDescription != Mode_Skills.@Current.Uptie.EditorDescription)
+                        if (Mode_Skills.@Current.Uptie.PresentMainDescription != Mode_Skills.@Current.Uptie.EditorMainDescription)
                         {
                             PresentedStaticTextEntries[$"[Skills / Right menu] * Skill main desc"].MarkWithUnsaved();
                         }
                         else
                         {
                             PresentedStaticTextEntries[$"[Skills / Right menu] * Skill main desc"].SetDefaultText();
+                        }
+                    }
+                    else if (TargetPreviewLayout.Equals(MainControl.PreviewLayout_Skills_FlavorDesc))
+                    {
+                        Mode_Skills.@Current.Uptie.EditorFlavorDescription = InputEditorText;
+
+                        if (Mode_Skills.@Current.Uptie.PresentFlavorDescription != Mode_Skills.@Current.Uptie.EditorFlavorDescription)
+                        {
+                            PresentedStaticTextEntries[$"[Skills / Right menu] * Skill flavor desc"].MarkWithUnsaved();
+                        }
+                        else
+                        {
+                            PresentedStaticTextEntries[$"[Skills / Right menu] * Skill flavor desc"].SetDefaultText();
                         }
                     }
                     else
@@ -939,7 +952,7 @@ public partial class MainWindow : Window
                         SkillName = UptieLevel.Name;
                         bool AnythingChanged = false;
                         
-                        if (UptieLevel.PresentDescription != UptieLevel.EditorDescription)
+                        if (UptieLevel.PresentMainDescription != UptieLevel.EditorMainDescription)
                         {
                             AnythingChanged = true;
                         }
