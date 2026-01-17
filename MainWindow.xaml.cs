@@ -263,7 +263,7 @@ public partial class MainWindow : Window
                             if (!string.IsNullOrWhiteSpace(Mode_Passives.@Current.Passive.EditorFlavorDescription))
                             {
                                 InputEditorText = $"{Mode_Passives.@Current.Passive.EditorMainDescription}\n\n" +
-                                                  $"<flavor\uAAFF>{Mode_Passives.@Current.Passive.EditorFlavorDescription}</flavor\uAAFF>";
+                                                  $"<flavor\uAAFF><size\uAAFF>{Mode_Passives.@Current.Passive.EditorFlavorDescription}</size\uAAFF></flavor\uAAFF>";
                             }
 
                             if (Mode_Passives.@Current.Passive.PresentMainDescription != Mode_Passives.@Current.Passive.EditorMainDescription)
@@ -295,7 +295,7 @@ public partial class MainWindow : Window
                             if (!string.IsNullOrWhiteSpace(Mode_Passives.@Current.Passive.EditorFlavorDescription))
                             {
                                 InputEditorText = $"{Mode_Passives.@Current.Passive.EditorMainDescription}\n\n" +
-                                                  $"<flavor\uAAFF>{Mode_Passives.@Current.Passive.EditorFlavorDescription}</flavor\uAAFF>";
+                                                  $"<flavor\uAAFF><size\uAAFF>{Mode_Passives.@Current.Passive.EditorFlavorDescription}</size\uAAFF></flavor\uAAFF>";
                             }
                             else InputEditorText = Mode_Passives.@Current.Passive.EditorMainDescription;
 
@@ -329,7 +329,7 @@ public partial class MainWindow : Window
                             if (!string.IsNullOrWhiteSpace(Mode_Keywords.@Current.Keyword.EditorFlavorDescription))
                             {
                                 InputEditorText = $"{Mode_Keywords.@Current.Keyword.EditorMainDescription}\n\n" +
-                                                  $"<flavor\uAAFF>{Mode_Keywords.@Current.Keyword.EditorFlavorDescription}</flavor\uAAFF>";
+                                                  $"<flavor\uAAFF><size\uAAFF>{Mode_Keywords.@Current.Keyword.EditorFlavorDescription}</size\uAAFF></flavor\uAAFF>";
                             }
 
                             if (Mode_Keywords.@Current.Keyword.PresentMainDescription != Mode_Keywords.@Current.Keyword.EditorMainDescription)

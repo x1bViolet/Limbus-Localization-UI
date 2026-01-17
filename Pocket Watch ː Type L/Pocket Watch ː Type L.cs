@@ -112,7 +112,7 @@ namespace LC_Localization_Task_Absolute
                 Hyperlink,
                 Link,
                 Bold,
-                Undeline,
+                Underline,
                 Italic,
                 Strikethrough,
                 Subscript,
@@ -132,6 +132,7 @@ namespace LC_Localization_Task_Absolute
                 InlineImages_YOffset,
 
                 FlavorTextOverrideFormatting,
+                SizeMultiplier85_Override,
             };
 
 
@@ -168,7 +169,6 @@ namespace LC_Localization_Task_Absolute
                     this.ValueGroupNameOrNumber = ValueGroupNameOrNumber;
 
                     if (Univocal != null) this.UnivocalProperties = Univocal;
-
                     if (BreakPointsInput != null)
                     {
                         this.BreakPoints = [.. BreakPointsInput.Select(BreakPoinString => $"^{BreakPoinString}$")];
@@ -197,7 +197,7 @@ namespace LC_Localization_Task_Absolute
                                                         // Evident tag types, regardless of values like in <font> or <color>
                 new("b", ["/b"], TagType.Bold,          Univocal: new() { [Run.FontWeightProperty] = FontWeights.Bold }),
                 new("i", ["/i"], TagType.Italic,        Univocal: new() { [Run.FontStyleProperty] = FontStyles.Italic }),
-                new("u", ["/u"], TagType.Undeline,      Univocal: new() { [Run.TextDecorationsProperty] = TextDecorations.Underline }),
+                new("u", ["/u"], TagType.Underline,      Univocal: new() { [Run.TextDecorationsProperty] = TextDecorations.Underline }),
                 new("s", ["/s"], TagType.Strikethrough, Univocal: new() { [Run.TextDecorationsProperty] = TextDecorations.Strikethrough }),
 
                 new("nobr", ["/nobr"], TagType.NoBreak),
@@ -207,6 +207,7 @@ namespace LC_Localization_Task_Absolute
 
                 // Unique tag only for Limbus texts to forcibility set specific formatting without ability to remove it with </color></i>
                 new(@"flavor\uAAFF", [@"/flavor\uAAFF"], TagType.FlavorTextOverrideFormatting, Univocal: new() { [Run.ForegroundProperty] = ToSolidColorBrush("#9f6a3a"), [Run.FontStyleProperty] = FontStyles.Italic }),
+                new(@"size\uAAFF", [@"/size\uAAFF"], TagType.SizeMultiplier85_Override),
                 
                 // new("noparse", ["/noparse"]), Being applied on formatting stage as \0 after tag dividers in <noparse></noparse> range, see at Apply()
 
@@ -310,6 +311,10 @@ namespace LC_Localization_Task_Absolute
                             if (ApplyValue == 0) ApplyValue = 0.01;
                             TargetRun.FontSize = @RecentInfo.TextBlockTarget.FontSize * ApplyValue;
                         }
+                        break;
+
+                    case TagType.SizeMultiplier85_Override:
+                        TargetRun.FontSize = @RecentInfo.TextBlockTarget.FontSize * 0.85;
                         break;
 
                     case TagType.Subscript:
