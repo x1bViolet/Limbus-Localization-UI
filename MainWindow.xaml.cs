@@ -361,7 +361,7 @@ public partial class MainWindow : Window
                             if (!string.IsNullOrWhiteSpace(Mode_Keywords.@Current.Keyword.EditorFlavorDescription))
                             {
                                 InputEditorText = $"{Mode_Keywords.@Current.Keyword.EditorMainDescription}\n\n" +
-                                                  $"<flavor\uAAFF>{Mode_Keywords.@Current.Keyword.EditorFlavorDescription}</flavor\uAAFF>";
+                                                  $"<flavor\uAAFF><size\uAAFF>{Mode_Keywords.@Current.Keyword.EditorFlavorDescription}</size\uAAFF></flavor\uAAFF>";
                             }
                             else InputEditorText = Mode_Keywords.@Current.Keyword.EditorMainDescription;
 
