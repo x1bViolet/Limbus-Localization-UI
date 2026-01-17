@@ -367,11 +367,11 @@ public partial class MainWindow : Window
 
                             if (Mode_Keywords.@Current.Keyword.PresentSummaryDescription != Mode_Keywords.@Current.Keyword.EditorSummaryDescription)
                             {
-                                PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].MarkWithUnsaved();
+                                PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword flavor"].MarkWithUnsaved();
                             }
                             else
                             {
-                                PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword summary"].SetDefaultText();
+                                PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword flavor"].SetDefaultText();
                             }
                             break;
                     }
