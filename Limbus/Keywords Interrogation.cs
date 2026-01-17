@@ -38,6 +38,10 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 {
                     Name = Keywords_BattleKeywords[KeywordID].Name;
                     Description = Keywords_BattleKeywords[KeywordID].Description;
+                    if (Keywords_BattleKeywords[KeywordID].Flavor != null)
+                    {
+                        Description += $"\n\n<flavor\uAAFF><size\uAAFF>{Keywords_BattleKeywords[KeywordID].Flavor}</size\uAAFF></flavor\uAAFF>";
+                    }
                 }
                 if (KeywordImages.ContainsKey(KeywordID)) KeywordIcon = KeywordImages[KeywordID];
 
@@ -249,7 +253,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
 
 
-        public readonly record struct KeywordDescriptor(string Name, string Description, string StringColor);
+        public readonly record struct KeywordDescriptor(string Name, string Description, string StringColor, string Flavor);
 
         #pragma Key is ID
         public static readonly Dictionary<string, KeywordDescriptor> Keywords_BattleKeywords = [];
@@ -418,7 +422,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
 
                                     CollectedKeywordColors[KeywordItem.ID] = DefinedColor;
 
-                                    Keywords_Bufs[KeywordItem.ID] = new KeywordDescriptor(KeywordItem.Name, null, DefinedColor);
+                                    Keywords_Bufs[KeywordItem.ID] = new KeywordDescriptor(KeywordItem.Name, null, DefinedColor, KeywordItem.PresentFlavorDescription);
 
                                     if (!KeywordItem.ID.EndsWithOneOf(["_Re", "Re", "Mirror"]))
                                     {
@@ -486,7 +490,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                         {
                             if (!string.IsNullOrEmpty(KeywordItem.ID) && KeywordItem.PresentMainDescription != null) // Empty desc allowed
                             {
-                                Keywords_BattleKeywords[KeywordItem.ID] = new KeywordDescriptor(KeywordItem.Name, KeywordItem.PresentMainDescription, null);
+                                Keywords_BattleKeywords[KeywordItem.ID] = new KeywordDescriptor(KeywordItem.Name, KeywordItem.PresentMainDescription, null, KeywordItem.PresentFlavorDescription);
                             }
                         }
                     }
