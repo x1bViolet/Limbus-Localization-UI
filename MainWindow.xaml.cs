@@ -365,7 +365,7 @@ public partial class MainWindow : Window
                             }
                             else InputEditorText = Mode_Keywords.@Current.Keyword.EditorMainDescription;
 
-                            if (Mode_Keywords.@Current.Keyword.PresentSummaryDescription != Mode_Keywords.@Current.Keyword.EditorSummaryDescription)
+                            if (Mode_Keywords.@Current.Keyword.PresentFlavorDescription != Mode_Keywords.@Current.Keyword.EditorFlavorDescription)
                             {
                                 PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword flavor"].MarkWithUnsaved();
                             }
