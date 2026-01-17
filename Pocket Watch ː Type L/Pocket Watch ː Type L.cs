@@ -236,6 +236,8 @@ namespace LC_Localization_Task_Absolute
         {
             private static void ApplyInlineTagDataFormatting(Run TargetRun, KeyValuePair<TagType, InlineTagData> Tag)
             {
+                TextBlock ParentTextBlock = (@RecentInfo.IsApplyingRichTextToTheKeywordPopup ? @RecentInfo.TextBlockTarget_KeywordPopup : @RecentInfo.TextBlockTarget);
+
                 string TagInfo = Tag.Value.Info;
                 switch (Tag.Key) // Tag actions
                 {
@@ -275,7 +277,7 @@ namespace LC_Localization_Task_Absolute
                                 FontSize = 12,
                                 Foreground = Brushes.White,
                                 Text = TagInfo /*URL*/,
-                            }.BindSamePropertiesWithReturn(@RecentInfo.TextBlockTarget, [
+                            }.BindSamePropertiesWithReturn(ParentTextBlock, [
                                 TextBlock.FontFamilyProperty, TextBlock.FontWeightProperty
                             ])
                         };
@@ -286,7 +288,7 @@ namespace LC_Localization_Task_Absolute
                         {
                             TargetRun.FontFamily = @PostInfo.LoadedKnownFonts[TagInfo];
                         }
-                        else if (!@RecentInfo.TextBlockTarget.Name.StartsWith($"PreviewLayout_")) // If not TMProEmitter limbus textblock
+                        else if (!ParentTextBlock.Name.StartsWith($"PreviewLayout_")) // If not TMProEmitter limbus textblock
                         {
                             if (InterfaceLocalizationModifiers.Font_References_Loaded.ContainsKey(TagInfo))
                             {
@@ -309,21 +311,21 @@ namespace LC_Localization_Task_Absolute
                         {
                             double ApplyValue = FontSizeMultiplyValue / 100.0;
                             if (ApplyValue == 0) ApplyValue = 0.01;
-                            TargetRun.FontSize = @RecentInfo.TextBlockTarget.FontSize * ApplyValue;
+                            TargetRun.FontSize = ParentTextBlock.FontSize * ApplyValue;
                         }
                         break;
 
                     case TagType.SizeMultiplier85_Override:
-                        TargetRun.FontSize = @RecentInfo.TextBlockTarget.FontSize * 0.85;
+                        TargetRun.FontSize = ParentTextBlock.FontSize * 0.85;
                         break;
 
                     case TagType.Subscript:
-                        TargetRun.FontSize = @RecentInfo.TextBlockTarget.FontSize * 0.7;
+                        TargetRun.FontSize = ParentTextBlock.FontSize * 0.7;
                         TargetRun.BaselineAlignment = BaselineAlignment.Subscript;
                         break;
 
                     case TagType.Superscript:
-                        TargetRun.FontSize = @RecentInfo.TextBlockTarget.FontSize * 0.7;
+                        TargetRun.FontSize = ParentTextBlock.FontSize * 0.7;
                         TargetRun.BaselineAlignment = BaselineAlignment.Superscript;
                         break;
                 }
@@ -484,10 +486,13 @@ namespace LC_Localization_Task_Absolute
 
             public ref struct @RecentInfo
             {
-                public static double CurrentInlinesHeight => TextBlockTarget.GetInlineTextHeight();
-                public static bool IsLimbusText => TextBlockTarget is TMProEmitter;
+                public static double CurrentInlinesHeight => (IsApplyingRichTextToTheKeywordPopup ? TextBlockTarget_KeywordPopup : TextBlockTarget).GetInlineTextHeight();
+                public static bool IsLimbusText => (IsApplyingRichTextToTheKeywordPopup ? TextBlockTarget_KeywordPopup : TextBlockTarget) is TMProEmitter;
 
-                public static TextBlock TextBlockTarget = null;
+                public static TextBlock TextBlockTarget { get; set; } = null;
+                public static TextBlock TextBlockTarget_KeywordPopup = null;
+
+                public static bool IsApplyingRichTextToTheKeywordPopup = false;
             }
 
             public static void Apply
@@ -509,8 +514,16 @@ namespace LC_Localization_Task_Absolute
 
                 RichText = Regex.Replace(RichText, @"<style=(""highlight""|""upgradeHighlight"")>", "<style>"); // Unify to just <style></style>, doesn't matter -> yellow color
 
-
-                @RecentInfo.TextBlockTarget = Target;
+                if (!DisableKeyworLinksCreation)
+                {
+                    @RecentInfo.TextBlockTarget = Target;
+                    @RecentInfo.IsApplyingRichTextToTheKeywordPopup = false;
+                }
+                else
+                {
+                    @RecentInfo.TextBlockTarget_KeywordPopup = Target;
+                    @RecentInfo.IsApplyingRichTextToTheKeywordPopup = true;
+                }
 
                 foreach (FullStopDivider FullStopTagDivider in DividersMode)
                 {
@@ -679,8 +692,12 @@ namespace LC_Localization_Task_Absolute
 
                 List<StableTextConstruction> EstablishedSequence = [.. @Segments.Where(x => !x.IsTagItself & x.TextSentence != "")];
 
-                // ProcessEstablishedSequence contains a lot of ui interactions, i dont want to attach Dispatcher.Invoke everywhere
                 ProcessEstablishedSequence(EstablishedSequence, Target);
+
+                if (@RecentInfo.IsApplyingRichTextToTheKeywordPopup)
+                {
+                    @RecentInfo.IsApplyingRichTextToTheKeywordPopup = false;
+                }
             }
 
             private static void ProcessEstablishedSequence
