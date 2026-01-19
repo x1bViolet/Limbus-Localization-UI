@@ -31,6 +31,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 // Default
                 string Name = "Unknown";
                 string Description = "Unknown";
+                string Flavor = "";
                 BitmapImage KeywordIcon = KeywordImages["Unknown"];
 
                 string KeywordID = Target.Name;
@@ -38,10 +39,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                 {
                     Name = Keywords_BattleKeywords[KeywordID].Name;
                     Description = Keywords_BattleKeywords[KeywordID].Description;
-                    if (Keywords_BattleKeywords[KeywordID].Flavor != null)
-                    {
-                        Description += $"\n\n<flavor\uAAFF><size\uAAFF>{Keywords_BattleKeywords[KeywordID].Flavor}</size\uAAFF></flavor\uAAFF>";
-                    }
+                    Flavor = Keywords_BattleKeywords[KeywordID].Flavor;
                 }
                 if (KeywordImages.ContainsKey(KeywordID)) KeywordIcon = KeywordImages[KeywordID];
 
@@ -52,14 +50,14 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                     BorderThickness = new Thickness(0),
                     LayoutTransform = new ScaleTransform(0.89, 0.89),
                     IsHitTestVisible = false,
-                    Content = new KeywordDescriptionInfoPopup(Name, Description, KeywordIcon)
+                    Content = new KeywordDescriptionInfoPopup(Name, Description, Flavor, KeywordIcon)
                 };
                 Target.ToolTip = KeywordInfoPopup;
                 ToolTipService.SetInitialShowDelay(Target, 1000);
             }
 
 
-            public KeywordDescriptionInfoPopup(string Name, string Description, BitmapImage Icon)
+            public KeywordDescriptionInfoPopup(string Name, string Description, string Flavor, BitmapImage Icon)
             {
                 Width = 422;
                 HorizontalAlignment = HorizontalAlignment.Left;
@@ -84,13 +82,29 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                     TextProcessingMode = EditorMode.Keywords,
                     FontType = LimbusFontTypes.Context,
 
-                    Margin = new Thickness(18, 48, 25, 18),
+                    Margin = new Thickness(18, 0, 25, !string.IsNullOrWhiteSpace(Flavor) ? 0 : 18),
                     FontSize = 20,
                     LineHeight = 25,
+                };
+                TMProEmitter FlavorKeywordDesc = new()
+                {
+                    DisableKeyworLinksCreation = true,
+                    TextProcessingMode = EditorMode.Keywords,
+                    FontType = LimbusFontTypes.Context,
+
+                    Foreground = ToSolidColorBrush("#8a592f"),
+                    FontStyle = FontStyles.Italic,
+
+                    Margin = new Thickness(18, 22, 25, 18),
+                    FontSize = 17.5,
+                    LineHeight = 24,
+
+                    Visibility = !string.IsNullOrWhiteSpace(Flavor) ? Visibility.Visible : Visibility.Collapsed,
                 };
 
                 KeywordName.RichText = Name;
                 KeywordDesc.RichText = Description;
+                if (!string.IsNullOrWhiteSpace(Flavor)) FlavorKeywordDesc.RichText = Flavor;
 
                 Children.Add(new Border()
                 {
@@ -112,7 +126,7 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                         BorderThickness = new Thickness(0.8),
                         BorderBrush = ToSolidColorBrush("#4B3F31"),
                         Background = ToSolidColorBrush("#C6000000"),
-                        Child = new Grid()
+                        Child = new StackPanel()
                         {
                             Children =
                             {
@@ -141,7 +155,8 @@ namespace LC_Localization_Task_Absolute.Limbus_Integration
                                         }
                                     }
                                 },
-                                KeywordDesc
+                                KeywordDesc,
+                                FlavorKeywordDesc
                             }
                         }
                     }

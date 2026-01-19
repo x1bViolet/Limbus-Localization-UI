@@ -99,7 +99,18 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             ReCheckPassiveSummaryAndFlavorButtons();
 
             SwitchToMainDesc();
-            
+
+            if (@Current.Passive.EditorFlavorDescription != null)
+            {
+                MainControl.PreviewLayout_Passives_FlavorDesc.RichText = @Current.Passive.EditorFlavorDescription;
+                if (!string.IsNullOrWhiteSpace(@Current.Passive.EditorFlavorDescription)) MainControl.PreviewLayout_Passives_FlavorDesc.Visibility = Visible;
+            }
+            else
+            {
+                MainControl.PreviewLayout_Passives_FlavorDesc.Inlines.Clear();
+                MainControl.PreviewLayout_Passives_FlavorDesc.Visibility = Collapsed;
+            }
+
             {
                 ManualTextLoadEvent = false;
             }
@@ -153,6 +164,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 ManualTextLoadEvent = true;
             }
 
+            TargetPreviewLayout = MainControl.PreviewLayout_Passives;
+
             CurrentDescriptionType = TripleDescriptionType.Main;
 
             MainControl.TextEditor.Document = @Current.Passive.DedicatedDocument_MainDesc;
@@ -168,6 +181,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 ManualTextLoadEvent = true;
             }
 
+            TargetPreviewLayout = MainControl.PreviewLayout_Passives;
+
             CurrentDescriptionType = TripleDescriptionType.Summary;
 
             MainControl.TextEditor.Document = @Current.Passive.DedicatedDocument_SummaryDesc;
@@ -182,6 +197,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 ManualTextLoadEvent = true;
             }
+
+            TargetPreviewLayout = MainControl.PreviewLayout_Passives_FlavorDesc;
 
             CurrentDescriptionType = TripleDescriptionType.Flavor;
 

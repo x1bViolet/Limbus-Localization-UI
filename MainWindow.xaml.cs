@@ -260,12 +260,6 @@ public partial class MainWindow : Window
                         case TripleDescriptionType.Main:
                             Mode_Passives.@Current.Passive.EditorMainDescription = InputEditorText;
 
-                            if (!string.IsNullOrWhiteSpace(Mode_Passives.@Current.Passive.EditorFlavorDescription))
-                            {
-                                InputEditorText = $"{Mode_Passives.@Current.Passive.EditorMainDescription}\n\n" +
-                                                  $"<flavor\uAAFF><size\uAAFF>{Mode_Passives.@Current.Passive.EditorFlavorDescription}</size\uAAFF></flavor\uAAFF>";
-                            }
-
                             if (Mode_Passives.@Current.Passive.PresentMainDescription != Mode_Passives.@Current.Passive.EditorMainDescription)
                             {
                                 PresentedStaticTextEntries["[Passives / Right menu] * Passive desc"].MarkWithUnsaved();
@@ -291,13 +285,6 @@ public partial class MainWindow : Window
 
                         case TripleDescriptionType.Flavor:
                             Mode_Passives.@Current.Passive.EditorFlavorDescription = InputEditorText;
-
-                            if (!string.IsNullOrWhiteSpace(Mode_Passives.@Current.Passive.EditorFlavorDescription))
-                            {
-                                InputEditorText = $"{Mode_Passives.@Current.Passive.EditorMainDescription}\n\n" +
-                                                  $"<flavor\uAAFF><size\uAAFF>{Mode_Passives.@Current.Passive.EditorFlavorDescription}</size\uAAFF></flavor\uAAFF>";
-                            }
-                            else InputEditorText = Mode_Passives.@Current.Passive.EditorMainDescription;
 
                             if (Mode_Passives.@Current.Passive.PresentFlavorDescription != Mode_Passives.@Current.Passive.EditorFlavorDescription)
                             {
@@ -326,12 +313,6 @@ public partial class MainWindow : Window
                         case TripleDescriptionType.Main:
                             Mode_Keywords.@Current.Keyword.EditorMainDescription = InputEditorText;
 
-                            if (!string.IsNullOrWhiteSpace(Mode_Keywords.@Current.Keyword.EditorFlavorDescription))
-                            {
-                                InputEditorText = $"{Mode_Keywords.@Current.Keyword.EditorMainDescription}\n\n" +
-                                                  $"<flavor\uAAFF><size\uAAFF>{Mode_Keywords.@Current.Keyword.EditorFlavorDescription}</size\uAAFF></flavor\uAAFF>";
-                            }
-
                             if (Mode_Keywords.@Current.Keyword.PresentMainDescription != Mode_Keywords.@Current.Keyword.EditorMainDescription)
                             {
                                 PresentedStaticTextEntries["[Keywords / Right Menu] * Keyword desc"].MarkWithUnsaved();
@@ -357,13 +338,6 @@ public partial class MainWindow : Window
 
                         case TripleDescriptionType.Flavor:
                             Mode_Keywords.@Current.Keyword.EditorFlavorDescription = InputEditorText;
-
-                            if (!string.IsNullOrWhiteSpace(Mode_Keywords.@Current.Keyword.EditorFlavorDescription))
-                            {
-                                InputEditorText = $"{Mode_Keywords.@Current.Keyword.EditorMainDescription}\n\n" +
-                                                  $"<flavor\uAAFF><size\uAAFF>{Mode_Keywords.@Current.Keyword.EditorFlavorDescription}</size\uAAFF></flavor\uAAFF>";
-                            }
-                            else InputEditorText = Mode_Keywords.@Current.Keyword.EditorMainDescription;
 
                             if (Mode_Keywords.@Current.Keyword.PresentFlavorDescription != Mode_Keywords.@Current.Keyword.EditorFlavorDescription)
                             {

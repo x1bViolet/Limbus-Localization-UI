@@ -38,10 +38,22 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
         public ref struct @Current
         {
             public static Keyword Keyword => DelegateKeywords[CurrentKeywordID];
+
+            public static bool IsBufsMenu;
+
+            public static TMProEmitter FlavorDescTMProEmitter => @Current.IsBufsMenu
+                ? MainControl.PreviewLayout_Keywords_Bufs_FlavorDesc
+                : MainControl.PreviewLayout_Keywords_BattleKeywords_FlavorDesc;
+
+            public static TMProEmitter MainDescTMProEmitter => @Current.IsBufsMenu
+                ? MainControl.PreviewLayout_Keywords_Bufs_Desc
+                : MainControl.Special_PreviewLayout_Keywords_BattleKeywords_Desc;
         }
 
         public static void TriggerSwitch(bool IsBufsMenu = false)
         {
+            @Current.IsBufsMenu = IsBufsMenu;
+
             if (IsBufsMenu)
             {
                 MainControl.PreviewLayoutGrid_Keywords_Sub_Bufs.Visibility = Visible;
@@ -134,7 +146,18 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             ReCheckKeywordSummaryAndFlavorButtons();
 
             SwitchToMainDesc();
-            
+
+            if (@Current.Keyword.EditorFlavorDescription != null)
+            {
+                @Current.FlavorDescTMProEmitter.RichText = @Current.Keyword.EditorFlavorDescription;
+                if (!string.IsNullOrWhiteSpace(@Current.Keyword.EditorFlavorDescription)) @Current.FlavorDescTMProEmitter.Visibility = Visible;
+            }
+            else
+            {
+                @Current.FlavorDescTMProEmitter.Inlines.Clear();
+                @Current.FlavorDescTMProEmitter.Visibility = Collapsed;
+            }
+
             {
                 ManualTextLoadEvent = false;
             }
@@ -188,6 +211,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 ManualTextLoadEvent = true;
             }
 
+            TargetPreviewLayout = Current.MainDescTMProEmitter;
+
             CurrentDescriptionType = TripleDescriptionType.Main;
 
             MainControl.TextEditor.Document = @Current.Keyword.DedicatedDocument_MainDesc;
@@ -203,6 +228,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                 ManualTextLoadEvent = true;
             }
 
+            TargetPreviewLayout = Current.MainDescTMProEmitter;
+
             CurrentDescriptionType = TripleDescriptionType.Summary;
 
             MainControl.TextEditor.Document = @Current.Keyword.DedicatedDocument_SummaryDesc;
@@ -217,6 +244,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
             {
                 ManualTextLoadEvent = true;
             }
+
+            TargetPreviewLayout = Current.FlavorDescTMProEmitter;
 
             CurrentDescriptionType = TripleDescriptionType.Flavor;
 
