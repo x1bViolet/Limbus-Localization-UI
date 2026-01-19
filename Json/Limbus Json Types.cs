@@ -699,9 +699,17 @@ namespace LC_Localization_Task_Absolute.Json
                 [OnDeserialized]
                 public void OnDeserialized(StreamingContext context)
                 {
-                    if (CoinType == "GREY") // Idk why GREY and why color
+                    if (CoinType == "GREY")
                     {
                         CoinType = "Unbreakable";
+                    }
+                    else if (CoinType == "PURPLE")
+                    {
+                        CoinType = "Purple";
+                    }
+                    else if (CoinType == "GREEN")
+                    {
+                        CoinType = "Excision";
                     }
                 }
             }

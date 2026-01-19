@@ -83,6 +83,8 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
 
         public static readonly BitmapImage RegularCoinIcon = BitmapFromResource($"UI/Limbus/Skills/Regular Coin.png");
         public static readonly BitmapImage UnbreakableCoinIcon = BitmapFromResource($"UI/Limbus/Skills/Unbreakable Coin.png");
+        public static readonly BitmapImage PurpleCoinIcon = BitmapFromResource($"UI/Limbus/Skills/Purple Coin.png");
+        public static readonly BitmapImage ExcisionCoinIcon = BitmapFromResource($"UI/Limbus/Skills/Excision Coin.png");
         public static readonly BitmapImage DefaultSkillFrameAlt = BitmapFromResource($"UI/Limbus/Skills/Frames/Skill Default Frame alt.png");
 
         public static readonly Dictionary<string, BitmapImage> AffinityIcons = [];
@@ -385,8 +387,11 @@ namespace LC_Localization_Task_Absolute.Mode_Handlers
                             {
                                 MainControl.SkillReplicaCoinsTab.Children.Add(CoinType switch
                                 {
-                                    "Regular"     => new Image() { Source = RegularCoinIcon     },
-                                    "Unbreakable" => new Image() { Source = UnbreakableCoinIcon }
+                                        "Regular" => new Image() { Source = RegularCoinIcon     },
+                                    "Unbreakable" => new Image() { Source = UnbreakableCoinIcon },
+                                         "Purple" => new Image() { Source = PurpleCoinIcon      },
+                                       "Excision" => new Image() { Source = ExcisionCoinIcon    },
+                                                _ => new Image() { Source = RegularCoinIcon     }
                                 });
                             }
                         }

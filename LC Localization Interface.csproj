@@ -75,6 +75,7 @@
     <None Remove="UI\Limbus\Skills\Damage Types\Pierce.png" />
     <None Remove="UI\Limbus\Skills\Damage Types\Slash.png" />
     <None Remove="UI\Limbus\Skills\Defense Level.png" />
+    <None Remove="UI\Limbus\Skills\Excision Coin.png" />
     <None Remove="UI\Limbus\Skills\Frames\Envy\1.png" />
     <None Remove="UI\Limbus\Skills\Frames\Envy\2.png" />
     <None Remove="UI\Limbus\Skills\Frames\Envy\3.png" />
@@ -116,6 +117,7 @@
     <None Remove="UI\Limbus\Skills\Name Background\Game Colors\Sloth.png" />
     <None Remove="UI\Limbus\Skills\Name Background\Game Colors\Wrath.png" />
     <None Remove="UI\Limbus\Skills\Offense Level.png" />
+    <None Remove="UI\Limbus\Skills\Purple Coin.png" />
     <None Remove="UI\Limbus\Skills\Regular Coin.png" />
     <None Remove="UI\Limbus\Skills\Unbreakable Coin.png" />
     <None Remove="UI\Limbus\Skills\Uptie Buttons\Uptie 6.png" />
@@ -347,6 +349,9 @@
     <Resource Include="UI\Limbus\Skills\Defense Level.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
+    <Resource Include="UI\Limbus\Skills\Excision Coin.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
     <Resource Include="UI\Limbus\Skills\Frames\Envy\1.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -468,6 +473,9 @@
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Skills\Offense Level.png">
+      <CopyToOutputDirectory>Never</CopyToOutputDirectory>
+    </Resource>
+    <Resource Include="UI\Limbus\Skills\Purple Coin.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
     <Resource Include="UI\Limbus\Skills\Regular Coin.png">
