@@ -671,6 +671,12 @@ namespace LC_Localization_Task_Absolute
                     KeywordsInterrogation.KeywordImages.Clear();
                     KeywordsInterrogation.LoadInlineImages();
 
+                    if (Mode_Handlers.Upstairs.ActiveProperties.Key == EditorMode.Keywords && KeywordsInterrogation.KeywordImages.ContainsKey(Mode_Keywords.CurrentKeywordID))
+                    {
+                        (Mode_Keywords.@Current.IsBufsMenu ? MainControl.CurrentBufsKeywordImage : MainControl.CurrentBattleKeywordsKeywordImage)
+                            .Source = KeywordsInterrogation.KeywordImages[Mode_Keywords.CurrentKeywordID];
+                    }
+
                     LimbusPreviewFormatter.UpdateLast();
                     break;
 
