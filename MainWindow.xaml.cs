@@ -255,6 +255,8 @@ public partial class MainWindow : Window
             case EditorMode.Passives:
                 if (Mode_Passives.CurrentPassiveID != int.MinValue)
                 {
+                    TargetPreviewLayout.Visibility = InputEditorText != "" ? Visible : Collapsed;
+
                     switch (Mode_Passives.CurrentDescriptionType)
                     {
                         case TripleDescriptionType.Main:
@@ -308,6 +310,8 @@ public partial class MainWindow : Window
             case EditorMode.Keywords:
                 if (Mode_Keywords.CurrentKeywordID != "")
                 {
+                    TargetPreviewLayout.Visibility = InputEditorText != "" ? Visible : Collapsed;
+
                     switch (Mode_Keywords.CurrentDescriptionType)
                     {
                         case TripleDescriptionType.Main:
