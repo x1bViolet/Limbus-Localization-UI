@@ -1,21 +1,42 @@
 {
   "Passives": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Name": "\n  > 被動名稱",
     "Main Desc": "\n  > 主要描述",
-    "Summary Desc": "\n  > 被動摘要"
+    "Summary Desc": "\n  > 被動摘要",
+    "Flavor Desc": "\n  > 敘述文字"
   },
   "Keywords": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Name": "\n  > 關鍵詞(Keyword)",
+    "Keyword Color": "\n  > 關鍵字顏色(Hex)",
     "Main Desc": "\n  > 主要描述",
-    "Summary Desc": "\n  > 被動摘要"
+    "Summary Desc": "\n  > 被動摘要",
+    "Flavor Desc": "\n  > 敘述文字"
   },
   "E.G.O Gifts": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Name": "\n  > E.G.O飾品名稱",
     "Main Desc": "\n  > 主要描述",
+    "Flavor Desc": "\n  > 敘述文字",
     "Simple Desc": "\n  > 簡要描述 №[$]"
   },
   "Skills": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
-    "Uptie Level": "\n  > 同步階段 [$]"
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Uptie Level": "\n  > 同步階段 [$]",
+    "Main Name": "\n    > 技能名稱",
+    "E.G.O Abnormality Name": "\n    > E.G.O 異想體名稱",
+    "Main Desc": "\n    > 主要描述",
+    "Flavor Desc": "\n    > 敘述文字",
+    "Coin": "\n    > 技能硬幣 №[$]"
+  },
+  "Observation Logs": {
+    // [$3] is abnormality Code Name (F-04-03-04, GU-08-03, ...)
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2] ([$3])</color>」",
+    "Code Name": "\n  > Code name",
+    "Name": "\n  > Name",
+    "Description": "\n  > Description",
+    "Lacking Data": "\n  > Lacking Data",
+    "Observation Level": "\n  > Observation Level №[$]"
   }
 }

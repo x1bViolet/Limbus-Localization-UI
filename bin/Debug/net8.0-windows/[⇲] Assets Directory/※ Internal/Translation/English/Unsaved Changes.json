@@ -1,21 +1,42 @@
 {
   "Passives": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Name": "\n  > Name",
     "Main Desc": "\n  > Main description",
-    "Summary Desc": "\n  > Summary description"
+    "Summary Desc": "\n  > Summary description",
+    "Flavor Desc": "\n  > Flavor description"
   },
   "Keywords": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Name": "\n  > Name",
+    "Keyword Color": "\n  > Keyword color",
     "Main Desc": "\n  > Main description",
-    "Summary Desc": "\n  > Summary description"
+    "Summary Desc": "\n  > Summary description",
+    "Flavor Desc": "\n  > Flavor description"
   },
   "E.G.O Gifts": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Name": "\n  > Name",
     "Main Desc": "\n  > Main description",
+    "Flavor Desc": "\n  > Flavor description",
     "Simple Desc": "\n  > Simple description №[$]"
   },
   "Skills": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
-    "Uptie Level": "\n  > Uptie Level [$]"
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Uptie Level": "\n  > Uptie Level [$]",
+    "Main Name": "\n    > Name",
+    "E.G.O Abnormality Name": "\n    > E.G.O Abnormality",
+    "Main Desc": "\n    > Main description",
+    "Flavor Desc": "\n    > Flavor description",
+    "Coin": "\n    > Coin №[$]"
+  },
+  "Observation Logs": {
+    // [$3] is abnormality Code Name (F-04-03-04, GU-08-03, ...)
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2] ([$3])</color>」",
+    "Code Name": "\n  > Code name",
+    "Name": "\n  > Name",
+    "Description": "\n  > Description",
+    "Lacking Data": "\n  > Lacking Data",
+    "Observation Level": "\n  > Observation Level №[$]"
   }
 }

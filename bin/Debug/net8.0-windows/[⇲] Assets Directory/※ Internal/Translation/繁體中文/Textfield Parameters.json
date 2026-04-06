@@ -9,250 +9,175 @@
   "List<Parametre>": [
     [
       {
-        "UID": {"[Main UI] * Json Path":null},
-        "Font Size": 24
+        "UID": {"[Main UI] * Json Path":null}
       },
       {
         "UID": {"[Main UI] * Manual ID Input":null},
-        "Font": "Bookman Old Style",
-        "Font Weight": "Regular",
-        "Foreground": "#E4E4E4", // Shared for caret and selection color
-        "Font Size": 13,
-        "Margin": [4, 0, 4, 2]
+        "Font Weight": "Regular"
       }
     ],
     [
       {
-        "UID": {"[Skills / Right menu] * Skill main name":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
-      },
-      {
-        "UID": {"[Skills / Right menu] * E.G.O Skill abnormality name":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
+        "UID": {"[Input Dialog] * Text Input":null}
       }
     ],
     [
       {
-        "UID": {"[Passives / Right menu] * Passive name":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
+        "UID": {"[Skills / Right menu] * Skill main name":null}
+      },
+      {
+        "UID": {"[Skills / Right menu] * E.G.O Skill abnormality name":null}
       }
     ],
     [
       {
-        "UID": {"[Keywords / Right menu] * Keyword name":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
-      },
-      {
-        "UID": {"[Keywords / Right menu] * Keyword color":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
-      },
-      {
-        "UID": {"[Keywords / Right Menu] * Format Insertion {0}":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
-      },
-      {
-        "UID": {"[Keywords / Right Menu] * Format Insertion {1}":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
-      },
-      {
-        "UID": {"[Keywords / Right Menu] * Format Insertion {2}":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
-      },
-      {
-        "UID": {"[Keywords / Right Menu] * Format Insertion {3}":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
-      },
-      {
-        "UID": {"[Keywords / Right Menu] * Format Insertion {4}":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
-      },
-      {
-        "UID": {"[Keywords / Right Menu] * Format Insertion {5}":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
-      },
-      {
-        "UID": {"[Keywords / Right Menu] * Format Insertion {6}":null},
-        "Font Size": 22,
-        "Margin": [0, 2, 0, 0]
+        "UID": {"[Passives / Right menu] * Passive name":null}
       }
     ],
     [
       {
-        "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Name":null},
-        "Font Size": 22
+        "UID": {"[Keywords / Right menu] * Keyword name":null}
+      },
+      {
+        "UID": {"[Keywords / Right menu] * Keyword color":null}
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {0}":null}
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {1}":null}
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {2}":null}
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {3}":null}
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {4}":null}
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {5}":null}
+      },
+      {
+        "UID": {"[Keywords / Right Menu] * Format Insertion {6}":null}
       }
     ],
     [
       {
-        "UID": {"[Settings / Limbus Preview] * Preview update delay":null},
-        "Font": "Linotype Syntax Com",
-        "Padding": [0, 2, 0, 0],
-        "Font Size": 18
+        "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Name":null}
       }
     ],
     [
       {
-        "UID": {"[Settings / Custom Language] * Keywords Directory":null},
-        "Font": "Linotype Syntax Com",
-        "Font Size": 18
+        "UID": {"[Observation Logs / Right Menu] * Code Name":null}
       },
       {
-        "UID": {"[Settings / Custom Language] * Title Font":null},
-        "Font": "Linotype Syntax Com",
-        "Font Size": 18
+        "UID": {"[Observation Logs / Right Menu] * Name":null}
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Editor Parameters] * Preview update delay":null}
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Custom Language] * Keywords Directory":null}
       },
       {
-        "UID": {"[Settings / Custom Language] * Title Font — Size multiplier":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Custom Language] * Fallback Keywords Directory":null}
       },
       {
-        "UID": {"[Settings / Custom Language] * Title Font — Override read name":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Custom Language] * Additional Keywords Directory":null}
       },
       {
-        "UID": {"[Settings / Custom Language] * Context Font":null},
-        "Font": "Linotype Syntax Com",
-        "Font Size": 18
+        "UID": {"[Settings / Custom Language] * Title Font":null}
       },
       {
-        "UID": {"[Settings / Custom Language] * Context Font — Size multiplier":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Custom Language] * Context Font — Override read name":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Custom Language] * Context Font":null}
       },
 
 
       {
-        "UID": {"[Settings / Custom Language] * Sprites horizontal offset":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Custom Language] * Sprites horizontal offset":null}
       },
       {
-        "UID": {"[Settings / Custom Language] * Sprites vertical offset":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Custom Language] * Sprites vertical offset":null}
       },
 
       {
-        "UID": {"[Settings / Custom Language] * Keywords autodetection Regex pattern":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Custom Language] * Keywords autodetection Regex pattern":null}
       },
       {
-        "UID": {"[Settings / Custom Language] * Keywords Multiple meanings dictionary file":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Custom Language] * Keywords Multiple meanings dictionary file":null}
       },
       {
-        "UID": {"[Settings / Custom Language] * Context Menu Extra replacements file":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Custom Language] * Context Menu Extra replacements file":null}
       },
       {
-        "UID": {"[Settings / Custom Language] * Shorthands Regex pattern":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Custom Language] * Shorthands Regex pattern":null}
       },
       {
-        "UID": {"[Settings / Custom Language] * Shorthands Context Menu insertion shape":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Custom Language] * Shorthands Context Menu insertion shape (<KeywordColor>)":null},
-        "Font Size": 18,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Custom Language] * Shorthands Context Menu insertion shape":null}
       }
     ],
     [
       {
-        "UID": {"[Settings / Preview Scans] * Width of Skills Preview":null},
-        "Font": "Linotype Syntax Com",
-        "Padding": [0, 2, 0, 0],
-        "Font Size": 18
-      },
-      {
-        "UID": {"[Settings / Preview Scans] * Scale Factor":null},
-        "Font": "Linotype Syntax Com",
-        "Padding": [0, 2, 0, 0],
-        "Font Size": 18
-      },
-      {
-        "UID": {"[Settings / Preview Scans] * Background Color":null},
-        "Font Size": 18,
-        "Padding": [14.5, 2, 0, 0],
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Editor Parameters] * Autosave delay":null}
       }
     ],
     [
       {
-        "UID": {"[Skills DI Manager] * Skill name":null},
-        "Font Size": 16.5
+        "UID": {"[Settings / Image Exports] * Width of Skills Preview":null}
       },
       {
-        "UID": {"[Skills DI Manager] * Skill ID":null},
-        "Font Size": 16.5
+        "UID": {"[Settings / Image Exports] * Scale Factor":null}
+      },
+      {
+        "UID": {"[Settings / Image Exports] * Background Color":null}
+      },
+      {
+        "UID": {"[Settings / Image Exports] * Preview Creator preload Image Info":null}
       }
     ],
     [
       {
-        "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Frame color":null},
-        "Font Size": 20
+        "UID": {"[GlyphTypeface Viewer] * Target Culture Info":null}
+      }
+    ],
+    [
+      {
+        "UID": {"[Skills DI Manager] * Skill name":null}
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Image label] Image label text":null},
-        "Font Size": 18.5,
-        "Padding": [1, 0, 0, 0]
+        "UID": {"[Skills DI Manager] * Skill ID":null}
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Frame color":null}
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Image label] Credits":null},
-        "Font Size": 18.5,
-        "Padding": [1, 0, 0, 0]
+        "UID": {"[C] * [Section:Image parameters / Image label] Image label text":null}
       },
       {
-        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Header color":null},
-        "Font Size": 20
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Header color":null}
       },
       {
-        "UID": {"[C] * [Section:Decorative cautions] Cautions color":null},
-        "Font Size": 20
+        "UID": {"[C] * [Section:Decorative cautions] Cautions color":null}
       },
       {
-        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Sinner name":null},
-        "Font Size": 18.5,
-        "Padding": [1, 0, 0, 0]
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Sinner name":null}
       },
       {
-        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Identity/E.G.O name":null},
-        "Font Size": 18.5,
-        "Padding": [1, 0, 0, 0]
+        "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Identity/E.G.O name":null}
       },
       {
-        "UID": {"[C] * [Section:Decorative cautions] Cautions text":null},
-        "Font Size": 18.5,
-        "Padding": [1, 0, 0, 0]
+        "UID": {"[C] * [Section:Decorative cautions] Cautions text":null}
       },
       {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Item signature":null},
-        "Font Size": 18.5,
-        "Padding": [1, 0, 0, 0]
+        "UID": {"[C] * [Element context menu] Item signature":null}
       }
     ]
   ]

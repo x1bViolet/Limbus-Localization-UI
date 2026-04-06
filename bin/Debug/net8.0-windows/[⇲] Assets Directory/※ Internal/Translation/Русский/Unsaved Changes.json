@@ -1,21 +1,42 @@
 {
   "Passives": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Name": "\n  > Имя",
     "Main Desc": "\n  > Главное описание",
-    "Summary Desc": "\n  > Суммарное описание"
+    "Summary Desc": "\n  > Суммарное описание",
+    "Flavor Desc": "\n  > Нарративное описание"
   },
   "Keywords": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Name": "\n  > Имя",
+    "Keyword Color": "\n  > Цвет",
     "Main Desc": "\n  > Главное описание",
-    "Summary Desc": "\n  > Суммарное описание"
+    "Summary Desc": "\n  > Суммарное описание",
+    "Flavor Desc": "\n  > Нарративное описание"
   },
   "E.G.O Gifts": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Name": "\n  > Имя",
     "Main Desc": "\n  > Главное описание",
+    "Flavor Desc": "\n  > Нарративное описание",
     "Simple Desc": "\n  > Простое описание №[$]"
   },
   "Skills": {
-    "ID Header": "\n\n<b>ID</b> <color=#f8c200>[$1]</color> 「<color=#afbff9>[$2]</color>」",
-    "Uptie Level": "\n  > Уровень связи [$]"
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2]</color>」",
+    "Uptie Level": "\n  > Уровень связи [$]",
+    "Main Name": "\n    > Имя",
+    "E.G.O Abnormality Name": "\n    > Аномалия ЭГО",
+    "Main Desc": "\n    > Главное описание",
+    "Flavor Desc": "\n    > Нарративное описание",
+    "Coin": "\n    > Монета №[$]"
+  },
+  "Observation Logs": {
+    // [$3] is abnormality Code Name (F-04-03-04, GU-08-03, ...)
+    "ID Header": "\n\n<b>ID</b> <color={Theme.UnsavedChanges.IDColor}>[$1]</color> 「<color={Theme.UnsavedChanges.NameColor}>[$2] ([$3])</color>」",
+    "Code Name": "\n  > Кодовое имя",
+    "Name": "\n  > Имя аномалии",
+    "Description": "\n  > Описание",
+    "Lacking Data": "\n  > Недостаток информации",
+    "Observation Level": "\n  > Уровень изучения №[$]"
   }
 }

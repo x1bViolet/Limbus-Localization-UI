@@ -1,0 +1,30 @@
+{
+  // p.s. rich text is supported
+  "Main stages": {
+    "Windows Initializing": "Initializing windows ([$1]/[$2])",
+    "Configuration": "Loading configuration",
+    "Limbus Company part": "Loading Limbus interior",
+    "Final": "Fade-in animation engage" // When all loadings is done and main window is about to show up
+  },
+
+  "Sub stages": {
+    
+    // "Windows Initializing"
+
+    // "Configuration"
+    "Theme": "Theme",
+    "Language": "Language",
+
+    // "Limbus Company part"
+    "Skills Data": "Skills Data",
+    "Composite Fonts": "Composite Fonts", // [⇲] Assets Directory\Limbus Embedded Fonts\CompositeFont Definitions.json + selected Title and Context fonts
+    "Limbus Fallback keywords": "Fallback keywords",
+    "Limbus Custom Language": "Limbus Custom Language",
+    "Limbus Additional keywords": "Additional keywords",
+    "Text editor syntaxes": "Generating text editor syntaxes"
+
+    // "Final"
+
+  }
+}
+

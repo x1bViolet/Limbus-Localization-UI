@@ -5,129 +5,625 @@
   },
   "Readme": [
     "[C] — Custom Identity/E.G.O Preview creator",
-    "[!] — Does not support rich text"
+    "[!] — Does not support rich text",
+    "[-] — Text cannot be edited",
+    "[#] — Text adjustment only"
   ],
   "List<Translation>": [
     [
       {
         "UID": {"[Main UI] * Program Title":null},
         "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">LC Localization Interface",
-        "Font": "Bookman Old Style",
-        "Margin": [1.8, 3.5, 0, 0],
-        "Font Size": 23,
-        "Foreground": "#473131"
+        "Font": "Arita-buri"
       },
       {
-        "UID": {"[Main UI] [!] * Program Title (Window Caption)":null},
+        "UID": {"[Main UI] [!] [#] * Program Title (Window Caption)":null},
         "Text": "LC Localization Interface"
       },
       {
         "UID": {"[Main UI] * Json Path (Shadow Text)":null},
-        "Text": "Путь к Json файлу",
-        "Font Size": 24,
-        "Margin": [5, 0, 0, 0]
+        "Text": "Путь к Json файлу"
       },
       {
-        "UID": {"[Main UI] * Json Path — 'Open with external editor' context menu":null},
-        "Text": "Открыть во внешнем редакторе",
-        "Font": "Unispace",
-        "Font Size": 13.8,
-        "Padding": [0, 3, 3, 3]
+        "UID": {"[Main UI] * Json Path — 'Open with external editor' context menu option":null},
+        "Text": "Открыть во внешнем редакторе"
+      },
+      {
+        "UID": {"[Main UI] * Json Path — 'Copy file text' context menu option":null},
+        "Text": "Скопировать содержимое файла"
+      },
+      {
+        "UID": {"[Main UI] * Json Path — 'Copy file itself' context menu option":null},
+        "Text": "Скопировать сам файл"
+      },
+      {
+        "UID": {"[Main UI] * Json Path — 'Copy name' context menu option":null},
+        "Text": "Скопировать имя"
+      },
+      {
+        "UID": {"[Main UI] * Json Path — 'Copy full path' context menu option":null},
+        "Text": "Скопировать полный путь"
       },
       {
         "UID": {"[Main UI] * Export Preview as PNG Tooltip":null},
-        "Text": "Экспортировать предпросмотр в PNG (Папка <font=\"Consolas\"><b>[⇲] Assets Directory\\[⇲] Scans</b></font>)"
+        "Text": "Экспортировать предпросмотр текста в PNG (Папка <size=92%><font=\"Consolas\">[⇲] Assets Directory\\[⇲] Scans</font></size>)"
       },
       {
-        "UID": {"[Main UI] * ID Copy Button":null},
-        "Text": "[$]", // Do not change this text
-        "Font": "Bookman Old Style",
-        "Height": 14,
-        "Width": 141,
-        "Margin": [0, -2, 0, 0]
+        "UID": {"[Main UI] [-] * ID Copy Button":null} // Also displaying ID
+
       },
       {
         "UID": {"[Main UI] * ID Copy Button (Copied)":null},
-        "Text": "ID Скопирован",
-        "Font": "Bookman Old Style",
-        "Height": 14,
-        "Width": 141,
-        "Margin": [0, -2, 0, 0]
+        "Text": "ID Скопирован"
       },
       {
         "UID": {"[Main UI] * Version title":null},
-        "Text": "Версия",
-        "Margin": [5],
-        "Font Size": 28,
-        "Font Weight": "Black"
+        "Text": "Версия"
+      }
+    ],
+    [
+      {
+        "UID": {"[Update notice] * Title":null},
+        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">Новая версия",
+        "Font": "Arita-buri"
+      },
+      {
+        "UID": {"[Update notice] [!] [#] * Title (Window caption)":null},
+        "Text": "Новая версия"
+      },
+      {
+        "UID": {"[Update notice] * Text":null},
+        "Text": "Появилась новая версия программы на GitHub (Новая: [$1], текущая: [$2])\n\nНажмите 'OK' для открытия ссылки"
+      },
+      {
+        "UID": {"[Update notice] * OK Button":null},
+        "Text": "OK", "Width": 80
+      },
+      {
+        "UID": {"[Update notice] * Cancel Button":null},
+        "Text": "Отмена", "Width": 80
+      }
+    ],
+    [
+      {
+        "UID": {"[Error Message] * Title":null},
+        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">Произошедшее исключение",
+        "Font": "Arita-buri"
+      },
+      {
+        "UID": {"[Error Message] [!] [#] * Title (Window caption)":null},
+        "Text": "Произошедшее исключение"
+      },
+      {
+        "UID": {"[Error Message] [-] * Text":null},
+        "Font": "Consolas"
+      },
+      {
+        "UID": {"[Error Message] * OK Button":null},
+        "Text": "OK.."
+      },
+      {
+        "UID": {"[Error Message] * Add to ignore list":null},
+        "Text": "Добавить в список игнорирования"
+      }
+    ],
+    [
+      {
+        "UID": {"[Confirm Dialog] * Title":null},
+        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">[$]", // [$] Is given "Title" from translation lines with '<Confirm Dialog>' in UID
+        "Font": "Arita-buri"
+      },
+      {
+        "UID": {"[Confirm Dialog] [!] [#] * Title (Window caption)":null},
+        "Text": "[$]" // [$] Is given "Title" from translation lines with '<Confirm Dialog>' in UID
+      },
+      {
+        "UID": {"[Confirm Dialog] [-] * Text":null}
+      },
+      {
+        "UID": {"[Confirm Dialog] * Yes Button":null},
+        "Text": "Да", "Width": 50
+      },
+      {
+        "UID": {"[Confirm Dialog] * No Button":null},
+        "Text": "Нет", "Width": 50
+      }
+    ],
+    [
+      {
+        "UID": {"[Input Dialog] * Title":null},
+        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">[$]", // [$] Is given "Title" from translation lines with '<Input Dialog>' in UID
+        "Font": "Arita-buri"
+      },
+      {
+        "UID": {"[Input Dialog] [!] [#] * Title (Window caption)":null},
+        "Text": "[$]" // [$] Is given "Title" from translation lines with '<Input Dialog>' in UID
       }
     ],
     [
       {
         "UID": {"[Main UI / Create file context menu] * Title":null},
-        "Text": "Создать файл",
-        "Font": "Unispace",
-        "Font Size": 13.8,
-        "Padding": [0, 3, 43, 3]
+        "Text": "Создать файл"
+      },
+      {
+        "UID": {"[Main UI / Create file context menu] * Skills":null},
+        "Text": "Навыки"
       },
       {
         "UID": {"[Main UI / Create file context menu] * Passives":null},
-        "Text": "Пассивки",
-        "Font": "Unispace",
-        "Font Size": 13.8,
-        "Padding": [0, 3, 0, 3]
+        "Text": "Пассивки"
       },
       {
         "UID": {"[Main UI / Create file context menu] * Keywords":null},
-        "Text": "Ключевые слова",
-        "Font": "Unispace",
-        "Font Size": 13.8,
-        "Padding": [0, 3, 0, 3]
+        "Text": "Ключевые слова"
       },
       {
-        "UID": {"[Main UI / Create file context menu] * Skills ...":null},
-        "Text": "Навыки ...",
-        "Font": "Unispace",
-        "Font Size": 13.8,
-        "Padding": [0, 3, 0, 3]
+        "UID": {"[Main UI / Create file context menu] * Keywords (Bufs)":null},
+        "Text": "'Bufs'"
       },
       {
-        "UID": {"[Main UI / Create file context menu] * Skills ... No upties":null},
-        "Text": "Без уровней связи",
-        "Text Alignment": "Right",
-        "Font": "Unispace",
-        "Font Size": 13.8,
-        "Padding": [0, 3, 5, 3]
+        "UID": {"[Main UI / Create file context menu] * Keywords (BattleKeywords)":null},
+        "Text": "'BattleKeywords'"
       },
       {
-        "UID": {"[Main UI / Create file context menu] * Skills ... Identities":null},
-        "Text": "Идентичности",
-        "Text Alignment": "Right",
-        "Font": "Unispace",
-        "Font Size": 13.8,
-        "Padding": [0, 3, 5, 3]
+        "UID": {"[Main UI / Create file context menu] * E.G.O Gifts":null},
+        "Text": "ЭГО Дары"
       },
       {
-        "UID": {"[Main UI / Create file context menu] * Skills ... E.G.O Skills":null},
-        "Text": "ЭГО Навыки",
-        "Text Alignment": "Right",
-        "Font": "Unispace",
-        "Font Size": 13.8,
-        "Padding": [0, 3, 5, 3]
+        "UID": {"[Main UI / Create file context menu] * Observation Logs":null},
+        "Text": "Журналы наблюдений"
+      }
+    ],
+    [
+      {
+        "UID": {"[Main UI / Manual json files managing] * New object ID <Input Dialog> — Title":null},
+        "Text": "Новый ID"
+      }
+    ],
+    [
+      {
+        "UID": {"[Main UI / Manual json files managing] * Add additional object button":null},
+        "Text": "Создать объект"
+      }
+    ],
+    [ // Skills manual managing
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill removal":null},
+        "Text": "Удалить этот навык"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill removal <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление навыка",
+          "Text": "Удалить навык 「[$]」?" // [$] is ID
+        }
+      },
+      
+      
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill E.G.O Abnormality name — Add":null},
+        "Text": "Добавить имя Аномалии ЭГО"
       },
       {
-        "UID": {"[Main UI] * Add additional object button":null},
-        "Text": "Добавить объект..",
-        "Font": "Unispace",
-        "Font Size": 13.8,
-        "Padding": [0, 3, 0, 3]
+        "UID": {"[Main UI / Manual json files managing] * Skill E.G.O Abnormality name — Remove":null},
+        "Text": "Удалить имя Аномалии ЭГО"
+      },
+
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Add":null},
+        "Text": "Добавить уровень связи.."
       },
       {
-        "UID": {"[Main UI] * Create uptie button":null},
-        "Text": "Создать уровень свзяи",
-        "Font": "Unispace",
-        "Font Size": 13.8,
-        "Padding": [0, 3, 6, 3]
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Add (№1)":null},
+        "Text": "Уровень связи №1"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Add (№2)":null},
+        "Text": "Уровень связи №2"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Add (№3)":null},
+        "Text": "Уровень связи №3"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Add (№4)":null},
+        "Text": "Уровень связи №4"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Add (№5)":null},
+        "Text": "Уровень связи №5"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Add (№6)":null},
+        "Text": "Уровень связи №6"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Remove":null},
+        "Text": "Удалить уровень связи.."
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Remove (№1)":null},
+        "Text": "Уровень связи №1"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Remove (№2)":null},
+        "Text": "Уровень связи №2"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Remove (№3)":null},
+        "Text": "Уровень связи №3"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Remove (№4)":null},
+        "Text": "Уровень связи №4"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Remove (№5)":null},
+        "Text": "Уровень связи №5"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Remove (№6)":null},
+        "Text": "Уровень связи №6"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill Uptie — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление уровня связи",
+          "Text": "Удалить уровень связи №[$]?"
+        }
+      },
+
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill flavor — Add":null},
+        "Text": "Добавить нарративное описание"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill flavor — Remove":null},
+        "Text": "Удалить нарративное описание"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill flavor — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление описания",
+          "Text": "Удалить нарративное описание?"
+        }
+      },
+      
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill coin — Add":null},
+        "Text": "Добавить монету"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill coin — Remove":null},
+        "Text": "Удалить монету"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill coin — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление монеты",
+          "Text": "Удалить монету №[$]?"
+        }
+      },
+
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill coin description — Add":null},
+        "Text": "Добавить ещё одно описание монеты"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill coin description — Remove":null},
+        "Text": "Удалить это описание монеты"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill coin description — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаления описания",
+          "Text": "Удалить описание этого эффекта монеты №[$]?"
+        }
+      },
+
+
+      //////////////////////////////////////////////////////////////////////////////////////////////////
+      // Each coin's description is essentially a list with descs ("coindescs": [...]) for each effect of a coin, where each description is a primary "desc": "..." and very rarely an additional "summary": "..."
+      // More likely sounds as "Add summary description for this effect of a coin"
+      /*
+// Coin start
+      {
+        "coindescs": [
+          {
+            "desc": "[SuperCoin]"
+          },
+          {
+            "desc": "[OnStartCoin] Deal +10% damage for every 10 ([Combustion] + [Sinking]) on all targets (max <style=\"highlight\">60</style>%)",
+            "summary": "[OnStartCoin] Deal more damage for every 10 ([Combustion] + [Sinking]) on all targets"
+          },
+          {
+            "desc": "[UnBrokenCoinOnSucceedAttack] Activate [Combustion] on target once; then, reduce their [Combustion] Count by 1"
+          }
+        ]
+      }
+// Coin end
+      */
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill coin description summary — Add":null},
+        "Text": "Добавить суммарное описание для эффекта монеты"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill coin description summary — Remove":null},
+        "Text": "Удалить суммарное описание для эффекта монеты"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Skill coin description summary — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление описания",
+          "Text": "Удалить суммарное описание этого эффекта монеты?"
+        }
+      }
+      //////////////////////////////////////////////////////////////////////////////////////////////////
+    ],
+    [ // Passives manual managing
+      {
+        "UID": {"[Main UI / Manual json files managing] * Passive removal":null},
+        "Text": "Удалить эту пассивку"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Passive removal <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление пассивки",
+          "Text": "Удалить пассивное умение 「[$]」?" // [$] is ID
+        }
+      },
+      
+      
+      {
+        "UID": {"[Main UI / Manual json files managing] * Passive summary — Add":null},
+        "Text": "Добавить суммарное описание"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Passive summary — Remove":null},
+        "Text": "Удалить суммарное описание"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Passive summary — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление описания",
+          "Text": "Удалить суммарное описание?"
+        }
+      },
+
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Passive flavor — Add":null},
+        "Text": "Добавить нарративное описание"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Passive flavor — Remove":null},
+        "Text": "Удалить нарративное описание"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Passive flavor — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление описания",
+          "Text": "Удалить нарративное описание?"
+        }
+      }
+    ],
+    [ // Keywords manual managing
+      {
+        "UID": {"[Main UI / Manual json files managing] * Keyword removal":null},
+        "Text": "Удалить это ключевое слово"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Keyword removal <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление ключевого слова",
+          "Text": "Удалить ключевое слово 「[$]」?" // [$] is ID
+        }
+      },
+      
+      
+      {
+        // Template because it can be used only by this program instead of definition at the `[⇲] Assets Directory\Color Dictionaries\Keyword Colors.cd.txt` file, not in the game
+        "UID": {"[Main UI / Manual json files managing] * Keyword template color — Add":null},
+        "Text": "Добавить временный цвет"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Keyword template color — Remove":null},
+        "Text": "Удалить временный цвет"
+      },
+
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Keyword summary — Add":null},
+        "Text": "Добавить суммарное описание"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Keyword summary — Remove":null},
+        "Text": "Удалить суммарное описание"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Keyword summary — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление описания",
+          "Text": "Удалить суммарное описание?"
+        }
+      },
+
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Keyword flavor — Add":null},
+        "Text": "Добавить нарративное описание"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Keyword flavor — Remove":null},
+        "Text": "Удалить нарративное описание"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Keyword flavor — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление описания",
+          "Text": "Удалить нарративное описание?"
+        }
+      }
+    ],
+    [ // E.G.O Gifts manual managing
+      {
+        "UID": {"[Main UI / Manual json files managing] * E.G.O Gift removal":null},
+        "Text": "Удалить этот ЭГО Дар"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * E.G.O Gift removal <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление ЭГО Дара",
+          "Text": "Удалить ЭГО Дар 「[$]」?" // [$] is ID
+        }
+      },
+      
+
+      {
+        // Currently (14.03.2026), E.G.O Gifts do not have the "flavor" property, despite the fact that the description of E.G.O Gifts from the Canto 8 dungeon has it as "\n\n<i><color=#a16a3b> ... " within the main description, so it's marked as "Preliminary"
+        "UID": {"[Main UI / Manual json files managing] * E.G.O Gift flavor — Add":null},
+        "Text": "Добавить нарративное описание\n<size=80%>(Предварительная функция, не работает в игре от 24.02.2026)</size>"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * E.G.O Gift flavor — Remove":null},
+        "Text": "Удалить нарративное описание"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * E.G.O Gift flavor — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление описания",
+          "Text": "Удалить нарративное описание?"
+        }
+      },
+      
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * E.G.O Gift simple desc — Add":null},
+        "Text": "Добавить простое описание"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * E.G.O Gift simple desc — Remove":null},
+        "Text": "Удалить простое описание"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * E.G.O Gift simple desc — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление описания",
+          "Text": "Удалить простое описание №[$] этого ЭГО Дара?" // [$] is simple desc number
+        }
+      }
+    ],
+    [ // Observation Logs manual managing
+      {
+        "UID": {"[Main UI / Manual json files managing] * Observation Log removal":null},
+        "Text": "Удалить этот журнал наблюдений"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Observation Log removal <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление журнала наблюдений",
+          "Text": "Удалить журнал наблюдений 「[$]」?" // [$] is ID
+        }
+      },
+
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Observation Log Story — Add":null},
+        "Text": "Добавить историю наблюдений"
+      },
+      {
+        "UID": {"[Main UI / Manual json files managing] * Observation Log Story — Remove":null},
+        "Text": "Удалить историю наблюдений"
+      },
+
+      {
+        "UID": {"[Main UI / Manual json files managing] * Observation Log Story — Remove <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Удаление истории",
+          "Text": "Удалить историю наблюдений №[$]?" // [$] is Observation Log Story number (1~4)
+        }
+      }
+    ],
+    [
+      {
+        "UID": {"[Main UI] * Current editor switch — Title":null},
+        "Text": "Открытые файлы"
+      },
+      
+      {
+        "UID": {"[Main UI] * Current editor switch — Discard current file":null},
+        "Text": "Сбросить текущий файл"
+      },
+      {
+        "UID": {"[Main UI] * Current editor switch — Discard current file <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Сброс открытого файла",
+          "Text": "Сбросить открытый файл этого редактора и вернуться в главное меню?"
+        }
+      },
+
+      
+      {
+        "UID": {"[Main UI] * Current editor switch — Main menu":null},
+        "Text": "Главное меню"
+      },
+
+      // [$] is name of the current file
+      {
+        "UID": {"[Main UI] * Current editor switch — Skills":null},
+        "Variable": {
+          "Default": "Навыки <size=80%>(Нет открытого файла)</size>",
+          "With file": "Навыки (<u>[$]</u>)"
+        }
+      },
+      {
+        "UID": {"[Main UI] * Current editor switch — Passives":null},
+        "Variable": {
+          "Default": "Пассивки <size=80%>(Нет открытого файла)</size>",
+          "With file": "Пассивки (<u>[$]</u>)"
+        }
+      },
+      {
+        "UID": {"[Main UI] * Current editor switch — Keywords":null},
+        "Variable": {
+          "Default": "Ключевые слова <size=80%>(Нет открытого файла)</size>",
+          "With file": "Ключевые слова (<u>[$]</u>)"
+        }
+      },
+      {
+        "UID": {"[Main UI] * Current editor switch — E.G.O Gifts":null},
+        "Variable": {
+          "Default": "ЭГО Дары <size=80%>(Нет открытого файла)</size>",
+          "With file": "ЭГО Дары (<u>[$]</u>)"
+        }
+      },
+      {
+        "UID": {"[Main UI] * Current editor switch — Observation Logs":null},
+        "Variable": {
+          "Default": "Журналы наблюдений <size=80%>(Нет открытого файла)</size>",
+          "With file": "Журналы наблюдений (<u>[$]</u>)"
+        }
       }
     ],
     [
@@ -136,756 +632,587 @@
         "UID": {"[Context Menu] * Insert Style":null},
         "Width": 270, // This width value can expand context menu width
         "Font": "Unispace",
-        "Text": "※ Вставить <color=#f8c200><\u0000style> Higlight</color>", // <style> is override yellow highlight tag at internal rich text system
-        "Font Size": 13.8,
-        "Padding": [0, 2.5, 0, 2.5],
+        "Text": "※ Вставить <color=#f8c200><style> Higlight</color>",
         "Visible": true
       },
       {
         "UID": {"[Context Menu] * TextMeshPro to [KeywordID]":null},
         "Font": "Unispace",
         "Text": "<images-yoffset=-4><images-size=22><image id=\"2038\"><u>TextMeshPro</u> в <image id=\"9732\"><u>[KeywordID]</u>",
-        "Font Size": 13.8,
-        "Padding": [0, 2.5, 0, 2.5],
         "Visible": true
       },
       {
         "UID": {"[Context Menu] * TextMeshPro to Shorthands":null},
         "Font": "Unispace",
         "Text": "<images-yoffset=-4><images-size=22><image id=\"2038\"><u>TextMeshPro</u> в <image id=\"9202\"><u>Shorthands</u>",
-        "Font Size": 13.8,
-        "Padding": [0, 2.5, 0, 2.5],
         "Visible": true
       },
       {
-        "UID": {"[Context Menu] * Unevident to [KeywordID]":null},
+        "UID": {"[Context Menu] * Implicit to [KeywordID]":null},
         "Font": "Unispace",
         "Text": "<images-yoffset=-4><images-size=22><image id=\"9085\"><u>Неочевидные</u> в <image id=\"9732\"><u>[KeywordID]</u>",
-        "Font Size": 13.8,
-        "Padding": [0, 2.5, 0, 2.5],
         "Visible": true
       },
       {
-        "UID": {"[Context Menu] * Unevident to Shorthands":null},
+        "UID": {"[Context Menu] * Implicit to Shorthands":null},
         "Font": "Unispace",
         "Text": "<images-yoffset=-4><images-size=22><image id=\"9085\"><u>Неочевидные</u> в <image id=\"9202\"><u>Shorthands</u>",
-        "Font Size": 13.8,
-        "Padding": [0, 2.5, 0, 2.5],
         "Visible": true
       },
       {
         "UID": {"[Context Menu] * [KeywordID] to Shorthands":null},
         "Font": "Unispace",
         "Text": "<images-yoffset=-4><images-size=22><image id=\"9732\"><u>[KeywordID]</u> в <image id=\"9202\"><u>Shorthands</u>",
-        "Font Size": 13.8,
-        "Padding": [0, 2.5, 0, 2.5],
         "Visible": true
       },
       {
         "UID": {"[Context Menu] * [KeywordID] to TextMeshPro":null},
         "Font": "Unispace",
         "Text": "<images-yoffset=-4><images-size=22><image id=\"9732\"><u>[KeywordID]</u> в <image id=\"2038\"><u>TextMeshPro</u>",
-        "Font Size": 13.8,
-        "Padding": [0, 2.5, 0, 2.5],
         "Visible": true
       },
 
       {
-        "UID": {"[Context Menu] * Extra replacements item header":null},
-        "Font": "Unispace",
-        "Font Size": 13.8,
-        "Padding": [0, 2.5, 6, 2.5]
+        "UID": {"[Context Menu] [-] * Extra replacements item header":null},
+        "Font": "Unispace"
       }
     ],
     [
       {
         "UID": {"[Unsaved Changes] * Title":null},
         "Text": "Несохранённые изменения",
-        "Margin": [0, 1, 0, 0], "Font": "Excelsior Sans",
-        "Foreground": "#CFCFCF",
-        "Font Size": 40
+        "Font": "Excelsior Sans"
       },
       {
         "UID": {"[Unsaved Changes] * Confirm Exit":null},
         "Text": "Продолжить",
-        "Foreground": "#CFCFCF", "Font": "Excelsior Sans",
-        "Font Size": 25
+        "Font": "Excelsior Sans", "Width": 150
       },
       {
         "UID": {"[Unsaved Changes] * Cancel":null},
         "Text": "Остаться",
-        "Foreground": "#CFCFCF", "Font": "Excelsior Sans",
-        "Font Size": 25
+        "Font": "Excelsior Sans", "Width": 150
       },
       {
-        "UID": {"[Unsaved Changes] [-] * Information Text":null},
-        "Foreground": "#D2D2D2",
-        "Font Size": 21
+        "UID": {"[Unsaved Changes] [-] * Information Text":null}
+        // ...
       }
     ],
     [
       {
-        "UID": {"[Skills / Right menu] * Skill main name (Background text)":null},
-        "Text": "Имя навыка",
-        "Font Size": 22
+        "UID": {"[Skills / Right menu] * Skill main name (Shadow text)":null},
+        "Text": "Имя навыка"
       },
       {
-        "UID": {"[Skills / Right menu] * E.G.O Skill abnormality name (Background text)":null},
-        "Text": "Аномалия ЭГО",
-        "Font Size": 22
+        "UID": {"[Skills / Right menu] * E.G.O Skill abnormality name (Shadow text)":null},
+        "Text": "Аномалия ЭГО"
       },
       {
         "UID": {"[Skills / Right menu] * Affinity — Wrath":null},
-        "Text": "Гнев",
-        "Font Size": 22
+        "Text": "Гнев"
       },
       {
         "UID": {"[Skills / Right menu] * Affinity — Lust":null},
-        "Text": "Похоть",
-        "Font Size": 22
+        "Text": "Похоть"
       },
       {
         "UID": {"[Skills / Right menu] * Affinity — Sloth":null},
-        "Text": "Леность",
-        "Font Size": 22
+        "Text": "Леность"
       },
       {
         "UID": {"[Skills / Right menu] * Affinity — Gluttony":null},
-        "Text": "Чревоугодие",
-        "Font Size": 22
+        "Text": "Чревоугодие"
       },
       {
         "UID": {"[Skills / Right menu] * Affinity — Gloom":null},
-        "Text": "Уныние",
-        "Font Size": 22
+        "Text": "Уныние"
       },
       {
         "UID": {"[Skills / Right menu] * Affinity — Pride":null},
-        "Text": "Гордыня",
-        "Font Size": 22
+        "Text": "Гордыня"
       },
       {
         "UID": {"[Skills / Right menu] * Affinity — Envy":null},
-        "Text": "Зависть",
-        "Font Size": 22
+        "Text": "Зависть"
       },
       {
         "UID": {"[Skills / Right menu] * Affinity — None":null},
-        "Text": "Нет греха",
-        "Font Size": 22
+        "Text": "Нет греха"
       },
       {
         "UID": {"[Skills / Right menu] * Skill main desc":null},
-        "Text": "Главное описание",
-        "Font Size": 22
+        "Text": "Главное описание"
       },
       {
         "UID": {"[Skills / Right menu] * Skill flavor desc":null},
-        "Text": "Нарративное описание",
-        "Font Size": 22
+        "Text": "Нарративное описание"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin 1":null},
-        "Text": "Описание монеты №1",
-        "Font Size": 22
+        "Text": "Описание монеты №1"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin 2":null},
-        "Text": "Описание монеты №2",
-        "Font Size": 22
+        "Text": "Описание монеты №2"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin 3":null},
-        "Text": "Описание монеты №3",
-        "Font Size": 22
+        "Text": "Описание монеты №3"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin 4":null},
-        "Text": "Описание монеты №4",
-        "Font Size": 22
+        "Text": "Описание монеты №4"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin 5":null},
-        "Text": "Описание монеты №5",
-        "Font Size": 22
+        "Text": "Описание монеты №5"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin 6":null},
-        "Text": "Описание монеты №6",
-        "Font Size": 22
+        "Text": "Описание монеты №6"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin 7":null},
-        "Text": "Описание монеты №7",
-        "Font Size": 22
+        "Text": "Описание монеты №7"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin 8":null},
-        "Text": "Описание монеты №8",
-        "Font Size": 22
+        "Text": "Описание монеты №8"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin 9":null},
-        "Text": "Описание монеты №9",
-        "Font Size": 22
+        "Text": "Описание монеты №9"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin 10":null},
-        "Text": "Описание монеты №10",
-        "Font Size": 22
+        "Text": "Описание монеты №10"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin descs title":null},
-        "Text": "Описания монеты <b>№[$]</b>:",
-        "Margin": [0, 15, 0, 0],
-        "Font Size": 20
+        "Text": "Описания монеты <b>№[$]</b>:"
       },
       {
         "UID": {"[Skills / Right menu] * Skill Coin desc number":null},
-        "Text": "№[$]",
-        "Font Size": 18
+        "Text": "№[$]"
+      },
+      {
+        "UID": {"[Skills / Right menu] * Skill Coin summary desc":null},
+        "Text": "Суммарно"
       }
     ],
     [
       {
         "UID": {"[Passives / Right menu] * Passive name (Shadow Text)":null},
-        "Text": "Название пассивки",
-        "Font Size": 22
+        "Text": "Название пассивки"
       },
       {
         "UID": {"[Passives / Right menu] * Passive desc":null},
-        "Text": "Главное описание",
-        "Font Size": 22
+        "Text": "Главное описание"
       },
       {
         "UID": {"[Passives / Right menu] * Passive summary":null},
-        "Text": "Суммарное описание",
-        "Font Size": 22
+        "Text": "Суммарное описание"
       },
       {
-        "UID":{"[Passives / Right menu] * Passive flavor":null},
-        "Text": "Нарративное описание",
-        "Margin": [0, 4, 0, 0],
-        "Font Size": 22
-      },
-      {
-        "UID": {"[Passives / Right menu] * Add Passive summary description tooltip":null},
-        "Text": "Добавить суммарное описание",
-        "Font Size": 18,
-        "Width": 268,
-        "Height": 24,
-        "Margin": [0, 5.5, 0, 0]
-      },
-      {
-        "UID": {"[Passives / Right menu] * Add Passive flavor description tooltip":null},
-        "Text": "Добавить нарративное описание",
-        "Font Size": 18,
-        "Width": 268,
-        "Height": 24,
-        "Margin": [0, 5.5, 0, 0]
+        "UID": {"[Passives / Right menu] * Passive flavor":null},
+        "Text": "Нарративное описание"
       }
     ],
     [
       {
         "UID": {"[Keywords / Right Menu] * Keyword name (Shadow Text)":null},
-        "Text": "Имя ключевого слова",
-        "Font Size": 22
-      },
-      {
-        "UID": {"[Keywords / Right Menu] * Keyword color (Shadow Text)":null},
-        "Text": "Цвет ключевого слова",
-        "Font Size": 22
+        "Text": "Имя ключевого слова"
       },
       {
         "UID": {"[Keywords / Right Menu] * Keyword desc":null},
-        "Text": "Главное описание",
-        "Font Size": 22
+        "Text": "Главное описание"
       },
       {
         "UID": {"[Keywords / Right Menu] * Keyword summary":null},
-        "Text": "Суммароное описание",
-        "Font Size": 22
+        "Text": "Суммароное описание"
       },
       {
         "UID": {"[Keywords / Right Menu] * Keyword flavor":null},
-        "Text": "Нарративное описание (flavor)",
-        "Font Size": 22
+        "Text": "Нарративное описание"
       },
       {
         "UID": {"[Keywords / Right Menu] * Keywords format insertions button":null},
-        "Text": "<b>Динамические вставки</b>",
-        "Margin": [15, -1, 0, 0],
-        "Font Size": 13,
-        "Width": 139
+        "Text": "<b>Динамические вставки</b>"
       },
       {
         "UID": {"[Keywords / Right Menu] * Format Insertion {0} (Shadow Text)":null},
-        "Text": "Вставка {0}",
-        "Font Size": 22
+        "Text": "Вставка {0}"
       },
       {
         "UID": {"[Keywords / Right Menu] * Format Insertion {1} (Shadow Text)":null},
-        "Text": "Вставка {1}",
-        "Font Size": 22
+        "Text": "Вставка {1}"
       },
       {
         "UID": {"[Keywords / Right Menu] * Format Insertion {2} (Shadow Text)":null},
-        "Text": "Вставка {2}",
-        "Font Size": 22
+        "Text": "Вставка {2}"
       },
       {
         "UID": {"[Keywords / Right Menu] * Format Insertion {3} (Shadow Text)":null},
-        "Text": "Вставка {3}",
-        "Font Size": 22
+        "Text": "Вставка {3}"
       },
       {
         "UID": {"[Keywords / Right Menu] * Format Insertion {4} (Shadow Text)":null},
-        "Text": "Вставка {4}",
-        "Font Size": 22
+        "Text": "Вставка {4}"
       },
       {
         "UID": {"[Keywords / Right Menu] * Format Insertion {5} (Shadow Text)":null},
-        "Text": "Вставка {5}",
-        "Font Size": 22
+        "Text": "Вставка {5}"
       },
       {
         "UID": {"[Keywords / Right Menu] * Format Insertion {6} (Shadow Text)":null},
-        "Text": "Вставка {6}",
-        "Font Size": 22
+        "Text": "Вставка {6}"
       }
     ],
     [
       {
         "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Name (Shadow Text)":null},
-        "Text": "Название ЭГО Дара",
-        "Font Size": 22
+        "Text": "Название ЭГО Дара"
       },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Desc":null},
-        "Text": "Главное описание",
-        "Font Size": 22
+        "Text": "Главное описание"
       },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 1":null},
-        "Text": "Простое описание №1",
-        "Font Size": 22
+        "Text": "Простое описание №1"
       },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 2":null},
-        "Text": "Простое описание №2",
-        "Font Size": 22
+        "Text": "Простое описание №2"
       },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 3":null},
-        "Text": "Простое описание №3",
-        "Font Size": 22
+        "Text": "Простое описание №3"
       },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 4":null},
-        "Text": "Простое описание №4",
-        "Font Size": 22
+        "Text": "Простое описание №4"
       },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 5":null},
-        "Text": "Простое описание №5",
-        "Font Size": 22
+        "Text": "Простое описание №5"
       },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 6":null},
-        "Text": "Простое описание №6",
-        "Font Size": 22
+        "Text": "Простое описание №6"
       },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 7":null},
-        "Text": "Простое описание №7",
-        "Font Size": 22
+        "Text": "Простое описание №7"
       },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 8":null},
-        "Text": "Простое описание №8",
-        "Font Size": 22
+        "Text": "Простое описание №8"
       },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 9":null},
-        "Text": "Простое описание №9",
-        "Font Size": 22
+        "Text": "Простое описание №9"
       },
       {
         "UID": {"[E.G.O Gifts / Right Menu] * Simple Desc 10":null},
-        "Text": "Простое описание №10",
-        "Font Size": 22
+        "Text": "Простое описание №10"
+      },
+      {
+        "UID": {"[E.G.O Gifts / Right Menu] * E.G.O Gift Flavor":null},
+        "Text": "Нарративное описание"
+      }
+    ],
+    [
+      {
+        "UID": {"[Observation Logs / Right Menu] * Code Name (Shadow Text)":null},
+        "Text": "Кодовое имя"
+      },
+      {
+        "UID": {"[Observation Logs / Right Menu] * Name (Shadow Text)":null},
+        "Text": "Имя аномалии"
+      },
+
+      {
+        "UID": {"[Observation Logs / Right Menu] * Lacking Data":null},
+        "Text": "Нехватка данных"
+      },
+
+      {
+        "UID": {"[Observation Logs / Right Menu] * Observation Level 1":null},
+        "Text": "Уровень изучения I"
+      },
+      {
+        "UID": {"[Observation Logs / Right Menu] * Observation Level 2":null},
+        "Text": "Уровень изучения II"
+      },
+      {
+        "UID": {"[Observation Logs / Right Menu] * Observation Level 3":null},
+        "Text": "Уровень изучения III"
       }
     ],
     [
       {
         "UID": {"[Settings] * Settings Title":null},
         "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">Настройки",
-        "Font": "Bookman Old Style",
-        "Margin": [1.8, 3.5, 0, 0],
-        "Font Size": 23,
-        "Foreground": "#473131"
+        "Font": "Arita-buri"
       },
       {
-        "UID": {"[Settings] [!] * Settings Title (Window Caption)":null},
+        "UID": {"[Settings] [!] [#] * Settings Title (Window Caption)":null},
         "Text": "Настройки"
       }
     ],
     [
       {
-        "UID": {"[Settings / Limbus Preview] * Section Name":null},
-        "Text": "⦁ Предпросмотр",
-        "Font Size": 26,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings] * 'Reload settings' Title Bar Button Tooltip":null},
+        "Text": "Reload <size=92%><font=\"Consolas\">[⇲] Assets Directory\\Configurazione^.json</font></size> file"
+      }
+    ],
+    [
+      {
+        "UID": {"[Settings / Editor Parameters] * Section Name":null},
+        "Text": "⦁ Редактор"
       },
       {
-        "UID": {"[Settings / Limbus Preview] * Toggle Syntax Highlight":null},
-        "Text": "Включить подсветку синтаксиса",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Editor Parameters] * Toggle Syntax Highlight":null},
+        "Text": "Включить подсветку синтаксиса"
       },
       {
-        "UID": {"[Settings / Limbus Preview] * Hide Limbus Text Preview":null},
-        "Text": "Скрыть предпросмотр",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Editor Parameters] * Hide Limbus Text Preview":null},
+        "Text": "Скрыть предпросмотр"
       },
       {
-        "UID": {"[Settings / Limbus Preview] * Highlight style":null},
-        "Text": "Подсвечивать <\u0000style>",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Editor Parameters] * Highlight style":null},
+        "Text": "Подсвечивать <style>"
       },
       {
-        "UID": {"[Settings / Limbus Preview] * Highlight Skill Descs on click":null},
-        "Text": "Подсвечивать описания навыков при нажатии пкм по ним",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Editor Parameters] * Highlight descs on right click":null},
+        "Text": "Подсвечивать описания при нажатии пкм по ним"
       },
       {
-        "UID": {"[Settings / Limbus Preview] * Highlight Skill Descs on manual switch":null},
-        "Text": "Подсвечивать описания навыков при ручном переключении",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Editor Parameters] * Highlight descs on manual switch":null},
+        "Text": "Подсвечивать описания при ручном переключении"
       },
       {
-        "UID": {"[Settings / Limbus Preview] * Enable Skill Names Replication":null},
-        "Text": "Включить воссоздание имён скиллов",
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Editor Parameters] * Enable Skill Names Replication":null},
+        "Text": "Включить воссоздание имён Навыков"
       },
       {
-        "UID": {"[Settings / Limbus Preview] * Enable Keyword tooltips":null},
-        "Text": "Включить всплывающую информацию о ключевых словах",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Editor Parameters] * Enable Keyword tooltips":null},
+        "Text": "Включить всплывающую информацию о ключевых словах"
       },
       {
-        "UID": {"[Settings / Limbus Preview] * Enable 7~10 Coin Buttons":null},
-        "Text": "Включить кнопки 7~10 монет",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Editor Parameters] * Enable 7~10 Coin Buttons":null},
+        "Text": "Включить кнопки 7~10 монет Навыков"
       },
       {
-        "UID": {"[Settings / Limbus Preview] * Preview update delay":null},
-        "Text": "Задержка обновления предпросмотра",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Editor Parameters] * Enable 7~10 Simple Desc Buttons":null},
+        "Text": "Включить кнопки 7~10 простых описаний ЭГО Даров"
+      },
+      {
+        "UID": {"[Settings / Editor Parameters] * Preview update delay":null},
+        "Text": "Задержка обновления предпросмотра текста\n(В секундах)"
       }
     ],
     [
       {
         "UID": {"[Settings / Custom Language] * Section Name":null},
-        "Text": "⦁ Кастомная локализация <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/custom-localization-properties\"><color=#569cd6>⯑</color></hyperlink>",
-        "Font Size": 26,
-        "Font": "Linotype Syntax Com"
+        "Text": "⦁ Кастомная локализация лимбуса<size=88%> <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/custom-localization-properties\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
       },
       {
         "UID": {"[Settings / Custom Language] * Selected Properties":null},
-        "Text": "Выбрано",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Выбрано"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * Reload Localization Files":null},
+        "Text": "Перезагрузить файлы перевода"
       },
       {
         "UID": {"[Settings / Custom Language] * Show advanced":null},
-        "Text": "Показать все настройки",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Показать все настройки"
+      },
+      {
+        "UID": {"[Settings / Custom Language] * 'Confirm' button tooltip":null},
+        "Text": "Сохранить и применить изменения" // Save json config and update current program state
+      },
+      {
+        "UID": {"[Settings / Custom Language] * 'Reload' button tooltip":null},
+        "Text": "Перезагрузить данные"
       },
       {
         "UID": {"[Settings / Custom Language] * Keywords Directory":null},
-        "Text": "Директория ключевых слов",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Директория ключевых слов"
       },
       {
         "UID": {"[Settings / Custom Language] * Title Font":null},
-        "Text": "Title шрифт",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Title шрифт"
       },
       {
         "UID": {"[Settings / Custom Language] * Title Font — Weight":null},
-        "Text": "Вес шрифта",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Custom Language] * Title Font — Size multiplier":null},
-        "Text": "Масштаб",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Custom Language] * Title Font — Override read name":null},
-        "Text": "Ручное имя",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Вес шрифта"
       },
 
       {
         "UID": {"[Settings / Custom Language] * Context Font":null},
-        "Text": "Context шрифт",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Context шрифт"
       },
       {
         "UID": {"[Settings / Custom Language] * Context Font — Weight":null},
-        "Text": "Вес шрифта",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Custom Language] * Context Font — Size multiplier":null},
-        "Text": "Масштаб",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Custom Language] * Context Font — Override read name":null},
-        "Text": "Ручное имя",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Вес шрифта"
       },
 
       {
         "UID": {"[Settings / Custom Language] * Sprites horizontal offset":null},
-        "Text": "Горизонтальное смещение спрайтов",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Горизонтальное смещение спрайтов"
       },
       {
         "UID": {"[Settings / Custom Language] * Sprites vertical offset":null},
-        "Text": "Вертикальное смещение спрайтов",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Вертикальное смещение спрайтов"
       },
 
 
       {
         "UID": {"[Settings / Custom Language] * Keywords autodetection Regex pattern":null},
-        "Text": "Regex паттерн автоопределения ключевых слов",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Regex паттерн автоопределения ключевых слов"
       },
       {
         "UID": {"[Settings / Custom Language] * Keywords Multiple meanings dictionary file":null},
-        "Text": "Словарь множественных имён ключевых слов",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Словарь множественных имён ключевых слов"
       },
       {
         "UID": {"[Settings / Custom Language] * Context Menu Extra replacements file":null},
-        "Text": "Словарь дополнительных замен",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Словарь дополнительных замен"
       },
 
       {
         "UID": {"[Settings / Custom Language] * Shorthands Regex pattern":null},
-        "Text": "Regex паттерн Shorthands",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Regex паттерн Shorthands"
       },
       {
         "UID": {"[Settings / Custom Language] * Shorthands Context Menu insertion shape":null},
-        "Text": "Шаблон вставки Shorthands из контекстного меню",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Custom Language] * Shorthands Context Menu insertion shape (<KeywordColor>)":null},
-        "Text": "Шаблон вставки Shorthands из контекстного меню (Часть <KeywordColor>)",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Шаблон вставки Shorthands из контекстного меню"
       },
       
 
       {
         "UID": {"[Settings / Custom Language] * Additional Keywords Directory":null},
-        "Text": "Дополнительные ключевые слова",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Дополнительные ключевые слова"
       },
       {
         "UID": {"[Settings / Custom Language] * Fallback Keywords Directory":null},
-        "Text": "Резервные ключевые слова",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Резервные ключевые слова"
       }
     ],
     [
       {
         "UID": {"[Settings / Internal] * Section Name":null},
-        "Text": "⦁ Внутренние настройки",
-        "Font Size": 26,
-        "Font": "Linotype Syntax Com"
+        "Text": "⦁ Внутренние настройки"
+      },
+      {
+        "UID": {"[Settings / Internal] * Check for updates on startup":null},
+        "Text": "Проверять наличие обновлений при запуске"
+      },
+      {
+        "UID": {"[Settings / Internal] * Show startup progress":null},
+        "Text": "Показывать прогресс запуска"
       },
       {
         "UID": {"[Settings / Internal] * Selected UI Lanugage":null},
-        "Text": "Язык интерфейса",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Язык интерфейса"
       },
       {
         "UID": {"[Settings / Internal] * Selected UI Theme":null},
-        "Text": "Тема",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "Text": "Тема"
+      },
+      {
+        "UID": {"[Settings / Internal] [-] * Selected UI Theme (Comment)":null}
+        // Text from the "Visual.json" theme file, "Theme Comment" property
       },
       {
         "UID": {"[Settings / Internal] * Toggle Topmost state":null},
-        "Text": "Поверх других окон",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Internal] * Enable Load Warnings":null},
-        "Text": "Предупреждения при загрузке кастомных локализаций",
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Internal] * Enable manual Json files managing":null},
-        "Text": "Разрешить ручное управление Json файлами <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator#requirements-creation\"><color=#569cd6>⯑</color></hyperlink>",
-        "Font": "Linotype Syntax Com"
+        "Text": "Поверх других окон"
       },
       {
         "UID": {"[Settings / Internal] * Dropdown lists Readme":null},
-        "Text": "Выпадающие списки учитывают папки только из:\n<font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\※ Internal\\Translation</color></b></font>\n<font=\"Consolas\"><b><color=#7177ff>[⇲] Assets Directory\\※ Internal\\Themes</color></b></font>",
-        "Font Size": 14,
-        "Font": "Linotype Syntax Com"
+        "Text": "Выпадающие списки учитывают папки только из:\n<size=92%><font=\"Consolas\">[⇲] Assets Directory\\※ Internal\\Translation\n[⇲] Assets Directory\\※ Internal\\Themes</font></size>"
+      },
+      {
+        "UID": {"[Settings / Internal] * Specific title bar buttons On/Off":null},
+        "Text": "Вкл/Выкл специфичные кнопки тайтл бара"
+      },
+      {
+        "UID": {"[Settings / Internal] * Enable manual Json files managing":null},
+        "Text": "Включить ручное управление Json файлами<size=88%> <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator#requirements-creation\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
+      },
+      {
+        "UID": {"[Settings / Internal] * Enable manual Json files managing (Tooltip)":null},
+        "Text": "Позволяет прямо из программы создавать файлы локализации,\nдобавлять/удалять объекты в <size=92%><font=\"Consolas\">dataList</font></size>, добавлять/удалять\nописания этих объектов через контекстное меню кнопок.\n\nЧитайте документацию по подсказке <color={Theme.HyperlinkColor}>⯑</color> в имени опции."
+      },
+      {
+        "UID": {"[Settings / Internal] * Skip Skills Data reading on startup":null},
+        "Text": "Не читать данные о навыках при запуске"
+      },
+      {
+        "UID": {"[Settings / Internal] * Skip Skills Data reading on startup (CheckBox Tooltip)":null},
+        "Text": "Чтение данных о навыках заметно тратит время при запуске.\n\nВключите, если вы не используете воссоздание имен навыков. Выключение этой опции автоматически прочитает их."
+      },
+      {
+        "UID": {"[Settings / Internal] * Disable 'Unknown' for unidentified keywords":null},
+        "Text": "Выключить \"Unknown\" для неизвестных ключевых слов"
+      },
+      {
+        "UID": {"[Settings / Internal] * Disable 'Unknown' for unidentified keywords (CheckBox Tooltip)":null},
+        "Text": "Не конвертировать [KeywordID] с неизвестным ID ключевого слова в зелёный текст \"Unknown\" в файлах локализации скиллов и пассивок.\n\nТо есть разрешить свободное использование квадратных скобок."
+      },
+      {
+        "UID": {"[Settings / Internal] * Disable Text Elements Sealing in Identity/E.G.O Preview Creator":null},
+        "Text": "Отключить запечатывание текстовых элементов в Режиме Создания Предпросмотров"
+      },
+      {
+        "UID": {"[Settings / Internal] * Disable Text Elements Sealing in Identity/E.G.O Preview Creator (CheckBox Tooltip)":null},
+        "Text": "Все текстовые элементы Скиллов/Пассивок в колоннах запечатываются в статическую картинку, если с ними не проиходит взаимодействий, т.к. они БУКВАЛЬНО УБИВАЮТ ПРОИЗВОДИТЕЛЬНОСТЬ прокрутки из-за комлексности своей структуры и наличия эффекта размытой тени (Не учитывая Ключевые слова и включая Декоративные предупреждения).\n\nВзамен увеличивается потребление оперативной памяти, которое особенно заметное на Предпросмотрах с большим количеством текстовых элементов (Например Ученица Безымянного Фауст (Айди Альбины) с 9 скиллами)."
+      },
+      {
+        "UID": {"[Settings / Internal] * Enable autosave":null},
+        "Text": "Включить автосохранение"
+      },
+      {
+        "UID": {"[Settings / Internal] * Enable autosave (CheckBox Tooltip)":null},
+        "Text": "Эта функция просто автоматически нажимает <b>Ctrl</b> + <b>S</b> спустя указанное время после набора текста в основном редакторе или правом меню.\n\nНо будьте внимательны, когда слишком быстро переключаетесь от описания к описанию, т.к. запущенный таймер на автосохранение может\nв таком случае сработать на то описание, на которое вы переключились, оставив прошлое (Тем не менее, диалог о несохраненных изменениях укажет на это)."
+      },
+      {
+        "UID": {"[Settings / Editor Parameters] * Autosave delay":null},
+        "Text": "Задержка автосохранения (Секунды)"
       }
     ],
     [
       {
-        "UID": {"[Settings / Resources Reload] * Section Name":null},
-        "Text": "⦁ Перезагрузка ресурсов",
-        "Font Size": 26,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Image Exports] * Section Name":null},
+        "Text": "⦁ Экспорт предпросмотра"
       },
       {
-        "UID": {"[Settings / Resources Reload] * Custom Language Keywords":null},
-        "Text": "Ключевые слова кастомной локализации",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Image Exports] * Scale Factor":null},
+        "Text": "Масштаб"
       },
       {
-        "UID": {"[Settings / Resources Reload] * Keyword Icons":null},
-        "Text": "Спрайты ключевых слов",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Image Exports] * Background Color":null},
+        "Text": "Цвет фона (<i>Hex</i> <u>RGB</u> / <u>ARGB</u>)"
       },
       {
-        "UID": {"[Settings / Resources Reload] * Skills Icons and Display Info":null},
-        "Text": "Информация о скиллах и их иконки",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Image Exports] * Display Keyword Sprites":null},
+        "Text": "Показывать спрайты ключевых слов"
       },
       {
-        "UID": {"[Settings / Resources Reload] * E.G.O Gifts Icons and Display Info":null},
-        "Text": "Информация о ЭГО Дарах и их иконки",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Image Exports] * Display Keyword Underline":null},
+        "Text": "Показывать подчёркивание ключевых слов"
       },
       {
-        "UID": {"[Settings / Resources Reload] * Keyboard Shortcuts":null},
-        "Text": "Горячие клавиши",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      }
-    ],
-    [
-      {
-        "UID": {"[Settings / Preview Scans] * Section Name":null},
-        "Text": "⦁ Экспорт предпросмотра",
-        "Font Size": 26,
-        "Font": "Linotype Syntax Com"
+        "UID": {"[Settings / Image Exports] * Preloaded Image Info for Identity/E.G.O Preview Creator":null},
+        "Text": "Предзагружаемая информация о изображении для Режима Создания Предпросмотров"
       },
       {
-        "UID": {"[Settings / Preview Scans] * Toggle Skills scan area view":null},
-        "Text": "Включить отображение зоны экспорта скиллов",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Preview Scans] * Width of Skills Preview":null},
-        "Text": "Ширина скиллов",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Preview Scans] * Scale Factor":null},
-        "Text": "Масштаб",
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Preview Scans] * Background Color":null},
-        "Text": "Цвет фона (<i>Hex</i> <u>RGB</u> / <u>ARGB</u>)",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Preview Scans] * Display Keyword Sprites":null},
-        "Text": "Показывать спрайты ключевых слов",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Preview Scans] * Display Keyword Underline":null},
-        "Text": "Показывать подчёркивание ключевых слов",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Preview Scans] * Readme Title":null},
-        "Text": "Readme (Почему относится только к скиллам)",
-        "Font Size": 16,
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Preview Scans] * Readme 1":null},
-        "Text": "Их внешний вид может использоваться для перевода предпросмотров новых Идентичностей/ЭГО путём наложения экспортированной картинки на официальные изображения. Однако в программе уже есть особый режим для прямого создания таких высококачественных предпросмотров не окольными путями, ссылка на документацию ниже.\n<hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator\"><color=#569cd6><u>Кастомный предпросмотр Идентичностей/ЭГО</u></color></hyperlink>.",
-        "Font Size": 14,
-        "Text Alignment": "Justify",
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Preview Scans] * Readme 2":null},
-        "Text": "В любом случае: для стороннего наблюдателя навыки выглядит как навыки, только если видны их монеты. Нулевая ширина установит значение по умолчанию, всё с предпросмотра даже за пределами окна всё равно будет отсканировано.",
-        "Font Size": 14,
-        "Text Alignment": "Justify",
-        "Font": "Linotype Syntax Com"
-      },
-      {
-        "UID": {"[Settings / Preview Scans] * Readme 3":null},
-        "Text": "P.S. Масштаб влияет на качество экспортированного изображения из режима создания предпросмотров тоже.",
-        "Font Size": 14,
-        "Text Alignment": "Justify",
-        "Font": "Linotype Syntax Com"
-      }
-    ],
-    [
-      {
-        "UID": {"[New Object ID Input] [!] * New Object ID Input Title (Window Caption)":null},
-        "Text": "Новый ID"
+        // P.S. The tag dividers are square brackets here (You can use both <..> and [..])
+        "UID": {"[Settings / Image Exports] * Comment":null},
+        "Text": "Больший Масштаб = больше качества, больше времени на сканирование контента, больше размер файла, и ЕЩЁ БОЛЬШЕ потребления оперативной памяти (Вплоть до ~1.8 Гб)[b].[/b]\n\nПоследние две опции применяются к ключевым словам, которые в своём конечном виде совпадают с паттерном [size=92%][font=\"Consolas\"]<\u200Bsprite name=\"...\"><\u200Bcolor><\u200Bu><\u200Blink=\"...\">...</\u200Blink><\u200B/u><\u200B/color>[/font][/size] (С любым порядом открывающих и закрывающих [size=92%][font=\"Consolas\"]<\u200Blink=\"...\">[/font][/size], [size=92%][font=\"Consolas\"]<\u200Bu>[/font][/size] и [size=92%][font=\"Consolas\"]<\u200Bcolor>[/font][/size] тегов)[b].[/b]"
       }
     ],
     [
@@ -894,7 +1221,12 @@
         "Text": "Открыть менеджер информации отображения скиллов"
       },
       {
-        "UID": {"[Skills DI Manager] [!] * Skills Display Info manager Title (Window Caption)":null},
+        "UID": {"[Skills DI Manager] * Title":null},
+        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">Менеджер информации отображения скиллов",
+        "Font": "Arita-buri"
+      },
+      {
+        "UID": {"[Skills DI Manager] [!] [#] * Title (Window Caption)":null},
         "Text": "Менеджер информации отображения скиллов"
       }
     ],
@@ -902,19 +1234,16 @@
       {
         "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Move Up)":null},
         "Text": "Переместить вверх",
-        "Font Size": 16.5,
         "Width": 140
       },
       {
         "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Delete)":null},
         "Text": "Удалить навык",
-        "Font Size": 16.5,
         "Width": 140
       },
       {
         "UID": {"[Skills DI Manager] * Skill switch button (Context menu — Move down)":null},
         "Text": "Переместить вниз",
-        "Font Size": 16.5,
         "Width": 140
       }
     ],
@@ -922,477 +1251,410 @@
       {
         "UID": {"[Skills DI Manager] * Textfields context menu — Copy":null},
         "Text": "Копировать",
-        "Font Size": 16.5,
         "Width": 87
       },
       {
         "UID": {"[Skills DI Manager] * Textfields context menu — Cut":null},
         "Text": "Вырезать",
-        "Font Size": 16.5,
         "Width": 87
       },
       {
         "UID": {"[Skills DI Manager] * Textfields context menu — Paste":null},
         "Text": "Вставить",
-        "Font Size": 16.5,
         "Width": 87
       }
     ],
     [
       {
-        "UID": {"[Skills DI Manager] * Skill switch button":null},
-        "Font Size": 16,
-        "Padding": [0, 3, 0, 3]
+        "UID": {"[Skills DI Manager] * Skill name inside button":null}
       },
       {
-        "UID": {"[Skills DI Manager] [!] * Regular coin option":null},
-        "Text": "Обычная монета",
-        "Font Size": 16.5
+        "UID": {"[Skills DI Manager] * Regular coin option":null},
+        "Text": "Обычная монета"
       },
       {
-        "UID": {"[Skills DI Manager] [!] * Unbreakable coin option":null},
-        "Text": "Нерушимая монета",
-        "Font Size": 16.5
+        "UID": {"[Skills DI Manager] * Unbreakable coin option":null},
+        "Text": "Красная монета"
+      },
+      {
+        "UID": {"[Skills DI Manager] * Excision coin option":null},
+        "Text": "Зелёная монета"
+      },
+      {
+        "UID": {"[Skills DI Manager] * Purple coin option":null},
+        "Text": "Фиолетовая монета"
       }
     ],
     [
       {
         "UID": {"[Skills DI Manager] * Open file button":null},
         "Text": "Открыть файл",
-        "Width": 125,
-        "Font Size": 16.5
+        "Width": 125
       },
       {
         "UID": {"[Skills DI Manager] * Save current button":null},
         "Text": "Сохранить этот",
-        "Width": 125,
-        "Font Size": 16.5
+        "Width": 125
       },
       {
         "UID": {"[Skills DI Manager] * Current file name":null},
         "Text": "···.json",
-        "Width": 273, // Maximum width to avoid going over the edges of the window
-        "Font Size": 16,
-        "Margin": [5, 0, 0, 0]
+        "Width": 273 // Maximum width to avoid going over the edges of the window
       },
       {
         "UID": {"[Skills DI Manager] * Current file name (Full path tooltip)":null},
-        "Text": "···",
-        "Font Size": 14
+        "Text": "···"
       },
       {
         "UID": {"[Skills DI Manager] * New skill constructor button":null},
-        "Text": "<b><font=\"Times New Roman\">+</font></b> Новый конструктор",
-        "Margin": [0, 1, 0, 0],
-        "Font Size": 16.5
+        "Text": "<b><font=\"Times New Roman\">+</font></b> Новый конструктор"
       },
       {
         "UID": {"[Skills DI Manager] * Skill name":null},
-        "Text": "Имя навыка",
-        "Font Size": 20
+        "Text": "Имя навыка"
       },
       {
         "UID": {"[Skills DI Manager] * Skill ID":null},
-        "Text": "ID навыка",
-        "Font Size": 20
+        "Text": "ID навыка"
       },
 
 
       {
         "UID": {"[Skills DI Manager] * Icon image (Label)":null},
-        "Font Size": 20,
         "Variable": {
-          "Default": "Иконка <size=75%><color=#fc5a03>[Нет]</color></size>",
-          "Selected": "Иконка <size=75%><color=#fc5a03>[Выбрана]</color></size>" 
+          "Default": "Иконка <size=75%><color={Theme.SelectedFileNameColor}>[Нет]</color></size>",
+          "Selected": "Иконка <size=75%><color={Theme.SelectedFileNameColor}>[Выбрана]</color></size>" 
         }
       },
       {
         "UID": {"[Skills DI Manager] * Icon image (Label) (Full path tooltip)":null},
-        "Text": "···",
-        "Font Size": 14
+        "Text": "···"
       },
       {
         "UID": {"[Skills DI Manager] * Icon image (Button)":null},
-        "Text": "Выбрать файл",
-        "Font Size": 16.5
+        "Text": "Выбрать файл"
       },
 
       
       {
         "UID": {"[Skills DI Manager] * Skill action (Label)":null},
-        "Text": "Действие",
-        "Font Size": 20
+        "Text": "Действие"
       },
       {
         "UID": {"[Skills DI Manager] * Skill action — Attack":null},
-        "Text": "Атака",
-        "Font Size": 16.5
+        "Text": "Атака"
       },
       {
         "UID": {"[Skills DI Manager] * Skill action — Counter":null},
-        "Text": "Контратака",
-        "Font Size": 16.5
+        "Text": "Контратака"
       },
       {
         "UID": {"[Skills DI Manager] * Skill action — Guard":null},
-        "Text": "Блок",
-        "Font Size": 16.5
+        "Text": "Блок"
       },
       {
         "UID": {"[Skills DI Manager] * Skill action — Evade":null},
-        "Text": "Уворот",
-        "Font Size": 16.5
+        "Text": "Уворот"
       },
 
 
       {
         "UID": {"[Skills DI Manager] * Damage type (Label)":null},
-        "Text": "Тип урона",
-        "Font Size": 20
+        "Text": "Тип урона"
       },
       {
         "UID": {"[Skills DI Manager] * Damage type — Blunt":null},
-        "Text": "Дробящий",
-        "Font Size": 16.5
+        "Text": "Дробящий"
       },
       {
         "UID": {"[Skills DI Manager] * Damage type — Pierce":null},
-        "Text": "Пронзающий",
-        "Font Size": 16.5
+        "Text": "Пронзающий"
       },
       {
         "UID": {"[Skills DI Manager] * Damage type — Slash":null},
-        "Text": "Рубящий",
-        "Font Size": 16.5
+        "Text": "Рубящий"
       },
       {
         "UID": {"[Skills DI Manager] * Damage type — None":null},
-        "Text": "Нет",
-        "Font Size": 16.5
+        "Text": "Нет"
       },
       
       
       
       {
         "UID": {"[Skills DI Manager] * Affinity (Label)":null},
-        "Text": "Грех",
-        "Font Size": 20
+        "Text": "Грех"
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Wrath":null},
-        "Text": "Гнев",
-        "Font Size": 16.5
+        "Text": "Гнев"
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Lust":null},
-        "Text": "Похоть",
-        "Font Size": 16.5
+        "Text": "Похоть"
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Sloth":null},
-        "Text": "Леность",
-        "Font Size": 16.5
+        "Text": "Леность"
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Gluttony":null},
-        "Text": "Чревоугодие",
-        "Font Size": 16.5
+        "Text": "Чревоугодие"
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Gloom":null},
-        "Text": "Уныние",
-        "Font Size": 16.5
+        "Text": "Уныние"
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Pride":null},
-        "Text": "Гордыня",
-        "Font Size": 16.5
+        "Text": "Гордыня"
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Envy":null},
-        "Text": "Зависть",
-        "Font Size": 16.5
+        "Text": "Зависть"
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — None":null},
-        "Text": "Нет",
-        "Font Size": 16.5
+        "Text": "Нет"
       },
 
 
 
       {
         "UID": {"[Skills DI Manager] * Rank (Label)":null},
-        "Text": "Ранг",
-        "Font Size": 20
+        "Text": "Ранг"
       },
       {
         "UID": {"[Skills DI Manager] * Rank — 1":null},
-        "Text": "1",
-        "Margin": [1, 0, 0, 0],
-        "Font Size": 16.5
+        "Text": "1"
       },
       {
         "UID": {"[Skills DI Manager] * Rank — 2":null},
-        "Text": "2",
-        "Margin": [1, 0, 0, 0],
-        "Font Size": 16.5
+        "Text": "2"
       },
       {
         "UID": {"[Skills DI Manager] * Rank — 3":null},
-        "Text": "3",
-        "Margin": [1, 0, 0, 0],
-        "Font Size": 16.5
+        "Text": "3"
       },
 
 
 
       {
         "UID": {"[Skills DI Manager] * Show affinity icon":null},
-        "Text": "Иконка греха",
-        "Font Size": 20
+        "Text": "Иконка греха"
       },
       {
         "UID": {"[Skills DI Manager] * Skill coins":null},
-        "Text": "Монеты навыка",
-        "Font Size": 20
+        "Text": "Монеты навыка"
       }
     ],
     [
       {
         "UID": {"[C] * Title bar button tooltip":null},
-        "Text": "Переключить интерфейс на режим создания предпросмотров",
-        "Foreground": "#ffffff"
+        "Text": "Переключить интерфейс на Режим Создания Предпросмотров"
       }
     ],
     [
       {
         "UID": {"[C] * Open image info":null},
-        "Text": "Загрузить информацию",
-        "Font Size": 18
+        "Text": "Загрузить информацию", "Font Size": 18
       },
       {
         "UID": {"[C] * Save image info":null},
-        "Text": "Сохранить информацию",
-        "Font Size": 18
+        "Text": "Сохранить информацию", "Font Size": 18
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Unsaved Changes] Title":null},
+        "Text": "Несохранённые изменения", "Font": "Excelsior Sans"
+      },
+      {
+        "UID": {"[C] * [Unsaved Changes] Proceed":null},
+        "Text": "Продолжить",
+        "Font": "Excelsior Sans", "Width": 150
+      },
+      {
+        "UID": {"[C] * [Unsaved Changes] Cancel":null},
+        "Text": "Остаться",
+        "Font": "Excelsior Sans", "Width": 150
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Image parameters] Title":null},
-        "Text": "<u>Параметры изображения</u>",
-        "Font Size": 20
+        "Text": "<u>Параметры изображения</u>"
       },
       {
         "UID": {"[C] * [Section:Image parameters] Image height":null},
-        "Text": "Высота изображения",
-        "Font Size": 18.5,
-        "Margin": [-41, 169, 0, 0]
+        "Text": "Высота изображения", "Margin": [-41, 164, 0, 0]
       },
       {
         "UID": {"[C] * [Section:Image parameters] Image width (First step)":null},
-        "Text": "Ширина изображения (Первый шаг)",
-        "Font Size": 18.5
+        "Text": "Ширина изображения (Первый шаг)"
       },
       {
         "UID": {"[C] * [Section:Image parameters] Image width (Second step)":null},
-        "Text": "Ширина изображения (Второй шаг)",
-        "Font Size": 18.5
+        "Text": "Ширина изображения (Второй шаг)"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Image parameters / Portrait image] Title":null},
-        "Text": "<u>Портрет</u>",
-        "Font Size": 20
+        "Text": "<u>Портрет</u>"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait image] Portrait image (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
-          "Default": "Изображение: <b><size=78%><color=#fc5a03>...</color></size>",
-          "Selected": "Изображение\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Default": "Изображение: <b><size=78%><color={Theme.SelectedFileNameColor}>...</color></size>",
+          "Selected": "Изображение\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait image] Portrait image (Button)":null},
-        "Text": "Выбрать файл",
-        "Font Size": 18.5
+        "Text": "Выбрать файл"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait image] Portrait type":null},
-        "Text": "Тип портрета",
-        "Font Size": 18.5
+        "Text": "Тип портрета"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait image] Portrait type — Identity":null},
-        "Text": "Идентичность",
-        "Font Size": 18.5
+        "Text": "Идентичность"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait image] Portrait type — E.G.O":null},
-        "Text": "ЭГО",
-        "Font Size": 18.5
+        "Text": "ЭГО"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait image] Horizontal offset":null},
-        "Text": "Горизонтальное смещение",
-        "Font Size": 18.5
+        "Text": "Горизонтальное смещение"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait image] Vertical offset":null},
-        "Text": "Вертикальное смещение",
-        "Font Size": 18.5
+        "Text": "Вертикальное смещение"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Title":null},
-        "Text": "<u>Параметры портрета [Идентичность]</u>",
-        "Font Size": 20
+        "Text": "<u>Параметры портрета [Идентичность]</u>"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Image scale":null},
-        "Text": "Масштаб изображения",
-        "Font Size": 18.5
+        "Text": "Масштаб изображения"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Title":null},
-        "Text": "<u>Параметры портрета [ЭГО]</u>",
-        "Font Size": 20
+        "Text": "<u>Параметры портрета [ЭГО]</u>"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Inner image scale":null},
-        "Text": "Масштаб внутреннего изображения",
-        "Font Size": 18.5
+        "Text": "Масштаб внутреннего изображения"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Scale with frame":null},
-        "Text": "Масштаб вместе с рамкой",
-        "Font Size": 18.5
+        "Text": "Масштаб вместе с рамкой"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Frame color":null},
-        "Text": "Цвет рамки",
-        "Font Size": 18.5
+        "Text": "Цвет рамки"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Image parameters / Vignette softness] Title":null},
-        "Text": "<u>Виньетка (Плавность)</u>",
-        "Font Size": 20
+        "Text": "<u>Виньетка (Плавность)</u>"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette softness] Left / Top / Bottom (General)":null},
-        "Text": "Левая / Верхняя / Нижняя <b>(Основная)</b>",
-        "Font Size": 18.5
+        "Text": "Левая / Верхняя / Нижняя <b>(Основная)</b>"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette softness] Right (Text background)":null},
-        "Text": "Правая <b>(Фон текста)</b>",
-        "Font Size": 18.5
+        "Text": "Правая <b>(Фон текста)</b>"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait":null},
-        "Text": "Левая позади потрета ЭГО <color=#919188><b><font=\"Times New Roman\">[\u0000i]",
-        "Font Size": 18.5
+        "Text": "Левая позади потрета ЭГО <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait (Tooltip info)":null},
-        "Text": "Предназначена для затенения <b>'Эффектов фона текста'</b>.",
-        "Font Size": 14,
-        "Foreground": "#ffffff"
+        "Text": "Предназначена для затенения <b>'Эффектов фона текста'</b>."
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Title":null},
-        "Text": "<u>Дополнительная длина виньетки</u>",
-        "Font Size": 20
+        "Text": "<u>Дополнительная длина виньетки</u>"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left":null},
         "Text": "Левая",
-        "Text Alignment": "Center",
-        "Font Size": 18.5
+        "Text Alignment": "Center"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Top":null},
         "Text": "Верхняя",
-        "Text Alignment": "Center",
-        "Font Size": 18.5
+        "Text Alignment": "Center"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Bottom":null},
         "Text": "Нижняя",
-        "Text Alignment": "Center",
-        "Font Size": 18.5
+        "Text Alignment": "Center"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Right (Text background)":null},
-        "Text": "Правая <b>(Фон текста)</b>",
-        "Font Size": 18.5
+        "Text": "Правая <b>(Фон текста)</b>"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait":null},
-        "Text": "Левая позади потрета E.G.O <color=#919188><b><font=\"Times New Roman\">[\u0000i]",
-        "Font Size": 18.5
+        "Text": "Левая позади потрета E.G.O <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait (Tooltip info)":null},
-        "Text": "Предназначена для затенения <b>'Эффектов фона текста'</b>.",
-        "Font Size": 14,
-        "Foreground": "#ffffff"
+        "Text": "Предназначена для затенения <b>'Эффектов фона текста'</b>."
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Image parameters / Image label] Title":null},
-        "Text": "<u>Надпись типа изображения</u>",
-        "Font Size": 20
+        "Text": "<u>Надпись типа изображения</u>"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Image label] Image label text":null},
-        "Text": "Текст",
-        "Font Size": 18.5
+        "Text": "Текст"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Image label] Image label font (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
           "Default": "Шрифт",
-          "Selected": "Шрифт\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Шрифт\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Image parameters / Image label] Image label font (Button)":null},
-        "Text": "Выбрать файл",
-        "Font Size": 18.5
+        "Text": "Выбрать файл"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Image label] Text size":null},
-        "Text": "Размер текста",
-        "Font Size": 18.5
+        "Text": "Размер текста"
       },
       {
         "UID": {"[C] * [Section:Image parameters / Image label] Vertical offset":null},
-        "Text": "Вертикальное смещение",
-        "Font Size": 18.5
+        "Text": "Вертикальное смещение"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Title":null},
-        "Text": "<u>Специфика</u>",
-        "Font Size": 20
+        "Text": "<u>Специфика</u>"
       },
       {
         "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Sinner icon":null},
-        "Text": "Иконка грешника",
-        "Font Size": 18.5
+        "Text": "Иконка грешника"
       },
       {
         "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Sinner icon — Custom":null},
@@ -1400,598 +1662,547 @@
       },
       {
         "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Icon brightness":null},
-        "Text": "Яркость иконки",
-        "Font Size": 18.5
+        "Text": "Яркость иконки"
       },
       {
         "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Icon size":null},
-        "Text": "Размер иконки",
-        "Font Size": 18.5
+        "Text": "Размер иконки"
       },
       {
         "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Header color":null},
-        "Text": "Цвет заголовка",
-        "Font Size": 18.5
+        "Text": "Цвет заголовка"
       },
       {
         "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Sinner name":null},
-        "Text": "Имя грешника",
-        "Font Size": 18.5
+        "Text": "Имя грешника"
       },
       {
         "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Identity/E.G.O name":null},
-        "Text": "Имя Идентичности/ЭГО",
-        "Font Size": 18.5
+        "Text": "Имя Идентичности/ЭГО"
       },
       {
         "UID": {"[C] * [Section:Sinner and Identity/E.G.O specific] Rarity/Risk level":null},
-        "Text": "Редкость/Уровень риска",
-        "Font Size": 18.5
+        "Text": "Редкость/Уровень риска"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Header] Title":null},
-        "Text": "<u>Заголовок</u>",
-        "Font Size": 20
+        "Text": "<u>Заголовок</u>"
       },
       {
         "UID": {"[C] * [Section:Header] Horizontal offset":null},
-        "Text": "Горизонтальное смещение",
-        "Font Size": 18.5
+        "Text": "Горизонтальное смещение"
       },
       {
         "UID": {"[C] * [Section:Header] Vertical offset":null},
-        "Text": "Вертикальное смещение",
-        "Font Size": 18.5
+        "Text": "Вертикальное смещение"
       },
       {
         "UID": {"[C] * [Section:Header] Sinner name horizontal offset":null},
-        "Text": "Горизонтальное смещение имени грешника",
-        "Font Size": 18.5
+        "Text": "Горизонтальное смещение имени грешника"
       },
       {
         "UID": {"[C] * [Section:Header] Identity/E.G.O name horizontal offset":null},
-        "Text": "Горизонтальное смещение имени Идентичности/ЭГО",
-        "Font Size": 18.5
+        "Text": "Горизонтальное смещение имени Идентичности/ЭГО"
       },
       {
         "UID": {"[C] * [Section:Header] Rarity/Risk level horizontal offset":null},
-        "Text": "Горизонтальное смещение Редкости/Уровня риска",
-        "Font Size": 18.5
+        "Text": "Горизонтальное смещение Редкости/Уровня риска"
       },
       {
         "UID": {"[C] * [Section:Header] Rarity/Risk level vertical offset":null},
-        "Text": "Вертикальное смещение Редкости/Уровня риска",
-        "Font Size": 18.5
+        "Text": "Вертикальное смещение Редкости/Уровня риска"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Decorative cautions] Title":null},
-        "Text": "<u>Декоративные предупреждения</u>",
-        "Font Size": 20
+        "Text": "<u>Декоративные предупреждения</u>"
       },
       {
         "UID": {"[C] * [Section:Decorative cautions] Cautions text":null},
-        "Text": "Текст",
-        "Font Size": 18.5
+        "Text": "Текст"
       },
       {
         "UID": {"[C] * [Section:Decorative cautions] Cautions color":null},
-        "Text": "Цвет",
-        "Font Size": 18.5
+        "Text": "Цвет"
       },
       {
         "UID": {"[C] * [Section:Decorative cautions] Bloom radius":null},
-        "Text": "Радиус свечения",
-        "Font Size": 18.5
+        "Text": "Радиус свечения"
       },
       {
         "UID": {"[C] * [Section:Decorative cautions] Opacity":null},
-        "Text": "Непрозрачность",
-        "Font Size": 18.5
+        "Text": "Непрозрачность"
       },
 
       {
         "UID": {"[C] * [Section:Decorative cautions] Custom font (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
           "Default": "Шрифт",
-          "Selected": "Шрифт\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Шрифт\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Decorative cautions] Custom font (Button)":null},
-        "Text": "Выбрать файл",
-        "Font Size": 18.5
+        "Text": "Выбрать файл"
       },
       {
         "UID": {"[C] * [Section:Decorative cautions] Vertical offset":null},
-        "Text": "Вертикальное смещение",
-        "Font Size": 18.5
+        "Text": "Вертикальное смещение"
       },
       {
         "UID": {"[C] * [Section:Decorative cautions] Text size":null},
-        "Text": "Размер текста",
-        "Font Size": 18.5
+        "Text": "Размер текста"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Textual info] Title":null},
-        "Text": "<u>Текстовая информация</u>",
-        "Font Size": 20
+        "Text": "<u>Текстовая информация</u>"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Textual info/General options] Title":null},
-        "Text": "<u>Основные настройки</u>",
-        "Font Size": 20
+        "Text": "<u>Основные настройки</u>"
       },
 
       {
         "UID": {"[C] * [Section:Textual info/General options] First column title":null},
-        "Text": "<b>Первая колонна</b>",
-        "Font Size": 18.5
+        "Text": "<b>Первая колонна</b>"
       },
       {
         "UID": {"[C] * [Section:Textual info/General options] Second column title":null},
-        "Text": "<b>Вторая колонна</b>",
-        "Font Size": 18.5
+        "Text": "<b>Вторая колонна</b>"
       },
 
       {
         "UID": {"[C] * [Section:Textual info/General options] First column - Horizontal offset":null},
-        "Text": "Горизонтальное смещение",
-        "Font Size": 18.5
+        "Text": "Горизонтальное смещение"
       },
       {
         "UID": {"[C] * [Section:Textual info/General options] First column - Item signatures offset":null},
-        "Text": "Смещение подписей элементов",
-        "Font Size": 18.5
+        "Text": "Смещение подписей элементов"
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/General options] First column - Keyword containers width":null},
+        "Text": "Ширина контейнеров ключевых слов"
       },
 
       {
         "UID": {"[C] * [Section:Textual info/General options] Second column - Horizontal offset":null},
-        "Text": "Горизонтальное смещение",
-        "Font Size": 18.5
+        "Text": "Горизонтальное смещение"
       },
       {
         "UID": {"[C] * [Section:Textual info/General options] Second column - Item signatures offset":null},
-        "Text": "Смещение подписей элементов",
-        "Font Size": 18.5
+        "Text": "Смещение подписей элементов"
+      },
+      {
+        "UID": {"[C] * [Section:Textual info/General options] Second column - Keyword containers width":null},
+        "Text": "Ширина контейнеров ключевых слов"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Textual info/General options] Item signatures font (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
           "Default": "Шрифт подписей элементов",
-          "Selected": "Шрифт подписей элементов\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Шрифт подписей элементов\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Textual info/General options] Item signatures font (Button)":null},
-        "Text": "Выбрать файл",
-        "Font Size": 18.5
-      },
-      {
-        "UID": {"[C] * [Section:Textual info/General options] Keyword containers width":null},
-        "Text": "Ширина контейнеров ключевых слов",
-        "Font Size": 18.5
+        "Text": "Выбрать файл"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Title":null},
-        "Text": "<u>Источники текстовой информации</u>",
-        "Font Size": 20
+        "Text": "<u>Источники текстовой информации</u>"
       },
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Skills localization (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
           "Default": "Файл локализации скиллов",
-          "Selected": "Файл локализации скиллов\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Файл локализации скиллов\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Skills localization (Button)":null},
         "Text": "Выбрать .json файл",
-        "Text Alignment": "Center",
-        "Font Size": 18.5
+        "Text Alignment": "Center"
       },
 
 
 
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Skills Display Info (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
           "Default": "Файл информации отображения скиллов (Display Info)",
-          "Selected": "Файл информации отображения скиллов (Display Info)\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Файл информации отображения скиллов (Display Info)\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Skills Display Info (Button)":null},
         "Text": "Выбрать .json файл",
-        "Text Alignment": "Center",
-        "Font Size": 18.5
+        "Text Alignment": "Center"
       },
 
 
 
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Passives localization (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
           "Default": "Файл локализации пассивок",
-          "Selected": "Файл локализации пассивок\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Файл локализации пассивок\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Passives localization (Button)":null},
         "Text": "Выбрать .json файл",
-        "Text Alignment": "Center",
-        "Font Size": 18.5
+        "Text Alignment": "Center"
       },
 
 
 
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Keywords localization (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
           "Default": "Файл локализации ключевых слов",
-          "Selected": "Файл локализации ключевых слов\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Файл локализации ключевых слов\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Keywords localization (Button)":null},
         "Text": "Выбрать .json файл",
-        "Text Alignment": "Center",
-        "Font Size": 18.5
+        "Text Alignment": "Center"
+      },
+
+
+
+
+      {
+        "UID": {"[C] * [Section:Textual info/Text sources] Reload files and rebuild text (Button)":null},
+        "Text": "Перезагрузить файлы и перестроить текст",
+        "Text Alignment": "Center"
+      }
+    ],
+
+
+
+    [
+      {
+        "UID": {"[C] * [Column element creation dialog] Dialog Title":null},
+        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">Новый элемент",
+        "Font": "Arita-buri"
+      },
+      {
+        "UID": {"[C] [!] [#] * [Column element creation dialog] Dialog Title (Window Caption)":null},
+        "Text": "Новый элемент"
+      }
+    ],
+
+
+    [
+      {
+        "UID": {"[C] * [Column element creation dialog] Skill header":null},
+        "Text": "Выбор ID <u>навыка</u>"
+      },
+      {
+        "UID": {"[C] * [Column element creation dialog] Skill ID from localization file":null},
+        "Text": "ID из выбранного файла локализации"
+      },
+      {
+        "UID": {"[C] * [Column element creation dialog] Skill Constructor ID from Display Info":null},
+        "Text": "ID из выбранного Display Info файла"
       }
     ],
     [
       {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Title":null},
-        "Text": "<u>Парметры выбранного элемента</u>",
-        "Font Size": 20
+        "UID": {"[C] * [Column element creation dialog] Passive header":null},
+        "Text": "Выбор ID <u>пассивки</u>"
       },
       {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Adjusting element header":null},
-        "Text": "Настройка элемента <b>#[$]</b>",
-        "Text Alignment": "Center",
-        "Font Size": 20
+        "UID": {"[C] * [Column element creation dialog] Passive ID from localization file":null},
+        "Text": "ID из выбранного файла локализации"
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Column element creation dialog] Keyword header":null},
+        "Text": "Выбор ID <u>ключевого слова</u>"
       },
       {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Item signature":null},
-        "Text": "Подпись",
-        "Font Size": 18.5
+        "UID": {"[C] * [Column element creation dialog] Keyword ID from localization file":null},
+        "Text": "ID из выбранного файла локализации"
       },
       {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Text ID from localization file":null},
-        "Text": "Текстовый ID из файла локализации",
-        "Font Size": 18.5
-      },
-      {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Skill Constructor ID from display info":null},
-        "Text": "ID конструктора навыка из выбранного Display Info-файла",
-        "Font Size": 18.5
-      },
-
-      {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Keyword icon (Label)":null},
-        "Font Size": 18.5,
+        "UID": {"[C] * [Column element creation dialog] Keyword Icon file (Label)":null},
         "Variable": {
           "Default": "Иконка ключевого слова",
-          "Selected": "Иконка ключевого слова\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Иконка ключевого слова\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Keyword icon (Button)":null},
-        "Text": "Выбрать файл",
-        "Font Size": 18.5
-      },
-
-      {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Vertical offset":null},
-        "Text": "Вертикальное смещение",
-        "Text Alignment": "Center",
-        "Font Size": 18.5
-      },
-      {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Horizontal offset":null},
-        "Text": "Горизонтальное смещение\n<size=78%>(Только контента)</size>",
-        "Text Alignment": "Center",
-        "Font Size": 18.5
-      },
-
-      {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Name maximum length":null},
-        "Text": "Максимальная длина имени",
-        "Font Size": 18.5
-      },
-      {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Passive description width":null},
-        "Text": "Ширина описания пассивного умения",
-        "Font Size": 18.5
-      },
-      {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Skill main description width":null},
-        "Text": "Ширина главного описания навыка",
-        "Font Size": 18.5
-      },
-      {
-        "UID": {"[C] * [Section:Textual info/Selected item settings] Skill coin descriptions width":null},
-        "Text": "Ширина описания монет навыка",
-        "Font Size": 18.5
+        "UID": {"[C] * [Column element creation dialog] Keyword Icon file (Button)":null},
+        "Text": "Выбрать файл"
       }
     ],
+
+
+    [
+      {
+        "UID": {"[C] * [Column element creation dialog] OK Button (Column 1)":null},
+        "Text": "Добавить в колонну №1"
+      },
+      {
+        "UID": {"[C] * [Column element creation dialog] OK Button (Column 2)":null},
+        "Text": "Добавить в колонну №2"
+      }
+    ],
+
+
     [
       {
         "UID": {"[C] * [Section:Text background effects] Title":null},
-        "Text": "<u>Эффекты фона текста</u>",
-        "Font Size": 20
+        "Text": "<u>Эффекты фона текста</u>"
       },
       {
         "UID": {"[C] * [Section:Text background effects] Effects image (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
-          "Default": "Изображение эффектов <color=#919188><b><font=\"Times New Roman\">[\u0000i]</font></b></color>",
-          "Selected": "Изображение эффектов <color=#919188><b><font=\"Times New Roman\">[\u0000i]</font></b></color>\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Default": "Изображение эффектов <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]</font></b></color>",
+          "Selected": "Изображение эффектов <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]</font></b></color>\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Text background effects] Effects image (Label) (Tooltip info)":null},
-        "Text": "Если они выглядят невидимыми в режите портрета ЭГО,\nто, скорее всего, они перекрыты виньеткой (<b>'Правой'</b> или\n<b>'Позади портрета ЭГО'</b>). Попробуйте уменьшить её.",
-        "Font Size": 14,
-        "Foreground": "#ffffff"
+        "Text": "Если они выглядят невидимыми в режите портрета ЭГО,\nто, скорее всего, они перекрыты виньеткой (<b>'Правой'</b> или\n<b>'Позади портрета ЭГО'</b>). Попробуйте уменьшить её."
       },
       {
         "UID": {"[C] * [Section:Text background effects] Effects image (Button)":null},
-        "Text": "Выбрать файл",
-        "Font Size": 18.5
+        "Text": "Выбрать файл"
       },
       {
         "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only)":null},
-        "Text": "Режим расположения <size=78%>(Для Идентичности)</size>",
-        "Font Size": 18.5
+        "Text": "Режим расположения <size=78%>(Для Идентичности)</size>"
       },
       {
         "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — Right vignette":null},
-        "Text": "На правой виньетке",
-        "Font Size": 18.5
+        "Text": "На правой виньетке"
       },
       {
         "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — All vignettes":null},
-        "Text": "На всей виньетке",
-        "Font Size": 18.5
+        "Text": "На всей виньетке"
       },
       {
         "UID": {"[C] * [Section:Text background effects] Opacity":null},
-        "Text": "Непрозрачность",
-        "Font Size": 18.5
+        "Text": "Непрозрачность"
       },
       {
         "UID": {"[C] * [Section:Text background effects] Horizontal offset":null},
-        "Text": "Горизонтальное смещение",
-        "Font Size": 18.5
+        "Text": "Горизонтальное смещение"
       },
       {
         "UID": {"[C] * [Section:Text background effects] Vertical offset":null},
-        "Text": "Вертикальное смещение",
-        "Font Size": 18.5
+        "Text": "Вертикальное смещение"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Text background effects/Transform] Title":null},
-        "Text": "<u>Преобразование</u>",
-        "Font Size": 20
+        "Text": "<u>Преобразование</u>"
       },
       {
         "UID": {"[C] * [Section:Text background effects/Transform] Scale (X)":null},
-        "Text": "Масштаб (X)",
-        "Font Size": 18.5
+        "Text": "Масштаб (X)"
       },
       {
         "UID": {"[C] * [Section:Text background effects/Transform] Scale (Y)":null},
-        "Text": "Масштаб (Y)",
-        "Font Size": 18.5
+        "Text": "Масштаб (Y)"
       },
       {
         "UID": {"[C] * [Section:Text background effects/Transform] Rotation":null},
-        "Text": "Поворот",
-        "Font Size": 18.5
+        "Text": "Поворот"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Overlay sketch] Title":null},
-        "Text": "<u>Наложенный эскиз</u>",
-        "Font Size": 20
+        "Text": "<u>Наложенный эскиз</u>"
       },
       {
         "UID": {"[C] * [Section:Overlay sketch] Sketch image (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
           "Default": "Изображение эскиза",
-          "Selected": "Изображение эскиза\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Изображение эскиза\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Overlay sketch] Sketch image (Button)":null},
-        "Text": "Выбрать файл",
-        "Font Size": 18.5
+        "Text": "Выбрать файл"
       },
       {
         "UID": {"[C] * [Section:Overlay sketch] Image opacity":null},
         "Text": "Непрозрачность",
-        "Text Alignment": "Center",
-        "Font Size": 18.5
+        "Text Alignment": "Center"
       },
       {
         "UID": {"[C] * [Section:Overlay sketch] Image size":null},
         "Text": "Размер",
-        "Text Alignment": "Center",
-        "Font Size": 18.5
+        "Text Alignment": "Center"
       }
     ],
     [
       {
         "UID": {"[C] * [Section:Other effects] Title":null},
-        "Text": "<u>Другие эффекты</u>",
-        "Font Size": 20
+        "Text": "<u>Другие эффекты</u>"
       },
       {
         "UID": {"[C] * [Section:Other effects] Walpurgis Night logo mode":null},
-        "Text": "Режим лого Вальпургиевой ночи",
-        "Font Size": 18.5
+        "Text": "Режим лого Вальпургиевой ночи"
       },
       {
         "UID": {"[C] * [Section:Other effects] Walpurgis Night logo image (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
           "Default": "Лого вальпургиевой ночи",
-          "Selected": "Лого Вальпургиевой ночи\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Лого Вальпургиевой ночи\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Other effects] Walpurgis Night logo image (Button)":null},
-        "Text": "Выбрать файл",
-        "Font Size": 18.5
+        "Text": "Выбрать файл"
       },
       {
         "UID": {"[C] * [Section:Other effects] Walpurgis Night logo scale":null},
-        "Text": "Масштаб лого Вальпургиевой ночи",
-        "Font Size": 18.5
+        "Text": "Масштаб лого Вальпургиевой ночи"
       },
       {
         "UID": {"[C] * [Section:Other effects] Upper left logo image (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
           "Default": "Лого сверху слева",
-          "Selected": "Лого сверху слева\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Лого сверху слева\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Other effects] Upper left logo image (Button)":null},
-        "Text": "Выбрать файл",
-        "Font Size": 18.5
+        "Text": "Выбрать файл"
       },
       {
         "UID": {"[C] * [Section:Other effects] Upper left logo scale":null},
-        "Text": "Масштаб лого сверху слева",
-        "Font Size": 18.5
+        "Text": "Масштаб лого сверху слева"
       },
       {
         "UID": {"[C] * [Section:Other effects] Bottom right logo image (Label)":null},
-        "Font Size": 18.5,
         "Variable": {
           "Default": "Лого справа снизу",
-          "Selected": "Лого справа снизу\n<size=78%><color=#fc5a03>[$]</color></size>"
+          "Selected": "Лого справа снизу\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
       },
       {
         "UID": {"[C] * [Section:Other effects] Bottom right logo image (Button)":null},
-        "Text": "Выбрать файл",
-        "Font Size": 18.5
+        "Text": "Выбрать файл"
       },
       {
         "UID": {"[C] * [Section:Other effects] Bottom right logo scale":null},
-        "Text": "Масштаб лого справа снизу",
-        "Font Size": 18.5
+        "Text": "Масштаб лого справа снизу"
       },
       {
         "UID": {"[C] * [Section:Other effects] Bottom right logo opacity":null},
-        "Text": "Непрозрачность лого справа снизу",
-        "Font Size": 18.5
+        "Text": "Непрозрачность лого справа снизу"
       }
     ],
     [
       {
         "UID": {"[C] * [Element context menu] Header part":null},
-        "Text": "Элемент <b>#</b>",
-        "Font Size": 16
+        "Text": "Элемент <b>#</b>"
       },
       {
         "UID": {"[C] * [Element context menu] Move up":null},
-        "Text": "▲ Переместить вверх",
-        "Font Size": 16,
-        "Width": 165
-      },
-      {
-        "UID": {"[C] * [Element context menu] Refresh text":null},
-        "Text": "↪ Обновить текст",
-        "Font Size": 16,
-        "Width": 165
+        "Text": "▲ Переместить вверх"
       },
       {
         "UID": {"[C] * [Element context menu] Move down":null},
-        "Text": "▼ Переместить вниз",
-        "Font Size": 16,
-        "Width": 165
+        "Text": "▼ Переместить вниз"
       },
       {
         "UID": {"[C] * [Element context menu] Delete":null},
-        "Text": "✕ Удалить",
-        "Font Size": 16,
-        "Width": 165
+        "Text": "✕ Удалить"
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Element context menu] Item signature":null},
+        "Text": "Подпись"
+      },
+
+      {
+        "UID": {"[C] * [Element context menu] Vertical offset":null},
+        "Text": "Вертикальное смещение",
+        "Text Alignment": "Center"
+      },
+      {
+        "UID": {"[C] * [Element context menu] Horizontal offset":null},
+        "Text": "Горизонтальное смещение",
+        "Text Alignment": "Center"
+      },
+
+      {
+        "UID": {"[C] * [Element context menu] Name maximum length":null},
+        "Text": "Максимальная длина имени"
+      },
+
+      {
+        "UID": {"[C] * [Element context menu] Passive description width":null},
+        "Text": "Ширина описания пассивного умения"
+      },
+
+      {
+        "UID": {"[C] * [Element context menu] Skill main description width":null},
+        "Text": "Ширина главного описания навыка"
+      },
+      {
+        "UID": {"[C] * [Element context menu] Skill coin descriptions width":null},
+        "Text": "Ширина описания монет навыка"
       }
     ],
     [
       {
         "UID": {"[C] * [Text columns] Add item to column 1 label":null},
         "Text": "[Колонна №1] Добавить..",
-        "Font Size": 19,
-        "Width": 235,
-        "Padding": [5, 0, 13, 0],
-        "Margin": [-35, 0, 0, 0]
+        "Width": 235
       },
       {
         "UID": {"[C] * [Text columns] Add item to column 2 label":null},
         "Text": "[Колонна №2] Добавить..",
-        "Font Size": 19,
-        "Width": 235,
-        "Padding": [5, 0, 13, 0],
-        "Margin": [-35, 0, 0, 0]
+        "Width": 235
       }
     ],
     [
       {
         "UID": {"[C] * [Text columns] Add skill option (Column 1)":null},
-        "Text": "Скилл",
-        "Font Size": 18
+        "Text": "Скилл"
       },
       {
         "UID": {"[C] * [Text columns] Add passive option (Column 1)":null},
-        "Text": "Пассивка",
-        "Font Size": 18
+        "Text": "Пассивка"
       },
       {
         "UID": {"[C] * [Text columns] Add keyword option (Column 1)":null},
-        "Text": "Ключевое слово",
-        "Font Size": 18
+        "Text": "Ключевое слово"
       },
       {
         "UID": {"[C] * [Text columns] Add skill option (Column 2)":null},
-        "Text": "Скилл",
-        "Font Size": 18
+        "Text": "Скилл"
       },
       {
         "UID": {"[C] * [Text columns] Add passive option (Column 2)":null},
-        "Text": "Пассивка",
-        "Font Size": 18
+        "Text": "Пассивка"
       },
       {
         "UID": {"[C] * [Text columns] Add keyword option (Column 2)":null},
-        "Text": "Ключевое слово",
-        "Font Size": 18
+        "Text": "Ключевое слово"
       }
     ]
   ]

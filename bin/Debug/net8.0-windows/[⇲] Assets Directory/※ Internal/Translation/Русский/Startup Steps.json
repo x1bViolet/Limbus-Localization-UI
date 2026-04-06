@@ -1,0 +1,29 @@
+{
+  // p.s. rich text is supported
+  "Main stages": {
+    "Windows Initializing": "Инициализация окон ([$1]/[$2])",
+    "Configuration": "Загрузка настроек",
+    "Limbus Company part": "Интерьер Лимбуса",
+    "Final": "Активация анимации появления" // When all loadings is done and main window is about to show up
+  },
+
+  "Sub stages": {
+    
+    // "Windows Initializing"
+
+    // "Configuration"
+    "Theme": "Тема",
+    "Language": "Перевод интерфейса",
+
+    // "Limbus Company part"
+    "Skills Data": "Информация о скиллах",
+    "Composite Fonts": "Композитные шрифты", // [⇲] Assets Directory\Limbus Embedded Fonts\CompositeFont Definitions.json + selected Title and Context fonts
+    "Limbus Fallback keywords": "Резервные ключевые слова",
+    "Limbus Custom Language": "Кастоманая локализация Лимбуса",
+    "Limbus Additional keywords": "Дополнительные ключевые слова",
+    "Text editor syntaxes": "Генерация синтаксисов редактора"
+
+    // "Final"
+
+  }
+}

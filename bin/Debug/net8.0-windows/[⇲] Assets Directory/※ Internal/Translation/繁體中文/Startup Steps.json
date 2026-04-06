@@ -1,0 +1,28 @@
+{
+  // p.s. rich text is supported
+  "Main stages": {
+    "Windows Initializing": "初始化視窗 ([$1]/[$2])",
+    "Configuration": "載入設定",
+    "Limbus Company part": "載入 Limbus 內部資源",
+    "Final": "啟動淡入動畫" // When all loading is done and main window is about to show up
+  },
+
+  "Sub stages": {
+    
+    // "Windows Initializing"
+
+    // "Configuration"
+    "Theme": "主題",
+    "Language": "語言",
+
+    // "Limbus Company part"
+    "Skills Data": "技能資料",
+    "Composite Fonts": "合成字型", // [⇲] Assets Directory\Limbus Embedded Fonts\CompositeFont Definitions.json + selected Title and Context fonts
+    "Limbus Fallback keywords": "備用關鍵詞",
+    "Limbus Custom Language": "Limbus 自訂語言",
+    "Limbus Additional keywords": "額外關鍵詞",
+    "Text editor syntaxes": "生成文字編輯器語法"
+
+    // "Final"
+  }
+}
