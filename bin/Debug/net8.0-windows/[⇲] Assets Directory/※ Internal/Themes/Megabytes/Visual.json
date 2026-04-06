@@ -3,18 +3,18 @@
     "[0, 0, 0, 0] Corner Radius — [Left-Top, Right-Top, Bottom-Right, Bottom-Left]  or  [Single number for all 4 corners]",
     "[0, 0, 0, 0] Border Thickness — [Left, Top, Right, Bottom]  or  [Single number for all 4 sides]"
   ],
-  "Theme Comment": "Hod nuke <sprite name=\"HodPanic\">.",
+  "Theme Comment": "Kilo-Mega-Giga are multiples of <u><b>two</b></u>, Kibi-Mebi-Gibi are multiples of <u><b>ten</b></u>. Art author: <hyperlink=\"https://x.com/thornsdance/status/1286982840551235585\"><color=#FF7F27><u>Thorns dance T5</u></color></hyperlink>.",
   "Title Bar": {
-    "Background": "#171010", // Does not support transparency
-    "Icons": "#9D9D9D",
-    "Titles Foreground": "#523939",
-    "Buttons Corner Radius": [4],
+    "Background": "#13141b", // Does not support transparency
+    "Icons": "#ACA4A4",
+    "Titles Foreground": "#7E7E7E",
+    "Buttons Corner Radius": [5],
     "Buttons Highlight": "#302829",
     "Buttons Highlight (Exit button)": "#A52C42"
   },
   "Common": {
 
-    "Context Menu Separators Color": "#FFFFFF",
+    "Context Menu Separators Color": "#E2542D",
 
     // Warning: does not applied to main window (Quick Q&A: -Why? -Because the shadow is created through padding for the window content and because of this the resize border will be outside the visual border (No, I can't recreate a working imitation of it inside the window))
     "Windows Drop Shadow": {
@@ -27,7 +27,7 @@
       "Duration (Seconds)": {
         // Value form: [Fade in duration, Fade out duration]
         
-        "Main Window": [0.35, 0.22], "Settings Window": [0.04, 0.1], "Dialog Windows": [0.11, 0.21],
+        "Main Window": [0.25, 0.105], "Settings Window": [0.05, 0.1], "Dialog Windows": [0.11, 0.21],
         "Identity/E.G.O Preivew Creator Switch Transition": [0.2, 0.2]
       },
       
@@ -53,56 +53,56 @@
     },
 
     "Main Window": {
-      "Border Color": "#3A3A3A",
-      "Border Corner radius": [4],
+      "Border Color": "#6D6868",
+      "Border Corner radius": [5],
   
-      "Background Color": "#181419",
-      "Background Image": "[⇲] Assets Directory/※ Internal/Themes/Floor of Literature/Background.jpg",
+      "Background Color": "#0F0F0F",
+      "Background Image": "[⇲] Assets Directory/※ Internal/Themes/Megabytes/Background.jpg",
       "Background Image Shadow": "#51000000",
 
       "Hide background image at minimum window width": false,
   
       "Identity/E.G.O preview creator": {
-        "Background Color": "#181419",
-        "Background Image": "[⇲] Assets Directory/※ Internal/Themes/Floor of Literature/Background.jpg",
-        "Background Image Shadow": "#990C0505"
+        "Background Color": "#0F0F0F",
+        "Background Image": "[⇲] Assets Directory/※ Internal/Themes/Megabytes/Background (Alt).jpg",
+        "Background Image Shadow": "#A2000000"
       }
     },
 
     "Dialog Windows": {
-      "Border Color": "#3A3A3A",
-      "Border Corner radius": [4],
+      "Border Color": "#6D6868",
+      "Border Corner radius": [5],
   
-      "Background Color": "#181419",
-      "Background Image": "[⇲] Assets Directory/※ Internal/Themes/Floor of Literature/Background.jpg",
-      "Background Image Shadow": "#9E0C0505"
+      "Background Color": "#0F0F0F",
+      "Background Image": "[⇲] Assets Directory/※ Internal/Themes/Megabytes/Background.jpg",
+      "Background Image Shadow": "#A2000000"
     },
 
     "Settings Window": {
-      "Border Color": "#3A3A3A",
-      "Border Corner radius": [4],
+      "Border Color": "#6D6868",
+      "Border Corner radius": [5],
   
-      "Background Color": "#181419",
-      "Background Image": "[⇲] Assets Directory/※ Internal/Themes/Floor of Literature/Background (Inverted).jpg",
-      "Background Image Shadow": "#CC1C1515",
+      "Background Color": "#191818",
+      "Background Image": "[⇲] Assets Directory/※ Internal/Themes/Megabytes/Background (Alt).jpg",
+      "Background Image Shadow": "#AB000000",
 
-      "Specific Settings Caution": "#EB9E3F"
+      "Specific Settings Caution": "#FF7B23"
     },
 
     "Right Menu": {
       "Uptie Buttons Background": "#0E0907",
-      "Navigation Panel Background": "#9A000000",
-      "Current Object ID Foreground": "#DFD5D8",
-      "Uptie Tier Text Foreground": "#E9DBC6"
+      "Navigation Panel Background": "#AB191919",
+      "Current Object ID Foreground": "#ff6a00",
+      "Uptie Tier Text Foreground": "#E6C5C5"
     }
 
   },
   "UI Text": {
-    "Unsaved Changes Marker Color": "#FC5A03", // The "(Changed)" part appended to the button text ("[Main UI] Unsaved changes marker" UID in localization, "Dynamic UI Text.json" file)
+    "Unsaved Changes Marker Color": "#E2542D", // The "(Changed)" part appended to the button text ("[Main UI] Unsaved changes marker" UID in localization, "Dynamic UI Text.json" file)
 
-    "Foreground": "#C4B0B6",
+    "Foreground": "#D5CDCD",
     "Foreground (Dialog Windows)": "#F5F5DC",
-    "Foreground (Settings)": "#DFD5D8",
+    "Foreground (Settings)": "#DDD9D9",
     "Foreground (Settings (Comments))": "#C7BCBC",
     "Foreground (Identity/E.G.O Preview creator)": "#F5F5DC",
 
@@ -112,31 +112,31 @@
     "Tooltips Foreground (Identity/E.G.O Preview creator)": "#C7BCBC"
   },
   "UI Textfields": {
-    "Foreground": "#C4B0B6",
-    "Foreground (Shadow text)": "#58424A",
+    "Foreground": "#B1B1B9",
+    "Foreground (Shadow text)": "#635d56",
 
-    "Background": "#E5241C1C",
+    "Background": "#CC201F1E",
 
-    "Border": "#584A50",
-    "Border Thickness": [1.7],
-    "Border Corner Radius": [2],
+    "Border": "#7E7E7E",
+    "Border Thickness": [1.35],
+    "Border Corner Radius": [0.5],
 
-    "Caret": "#C4B0B6",
+    "Caret": "#FF7F27",
 
     "Selection": {
-      "Foreground": "#C4B0B6",
-      "Background": "#55C4B0B6",
+      "Foreground": "#ABA193",
+      "Background": "#DF2b2b2b",
 
-      "Border": "#66D4D4D4",
-      "Border Thickness": 1,
+      "Border": "#DD4D00",
+      "Border Thickness": 1, // Not [n] format there
       "Border Corner Radius": 0
     },
 
     "Syntax": {
-      "Highlight 1": "#F54927",
-      "Highlight 2": "#F52727",
-      "Highlight 3": "#E24A4A",
-      "Highlight 4": "#E2734A"
+      "Highlight 1": "#FF7F27",
+      "Highlight 2": "#FF6127",
+      "Highlight 3": "#ff4719",
+      "Highlight 4": "#FF3612"
     }
   },
   "Json Text Editor": {
@@ -150,26 +150,26 @@
     },
 
     "Foreground": "#ABA193",
-    "Background": "#E2251A1A",
+    "Background": "#DF191919",
 
-    "Font": "[⇲] Assets Directory/※ Internal/※ Fonts/Arita-buri.otf",
-    "Font Weight": "Medium",
+    "Font": "[⇲] Assets Directory/Limbus Embedded Fonts/SCDream5.otf",
+    "Font Weight": "Regular",
     "Font Stretch": "Normal",
     "Font Size": 16.8,
 
-    "Caret": "#E9DBC6",
+    "Caret": "#FF5900",
 
-    "Border": "#3B2B2B",
-    "Border Corner Radius": [5],
+    "Border": "#757575",
+    "Border Corner Radius": [0.5],
     "Border Thickness": [1],
 
     "Selection": {
       "Foreground": "#ABA193",
-      "Background": "#55AB8368",
+      "Background": "#DF2b2b2b",
 
-      "Border": "#ABA193",
-      "Border Thickness": 1,
-      "Border Corner Radius": 1.4
+      "Border": "#DD4D00",
+      "Border Thickness": 1, // Not [n] format there
+      "Border Corner Radius": 0
     }
   },
   "Unsaved Changes Info": {
@@ -196,7 +196,7 @@
         "New Value (Foreground)": "#D5CDCD",
         
         
-        "Change Type Icon": "#808080"
+        "Change Type Icon": "#f18500"
       }
     }
   },
@@ -205,51 +205,51 @@
 
     "Icons": "#DEDEDE",
 
-    "ComboBox Drop-down Arrow": "#DEDEDE",
+    "ComboBox Drop-down Arrow": "#1b1b1a",
     
-    "Background": "#E5241C1C",
-    "Background (Pressed)": "#E52F2525",
-    "Background (Highlighted)": "#E53A2D2D",
+    "Background": "#CC201F1E",
+    "Background (Pressed)": "#2B2927",
+    "Background (Highlighted)": "#363230",
     
-    "Border": "#584a50",
-    "Border Thickness": [1.7],
-    "Border Corner Radius": [2]
+    "Border": "#7E7E7E",
+    "Border Thickness": [1.35],
+    "Border Corner Radius": [0.5]
   },
   "Elongated Buttons": { // Desc switch buttons
     "Disabled Buttons Shadowing": "#77000000",
 
-    "Background": "#E5241C1C",
-    "Background (Pressed)": "#E52F2525",
-    "Background (Highlighted)": "#E53A2D2D",
+    "Background": "#CC201F1E",
+    "Background (Pressed)": "#2B2927",
+    "Background (Highlighted)": "#363230",
 
-    "Border": "#584a50",
-    "Border Thickness": [1.7],
-    "Border Corner Radius": [2]
+    "Border": "#7E7E7E",
+    "Border Thickness": [1.35],
+    "Border Corner Radius": [0.5]
   },
   "Scrollbars": {
-    "Line": "#584a50",
-    "Line Thickness": 1.5,
+    "Line": "#7E7E7E",
+    "Line Thickness": 1.35,
     
     "Up/Down Buttons": {
       "Icon": "#DEDEDE",
 
-      "Background": "#241C1C",
-      "Background (Pressed)": "#1F1818",
-      "Background (Highlighted)": "#241C1C",
+      "Background": "#201F1E",
+      "Background (Pressed)": "#191818",
+      "Background (Highlighted)": "#201F1E",
 
-      "Border": "#584A50",
-      "Border Thickness": [1.7],
-      "Border Corner Radius": [2]
+      "Border": "#7E7E7E",
+      "Border Thickness": [1.35],
+      "Border Corner Radius": [0.5]
     },
 
     "Thumb": {
-      "Background": "#241C1C",
-      "Background (Pressed)": "#1F1818",
-      "Background (Highlighted)": "#241C1C",
+      "Background": "#201F1E",
+      "Background (Pressed)": "#191818",
+      "Background (Highlighted)": "#201F1E",
 
-      "Border": "#584a50",
-      "Border Thickness": [1.7],
-      "Border Corner Radius": [2]
+      "Border": "#7E7E7E",
+      "Border Thickness": [1.35],
+      "Border Corner Radius": [0.5]
     }
   },
   "Sliders": {
@@ -280,25 +280,25 @@
     }
   },
   "Other Border-like things": {
-    "Background": "#E5241C1C",
+    "Background": "#CC201F1E",
 
-    "Border": "#584a50",
-    "Border Thickness": [1.7],
-    "Border Corner Radius": [2]
+    "Border": "#7E7E7E",
+    "Border Thickness": [1.35],
+    "Border Corner Radius": [0.5]
   },
   "Json Editor Syntax": {
-    "Tags": "#CCCCCC",
-    "Tags Value": "#e17528",
-    "[TabExplain]": "#F5B372"
+    "Tags": "#ccc5be",
+    "Tags Value": "#ff6c10",
+    "[TabExplain]": "#f52727"
   },
   "Color Keys for Translation": {
      // Color inserts applied to all interface translation text from `[⇲] Assets Directory\Internal\Translation`
      // As example: `"Text": "Some <color={Theme.IColor0}>themed</color> text" -> "Some <color=#FFFFFF>themed</color> text"`
-    "{Theme.HyperlinkColor}": "#569CD6",
+    "{Theme.HyperlinkColor}": "#FF7F27",
     "{Theme.SelectedFileNameColor}": "#FC5A03",
-    "{Theme.UnsavedChanges.IDColor}": "#F8C200",
-    "{Theme.UnsavedChanges.NameColor}": "#AFBFF9",
-    "{Theme.TooltipHints}": "#919188",
+    "{Theme.UnsavedChanges.IDColor}": "#FC5A03",
+    "{Theme.UnsavedChanges.NameColor}": "#F0F2F9",
+    "{Theme.TooltipHints}": "#E2542D",
     "{Theme.IColor0}": "#FFFFFF",
     "{Theme.IColor1}": "#FFFFFF",
     "{Theme.IColor2}": "#FFFFFF",
