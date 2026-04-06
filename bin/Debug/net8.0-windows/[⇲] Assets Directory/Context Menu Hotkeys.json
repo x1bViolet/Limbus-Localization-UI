@@ -6,7 +6,7 @@
       "Keys": ["LeftCtrl", "NumPad1"] // As example
     },
 
-    // You can combine them to sequences by order and same keys (As example "Unevident To [KeywordID]" and then "[KeywordID] To <TMPro>", they will be called sequentially one after another if keys for them are the same, thus forming the option "Unevident To <TMPro>")
+    // You can combine them to sequences by order and same keys (As example "Implicit To [KeywordID]" and then "[KeywordID] To <TMPro>", they will be called sequentially one after another if keys for them are the same, thus forming the option "Implicit To <TMPro>")
     
     // Define keys for others as you wish (See "Keyboard keys" below for buttons exact names)
     {
@@ -18,11 +18,11 @@
       "Keys": []
     },
     {
-      "Command": "Unevident To [KeywordID]",
+      "Command": "Implicit To [KeywordID]",
       "Keys": []
     },
     {
-      "Command": "Unevident To Shorthands",
+      "Command": "Implicit To Shorthands",
       "Keys": []
     },
     {
@@ -51,8 +51,8 @@
     "Insert Style",
     "<TMPro> To [KeywordID]",
     "<TMPro> To Shorthands",
-    "Unevident To [KeywordID]",
-    "Unevident To Shorthands",
+    "Implicit To [KeywordID]",
+    "Implicit To Shorthands",
     "[KeywordID] To Shorthands",
     "[KeywordID] To <TMPro>",
 

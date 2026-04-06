@@ -1,5 +1,4 @@
 {
-  "Readme": "There are no IDs of upgraded ego gifts versions, only basic",
   "E.G.O Gifts Info": [
     {
       "ID": 1001,
@@ -2605,6 +2604,304 @@
       "Keyword": "Blunt",
       "Tier": "4"
     },
+
+    {
+      "ID": 9209,
+      "Image": "For You Who Love the City",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9210,
+      "Image": "Meat Tenderizer",
+      "Affinity": "Envy",
+      "Keyword": "Blunt",
+      "Tier": "1"
+    },
+    {
+      "ID": 9220,
+      "Image": "Stolen Fixer Magazine",
+      "Affinity": "Envy",
+      "Keyword": "Blunt",
+      "Tier": "3"
+    },
+    {
+      "ID": 9221,
+      "Image": "Thermal Weapon",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9207,
+      "Image": "Chance & Choice",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9208,
+      "Image": "Entangled Fate",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9211,
+      "Image": "Raincloud",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "4"
+    },
+    {
+      "ID": 9212,
+      "Image": "The End of all Evil",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "4"
+    },
+    {
+      "ID": 9213,
+      "Image": "Miniature Ferris Wheel",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9214,
+      "Image": "Searing Hammer",
+      "Affinity": "Lust",
+      "Keyword": "Tremor",
+      "Tier": "3"
+    },
+    {
+      "ID": 9215,
+      "Image": "Red Necktie",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9216,
+      "Image": "Uniform - Liu Assoc.",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "4"
+    },
+    {
+      "ID": 9217,
+      "Image": "Someone's Device",
+      "Affinity": "Pride",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9218,
+      "Image": "Providence of the Prescript",
+      "Affinity": "Gloom",
+      "Keyword": "Poise",
+      "Tier": "3"
+    },
+    {
+      "ID": 9219,
+      "Image": "Omni-tool",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9222,
+      "Image": "Pure-white Canvas",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9223,
+      "Image": "Average Artwork",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9224,
+      "Image": "Exquisite Artwork",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9225,
+      "Image": "The Spider's Thread",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9226,
+      "Image": "Someone's Azure Blade",
+      "Affinity": "Gloom",
+      "Keyword": "Poise",
+      "Tier": "2"
+    },
+    {
+      "ID": 9227,
+      "Image": "Baleful Hwando",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9228,
+      "Image": "One with the Blade",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9229,
+      "Image": "Tarnished Gauntlet",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9230,
+      "Image": "Golden Hour",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9231,
+      "Image": "Record Logs of That Day",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "1"
+    },
+    {
+      "ID": 9232,
+      "Image": "Potentialities",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9242,
+      "Image": "Season 7/A Midspring Night's Dream/Bongy Plush",
+      "Affinity": "Gloom",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+
+    {
+      "ID": 9233,
+      "Image": "Staticky Two-way Radio",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9234,
+      "Image": "Beak-shaped Necklace",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9235,
+      "Image": "Desperado",
+      "Affinity": "Pride",
+      "Keyword": "Pierce",
+      "Tier": "4"
+    },
+    {
+      "ID": 9236,
+      "Image": "Harmonics",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "3"
+    },
+    {
+      "ID": 9237,
+      "Image": "Walking Bass",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9238,
+      "Image": "Pink Petals",
+      "Affinity": "Pride",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9239,
+      "Image": "Pink Bouquet",
+      "Affinity": "Pride",
+      "Keyword": "Sinking",
+      "Tier": "4"
+    },
+    {
+      "ID": 9240,
+      "Image": "Royal Jelly Perfume",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9241,
+      "Image": "Still-warm Coffee",
+      "Affinity": "Pride",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    
+    {
+      "ID": 9243,
+      "Image": "Season 7/Intervallos/LCB Regular Check-up BokGak/Modified Extraction ː A.B.S",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9244,
+      "Image": "Season 7/Intervallos/LCB Regular Check-up BokGak/Modified Extraction ː Lantern",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "3"
+    },
+    {
+      "ID": 9245,
+      "Image": "Season 7/Intervallos/LCB Regular Check-up BokGak/Modified Extraction ː AEDD",
+      "Affinity": "Envy",
+      "Keyword": "Charge",
+      "Tier": "3"
+    },
+    {
+      "ID": 9246,
+      "Image": "Season 7/Intervallos/LCB Regular Check-up BokGak/Someone's Dropped Employee Card",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9248,
+      "Image": "Season 7/Intervallos/LCB Regular Check-up BokGak/Spicebush, Glasses, and Mailed Letter",
+      "Affinity": "Sloth",
+      "Keyword": "Rupture",
+      "Tier": "4"
+    },
+    {
+      "ID": 9249,
+      "Image": "Season 7/Intervallos/LCB Regular Check-up BokGak/A Small, Lovely Violin",
+      "Affinity": "Sloth",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+
     {
       "ID": 9786,
       "Image": "Enh. Tattoos - The Middle",

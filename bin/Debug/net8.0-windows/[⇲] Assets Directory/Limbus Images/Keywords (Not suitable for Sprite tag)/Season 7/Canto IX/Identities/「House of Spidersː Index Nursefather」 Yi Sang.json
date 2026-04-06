@@ -1,0 +1,20 @@
+{
+  "IndexPrescript_Base_2nd": [
+    "IndexPrescriptYi_0",
+    "IndexPrescriptYi_1",
+    "IndexPrescriptYi_2",
+    "IndexPrescriptYi_3"
+  ],
+  "Blandishment_Shin": [
+    "Shin_IndexFingerYisang"
+  ],
+  "RienWeapon01Hatchet":         ["YisangWeapon01Hatchet"],
+  "RienWeapon02Stiletto":        ["YisangWeapon02Stiletto"],
+  "RienWeapon03Greatsword":      ["YisangWeapon03Greatsword"],
+  "RienWeapon04Rapier":          ["YisangWeapon04Rapier"],
+  "RienWeapon05Sledgehammer":    ["YisangWeapon05Sledgehammer"],
+  "RienWeapon06Ultragreatsword": ["YisangWeapon06Ultragreatsword"],
+  "RienWeapon07Lance":           ["YisangWeapon07Lance"],
+  "RienWeapon08Chain":           ["YisangWeapon08Chain"],
+  "RienWeapon09Scythe":          ["YisangWeapon09Scythe"]
+}

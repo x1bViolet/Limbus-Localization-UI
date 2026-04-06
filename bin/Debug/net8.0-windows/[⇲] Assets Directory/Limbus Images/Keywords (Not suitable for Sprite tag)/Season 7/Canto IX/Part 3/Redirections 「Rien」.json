@@ -1,0 +1,13 @@
+{
+  "IndexPrescript_Base_2nd": [
+    "IndexPrescriptRien_0",
+    "IndexPrescriptRien_1",
+    "IndexPrescriptRien_2",
+    "IndexPrescriptRien_3"
+  ],
+  "KarmaOfIndexRien": ["KarmaOfIndexStudent"],
+  "UnlockBuff_1": ["UnlockBuff_Rien1"],
+  "UnlockBuff_2": ["UnlockBuff_Rien2"],
+  "UnlockBuff_3": ["UnlockBuff_Rien3"],
+  "Blandishment_Shin": ["Shin_Rien"]
+}

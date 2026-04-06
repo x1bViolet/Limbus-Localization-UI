@@ -1,0 +1,29 @@
+{
+  // Ranges from the wikindqw  lqw[,d;,klmqw 
+  "Title": [
+    {
+      "Font": "[⇲] Assets Directory/Limbus Embedded Fonts/Corporate-Logo-Bold-ver2.otf",
+      "Unicode": [
+        "3000-303F",
+        "3040-309F",
+        "30A0-30FF",
+        "FF00-FFEF",
+        "4E00-9FAF",
+        "3400-4DBF"
+      ]
+    },
+    {
+      "Font": "[⇲] Assets Directory/Limbus Embedded Fonts/KOTRA_BOLD.ttf",
+      "Unicode": [
+        "AC00—D7AF",
+        "1100—11FF",
+        "3130—318F",
+        "A960—A97F",
+        "D7B0—D7FF"
+      ]
+    }
+  ],
+
+
+  "Context": [ /* ... */ ]
+}

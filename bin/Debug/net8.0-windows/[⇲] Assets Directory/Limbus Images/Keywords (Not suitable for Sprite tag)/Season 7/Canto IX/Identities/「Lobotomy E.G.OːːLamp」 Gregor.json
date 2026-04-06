@@ -1,0 +1,12 @@
+{
+  "DelusionHohenheimBigBird": [
+    "DelusionGregBigBird",
+    "DelusionGregBigBird_LowMorale",
+    "DelusionGregBigBird_Main",
+    "DelusionGregBigBird_Panic",
+    "DelusionGregBigBird_Sub"
+  ],
+  "LanternHohenheimBigBird": [
+    "LanternGregBigBird"
+  ]
+}
