@@ -1141,7 +1141,7 @@
       },
       {
         "UID": {"[Settings / Internal] * Enable manual Json files managing":null},
-        "Text": "Enable manual Json files managing<size=88%> <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator#requirements-creation\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
+        "Text": "Enable manual Json files managing<size=88%> <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/manual-json-files-managing\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
       },
       {
         "UID": {"[Settings / Internal] * Enable manual Json files managing (Tooltip)":null},
@@ -1165,7 +1165,7 @@
       },
       {
         "UID": {"[Settings / Internal] * Disable Text Elements Sealing in Identity/E.G.O Preview Creator":null},
-        "Text": "Disable Text Elements Sealing in Identity/E.G.O Preview Creator"
+        "Text": "Disable Text Elements Sealing in Identity/E.G.O Preview Creator<size=88%> <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator#optimization-specific\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
       },
       {
         "UID": {"[Settings / Internal] * Disable Text Elements Sealing in Identity/E.G.O Preview Creator (CheckBox Tooltip)":null},
@@ -1207,7 +1207,7 @@
       },
       {
         "UID": {"[Settings / Image Exports] * Preloaded Image Info for Identity/E.G.O Preview Creator":null},
-        "Text": "Preloaded Image Info for Custom Identity/E.G.O Preview Creator"
+        "Text": "Preloaded Image Info for Custom Identity/E.G.O Preview Creator<size=88%> <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/custom-identity-e.g.o-preview-creator#preloading-image-info\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
       },
       {
         // P.S. The tag dividers are square brackets here (You can use both <..> and [..])

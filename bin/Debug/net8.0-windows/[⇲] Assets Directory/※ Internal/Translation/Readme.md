@@ -1,1 +1,1 @@
-Translation files documentation: 
+Translation files documentation: https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/interface-modifying/translation

@@ -29,7 +29,7 @@
       "Enable Keyword Tooltips": true,
       "Enable 7~10 Coin buttons of Skills": false,
       "Enable 7~10 Simple Description buttons of EGO Gifts": false,
-      "Preview Update Delay (Seconds)": 0.1
+      "Preview Update Delay (Seconds)": 0.0
     },
     "Custom Language Properties": {
       "Implicit keywords conversion ignores": [
