@@ -1,0 +1,45 @@
+﻿<Abstractions:DialogWindowBase
+	x:Class="LCLocalizationInterface.Internal.ConfirmDialog"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Abstractions="clr-namespace:LCLocalizationInterface.Internal.Abstractions"
+	xmlns:TStyle="clr-namespace:LCLocalizationInterface.Internal.UIStyle"
+	xmlns:Terminus="clr-namespace:LCLocalizationInterface.Internal.Terminus"
+	Title="{Binding ElementName=CaptionBinder, Path=Text}"
+	Style="{StaticResource Base:WindowLayout.DialogWindow}">
+	<TStyle:InstancedWindowLayout BorderBrush="{DynamicResource Theme:Common.DialogWindows.Border.Color}" CornerRadius="{DynamicResource Theme:Common.DialogWindows.Border.CornerRadius}" HasPaddedDropShadow="True">
+
+		<TStyle:InstancedWindowLayout.Title>
+			<Terminus:IntenseStareType1 Style="{StaticResource Base:WindowLayout.TitleBar.TitleText}" UID="[Confirm Dialog] * Title" />
+		</TStyle:InstancedWindowLayout.Title>
+
+		<TStyle:InstancedWindowLayout.Navigation>
+			<Button Click="Minimize" Style="{StaticResource Base:TitleBar.Button.Defaults.Minimize}" />
+			<Button Click="FadeClose" Style="{StaticResource Base:TitleBar.Button.Defaults.Close}" />
+		</TStyle:InstancedWindowLayout.Navigation>
+
+		<TStyle:InstancedWindowLayout.Content>
+			<Grid Background="{DynamicResource Theme:Common.DialogWindows.Background.Color}">
+
+				<Terminus:IntenseStareType1 x:Name="CaptionBinder" x:FieldModifier="private" UID="[Confirm Dialog] [!] [#] * Title (Window caption)" Visibility="Collapsed" />
+
+				<Abstractions:DialogWindowContentPresenter>
+					<StackPanel>
+						<Terminus:IntenseStareType1 FontSize="19" LineHeight="20" TextAlignment="Center" UID="[Confirm Dialog] [-] * Text" />
+						<StackPanel Margin="0 10 0 0" HorizontalAlignment="Center" Orientation="Horizontal">
+							<Button Click="Confirm_ButtonClick" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+								<Terminus:IntenseStareType1 Width="50" FontSize="20" RichText="Yes" TextAlignment="Center" UID="[Confirm Dialog] * Yes Button" />
+							</Button>
+							<Button Margin="5 0 0 0" Click="FadeClose" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+								<Terminus:IntenseStareType1 Width="50" FontSize="20" RichText="No" TextAlignment="Center" UID="[Confirm Dialog] * No Button" />
+							</Button>
+						</StackPanel>
+					</StackPanel>
+				</Abstractions:DialogWindowContentPresenter>
+
+			</Grid>
+		</TStyle:InstancedWindowLayout.Content>
+
+	</TStyle:InstancedWindowLayout>
+	
+</Abstractions:DialogWindowBase>

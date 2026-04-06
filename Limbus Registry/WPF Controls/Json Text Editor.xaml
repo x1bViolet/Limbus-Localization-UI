@@ -1,0 +1,88 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:AvalonEditEditing="clr-namespace:ICSharpCode.AvalonEdit.Editing;assembly=ICSharpCode.AvalonEdit"
+	xmlns:AvalonEditRendering="clr-namespace:ICSharpCode.AvalonEdit.Rendering;assembly=ICSharpCode.AvalonEdit"
+	xmlns:Limbus="clr-namespace:LCLocalizationInterface.LimbusRegistry">
+
+	<Style TargetType="{x:Type Limbus:JsonTextEditor}">
+
+		<Setter Property="Background" Value="{DynamicResource Theme:JsonTextEditor.Background}" />
+		<Setter Property="Foreground" Value="{DynamicResource Theme:JsonTextEditor.Foreground}" />
+
+		<Setter Property="FontFamily" Value="{DynamicResource Theme:JsonTextEditor.Font}" />
+		<Setter Property="FontWeight" Value="{DynamicResource Theme:JsonTextEditor.FontWeight}" />
+		<Setter Property="FontStretch" Value="{DynamicResource Theme:JsonTextEditor.FontStretch}" />
+		<Setter Property="FontSize" Value="{DynamicResource Theme:JsonTextEditor.FontSize}" />
+
+		<Setter Property="BorderThickness" Value="{DynamicResource Theme:JsonTextEditor.Border.Thickness}" />
+		<Setter Property="CornerRadius" Value="{DynamicResource Theme:JsonTextEditor.Border.CornerRadius}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource Theme:JsonTextEditor.Border}" />
+
+		<Setter Property="CaretBrush" Value="{DynamicResource Theme:JsonTextEditor.Caret}" />
+
+		<Setter Property="SelectionBackground" Value="{DynamicResource Theme:JsonTextEditor.Selection.Background}" />
+		<Setter Property="SelectionForeground" Value="{DynamicResource Theme:JsonTextEditor.Selection.Foreground}" />
+
+		<Setter Property="SelectionBorderBrush" Value="{DynamicResource Theme:JsonTextEditor.Selection.Border}" />
+		<Setter Property="SelectionBorderThickness" Value="{DynamicResource Theme:JsonTextEditor.Selection.Border.Thickness}" />
+		<Setter Property="SelectionBorderCornerRadius" Value="{DynamicResource Theme:JsonTextEditor.Selection.Border.CornerRadius}" />
+
+		<Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type Limbus:JsonTextEditor}">
+					<ControlTemplate.Resources>
+						<!--    Minor fix to prevent left and top sides of the text selection border from disappearing    -->
+						<!--    (It extends beyond the TextArea's bounds, and disappears because ClipToBounds is set to True by default in the ICSharpCode.AvalonEdit.Rendering.TextView() static constructor)    -->
+						<!--    (Margin also neccessary for this)    -->
+						<Style TargetType="{x:Type AvalonEditRendering:TextView}">
+							<Setter Property="Margin" Value="2 3 3 3" />
+							<Setter Property="ClipToBounds" Value="False" />
+						</Style>
+
+						<Style TargetType="{x:Type AvalonEditEditing:TextArea}">
+							<Setter Property="Template">
+								<Setter.Value>
+									<ControlTemplate TargetType="{x:Type AvalonEditEditing:TextArea}">
+										<DockPanel Focusable="False">
+											<!--    Sync line numbers top and bottom Margin with TextView's value above    -->
+											<ItemsControl Margin="0 3 0 3" DockPanel.Dock="Left" Focusable="False" ItemsSource="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=LeftMargins}">
+												<ItemsControl.ItemsPanel>
+													<ItemsPanelTemplate>
+														<StackPanel Orientation="Horizontal" />
+													</ItemsPanelTemplate>
+												</ItemsControl.ItemsPanel>
+											</ItemsControl>
+											<ContentPresenter Panel.ZIndex="-1" Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextView}" Focusable="False" />
+										</DockPanel>
+									</ControlTemplate>
+								</Setter.Value>
+							</Setter>
+						</Style>
+					</ControlTemplate.Resources>
+					<Border Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
+						<ScrollViewer
+							Name="PART_ScrollViewer"
+							Padding="{TemplateBinding Padding}"
+							HorizontalContentAlignment="Left"
+							VerticalContentAlignment="Top"
+							CanContentScroll="True"
+							Content="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=TextArea}"
+							Focusable="False"
+							HorizontalScrollBarVisibility="{TemplateBinding HorizontalScrollBarVisibility}"
+							VerticalScrollBarVisibility="{TemplateBinding VerticalScrollBarVisibility}" />
+					</Border>
+					<ControlTemplate.Triggers>
+						<Trigger Property="WordWrap" Value="True">
+							<Setter TargetName="PART_ScrollViewer" Property="HorizontalScrollBarVisibility" Value="Disabled" />
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+
+	</Style>
+
+</ResourceDictionary>

@@ -1,0 +1,25 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio Version 17
+VisualStudioVersion = 17.14.36717.8
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "LC Localization Interface", "LC Localization Interface.csproj", "{245F7671-8754-4287-8AD8-8418A6084980}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{245F7671-8754-4287-8AD8-8418A6084980}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{245F7671-8754-4287-8AD8-8418A6084980}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{245F7671-8754-4287-8AD8-8418A6084980}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{245F7671-8754-4287-8AD8-8418A6084980}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {4D0C1A4B-C265-4772-A16A-2BDA0E2B39CD}
+	EndGlobalSection
+EndGlobal

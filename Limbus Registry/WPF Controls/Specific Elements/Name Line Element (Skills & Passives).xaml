@@ -1,0 +1,67 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:Limbus="clr-namespace:LCLocalizationInterface.LimbusRegistry"
+                    xmlns:LimbusIValueConverters="clr-namespace:LCLocalizationInterface.LimbusRegistry.LimbusIValueConverters"
+                    >
+	<Style TargetType="{x:Type Limbus:NameLineElement}">
+
+		<Style.Resources>
+            <LimbusIValueConverters:FillColorRightOffsetReductionConverter x:Key="FillColorRightOffsetReductionConverter" />
+            <LimbusIValueConverters:AffinityToNamePartImageConverter x:Key="AffinityToNamePartImageConverter" />
+		</Style.Resources>
+
+		<Setter Property="Affinity" Value="None" />
+
+		<!--    Negative left margin = reduce empty space between NameDisplaying and right corner    -->
+		<Setter Property="FillColorRightOffsetReduction" Value="0" />
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type Limbus:NameLineElement}">
+					<Grid x:Name="MainGrid">
+
+						<Grid.Effect>
+							<DropShadowEffect BlurRadius="0" Direction="{Binding ElementName=CRUTCHBINDING_DropShadowEffect_Direction, Path=Opacity}" ShadowDepth="{Binding ElementName=CRUTCHBINDING_DropShadowEffect_Depth, Path=Opacity}" />
+						</Grid.Effect>
+
+
+						<!--    DropShadowEffect properties TemplateBinding does not work...    -->
+						<Canvas x:Name="CRUTCHBINDING_DropShadowEffect_Direction" Opacity="{TemplateBinding DropShadowEffect_Direction}" Visibility="Collapsed" />
+						<Canvas x:Name="CRUTCHBINDING_DropShadowEffect_Depth" Opacity="{TemplateBinding DropShadowEffect_Depth}" Visibility="Collapsed" />
+
+
+						<StackPanel ClipToBounds="True" Orientation="Horizontal">
+							<!--    Negative left Margin = empty space reducing after NameDisplaying    -->
+							<Border x:Name="FillColorBorder" Width="{Binding ElementName=NameDisplaying, Path=ActualWidth}" Margin="{TemplateBinding FillColorRightOffsetReduction, Converter={StaticResource FillColorRightOffsetReductionConverter}}" Background="{TemplateBinding FillColor}" />
+							<Image x:Name="CornerImage" Margin="-2 0 0 0" HorizontalAlignment="Left" Source="{TemplateBinding Affinity, Converter={StaticResource AffinityToNamePartImageConverter}}" Stretch="Fill">
+								<Image.LayoutTransform>
+									<!--    Exactly 29.2 default height    -->
+									<ScaleTransform ScaleX="0.695141053717516" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Self}}" />
+								</Image.LayoutTransform>
+							</Image>
+						</StackPanel>
+
+						<Grid>
+							<Limbus:TMProEmitter
+								x:Name="NameDisplaying"
+								MaxWidth="{TemplateBinding NameMaximumWidth}"
+								Margin="8 6 0 3"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Center"
+								Limbus:AcceptsRichTextDelay="False"
+								Limbus:FontType="Title"
+								Limbus:RichText="{TemplateBinding DisplayedName}"
+								Limbus:TextProcessingMode="None"
+								FontSize="20"
+								LineHeight="20"
+								Visibility="Visible" />
+							<Grid.Effect>
+								<DropShadowEffect BlurRadius="0" Direction="-50" ShadowDepth="1.88" />
+							</Grid.Effect>
+						</Grid>
+
+					</Grid>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>

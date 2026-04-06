@@ -1,0 +1,695 @@
+﻿<Abstractions:FadeableWindow
+	x:Class="LCLocalizationInterface.Internal.Configuration.SettingsWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Abstractions="clr-namespace:LCLocalizationInterface.Internal.Abstractions"
+	xmlns:Blend="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:Entanglement="clr-namespace:LCLocalizationInterface.Entanglement"
+	xmlns:MarkupCompatibility="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:T="clr-namespace:LCLocalizationInterface.MarkupExtensions"
+	xmlns:TStyle="clr-namespace:LCLocalizationInterface.Internal.UIStyle"
+	xmlns:Terminus="clr-namespace:LCLocalizationInterface.Internal.Terminus"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	Title="{Binding ElementName=CaptionBinder, Path=Text}"
+	Blend:DataContext="{Blend:DesignInstance Type=Entanglement:EntanglementModel}"
+	MarkupCompatibility:Ignorable="Blend"
+	DataContext="{Binding Source={StaticResource ThatOnePeskyMvvmThing}}"
+	ResizeMode="NoResize"
+	SizeToContent="WidthAndHeight"
+	Style="{StaticResource Base:WindowLayout}"
+	Topmost="True"
+	WindowStartupLocation="CenterScreen">
+
+	<WindowChrome.WindowChrome>
+		<WindowChrome x:Name="CurrentWindowChrome" CaptionHeight="0" ResizeBorderThickness="0 10 0 10" />
+	</WindowChrome.WindowChrome>
+
+	<TStyle:InstancedWindowLayout BorderBrush="{DynamicResource Theme:Common.SettingsWindow.Border.Color}" CornerRadius="{DynamicResource Theme:Common.SettingsWindow.Border.CornerRadius}" HasPaddedDropShadow="True">
+
+		<TStyle:InstancedWindowLayout.Title>
+			<Terminus:IntenseStareType1 Style="{StaticResource Base:WindowLayout.TitleBar.TitleText}" UID="[Settings] * Settings Title" />
+		</TStyle:InstancedWindowLayout.Title>
+
+		<TStyle:InstancedWindowLayout.Navigation>
+			<Button Click="Minimize" Style="{StaticResource Base:TitleBar.Button.Defaults.Minimize}" />
+			<Button Click="ReloadConfiguration" Content="" Style="{StaticResource Base:TitleBar.Button}">
+				<Button.ToolTip>
+					<ToolTip MaxWidth="700" Style="{StaticResource Theme:ControlStyles.Tooltip}">
+						<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}" LineHeight="18" RichText="Reload [font=&quot;Consolas&quot;][size=92%][⇲] Assets Directory\Configurazione^.json[/size][/font]" UID="[Settings] * 'Reload settings' Title Bar Button Tooltip" />
+					</ToolTip>
+				</Button.ToolTip>
+			</Button>
+			<Button Click="FadeClose" Style="{StaticResource Base:TitleBar.Button.Defaults.Close}" />
+		</TStyle:InstancedWindowLayout.Navigation>
+
+		<TStyle:InstancedWindowLayout.Content>
+
+			<Grid Width="420" Height="495" Background="{DynamicResource Theme:Common.SettingsWindow.Background.Color}">
+
+				<Grid.Resources>
+					<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+						<Setter Property="Foreground" Value="{DynamicResource Theme:UIText.SettingsWindow.Foreground}" />
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="FontSize" Value="18" />
+						<Setter Property="LineHeight" Value="21" />
+						<Setter Property="Margin" Value="0 0 3 0" />
+					</Style>
+					<Style x:Key="Theme:ControlStyles.Spec.Settings.SectionHeader" BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+						<Setter Property="Margin" Value="0 0 0 5" />
+						<Setter Property="Padding" Value="0 12 0 0" />
+						<Setter Property="FontSize" Value="26" />
+						<Setter Property="LineHeight" Value="26" />
+						<Setter Property="Cursor" Value="Hand" />
+						<Setter Property="HorizontalAlignment" Value="Left" />
+						<EventSetter Event="MouseLeftButtonUp" Handler="ToggleSecondChildVisibility" />
+					</Style>
+					<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType3}}" TargetType="{x:Type Terminus:IntenseStareType3}">
+						<Setter Property="Height" Value="29" />
+						<Setter Property="FontSize" Value="19" />
+					</Style>
+					<Style BasedOn="{StaticResource Theme:ControlStyles.ComboBox}" TargetType="{x:Type ComboBox}">
+						<Setter Property="Height" Value="29" />
+						<Setter Property="Padding" Value="6 0 3 0" />
+						<Setter Property="VerticalContentAlignment" Value="Center" />
+					</Style>
+					<Style TargetType="{x:Type TStyle:TwoColumned}">
+						<Setter Property="Margin" Value="0 8 0 0" />
+					</Style>
+					<Style x:Key="Theme:ControlStyles.Spec.ConfirmTextInputWrapper" TargetType="{x:Type TStyle:TwoColumned}">
+						<Setter Property="Width2" Value="34" />
+						<Setter Property="Margin" Value="0 2 0 0" />
+					</Style>
+					<Style BasedOn="{StaticResource Theme:ControlStyles.CheckBox}" TargetType="{x:Type CheckBox}">
+						<Setter Property="HorizontalAlignment" Value="Left" />
+						<Setter Property="Width" Value="29" />
+						<Setter Property="Height" Value="29" />
+						<Setter Property="IsChecked" Value="{x:Null}" />
+						<EventSetter Event="Checked" Handler="Buttons_AutoSaveConfig" />
+						<EventSetter Event="Unchecked" Handler="Buttons_AutoSaveConfig" />
+					</Style>
+					<Style x:Key="Theme:ControlStyles.Spec.ConfirmValueButton" BasedOn="{StaticResource Theme:ControlStyles.SquareButton}" TargetType="{x:Type Button}">
+						<EventSetter Event="Click" Handler="Buttons_AutoSaveConfig" />
+						<Setter Property="Width" Value="29" />
+						<Setter Property="Height" Value="29" />
+						<Setter Property="HorizontalAlignment" Value="Right" />
+						<Setter Property="Content" Value="" />
+						<Setter Property="Padding" Value="0 -0.9 0 0" />
+						<Setter Property="Margin" Value="4 0 0 0" />
+						<Setter Property="FontSize" Value="23" />
+						<Setter Property="FontFamily" Value="/UI/Fonts/#Material Symbols Outlined ExtraLight" />
+						<Setter Property="ToolTipService.InitialShowDelay" Value="500" />
+						<Setter Property="ToolTip">
+							<Setter.Value>
+								<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
+									<Terminus:IntenseStareType1
+										Padding="3 0.5 0 0.5"
+										FontSize="15"
+										Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}"
+										LineHeight="18"
+										RichText="Save and deploy changes"
+										UID="[Settings / Custom Language] * 'Confirm' button tooltip" />
+								</ToolTip>
+							</Setter.Value>
+						</Setter>
+					</Style>
+					<Style x:Key="Theme:ControlStyles.Spec.ReloadDataButton" BasedOn="{StaticResource Theme:ControlStyles.SquareButton}" TargetType="{x:Type Button}">
+						<Setter Property="Width" Value="27" />
+						<Setter Property="Height" Value="27" />
+						<Setter Property="Content" Value="" />
+						<Setter Property="Padding" Value="0 -2 0 0" />
+						<Setter Property="FontSize" Value="23" />
+						<Setter Property="HorizontalAlignment" Value="Left" />
+						<Setter Property="FontFamily" Value="/UI/Fonts/#Material Symbols Outlined ExtraLight" />
+						<Setter Property="ToolTipService.InitialShowDelay" Value="500" />
+						<Setter Property="ToolTip">
+							<Setter.Value>
+								<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
+									<Terminus:IntenseStareType1
+										Padding="3 0.5 0 0.5"
+										FontSize="15"
+										Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}"
+										LineHeight="18"
+										RichText="Reload data"
+										UID="[Settings / Custom Language] * 'Reload' button tooltip" />
+								</ToolTip>
+							</Setter.Value>
+						</Setter>
+					</Style>
+					<Style x:Key="Theme:ControlStyles.Spec.DelimiterBorder" BasedOn="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}" TargetType="{x:Type Border}">
+						<Setter Property="Margin" Value="5" />
+						<Setter Property="CornerRadius" Value="0" />
+						<Setter Property="RenderTransform">
+							<Setter.Value>
+								<ScaleTransform ScaleY="0.5" />
+							</Setter.Value>
+						</Setter>
+					</Style>
+					<x:Array x:Key="FontWeights" Type="{x:Type sys:String}">
+						<sys:String>Black</sys:String>
+						<sys:String>Bold</sys:String>
+						<sys:String>Demi Bold</sys:String>
+						<sys:String>Extra Black</sys:String>
+						<sys:String>Extra Bold</sys:String>
+						<sys:String>Extra Light</sys:String>
+						<sys:String>Heavy</sys:String>
+						<sys:String>Light</sys:String>
+						<sys:String>Medium</sys:String>
+						<sys:String>Normal</sys:String>
+						<sys:String>Regular</sys:String>
+						<sys:String>Semibold</sys:String>
+						<sys:String>Thin</sys:String>
+						<sys:String>Ultra Black</sys:String>
+						<sys:String>Ultra Bold</sys:String>
+						<sys:String>Ultra Light</sys:String>
+					</x:Array>
+					<DataTemplate x:Key="FontWeightsItemContainerStyle_Context">
+						<Terminus:IntenseStareType1 RichText="{Binding}" StyleInherintingSource="{x:Reference LimbusCustomLangFontWeightLabel_Context}" TextWrapping="NoWrap" />
+					</DataTemplate>
+					<DataTemplate x:Key="FontWeightsItemContainerStyle_Title">
+						<Terminus:IntenseStareType1 RichText="{Binding}" StyleInherintingSource="{x:Reference LimbusCustomLangFontWeightLabel_Title}" TextWrapping="NoWrap" />
+					</DataTemplate>
+					<DataTemplate x:Key="InterfaceLanguageSelectorContainerStyle">
+						<Terminus:IntenseStareType1 RichText="{Binding}" StyleInherintingSource="{x:Reference InterfaceLanguageSelectorLabel}" TextWrapping="NoWrap" />
+					</DataTemplate>
+					<DataTemplate x:Key="InterfaceThemeSelectorContainerStyle">
+						<Terminus:IntenseStareType1 RichText="{Binding}" StyleInherintingSource="{x:Reference InterfaceThemeSelectorLabel}" TextWrapping="NoWrap" />
+					</DataTemplate>
+				</Grid.Resources>
+
+				<Terminus:IntenseStareType1 x:Name="CaptionBinder" UID="[Settings] [!] [#] * Settings Title (Window Caption)" Visibility="Collapsed" />
+
+				<Grid x:Uid="Background image">
+					<StackPanel>
+						<Image HorizontalAlignment="Left" Source="{DynamicResource Theme:Common.SettingsWindow.Background.Image}" Stretch="None" />
+						<!--    Mirrored version at the bottom    -->
+						<Image Margin="0 -1 0 0" HorizontalAlignment="Left" RenderTransformOrigin="0 0.5" Source="{DynamicResource Theme:Common.SettingsWindow.Background.Image}" Stretch="None">
+							<Image.RenderTransform>
+								<ScaleTransform ScaleY="-1" />
+							</Image.RenderTransform>
+						</Image>
+					</StackPanel>
+					<Border Background="{DynamicResource Theme:Common.SettingsWindow.Background.Image.Shadow}" />
+				</Grid>
+
+				<ScrollViewer Margin="5" Style="{StaticResource Theme:ControlStyles.ScrollViewer}">
+					<StackPanel x:Name="SettingsSectionsStackPanel" Margin="5 0 8 0">
+						
+						<StackPanel>
+
+							<Terminus:IntenseStareType1 Padding="0 8 0 0" RichText="⦁ Editor" Style="{StaticResource Theme:ControlStyles.Spec.Settings.SectionHeader}" UID="[Settings / Editor Parameters] * Section Name" />
+
+							<TStyle:Section>
+
+								<TStyle:Section.Resources>
+									<Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+										<EventSetter Event="Checked" Handler="Section_LimbusPreview_CheckBoxesCheckedUnchecked" />
+										<EventSetter Event="Unchecked" Handler="Section_LimbusPreview_CheckBoxesCheckedUnchecked" />
+									</Style>
+									<Style BasedOn="{StaticResource {x:Type TStyle:TwoColumned}}" TargetType="{x:Type TStyle:TwoColumned}">
+										<Setter Property="Margin" Value="0 8 0 8" />
+									</Style>
+								</TStyle:Section.Resources>
+
+								<TStyle:TwoColumned Margin="0 0 0 8">
+									<Terminus:IntenseStareType1 RichText="Enable syntax highlight" UID="[Settings / Editor Parameters] * Toggle Syntax Highlight" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.PreviewSettings.Base.EnableSyntaxHighlight}" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Hide Limbus text preview" UID="[Settings / Editor Parameters] * Hide Limbus Text Preview" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.PreviewSettings.Base.HidePreview}" />
+
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Highlight &lt;​style&gt;" UID="[Settings / Editor Parameters] * Highlight style" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.PreviewSettings.Base.HighlightStyle}" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Highlight descs on right click" UID="[Settings / Editor Parameters] * Highlight descs on right click" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.PreviewSettings.Base.HighlightDescsOnRightClick}" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Highlight descs on manual switch" UID="[Settings / Editor Parameters] * Highlight descs on manual switch" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.PreviewSettings.Base.HighlightDescsOnManualSwitch}" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Enable Skill Names replication" UID="[Settings / Editor Parameters] * Enable Skill Names Replication" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.PreviewSettings.Base.EnableSkillNamesReplication}" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Enable Keyword tooltips" UID="[Settings / Editor Parameters] * Enable Keyword tooltips" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.PreviewSettings.Base.EnableKeywordTooltips}" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Enable 7~10 Coin buttons of Skills" UID="[Settings / Editor Parameters] * Enable 7~10 Coin Buttons" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.PreviewSettings.Base.Enable7to10CoinButtons}" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Enable 7~10 Simple Description buttons of EGO Gifts" UID="[Settings / Editor Parameters] * Enable 7~10 Simple Desc Buttons" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.PreviewSettings.Base.Enable7to10EGOGiftSimpleDescButtons}" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Limbus Preview update delay" UID="[Settings / Editor Parameters] * Preview update delay" />
+									<TStyle:TwoColumned Grid.Column="1" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+										<Terminus:IntenseStareType3 UID="[Settings / Editor Parameters] * Preview update delay" />
+										<Button Grid.Column="1" Click="SaveAndDeploy_LimbusPreviewDelay" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+									</TStyle:TwoColumned>
+								</TStyle:TwoColumned>
+
+							</TStyle:Section>
+
+						</StackPanel>
+
+
+						<StackPanel>
+
+							<Terminus:IntenseStareType1 RichText="⦁ Limbus Custom Language" Style="{StaticResource Theme:ControlStyles.Spec.Settings.SectionHeader}" UID="[Settings / Custom Language] * Section Name" />
+
+							<TStyle:Section x:Name="LimbusCustomLanguageSettings">
+
+								<TStyle:TwoColumned Margin="0">
+									<Terminus:IntenseStareType1 x:Name="LimbusCustomLangSelectorHeader" RichText="Selected" UID="[Settings / Custom Language] * Selected Properties" />
+									<ComboBox x:Name="SV_SelectingCustomLanguage" Grid.Column="1" Padding="5 1 5 0" VerticalContentAlignment="Center" SelectionChanged="LimbusCustomLanguageSelector_SelectionChanged" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Reload localization files" UID="[Settings / Custom Language] * Reload Localization Files" />
+									<Button Grid.Column="1" Click="LimbusCustomLanguage_ReloadLocalizationFiles" Style="{StaticResource Theme:ControlStyles.Spec.ReloadDataButton}" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Show advanced" UID="[Settings / Custom Language] * Show advanced" />
+									<CheckBox x:Name="ShowCustomLangExtendedButtons" Grid.Column="1" IsChecked="False" />
+								</TStyle:TwoColumned>
+
+								<Border Style="{StaticResource Theme:ControlStyles.Spec.DelimiterBorder}" />
+
+								<StackPanel>
+									<Terminus:IntenseStareType1 RichText="Keywords directory" UID="[Settings / Custom Language] * Keywords Directory" />
+									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.KeywordsDirectory}" UID="[Settings / Custom Language] * Keywords Directory" />
+										<Button Grid.Column="1" Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+									</TStyle:TwoColumned>
+								</StackPanel>
+
+								<Border x:Uid="Visual delimiter" Height="10" T:BooleanStateHandler.IsVisible="{Binding ElementName=ShowCustomLangExtendedButtons, Path=IsChecked}" />
+
+								<StackPanel Margin="0 5 0 0">
+									<Terminus:IntenseStareType1 RichText="Title font" UID="[Settings / Custom Language] * Title Font" />
+									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.TitleFont}" UID="[Settings / Custom Language] * Title Font" />
+										<Button Grid.Column="1" Click="SaveAndDeploy_TitleFont" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+									</TStyle:TwoColumned>
+
+									<TStyle:TwoColumned Margin="0 5 0 10" T:BooleanStateHandler.IsVisible="{Binding ElementName=ShowCustomLangExtendedButtons, Path=IsChecked}">
+
+										<StackPanel Margin="0 0 5 0" VerticalAlignment="Bottom">
+											<Terminus:IntenseStareType1 x:Name="LimbusCustomLangFontWeightLabel_Title" RichText="Font weight" UID="[Settings / Custom Language] * Title Font — Weight" />
+											<ComboBox
+												x:Name="TitleFontWeightSelector"
+												Margin="0 2 0 0"
+												Padding="5 1 5 0"
+												ItemTemplate="{StaticResource FontWeightsItemContainerStyle_Title}"
+												ItemsSource="{StaticResource FontWeights}"
+												SelectedItem="{Binding DataContextDomain.SelectedLimbusCustomLanguage.TitleFont_FontWeight}"
+												SelectionChanged="TitleFontWeightSelector_SelectionChanged" />
+										</StackPanel>
+
+									</TStyle:TwoColumned>
+								</StackPanel>
+
+								<StackPanel Margin="0 5 0 0">
+									<Terminus:IntenseStareType1 RichText="Context font" UID="[Settings / Custom Language] * Context Font" />
+									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.ContextFont}" UID="[Settings / Custom Language] * Context Font" />
+										<Button Grid.Column="1" Click="SaveAndDeploy_ContextFont" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+									</TStyle:TwoColumned>
+
+									<TStyle:TwoColumned Margin="0 5 0 10" T:BooleanStateHandler.IsVisible="{Binding ElementName=ShowCustomLangExtendedButtons, Path=IsChecked}">
+
+										<StackPanel Margin="0 0 5 0" VerticalAlignment="Bottom">
+											<Terminus:IntenseStareType1 x:Name="LimbusCustomLangFontWeightLabel_Context" RichText="Font weight" UID="[Settings / Custom Language] * Context Font — Weight" />
+											<ComboBox
+												x:Name="ContextFontWeightSelector"
+												Margin="0 2 0 0"
+												Padding="5 1 5 0"
+												ItemTemplate="{StaticResource FontWeightsItemContainerStyle_Context}"
+												ItemsSource="{StaticResource FontWeights}"
+												SelectedItem="{Binding DataContextDomain.SelectedLimbusCustomLanguage.ContextFont_FontWeight}"
+												SelectionChanged="ContextFontWeightSelector_SelectionChanged" />
+										</StackPanel>
+
+									</TStyle:TwoColumned>
+								</StackPanel>
+
+								<TStyle:TwoColumned T:BooleanStateHandler.IsVisible="{Binding ElementName=ShowCustomLangExtendedButtons, Path=IsChecked}">
+
+									<StackPanel Margin="0 0 5 0" VerticalAlignment="Bottom">
+										<Terminus:IntenseStareType1 RichText="Sprites horizontal offset" UID="[Settings / Custom Language] * Sprites horizontal offset" />
+										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+											<Terminus:IntenseStareType3 Terminus:Assistant.PreviewInputRegexHandling="^[0-9,.+-]+$" UID="[Settings / Custom Language] * Sprites horizontal offset" />
+											<Button Grid.Column="1" Click="ChangeSpritesHorizontalOffset" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										</TStyle:TwoColumned>
+									</StackPanel>
+
+									<StackPanel Grid.Column="1" Margin="5 0 0 0" VerticalAlignment="Bottom">
+										<Terminus:IntenseStareType1 RichText="Sprites vertical offset" UID="[Settings / Custom Language] * Sprites vertical offset" />
+										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+											<Terminus:IntenseStareType3 Terminus:Assistant.PreviewInputRegexHandling="^[0-9,.+-]+$" UID="[Settings / Custom Language] * Sprites vertical offset" />
+											<Button Grid.Column="1" Click="ChangeSpritesVerticalOffset" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										</TStyle:TwoColumned>
+									</StackPanel>
+
+								</TStyle:TwoColumned>
+
+
+								<StackPanel T:BooleanStateHandler.IsVisible="{Binding ElementName=ShowCustomLangExtendedButtons, Path=IsChecked}">
+
+									<StackPanel Margin="0 18 0 0">
+										<Terminus:IntenseStareType1 RichText="Keywords autodetection Regex pattern" UID="[Settings / Custom Language] * Keywords autodetection Regex pattern" />
+										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.Keywords_AutodetectionRegex}" UID="[Settings / Custom Language] * Keywords autodetection Regex pattern" />
+											<Button Grid.Column="1" Click="SaveAndDeploy_KeywordsAutodetectionRegex" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										</TStyle:TwoColumned>
+									</StackPanel>
+
+									<StackPanel Margin="0 18 0 0">
+										<Terminus:IntenseStareType1 RichText="Keywords Multiple meanings dictionary file" UID="[Settings / Custom Language] * Keywords Multiple meanings dictionary file" />
+										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.KeywordsMultipleMeaningsDictionary}" UID="[Settings / Custom Language] * Keywords Multiple meanings dictionary file" />
+											<Button Grid.Column="1" Click="SaveAndDeploy_KeywordsMultipleMeaningsDictionary" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										</TStyle:TwoColumned>
+									</StackPanel>
+
+									<StackPanel Margin="0 6 0 0">
+										<Terminus:IntenseStareType1 RichText="Context Menu Extra replacements file" UID="[Settings / Custom Language] * Context Menu Extra replacements file" />
+										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.ContextMenuExtraReplacements}" UID="[Settings / Custom Language] * Context Menu Extra replacements file" />
+											<Button Grid.Column="1" Click="SaveAndDeploy_ExtraReplacements" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										</TStyle:TwoColumned>
+									</StackPanel>
+
+									<StackPanel Margin="0 18 0 0">
+										<Terminus:IntenseStareType1 RichText="Shorthands Regex pattern" UID="[Settings / Custom Language] * Shorthands Regex pattern" />
+										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.Keywords_ShorthandsRegex}" UID="[Settings / Custom Language] * Shorthands Regex pattern" />
+											<Button Grid.Column="1" Click="SaveAndDeploy_ShorthandsPattern" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										</TStyle:TwoColumned>
+									</StackPanel>
+
+									<StackPanel Margin="0 6 0 0">
+										<Terminus:IntenseStareType1 RichText="Shorthands Context Menu insertion shape" UID="[Settings / Custom Language] * Shorthands Context Menu insertion shape" />
+										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.Shorthands_InsertionShape}" UID="[Settings / Custom Language] * Shorthands Context Menu insertion shape" />
+											<Button Grid.Column="1" Click="SaveAndDeploy_ShorthandsPatternInsertionShape" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										</TStyle:TwoColumned>
+									</StackPanel>
+
+								</StackPanel>
+
+								<Border Style="{StaticResource Theme:ControlStyles.Spec.DelimiterBorder}" />
+
+								<StackPanel Margin="0 18 0 0">
+									<Terminus:IntenseStareType1 RichText="Fallback keywords directory" UID="[Settings / Custom Language] * Fallback Keywords Directory" />
+									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.PreviewSettings.CustomLang.KeywordsFallbackDirectory}" UID="[Settings / Custom Language] * Fallback Keywords Directory" />
+										<Button Grid.Column="1" Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+									</TStyle:TwoColumned>
+								</StackPanel>
+
+								<StackPanel Margin="0 6 0 0">
+									<Terminus:IntenseStareType1 RichText="Additional keywords directory" UID="[Settings / Custom Language] * Additional Keywords Directory" />
+									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.PreviewSettings.CustomLang.AdditionalKeywordsDirectory}" UID="[Settings / Custom Language] * Additional Keywords Directory" />
+										<Button Grid.Column="1" Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+									</TStyle:TwoColumned>
+								</StackPanel>
+
+							</TStyle:Section>
+
+						</StackPanel>
+
+
+						<StackPanel>
+
+							<Terminus:IntenseStareType1 RichText="⦁ Internal" Style="{StaticResource Theme:ControlStyles.Spec.Settings.SectionHeader}" UID="[Settings / Internal] * Section Name" />
+
+							<TStyle:Section>
+
+								<TStyle:TwoColumned Margin="0">
+									<Terminus:IntenseStareType1 x:Name="InterfaceLanguageSelectorLabel" RichText="Interface language" UID="[Settings / Internal] * Selected UI Lanugage" />
+									<ComboBox x:Name="InterfaceLanguageSelector" Grid.Column="1" ItemTemplate="{StaticResource InterfaceLanguageSelectorContainerStyle}" SelectionChanged="InterfaceLanguageSelector_SelectionChanged" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 x:Name="InterfaceThemeSelectorLabel" RichText="Interface theme" TextWrapping="NoWrap" UID="[Settings / Internal] * Selected UI Theme" />
+									<ComboBox x:Name="InterfaceThemeSelector" Grid.Column="1" ItemTemplate="{StaticResource InterfaceThemeSelectorContainerStyle}" SelectionChanged="InterfaceThemeSelector_SelectionChanged" />
+								</TStyle:TwoColumned>
+
+								<Terminus:IntenseStareType1 Margin="0 5 0 8" FontSize="16" Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Comments}" LineHeight="20" UID="[Settings / Internal] [-] * Selected UI Theme (Comment)" />
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Check for updates on startup" UID="[Settings / Internal] * Check for updates on startup" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.Internal.CheckForUpdates}" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Show startup progress" UID="[Settings / Internal] * Show startup progress" />
+									<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.Internal.ShowStartupProgress}" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Topmost window" UID="[Settings / Internal] * Toggle Topmost state" />
+									<CheckBox Grid.Column="1" Checked="TompostWindow_CheckedUnchecked" IsChecked="{Binding DataContextDomain.Configuration.Internal.IsAlwaysOnTop}" Unchecked="TompostWindow_CheckedUnchecked" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 x:Name="MiscTitleBarButtonsToggle" RichText="Specific title bar buttons On/Off" UID="[Settings / Internal] * Specific title bar buttons On/Off" />
+									<StackPanel Grid.Column="1" Orientation="Horizontal">
+										<StackPanel.Resources>
+											<Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+												<Setter Property="Margin" Value="0 0 10 0" />
+												<Setter Property="MinHeight" Value="27" />
+												<Setter Property="Cursor" Value="Hand" />
+												<Setter Property="Focusable" Value="False" />
+												<Setter Property="Height" Value="{Binding ElementName=MiscTitleBarButtonsToggle, Path=ActualHeight}" />
+												<Setter Property="Template">
+													<Setter.Value>
+														<ControlTemplate TargetType="{x:Type CheckBox}">
+															<Border Background="Transparent">
+																<TextBlock
+																	x:Name="OptionMark"
+																	HorizontalAlignment="Center"
+																	VerticalAlignment="Center"
+																	FontFamily="/UI/Fonts/#Segoe Fluent Icons"
+																	FontSize="25"
+																	Foreground="{DynamicResource Theme:TitleBar.Icons}"
+																	Text="{TemplateBinding Content}" />
+															</Border>
+															<ControlTemplate.Triggers>
+																<Trigger Property="IsChecked" Value="False">
+																	<Setter TargetName="OptionMark" Property="Opacity" Value="0.55" />
+																</Trigger>
+															</ControlTemplate.Triggers>
+														</ControlTemplate>
+													</Setter.Value>
+												</Setter>
+											</Style>
+										</StackPanel.Resources>
+										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.EditorModeSwitch, FallbackValue=True}" />
+										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.OpenSkillsDisplayInfoManager, FallbackValue=True}" />
+										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.SwitchUIToPreviewCreator, FallbackValue=True}" />
+										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.ExportTextToImage, FallbackValue=True}" />
+									</StackPanel>
+								</TStyle:TwoColumned>
+
+								<Terminus:IntenseStareType1
+									Margin="0 5 0 0"
+									FontSize="16"
+									Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Comments}"
+									LineHeight="20"
+									RichText="Drop-down lists only consider files and folders from «[⇲] Assets Directory\※ Internal\Translation» and «[⇲] Assets Directory\※ Internal\Themes» respectively"
+									UID="[Settings / Internal] * Dropdown lists Readme" />
+
+
+								<StackPanel x:Name="SpecificSettingsWithCaution" Margin="0 16 0 5">
+									<StackPanel.Resources>
+										<DropShadowEffect x:Key="GlowEffect" BlurRadius="3" ShadowDepth="0" Color="{DynamicResource Theme:Common.SettingsWindow.SpecificSettings.CautionsColor}" />
+										<SolidColorBrush x:Key="CautionsForeground" Color="{DynamicResource Theme:Common.SettingsWindow.SpecificSettings.CautionsColor}" />
+										<LinearGradientBrush x:Key="SidesFadeout" StartPoint="0 0" EndPoint="1 0">
+											<GradientStop Offset="0" Color="#00000000" />
+											<GradientStop Offset="0.02" Color="#000000" />
+											<GradientStop Offset="0.98" Color="#000000" />
+											<GradientStop Offset="1" Color="#00000000" />
+										</LinearGradientBrush>
+									</StackPanel.Resources>
+
+									<Grid Visibility="Collapsed">
+										<!--    Sample caution element    -->
+										<StackPanel Margin="0 0 8.3 0" Orientation="Horizontal">
+											<TextBlock Margin="0 1 8.3 0" FontFamily="/UI/Fonts/#Sappy" FontSize="12.5" Foreground="OrangeRed" Text="////" />
+											<TextBlock FontFamily="/UI/Fonts/#Bebas Neue Bold" FontSize="13" Foreground="OrangeRed" LineHeight="13" Text="CAUTION" />
+										</StackPanel>
+									</Grid>
+
+									<Grid OpacityMask="{StaticResource SidesFadeout}">
+										<Canvas Width="377" Height="15" ClipToBounds="True" Effect="{StaticResource GlowEffect}">
+											<StackPanel x:Name="SpecificSettingsCautions_TopStackPanel" Canvas.Right="0" Effect="{StaticResource GlowEffect}" Orientation="Horizontal">
+												<StackPanel.RenderTransform>
+													<TranslateTransform x:Name="TopStackPanelTransform" />
+												</StackPanel.RenderTransform>
+											</StackPanel>
+										</Canvas>
+									</Grid>
+
+									<TStyle:Section Margin="0 4 0 4">
+
+										<TStyle:TwoColumned Margin="0">
+											<Terminus:IntenseStareType1 RichText="Enable manual Json files managing" UID="[Settings / Internal] * Enable manual Json files managing" />
+											<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.Internal.EnableManualJsonFilesManaging}" ToolTipService.InitialShowDelay="100">
+												<CheckBox.ToolTip>
+													<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
+														<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}" LineHeight="18" RichText=". :p ..." UID="[Settings / Internal] * Enable manual Json files managing (Tooltip)" />
+													</ToolTip>
+												</CheckBox.ToolTip>
+											</CheckBox>
+										</TStyle:TwoColumned>
+
+										<TStyle:TwoColumned>
+											<Terminus:IntenseStareType1 RichText="Skip Skills Data reading on startup" UID="[Settings / Internal] * Skip Skills Data reading on startup" />
+											<CheckBox Grid.Column="1" IsChecked="{Binding DataContextDomain.Configuration.Internal.SkipSkillsDataReading}" ToolTipService.InitialShowDelay="100" Unchecked="SkipSkillsDataReadig_Unchecked">
+												<CheckBox.ToolTip>
+													<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
+														<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}" LineHeight="18" RichText="Uncheck this if you don't use Skill Names Replication; reading them noticeably takes time. Checking will automatically read them." UID="[Settings / Internal] * Skip Skills Data reading on startup (CheckBox Tooltip)" />
+													</ToolTip>
+												</CheckBox.ToolTip>
+											</CheckBox>
+										</TStyle:TwoColumned>
+
+										<TStyle:TwoColumned>
+											<Terminus:IntenseStareType1 RichText="Disable &quot;Unknown&quot; for unidentified keywords" UID="[Settings / Internal] * Disable 'Unknown' for unidentified keywords" />
+											<CheckBox Grid.Column="1" Checked="DisableUnknownForUnidentifiedKeywords_CheckedUnchecked" IsChecked="{Binding DataContextDomain.Configuration.Internal.DisableUnknownForUnidentifiedKeywords}" ToolTipService.InitialShowDelay="100" Unchecked="DisableUnknownForUnidentifiedKeywords_CheckedUnchecked">
+												<CheckBox.ToolTip>
+													<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
+														<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}" LineHeight="18" RichText="Don't convert [KeywordID] with an unknown keyword ID to green &quot;Unknown&quot; text in Skills and Passives localization files. This means allowing free use of square brackets (I wish this was the case in the game too...)." UID="[Settings / Internal] * Disable 'Unknown' for unidentified keywords (CheckBox Tooltip)" />
+													</ToolTip>
+												</CheckBox.ToolTip>
+											</CheckBox>
+										</TStyle:TwoColumned>
+
+										<TStyle:TwoColumned>
+											<Terminus:IntenseStareType1 RichText="Disable Text Elements Sealing in Identity/E.G.O Preview Creator" UID="[Settings / Internal] * Disable Text Elements Sealing in Identity/E.G.O Preview Creator" />
+											<CheckBox Grid.Column="1" Checked="DisableTextElementsSealingInPreviewCreator_CheckedUnchecked" IsChecked="{Binding DataContextDomain.Configuration.Internal.DisableTextElementsSealingInPreviewCreator}" ToolTipService.InitialShowDelay="100" Unchecked="DisableTextElementsSealingInPreviewCreator_CheckedUnchecked">
+												<CheckBox.ToolTip>
+													<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
+														<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}" LineHeight="18" RichText="All Skill/Passive text elements in columns are captured in a static image if they aren't interacted with, as they LITERALLY KILL scrolling performance due to the complex structure of the UI element (especially the Skill). In exchange, RAM consumption increases due to the rendering of these images ([u]460[/u] [u]MB[/u] with the UI elements themselves  →  [u]570[/u] [u]MB[/u] with them rendered to static images)." UID="[Settings / Internal] * Disable Text Elements Sealing in Identity/E.G.O Preview Creator (CheckBox Tooltip)" />
+													</ToolTip>
+												</CheckBox.ToolTip>
+											</CheckBox>
+										</TStyle:TwoColumned>
+
+										<TStyle:TwoColumned>
+											<Terminus:IntenseStareType1 RichText="Enable autosave" UID="[Settings / Internal] * Enable autosave" />
+											<CheckBox Grid.Column="1" Checked="EnableAutoSave_Checked" IsChecked="{Binding DataContextDomain.Configuration.Internal.EnableAutoSave}" ToolTipService.InitialShowDelay="100">
+												<CheckBox.ToolTip>
+													<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
+														<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}" LineHeight="18" RichText="It just automatically executes [b]Ctrl[/b] + [b]S[/b] hotkey after delay when typing text in main text editor or string inputs at the right menu." UID="[Settings / Internal] * Enable autosave (CheckBox Tooltip)" />
+													</ToolTip>
+												</CheckBox.ToolTip>
+											</CheckBox>
+										</TStyle:TwoColumned>
+
+										<TStyle:TwoColumned T:BooleanStateHandler.IsEnabled="{T:BooleanStateBinding DataContextDomain.Configuration.Internal.EnableAutoSave}">
+											<Terminus:IntenseStareType1 RichText="Autosave delay (Seconds)" UID="[Settings / Editor Parameters] * Autosave delay" />
+											<TStyle:TwoColumned Grid.Column="1" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+												<Terminus:IntenseStareType3 UID="[Settings / Editor Parameters] * Autosave delay" />
+												<Button Grid.Column="1" Click="SaveAndDeploy_AutoSaveDelay" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+											</TStyle:TwoColumned>
+										</TStyle:TwoColumned>
+									</TStyle:Section>
+
+									<Grid OpacityMask="{StaticResource SidesFadeout}">
+										<Canvas Width="377" Height="15" ClipToBounds="True" Effect="{StaticResource GlowEffect}">
+											<StackPanel x:Name="SpecificSettingsCautions_BottomStackPanel" Effect="{StaticResource GlowEffect}" Orientation="Horizontal">
+												<StackPanel.RenderTransform>
+													<TranslateTransform x:Name="BottomStackPanelTransform" X="0" />
+												</StackPanel.RenderTransform>
+											</StackPanel>
+										</Canvas>
+									</Grid>
+								</StackPanel>
+
+							</TStyle:Section>
+
+						</StackPanel>
+
+
+						<StackPanel>
+
+							<Terminus:IntenseStareType1 RichText="⦁ Image Exports" Style="{StaticResource Theme:ControlStyles.Spec.Settings.SectionHeader}" UID="[Settings / Image Exports] * Section Name" />
+
+							<TStyle:Section>
+
+								<TStyle:TwoColumned Margin="0">
+									<Terminus:IntenseStareType1 RichText="Scans Scale Factor" UID="[Settings / Image Exports] * Scale Factor" />
+									<TStyle:TwoColumned Grid.Column="1" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+										<Terminus:IntenseStareType3 x:Name="ImageExportsScaleFactorInput" Terminus:Assistant.PreviewInputRegexHandling="^[0-9,.+-]+$" UID="[Settings / Image Exports] * Scale Factor" />
+										<Button Grid.Column="1" Click="SaveAndDeploy_ImageExportsScale" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+									</TStyle:TwoColumned>
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Skills Background Color (Hex [u]RGB[/u] / [u]ARGB[/u])" UID="[Settings / Image Exports] * Background Color" />
+									<TStyle:TwoColumned Grid.Column="1" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+										<Terminus:IntenseStareType3 x:Name="ImageExportsBGColorInput" BindableText="{Binding DataContextDomain.Configuration.ScanParameters.BackgroundColor, UpdateSourceTrigger=PropertyChanged}" DisplayInputColor="True" TextMaxLength="8" UID="[Settings / Image Exports] * Background Color" />
+										<Button Grid.Column="1" Click="SaveAndDeploy_BackgroundColor" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+									</TStyle:TwoColumned>
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Display keywords sprite" UID="[Settings / Image Exports] * Display Keyword Sprites" />
+									<CheckBox Grid.Column="1" Checked="ToggleKeywordsUnderlineOrSprite_CheckedUnchecked" IsChecked="{Binding DataContextDomain.Configuration.ScanParameters.EnableKeywordsSprite}" Unchecked="ToggleKeywordsUnderlineOrSprite_CheckedUnchecked" />
+								</TStyle:TwoColumned>
+
+								<TStyle:TwoColumned>
+									<Terminus:IntenseStareType1 RichText="Display keywords underline" UID="[Settings / Image Exports] * Display Keyword Underline" />
+									<CheckBox Grid.Column="1" Checked="ToggleKeywordsUnderlineOrSprite_CheckedUnchecked" IsChecked="{Binding DataContextDomain.Configuration.ScanParameters.EnableKeywordsUnderline}" Unchecked="ToggleKeywordsUnderlineOrSprite_CheckedUnchecked" />
+								</TStyle:TwoColumned>
+
+								<StackPanel Margin="0 10 0 0">
+									<Terminus:IntenseStareType1 RichText="Preloaded Image Info for Identity/E.G.O Preview Creator" UID="[Settings / Image Exports] * Preloaded Image Info for Identity/E.G.O Preview Creator" />
+									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.ScanParameters.PreloadedImageInfoForPreviewCreator}" UID="[Settings / Image Exports] * Preloaded Image Info for Identity/E.G.O Preview Creator" />
+										<Button Grid.Column="1" Click="SaveAndDeploy_PreloadImageInfoForPreviewCreator" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+									</TStyle:TwoColumned>
+								</StackPanel>
+
+								<Terminus:IntenseStareType1
+									Margin="0 5 0 0"
+									FontSize="16"
+									Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Comments}"
+									LineHeight="20"
+									RichText="Larger Scale Factor = higher quality, more time to scan content, larger file size, and A LOT of RAM usage (Up to ~1.8 GB)[b].[/b]\n\nTwo last options is applied to all keywords that ultimately fit the [size=92%][font=&quot;Consolas&quot;]&lt;&#x200B;sprite name=&quot;...&quot;&gt;&lt;&#x200B;color&gt;&lt;&#x200B;u&gt;&lt;&#x200B;link=&quot;...&quot;&gt;...&lt;/&#x200B;link&gt;&lt;&#x200B;/u&gt;&lt;&#x200B;/color&gt;[/font][/size] pattern (With any order of opening and closing [size=92%][font=&quot;Consolas&quot;]&lt;&#x200B;link=&quot;...&quot;&gt;[/font][/size], [size=92%][font=&quot;Consolas&quot;]&lt;&#x200B;u&gt;[/font][/size], and [size=92%][font=&quot;Consolas&quot;]&lt;&#x200B;color&gt;[/font][/size] tags)[b].[/b]"
+									UID="[Settings / Image Exports] * Comment" />
+
+							</TStyle:Section>
+
+						</StackPanel>
+
+					</StackPanel>
+				</ScrollViewer>
+
+			</Grid>
+
+		</TStyle:InstancedWindowLayout.Content>
+
+	</TStyle:InstancedWindowLayout>
+</Abstractions:FadeableWindow>

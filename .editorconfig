@@ -1,0 +1,51 @@
+﻿[*.cs]
+
+# IDE0063: Использовать простой оператор using
+dotnet_diagnostic.IDE0063.severity = none
+
+# IDE1006: Стили именования
+dotnet_diagnostic.IDE1006.severity = none
+
+# Shutup
+dotnet_diagnostic.CA1853.severity = none
+dotnet_diagnostic.CS8517.severity = none
+dotnet_diagnostic.IDE0044.severity = none
+dotnet_diagnostic.CS8509.severity = none
+dotnet_diagnostic.SYSLIB1054.severity = none
+dotnet_diagnostic.CS0162.severity = none
+dotnet_diagnostic.CA1823.severity = none
+dotnet_diagnostic.CA1041.severity = none
+dotnet_diagnostic.IDE0052.severity = none
+
+# CA2211: Поля, не являющиеся константами, не должны быть видимыми
+dotnet_diagnostic.CA2211.severity = none
+
+# CA1507: Используйте nameof для выражения имен символов
+dotnet_diagnostic.CA1507.severity = none
+
+# IDE0003: Удалить квалификацию
+dotnet_diagnostic.IDE0003.severity = none
+
+# IDE0001: Упрощение имен
+dotnet_diagnostic.IDE0001.severity = none
+
+# IDE0028: Упростите инициализацию коллекции
+dotnet_diagnostic.IDE0028.severity = none
+
+# IDE0079: Удалить ненужное подавление
+dotnet_diagnostic.IDE0079.severity = none
+
+# IDE0130: Пространство имен (namespace) не соответствует структуре папок.
+dotnet_diagnostic.IDE0130.severity = none
+
+# SYSLIB1045: Преобразовать в "GeneratedRegexAttribute".
+dotnet_diagnostic.SYSLIB1045.severity = none
+
+# CA1822: Пометьте члены как статические
+dotnet_diagnostic.CA1822.severity = none
+
+# CS8321: Локальная функция объявлена, но не используется
+dotnet_diagnostic.CS8321.severity = none
+
+# IDE0022: Использовать тело блока для метода
+csharp_style_expression_bodied_methods = when_on_single_line

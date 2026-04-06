@@ -1,0 +1,56 @@
+﻿<!--    DynamicResource references is based on PreviewCreatorPage's __TextColumnsCanvas__ Resources, ColumnElement always should be placed inside its visual tree    -->
+
+<UserControl
+	x:Class="LCLocalizationInterface.LimbusRegistry.PreviewCreator.ColumnTextElementContainer"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Blend="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:MarkupCompatibility="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	x:Name="Root"
+	Margin="{Binding ElementName=Root, Path=VerticalOffset, Converter={StaticResource DoubleToTopMarginConverter}}"
+	MarkupCompatibility:Ignorable="Blend">
+	<UserControl.Template>
+		<ControlTemplate>
+			<Grid Margin="0 0 0 13" Background="Transparent">
+
+				<Image x:Name="TemplateSealedView" HorizontalAlignment="Left" Visibility="Collapsed" />
+
+				<Grid x:Name="PART_TemplateContentGrid">
+
+					<Grid x:Name="PART_SignatureGrid" Width="510" Margin="{Binding ElementName=Root, Path=SignatureText_HOffset, Converter={StaticResource DoubleToRightMarginConverter}}" HorizontalAlignment="Left" Visibility="Visible">
+
+						<!--    {DynamicResource TextColumns_ItemSignaturesFont} is presented at the Page.xaml    -->
+						<TextBlock
+							Margin="0 10.5 32 0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Top"
+							FontFamily="{DynamicResource TextColumns_ItemSignaturesFont}"
+							FontSize="31"
+							Foreground="#47311e"
+							Text="{Binding ElementName=Root, Path=SignatureText, FallbackValue='AsdAsd'}"
+							TextAlignment="Right">
+							<TextBlock.Effect>
+								<DropShadowEffect BlurRadius="7" ShadowDepth="0" />
+							</TextBlock.Effect>
+						</TextBlock>
+					</Grid>
+
+
+					<!--    Skill / Passive / Keyword   displayer    -->
+					<Grid x:Name="PART_LocalizationTextViewSite" Margin="{Binding ElementName=Root, Path=ContentHorizontalOffset, Converter={StaticResource DoubleToRightMarginConverter}}">
+
+						<ContentPresenter x:Name="LocalizationTextViewPresenter" Content="{Binding ElementName=Root, Path=LocalizationTextView}" />
+
+					</Grid>
+
+				</Grid>
+
+			</Grid>
+			<ControlTemplate.Triggers>
+				<DataTrigger Binding="{Binding ElementName=Root, Path=RelatedJsonData.Type}" Value="Keyword">
+					<Setter TargetName="PART_SignatureGrid" Property="Visibility" Value="Collapsed" />
+				</DataTrigger>
+			</ControlTemplate.Triggers>
+		</ControlTemplate>
+	</UserControl.Template>
+</UserControl>

@@ -1,0 +1,393 @@
+﻿<Window
+	x:Class="LCLocalizationInterface.LimbusRegistry.SkillsDisplayInfoManagerWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:AvalonEdit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
+	xmlns:Icons="clr-namespace:VisualStudioControlsTemplates.Icons"
+	xmlns:T="clr-namespace:LCLocalizationInterface.MarkupExtensions"
+	xmlns:TStyle="clr-namespace:LCLocalizationInterface.Internal.UIStyle"
+	xmlns:Terminus="clr-namespace:LCLocalizationInterface.Internal.Terminus"
+	Title="{Binding ElementName=CaptionBinder, Path=Text}"
+	Height="510"
+	MinWidth="571"
+	MinHeight="510"
+	MaxWidth="571"
+	Topmost="True"
+	WindowStartupLocation="CenterScreen">
+	<Window.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/Border.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/ScrollBar.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/ScrollViewer.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/ContextMenu.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/Button.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/ComboBox.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/ComboBoxItem.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/TextBox.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/AvalonEdit.TextEditor.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/CheckBox.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/TabControl.xaml" />
+				<ResourceDictionary Source="/UI/Visual Studio ControlTemplates/TabItem.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</Window.Resources>
+	<Grid Margin="0 0 -0.2 -0.2" Background="#1f1f1f">
+
+		<Grid.Resources>
+			<Style TargetType="{x:Type Terminus:IntenseStareType1}">
+				<Setter Property="Foreground" Value="#F5F5DC" />
+				<Setter Property="VerticalAlignment" Value="Center" />
+				<Setter Property="PerfectVerticalAlign" Value="True" />
+				<Setter Property="FontFamily" Value="/UI/Fonts/#GOST type BU" />
+			</Style>
+		</Grid.Resources>
+
+		<Terminus:IntenseStareType1 x:Name="CaptionBinder" x:FieldModifier="private" UID="[Skills DI Manager] [!] [#] * Title (Window Caption)" Visibility="Collapsed" />
+
+		<Grid Height="23.96" Margin="5 5 5 5" VerticalAlignment="Top">
+			<StackPanel Orientation="Horizontal">
+				<Button Height="23.96" Click="LoadDisplayInfoFile">
+					<Terminus:IntenseStareType1 Width="120" FontSize="16.5" RichText="Open file" TextAlignment="Center" UID="[Skills DI Manager] * Open file button" />
+				</Button>
+				<Button Height="23.96" Margin="5 0 0 0" Click="SaveDisplayInfoFile">
+					<Terminus:IntenseStareType1 Width="120" FontSize="16.5" RichText="Save current" TextAlignment="Center" UID="[Skills DI Manager] * Save current button" />
+				</Button>
+				<Terminus:IntenseStareType1
+					x:Name="SelectedFileLabel"
+					MaxWidth="283"
+					Margin="5 0 0 0"
+					HorizontalAlignment="Left"
+					FontSize="16"
+					Text="···.json"
+					TextTrimming="CharacterEllipsis"
+					TextWrapping="NoWrap"
+					ToolTipService.InitialShowDelay="0"
+					UID="[Skills DI Manager] * Current file name">
+					<Terminus:IntenseStareType1.ToolTip>
+						<ToolTip Background="#E0676767" HorizontalOffset="20">
+							<Terminus:IntenseStareType1 x:Name="SelectedFileLabel_Tooltip" FontSize="14" Text="···" UID="[Skills DI Manager] * Current file name (Full path tooltip)" />
+						</ToolTip>
+					</Terminus:IntenseStareType1.ToolTip>
+				</Terminus:IntenseStareType1>
+			</StackPanel>
+		</Grid>
+
+		<Grid x:Name="MainGrid" Margin="5 35 5 6">
+
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition Width="197.85" />
+				<ColumnDefinition />
+			</Grid.ColumnDefinitions>
+
+			<Grid.Resources>
+				<PopupAnimation x:Key="{x:Static SystemParameters.MenuPopupAnimationKey}">None</PopupAnimation>
+
+				<ContextMenu x:Key="TabItemContextMenu">
+					<ContextMenu.Resources>
+						<Style TargetType="{x:Type Terminus:IntenseStareType1}">
+							<Setter Property="Foreground" Value="#D6D6D6" />
+							<Setter Property="FontSize" Value="16" />
+						</Style>
+					</ContextMenu.Resources>
+					<ContextMenu.Items>
+						<MenuItem Click="MoveTabItemUp">
+							<MenuItem.Icon>
+								<Icons:ArrowUp />
+							</MenuItem.Icon>
+							<MenuItem.Header>
+								<Terminus:IntenseStareType1 Text="Move up" UID="[Skills DI Manager] * Skill switch button (Context menu — Move Up)" />
+							</MenuItem.Header>
+						</MenuItem>
+						<MenuItem Click="DeleteTabItem">
+							<MenuItem.Icon>
+								<Icons:Delete />
+							</MenuItem.Icon>
+							<MenuItem.Header>
+								<Terminus:IntenseStareType1 Text="Delete" UID="[Skills DI Manager] * Skill switch button (Context menu — Delete)" />
+							</MenuItem.Header>
+						</MenuItem>
+						<MenuItem Click="MoveTabItemDown">
+							<MenuItem.Icon>
+								<Icons:ArrowDown />
+							</MenuItem.Icon>
+							<MenuItem.Header>
+								<Terminus:IntenseStareType1 Text="Move down" UID="[Skills DI Manager] * Skill switch button (Context menu — Move down)" />
+							</MenuItem.Header>
+						</MenuItem>
+					</ContextMenu.Items>
+				</ContextMenu>
+
+
+				<ContextMenu x:Key="TextfieldContextMenu">
+					<ContextMenu.Resources>
+						<Style TargetType="{x:Type Terminus:IntenseStareType1}">
+							<Setter Property="Foreground" Value="#D6D6D6" />
+							<Setter Property="FontSize" Value="16" />
+							<Setter Property="Width" Value="100" />
+						</Style>
+					</ContextMenu.Resources>
+					<ContextMenu.Items>
+						<MenuItem Command="ApplicationCommands.Copy" FontSize="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header.FontSize}">
+							<MenuItem.Icon>
+								<Icons:Copy />
+							</MenuItem.Icon>
+							<MenuItem.Header>
+								<Terminus:IntenseStareType1 Text="Copy" UID="[Skills DI Manager] * Textfields context menu — Copy" />
+							</MenuItem.Header>
+						</MenuItem>
+						<MenuItem Command="ApplicationCommands.Cut" FontSize="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header.FontSize}">
+							<MenuItem.Icon>
+								<Icons:Cut />
+							</MenuItem.Icon>
+							<MenuItem.Header>
+								<Terminus:IntenseStareType1 Text="Cut" UID="[Skills DI Manager] * Textfields context menu — Cut" />
+							</MenuItem.Header>
+						</MenuItem>
+						<MenuItem Command="ApplicationCommands.Paste" FontSize="{Binding RelativeSource={RelativeSource Mode=Self}, Path=Header.FontSize}">
+							<MenuItem.Icon>
+								<Icons:Paste />
+							</MenuItem.Icon>
+							<MenuItem.Header>
+								<Terminus:IntenseStareType1 Text="Paste" UID="[Skills DI Manager] * Textfields context menu — Paste" />
+							</MenuItem.Header>
+						</MenuItem>
+					</ContextMenu.Items>
+				</ContextMenu>
+
+				<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType3}}" TargetType="{x:Type Terminus:IntenseStareType3}">
+					<Setter Property="Height" Value="23.96" />
+					<Setter Property="FontSize" Value="16.5" />
+					<Setter Property="FontFamily" Value="/UI/Fonts/#GOST type BU" />
+					<Setter Property="ContextMenu" Value="{DynamicResource TextfieldContextMenu}" />
+				</Style>
+				<Style BasedOn="{StaticResource {x:Type ComboBox}}" TargetType="{x:Type ComboBox}">
+					<Setter Property="Height" Value="23.96" />
+				</Style>
+				<Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+					<Setter Property="Height" Value="23.96" />
+				</Style>
+				<Style BasedOn="{StaticResource {x:Type TabItem}}" TargetType="{x:Type TabItem}">
+					<Setter Property="ContextMenu" Value="{StaticResource TabItemContextMenu}" />
+				</Style>
+				<Style BasedOn="{StaticResource {x:Type CheckBox}}" TargetType="{x:Type CheckBox}">
+					<Setter Property="Height" Value="23.96" />
+					<Setter Property="Width" Value="23.96" />
+					<Setter Property="HorizontalAlignment" Value="Left" />
+					<Setter Property="VerticalAlignment" Value="Center" />
+				</Style>
+			</Grid.Resources>
+
+			<Terminus:IntenseStareType1
+				x:Name="TabItemHeaderTextBinding"
+				Width="148"
+				Padding="0 3 0 3"
+				FontSize="16"
+				TextWrapping="Wrap"
+				UID="[Skills DI Manager] * Skill name inside button"
+				Visibility="Collapsed" />
+			<TabControl x:Name="CurrentConstructorsList" Margin="0 0 0 29" SelectionChanged="UpdateCurrentConstructorView" />
+
+			<Button
+				x:Name="AddConstructorButton"
+				Width="198"
+				Height="24"
+				Padding="5 -1 0 0"
+				HorizontalAlignment="Left"
+				VerticalAlignment="Bottom"
+				HorizontalContentAlignment="Left"
+				Click="AddConstructorButton_Click">
+				<Terminus:IntenseStareType1 FontSize="16.5" PerfectVerticalAlign="True" RichText="[b]+[/b] New skill constructor" UID="[Skills DI Manager] * New skill constructor button" />
+			</Button>
+
+			<ScrollViewer Grid.Column="1" Margin="5 0 0 0" VerticalScrollBarVisibility="Hidden">
+				<StackPanel>
+					<TStyle:TwoColumned>
+						<Terminus:IntenseStareType1 FontSize="20" RichText="Skill name" UID="[Skills DI Manager] * Skill name" />
+						<Terminus:IntenseStareType3 x:Name="SkillNameTextInput" Grid.Column="1" KeyDown="EscapeOrEnterUnfocus" TextChanged="SkillNameTextInput_TextChanged" UID="[Skills DI Manager] * Skill name" />
+					</TStyle:TwoColumned>
+					<TStyle:TwoColumned Margin="0 5 0 0">
+						<Terminus:IntenseStareType1 FontSize="20" RichText="Skill ID" UID="[Skills DI Manager] * Skill ID" />
+						<Terminus:IntenseStareType3 x:Name="SkillIDTextInput" Grid.Column="1" KeyDown="EscapeOrEnterUnfocus" TextChanged="SkillIDTextInput_TextChanged" UID="[Skills DI Manager] * Skill ID" />
+						<Border x:Name="SkillIDTextInput_InvalidIndicator" Grid.Column="1" BorderBrush="Transparent" />
+					</TStyle:TwoColumned>
+					<TStyle:TwoColumned Margin="0 5 0 0">
+						<Terminus:IntenseStareType1 x:Name="SelectSkillIconLabel" FontSize="20" RichText="Icon image [size=75%][color=#fc5a03][None][/color][/size]" ToolTipService.InitialShowDelay="0" UID="[Skills DI Manager] * Icon image (Label)">
+							<Terminus:IntenseStareType1.ToolTip>
+								<ToolTip x:Name="SelectSkillIconLabel_Tooltip" Background="#E0676767" HorizontalOffset="20">
+									<Terminus:IntenseStareType1 x:Name="SelectSkillIconLabel_Tooltip_Text" FontSize="14" RichText="···" UID="[Skills DI Manager] * Icon image (Label) (Full path tooltip)" />
+								</ToolTip>
+							</Terminus:IntenseStareType1.ToolTip>
+						</Terminus:IntenseStareType1>
+						<Button Grid.Column="1" Click="SelectSkillIcon" MouseRightButtonDown="ResetSelectedSkillIcon">
+							<Terminus:IntenseStareType1 FontSize="16.5" RichText="Select image file" UID="[Skills DI Manager] * Icon image (Button)" />
+						</Button>
+					</TStyle:TwoColumned>
+					<StackPanel Margin="0 5 0 0">
+						<StackPanel.Resources>
+							<Style TargetType="{x:Type Image}">
+								<Setter Property="Width" Value="19" />
+								<Setter Property="Margin" Value="0 -1 0 0" />
+							</Style>
+						</StackPanel.Resources>
+						<TStyle:TwoColumned>
+							<Terminus:IntenseStareType1 x:Name="SkillTypeSelectLabel" FontSize="20" RichText="Action" UID="[Skills DI Manager] * Skill action (Label)" />
+							<ComboBox x:Name="SkillTypeSelector" Grid.Column="1" SelectedIndex="0" SelectionChanged="SkillTypeSelector_SelectionChanged">
+								<ComboBox.Resources>
+									<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+										<Setter Property="PartialStyleInherintingSource" Value="{Binding Source={x:Reference SkillTypeSelectLabel}}" />
+										<Setter Property="FontSize" Value="16.5" />
+									</Style>
+									<Style TargetType="{x:Type StackPanel}">
+										<Setter Property="Orientation" Value="Horizontal" />
+									</Style>
+								</ComboBox.Resources>
+								<StackPanel x:Uid="Attack">
+									<Image Source="/Limbus Registry/Skills Display Info manager/Skill types/Attack.png" />
+									<Terminus:IntenseStareType1 RichText="Attack" UID="[Skills DI Manager] * Skill action — Attack" />
+								</StackPanel>
+								<StackPanel x:Uid="Counter">
+									<Image Source="/Limbus Registry/Skills Display Info manager/Skill types/Counter.png" />
+									<Terminus:IntenseStareType1 RichText="Counter" UID="[Skills DI Manager] * Skill action — Counter" />
+								</StackPanel>
+								<StackPanel x:Uid="Guard">
+									<Image Source="/Limbus Registry/Skills Display Info manager/Skill types/Guard.png" />
+									<Terminus:IntenseStareType1 RichText="Guard" UID="[Skills DI Manager] * Skill action — Guard" />
+								</StackPanel>
+								<StackPanel x:Uid="Evade">
+									<Image Source="/Limbus Registry/Skills Display Info manager/Skill types/Evade.png" />
+									<Terminus:IntenseStareType1 RichText="Evade" UID="[Skills DI Manager] * Skill action — Evade" />
+								</StackPanel>
+							</ComboBox>
+						</TStyle:TwoColumned>
+						<TStyle:TwoColumned Margin="0 5 0 0">
+							<Terminus:IntenseStareType1 x:Name="DamageTypeSelectLabel" FontSize="20" RichText="Damage type" UID="[Skills DI Manager] * Damage type (Label)" />
+							<ComboBox x:Name="DamageTypeSelectSelector" Grid.Column="1" SelectedIndex="0" SelectionChanged="DamageTypeSelectSelector_SelectionChanged">
+								<ComboBox.Resources>
+									<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+										<Setter Property="PartialStyleInherintingSource" Value="{Binding Source={x:Reference DamageTypeSelectLabel}}" />
+										<Setter Property="FontSize" Value="16.5" />
+									</Style>
+									<Style TargetType="{x:Type StackPanel}">
+										<Setter Property="Orientation" Value="Horizontal" />
+									</Style>
+								</ComboBox.Resources>
+								<StackPanel x:Uid="Blunt">
+									<Image Source="/Limbus Registry/Skills Display Info manager/Damage types/Blunt.png" />
+									<Terminus:IntenseStareType1 RichText="Blunt" UID="[Skills DI Manager] * Damage type — Blunt" />
+								</StackPanel>
+								<StackPanel x:Uid="Pierce">
+									<Image Source="/Limbus Registry/Skills Display Info manager/Damage types/Pierce.png" />
+									<Terminus:IntenseStareType1 RichText="Pierce" UID="[Skills DI Manager] * Damage type — Pierce" />
+								</StackPanel>
+								<StackPanel x:Uid="Slash">
+									<Image Source="/Limbus Registry/Skills Display Info manager/Damage types/Slash.png" />
+									<Terminus:IntenseStareType1 RichText="Slash" UID="[Skills DI Manager] * Damage type — Slash" />
+								</StackPanel>
+								<ComboBoxItem x:Name="NoneDamageTypeOption" x:Uid="None" Visibility="Collapsed">
+									<StackPanel Opacity="0.45">
+										<Canvas Width="19">
+											<TextBlock Margin="0.5 -3.5 0 0" FontFamily="Segoe UI" FontSize="19" Text="⌀" />
+										</Canvas>
+										<Terminus:IntenseStareType1 RichText="None" UID="[Skills DI Manager] * Damage type — None" />
+									</StackPanel>
+								</ComboBoxItem>
+							</ComboBox>
+						</TStyle:TwoColumned>
+						<TStyle:TwoColumned Margin="0 5 0 0">
+							<Terminus:IntenseStareType1 x:Name="AffinitySelectLabel" FontSize="20" RichText="Affinity" UID="[Skills DI Manager] * Affinity (Label)" />
+							<ComboBox x:Name="AffinitySelector" Grid.Column="1" SelectedIndex="0" SelectionChanged="AffinitySelector_SelectionChanged">
+								<ComboBox.Resources>
+									<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+										<Setter Property="PartialStyleInherintingSource" Value="{Binding Source={x:Reference AffinitySelectLabel}}" />
+										<Setter Property="FontSize" Value="16.5" />
+									</Style>
+									<Style TargetType="{x:Type StackPanel}">
+										<Setter Property="Orientation" Value="Horizontal" />
+									</Style>
+								</ComboBox.Resources>
+								<StackPanel x:Uid="Wrath">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Wrath.png" />
+									<Terminus:IntenseStareType1 RichText="Wrath" UID="[Skills DI Manager] * Affinity — Wrath" />
+								</StackPanel>
+								<StackPanel x:Uid="Lust">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Lust.png" />
+									<Terminus:IntenseStareType1 RichText="Lust" UID="[Skills DI Manager] * Affinity — Lust" />
+								</StackPanel>
+								<StackPanel x:Uid="Sloth">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Sloth.png" />
+									<Terminus:IntenseStareType1 RichText="Sloth" UID="[Skills DI Manager] * Affinity — Sloth" />
+								</StackPanel>
+								<StackPanel x:Uid="Gluttony">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Gluttony.png" />
+									<Terminus:IntenseStareType1 RichText="Gluttony" UID="[Skills DI Manager] * Affinity — Gluttony" />
+								</StackPanel>
+								<StackPanel x:Uid="Gloom">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Gloom.png" />
+									<Terminus:IntenseStareType1 RichText="Gloom" UID="[Skills DI Manager] * Affinity — Gloom" />
+								</StackPanel>
+								<StackPanel x:Uid="Pride">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Pride.png" />
+									<Terminus:IntenseStareType1 RichText="Pride" UID="[Skills DI Manager] * Affinity — Pride" />
+								</StackPanel>
+								<StackPanel x:Uid="Envy">
+									<Image Source="/UI/Limbus/Skills/Affinity Icons/Envy.png" />
+									<Terminus:IntenseStareType1 RichText="Envy" UID="[Skills DI Manager] * Affinity — Envy" />
+								</StackPanel>
+								<StackPanel x:Uid="None">
+									<Canvas Width="19">
+										<TextBlock Margin="0.5 -3.5 0 0" FontFamily="Segoe UI" FontSize="19" Text="⌀" />
+									</Canvas>
+									<Terminus:IntenseStareType1 RichText="None" UID="[Skills DI Manager] * Affinity — None" />
+								</StackPanel>
+							</ComboBox>
+						</TStyle:TwoColumned>
+					</StackPanel>
+					<TStyle:TwoColumned Margin="0 5 0 0">
+						<Terminus:IntenseStareType1 x:Name="SkillRankSelectLabel" FontSize="20" RichText="Rank" UID="[Skills DI Manager] * Rank (Label)" />
+						<ComboBox x:Name="SkillRankSelector" Grid.Column="1" SelectedIndex="0" SelectionChanged="SkillRankSelector_SelectionChanged">
+							<ComboBox.Resources>
+								<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+									<Setter Property="FontFamily" Value="{Binding ElementName=DamageTypeSelectLabel, Path=FontFamily}" />
+									<Setter Property="FontWeight" Value="{Binding ElementName=DamageTypeSelectLabel, Path=FontWeight}" />
+									<Setter Property="FontSize" Value="16.5" />
+									<Setter Property="Margin" Value="1 0 0 0" />
+								</Style>
+							</ComboBox.Resources>
+							<Terminus:IntenseStareType1 x:Uid="1" RichText="1" UID="[Skills DI Manager] * Rank — 1" />
+							<Terminus:IntenseStareType1 x:Uid="2" RichText="2" UID="[Skills DI Manager] * Rank — 2" />
+							<Terminus:IntenseStareType1 x:Uid="3" RichText="3" UID="[Skills DI Manager] * Rank — 3" />
+						</ComboBox>
+					</TStyle:TwoColumned>
+					<TStyle:TwoColumned Margin="0 5 0 0">
+						<Terminus:IntenseStareType1 FontSize="20" RichText="Show affinity icon" UID="[Skills DI Manager] * Show affinity icon" />
+						<CheckBox x:Name="ShowAffinityIconCheck" Grid.Column="1" Checked="ShowAffinityIconCheck_CheckedUnchecked" IsChecked="True" Unchecked="ShowAffinityIconCheck_CheckedUnchecked" />
+					</TStyle:TwoColumned>
+					<StackPanel Margin="0 5 0 0">
+						<TStyle:TwoColumned>
+							<Terminus:IntenseStareType1 FontSize="20" RichText="Skill coins" UID="[Skills DI Manager] * Skill coins" />
+							<Button Grid.Column="1" Width="23.96" Height="23.96" HorizontalAlignment="Left" Click="AddCoinDefinitionDisplayButton_Click">
+								<Terminus:IntenseStareType1
+									Margin="0 -7.5 0 0"
+									FontFamily="Segoe UI"
+									FontSize="29"
+									FontWeight="Bold"
+									RichText="+"
+									TextAlignment="Center" />
+							</Button>
+						</TStyle:TwoColumned>
+						<Terminus:IntenseStareType1 x:Name="RegularCoinTextBinding" FontSize="16.5" Text="Regular coin" UID="[Skills DI Manager] * Regular coin option" Visibility="Collapsed" />
+						<Terminus:IntenseStareType1 x:Name="UnbreakableCoinTextBinding" FontSize="16.5" Text="Unbreakable coin" UID="[Skills DI Manager] * Unbreakable coin option" Visibility="Collapsed" />
+						<Terminus:IntenseStareType1 x:Name="ExcisionCoinTextBinding" FontSize="16.5" Text="Excision coin" UID="[Skills DI Manager] * Excision coin option" Visibility="Collapsed" />
+						<Terminus:IntenseStareType1 x:Name="PurpleCoinTextBinding" FontSize="16.5" Text="Purple coin" UID="[Skills DI Manager] * Purple coin option" Visibility="Collapsed" />
+						<Border Margin="0 5 0 0" Padding="0 2 2 2">
+							<ScrollViewer Height="165" Padding="0 -3 0 0">
+								<StackPanel x:Name="CoinsListPanel" x:Uid="Coins list" />
+							</ScrollViewer>
+						</Border>
+					</StackPanel>
+				</StackPanel>
+			</ScrollViewer>
+		</Grid>
+	</Grid>
+</Window>

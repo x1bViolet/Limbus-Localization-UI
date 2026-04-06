@@ -1,0 +1,35 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Limbus="clr-namespace:LCLocalizationInterface.LimbusRegistry">
+
+	<!--    Warning: regular RichText property does not have DependencyProperty's GetValue and SetValue calls    -->
+	<Style TargetType="{x:Type Limbus:TMProEmitter}">
+		<Setter Property="Visibility" Value="Visible" />
+		<Setter Property="Foreground" Value="#EBCAA2" />
+		<Setter Property="TextWrapping" Value="Wrap" />
+        <Setter Property="FontFamily" Value="Segoe UI" />
+        <Setter Property="TextOptions.TextHintingMode" Value="Animated" />
+		<Setter Property="RenderOptions.EdgeMode" Value="Unspecified" />
+		<Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+		<Style.Triggers>
+			<!--#region Font-->
+			<Trigger Property="FontType" Value="Context">
+				<Setter Property="FontFamily" Value="{DynamicResource Limbus:ContextFont}" />
+				<Setter Property="FontWeight" Value="{DynamicResource Limbus:ContextFont_Weight}" />
+			</Trigger>
+			<Trigger Property="FontType" Value="Title">
+				<Setter Property="FontFamily" Value="{DynamicResource Limbus:TitleFont}" />
+				<Setter Property="FontWeight" Value="{DynamicResource Limbus:TitleFont_Weight}" />
+			</Trigger>
+			<!--#endregion-->
+
+			<!--#region Hide when there's no text-->
+			<Trigger Property="RichText" Value="{x:Null}">
+				<Setter Property="Visibility" Value="Collapsed" />
+			</Trigger>
+			<Trigger Property="RichText" Value="">
+				<Setter Property="Visibility" Value="Collapsed" />
+			</Trigger>
+			<!--#endregion-->
+		</Style.Triggers>
+	</Style>
+
+</ResourceDictionary>

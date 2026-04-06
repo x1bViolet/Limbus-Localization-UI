@@ -1,0 +1,2038 @@
+﻿<Page
+	x:Class="LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreatorPage"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Blend="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:DiffPlex="clr-namespace:DiffPlex.Wpf.Controls;assembly=DiffPlex.Wpf"
+	xmlns:Entanglement="clr-namespace:LCLocalizationInterface.Entanglement"
+	xmlns:Limbus="clr-namespace:LCLocalizationInterface.LimbusRegistry"
+	xmlns:LimbusIValueConverters="clr-namespace:LCLocalizationInterface.LimbusRegistry.LimbusIValueConverters"
+	xmlns:MarkupCompatibility="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:PreviewCreator="clr-namespace:LCLocalizationInterface.LimbusRegistry.PreviewCreator"
+	xmlns:T="clr-namespace:LCLocalizationInterface.MarkupExtensions"
+	xmlns:TStyle="clr-namespace:LCLocalizationInterface.Internal.UIStyle"
+	xmlns:Terminus="clr-namespace:LCLocalizationInterface.Internal.Terminus"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	Blend:DataContext="{Blend:DesignInstance Type=Entanglement:EntanglementModel}"
+	Blend:DesignHeight="780"
+	Blend:DesignWidth="1532"
+	MarkupCompatibility:Ignorable="Blend"
+	Background="{DynamicResource Theme:Common.MainWindow.PreviewCreator.Background.Color}"
+	DataContext="{Binding Source={StaticResource ThatOnePeskyMvvmThing}}">
+
+	<Viewbox HorizontalAlignment="Center" VerticalAlignment="Center">
+		<Grid>
+
+			<Grid x:Name="PreviewCreatorPageContentView" Height="780">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition Width="1121" />
+					<ColumnDefinition Width="411" />
+				</Grid.ColumnDefinitions>
+
+				<Grid.Resources>
+					<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+						<Setter Property="Foreground" Value="{DynamicResource Theme:UIText.MainWindow.PreviewCreator.Foreground}" />
+						<Setter Property="VerticalAlignment" Value="Center" />
+						<Setter Property="FontSize" Value="18.5" />
+					</Style>
+					<Style x:Key="Theme:ControlStyles.Spec.PreviewCreator.SectionHeader" BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+						<Setter Property="FontSize" Value="20" />
+						<Setter Property="HorizontalAlignment" Value="Left" />
+						<EventSetter Event="MouseLeftButtonUp" Handler="ToggleSecondChildVisibility" />
+					</Style>
+					<Style BasedOn="{StaticResource Theme:ControlStyles.ComboBox}" TargetType="{x:Type ComboBox}">
+						<Setter Property="Height" Value="27" />
+						<EventSetter Event="SelectionChanged" Handler="SelectionChanged_Shared" />
+					</Style>
+
+					<Style BasedOn="{StaticResource Theme:ControlStyles.CheckBox}" TargetType="{x:Type CheckBox}">
+						<Setter Property="IsChecked" Value="False" />
+						<Setter Property="Height" Value="27" />
+						<Setter Property="Width" Value="27" />
+					</Style>
+
+					<Style BasedOn="{StaticResource Theme:ControlStyles.Slider}" TargetType="{x:Type Slider}">
+						<EventSetter Event="MouseRightButtonDown" Handler="ResetSliderValue" />
+						<Setter Property="VerticalAlignment" Value="Center" />
+					</Style>
+
+					<Style BasedOn="{StaticResource Theme:ControlStyles.ElongatedButton}" TargetType="{x:Type Button}">
+						<Setter Property="Height" Value="27" />
+						<EventSetter Event="MouseRightButtonUp" Handler="ResetSelectedFile" />
+					</Style>
+
+					<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType3}}" TargetType="{x:Type Terminus:IntenseStareType3}">
+						<Setter Property="Height" Value="29" />
+						<Setter Property="Padding" Value="1 0.2 0 0" />
+						<Setter Property="FontSize" Value="19" />
+						<EventSetter Event="RoutedTextChanged" Handler="TextChanged_Shared" />
+					</Style>
+				</Grid.Resources>
+
+				<!--    Control panel first    -->
+				<Grid Grid.Column="1" Width="401" Margin="0 10 0 11" VerticalAlignment="Top">
+					<Grid x:Uid="Background image and its shadow">
+						<Image HorizontalAlignment="Right" VerticalAlignment="Top" Source="{DynamicResource Theme:Common.MainWindow.PreviewCreator.Background.Image}" Stretch="UniformToFill" />
+						<Border Background="{DynamicResource Theme:Common.MainWindow.PreviewCreator.Background.Image.Shadow}" />
+					</Grid>
+					<StackPanel>
+						<TStyle:TwoColumned Height="37">
+							<Button Margin="0 0 3 3" Click="OpenImageInfo_ButtonClick" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+								<Terminus:IntenseStareType1 FontSize="23" PerfectVerticalAlign="True" RichText="Open image info" UID="[C] * Open image info" />
+							</Button>
+							<Button Grid.Column="1" Margin="3 0 0 3" Click="SaveImageInfo_ButtonClick" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+								<Terminus:IntenseStareType1 FontSize="23" PerfectVerticalAlign="True" RichText="Save image info" UID="[C] * Save image info" />
+							</Button>
+						</TStyle:TwoColumned>
+
+						<ScrollViewer Height="722" Style="{StaticResource Theme:ControlStyles.ScrollViewer}">
+							<StackPanel x:Name="ImageControlPanel" Margin="2 0 5 0">
+
+								<TStyle:Section x:Uid="Image parameters">
+
+									<Terminus:IntenseStareType1 RichText="[u]Image parameters" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Image parameters] Title" />
+
+									<!--    Not TC:OrnamentedSection, rotated slider there    -->
+									<Grid x:Uid="This can be collapsed" Margin="0 5 0 0" Visibility="Visible">
+										<Grid HorizontalAlignment="Left">
+											<Canvas HorizontalAlignment="Right">
+												<Terminus:IntenseStareType1 Margin="-41 95 0 0" RichText="Image height" UID="[C] * [Section:Image parameters] Image height">
+													<Terminus:IntenseStareType1.RenderTransform>
+														<RotateTransform Angle="-90" />
+													</Terminus:IntenseStareType1.RenderTransform>
+												</Terminus:IntenseStareType1>
+											</Canvas>
+											<Slider
+												Margin="19 0 0 -4.5"
+												VerticalAlignment="Stretch"
+												Focusable="False"
+												Maximum="1900"
+												Minimum="400"
+												Orientation="Vertical"
+												RenderTransformOrigin="0.5 0.5"
+												TickFrequency="742"
+												Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Height, FallbackValue=742}">
+												<Slider.RenderTransform>
+													<RotateTransform Angle="180" />
+												</Slider.RenderTransform>
+											</Slider>
+										</Grid>
+										<StackPanel Margin="45 0 0 0" VerticalAlignment="Top">
+											<StackPanel MouseEnter="ImageWidthSlider_MouseEnter_UnsealCautions" MouseLeave="ImageWidthSlider_MouseLeave_SealCautions">
+												<Slider
+													x:Name="VC_ImageWidth_FirstStep"
+													Maximum="1084"
+													Minimum="560"
+													TickFrequency="1084"
+													ValueChanged="ImageWidth_FirstStep_SliderValueChanged"
+													Value="1084" />
+												<Terminus:IntenseStareType1 RichText="Image width (First step)" UID="[C] * [Section:Image parameters] Image width (First step)" />
+											</StackPanel>
+											<StackPanel MouseEnter="ImageWidthSlider_MouseEnter_UnsealCautions" MouseLeave="ImageWidthSlider_MouseLeave_SealCautions" Margin="0 5 0 0">
+												<Slider
+													x:Name="VC_ImageWidth_SecondStep"
+													Maximum="1900"
+													Minimum="1084"
+													TickFrequency="1084"
+													ValueChanged="ImageWidth_SecondStep_SliderValueChanged"
+													Value="1084" />
+												<Terminus:IntenseStareType1 RichText="Image width (Second step)" UID="[C] * [Section:Image parameters] Image width (Second step)" />
+											</StackPanel>
+
+											<TStyle:Section x:Uid="Portrait image" Margin="0 8 0 0">
+
+												<Terminus:IntenseStareType1 RichText="[u]Portrait image" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Image parameters / Portrait image] Title" />
+
+												<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+													<StackPanel Grid.Column="1">
+
+														<TStyle:TwoColumned>
+															<Terminus:IntenseStareType1 Margin="0 0 5 0" RichText="Portrait image: [b][size=82%]..." UID="[C] * [Section:Image parameters / Portrait image] Portrait image (Label)" />
+															<Button x:Name="SelectPortraitImage_Button" Grid.Column="1" Click="SelectPortraitImage_ButtonClick">
+																<Terminus:IntenseStareType1 RichText="Select image file" UID="[C] * [Section:Image parameters / Portrait image] Portrait image (Button)" />
+															</Button>
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 8 0 0">
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Portrait type" UID="[C] * [Section:Image parameters / Portrait image] Portrait type" />
+															<ComboBox x:Name="VC_PortraitType" Grid.Column="1" Padding="6 2 6 0" SelectedIndex="0">
+																<ComboBox.Items>
+																	<Terminus:IntenseStareType1 x:Uid="Identity" DataContext="※This is an unofficial Identity Preview image created with 'LC Localization Interface' program" RichText="Identity" UID="[C] * [Section:Image parameters / Portrait image] Portrait type — Identity" />
+																	<Terminus:IntenseStareType1 x:Uid="E.G.O" DataContext="※This is an unofficial E.G.O Preview image created with 'LC Localization Interface' program" RichText="E.G.O" UID="[C] * [Section:Image parameters / Portrait image] Portrait type — E.G.O" />
+																</ComboBox.Items>
+															</ComboBox>
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 8 0 0">
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Horizontal offset" UID="[C] * [Section:Image parameters / Portrait image] Horizontal offset" />
+															<Slider
+																x:Name="VC_PortraitImage_HorizontalOffset"
+																Grid.Column="1"
+																Maximum="1000"
+																Minimum="-1000"
+																TickFrequency="0"
+																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.HorizontalOffset, FallbackValue=0}" />
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 8 0 0">
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Vertical offset" UID="[C] * [Section:Image parameters / Portrait image] Vertical offset" />
+															<Slider
+																x:Name="VC_PortraitImage_VerticalOffset"
+																Grid.Column="1"
+																Maximum="1000"
+																Minimum="-1000"
+																TickFrequency="0"
+																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.VerticalOffset, FallbackValue=0}" />
+														</TStyle:TwoColumned>
+
+													</StackPanel>
+												</PreviewCreator:OrnamentedSection>
+
+											</TStyle:Section>
+
+
+
+
+
+
+											<TStyle:Section x:Uid="Portrait parameters [Identity]" Margin="0 8 0 0">
+
+												<Terminus:IntenseStareType1 RichText="[u]Portrait parameters [Identity]" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Image parameters / Portrait parameters [Identity]] Title" />
+
+												<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+													<StackPanel x:Name="IdentityPortraitImageParametersPanel" Grid.Column="1">
+														<Slider
+															x:Name="VC_IdentityPortraitScale"
+															LargeChange="0.003"
+															Maximum="3"
+															Minimum="0.5"
+															TickFrequency="1"
+															Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.Identity.Scale, FallbackValue=1}" />
+														<Terminus:IntenseStareType1 RichText="Image scale" UID="[C] * [Section:Image parameters / Portrait parameters [Identity]] Image scale" />
+													</StackPanel>
+												</PreviewCreator:OrnamentedSection>
+
+											</TStyle:Section>
+
+
+
+
+
+
+											<TStyle:Section x:Uid="Portrait parameters [E.G.O]" Margin="0 8 0 0">
+
+												<Terminus:IntenseStareType1 RichText="[u]Portrait parameters [E.G.O]" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Title" />
+
+												<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+													<StackPanel x:Name="EGOPortraitImageParametersPanel" Grid.Column="1" IsHitTestVisible="False" Opacity="0.55">
+
+														<TStyle:TwoColumned>
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Inner image scale" UID="[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Inner image scale" />
+															<Slider
+																x:Name="VC_EGOInnerPortraiScale"
+																Grid.Column="1"
+																LargeChange="0.003"
+																Maximum="3"
+																Minimum="0.1"
+																TickFrequency="1"
+																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.EGO.InnerImageScale, FallbackValue=1}" />
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 5 0 0">
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Scale with frame" UID="[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Scale with frame" />
+															<Slider
+																x:Name="VC_EGOWholePortraiScale"
+																Grid.Column="1"
+																LargeChange="0.001"
+																Maximum="2"
+																Minimum="0.7"
+																TickFrequency="1"
+																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.EGO.WholeImageScale, FallbackValue=1}" />
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 5 0 0">
+															<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Frame color" UID="[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Frame color" />
+															<Terminus:IntenseStareType3 x:Name="VC_EGOPortrait_FrameColorInput" Grid.Column="1" BindableText="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.EGO.FrameColor, FallbackValue='ffffff'}" DisplayInputColor="True" UID="[C] * [Section:Image parameters / Portrait parameters [E.G.O]] Frame color" />
+														</TStyle:TwoColumned>
+
+													</StackPanel>
+
+												</PreviewCreator:OrnamentedSection>
+
+											</TStyle:Section>
+
+
+
+
+
+
+											<TStyle:Section x:Uid="Vignette additional length" Margin="0 8 0 0">
+
+												<Terminus:IntenseStareType1 RichText="[u]Vignette additional length" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Image parameters / Vignette additional length] Title" />
+
+												<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+													<StackPanel Grid.Column="1">
+
+														<Grid Margin="0 5 0 0">
+															<Grid.ColumnDefinitions>
+																<ColumnDefinition />
+																<ColumnDefinition />
+																<ColumnDefinition />
+															</Grid.ColumnDefinitions>
+
+															<StackPanel x:Name="TopVignetteAddLengthAdjustPanel" Margin="0 0 2 0" MouseEnter="HighlightVignette_Top" MouseLeave="UnHighlightVignette_Top">
+																<Slider
+																	x:Name="VC_TopVignettePlusLength"
+																	Maximum="900"
+																	Minimum="-500"
+																	TickFrequency="0"
+																	ValueChanged="TopVignettePlusLength_NegativeValueHandler"
+																	Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.PlusLength.Top, FallbackValue=0}" />
+																<Terminus:IntenseStareType1 RichText="Top" TextAlignment="Center" UID="[C] * [Section:Image parameters / Vignette additional length] Top" />
+															</StackPanel>
+															<StackPanel Grid.Column="1" Margin="2 0 2 0" MouseEnter="HighlightVignette_Left" MouseLeave="UnHighlightVignette_Left">
+																<Slider
+																	x:Name="VC_LeftVignettePlusLength"
+																	Maximum="900"
+																	Minimum="-500"
+																	TickFrequency="0"
+																	ValueChanged="LeftVignettePlusLength_NegativeValueHandler"
+																	Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.PlusLength.Left, FallbackValue=0}" />
+																<Terminus:IntenseStareType1 RichText="Left" TextAlignment="Center" UID="[C] * [Section:Image parameters / Vignette additional length] Left" />
+															</StackPanel>
+															<StackPanel x:Name="BottomVignetteAddLengthAdjustPanel" Grid.Column="2" Margin="2 0 0 0" MouseEnter="HighlightVignette_Bottom" MouseLeave="UnHighlightVignette_Bottom">
+																<Slider
+																	x:Name="VC_BottomVignettePlusLength"
+																	Maximum="900"
+																	Minimum="-500"
+																	TickFrequency="0"
+																	ValueChanged="BottomVignettePlusLength_NegativeValueHandler"
+																	Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.PlusLength.Bottom, FallbackValue=0}" />
+																<Terminus:IntenseStareType1 RichText="Bottom" TextAlignment="Center" UID="[C] * [Section:Image parameters / Vignette additional length] Bottom" />
+															</StackPanel>
+														</Grid>
+
+														<StackPanel Grid.Column="1" Margin="0 5 0 0" MouseEnter="HighlightVignette_Right" MouseLeave="UnHighlightVignette_Right">
+															<Slider
+																x:Name="VC_RightVignettePlusLength"
+																Maximum="1700"
+																Minimum="-500"
+																TickFrequency="600"
+																ValueChanged="RightVignettePlusLength_NegativeValueHandler"
+																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.PlusLength.Right, FallbackValue=600}" />
+															<Terminus:IntenseStareType1 RichText="Right [b](Text background)[/b]" UID="[C] * [Section:Image parameters / Vignette additional length] Right (Text background)" />
+														</StackPanel>
+
+														<StackPanel
+															x:Name="LeftBehindEGOPortraitVignettePlusLengthPanel"
+															Grid.Column="1"
+															Margin="0 5 0 0"
+															IsHitTestVisible="False"
+															MouseEnter="HighlightVignette_LeftBehindEGOPortrait"
+															MouseLeave="UnHighlightVignette_LeftBehindEGOPortrait"
+															Opacity="0.55">
+															<Slider
+																x:Name="VC_LeftBehindEGOVignettePlusLength"
+																Maximum="900"
+																Minimum="-500"
+																TickFrequency="0"
+																ValueChanged="LeftBehindEGOVignettePlusLength_NegativeValueHandler"
+																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.PlusLength.Left_BehindEGOPortrait, FallbackValue=0}" />
+															<Terminus:IntenseStareType1 RichText="Left behind E.G.O portrait [color=#919188][b][font=&quot;Times New Roman&quot;][&#x200b;i]" ToolTipService.InitialShowDelay="100" UID="[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait">
+																<Terminus:IntenseStareType1.ToolTip>
+																	<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
+																		<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.PreviewCreator.Foreground.Tooltips}" LineHeight="18" RichText="Designed to shade Text Background Effects" UID="[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait (Tooltip info)" />
+																	</ToolTip>
+																</Terminus:IntenseStareType1.ToolTip>
+															</Terminus:IntenseStareType1>
+														</StackPanel>
+
+													</StackPanel>
+
+												</PreviewCreator:OrnamentedSection>
+
+											</TStyle:Section>
+
+
+
+
+
+
+											<TStyle:Section x:Uid="Vignette softness" Margin="0 8 0 0">
+
+												<Terminus:IntenseStareType1 RichText="[u]Vignette softness" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Image parameters / Vignette softness] Title" />
+
+												<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Collapsed">
+
+													<StackPanel Grid.Column="1">
+
+														<StackPanel Grid.Column="1" Margin="0 5 0 0" MouseEnter="HighlightVignette_LeftTopBottom" MouseLeave="UnHighlightVignette_LeftTopBottom">
+															<Slider x:Name="VC_LeftTopBottomVignetteSoftness" Maximum="500" Minimum="0" TickFrequency="40" Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.Softness.LeftTopBottom, FallbackValue=40}" />
+															<Terminus:IntenseStareType1 RichText="Left / Top / Bottom  [b](General)[/b]" UID="[C] * [Section:Image parameters / Vignette softness] Left / Top / Bottom (General)" />
+														</StackPanel>
+
+														<StackPanel Grid.Column="1" Margin="0 5 0 0" MouseEnter="HighlightVignette_Right" MouseLeave="UnHighlightVignette_Right">
+															<Slider x:Name="VC_RightVignetteSoftness" Maximum="500" Minimum="0" TickFrequency="140" Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.Softness.Right, FallbackValue=140}" />
+															<Terminus:IntenseStareType1 RichText="Right [b](Text background)[/b]" UID="[C] * [Section:Image parameters / Vignette softness] Right (Text background)" />
+														</StackPanel>
+
+														<StackPanel
+															x:Name="LeftBehindEGOPortraitVignetteSoftnessPanel"
+															Grid.Column="1"
+															Margin="0 5 0 0"
+															IsHitTestVisible="False"
+															MouseEnter="HighlightVignette_LeftBehindEGOPortrait"
+															MouseLeave="UnHighlightVignette_LeftBehindEGOPortrait"
+															Opacity="0.55">
+															<Slider x:Name="VC_LeftBehindEGOVignetteSoftness" Maximum="600" Minimum="0" TickFrequency="0" Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.Softness.Left_BehindEGOPortrait, FallbackValue=0}" />
+															<Terminus:IntenseStareType1 RichText="Left behind E.G.O portrait [color=#919188][b][font=&quot;Times New Roman&quot;][&#x200b;i]" ToolTipService.InitialShowDelay="100" UID="[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait">
+																<Terminus:IntenseStareType1.ToolTip>
+																	<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
+																		<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.PreviewCreator.Foreground.Tooltips}" LineHeight="18" RichText="Designed to shade Text Background Effects" UID="[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait (Tooltip info)" />
+																	</ToolTip>
+																</Terminus:IntenseStareType1.ToolTip>
+															</Terminus:IntenseStareType1>
+														</StackPanel>
+
+													</StackPanel>
+
+												</PreviewCreator:OrnamentedSection>
+
+											</TStyle:Section>
+
+
+
+
+
+
+											<TStyle:Section x:Uid="Image label" Margin="0 8 0 0">
+
+												<Terminus:IntenseStareType1 RichText="[u]Image label" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Image parameters / Image label] Title" />
+
+												<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+													<StackPanel Grid.Column="1">
+
+														<TStyle:TwoColumned>
+															<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Image label text" UID="[C] * [Section:Image parameters / Image label] Image label text" />
+															<Terminus:IntenseStareType3 x:Name="VC_RightCornerLabelInput" Grid.Column="1" BindableText="{Binding DataContextDomain.PreviewCreator.ImageInfo.ImageLabelText.Text, UpdateSourceTrigger=PropertyChanged, FallbackValue='IDENTITY INFO'}" UID="[C] * [Section:Image parameters / Image label] Image label text" />
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 5 0 0">
+															<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Image label font" UID="[C] * [Section:Image parameters / Image label] Image label font (Label)" />
+															<Button x:Name="SelectImageLabelFont_Button" Grid.Column="1" Click="SelectImageLabelFont_ButtonClick">
+																<Terminus:IntenseStareType1 RichText="Select font file" UID="[C] * [Section:Image parameters / Image label] Image label font (Button)" />
+															</Button>
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 5 0 0">
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Text size" UID="[C] * [Section:Image parameters / Image label] Text size" />
+															<Slider
+																x:Name="VC_LabelTextSize"
+																Grid.Column="1"
+																Maximum="120"
+																Minimum="50"
+																TickFrequency="80"
+																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.ImageLabelText.Size, FallbackValue=80}" />
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 5 0 0">
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Vertical offset" UID="[C] * [Section:Image parameters / Image label] Vertical offset" />
+															<Slider
+																x:Name="VC_LabelVertialOffset"
+																Grid.Column="1"
+																Maximum="40"
+																Minimum="-40"
+																TickFrequency="0"
+																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.ImageLabelText.VerticalOffset, FallbackValue=0}" />
+														</TStyle:TwoColumned>
+
+													</StackPanel>
+
+												</PreviewCreator:OrnamentedSection>
+
+											</TStyle:Section>
+
+										</StackPanel>
+									</Grid>
+
+								</TStyle:Section>
+
+
+
+
+
+
+								<TStyle:Section x:Uid="Sinner and Identity/E.G.O specifi" Margin="0 5 0 0">
+
+									<Terminus:IntenseStareType1 RichText="[u]Sinner and Identity/E.G.O specific" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Title" />
+
+									<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+										<StackPanel Grid.Column="1">
+											<TStyle:TwoColumned>
+												<Terminus:IntenseStareType1 x:Name="SinnerIconSelectionLabel" PerfectVerticalAlign="True" RichText="Sinner icon" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Sinner icon" />
+												<ComboBox x:Name="VC_SinnerIcon" Grid.Column="1" Padding="4 2 6 0" MaxDropDownHeight="10000" SelectedIndex="-1">
+													<ComboBox.Resources>
+														<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+															<Setter Property="PerfectVerticalAlign" Value="True" />
+															<Setter Property="StyleInherintingSource" Value="{Binding ElementName=SinnerIconSelectionLabel}" />
+															<Setter Property="Padding" Value="2 0 3 0" />
+														</Style>
+														<Style TargetType="{x:Type StackPanel}">
+															<Setter Property="Height" Value="27" />
+															<Setter Property="Margin" Value="0 0 0 -3" />
+															<Setter Property="Orientation" Value="Horizontal" />
+														</Style>
+														<Style TargetType="{x:Type Image}">
+															<Setter Property="Margin" Value="0 0.8 0 5" />
+														</Style>
+													</ComboBox.Resources>
+													<ComboBox.Items>
+														<StackPanel x:Uid="Yi Sang">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Yi Sang.png" />
+															<Terminus:IntenseStareType1 RichText="Yi Sang" />
+														</StackPanel>
+														<StackPanel x:Uid="Faust">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Faust.png" />
+															<Terminus:IntenseStareType1 RichText="Faust" />
+														</StackPanel>
+														<StackPanel x:Uid="Don Quixote">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Don Quixote.png" />
+															<Terminus:IntenseStareType1 RichText="Don Quixote" />
+														</StackPanel>
+														<StackPanel x:Uid="Ryōshū">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Ryōshū.png" />
+															<Terminus:IntenseStareType1 RichText="Ryōshū" />
+														</StackPanel>
+														<StackPanel x:Uid="Meursault">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Meursault.png" />
+															<Terminus:IntenseStareType1 RichText="Meursault" />
+														</StackPanel>
+														<StackPanel x:Uid="Hong Lu">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Hong Lu.png" />
+															<Terminus:IntenseStareType1 RichText="Hong Lu" />
+														</StackPanel>
+														<StackPanel x:Uid="Heathcliff">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Heathcliff.png" />
+															<Terminus:IntenseStareType1 RichText="Heathcliff" />
+														</StackPanel>
+														<StackPanel x:Uid="Ishmael">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Ishmael.png" />
+															<Terminus:IntenseStareType1 RichText="Ishmael" />
+														</StackPanel>
+														<StackPanel x:Uid="Rodion">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Rodion.png" />
+															<Terminus:IntenseStareType1 RichText="Rodion" />
+														</StackPanel>
+														<StackPanel x:Uid="Sinclair">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Sinclair.png" />
+															<Terminus:IntenseStareType1 RichText="Sinclair" />
+														</StackPanel>
+														<StackPanel x:Uid="Outis">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Outis.png" />
+															<Terminus:IntenseStareType1 RichText="Outis" />
+														</StackPanel>
+														<StackPanel x:Uid="Gregor">
+															<Image Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Sinner Icons/Gregor.png" />
+															<Terminus:IntenseStareType1 RichText="Gregor" />
+														</StackPanel>
+														<StackPanel x:Name="CustomSinnerIconSelectableOption" x:Uid="Custom (Path will be here)" PreviewMouseLeftButtonDown="SelectCustomSinnerIcon_AgainClickWhileSelected">
+															<Image x:Name="CustomSinnerIcon_ComboBoxItemIconDisplay" Visibility="Collapsed" />
+															<Terminus:IntenseStareType1 RichText="[Custom]" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Sinner icon — Custom" />
+														</StackPanel>
+													</ComboBox.Items>
+												</ComboBox>
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Icon brightness" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Icon brightness" />
+												<Slider
+													x:Name="VC_SinnerIconOpacity"
+													Grid.Column="1"
+													LargeChange="0.005"
+													Maximum="1"
+													Minimum="0"
+													TickFrequency="0.15"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.SinnerIcon.Opacity, FallbackValue=0.15}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Icon size" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Icon size" />
+												<Slider
+													x:Name="VC_SinnerIconSize"
+													Grid.Column="1"
+													Maximum="500"
+													Minimum="50"
+													TickFrequency="124"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.SinnerIcon.Size, FallbackValue=124}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Header color" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Header color" />
+												<Terminus:IntenseStareType3 x:Name="VC_Header_ColorInput" Grid.Column="1" BindableText="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.Color, FallbackValue='ffffff'}" DisplayInputColor="True" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Header color" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Sinner name" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Sinner name" />
+												<Terminus:IntenseStareType3 x:Name="VC_Header_SinnerNameInput" Grid.Column="1" BindableText="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.SinnerName.Text, UpdateSourceTrigger=PropertyChanged, FallbackValue='Sinner name'}" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Sinner name" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Identity/E.G.O name" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Identity/E.G.O name" />
+												<Terminus:IntenseStareType3 x:Name="VC_Header_IdentityOrEGONameInput" Grid.Column="1" BindableText="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.IdentityOrEGOName.Text, UpdateSourceTrigger=PropertyChanged, FallbackValue='Identity/E.G.O'}" FontSize="19" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Identity/E.G.O name" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Rarity/Risk level" UID="[C] * [Section:Sinner and Identity/E.G.O specific] Rarity/Risk level" />
+												<ComboBox
+													x:Name="VC_Header_RarityOrRiskLevel"
+													Grid.Column="1"
+													Height="31"
+													Padding="5 4 0 0"
+													HorizontalContentAlignment="Center"
+													MaxDropDownHeight="10000"
+													SelectedIndex="5">
+													<ComboBox.Items>
+														<Image x:Uid="ZAYIN" Height="24" Margin="0 -1 0 3" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/E.G.O Risk Levels/ZAYIN.png" />
+														<Image x:Uid="TETH" Height="24" Margin="0 -1 0 3" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/E.G.O Risk Levels/TETH.png" />
+														<Image x:Uid="HE" Height="24" Margin="0 -1 0 3" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/E.G.O Risk Levels/HE.png" />
+														<Image x:Uid="WAW" Height="24" Margin="0 -1 0 3" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/E.G.O Risk Levels/WAW.png" />
+														<Image x:Uid="ALEPH" Height="24" Margin="0 -1 0 3" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/E.G.O Risk Levels/ALEPH.png" />
+														<Image x:Uid="000" Height="24" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Identity Rarities/000.png" />
+														<Image x:Uid="00" Height="24" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Identity Rarities/00.png" />
+														<Image x:Uid="0" Height="24" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Identity Rarities/0.png" />
+													</ComboBox.Items>
+												</ComboBox>
+											</TStyle:TwoColumned>
+
+										</StackPanel>
+
+									</PreviewCreator:OrnamentedSection>
+								</TStyle:Section>
+
+
+
+
+
+
+								<TStyle:Section x:Uid="Header" Margin="0 5 0 0">
+
+									<Terminus:IntenseStareType1 RichText="[u]Header" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Header] Title" />
+
+									<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+										<StackPanel Grid.Column="1">
+											<TStyle:TwoColumned>
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Horizontal offset" UID="[C] * [Section:Header] Horizontal offset" />
+												<Slider
+													x:Name="VC_Header_HorizontalOffset"
+													Grid.Column="1"
+													Maximum="600"
+													Minimum="-600"
+													TickFrequency="0"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.HorizontalOffset, FallbackValue=0}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" RichText="Vertical offset" UID="[C] * [Section:Header] Vertical offset" />
+												<Slider
+													x:Name="VC_Header_VerticalOffset"
+													Grid.Column="1"
+													Maximum="700"
+													Minimum="-700"
+													TickFrequency="0"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.VerticalOffset, FallbackValue=0}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 10 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Sinner name horizontal offset" UID="[C] * [Section:Header] Sinner name horizontal offset" />
+												<Slider
+													x:Name="VC_Header_SinnerNameHorizontalOffset"
+													Grid.Column="1"
+													Maximum="200"
+													Minimum="-200"
+													TickFrequency="0"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.SinnerName.HorizontalOffset, FallbackValue=0}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 10 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Identity/E.G.O name horizontal offset" UID="[C] * [Section:Header] Identity/E.G.O name horizontal offset" />
+												<Slider
+													x:Name="VC_Header_IdentityOrEGONameHorizontalOffset"
+													Grid.Column="1"
+													Maximum="200"
+													Minimum="-200"
+													TickFrequency="0"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.IdentityOrEGOName.HorizontalOffset, FallbackValue=0}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 10 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Rarity/Risk level horizontal offset" UID="[C] * [Section:Header] Rarity/Risk level horizontal offset" />
+												<Slider
+													x:Name="VC_Header_RarityOrRiskLevelHorizontalOffset"
+													Grid.Column="1"
+													Maximum="200"
+													Minimum="-200"
+													TickFrequency="0"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.RarityOrRiskLevel.HorizontalOffset, FallbackValue=0}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Rarity/Risk level vertical offset" UID="[C] * [Section:Header] Rarity/Risk level vertical offset" />
+												<Slider
+													x:Name="VC_Header_RarityOrRiskLevelVerticalOffset"
+													Grid.Column="1"
+													Maximum="50"
+													Minimum="-50"
+													TickFrequency="0"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.RarityOrRiskLevel.VerticalOffset, FallbackValue=0}" />
+											</TStyle:TwoColumned>
+										</StackPanel>
+
+									</PreviewCreator:OrnamentedSection>
+
+								</TStyle:Section>
+
+
+
+
+
+
+								<TStyle:Section x:Uid="Decorative cautions" Margin="0 5 0 0">
+
+									<Terminus:IntenseStareType1 RichText="[u]Decorative cautions" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Decorative cautions] Title" />
+
+									<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+										<StackPanel x:Name="DecorativeCautionsParametersPanel" Grid.Column="1" Background="Transparent" MouseEnter="DecorativeCautionsParametersPanel_MouseEnter_UnsealCautions" MouseLeave="DecorativeCautionsParametersPanel_MouseLeave_SealCautions">
+
+											<TStyle:TwoColumned>
+												<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Cautions text" UID="[C] * [Section:Decorative cautions] Cautions text" />
+												<Terminus:IntenseStareType3 x:Name="VC_CautionsText" LostKeyboardFocus="CautionsTextInput_LostKeyboardFocus" Grid.Column="1" Padding="1 0 0 0" BindableText="{Binding DataContextDomain.PreviewCreator.ImageInfo.Cautions.Text, UpdateSourceTrigger=PropertyChanged, FallbackValue='SEASON'}" UID="[C] * [Section:Decorative cautions] Cautions text" />
+											</TStyle:TwoColumned>
+
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Cautions color" UID="[C] * [Section:Decorative cautions] Cautions color" />
+												<Terminus:IntenseStareType3 x:Name="VC_CautionsColorInput" LostKeyboardFocus="CautionsTextInput_LostKeyboardFocus"  Grid.Column="1" BindableText="{Binding DataContextDomain.PreviewCreator.ImageInfo.Cautions.Color, UpdateSourceTrigger=PropertyChanged, FallbackValue='ffffff'}" DisplayInputColor="True" UID="[C] * [Section:Decorative cautions] Cautions color" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Bloom radius" UID="[C] * [Section:Decorative cautions] Bloom radius" />
+												<Slider
+													x:Name="VC_CautionsBloomRadius"
+													Grid.Column="1"
+													LargeChange="0.008"
+													Maximum="8"
+													Minimum="0"
+													TickFrequency="7.65"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Cautions.BloomRadius, FallbackValue=6}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Opacity" UID="[C] * [Section:Decorative cautions] Opacity" />
+												<Slider
+													x:Name="VC_CautionsOpacity"
+													Grid.Column="1"
+													LargeChange="0.005"
+													Maximum="1"
+													Minimum="0"
+													TickFrequency="0.148"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Cautions.Opacity, FallbackValue=0.148}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 15 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Custom font" UID="[C] * [Section:Decorative cautions] Custom font (Label)" />
+												<Button x:Name="SelectCautionsFont_Button" Grid.Column="1" Click="SelectCautionsFont_ButtonClick">
+													<Terminus:IntenseStareType1 RichText="Select font file" UID="[C] * [Section:Decorative cautions] Custom font (Button)" />
+												</Button>
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Vertical offset" UID="[C] * [Section:Decorative cautions] Vertical offset" />
+												<Slider
+													x:Name="VC_CautionsVerticalOffset"
+													Grid.Column="1"
+													LargeChange="0.1"
+													Maximum="20"
+													Minimum="-20"
+													TickFrequency="0"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Cautions.VerticalOffset, FallbackValue=0}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Text size" UID="[C] * [Section:Decorative cautions] Text size" />
+												<Slider
+													x:Name="VC_CautionsTextSize"
+													Grid.Column="1"
+													LargeChange="0.008"
+													Maximum="20"
+													Minimum="5"
+													TickFrequency="11"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Cautions.Size, FallbackValue=11}" />
+											</TStyle:TwoColumned>
+
+										</StackPanel>
+
+									</PreviewCreator:OrnamentedSection>
+								</TStyle:Section>
+
+
+
+
+
+
+								<TStyle:Section x:Uid="Text" Margin="0 5 0 0">
+
+									<Terminus:IntenseStareType1 RichText="[u]Text" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Textual info] Title" />
+
+									<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+										<StackPanel Grid.Column="1">
+
+											<StackPanel>
+												<Terminus:IntenseStareType1 RichText="[u]General options" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Textual info/General options] Title" />
+
+												<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+													<StackPanel Grid.Column="1">
+
+														<TStyle:TwoColumned Margin="0 4 0 0">
+															<StackPanel>
+																<Terminus:IntenseStareType1 Margin="0 0 0 4" PerfectVerticalAlign="True" RichText="[b]First column" TextAlignment="Center" UID="[C] * [Section:Textual info/General options] First column title" />
+
+																<StackPanel Margin="0 0 3 0">
+																	<Slider x:Name="VC_FirstColumnHorizontalOffset" Maximum="900" Minimum="-900" TickFrequency="0" Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextColumns.First.HorizontalOffset, FallbackValue=0}" />
+																	<Terminus:IntenseStareType1 RichText="Horizontal offset" TextAlignment="Center" UID="[C] * [Section:Textual info/General options] First column - Horizontal offset" />
+																</StackPanel>
+
+																<StackPanel Tag="{Binding ElementName=TextColumn_1}" Margin="0 3 3 0" MouseEnter="ItemSignaturesOffset_MouseEnter_UnsealTextElements" MouseLeave="ItemSignaturesOffset_MouseLeave_SealTextElements">
+																	<Slider x:Name="VC_FirstColumnSignaturesOffset" Maximum="280" Minimum="-280" TickFrequency="0" Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextColumns.First.ItemSignatures_HorizontalOffset, FallbackValue=0}" />
+																	<Terminus:IntenseStareType1 RichText="Item signatures offset" TextAlignment="Center" UID="[C] * [Section:Textual info/General options] First column - Item signatures offset" />
+																</StackPanel>
+
+																<StackPanel Margin="0 3 3 0">
+																	<Slider x:Name="VC_FirstColumnKeywordContainersWidth" Maximum="800" Minimum="150" TickFrequency="370" Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextColumns.First.KeywordContainersWidth, FallbackValue=370}" />
+																	<Terminus:IntenseStareType1 RichText="Keyword containers width" TextAlignment="Center" UID="[C] * [Section:Textual info/General options] First column - Keyword containers width" />
+																</StackPanel>
+
+															</StackPanel>
+															<StackPanel Grid.Column="1">
+																<Terminus:IntenseStareType1 Margin="0 0 0 4" PerfectVerticalAlign="True" RichText="[b]Second column" TextAlignment="Center" UID="[C] * [Section:Textual info/General options] Second column title" />
+
+																<StackPanel Margin="3 0 0 0">
+																	<Slider x:Name="VC_SecondColumnHorizontalOffset" Maximum="900" Minimum="-900" TickFrequency="0" Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextColumns.Second.HorizontalOffset, FallbackValue=0}" />
+																	<Terminus:IntenseStareType1 RichText="Horizontal offset" TextAlignment="Center" UID="[C] * [Section:Textual info/General options] Second column - Horizontal offset" />
+																</StackPanel>
+
+																<StackPanel Tag="{Binding ElementName=TextColumn_2}" Margin="3 3 0 0" MouseEnter="ItemSignaturesOffset_MouseEnter_UnsealTextElements" MouseLeave="ItemSignaturesOffset_MouseLeave_SealTextElements">
+																	<Slider x:Name="VC_SecondColumnSignaturesOffset" Maximum="280" Minimum="-280" TickFrequency="0" Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextColumns.Second.ItemSignatures_HorizontalOffset, FallbackValue=0}" />
+																	<Terminus:IntenseStareType1 RichText="Item signatures offset" TextAlignment="Center" UID="[C] * [Section:Textual info/General options] Second column - Item signatures offset" />
+																</StackPanel>
+
+																<StackPanel Margin="0 3 3 0">
+																	<Slider x:Name="VC_SecondColumnKeywordContainersWidth" Maximum="800" Minimum="150" TickFrequency="370" Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextColumns.Second.KeywordContainersWidth, FallbackValue=370}" />
+																	<Terminus:IntenseStareType1 RichText="Keyword containers width" TextAlignment="Center" UID="[C] * [Section:Textual info/General options] Second column - Keyword containers width" />
+																</StackPanel>
+
+															</StackPanel>
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 18 0 0">
+															<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Item signatures font" UID="[C] * [Section:Textual info/General options] Item signatures font (Label)" />
+															<Button x:Name="SelectItemSignaturesFont_Button" Grid.Column="1" Click="SelectItemSignaturesFont_ButtonClick">
+																<Terminus:IntenseStareType1 RichText="Select font file" UID="[C] * [Section:Textual info/General options] Item signatures font (Button)" />
+															</Button>
+														</TStyle:TwoColumned>
+													</StackPanel>
+												</PreviewCreator:OrnamentedSection>
+											</StackPanel>
+											<StackPanel>
+												<Terminus:IntenseStareType1 RichText="[u]Text sources" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Textual info/Text sources] Title" />
+
+												<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+													<StackPanel Grid.Column="1">
+														<TStyle:TwoColumned>
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Skills localization" UID="[C] * [Section:Textual info/Text sources] Skills localization (Label)" />
+															<Button x:Name="SelectSkillsLocalization_Button" Grid.Column="1" Click="SelectSkillsLocalization_ButtonClick">
+																<Terminus:IntenseStareType1 RichText="Select json file" TextAlignment="Center" UID="[C] * [Section:Textual info/Text sources] Skills localization (Button)" />
+															</Button>
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 10 0 0">
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Skills display info" UID="[C] * [Section:Textual info/Text sources] Skills Display Info (Label)" />
+															<Button x:Name="SelectSkillsDisplayInfo_Button" Grid.Column="1" Click="SelectSkillsDisplayInfo_ButtonClick">
+																<Terminus:IntenseStareType1 RichText="Select json file" TextAlignment="Center" UID="[C] * [Section:Textual info/Text sources] Skills Display Info (Button)" />
+															</Button>
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 10 0 0">
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Passives localization" UID="[C] * [Section:Textual info/Text sources] Passives localization (Label)" />
+															<Button x:Name="SelectPassivesLocalization_Button" Grid.Column="1" Click="SelectPassivesLocalization_ButtonClick">
+																<Terminus:IntenseStareType1 RichText="Select json file" TextAlignment="Center" UID="[C] * [Section:Textual info/Text sources] Passives localization (Button)" />
+															</Button>
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 10 0 0">
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Keywords localization" UID="[C] * [Section:Textual info/Text sources] Keywords localization (Label)" />
+															<Button x:Name="SelectKeywordsLocalization_Button" Grid.Column="1" Click="SelectKeywordsLocalization_ButtonClick">
+																<Terminus:IntenseStareType1 RichText="Select json file" TextAlignment="Center" UID="[C] * [Section:Textual info/Text sources] Keywords localization (Button)" />
+															</Button>
+														</TStyle:TwoColumned>
+
+
+														<Button Margin="0 20 0 0" Click="ReloadLocalizationFilesAndRebuildText">
+															<Terminus:IntenseStareType1 RichText="Reload files and rebuild text" TextAlignment="Center" TextWrapping="NoWrap" UID="[C] * [Section:Textual info/Text sources] Reload files and rebuild text (Button)" />
+														</Button>
+
+
+													</StackPanel>
+												</PreviewCreator:OrnamentedSection>
+											</StackPanel>
+
+
+										</StackPanel>
+									</PreviewCreator:OrnamentedSection>
+								</TStyle:Section>
+
+
+
+
+
+
+								<TStyle:Section x:Uid="Text background effects" Margin="0 5 0 0">
+
+									<Terminus:IntenseStareType1 RichText="[u]Text background effects" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Text background effects] Title" />
+
+									<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+										<StackPanel Grid.Column="1">
+											<TStyle:TwoColumned>
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Effects image [color=#919188][b][font=&quot;Times New Roman&quot;][&#x200b;i]" ToolTipService.InitialShowDelay="100" UID="[C] * [Section:Text background effects] Effects image (Label)">
+													<Terminus:IntenseStareType1.ToolTip>
+														<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
+															<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.PreviewCreator.Foreground.Tooltips}" LineHeight="18" RichText="If it looks invisible in E.G.O portrait mode, then most likely it is blocked by the 'Right' or 'Left behind E.G.O portrait' Vignette, try to reduce it" UID="[C] * [Section:Text background effects] Effects image (Label) (Tooltip info)" />
+														</ToolTip>
+													</Terminus:IntenseStareType1.ToolTip>
+												</Terminus:IntenseStareType1>
+												<Button x:Name="SelectTextBackgroundEffectsImage_Button" Grid.Column="1" Click="SelectTextBackgroundEffectsImage_ButtonClick">
+													<Terminus:IntenseStareType1 RichText="Select image file" UID="[C] * [Section:Text background effects] Effects image (Button)" />
+												</Button>
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 8 0 0">
+												<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Placement mode [size=78%](Identity only)[/size]" UID="[C] * [Section:Text background effects] Placement mode (Identity only)" />
+												<ComboBox x:Name="VC_TextBackgroundEffectsClipMode" Grid.Column="1" Padding="6 2 6 0" SelectedIndex="0">
+													<ComboBox.Items>
+														<Terminus:IntenseStareType1 x:Uid="Right Vignette" RichText="Right Vignette" UID="[C] * [Section:Text background effects] Placement mode (Identity only) — Right vignette" />
+														<Terminus:IntenseStareType1 x:Uid="All Vignettes" RichText="All Vignettes" UID="[C] * [Section:Text background effects] Placement mode (Identity only) — All vignettes" />
+													</ComboBox.Items>
+												</ComboBox>
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Opacity" UID="[C] * [Section:Text background effects] Opacity" />
+												<Slider
+													x:Name="VC_TextBackgroundEffectsOpacity"
+													Grid.Column="1"
+													LargeChange="0.005"
+													Maximum="1"
+													Minimum="0"
+													TickFrequency="0.17"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.Opacity, FallbackValue=0.17}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Horizontal offset" UID="[C] * [Section:Text background effects] Horizontal offset" />
+												<Slider
+													x:Name="VC_TextBackgroundEffectsHorizontalOffset"
+													Grid.Column="1"
+													Maximum="1400"
+													Minimum="-1400"
+													TickFrequency="0"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.HorizontalOffset, FallbackValue=0}" />
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Vertical offset" UID="[C] * [Section:Text background effects] Vertical offset" />
+												<Slider
+													x:Name="VC_TextBackgroundEffectsVerticalOffset"
+													Grid.Column="1"
+													Maximum="1100"
+													Minimum="-1100"
+													TickFrequency="0"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.VerticalOffset, FallbackValue=0}" />
+											</TStyle:TwoColumned>
+
+											<StackPanel Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 RichText="[u]Transform" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Text background effects/Transform] Title" />
+
+												<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+													<StackPanel Grid.Column="1">
+														<TStyle:TwoColumned>
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Scale (X)" UID="[C] * [Section:Text background effects/Transform] Scale (X)" />
+															<Slider
+																x:Name="VC_TextBackgroundEffectsScaleX"
+																Grid.Column="1"
+																LargeChange="0.005"
+																Maximum="5"
+																Minimum="0.1"
+																TickFrequency="1"
+																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.Transform.ScaleX, FallbackValue=1}" />
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 8 0 0">
+															<Terminus:IntenseStareType1 RichText="Scale (Y)" UID="[C] * [Section:Text background effects/Transform] Scale (Y)" />
+															<Slider
+																x:Name="VC_TextBackgroundEffectsScaleY"
+																Grid.Column="1"
+																LargeChange="0.005"
+																Maximum="5"
+																Minimum="0.1"
+																TickFrequency="1"
+																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.Transform.ScaleY, FallbackValue=1}" />
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned Margin="0 8 0 0">
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Rotation" UID="[C] * [Section:Text background effects/Transform] Rotation" />
+															<Slider
+																x:Name="VC_TextBackgroundEffectsAngle"
+																Grid.Column="1"
+																Maximum="180"
+																Minimum="-180"
+																TickFrequency="0"
+																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.Transform.Angle, FallbackValue=0}" />
+														</TStyle:TwoColumned>
+
+													</StackPanel>
+												</PreviewCreator:OrnamentedSection>
+											</StackPanel>
+										</StackPanel>
+									</PreviewCreator:OrnamentedSection>
+								</TStyle:Section>
+
+
+
+
+
+
+								<TStyle:Section x:Uid="Overlay sketch" Margin="0 5 0 0">
+
+									<Terminus:IntenseStareType1 RichText="[u]Overlay sketch" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Overlay sketch] Title" />
+
+									<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+										<StackPanel Grid.Column="1">
+											<TStyle:TwoColumned>
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Sketch image" UID="[C] * [Section:Overlay sketch] Sketch image (Label)" />
+												<Button x:Name="SelectOverlaySketchImage_Button" Grid.Column="1" Click="SelectOverlaySketchImage_ButtonClick">
+													<Terminus:IntenseStareType1 RichText="Select image file" UID="[C] * [Section:Overlay sketch] Sketch image (Button)" />
+												</Button>
+											</TStyle:TwoColumned>
+
+											<TStyle:TwoColumned Margin="0 8 0 0">
+												<StackPanel Margin="0 0 2 0">
+													<Slider
+														x:Name="VC_OverlaySketchOpacity"
+														LargeChange="0.005"
+														Maximum="1"
+														Minimum="0"
+														TickFrequency="0.5"
+														Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.OverlaySketch.Opacity, FallbackValue=0.5}" />
+													<Terminus:IntenseStareType1 RichText="Image opacity" TextAlignment="Center" UID="[C] * [Section:Overlay sketch] Image opacity" />
+												</StackPanel>
+												<StackPanel Grid.Column="1" Margin="2 0 0 0">
+													<Slider
+														x:Name="VC_OverlaySketchScale"
+														Grid.Column="1"
+														Maximum="1300"
+														Minimum="500"
+														TickFrequency="742"
+														Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.OverlaySketch.Scale, FallbackValue=742}" />
+													<Terminus:IntenseStareType1 RichText="Image size" TextAlignment="Center" UID="[C] * [Section:Overlay sketch] Image size" />
+												</StackPanel>
+											</TStyle:TwoColumned>
+
+										</StackPanel>
+									</PreviewCreator:OrnamentedSection>
+								</TStyle:Section>
+
+
+
+
+
+
+								<TStyle:Section x:Uid="Other effects" Margin="0 5 0 8">
+
+									<Terminus:IntenseStareType1 RichText="[u]Other effects" Style="{StaticResource Theme:ControlStyles.Spec.PreviewCreator.SectionHeader}" UID="[C] * [Section:Other effects] Title" />
+
+									<PreviewCreator:OrnamentedSection x:Uid="This can be collapsed" Visibility="Visible">
+
+										<StackPanel Grid.Column="1">
+
+											<TStyle:TwoColumned Width2="Auto">
+												<Terminus:IntenseStareType1 Padding="0 0 5 0" PerfectVerticalAlign="True" RichText="Walpurgis Night logo mode" UID="[C] * [Section:Other effects] Walpurgis Night logo mode" />
+												<CheckBox x:Name="WalpurgisNightModeToggler" Grid.Column="1" Checked="WalpurgisNightModeToggler_CheckUncheck" IsChecked="{Binding DataContextDomain.PreviewCreator.ImageInfo.OtherEffects.WalpurgisNightLogoMode, FallbackValue=False}" Unchecked="WalpurgisNightModeToggler_CheckUncheck" />
+											</TStyle:TwoColumned>
+
+											<StackPanel x:Name="WalpurgisNightLogoAdjusters" IsHitTestVisible="False" Opacity="0.55">
+												<TStyle:TwoColumned Margin="0 11 0 0">
+													<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Walpurgis logo image" UID="[C] * [Section:Other effects] Walpurgis Night logo image (Label)" />
+													<Button x:Name="SelectWalpurgisNightLogoImage_Button" Grid.Column="1" Click="SelectWalpurgisNighLogoImage_ButtonClick">
+														<Terminus:IntenseStareType1 RichText="Select image file" UID="[C] * [Section:Other effects] Walpurgis Night logo image (Button)" />
+													</Button>
+												</TStyle:TwoColumned>
+												<TStyle:TwoColumned Margin="0 5 0 0">
+													<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Walpurgis logo scale" UID="[C] * [Section:Other effects] Walpurgis Night logo scale" />
+													<Slider
+														Grid.Column="1"
+														LargeChange="0.005"
+														Maximum="3.5"
+														Minimum="0.1"
+														TickFrequency="1"
+														Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.OtherEffects.WalpurgisNightLogoScale, FallbackValue=1}" />
+												</TStyle:TwoColumned>
+											</StackPanel>
+
+
+
+											<TStyle:TwoColumned Margin="0 11 0 0">
+												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Upper left logo image" UID="[C] * [Section:Other effects] Upper left logo image (Label)" />
+												<Button x:Name="SelectUpperLeftLogoImage_Button" Grid.Column="1" Click="SelectUpperLeftLogoImage_ButtonClick">
+													<Terminus:IntenseStareType1 RichText="Select image file" UID="[C] * [Section:Other effects] Upper left logo image (Button)" />
+												</Button>
+											</TStyle:TwoColumned>
+											<TStyle:TwoColumned Margin="0 5 0 0">
+												<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Upper left logo scale" UID="[C] * [Section:Other effects] Upper left logo scale" />
+												<Slider
+													Grid.Column="1"
+													LargeChange="0.005"
+													Maximum="3.5"
+													Minimum="0.1"
+													TickFrequency="1"
+													Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.OtherEffects.UpperLeftLogoScale, FallbackValue=1}" />
+											</TStyle:TwoColumned>
+
+											<StackPanel x:Name="BottomRightLogoParametersPanel">
+
+												<TStyle:TwoColumned Margin="0 15 0 0">
+													<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Bottom right logo image" UID="[C] * [Section:Other effects] Bottom right logo image (Label)" />
+													<Button x:Name="SelectBottomRightLogoImage_Button" Grid.Column="1" Click="SelectBottomRightLogoImage_ButtonClick">
+														<Terminus:IntenseStareType1 RichText="Select image file" UID="[C] * [Section:Other effects] Bottom right logo image (Button)" />
+													</Button>
+												</TStyle:TwoColumned>
+												<TStyle:TwoColumned Margin="0 5 0 0">
+													<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Bottom right logo scale" UID="[C] * [Section:Other effects] Bottom right logo scale" />
+													<Slider
+														Grid.Column="1"
+														LargeChange="0.005"
+														Maximum="3.5"
+														Minimum="0.1"
+														TickFrequency="1"
+														Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.OtherEffects.BottomRightLogoScale, FallbackValue=1}" />
+												</TStyle:TwoColumned>
+												<TStyle:TwoColumned Margin="0 5 0 0">
+													<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Bottom right logo opacity" UID="[C] * [Section:Other effects] Bottom right logo opacity" />
+													<Slider
+														Grid.Column="1"
+														LargeChange="0.005"
+														Maximum="1"
+														Minimum="0"
+														TickFrequency="0.37"
+														Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.OtherEffects.BottomRightLogoOpacity, FallbackValue=0.37}" />
+												</TStyle:TwoColumned>
+
+											</StackPanel>
+
+
+
+										</StackPanel>
+									</PreviewCreator:OrnamentedSection>
+
+								</TStyle:Section>
+
+							</StackPanel>
+						</ScrollViewer>
+
+					</StackPanel>
+				</Grid>
+
+				<!--    All composition second    -->
+				<TStyle:ZoomableScrollViewer
+					x:Name="CompositionScrollViewer"
+					Grid.Column="0"
+					Width="1102"
+					Height="760"
+					Margin="11 10 0 10"
+					HorizontalAlignment="Left"
+					VerticalAlignment="Top"
+					HorizontalContentAlignment="Left"
+					VerticalContentAlignment="Top"
+					HorizontalScrollBarVisibility="Visible"
+					Style="{StaticResource Theme:ControlStyles.ScrollViewer}"
+					VerticalScrollBarVisibility="Visible">
+					<Grid
+						x:Name="CompositionGrid"
+						Width="1084"
+						Height="{Binding DataContextDomain.PreviewCreator.ImageInfo.Height, FallbackValue=742}"
+						MinWidth="500"
+						MinHeight="410"
+						HorizontalAlignment="Left"
+						VerticalAlignment="Top"
+						Background="#221E1E">
+
+						<!--<?I| Oh i can make comments with it |I?> almost-->
+
+						<Grid.Resources>
+							<GradientStopCollection x:Key="VignetteColorGradients">
+								<GradientStop Offset="0" Color="#000000" />
+								<GradientStop Offset="1" Color="#00000000" />
+							</GradientStopCollection>
+							<GradientStopCollection x:Key="VignettesViewBorder_GradientStops">
+								<GradientStop Offset="0" Color="#00000000" />
+								<GradientStop Offset="0.2" Color="#abcdef" />
+								<GradientStop Offset="1" Color="#abcdef" />
+							</GradientStopCollection>
+
+							<LinearGradientBrush x:Key="VignettesViewBorder_Top" GradientStops="{StaticResource VignettesViewBorder_GradientStops}" Opacity="0" StartPoint="1 0" EndPoint="1 1" />
+							<LinearGradientBrush x:Key="VignettesViewBorder_Bottom" GradientStops="{StaticResource VignettesViewBorder_GradientStops}" Opacity="0" StartPoint="0 1" EndPoint="0 0" />
+
+							<LinearGradientBrush x:Key="VignettesViewBorder_Left" GradientStops="{StaticResource VignettesViewBorder_GradientStops}" Opacity="0" StartPoint="0 1" EndPoint="1 1" />
+							<LinearGradientBrush x:Key="VignettesViewBorder_Right" GradientStops="{StaticResource VignettesViewBorder_GradientStops}" Opacity="0" StartPoint="1 1" EndPoint="0 1" />
+
+							<LinearGradientBrush x:Key="VignettesViewBorder_LeftBehindEGOPortrait" Opacity="0" StartPoint="0 1" EndPoint="1 1">
+								<GradientStopCollection>
+									<GradientStop Offset="0" Color="#00000000" />
+									<GradientStop Offset="0.2" Color="#F82D00" />
+									<GradientStop Offset="1" Color="#F82D00" />
+								</GradientStopCollection>
+							</LinearGradientBrush>
+
+							<TransformGroup x:Key="TextBackgroundEffectsTransform">
+								<RotateTransform Angle="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.Transform.Angle}" />
+								<ScaleTransform ScaleX="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.Transform.ScaleX}" ScaleY="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.Transform.ScaleY}" />
+								<TranslateTransform X="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.HorizontalOffset}" Y="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.VerticalOffset}" />
+							</TransformGroup>
+
+							<LimbusIValueConverters:EscapedLineBreaksConverter x:Key="EscapedLineBreaksConverter" />
+
+
+							<Style x:Key="ColumnItem_PlainLabel" TargetType="TextBlock">
+								<Setter Property="FontFamily" Value="/UI/Fonts/#Bebas Neue Bold" />
+								<Setter Property="Foreground" Value="White" />
+								<Setter Property="FontSize" Value="30" />
+								<Setter Property="Opacity" Value="0.35" />
+								<Setter Property="TextAlignment" Value="Center" />
+							</Style>
+
+							<FontFamily x:Key="TextColumns_ItemSignaturesFont">/UI/Fonts/#Bebas Neue Bold</FontFamily>
+							<sys:Double x:Key="TextColumns_KeywordCointainersWidth">375.00</sys:Double>
+
+						</Grid.Resources>
+
+
+						<TStyle:SingleViewer x:Name="PortraitsAndVignettes" ClipToBounds="True" SelectedIndex="{Binding ElementName=VC_PortraitType, Path=SelectedIndex}">
+
+							<Grid x:Name="PortraitAndVignette_IDENTITY">
+
+								<Canvas>
+									<Image x:Name="IdentityPortrait_Image" Height="800" Margin="-430 0 0 0" HorizontalAlignment="Left" VerticalAlignment="Top">
+										<Image.RenderTransform>
+											<TransformGroup>
+												<ScaleTransform ScaleX="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.Identity.Scale, FallbackValue=1}" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Self}}" />
+												<TranslateTransform X="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.HorizontalOffset, FallbackValue=0}" Y="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.VerticalOffset, FallbackValue=0}" />
+											</TransformGroup>
+										</Image.RenderTransform>
+									</Image>
+								</Canvas>
+
+								<!--    DO NOT LET IT BE OUTSIDE OF THIS GRID (Source of TextBackgroundEffects OpacityMask)    -->
+								<Grid x:Name="Vignette_IDENTITY">
+									<Grid VerticalAlignment="Top">
+										<StackPanel x:Name="TopVignettePlusLength_Identity_Parent">
+											<Border Height="{Binding ElementName=VC_TopVignettePlusLength, Path=Value}" Background="Black" />
+											<Border Height="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.Softness.LeftTopBottom, FallbackValue=40}" Margin="0 -1 0 0">
+												<Border.Background>
+													<LinearGradientBrush GradientStops="{StaticResource VignetteColorGradients}" StartPoint="0 0" EndPoint="0 1" />
+												</Border.Background>
+											</Border>
+										</StackPanel>
+										<Border x:Name="VignettesViewBorder_IDENTITY_Top" BorderBrush="{StaticResource VignettesViewBorder_Top}" BorderThickness="1.7" />
+									</Grid>
+
+									<Grid VerticalAlignment="Bottom">
+										<StackPanel x:Name="BottomVignettePlusLength_Identity_Parent">
+											<Border Height="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.Softness.LeftTopBottom, FallbackValue=40}" Margin="0 0 0 -1">
+												<Border.Background>
+													<LinearGradientBrush GradientStops="{StaticResource VignetteColorGradients}" StartPoint="0 1" EndPoint="0 0" />
+												</Border.Background>
+											</Border>
+											<Border Height="{Binding ElementName=VC_BottomVignettePlusLength, Path=Value}" Background="Black" />
+										</StackPanel>
+										<Border x:Name="VignettesViewBorder_IDENTITY_Bottom" BorderBrush="{StaticResource VignettesViewBorder_Bottom}" BorderThickness="1.7" />
+									</Grid>
+
+									<Grid HorizontalAlignment="Left">
+										<StackPanel x:Name="LeftVignettePlusLength_Identity_Parent" Orientation="Horizontal">
+											<Border Width="{Binding ElementName=VC_LeftVignettePlusLength, Path=Value}" Background="Black" />
+											<Border Width="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.Softness.LeftTopBottom, FallbackValue=40}" Margin="-1 0 0 0">
+												<Border.Background>
+													<LinearGradientBrush GradientStops="{StaticResource VignetteColorGradients}" StartPoint="0 0" EndPoint="1 0" />
+												</Border.Background>
+											</Border>
+										</StackPanel>
+										<Border x:Name="VignettesViewBorder_IDENTITY_Left" BorderBrush="{StaticResource VignettesViewBorder_Left}" BorderThickness="1.7" />
+									</Grid>
+
+									<Grid x:Name="RightIdentityVignette" Background="Transparent">
+										<Grid x:Name="RightIdentityVignette_InnerRight" HorizontalAlignment="Right">
+											<StackPanel x:Name="RightVignettePlusLength_Identity_Parent" Orientation="Horizontal">
+												<Border Width="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.Softness.Right, FallbackValue=140}" Margin="0 0 -1 0">
+													<Border.Background>
+														<LinearGradientBrush GradientStops="{StaticResource VignetteColorGradients}" StartPoint="1 0" EndPoint="0 0" />
+													</Border.Background>
+												</Border>
+
+												<Border Width="{Binding ElementName=VC_RightVignettePlusLength, Path=Value}" Background="Black" />
+											</StackPanel>
+											<Border x:Name="VignettesViewBorder_IDENTITY_Right" BorderBrush="{StaticResource VignettesViewBorder_Right}" BorderThickness="1.7" />
+										</Grid>
+									</Grid>
+
+								</Grid>
+
+								<!--    Background is matter somehow for clip, do not remove it    -->
+								<!--    ScrollViewer used to not suffer from width stretching or something like this coming from Image RenderTransform    -->
+								<ScrollViewer
+									Width="{Binding ElementName=Vignette_IDENTITY, Path=ActualWidth}"
+									Height="{Binding ElementName=Vignette_IDENTITY, Path=ActualHeight}"
+									Background="#00000000"
+									HorizontalScrollBarVisibility="Disabled"
+									IsHitTestVisible="False"
+									VerticalScrollBarVisibility="Disabled">
+									<!--    Big images with Stretch="None" is being chopped without Canvas, Stretch="UniformToFill" no bc of image scaling by its own if overall image height is changed    -->
+									<Canvas HorizontalAlignment="Right">
+										<!--    Canvas.Right="0" magically solves thing with 0,0 x,y image center point and makes it aligned exactly at the right side by its right side instead of sliding out of bounds    -->
+										<Image
+											x:Name="TextBackgroundEffects_Image_IDENTITY"
+											Canvas.Right="0"
+											HorizontalAlignment="Right"
+											Opacity="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.Opacity, FallbackValue=0.17}"
+											RenderTransform="{StaticResource TextBackgroundEffectsTransform}"
+											RenderTransformOrigin="0.5 0.5"
+											Stretch="None" />
+									</Canvas>
+									<ScrollViewer.OpacityMask>
+										<VisualBrush x:Name="TextBackgroundEffectsClipIdentity" Visual="{Binding ElementName=RightIdentityVignette}" />
+									</ScrollViewer.OpacityMask>
+								</ScrollViewer>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+								<Border Width="{Binding ElementName=RightIdentityVignette, Path=ActualWidth}" HorizontalAlignment="Right" Visibility="Collapsed">
+									<!--Scrollviewer is the only way
+								<ScrollViewer Focusable="False" HorizontalScrollBarVisibility="Disabled" IsHitTestVisible="False" VerticalScrollBarVisibility="Disabled">
+								</ScrollViewer>-->
+									<Image Width="{Binding ElementName=RightIdentityVignette, Path=ActualWidth}" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5 0.5" Stretch="UniformToFill" />
+								</Border>
+
+
+
+
+
+							</Grid>
+
+							<Grid x:Name="PortraitAndVignette_EGO" Background="Black">
+
+								<Image x:Name="TextBackgroundEffects_Image_EGO" Opacity="{Binding DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.Opacity, FallbackValue=0.17}" RenderTransform="{StaticResource TextBackgroundEffectsTransform}" RenderTransformOrigin="0.5 0.5" Stretch="Uniform" />
+
+								<!--#region Right vignette behind the portrait and over the text background effects-->
+								<Grid x:Uid="Right vignette" HorizontalAlignment="Right">
+									<StackPanel Margin="{Binding ElementName=RightVignettePlusLength_Identity_Parent, Path=Margin}" Orientation="Horizontal">
+										<Border Width="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.Softness.Right, FallbackValue=140}" Margin="0 0 -1 0">
+											<Border.Background>
+												<LinearGradientBrush GradientStops="{StaticResource VignetteColorGradients}" StartPoint="1 0" EndPoint="0 0" />
+											</Border.Background>
+										</Border>
+										<Border Width="{Binding ElementName=VC_RightVignettePlusLength, Path=Value}" Background="Black" />
+									</StackPanel>
+									<Border x:Name="VignettesViewBorder_EGO_Right" BorderBrush="{StaticResource VignettesViewBorder_Right}" BorderThickness="1.7" />
+								</Grid>
+								<!--#endregion-->
+
+								<Grid x:Uid="Left vignette (Duplicate behind the portrait)" HorizontalAlignment="Left">
+									<StackPanel x:Name="LeftBehindEGOPortraitVignettePlusLength_EGO_Parent" Orientation="Horizontal">
+										<Border Width="{Binding ElementName=VC_LeftBehindEGOVignettePlusLength, Path=Value}" Background="Black" />
+										<Border Width="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.Softness.Left_BehindEGOPortrait, FallbackValue=0}" Margin="-1 0 0 0">
+											<Border.Background>
+												<LinearGradientBrush GradientStops="{StaticResource VignetteColorGradients}" StartPoint="0 0" EndPoint="1 0" />
+											</Border.Background>
+										</Border>
+									</StackPanel>
+									<Border x:Name="VignettesViewBorder_EGO_Left_BehindPortrait" BorderBrush="{StaticResource VignettesViewBorder_LeftBehindEGOPortrait}" BorderThickness="1.7" />
+								</Grid>
+
+								<Grid
+									x:Name="Portrait_EGO"
+									Width="696"
+									Height="{Binding Width, RelativeSource={RelativeSource Self}}"
+									Margin="-155 23 0 0"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Top"
+									Opacity="10"
+									RenderTransformOrigin="0.5 0.5"
+									Visibility="Visible">
+
+									<Grid x:Name="EGOFrameColor_Fill" Width="500" Height="{Binding Width, RelativeSource={RelativeSource Self}}" Background="Black" RenderTransformOrigin="0.5 0.5">
+										<Image x:Name="EGOPortrait_Image" RenderTransformOrigin="0.5 0.5">
+											<Image.RenderTransform>
+												<ScaleTransform x:Name="EGOPortrait_ImageSize" ScaleX="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.EGO.InnerImageScale, FallbackValue=1}" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Self}}" />
+											</Image.RenderTransform>
+										</Image>
+										<Grid.Clip>
+											<RectangleGeometry RadiusX="1000" RadiusY="1000" Rect="0 0 500 500" />
+										</Grid.Clip>
+										<Grid.RenderTransform>
+											<ScaleTransform ScaleX="1.14" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Self}}" />
+										</Grid.RenderTransform>
+									</Grid>
+
+									<Image x:Name="EGOPortrait_Frame" Width="696" Height="{Binding Width, RelativeSource={RelativeSource Self}}" RenderTransformOrigin="0.5 0.5" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/E.G.O Frame.png">
+										<Image.RenderTransform>
+											<ScaleTransform ScaleX="0.92" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Self}}" />
+										</Image.RenderTransform>
+									</Image>
+
+
+									<Grid.Background>
+										<RadialGradientBrush>
+											<GradientStop x:Name="EGOFrameColor_Bloom" Offset="0.86" Color="#ffffff" />
+											<GradientStop Offset="1" Color="#00000000" />
+										</RadialGradientBrush>
+									</Grid.Background>
+
+									<Grid.RenderTransform>
+										<TransformGroup>
+											<ScaleTransform x:Name="EGOPortrait_MainSize" ScaleX="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.EGO.WholeImageScale, FallbackValue=1}" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Self}}" />
+											<TranslateTransform X="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.HorizontalOffset, FallbackValue=0}" Y="{Binding DataContextDomain.PreviewCreator.ImageInfo.Portrait.VerticalOffset, FallbackValue=0}" />
+										</TransformGroup>
+									</Grid.RenderTransform>
+								</Grid>
+
+								<Grid x:Uid="Left vignette (Duplicate over the portrait)" HorizontalAlignment="Left">
+									<StackPanel Margin="{Binding ElementName=LeftVignettePlusLength_Identity_Parent, Path=Margin}" Orientation="Horizontal">
+										<Border Width="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.PlusLength.Left, FallbackValue=0}" Background="Black" />
+										<Border Width="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.Softness.LeftTopBottom, FallbackValue=40}" Margin="-1 0 0 0">
+											<Border.Background>
+												<LinearGradientBrush GradientStops="{StaticResource VignetteColorGradients}" StartPoint="0 0" EndPoint="1 0" />
+											</Border.Background>
+										</Border>
+									</StackPanel>
+									<Border x:Name="VignettesViewBorder_EGO_Left_OverPortrait" BorderBrush="{StaticResource VignettesViewBorder_Left}" BorderThickness="1.7" />
+								</Grid>
+
+							</Grid>
+
+						</TStyle:SingleViewer>
+
+
+						<!--#region Decorations-->
+
+						<!--    Walpurgis Night frames    -->
+						<Grid x:Name="WalpurgisFrames" Margin="4" Visibility="Collapsed">
+							<Grid x:Uid="Frames" Opacity="0.29">
+								<Image Width="180" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Walpurgis Night/Frame.png" />
+								<Image Width="180" HorizontalAlignment="Right" VerticalAlignment="Top" RenderTransformOrigin="0.5 0.5" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Walpurgis Night/Frame.png">
+									<Image.RenderTransform>
+										<RotateTransform Angle="90" />
+									</Image.RenderTransform>
+								</Image>
+								<Image Width="180" HorizontalAlignment="Left" VerticalAlignment="Bottom" RenderTransformOrigin="0.5 0.5" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Walpurgis Night/Frame.png">
+									<Image.RenderTransform>
+										<RotateTransform Angle="270" />
+									</Image.RenderTransform>
+								</Image>
+								<Image Width="180" HorizontalAlignment="Right" VerticalAlignment="Bottom" RenderTransformOrigin="0.5 0.5" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Walpurgis Night/Frame.png">
+									<Image.RenderTransform>
+										<RotateTransform Angle="180" />
+									</Image.RenderTransform>
+								</Image>
+							</Grid>
+							<Image
+								x:Name="WalpurgisNightLogo"
+								x:Uid="Logo"
+								Width="180"
+								Margin="25 0 0 20"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Bottom"
+								RenderTransformOrigin="0 1"
+								Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Walpurgis Night/Logo.png">
+								<Image.RenderTransform>
+									<ScaleTransform ScaleX="{Binding DataContextDomain.PreviewCreator.ImageInfo.OtherEffects.WalpurgisNightLogoScale, FallbackValue=1}" ScaleY="{Binding Path=ScaleX, RelativeSource={RelativeSource Self}}" />
+								</Image.RenderTransform>
+							</Image>
+						</Grid>
+
+						<!--    Sinner icon    -->
+						<Image
+							x:Name="SinnerIconImage"
+							Width="{Binding DataContextDomain.PreviewCreator.ImageInfo.SinnerIcon.Size, FallbackValue=124}"
+							Margin="0 124 15 0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Top"
+							Opacity="{Binding DataContextDomain.PreviewCreator.ImageInfo.SinnerIcon.Opacity, FallbackValue=0.15}"
+							Source="{Binding ElementName=VC_SinnerIcon, Path=SelectedItem.Children[0].Source}" />
+
+						<!--    Image type text (Right top corner)    -->
+						<Grid x:Name="ImageLabelText" HorizontalAlignment="Right" VerticalAlignment="Top">
+							<TextBlock
+								x:Name="Marker"
+								MaxWidth="280"
+								Margin="0 21 23.5 0"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Top"
+								FontFamily="/UI/Fonts/#S-Core Dream 5 Medium"
+								FontSize="11"
+								Foreground="#652A22"
+								LineHeight="14.4"
+								Text="{Binding ElementName=VC_PortraitType, Path=SelectedItem.DataContext}"
+								TextAlignment="Right"
+								TextWrapping="Wrap">
+								<TextBlock.Effect>
+									<DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+								</TextBlock.Effect>
+							</TextBlock>
+							<TextBlock
+								x:Name="ImageLabel"
+								Margin="0 39 20 0"
+								HorizontalAlignment="Right"
+								VerticalAlignment="Top"
+								FontFamily="/UI/Fonts/#Bebas Neue Bold"
+								FontSize="{Binding DataContextDomain.PreviewCreator.ImageInfo.ImageLabelText.Size, FallbackValue=80}"
+								Text="{Binding DataContextDomain.PreviewCreator.ImageInfo.ImageLabelText.Text, FallbackValue='IDENTITY INFO'}">
+								<TextBlock.RenderTransform>
+									<TranslateTransform Y="{Binding DataContextDomain.PreviewCreator.ImageInfo.ImageLabelText.VerticalOffset, FallbackValue=0}" />
+								</TextBlock.RenderTransform>
+								<TextBlock.Foreground>
+									<ImageBrush ImageSource="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Image Type Foreground.png">
+										<ImageBrush.RelativeTransform>
+											<ScaleTransform ScaleY="2" />
+										</ImageBrush.RelativeTransform>
+									</ImageBrush>
+								</TextBlock.Foreground>
+								<TextBlock.Effect>
+									<DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+								</TextBlock.Effect>
+							</TextBlock>
+						</Grid>
+
+
+						<!--    Bottom right corner logo    -->
+						<Image
+							x:Name="Logo_RightBottomCorner"
+							Width="240"
+							Margin="0 0 15 20"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Bottom"
+							Opacity="{Binding DataContextDomain.PreviewCreator.ImageInfo.OtherEffects.BottomRightLogoOpacity, FallbackValue=0.37}"
+							RenderTransformOrigin="1 1"
+							Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Logo/Right Bottom Corner.png">
+							<Image.RenderTransform>
+								<ScaleTransform ScaleX="{Binding DataContextDomain.PreviewCreator.ImageInfo.OtherEffects.BottomRightLogoScale, FallbackValue=1}" ScaleY="{Binding Path=ScaleX, RelativeSource={RelativeSource Self}}" />
+							</Image.RenderTransform>
+						</Image>
+
+
+						<!--    Top left corner logo    -->
+						<Image
+							x:Name="Logo_LeftTopCorner"
+							Width="133"
+							Margin="23 31 0 0"
+							HorizontalAlignment="Left"
+							VerticalAlignment="Top"
+							Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Logo/Left Top Corner.png">
+							<Image.RenderTransform>
+								<ScaleTransform ScaleX="{Binding DataContextDomain.PreviewCreator.ImageInfo.OtherEffects.UpperLeftLogoScale, FallbackValue=1}" ScaleY="{Binding Path=ScaleX, RelativeSource={RelativeSource Self}}" />
+							</Image.RenderTransform>
+						</Image>
+
+						<!--#endregion-->
+
+
+
+						<Grid x:Name="CautionsMainGrid" Margin="0 7.5 0 6" Opacity="{Binding DataContextDomain.PreviewCreator.ImageInfo.Cautions.Opacity, FallbackValue=0.148}" Visibility="Visible">
+
+							<Grid.Resources>
+								<DropShadowEffect x:Key="CautionsBloom" BlurRadius="{Binding DataContextDomain.PreviewCreator.ImageInfo.Cautions.BloomRadius, FallbackValue=8}" ShadowDepth="0" Color="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=Foreground.Color}" />
+							</Grid.Resources>
+
+							<Grid>
+								<Grid>
+									<TextBlock
+										x:Name="DecorativeCautions_StyleBindingSource"
+										FontFamily="/UI/Fonts/#Bebas Neue Bold"
+										FontSize="{Binding DataContextDomain.PreviewCreator.ImageInfo.Cautions.Size, FallbackValue=11}"
+										Foreground="White"
+										LineHeight="{Binding Path=FontSize, RelativeSource={RelativeSource Self}}"
+										Text="{Binding DataContextDomain.PreviewCreator.ImageInfo.Cautions.Text, FallbackValue='SEASON'}"
+										Visibility="Collapsed">
+										<TextBlock.RenderTransform>
+											<TranslateTransform X="0" Y="{Binding DataContextDomain.PreviewCreator.ImageInfo.Cautions.VerticalOffset, FallbackValue=0}" />
+										</TextBlock.RenderTransform>
+									</TextBlock>
+
+									<Grid Margin="-10 -8 0 1" VerticalAlignment="Top">
+
+										<Image HorizontalAlignment="Left" Stretch="None" x:Name="Cautions_Top_SealedView" />
+
+										<Grid x:Name="Cautions_Top_ActualView" Height="25">
+											<Grid Effect="{StaticResource CautionsBloom}" VerticalAlignment="Center">
+												<Grid Effect="{StaticResource CautionsBloom}">
+													<StackPanel Height="13.1" x:Name="DecorativeCautions_TopStackPanel" Orientation="Horizontal">
+														<!--    Added 50 more from PreviewCreatorPage class constructor    -->
+														<StackPanel Margin="0 0 8.3 0" Orientation="Horizontal">
+															<TextBlock Margin="0 0.6 8.3 0" FontFamily="/UI/Fonts/#Sappy" FontSize="10.5" Foreground="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=Foreground}" Text="////" />
+															<TextBlock FontFamily="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=FontFamily}" FontSize="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=FontSize}" Foreground="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=Foreground}" RenderTransform="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=RenderTransform}" Text="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=Text}" />
+														</StackPanel>
+													</StackPanel>
+												</Grid>
+											</Grid>
+										</Grid>
+									</Grid>
+
+									<Grid Margin="-23 0 0 -8" VerticalAlignment="Bottom">
+
+										<Image HorizontalAlignment="Left" Stretch="None" x:Name="Cautions_Bottom_SealedView" />
+
+										<Grid x:Name="Cautions_Bottom_ActualView" Height="25">
+											<Grid Effect="{StaticResource CautionsBloom}" VerticalAlignment="Center">
+												<Grid Effect="{StaticResource CautionsBloom}">
+													<StackPanel Height="13.1" x:Name="DecorativeCautions_BottomStackPanel" Orientation="Horizontal">
+														<!--    Added 50 more from PreviewCreatorPage class constructor    -->
+														<StackPanel Margin="0 0 8.3 0" Orientation="Horizontal">
+															<TextBlock Margin="0 0.6 8.3 0" FontFamily="/UI/Fonts/#Sappy" FontSize="10.5" Foreground="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=Foreground}" Text="////" />
+															<TextBlock FontFamily="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=FontFamily}" FontSize="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=FontSize}" Foreground="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=Foreground}" RenderTransform="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=RenderTransform}" Text="{Binding ElementName=DecorativeCautions_StyleBindingSource, Path=Text}" />
+														</StackPanel>
+													</StackPanel>
+												</Grid>
+											</Grid>
+										</Grid>
+									</Grid>
+
+								</Grid>
+
+							</Grid>
+						</Grid>
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+						<Canvas x:Name="__TextColumnsCanvas__" Margin="0 139 0 0" HorizontalAlignment="Right">
+
+							<Canvas.Resources>
+								<ResourceDictionary>
+									<!--    PlacementTarget is always ColumnElement with RelatedJsonData!!!!!!!!!!!!    -->
+									<ContextMenu x:Key="ColumnItemContextMenu" Blend:DataContext="{Blend:DesignInstance Type=PreviewCreator:ColumnTextElementContainer}" DataContext="{Binding PlacementTarget, RelativeSource={RelativeSource Self}}">
+										<MenuItem Height="22" HorizontalAlignment="Left" IsHitTestVisible="False">
+											<MenuItem.Header>
+												<StackPanel Orientation="Horizontal">
+													<Terminus:IntenseStareType1
+														x:Name="HeaderPart"
+														Width="Auto"
+														Padding="0 2 0 2"
+														FontSize="16"
+														RichText="Element [b]#[/b]"
+														UID="[C] * [Element context menu] Header part" />
+													<Terminus:IntenseStareType1
+														Width="Auto"
+														Margin="{Binding ElementName=HeaderPart, Path=Margin}"
+														Padding="0 2 0 2"
+														FontWeight="Bold"
+														RichText="{Binding RelatedJsonData.UID}"
+														StyleInherintingSource="{Binding ElementName=HeaderPart}" />
+												</StackPanel>
+											</MenuItem.Header>
+										</MenuItem>
+										<Separator Margin="-30 2 0 2" />
+										<MenuItem Height="22" Click="ColumnItem_MoveUp">
+											<MenuItem.Header>
+												<Terminus:IntenseStareType1 Padding="0 2 0 2" FontSize="16" RichText="▲ Move Up" TextAlignment="Left" UID="[C] * [Element context menu] Move up" />
+											</MenuItem.Header>
+										</MenuItem>
+										<MenuItem Height="22" Click="ColumnItem_MoveDown">
+											<MenuItem.Header>
+												<Terminus:IntenseStareType1 Padding="0 2 0 2" FontSize="16" RichText="▼ Move Down" TextAlignment="Left" UID="[C] * [Element context menu] Move down" />
+											</MenuItem.Header>
+										</MenuItem>
+										<Separator Margin="-30 2 0 2" />
+										<MenuItem Height="22" Click="ColumnItem_Delete">
+											<MenuItem.Header>
+												<Terminus:IntenseStareType1 Padding="0 2 0 2" FontSize="16" RichText="✕ Delete" TextAlignment="Left" UID="[C] * [Element context menu] Delete" />
+											</MenuItem.Header>
+										</MenuItem>
+										<Separator Margin="-30 2 0 2" />
+
+
+										<MenuItem Margin="0 5 0 0" Padding="0" T:MarkupShrinking.DisableMenuItemMouseOverHighligh="True" StaysOpenOnClick="True">
+
+											<MenuItem.Resources>
+												<Style BasedOn="{StaticResource {x:Type Slider}}" TargetType="{x:Type Slider}">
+													<EventSetter Event="Thumb.DragStarted" Handler="ColumnElemenetContextMenu_MakeSemiTransperent" />
+													<EventSetter Event="Thumb.DragCompleted" Handler="ColumnElemenetContextMenu_ReturnOpacityBackToNormal" />
+												</Style>
+											</MenuItem.Resources>
+
+											<MenuItem.Header>
+												<Grid Width="298.43" Background="{DynamicResource Theme:ElongatedButtons.Background}">
+													<StackPanel Margin="5">
+														<TStyle:TwoColumned Margin="0 0 0 3">
+															<Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Item signature" UID="[C] * [Element context menu] Item signature" />
+															<Terminus:IntenseStareType3
+																Grid.Column="1"
+																Width="139"
+																Height="29"
+																HorizontalAlignment="Right"
+																BindableText="{Binding RelatedJsonData.Signature, UpdateSourceTrigger=PropertyChanged}"
+																FontSize="19.5"
+																UID="[C] * [Element context menu] Item signature" />
+														</TStyle:TwoColumned>
+
+														<TStyle:TwoColumned>
+															<StackPanel Margin="0 0 2 0">
+																<Slider Maximum="900" Minimum="-900" TickFrequency="0" Value="{Binding RelatedJsonData.VerticalOffset}" />
+																<Terminus:IntenseStareType1 RichText="Vertical offset" TextAlignment="Center" UID="[C] * [Element context menu] Vertical offset" />
+															</StackPanel>
+															<StackPanel Grid.Column="1" Margin="2 0 0 0">
+																<Slider Maximum="900" Minimum="-900" TickFrequency="0" Value="{Binding RelatedJsonData.HorizontalOffset}" />
+																<Terminus:IntenseStareType1 RichText="Horizontal offset [size=76%](Content only)" TextAlignment="Center" UID="[C] * [Element context menu] Horizontal offset" />
+															</StackPanel>
+														</TStyle:TwoColumned>
+
+														<StackPanel Grid.Column="1" Margin="2 0 0 0">
+															<Slider Maximum="1100" Minimum="50" TickFrequency="450" Value="{Binding RelatedJsonData.MaxWidth_Name}" />
+															<Terminus:IntenseStareType1 RichText="Name maximum length" UID="[C] * [Element context menu] Name maximum length" />
+														</StackPanel>
+
+														<StackPanel x:Name="PassiveDescriptionWidth_Panel" Grid.Column="1" Margin="2 0 0 0">
+															<Slider Maximum="1100" Minimum="100" TickFrequency="540" Value="{Binding RelatedJsonData.MaxWidth_PassiveDescription}" />
+															<Terminus:IntenseStareType1 RichText="Passive description width" UID="[C] * [Element context menu] Passive description width" />
+														</StackPanel>
+
+														<TStyle:TwoColumned x:Name="SkillWidths_Panel" Margin="0 18 0 0">
+															<StackPanel Margin="0 0 5 0">
+																<Slider Maximum="1100" Minimum="100" TickFrequency="540" Value="{Binding RelatedJsonData.MaxWidth_SkillMainDescription}" />
+																<Terminus:IntenseStareType1 MaxWidth="160" PerfectVerticalAlign="True" RichText="Skill main description width" TextAlignment="Center" UID="[C] * [Element context menu] Skill main description width" />
+															</StackPanel>
+															<StackPanel Grid.Column="1" Margin="5 0 0 0">
+																<Slider Maximum="1100" Minimum="140" TickFrequency="490" Value="{Binding RelatedJsonData.MaxWidth_SkillCoinsDescription}" />
+																<Terminus:IntenseStareType1 MaxWidth="160" PerfectVerticalAlign="True" RichText="Skill coin descriptions width" TextAlignment="Center" UID="[C] * [Element context menu] Skill coin descriptions width" />
+															</StackPanel>
+														</TStyle:TwoColumned>
+													</StackPanel>
+												</Grid>
+											</MenuItem.Header>
+										</MenuItem>
+
+									</ContextMenu>
+
+									<Style TargetType="{x:Type PreviewCreator:ColumnTextElementContainer}">
+										<EventSetter Event="ContextMenuOpening" Handler="ColumnElemenet_ContextMenuOpening_CheckPartsAvilabilityBasedOnType" />
+										<EventSetter Event="ContextMenuOpening" Handler="ColumnTextElement_ContextMenuOpening_UnsealView" />
+										<EventSetter Event="ContextMenuClosing" Handler="ColumnTextElement_ContextMenuClosing_SealView" />
+										<Setter Property="ContextMenu" Value="{StaticResource ColumnItemContextMenu}" />
+									</Style>
+								</ResourceDictionary>
+							</Canvas.Resources>
+
+							<StackPanel Margin="-722 0 0 0">
+								<StackPanel.RenderTransform>
+									<TranslateTransform X="{Binding ElementName=VC_FirstColumnHorizontalOffset, Path=Value}" />
+								</StackPanel.RenderTransform>
+
+								<!--    Needed to trigger its init and addition of IntenseStareType1/2 to localization dictionaries    -->
+								<Canvas ContextMenu="{StaticResource ColumnItemContextMenu}" Visibility="Collapsed" />
+
+
+
+								<PreviewCreator:TextElementsColumn x:Name="TextColumn_1" MinWidth="300" HorizontalAlignment="Left" Visibility="Visible" />
+
+
+
+								<Grid x:Name="FirstColumnItemsSelector" Margin="67.5 0 0 0" HorizontalAlignment="Left" Opacity="1">
+									<ComboBox
+										x:Name="FirstColumnItemsSelector_ComboBox"
+										Width="{Binding ElementName=AddItemToColumnLabel_1, Path=Width}"
+										Height="27"
+										Margin="{Binding ElementName=AddItemToColumnLabel_1, Path=Margin}"
+										Padding="1999"
+										HorizontalContentAlignment="Center"
+										SelectionChanged="OpenContentSelectionDialog"
+										Style="{StaticResource Theme:ControlStyles.ComboBox}">
+										<ComboBoxItem x:Uid="1, Skill">
+											<Terminus:IntenseStareType1 FontSize="18" RichText="Skill" UID="[C] * [Text columns] Add skill option (Column 1)" />
+										</ComboBoxItem>
+										<ComboBoxItem x:Uid="1, Passive">
+											<Terminus:IntenseStareType1 FontSize="18" RichText="Passive" UID="[C] * [Text columns] Add passive option (Column 1)" />
+										</ComboBoxItem>
+										<ComboBoxItem x:Uid="1, Keyword">
+											<Terminus:IntenseStareType1 FontSize="18" RichText="Keyword" UID="[C] * [Text columns] Add keyword option (Column 1)" />
+										</ComboBoxItem>
+									</ComboBox>
+									<Terminus:IntenseStareType1
+										x:Name="AddItemToColumnLabel_1"
+										Width="165"
+										Padding="5 0 13 0"
+										FontSize="19"
+										IsHitTestVisible="False"
+										RichText="[Column №1] Add.."
+										UID="[C] * [Text columns] Add item to column 1 label" />
+								</Grid>
+							</StackPanel>
+							<StackPanel Margin="-360 0 0 0">
+								<StackPanel.RenderTransform>
+									<TranslateTransform X="{Binding ElementName=VC_SecondColumnHorizontalOffset, Path=Value}" />
+								</StackPanel.RenderTransform>
+
+
+								<PreviewCreator:TextElementsColumn x:Name="TextColumn_2" MinWidth="300" HorizontalAlignment="Left" Visibility="Visible" />
+
+
+								<Grid x:Name="SecondColumnItemsSelector" Margin="67.5 0 0 0" HorizontalAlignment="Left">
+									<ComboBox
+										x:Name="SecondColumnItemsSelector_ComboBox"
+										Width="{Binding ElementName=AddItemToColumnLabel_2, Path=Width}"
+										Height="27"
+										Margin="{Binding ElementName=AddItemToColumnLabel_2, Path=Margin}"
+										Padding="1999"
+										HorizontalContentAlignment="Center"
+										SelectionChanged="OpenContentSelectionDialog"
+										Style="{StaticResource Theme:ControlStyles.ComboBox}">
+										<ComboBoxItem x:Uid="2, Skill">
+											<Terminus:IntenseStareType1 FontSize="18" RichText="Skill" UID="[C] * [Text columns] Add skill option (Column 2)" />
+										</ComboBoxItem>
+										<ComboBoxItem x:Uid="2, Passive">
+											<Terminus:IntenseStareType1 FontSize="18" RichText="Passive" UID="[C] * [Text columns] Add passive option (Column 2)" />
+										</ComboBoxItem>
+										<ComboBoxItem x:Uid="2, Keyword">
+											<Terminus:IntenseStareType1 FontSize="18" RichText="Keyword" UID="[C] * [Text columns] Add keyword option (Column 2)" />
+										</ComboBoxItem>
+									</ComboBox>
+									<Terminus:IntenseStareType1
+										x:Name="AddItemToColumnLabel_2"
+										Width="167"
+										Padding="4 0 13 0"
+										FontSize="19"
+										IsHitTestVisible="False"
+										RichText="[Column №2] Add.."
+										UID="[C] * [Text columns] Add item to column 2 label" />
+								</Grid>
+							</StackPanel>
+
+						</Canvas>
+
+
+
+
+
+
+
+
+
+
+
+
+
+						<Terminus:IntenseStareType1
+							x:Uid="Credits"
+							Margin="0 0 5 0"
+							HorizontalAlignment="Right"
+							VerticalAlignment="Center"
+							FontFamily="/UI/Fonts/#Mahatmo Semi Expanded"
+							FontSize="10"
+							Foreground="#9d866d"
+							RichText="This is a fan-made replica. Image assets belong to &lt;b&gt;Project Moon.">
+							<Terminus:IntenseStareType1.LayoutTransform>
+								<RotateTransform Angle="-90" />
+							</Terminus:IntenseStareType1.LayoutTransform>
+						</Terminus:IntenseStareType1>
+
+
+
+
+
+
+						<!--    StackPanel with Horizontal Orientation is neccessary to normalize default Width of Images with Stretch Uniforming    -->
+						<Grid Height="136" VerticalAlignment="Top">
+							<Canvas Margin="0 0 800 0" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+
+								<StackPanel Canvas.Right="-280" Canvas.Bottom="0" Orientation="Horizontal">
+
+									<StackPanel>
+
+										<StackPanel Margin="0 0 0 -2" HorizontalAlignment="Right" Orientation="Horizontal">
+											<Grid x:Uid="Identity/E.G.O name">
+												<Image x:Name="Header_IdentityOrEGOName" Height="30" VerticalAlignment="Bottom" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Header/Identity or E.G.O Name.png" Stretch="Fill" />
+												<TextBlock
+													MaxWidth="500"
+													Margin="26 0 26 12"
+													VerticalAlignment="Bottom"
+													FontFamily="{DynamicResource Limbus:TitleFont}"
+													FontSize="21"
+													FontWeight="{DynamicResource Limbus:TitleFont_Weight}"
+													Foreground="#A66837"
+													LineHeight="20.5"
+													LineStackingStrategy="BlockLineHeight"
+													Text="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.IdentityOrEGOName.Text, FallbackValue='Identity/E.G.O name', Converter={StaticResource EscapedLineBreaksConverter}}"
+													TextAlignment="Center"
+													TextWrapping="Wrap">
+													<TextBlock.Effect>
+														<DropShadowEffect BlurRadius="0" Direction="-90" ShadowDepth="2.15" />
+													</TextBlock.Effect>
+												</TextBlock>
+												<Grid.RenderTransform>
+													<TranslateTransform X="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.IdentityOrEGOName.HorizontalOffset, FallbackValue=0}" />
+												</Grid.RenderTransform>
+											</Grid>
+											<Image Height="33" Margin="-2 0 -12 0" VerticalAlignment="Bottom" Source="{Binding ElementName=VC_Header_RarityOrRiskLevel, Path=SelectedItem.Source}">
+												<Image.RenderTransform>
+													<TranslateTransform X="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.RarityOrRiskLevel.HorizontalOffset, FallbackValue=0}" Y="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.RarityOrRiskLevel.VerticalOffset, FallbackValue=0}" />
+												</Image.RenderTransform>
+											</Image>
+										</StackPanel>
+
+										<Grid x:Uid="Sinner name" HorizontalAlignment="Right">
+											<Image x:Name="Header_SinnerName" Height="52" VerticalAlignment="Bottom" Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Header/Sinner Name.png" Stretch="Fill" />
+
+											<!--    It may seem like the text has an abnormal vertical offset, but everything is fine when the program running, idk    -->
+											<TextBlock
+												Margin="7 -12 14 0"
+												Padding="20 0 25 0"
+												FontFamily="{DynamicResource Limbus:TitleFont}"
+												FontSize="37"
+												FontWeight="{DynamicResource Limbus:TitleFont_Weight}"
+												Foreground="#EBCAA2"
+												Text="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.SinnerName.Text, FallbackValue='Sinner'}"
+												TextAlignment="Center">
+												<TextBlock.Effect>
+													<DropShadowEffect BlurRadius="0" Direction="-60" ShadowDepth="2.5" />
+												</TextBlock.Effect>
+											</TextBlock>
+
+											<Grid.RenderTransform>
+												<TranslateTransform X="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.SinnerName.HorizontalOffset, FallbackValue=0}" />
+											</Grid.RenderTransform>
+										</Grid>
+									</StackPanel>
+
+									<StackPanel.RenderTransform>
+										<TranslateTransform X="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.HorizontalOffset, FallbackValue=0}" Y="{Binding DataContextDomain.PreviewCreator.ImageInfo.Header.VerticalOffset, FallbackValue=0}" />
+									</StackPanel.RenderTransform>
+
+								</StackPanel>
+
+							</Canvas>
+						</Grid>
+
+
+
+
+
+
+
+
+
+
+						<Canvas x:Name="OverlaySketch" IsHitTestVisible="False" Visibility="Visible">
+							<Image
+								x:Name="OverlaySketchImage"
+								Height="{Binding DataContextDomain.PreviewCreator.ImageInfo.OverlaySketch.Scale, FallbackValue=742}"
+								HorizontalAlignment="Left"
+								VerticalAlignment="Top"
+								IsHitTestVisible="False"
+								Opacity="{Binding DataContextDomain.PreviewCreator.ImageInfo.OverlaySketch.Opacity, FallbackValue=0.5}"
+								Visibility="Visible" />
+						</Canvas>
+
+					</Grid>
+				</TStyle:ZoomableScrollViewer>
+
+				<Button
+					Width="16"
+					Height="16"
+					Margin="0 0 9 11"
+					HorizontalAlignment="Right"
+					VerticalAlignment="Bottom"
+					Click="GeneralActionToken"
+					Opacity="0" />
+
+			</Grid>
+
+			<Grid x:Name="UnsavedChangesGrid" x:Uid="Unsaved changes" Panel.ZIndex="-1" Background="{DynamicResource Theme:UnsavedChanges.PreviewCreator.BlurredBackground}" Opacity="0">
+				<Grid x:Uid="Click area to cancel" Background="Transparent" MouseLeftButtonUp="UnsavedChangesDialog_ButtonsClick_Cancel" />
+				<Border Width="900" Height="650" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
+					<Grid Margin="10" ClipToBounds="True">
+						<Terminus:IntenseStareType1 FontSize="40" RichText="Unsaved changes" TextAlignment="Center" UID="[C] * [Unsaved Changes] Title" />
+
+						<DiffPlex:DiffViewer
+							x:Name="ImageInfoUnsavedChangesViewer"
+							Margin="0 60 0 60"
+							ChangeTypeForeground="{DynamicResource Theme:UnsavedChanges.PreviewCreator.Diff.ChangeTypeIcon}"
+							DeletedBackground="{DynamicResource Theme:UnsavedChanges.PreviewCreator.Diff.OldValue.Background}"
+							DeletedForeground="{DynamicResource Theme:UnsavedChanges.PreviewCreator.Diff.OldValue.Foreground}"
+							FontFamily="{DynamicResource Theme:UnsavedChanges.PreviewCreator.Diff.Font}"
+							FontSize="{DynamicResource Theme:UnsavedChanges.PreviewCreator.Diff.FontSize}"
+							FontStretch="{DynamicResource Theme:UnsavedChanges.PreviewCreator.Diff.FontStretch}"
+							FontWeight="{DynamicResource Theme:UnsavedChanges.PreviewCreator.Diff.FontWeight}"
+							Foreground="{DynamicResource Theme:UnsavedChanges.PreviewCreator.Diff.Foreground}"
+							InsertedBackground="{DynamicResource Theme:UnsavedChanges.PreviewCreator.Diff.NewValue.Background}"
+							InsertedForeground="{DynamicResource Theme:UnsavedChanges.PreviewCreator.Diff.NewValue.Foreground}"
+							IsSideBySide="False"
+							LineNumberForeground="{DynamicResource Theme:UnsavedChanges.PreviewCreator.Diff.LineNumbers}" />
+
+						<StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+							<Button Height="45" Margin="0 0 5 0" Click="UnsavedChangesDialog_ButtonsClick_Proceed" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+								<Terminus:IntenseStareType1 Width="150" FontSize="30" RichText="Proceed" TextAlignment="Center" UID="[C] * [Unsaved Changes] Proceed" />
+							</Button>
+							<Button Height="45" Click="UnsavedChangesDialog_ButtonsClick_Cancel" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+								<Terminus:IntenseStareType1 Width="150" FontSize="30" RichText="Cancel" TextAlignment="Center" UID="[C] * [Unsaved Changes] Cancel" />
+							</Button>
+						</StackPanel>
+					</Grid>
+				</Border>
+			</Grid>
+
+		</Grid>
+	</Viewbox>
+</Page>

@@ -1,0 +1,26 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation" xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml" xmlns:Entanglement="clr-namespace:LCLocalizationInterface.Entanglement">
+
+	<Entanglement:EntanglementModel x:Key="ThatOnePeskyMvvmThing" />
+
+	<ResourceDictionary.MergedDictionaries>
+
+		<ResourceDictionary Source="/Internal/Resource Dictionaries/IValueConverters.xaml" />
+
+		<ResourceDictionary Source="/Internal/Theme.xaml" />
+		<ResourceDictionary Source="/Internal/Language.xaml" />
+		
+		<ResourceDictionary Source="/Internal/Resource Dictionaries/Default Style.xaml" />
+		
+		<ResourceDictionary Source="/Limbus Registry/Context &amp; Title fonts.xaml" />
+		<ResourceDictionary Source="/Limbus Registry/WPF Controls/TextMeshPro UI Element.xaml" />
+
+		<ResourceDictionary Source="/Limbus Registry/WPF Controls/Json Text Editor.xaml" />
+		
+		<ResourceDictionary Source="/Limbus Registry/WPF Controls/Specific Elements/Name Line Element (Skills &amp; Passives).xaml" />
+
+		<ResourceDictionary Source="/Limbus Registry/WPF Controls/Specific Elements/Skill Name Replica UI Element.xaml" />
+		<ResourceDictionary Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/WPF Controls (Dedicated)/Skill Name Replica (Preview Creator Edition).xaml" />
+
+	</ResourceDictionary.MergedDictionaries>
+
+</ResourceDictionary>

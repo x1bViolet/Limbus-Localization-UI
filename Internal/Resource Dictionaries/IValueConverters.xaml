@@ -1,0 +1,13 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:IValueConverters="clr-namespace:LCLocalizationInterface.Internal.IValueConverters">
+
+	<IValueConverters:BoolInversionConverter x:Key="BoolInversionConverter" />
+	<IValueConverters:TextToColorConverter x:Key="TextToColorConverter" />
+	<IValueConverters:TextToSolidColorBrushConverter x:Key="TextToSolidColorBrushConverter" />
+	<IValueConverters:DoubleToTopMarginConverter x:Key="DoubleToTopMarginConverter" />
+	<IValueConverters:DoubleToRightMarginConverter x:Key="DoubleToRightMarginConverter" />
+	<IValueConverters:DoubleToNegativeTopMarginConverter x:Key="DoubleToNegativeTopMarginConverter" />
+
+</ResourceDictionary>

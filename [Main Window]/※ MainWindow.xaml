@@ -1,0 +1,2467 @@
+﻿<Abstractions:FadeableWindow
+	x:Class="LCLocalizationInterface.MainWindow"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Abstractions="clr-namespace:LCLocalizationInterface.Internal.Abstractions"
+	xmlns:AvalonEditRendering="clr-namespace:ICSharpCode.AvalonEdit.Rendering;assembly=ICSharpCode.AvalonEdit"
+	xmlns:Blend="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:Entanglement="clr-namespace:LCLocalizationInterface.Entanglement"
+	xmlns:InternalStyle="clr-namespace:LCLocalizationInterface.Internal.UIStyle"
+	xmlns:JsonManaging="clr-namespace:LCLocalizationInterface.LimbusRegistry.ManualJsonFilesManaging"
+	xmlns:Limbus="clr-namespace:LCLocalizationInterface.LimbusRegistry"
+	xmlns:LimbusIValueConverters="clr-namespace:LCLocalizationInterface.LimbusRegistry.LimbusIValueConverters"
+	xmlns:MarkupCompatibility="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	xmlns:T="clr-namespace:LCLocalizationInterface.MarkupExtensions"
+	xmlns:Terminus="clr-namespace:LCLocalizationInterface.Internal.Terminus"
+	xmlns:sys="clr-namespace:System;assembly=mscorlib"
+	Title="{Binding ElementName=CaptionBinder, Path=Text}"
+	Width="{DynamicResource DM:Width}"
+	Height="{DynamicResource DM:Height}"
+	MinWidth="{DynamicResource DM:MinWidth}"
+	MinHeight="{DynamicResource DM:MinHeight}"
+	MaxWidth="{DynamicResource DM:MaxWidth}"
+	Blend:DataContext="{Blend:DesignInstance Type=Entanglement:EntanglementModel}"
+	MarkupCompatibility:Ignorable="Blend"
+	DataContext="{Binding Source={StaticResource ThatOnePeskyMvvmThing}}"
+	PreviewKeyDown="MainWindow_PreviewKeyDown"
+	PreviewKeyUp="MainWindow_PreviewKeyUp"
+	PreviewMouseDown="MainWindow_PreviewMouseDown"
+	ResizeMode="CanResizeWithGrip"
+	SizeChanged="SizeChanged_CheckThemeBackgroundImageVisibility"
+	Style="{StaticResource Base:WindowLayout}"
+	Topmost="True"
+	WindowStartupLocation="CenterScreen">
+
+	<WindowChrome.WindowChrome>
+		<WindowChrome x:Name="CurrentWindowChrome" CaptionHeight="0" ResizeBorderThickness="10" />
+	</WindowChrome.WindowChrome>
+
+	<Abstractions:FadeableWindow.Resources>
+		<ResourceDictionary>
+			<ScaleTransform x:Key="XReversed" ScaleX="-1" />
+
+			<!--    This is a @EditorModesShelf.MainWindowDimensing values, changed by EditorModeAbstraction<LocalizationDataType>.SwitchUI()    -->
+			<!--    Acts as a single control panel so i don't have to search for these values ​​among the UI elements    -->
+
+			<sys:Double x:Key="DM:MaxWidth">1000</sys:Double>
+			<sys:Double x:Key="DM:MinWidth">713</sys:Double>
+			<sys:Double x:Key="DM:MinHeight">425</sys:Double>
+
+			<sys:Double x:Key="DM:Width">1000</sys:Double>
+			<sys:Double x:Key="DM:Height">600</sys:Double>
+
+			<GridLength x:Key="DM:RichTextViewsHeight">387</GridLength>
+			<GridLength x:Key="DM:TextEditorAndRichTextViewsWidth">706</GridLength>
+
+			<sys:Int32 x:Key="DM:RichTextViewsTabIndex">0</sys:Int32>
+			<sys:Int32 x:Key="DM:RightMenuSectionsTabIndex">0</sys:Int32>
+
+		</ResourceDictionary>
+	</Abstractions:FadeableWindow.Resources>
+
+	<InternalStyle:InstancedWindowLayout x:Name="VisualBorder" BorderBrush="{DynamicResource Theme:Common.MainWindow.Border.Color}" CornerRadius="{DynamicResource Theme:Common.MainWindow.Border.CornerRadius}" WindowDragging="MainWindowOverrideDragMove">
+
+		<InternalStyle:InstancedWindowLayout.Title>
+			<Terminus:IntenseStareType1 Style="{StaticResource Base:WindowLayout.TitleBar.TitleText}" UID="[Main UI] * Program Title" />
+		</InternalStyle:InstancedWindowLayout.Title>
+
+		<InternalStyle:InstancedWindowLayout.Navigation>
+			<StackPanel MouseEnter="DisableWindowChromeResizeBorder" MouseLeave="EnableWindowChromeResizeBorder" Orientation="Horizontal">
+				<Canvas Margin="0 0 -5 0" IsHitTestVisible="False">
+					<Grid Canvas.Right="0" Width="15" Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorLevel=1, AncestorType=StackPanel}}" Background="{DynamicResource Theme:TitleBar.Background.Color}">
+						<Grid.OpacityMask>
+							<LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+								<GradientStop Color="#00000000" />
+								<GradientStop Offset="0.5" Color="#000000" />
+							</LinearGradientBrush>
+						</Grid.OpacityMask>
+					</Grid>
+				</Canvas>
+				<Button Click="Minimize" Style="{StaticResource Base:TitleBar.Button.Defaults.Minimize}" />
+				<Button T:BooleanStateHandler.IsVisible="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.EditorModeSwitch, FallbackValue=True}" Click="ModeSwitchContextMenu_OpenOnLeftClick" Content="">
+					<Button.ContextMenu>
+						<ContextMenu>
+							<ContextMenu.Resources>
+								<Style BasedOn="{StaticResource {x:Type Terminus:MenuItem_T1}}" TargetType="{x:Type Terminus:MenuItem_T1}">
+									<EventSetter Event="Click" Handler="ModeSwitchContextMenu_Click" />
+								</Style>
+							</ContextMenu.Resources>
+							<Terminus:MenuItem_T1 IsHitTestVisible="False" RichText="Opened files" TextBlock.TextAlignment="Center" UID="[Main UI] * Current editor switch — Title" />
+							<Separator />
+							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_MainMenu" RichText="Main menu" UID="[Main UI] * Current editor switch — Main menu" />
+							<Separator />
+							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_Skills" RichText="Skills" UID="[Main UI] * Current editor switch — Skills" />
+							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_Passives" RichText="Passives" UID="[Main UI] * Current editor switch — Passives" />
+							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_Keywords" RichText="Keywords" UID="[Main UI] * Current editor switch — Keywords" />
+							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_EGOGifts" RichText="E.G.O Gifts" UID="[Main UI] * Current editor switch — E.G.O Gifts" />
+							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_ObservationLogs" RichText="Observation Logs" UID="[Main UI] * Current editor switch — Observation Logs" />
+							<Separator />
+							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_DiscardCurrentFile" RichText="Discard current file" UID="[Main UI] * Current editor switch — Discard current file" />
+						</ContextMenu>
+					</Button.ContextMenu>
+				</Button>
+				<Button T:BooleanStateHandler.IsVisible="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.OpenSkillsDisplayInfoManager, FallbackValue=True}" Click="ShowSkillDisplayInfoManagerWindow" Content="">
+					<Button.ToolTip>
+						<ToolTip MaxWidth="700" Style="{StaticResource Theme:ControlStyles.Tooltip}">
+							<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.Foreground.Tooltips}" LineHeight="18" RichText="Open Skills Display Info manager" UID="[Skills DI Manager] * Title bar button tooltip" />
+						</ToolTip>
+					</Button.ToolTip>
+				</Button>
+				<Button T:BooleanStateHandler.IsVisible="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.SwitchUIToPreviewCreator, FallbackValue=True}" Click="PreviewCreatorUISwitchButton_Click" Content="">
+					<Button.ToolTip>
+						<ToolTip MaxWidth="700" Style="{StaticResource Theme:ControlStyles.Tooltip}">
+							<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.Foreground.Tooltips}" LineHeight="18" RichText="Switch UI to Identity/E.G.O Preview creator" UID="[C] * Title bar button tooltip" />
+						</ToolTip>
+					</Button.ToolTip>
+				</Button>
+				<Button T:BooleanStateHandler.IsVisible="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.ExportTextToImage, FallbackValue=True}" Click="MakeLimbusTextPreviewScanButton_Click" Content="" ToolTipOpening="MakeLimbusTextPreviewScanButton_ToolTipOpening">
+					<Button.ToolTip>
+						<ToolTip MaxWidth="700" Style="{StaticResource Theme:ControlStyles.Tooltip}">
+							<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.Foreground.Tooltips}" LineHeight="18" RichText="Export preview to PNG (To [⇲] Assets Directory\Scans directory)" UID="[Main UI] * Export Preview as PNG Tooltip" />
+						</ToolTip>
+					</Button.ToolTip>
+				</Button>
+				<Button Click="ShowSettings" Content="" Visibility="Visible" />
+				<Button Click="FadeClose" Style="{StaticResource Base:TitleBar.Button.Defaults.Close}" />
+			</StackPanel>
+		</InternalStyle:InstancedWindowLayout.Navigation>
+
+		<InternalStyle:InstancedWindowLayout.Content>
+			<Grid>
+				<Terminus:IntenseStareType1 x:Name="CaptionBinder" UID="[Main UI] [!] [#] * Program Title (Window Caption)" Visibility="Collapsed" />
+
+				<InternalStyle:SingleViewer x:Name="WindowContentView" SelectedIndex="0">
+
+					<Grid x:Uid="LOCALIZATION EDITOR" Background="{DynamicResource Theme:Common.MainWindow.Background.Color}">
+
+						<Grid Margin="0 1 0 0">
+
+							<Grid x:Name="UnsavedChangesGrid" Panel.ZIndex="1" Background="{DynamicResource Theme:UnsavedChanges.MainEditor.BlurredBackground}" Visibility="Collapsed">
+								<Grid x:Uid="Click area to cancel" Background="Transparent" MouseLeftButtonUp="UnsavedChangesDialog_ButtonsClick_Cancel" />
+								<Border Width="500" Height="380" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
+									<Grid Margin="10">
+										<Terminus:IntenseStareType1 FontSize="40" RichText="Unsaved changes" TextAlignment="Center" UID="[Unsaved Changes] * Title" />
+										<InternalStyle:SurfaceScrollViewer Height="240" Margin="10 55 10 0" VerticalAlignment="Top" VerticalScrollBarVisibility="Hidden">
+											<Terminus:IntenseStareType1 FontSize="21" UID="[Unsaved Changes] [-] * Information Text" />
+										</InternalStyle:SurfaceScrollViewer>
+										<StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+											<Button Height="45" Margin="0 0 5 0" Click="UnsavedChangesDialog_ButtonsClick_Proceed" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+												<Terminus:IntenseStareType1 Width="150" FontSize="30" RichText="Proceed" TextAlignment="Center" UID="[Unsaved Changes] * Proceed" />
+											</Button>
+											<Button Height="45" Click="UnsavedChangesDialog_ButtonsClick_Cancel" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+												<Terminus:IntenseStareType1 Width="150" FontSize="30" RichText="Cancel" TextAlignment="Center" UID="[Unsaved Changes] * Cancel" />
+											</Button>
+										</StackPanel>
+									</Grid>
+								</Border>
+							</Grid>
+
+							<!--    ClipToBounds="True" to prevent blur effect spreading on title bar when unsaved changes is shown    -->
+							<Grid x:Name="LocalizationEditorGrid" ClipToBounds="True">
+
+								<!--#region Background image-->
+								<StackPanel x:Name="BackgroundImageStackPanel" VerticalAlignment="Top">
+									<Image HorizontalAlignment="Left" Source="{DynamicResource Theme:Common.MainWindow.Background.Image}" Stretch="None" />
+
+									<!--    Mirrored version at the bottom    -->
+									<Image Margin="0 -1 0 0" HorizontalAlignment="Left" RenderTransformOrigin="0 0.5" Source="{DynamicResource Theme:Common.MainWindow.Background.Image}" Stretch="None">
+										<Image.RenderTransform>
+											<ScaleTransform ScaleY="-1" />
+										</Image.RenderTransform>
+									</Image>
+								</StackPanel>
+
+								<Border Background="{DynamicResource Theme:Common.MainWindow.Background.Image.Shadow}" />
+								<!--#endregion-->
+
+								<Grid x:Name="JsonTextEditorAndRichTextViews" Uid="Json editor, Text preview, Right menu" Grid.Column="0" Margin="2">
+									<Grid.ColumnDefinitions>
+
+										<!--    Space left for Rich Text Views    -->
+										<ColumnDefinition x:Name="TextEditorAndRichTextViewsWidth" Width="{DynamicResource DM:TextEditorAndRichTextViewsWidth}" />
+
+										<!--    Only TextEditorAndRichTextViewsWidth should change, and this one should remain at "1*" due to the need for auto-sizing of the Right Menu borders    -->
+										<ColumnDefinition Width="1*" />
+
+									</Grid.ColumnDefinitions>
+
+									<Grid x:Name="JsonTextEditor_And_RichTextViews" x:Uid="Json editor, Text preview" Grid.Row="0">
+										<Grid.RowDefinitions>
+											<RowDefinition />
+											<RowDefinition x:Name="RichTextViews__PARENT_Height" Height="{DynamicResource DM:RichTextViewsHeight}" />
+										</Grid.RowDefinitions>
+
+
+										<Grid.Resources>
+
+											<ContextMenu x:Key="LimbusJsonTextEditor_Conversions">
+												<ContextMenu.Resources>
+													<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+														<Setter Property="FontSize" Value="13.5" />
+													</Style>
+													<Style BasedOn="{StaticResource {x:Type Terminus:MenuItem_T1}}" TargetType="{x:Type Terminus:MenuItem_T1}">
+														<EventSetter Event="Click" Handler="TextEditor_ContextMenuClick" />
+														<Setter Property="Padding" Value="5 2.5 5 2.5" />
+													</Style>
+												</ContextMenu.Resources>
+												<Terminus:MenuItem_T1 x:Uid="Insert Style" RichText="Insert &lt;style&gt;" UID="[Context Menu] * Insert Style" />
+												<Separator />
+												<Terminus:MenuItem_T1 x:Uid="&lt;TMPro&gt; To [KeywordID]" RichText="TextMeshPro to [KeywordID]" UID="[Context Menu] * TextMeshPro to [KeywordID]" />
+												<Terminus:MenuItem_T1 x:Uid="&lt;TMPro&gt; To Shorthands" RichText="TextMeshPro to Shorthands" UID="[Context Menu] * TextMeshPro to Shorthands" />
+												<Terminus:MenuItem_T1 x:Uid="Implicit To [KeywordID]" RichText="Implicit to [KeywordID]" UID="[Context Menu] * Implicit to [KeywordID]" />
+												<Terminus:MenuItem_T1 x:Uid="Implicit To Shorthands" RichText="Implicit to Shorthands" UID="[Context Menu] * Implicit to Shorthands" />
+												<Terminus:MenuItem_T1 x:Uid="[KeywordID] To Shorthands" RichText="[KeywordID] to Shorthand" UID="[Context Menu] * [KeywordID] to Shorthands" />
+												<Terminus:MenuItem_T1 x:Uid="[KeywordID] To &lt;TMPro&gt;" RichText="[KeywordID] to TextMeshPro" UID="[Context Menu] * [KeywordID] to TextMeshPro" />
+											</ContextMenu>
+
+											<ContextMenu x:Key="LimbusJsonTextEditor_ExtraReplacements" />
+
+										</Grid.Resources>
+
+
+										<Terminus:IntenseStareType1 x:Name="LimbusJsonTextEditor_ExtraReplacementsContextMenu_ItemHeaderBinding" FontSize="13.5" UID="[Context Menu] [-] * Extra replacements item header" Visibility="Collapsed" />
+
+										<!--    It is.    -->
+										<Limbus:JsonTextEditor x:Name="LimbusJsonTextEditor" Grid.Row="0" ContextMenu="{StaticResource LimbusJsonTextEditor_Conversions}" ContextMenuOpening="LimbusJsonTextEditor_ContextMenuOpening" TextChanged="TextEditor_TextChanged" />
+
+										<ScrollViewer x:Name="WindowFocusManagingPlaceholder" Grid.Row="1" IsHitTestVisible="False" Opacity="0" Visibility="Visible" />
+
+
+
+
+
+										<!--    All text preview layouts is there    -->
+										<InternalStyle:SingleViewer x:Name="RichTextViews" Grid.Row="1" SelectedIndex="{DynamicResource DM:RichTextViewsTabIndex}">
+
+											<InternalStyle:SingleViewer.Resources>
+												<LimbusIValueConverters:EscapedLineBreaksConverter x:Key="EscapedLineBreaksConverter" />
+											</InternalStyle:SingleViewer.Resources>
+
+											<Grid x:Uid="[0] — Main menu text">
+												<!--    RenderOptions.BitmapScalingMode="NearestNeighbor" makes this image clearer    -->
+												<Image
+													Width="706"
+													Margin="1 0 0 0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Bottom"
+													RenderOptions.BitmapScalingMode="NearestNeighbor"
+													Source="/UI/Limbus/Skills/Background.png" />
+												<InternalStyle:SurfaceScrollViewer x:Name="RichTextViews__MainMenu_COMPOSITION_SurfaceScrollViewer" Margin="10 20 40 50">
+													<Limbus:TMProEmitter
+														x:Name="RichTextViews__MainMenu_DefaultDesc"
+														Margin="5 0 0 0"
+														Limbus:FontType="Context"
+														Limbus:RichText="{Binding DataContextDomain.Editor.MainMenuDocument.Text}"
+														Limbus:TextProcessingMode="EGOGifts"
+														FontSize="20" />
+												</InternalStyle:SurfaceScrollViewer>
+											</Grid>
+
+
+
+
+
+											<Grid x:Uid="[1] — Skills">
+
+												<Image
+													Width="706"
+													Margin="1 0 0 0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Bottom"
+													RenderOptions.BitmapScalingMode="NearestNeighbor"
+													Source="/UI/Limbus/Skills/Background.png" />
+
+												<InternalStyle:SurfaceScrollViewer x:Name="RichTextViews__Skills_COMPOSITION_SurfaceScrollViewer" Margin="10 20 33 50">
+													<StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Background="Transparent">
+
+														<StackPanel.Style>
+															<Style TargetType="StackPanel">
+
+																<Setter Property="Width" Value="663" />
+
+																<Style.Triggers>
+																	<!--    Reduce descs Width when RichTextViews__Skills_COMPOSITION_EGOResourcesDecoration is set to be visible (E.G.O Skills)    -->
+																	<DataTrigger Binding="{Binding ElementName=RichTextViews__Skills_COMPOSITION_EGOResourcesDecoration, Path=Visibility}" Value="Visible">
+																		<Setter Property="Width" Value="573" />
+																	</DataTrigger>
+																</Style.Triggers>
+
+															</Style>
+														</StackPanel.Style>
+
+														<Limbus:SkillNameReplicaUIElement
+															x:Name="RichTextViews__Skills_COMPOSITION_SkillNameReplica"
+															Margin="0 -20 0 8"
+															HorizontalAlignment="Left"
+															Affinity="None"
+															DamageType="Blunt"
+															Rank="3"
+															SkillName="{Binding DataContextDomain.Editor.CurrentUptie.KeylessDedicatedDocument_MainName.Text, Converter={StaticResource EscapedLineBreaksConverter}}"
+															SkillType="Evade">
+															<Limbus:SkillNameReplicaUIElement.Style>
+																<Style BasedOn="{StaticResource {x:Type Limbus:SkillNameReplicaUIElement}}" TargetType="{x:Type Limbus:SkillNameReplicaUIElement}">
+																	<!--    Default mode    -->
+																	<Setter Property="NameMaximumWidth" Value="485" />
+																	<Style.Triggers>
+																		<!--    Reduce NameMaximumWidth when RichTextViews__Skills_COMPOSITION_EGOResourcesDecoration is set to be visible (E.G.O Skills)    -->
+																		<DataTrigger Binding="{Binding ElementName=RichTextViews__Skills_COMPOSITION_EGOResourcesDecoration, Path=Visibility}" Value="Visible">
+																			<Setter Property="NameMaximumWidth" Value="385" />
+																		</DataTrigger>
+																		<DataTrigger Binding="{Binding DataContextDomain.Configuration.PreviewSettings.Base.EnableSkillNamesReplication}" Value="False">
+																			<Setter Property="Height" Value="0" />
+																		</DataTrigger>
+																	</Style.Triggers>
+																</Style>
+															</Limbus:SkillNameReplicaUIElement.Style>
+														</Limbus:SkillNameReplicaUIElement>
+
+
+
+
+
+
+														<Limbus:TMProEmitter
+															x:Name="RichTextViews__Skills_MainDescription"
+															Margin="5 0 7 0"
+															Limbus:FontType="Context"
+															Limbus:RichText="{Binding DataContextDomain.Editor.CurrentUptie.DedicatedDocument_MainDescription.Text}"
+															Limbus:TextProcessingMode="Skills"
+															Background="Transparent"
+															FontSize="20"
+															LineHeight="27"
+															PreviewMouseRightButtonDown="RichTextViews__Skills_FastSwitch_ToSkillMainDescription" />
+
+
+														<!--    Coins    -->
+														<VirtualizingStackPanel x:Name="RichTextViews__Skills_COMPOSITION_Coins" Margin="5 0 40.2 0">
+
+															<!--    Coins and their descriptions are added by the MainWindow.Skills_SetupCoinsView() when window is loaded (Their count and total size with all descs are too huge)    -->
+
+														</VirtualizingStackPanel>
+
+
+														<Limbus:TMProEmitter
+															x:Name="RichTextViews__Skills_FlavorDescription"
+															Margin="5 25 0 0"
+															Limbus:FontType="Context"
+															Limbus:RichText="{Binding DataContextDomain.Editor.CurrentUptie.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
+															Limbus:TextProcessingMode="None"
+															Background="Transparent"
+															FontSize="17.5"
+															FontStyle="Italic"
+															Foreground="#8a592f"
+															LineHeight="25"
+															PreviewMouseRightButtonDown="RichTextViews__Skills_FastSwitch_ToSkillFlavorDescription" />
+
+
+
+
+													</StackPanel>
+												</InternalStyle:SurfaceScrollViewer>
+
+
+												<Grid x:Name="RichTextViews__Skills_COMPOSITION_EGOResourcesDecoration" HorizontalAlignment="Right" T:NullStateHandler.IsVisible="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.KeylessDedicatedDocument_EGOAbnormalityName}">
+
+													<Grid.Resources>
+														<Style TargetType="{x:Type Image}">
+															<Setter Property="Width" Value="40" />
+															<Setter Property="Opacity" Value="0.8" />
+														</Style>
+														<Style TargetType="{x:Type StackPanel}">
+															<Setter Property="HorizontalAlignment" Value="Right" />
+														</Style>
+														<Style TargetType="{x:Type TextBlock}">
+															<Setter Property="FontFamily" Value="/UI/Fonts/#EXCELSIOR SANS" />
+															<Setter Property="Foreground" Value="#EBCAA2" />
+															<Setter Property="TextAlignment" Value="Right" />
+															<Setter Property="Margin" Value="0 10.5 0 0" />
+															<Setter Property="Opacity" Value="0.5" />
+															<Setter Property="FontSize" Value="28" />
+															<Setter Property="Text" Value="0" />
+															<Setter Property="Effect">
+																<Setter.Value>
+																	<DropShadowEffect BlurRadius="4" ShadowDepth="0" />
+																</Setter.Value>
+															</Setter>
+														</Style>
+													</Grid.Resources>
+													<StackPanel Margin="0 9 56 0">
+														<Image Margin="0 2 0 0" Opacity="1" Source="/UI/Limbus/Skills/Affinity Icons/Wrath.png" />
+														<Image Margin="0 4 0 0" Source="/UI/Limbus/Skills/Affinity Icons/Lust.png" />
+														<Image Margin="0 4 0 0" Source="/UI/Limbus/Skills/Affinity Icons/Sloth.png" />
+														<Image Margin="-5 5 0 0" Source="/UI/Limbus/Skills/Affinity Icons/Gluttony.png" />
+														<Image Margin="0 4 0 0" Opacity="1" Source="/UI/Limbus/Skills/Affinity Icons/Gloom.png" />
+														<Image Margin="0 4 0 0" Opacity="1" Source="/UI/Limbus/Skills/Affinity Icons/Pride.png" />
+														<Image Margin="0 4 -2 0" Source="/UI/Limbus/Skills/Affinity Icons/Envy.png" />
+													</StackPanel>
+													<StackPanel Margin="0 24 47 0">
+														<TextBlock Opacity="1" Text="2" />
+														<TextBlock />
+														<TextBlock />
+														<TextBlock />
+														<TextBlock Opacity="1" Text="1" />
+														<TextBlock Opacity="1" Text="6" />
+														<TextBlock />
+													</StackPanel>
+													<Border Width="1" Margin="0 30 105.5 81" HorizontalAlignment="Right" Opacity="0.4" Visibility="Visible">
+														<Border.Background>
+															<LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
+																<GradientStop Offset="0" Color="#00000000" />
+																<GradientStop Offset="0.1" Color="#EBCAA2" />
+																<GradientStop Offset="0.5" Color="#EBCAA2" />
+																<GradientStop Offset="0.9" Color="#EBCAA2" />
+																<GradientStop Offset="1" Color="#00000000" />
+															</LinearGradientBrush>
+														</Border.Background>
+													</Border>
+												</Grid>
+
+											</Grid>
+
+
+
+
+
+											<Grid x:Uid="[2] — Passives">
+
+												<!--    RenderOptions.BitmapScalingMode="NearestNeighbor" makes this image clearer    -->
+												<Image
+													Width="706"
+													Margin="1 0 0 0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Bottom"
+													RenderOptions.BitmapScalingMode="NearestNeighbor"
+													Source="/UI/Limbus/Skills/Background.png" />
+
+												<InternalStyle:SurfaceScrollViewer x:Name="RichTextViews__Passives_COMPOSITION_SurfaceScrollViewer" Margin="10 20 40 50">
+													<StackPanel HorizontalAlignment="Left" VerticalAlignment="Top" Cursor="">
+														<Limbus:NameLineElement
+															x:Name="RichTextViews__Passives_Name"
+															Margin="5 0 0 8"
+															HorizontalAlignment="Left"
+															DisplayedName="{Binding DataContextDomain.Editor.CurrentPassive.KeylessDedicatedDocument_Name.Text, Converter={StaticResource EscapedLineBreaksConverter}}"
+															DropShadowEffect_Depth="0"
+															FillColorRightOffsetReduction="12"
+															NameMaximumWidth="585" />
+														<InternalStyle:SingleViewer x:Name="RichTextViews__Passives_COMPOSITION_MainAndSummaryDescsTab">
+															<StackPanel>
+																<Limbus:TMProEmitter
+																	x:Name="RichTextViews__Passives_MainDescription"
+																	Margin="5 0 0 0"
+																	Limbus:FontType="Context"
+																	Limbus:RichText="{Binding DataContextDomain.Editor.CurrentPassive.DedicatedDocument_MainDescription.Text}"
+																	Limbus:TextProcessingMode="Passives"
+																	FontSize="20"
+																	LineHeight="27"
+																	PreviewMouseRightButtonDown="RichTextViews__Passives_FastSwitch_ToPassiveMainDescription" />
+																<Limbus:TMProEmitter
+																	x:Name="RichTextViews__Passives_FlavorDescription"
+																	Margin="5 25 0 0"
+																	Limbus:FontType="Context"
+																	Limbus:RichText="{Binding DataContextDomain.Editor.CurrentPassive.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
+																	Limbus:TextProcessingMode="None"
+																	FontSize="17.5"
+																	FontStyle="Italic"
+																	Foreground="#8a592f"
+																	LineHeight="25"
+																	PreviewMouseRightButtonDown="RichTextViews__Passives_FastSwitch_ToPassiveFlavorDescription" />
+															</StackPanel>
+															<Grid>
+																<Limbus:TMProEmitter
+																	x:Name="RichTextViews__Passives_SummaryDescription"
+																	Margin="5 0 0 0"
+																	Limbus:FontType="Context"
+																	Limbus:RichText="{Binding DataContextDomain.Editor.CurrentPassive.DedicatedDocument_SummaryDescription.Text, FallbackValue={x:Null}}"
+																	Limbus:TextProcessingMode="Passives"
+																	FontSize="20"
+																	LineHeight="27" />
+															</Grid>
+														</InternalStyle:SingleViewer>
+													</StackPanel>
+
+												</InternalStyle:SurfaceScrollViewer>
+
+											</Grid>
+
+
+
+
+
+											<Grid x:Uid="[3] — Keywords">
+
+												<!--    Hidden value sources for common elements of two diffirent view versions below    -->
+												<Image x:Name="RichTextViews__Keywords_COMPOSITION_CurrentKeywordIcon" Visibility="Collapsed" />
+												<InternalStyle:SingleViewer x:Name="RichTextViews__Keywords_COMPOSITION_CurrentKeywordsViewVersionTab" SelectedIndex="1" Visibility="Collapsed">
+													<Grid x:Uid="Its will be BattleKeywords" />
+													<Grid x:Uid="Its will be Bufs" />
+												</InternalStyle:SingleViewer>
+												<InternalStyle:SingleViewer x:Name="RichTextViews__Keywords_COMPOSITION_MainAndSummaryDescsTab" SelectedIndex="0" Visibility="Collapsed">
+													<Grid x:Uid="Its will be Main+Flavor" />
+													<Grid x:Uid="Its will be Summary" />
+												</InternalStyle:SingleViewer>
+
+												<InternalStyle:SingleViewer SelectedIndex="{Binding ElementName=RichTextViews__Keywords_COMPOSITION_CurrentKeywordsViewVersionTab, Path=SelectedIndex}">
+													<Grid x:Uid="[0] — BattleKeywords view version" Width="706" Height="370" Background="Transparent">
+
+														<Image
+															x:Name="RichTextViews__Keywords_COMPOSITION_BattleKeywords_BackgroundImage"
+															Width="706"
+															Height="370"
+															VerticalAlignment="Top"
+															Stretch="UniformToFill"
+															StretchDirection="DownOnly" />
+
+														<!--    Needed to scan keyword with a frame (SurfaceScrollViewer below contains only text in this case)    -->
+														<ScrollViewer x:Name="RichTextViews__Keywords_COMPOSITION_BattleKeywords_GeneralParentScrollViewer" HorizontalAlignment="Center" VerticalAlignment="Center" VerticalScrollBarVisibility="Hidden">
+
+															<Grid x:Name="RichTextViews__Keywords_COMPOSITION_BattleKeywords_GeneralParentBorder" Width="408" MaxHeight="277">
+																<Border Background="#A5000000" BorderThickness="0.8" CornerRadius="0.55">
+																	<Border.BorderBrush>
+																		<LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+																			<GradientStop Color="#4B3F31" />
+																			<GradientStop Offset="0.6" Color="#00000000" />
+																		</LinearGradientBrush>
+																	</Border.BorderBrush>
+																	<Border Margin="1.5" Background="#8C000000" BorderBrush="#4B3F31" BorderThickness="0.8">
+																		<Grid>
+																			<StackPanel MaxHeight="55" VerticalAlignment="Top" Orientation="Horizontal">
+																				<Image Width="32" Margin="6 7 0 0" VerticalAlignment="Top" Source="{Binding ElementName=RichTextViews__Keywords_COMPOSITION_CurrentKeywordIcon, Path=Source}" />
+																				<Viewbox
+																					Width="350"
+																					Height="49"
+																					MaxWidth="350"
+																					Margin="5 0 0 0"
+																					HorizontalAlignment="Left"
+																					Stretch="Uniform">
+																					<Limbus:TMProEmitter
+																						x:Name="RichTextViews__Keywords_Bufs_Name"
+																						Width="290"
+																						VerticalAlignment="Center"
+																						Limbus:AcceptsRichTextDelay="False"
+																						Limbus:FontType="Title"
+																						Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.KeylessDedicatedDocument_Name.Text, Converter={StaticResource EscapedLineBreaksConverter}}"
+																						Limbus:TextProcessingMode="None"
+																						FontSize="20"
+																						LineHeight="24"
+																						Visibility="Visible" />
+																				</Viewbox>
+																			</StackPanel>
+
+																			<InternalStyle:SurfaceScrollViewer x:Name="RichTextViews__Keywords_COMPOSITION_BattleKeywords_SurfaceScrollViewer" Margin="18 48 25 18">
+																				<InternalStyle:SingleViewer HorizontalAlignment="Left" VerticalAlignment="Top" SelectedIndex="{Binding ElementName=RichTextViews__Keywords_COMPOSITION_MainAndSummaryDescsTab, Path=SelectedIndex}">
+																					<StackPanel>
+																						<Limbus:TMProEmitter
+																							x:Name="RichTextViews__Keywords_Bufs_MainDescription"
+																							Limbus:FontType="Context"
+																							Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_MainDescription.Text}"
+																							Limbus:TextProcessingMode="None"
+																							FontSize="19"
+																							LineHeight="25"
+																							PreviewMouseRightButtonDown="RichTextViews__Keywords_FastSwitch_ToKeywordMainDescription" />
+																						<Limbus:TMProEmitter
+																							x:Name="RichTextViews__Keywords_Bufs_FlavorDescription"
+																							Margin="0 25 0 0"
+																							Limbus:FontType="Context"
+																							Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
+																							Limbus:TextProcessingMode="None"
+																							FontSize="16.5"
+																							FontStyle="Italic"
+																							Foreground="#8a592f"
+																							LineHeight="23"
+																							PreviewMouseRightButtonDown="RichTextViews__Keywords_FastSwitch_ToKeywordFlavorDescription" />
+																					</StackPanel>
+																					<Grid>
+																						<Limbus:TMProEmitter
+																							x:Name="RichTextViews__Keywords_Bufs_SummaryDescription"
+																							Limbus:FontType="Context"
+																							Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_SummaryDescription.Text, FallbackValue={x:Null}}"
+																							Limbus:TextProcessingMode="None"
+																							FontSize="19"
+																							LineHeight="25" />
+																					</Grid>
+																				</InternalStyle:SingleViewer>
+																			</InternalStyle:SurfaceScrollViewer>
+																		</Grid>
+																	</Border>
+																</Border>
+															</Grid>
+
+														</ScrollViewer>
+													</Grid>
+
+													<Grid x:Uid="[1] — Bufs view version" Width="706" Height="424">
+
+
+														<Image
+															x:Name="RichTextViews__Keywords_COMPOSITION_Bufs_BackgroundImage"
+															Width="706"
+															Height="424"
+															HorizontalAlignment="Left"
+															VerticalAlignment="Top"
+															Stretch="Uniform" />
+
+														<Image Margin="56.7 4 56.7 5" Source="/UI/Limbus/Keywords ('Bufs' view)/General Background.png" Stretch="Fill" />
+
+														<Grid x:Uid="Embedded text background composition" Margin="84 32 84 34">
+
+															<Grid x:Uid="Corners">
+																<Image Width="96" HorizontalAlignment="Left" VerticalAlignment="Top" Source="/UI/Limbus/Keywords ('Bufs' view)/Text Container/Corners/Left Top.png" />
+																<Image Width="96" HorizontalAlignment="Right" VerticalAlignment="Top" Source="/UI/Limbus/Keywords ('Bufs' view)/Text Container/Corners/Right Top.png" />
+																<Image Width="96" HorizontalAlignment="Left" VerticalAlignment="Bottom" Source="/UI/Limbus/Keywords ('Bufs' view)/Text Container/Corners/Bottom Left.png" />
+																<Image Width="96" HorizontalAlignment="Right" VerticalAlignment="Bottom" Source="/UI/Limbus/Keywords ('Bufs' view)/Text Container/Corners/Bottom Right.png" />
+															</Grid>
+
+															<Image Margin="13" Source="/UI/Limbus/Keywords ('Bufs' view)/Text Container/Pattern.png" Stretch="Fill" />
+															<Image Width="235" Height="235" Margin="64 22 64 64" Opacity="0.3" Source="/UI/Limbus/Keywords ('Bufs' view)/Text Container/Dark Logo.png" />
+
+															<Grid x:Uid="Fillers" Panel.ZIndex="-1">
+																<Grid Margin="8" Background="#000000" />
+																<Image Width="11" Margin="0 15 0 15" HorizontalAlignment="Left" Source="/UI/Limbus/Keywords ('Bufs' view)/Text Container/Stretchable Sides/Left.png" Stretch="Fill" />
+																<Image Height="10.33" Margin="15 0 15 0" VerticalAlignment="Top" Source="/UI/Limbus/Keywords ('Bufs' view)/Text Container/Stretchable Sides/Top.png" Stretch="Fill" />
+																<Image Width="11" Margin="0 15 0 15" HorizontalAlignment="Right" Source="/UI/Limbus/Keywords ('Bufs' view)/Text Container/Stretchable Sides/Right.png" Stretch="Fill" />
+																<Image Height="11.55" Margin="15 0 15 0" VerticalAlignment="Bottom" Source="/UI/Limbus/Keywords ('Bufs' view)/Text Container/Stretchable Sides/Bottom.png" Stretch="Fill" />
+															</Grid>
+
+														</Grid>
+
+														<InternalStyle:SurfaceScrollViewer x:Name="RichTextViews__Keywords_COMPOSITION_Bufs_SurfaceScrollViewer" Margin="131 62 136 112" VerticalScrollBarVisibility="Auto">
+
+															<Border Width="418.8" VerticalAlignment="Top" BorderBrush="#846d56" BorderThickness="2">
+																<!--    WARNING: ImageBrush as background of top-level visual element(Border above that is actually scanned as content) is not captured by the RenderTargetBitmap or whatever creates the scans, so there's wrapper Grid    -->
+																<Grid>
+																	<Grid.Background>
+																		<ImageBrush ImageSource="/UI/Limbus/Keywords ('Bufs' view)/Dirty Background.png" />
+																	</Grid.Background>
+																	<Grid Margin="2 11 2 11">
+																		<Image Width="60" Margin="3 -4 0 0" HorizontalAlignment="Left" VerticalAlignment="Top" Source="{Binding ElementName=RichTextViews__Keywords_COMPOSITION_CurrentKeywordIcon, Path=Source}" />
+
+																		<StackPanel Margin="60 0 0 0" VerticalAlignment="Top">
+																			<Limbus:TMProEmitter
+																				x:Name="RichTextViews__Keywords_BattleKeywords_Name"
+																				MaxWidth="249"
+																				Margin="5 0 0 8"
+																				HorizontalAlignment="Left"
+																				Limbus:AcceptsRichTextDelay="False"
+																				Limbus:FontType="Title"
+																				Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.KeylessDedicatedDocument_Name.Text, Converter={StaticResource EscapedLineBreaksConverter}}"
+																				Limbus:TextProcessingMode="None"
+																				FontSize="23"
+																				LineHeight="26.5"
+																				Visibility="Visible" />
+																			<InternalStyle:SingleViewer Margin="5 0 7.8 0" SelectedIndex="{Binding ElementName=RichTextViews__Keywords_COMPOSITION_MainAndSummaryDescsTab, Path=SelectedIndex}">
+																				<StackPanel>
+																					<Limbus:TMProEmitter
+																						x:Name="RichTextViews__Keywords_BattleKeywords_MainDescription"
+																						Limbus:FontType="Context"
+																						Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_MainDescription.Text}"
+																						Limbus:TextProcessingMode="None"
+																						FontSize="14"
+																						LineHeight="22"
+																						PreviewMouseRightButtonDown="RichTextViews__Keywords_FastSwitch_ToKeywordMainDescription" />
+																					<Limbus:TMProEmitter
+																						x:Name="RichTextViews__Keywords_BattleKeywords_FlavorDescription"
+																						Margin="0 15 0 0"
+																						Limbus:FontType="Context"
+																						Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
+																						Limbus:TextProcessingMode="None"
+																						FontSize="13.5"
+																						FontStyle="Italic"
+																						Foreground="#8a592f"
+																						LineHeight="18"
+																						PreviewMouseRightButtonDown="RichTextViews__Keywords_FastSwitch_ToKeywordFlavorDescription" />
+																				</StackPanel>
+																				<Grid>
+																					<Limbus:TMProEmitter
+																						x:Name="RichTextViews__Keywords_BattleKeywords_SummaryDescription"
+																						HorizontalAlignment="Left"
+																						Limbus:FontType="Context"
+																						Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_SummaryDescription.Text, FallbackValue={x:Null}}"
+																						Limbus:TextProcessingMode="None"
+																						FontSize="14"
+																						LineHeight="22" />
+																				</Grid>
+																			</InternalStyle:SingleViewer>
+																		</StackPanel>
+																	</Grid>
+																</Grid>
+															</Border>
+
+															<!--    Scrollbar style from Limbus    -->
+															<InternalStyle:SurfaceScrollViewer.Resources>
+																<Style TargetType="{x:Type InternalStyle:SurfaceScrollViewer}">
+																	<Setter Property="Template">
+																		<Setter.Value>
+																			<ControlTemplate TargetType="{x:Type InternalStyle:SurfaceScrollViewer}">
+																				<Grid Background="{TemplateBinding Background}">
+																					<ScrollContentPresenter x:Name="PART_ScrollContentPresenter" Margin="-10 0 0 0" HorizontalAlignment="Left" Content="{TemplateBinding Content}" />
+																					<ScrollBar
+																						x:Name="PART_VerticalScrollBar"
+																						Margin="0 2 -17 2"
+																						HorizontalAlignment="Right"
+																						Maximum="{TemplateBinding ScrollableHeight}"
+																						ViewportSize="{TemplateBinding ViewportHeight}"
+																						Visibility="{TemplateBinding ComputedVerticalScrollBarVisibility}"
+																						Value="{Binding VerticalOffset, Mode=OneWay, RelativeSource={RelativeSource Mode=TemplatedParent}}" />
+																				</Grid>
+																				<ControlTemplate.Triggers>
+																					<Trigger SourceName="PART_VerticalScrollBar" Property="Visibility" Value="Collapsed">
+																						<Setter TargetName="PART_ScrollContentPresenter" Property="Margin" Value="12 0 0 0" />
+																					</Trigger>
+																				</ControlTemplate.Triggers>
+																			</ControlTemplate>
+																		</Setter.Value>
+																	</Setter>
+																</Style>
+																<Style x:Key="ScrollBarThumbVertical" TargetType="{x:Type Thumb}">
+																	<Setter Property="Template">
+																		<Setter.Value>
+																			<ControlTemplate TargetType="{x:Type Thumb}">
+																				<Rectangle x:Name="VisualThumb" Width="19" Fill="#EBCAA2" />
+																				<ControlTemplate.Triggers>
+																					<EventTrigger RoutedEvent="DragStarted">
+																						<BeginStoryboard>
+																							<Storyboard>
+																								<ColorAnimation Storyboard.TargetName="VisualThumb" Storyboard.TargetProperty="Fill.Color" From="#EBCAA2" To="#C2A17D" Duration="0:0:0.08" />
+																							</Storyboard>
+																						</BeginStoryboard>
+																					</EventTrigger>
+																					<EventTrigger RoutedEvent="DragCompleted">
+																						<BeginStoryboard>
+																							<Storyboard>
+																								<ColorAnimation Storyboard.TargetName="VisualThumb" Storyboard.TargetProperty="Fill.Color" From="#C2A17D" To="#EBCAA2" Duration="0:0:0.08" />
+																							</Storyboard>
+																						</BeginStoryboard>
+																					</EventTrigger>
+																				</ControlTemplate.Triggers>
+																			</ControlTemplate>
+																		</Setter.Value>
+																	</Setter>
+																</Style>
+																<Style TargetType="{x:Type ScrollBar}">
+																	<Setter Property="ContextMenu" Value="{x:Null}" />
+																	<Setter Property="Effect">
+																		<Setter.Value>
+																			<DropShadowEffect BlurRadius="5" ShadowDepth="0" Color="#EBCAA2" />
+																		</Setter.Value>
+																	</Setter>
+																	<Setter Property="Template">
+																		<Setter.Value>
+																			<ControlTemplate TargetType="{x:Type ScrollBar}">
+																				<Grid>
+																					<Border Width="15" Background="Transparent" BorderBrush="#EBCAA2" BorderThickness="1.2" />
+																					<Track x:Name="PART_Track" IsDirectionReversed="True">
+																						<Track.Thumb>
+																							<Thumb Margin="-2" HorizontalAlignment="Center" RenderTransformOrigin="0.5 0.5" Style="{StaticResource ScrollBarThumbVertical}" />
+																						</Track.Thumb>
+																					</Track>
+																				</Grid>
+																			</ControlTemplate>
+																		</Setter.Value>
+																	</Setter>
+																</Style>
+															</InternalStyle:SurfaceScrollViewer.Resources>
+
+														</InternalStyle:SurfaceScrollViewer>
+
+														<Button
+															Width="225"
+															Height="47"
+															Margin="0 0 0 56"
+															VerticalAlignment="Bottom"
+															Click="RichTextViews__Keywords_COMPOSITION_Bufs_OKButton_Click"
+															FocusVisualStyle="{x:Null}">
+															<Button.Template>
+																<ControlTemplate TargetType="{x:Type Button}">
+																	<ControlTemplate.Resources>
+																		<DropShadowEffect x:Key="LightingEffect1" BlurRadius="6" ShadowDepth="0" Color="#FFFE832C" />
+																		<DropShadowEffect x:Key="LightingEffect2" BlurRadius="6" ShadowDepth="0" Color="Yellow" />
+																		<Style x:Key="LightingFrame" TargetType="{x:Type Border}">
+																			<Setter Property="BorderBrush" Value="#FED600" />
+																			<Setter Property="BorderThickness" Value="2.1" />
+																			<Setter Property="CornerRadius" Value="0.5" />
+																		</Style>
+																	</ControlTemplate.Resources>
+																	<Grid RenderTransformOrigin="0.5 0.5">
+																		<Grid.RenderTransform>
+																			<ScaleTransform x:Name="ButtonSize" ScaleX="1" ScaleY="{Binding ScaleX, RelativeSource={RelativeSource Self}}" />
+																		</Grid.RenderTransform>
+																		<Rectangle x:Name="TextColor" Fill="Black" Visibility="Collapsed" />
+																		<Border x:Name="MainBorder" Margin="2" BorderBrush="Black" BorderThickness="3">
+																			<Grid Background="Black">
+																				<Image x:Name="BackgroundTexture" Opacity="1" Source="/UI/Limbus/Keywords ('Bufs' view)/OK Button/Background.png" Stretch="Fill" />
+																				<StackPanel Margin="0 6 0 0" HorizontalAlignment="Center" VerticalAlignment="Center" Orientation="Horizontal">
+																					<Grid x:Name="OKButton_Icon" Width="25" Height="{Binding Width, RelativeSource={RelativeSource Self}}" Margin="-1 -4 0 0" Background="{Binding ElementName=TextColor, Path=Fill}">
+																						<Grid.OpacityMask>
+																							<ImageBrush ImageSource="/UI/Limbus/Keywords ('Bufs' view)/OK Button/Icon.png" />
+																						</Grid.OpacityMask>
+																					</Grid>
+																					<TextBlock
+																						x:Name="OKButton_Text"
+																						Margin="10.5 0 0 0"
+																						FontFamily="/UI/Fonts/#Mikodacs"
+																						FontSize="20.5"
+																						Foreground="{Binding ElementName=TextColor, Path=Fill}"
+																						Text="OK" />
+																				</StackPanel>
+																			</Grid>
+																		</Border>
+																		<Grid x:Name="LightingFrames" Margin="2.6" Background="#52fe8c00" Opacity="0">
+																			<!--    Multiply the effect    -->
+																			<Border Effect="{StaticResource LightingEffect2}" Style="{StaticResource LightingFrame}" />
+																			<Border Effect="{StaticResource LightingEffect2}" Style="{StaticResource LightingFrame}" />
+																			<Border Effect="{StaticResource LightingEffect1}" Style="{StaticResource LightingFrame}" />
+																			<Border Effect="{StaticResource LightingEffect1}" Style="{StaticResource LightingFrame}" />
+																			<Border Effect="{StaticResource LightingEffect1}" Style="{StaticResource LightingFrame}" />
+																		</Grid>
+																	</Grid>
+																	<ControlTemplate.Triggers>
+
+																		<EventTrigger RoutedEvent="MouseEnter">
+																			<BeginStoryboard>
+																				<Storyboard>
+																					<ColorAnimation Storyboard.TargetName="TextColor" Storyboard.TargetProperty="Fill.Color" From="Black" To="#D6D693" Duration="0:0:0.14" />
+																					<DoubleAnimation Storyboard.TargetName="BackgroundTexture" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.14" />
+																					<DoubleAnimation Storyboard.TargetName="LightingFrames" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.14" />
+																				</Storyboard>
+																			</BeginStoryboard>
+																		</EventTrigger>
+
+																		<EventTrigger RoutedEvent="MouseLeave">
+																			<BeginStoryboard>
+																				<Storyboard>
+																					<ColorAnimation Storyboard.TargetName="TextColor" Storyboard.TargetProperty="Fill.Color" From="#D6D693" To="Black" Duration="0:0:0.17" />
+																					<DoubleAnimation Storyboard.TargetName="BackgroundTexture" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.17" />
+																					<DoubleAnimation Storyboard.TargetName="LightingFrames" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.17" />
+																				</Storyboard>
+																			</BeginStoryboard>
+																		</EventTrigger>
+
+																		<Trigger Property="IsPressed" Value="True">
+																			<Trigger.EnterActions>
+																				<BeginStoryboard>
+																					<Storyboard>
+																						<DoubleAnimation Storyboard.TargetName="ButtonSize" Storyboard.TargetProperty="ScaleX" From="1" To="0.98" Duration="0:0:0.1" />
+																					</Storyboard>
+																				</BeginStoryboard>
+																			</Trigger.EnterActions>
+																			<Trigger.ExitActions>
+																				<BeginStoryboard>
+																					<Storyboard>
+																						<DoubleAnimation Storyboard.TargetName="ButtonSize" Storyboard.TargetProperty="ScaleX" From="0.98" To="1" Duration="0:0:0.1" />
+																					</Storyboard>
+																				</BeginStoryboard>
+																			</Trigger.ExitActions>
+																		</Trigger>
+
+																	</ControlTemplate.Triggers>
+																</ControlTemplate>
+															</Button.Template>
+														</Button>
+													</Grid>
+												</InternalStyle:SingleViewer>
+											</Grid>
+
+
+
+
+
+											<Grid x:Uid="[4] — E.G.O Gifts" Width="510" Height="421">
+												<Image VerticalAlignment="Bottom" Source="/UI/Limbus/E.G.O Gifts/Background.png" Stretch="Uniform" />
+
+												<Grid Width="284" Height="73" Margin="0 26 27 0" HorizontalAlignment="Right" VerticalAlignment="Top">
+													<Image x:Name="EGOGiftVisualView_NameBackground" Source="/UI/Limbus/E.G.O Gifts/Affinity-Colored E.G.O Gifts Name Backgrounds/None.png" Stretch="Fill" />
+													<Viewbox Width="260" Height="49" HorizontalAlignment="Center" Stretch="Uniform">
+														<Limbus:TMProEmitter
+															x:Name="EGOGiftVisualView_Name"
+															MinWidth="280"
+															MaxWidth="430"
+															Limbus:AcceptsRichTextDelay="False"
+															Limbus:FontType="Title"
+															Limbus:RichText="{Binding DataContextDomain.Editor.CurrentEGOGift.KeylessDedicatedDocument_Name.Text, Converter={StaticResource EscapedLineBreaksConverter}}"
+															Limbus:TextProcessingMode="None"
+															FontSize="29"
+															LineHeight="24"
+															TextAlignment="Center" />
+														<Viewbox.Effect>
+															<DropShadowEffect BlurRadius="0" ShadowDepth="2.1" />
+														</Viewbox.Effect>
+													</Viewbox>
+												</Grid>
+
+
+												<Grid
+													Width="170"
+													Height="170"
+													Margin="14 12 0 0"
+													HorizontalAlignment="Left"
+													VerticalAlignment="Top"
+													Visibility="Visible">
+													<Image x:Name="EGOGiftVisualView_UpgradeLevel3Border" Width="164" Margin="4 -1 0 0" Source="/UI/Limbus/E.G.O Gifts/Ugrade level 3 Frame.png" Visibility="Collapsed" />
+													<Image
+														x:Name="EGOGiftVisualView_UpgradeLevel2Border"
+														Width="145"
+														Height="145"
+														Margin="5 -4 0 0"
+														Opacity="1"
+														Source="/UI/Limbus/E.G.O Gifts/Ugrade level 2 Frame.png"
+														Visibility="Collapsed" />
+													<Image x:Name="EGOGiftVisualView_MainIcon" Width="123" Margin="1 -13 0 0" />
+													<Image x:Name="EGOGiftVisualView_Keyword" Width="50" HorizontalAlignment="Right" VerticalAlignment="Bottom" />
+													<Image
+														x:Name="EGOGiftVisualView_UpgradeLevel2_OnIcon"
+														Height="85"
+														Margin="0 -4 -4 0"
+														HorizontalAlignment="Right"
+														VerticalAlignment="Top"
+														Source="/UI/Limbus/E.G.O Gifts/Ugrade level 2 Indicator.png"
+														Visibility="Collapsed" />
+													<Image
+														x:Name="EGOGiftVisualView_UpgradeLevel3_OnIcon"
+														Height="78"
+														Margin="0 -1.5 18.3 0"
+														HorizontalAlignment="Right"
+														VerticalAlignment="Top"
+														Source="/UI/Limbus/E.G.O Gifts/Ugrade level 3 Indicator.png"
+														Visibility="Collapsed" />
+													<TextBlock
+														x:Name="EGOGiftVisualView_Tier"
+														Margin="-114 -1 0 0"
+														HorizontalAlignment="Center"
+														VerticalAlignment="Top"
+														FontFamily="/UI/Fonts/#Bebas Neue Bold"
+														FontSize="62"
+														Foreground="#FCC700">
+														<TextBlock.Effect>
+															<DropShadowEffect BlurRadius="6" ShadowDepth="0" Color="#FC2C00" />
+														</TextBlock.Effect>
+													</TextBlock>
+													<Image
+														x:Name="EGOGiftVisualView_EXTier"
+														Width="57"
+														Margin="0 7.5 0 0"
+														HorizontalAlignment="Left"
+														VerticalAlignment="Top"
+														Source="/UI/Limbus/E.G.O Gifts/EX E.G.O Gift Tier.png"
+														Visibility="Collapsed" />
+												</Grid>
+
+												<Grid Width="298.5" Height="61.5" Margin="0 115.5 20 0" HorizontalAlignment="Right" VerticalAlignment="Top">
+													<Viewbox Width="125" Height="47" Margin="19 0 0 0" HorizontalAlignment="Left">
+														<Limbus:TMProEmitter
+															x:Name="RichTextViews__EGOGifts_COMPOSITION_ViewDescSign"
+															MinWidth="105"
+															Margin="0 0 25 0"
+															VerticalAlignment="Center"
+															Limbus:AcceptsRichTextDelay="False"
+															Limbus:FontType="Title"
+															Limbus:RichText="View Desc."
+															Limbus:TextProcessingMode="None"
+															FontSize="20"
+															TextAlignment="Left"
+															Visibility="Visible" />
+														<Viewbox.Effect>
+															<DropShadowEffect BlurRadius="0" ShadowDepth="2" />
+														</Viewbox.Effect>
+													</Viewbox>
+													<StackPanel Width="147" Height="47" Margin="0 0 9 0" HorizontalAlignment="Right" Orientation="Horizontal">
+														<StackPanel.Resources>
+
+															<Style TargetType="{x:Type Limbus:EGOGiftUpgradeLevelSwitch}">
+																<EventSetter Event="PreviewMouseLeftButtonDown" Handler="RichTextViews__EGOGifts_COMPOSITION_SwitchToAssociatedUpgradeLevel" />
+																<Setter Property="FocusVisualStyle" Value="{x:Null}" />
+																<Setter Property="Margin" Value="0 0 5 0" />
+																<Setter Property="IsSelected" Value="False" />
+																<Setter Property="Template">
+																	<Setter.Value>
+																		<ControlTemplate TargetType="{x:Type Limbus:EGOGiftUpgradeLevelSwitch}">
+																			<Grid Width="44" Height="44" RenderTransformOrigin="0.5 0.5">
+																				<Image Source="/UI/Limbus/E.G.O Gifts/Switch buttons/Background.png" />
+																				<Image x:Name="Indicator_Selected" Margin="-3.2 -4.2 -3.2 -3.2" Opacity="0" Source="/UI/Limbus/E.G.O Gifts/Switch buttons/Frame.png" />
+																				<Image x:Name="Indicator_Highlighted" Margin="-3.2 -4.2 -3.2 -3.2" Opacity="0" Source="/UI/Limbus/E.G.O Gifts/Switch buttons/Frame Highlighted.png" />
+
+																				<TextBlock
+																					x:Name="FirstUpgradeSign"
+																					Margin="0 -2 0 0"
+																					HorizontalAlignment="Center"
+																					VerticalAlignment="Center"
+																					FontFamily="/UI/Fonts/#Bebas Neue Bold"
+																					FontSize="39"
+																					Foreground="#EBCAA2"
+																					Text="-"
+																					Visibility="Collapsed" />
+																				<Image x:Name="SecondUpgradeSign" Height="35" Margin="0 -1 0 0" Source="/UI/Limbus/E.G.O Gifts/Ugrade level 2 Indicator.png" Visibility="Collapsed" />
+																				<Image x:Name="ThirdUpgradeSign" Height="35" Margin="0 -1 0 0" Source="/UI/Limbus/E.G.O Gifts/Ugrade level 3 Indicator.png" Visibility="Collapsed" />
+
+																				<Grid.RenderTransform>
+																					<ScaleTransform x:Name="ButtonScale" ScaleX="1" ScaleY="{Binding ElementName=ButtonScale, Path=ScaleX}" />
+																				</Grid.RenderTransform>
+																			</Grid>
+																			<ControlTemplate.Triggers>
+
+																				<!--#region Button animation-->
+																				<MultiTrigger>
+																					<MultiTrigger.Conditions>
+																						<Condition Property="IsPressed" Value="False" />
+																						<Condition Property="IsMouseOver" Value="True" />
+																					</MultiTrigger.Conditions>
+																					<MultiTrigger.EnterActions>
+																						<BeginStoryboard>
+																							<Storyboard>
+																								<DoubleAnimation Storyboard.TargetName="Indicator_Highlighted" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.1" />
+																							</Storyboard>
+																						</BeginStoryboard>
+																					</MultiTrigger.EnterActions>
+																					<MultiTrigger.ExitActions>
+																						<BeginStoryboard>
+																							<Storyboard>
+																								<DoubleAnimation Storyboard.TargetName="Indicator_Highlighted" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.1" />
+																							</Storyboard>
+																						</BeginStoryboard>
+																					</MultiTrigger.ExitActions>
+																				</MultiTrigger>
+
+
+																				<Trigger Property="IsPressed" Value="True">
+																					<Trigger.EnterActions>
+																						<BeginStoryboard>
+																							<Storyboard>
+																								<DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" From="1" To="0.98" Duration="0:0:0.1" />
+																							</Storyboard>
+																						</BeginStoryboard>
+																					</Trigger.EnterActions>
+																					<Trigger.ExitActions>
+																						<BeginStoryboard>
+																							<Storyboard>
+																								<DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" From="0.98" To="1" Duration="0:0:0.1" />
+																							</Storyboard>
+																						</BeginStoryboard>
+																					</Trigger.ExitActions>
+																				</Trigger>
+
+
+																				<Trigger Property="IsSelected" Value="True">
+																					<Trigger.EnterActions>
+																						<BeginStoryboard>
+																							<Storyboard>
+																								<DoubleAnimation Storyboard.TargetName="Indicator_Selected" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0" />
+																							</Storyboard>
+																						</BeginStoryboard>
+																					</Trigger.EnterActions>
+																					<Trigger.ExitActions>
+																						<BeginStoryboard>
+																							<Storyboard>
+																								<DoubleAnimation Storyboard.TargetName="Indicator_Selected" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.1" />
+																							</Storyboard>
+																						</BeginStoryboard>
+																					</Trigger.ExitActions>
+																				</Trigger>
+																				<!--#endregion-->
+
+																				<!--#region Specific icon-->
+																				<Trigger Property="Content" Value="-">
+																					<Setter TargetName="FirstUpgradeSign" Property="Visibility" Value="Visible" />
+																				</Trigger>
+																				<Trigger Property="Content" Value="+">
+																					<Setter TargetName="SecondUpgradeSign" Property="Visibility" Value="Visible" />
+																				</Trigger>
+																				<Trigger Property="Content" Value="++">
+																					<Setter TargetName="ThirdUpgradeSign" Property="Visibility" Value="Visible" />
+																				</Trigger>
+																				<!--#endregion-->
+
+																				<!--#region IsSelected binding-->
+																				<MultiDataTrigger>
+																					<MultiDataTrigger.Conditions>
+																						<Condition Binding="{Binding DataContextDomain.Editor.CurrentEGOGift.UpgradeLevel}" Value="1" />
+																						<Condition Binding="{Binding Content, RelativeSource={RelativeSource Mode=Self}}" Value="-" />
+																					</MultiDataTrigger.Conditions>
+																					<Setter Property="IsSelected" Value="True" />
+																				</MultiDataTrigger>
+																				<MultiDataTrigger>
+																					<MultiDataTrigger.Conditions>
+																						<Condition Binding="{Binding DataContextDomain.Editor.CurrentEGOGift.UpgradeLevel}" Value="2" />
+																						<Condition Binding="{Binding Content, RelativeSource={RelativeSource Mode=Self}}" Value="+" />
+																					</MultiDataTrigger.Conditions>
+																					<Setter Property="IsSelected" Value="True" />
+																				</MultiDataTrigger>
+																				<MultiDataTrigger>
+																					<MultiDataTrigger.Conditions>
+																						<Condition Binding="{Binding DataContextDomain.Editor.CurrentEGOGift.UpgradeLevel}" Value="3" />
+																						<Condition Binding="{Binding Content, RelativeSource={RelativeSource Mode=Self}}" Value="++" />
+																					</MultiDataTrigger.Conditions>
+																					<Setter Property="IsSelected" Value="True" />
+																				</MultiDataTrigger>
+																				<!--#endregion-->
+
+																			</ControlTemplate.Triggers>
+																		</ControlTemplate>
+																	</Setter.Value>
+																</Setter>
+															</Style>
+
+														</StackPanel.Resources>
+
+														<Limbus:EGOGiftUpgradeLevelSwitch Uid="1" Content="-" />
+														<Limbus:EGOGiftUpgradeLevelSwitch Uid="2" T:NullStateHandler.IsVisible="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.UpgradeLevelsAssociativeIDs[1]}" Content="+" />
+														<Limbus:EGOGiftUpgradeLevelSwitch Uid="3" T:NullStateHandler.IsVisible="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.UpgradeLevelsAssociativeIDs[2]}" Content="++" />
+
+													</StackPanel>
+												</Grid>
+
+												<InternalStyle:SurfaceScrollViewer x:Name="RichTextViews__EGOGifts_COMPOSITION_SurfaceScrollViewer" Width="418" Height="158" Margin="0 0 0 46" VerticalAlignment="Bottom">
+													<InternalStyle:SingleViewer x:Name="RichTextViews__EGOGifts_COMPOSITION_MainAndSimpleDesriptionsTab" Margin="5 0 0 0" VerticalAlignment="Top">
+
+														<StackPanel>
+															<Limbus:TMProEmitter
+																x:Name="RichTextViews__EGOGifts_MainDescription"
+																x:Uid="E.G.O Gift main description"
+																Limbus:FontType="Context"
+																Limbus:RichText="{Binding DataContextDomain.Editor.CurrentEGOGift.DedicatedDocument_MainDescription.Text}"
+																Limbus:TextProcessingMode="EGOGifts"
+																FontSize="18.5"
+																LineHeight="24.9"
+																PreviewMouseRightButtonDown="RichTextViews__EGOGifts_FastSwitch_ToEGOGiftMainDescription" />
+															<Limbus:TMProEmitter
+																x:Name="RichTextViews__EGOGifts_FlavorDescription"
+																x:Uid="E.G.O Gift flavor description"
+																Margin="0 25 0 0"
+																Limbus:FontType="Context"
+																Limbus:RichText="{Binding DataContextDomain.Editor.CurrentEGOGift.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
+																Limbus:TextProcessingMode="EGOGifts"
+																FontSize="16.1875"
+																FontStyle="Italic"
+																Foreground="#8a592f"
+																LineHeight="18.55"
+																PreviewMouseRightButtonDown="RichTextViews__EGOGifts_FastSwitch_ToEGOGiftFlavorDescription" />
+														</StackPanel>
+
+														<!--    Initialized from MainWindow.EGOGifts_SetupInteractions    -->
+														<InternalStyle:SingleViewer x:Name="RichTextViews__EGOGifts_COMPOSITION_SimpleDescriptionsTab" x:Uid="Simple descriptions" />
+
+													</InternalStyle:SingleViewer>
+												</InternalStyle:SurfaceScrollViewer>
+
+											</Grid>
+
+
+
+
+
+											<Grid x:Uid="[5] — Observation Logs" Width="600" Height="464" VerticalAlignment="Bottom">
+
+												<!--    Background image composition    -->
+												<Grid HorizontalAlignment="Left" VerticalAlignment="Top">
+													<Image Grid.Column="0" HorizontalAlignment="Left" Source="/UI/Limbus/Observation Logs/Left Side.png" />
+													<Image Grid.Column="1" Margin="94 0 94 0" Source="/UI/Limbus/Observation Logs/Middle Part (Stretchable).png" Stretch="Fill" />
+													<Image Grid.Column="2" HorizontalAlignment="Right" Source="/UI/Limbus/Observation Logs/Right Side.png" />
+												</Grid>
+
+
+												<InternalStyle:SurfaceScrollViewer x:Name="RichTextViews__ObservationLogs_COMPOSITION_SurfaceScrollViewer" Margin="52 37 62 41">
+
+													<InternalStyle:SurfaceScrollViewer.Resources>
+
+														<Style x:Key="ObservationLog_Title" BasedOn="{StaticResource {x:Type Limbus:TMProEmitter}}" TargetType="{x:Type Limbus:TMProEmitter}">
+															<Setter Property="FontType" Value="Title" />
+															<Setter Property="AcceptsRichTextDelay" Value="False" />
+															<Setter Property="TextProcessingMode" Value="None" />
+
+															<Setter Property="FontSize" Value="18.3" />
+															<Setter Property="Foreground" Value="#9f6a3a" />
+															<Setter Property="TextDecorations" Value="Underline" />
+														</Style>
+
+
+														<Style x:Key="ObservationLog_Text" BasedOn="{StaticResource {x:Type Limbus:TMProEmitter}}" TargetType="{x:Type Limbus:TMProEmitter}">
+															<Setter Property="FontType" Value="Context" />
+															<Setter Property="TextProcessingMode" Value="None" />
+
+															<Setter Property="FontSize" Value="16" />
+															<Setter Property="LineHeight" Value="22.45" />
+															<Setter Property="Margin" Value="0 11.2 55 0" />
+
+															<EventSetter Event="PreviewMouseRightButtonDown" Handler="RichTextViews__ObservationLogs_FastSwitch_ToObservationStory" />
+														</Style>
+
+
+														<Style x:Key="ObservationLog_LevelsSeparator" TargetType="{x:Type Image}">
+															<Setter Property="Source" Value="/UI/Limbus/Observation Logs/Separator.png" />
+															<Setter Property="Margin" Value="0 3 0 3" />
+															<Setter Property="Height" Value="12.1" />
+															<Setter Property="Stretch" Value="Fill" />
+														</Style>
+
+													</InternalStyle:SurfaceScrollViewer.Resources>
+
+													<StackPanel>
+
+														<StackPanel x:Name="RichTextViews__ObservationLogs_COMPOSITION_TextPanel_LackingData" x:Uid="Lacking Data" T:NullStateHandler.IsVisible="{T:NullStateBinding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[0].DedicatedDocument_Description}">
+															<StackPanel>
+																<Limbus:TMProEmitter x:Name="RichTextViews__ObservationLogs_COMPOSITION_LackingDataSign" Limbus:RichText="Lacking Data" Style="{StaticResource ObservationLog_Title}" Visibility="Visible" />
+																<Limbus:TMProEmitter x:Name="RichTextViews__ObservationLogs_LackingData" x:Uid="Lacking Data" Limbus:RichText="{Binding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[0].DedicatedDocument_Description.Text}" Style="{StaticResource ObservationLog_Text}" />
+															</StackPanel>
+														</StackPanel>
+
+														<Image x:Name="RichTextViews__ObservationLogs_COMPOSITION_SeparatorBetweenLackingDataAnd1" Style="{StaticResource ObservationLog_LevelsSeparator}" Visibility="Collapsed" />
+
+														<StackPanel x:Name="RichTextViews__ObservationLogs_COMPOSITION_TextPanel_Level1" x:Uid="Obs. Level 1" T:NullStateHandler.IsVisible="{T:NullStateBinding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[1].DedicatedDocument_Description}">
+															<StackPanel>
+																<Limbus:TMProEmitter x:Name="RichTextViews__ObservationLogs_COMPOSITION_ObsLevelSign_1" Limbus:RichText="Obs. Level I" Style="{StaticResource ObservationLog_Title}" Visibility="Visible" />
+																<Limbus:TMProEmitter x:Name="RichTextViews__ObservationLogs_Level1" x:Uid="1" Limbus:RichText="{Binding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[1].DedicatedDocument_Description.Text}" Style="{StaticResource ObservationLog_Text}" />
+															</StackPanel>
+															<Image Style="{StaticResource ObservationLog_LevelsSeparator}" Visibility="Collapsed" />
+														</StackPanel>
+
+														<Image x:Name="RichTextViews__ObservationLogs_COMPOSITION_SeparatorBetween1And2" Style="{StaticResource ObservationLog_LevelsSeparator}" Visibility="Collapsed" />
+
+														<StackPanel x:Name="RichTextViews__ObservationLogs_COMPOSITION_TextPanel_Level2" x:Uid="Obs. Level 2" T:NullStateHandler.IsVisible="{T:NullStateBinding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[2].DedicatedDocument_Description}">
+															<StackPanel>
+																<Limbus:TMProEmitter x:Name="RichTextViews__ObservationLogs_COMPOSITION_ObsLevelSign_2" Limbus:RichText="Obs. Level II" Style="{StaticResource ObservationLog_Title}" Visibility="Visible" />
+																<Limbus:TMProEmitter x:Name="RichTextViews__ObservationLogs_Level2" x:Uid="2" Limbus:RichText="{Binding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[2].DedicatedDocument_Description.Text}" Style="{StaticResource ObservationLog_Text}" />
+															</StackPanel>
+														</StackPanel>
+
+														<Image x:Name="RichTextViews__ObservationLogs_COMPOSITION_SeparatorBetween2And3" Style="{StaticResource ObservationLog_LevelsSeparator}" Visibility="Collapsed" />
+
+														<StackPanel x:Name="RichTextViews__ObservationLogs_COMPOSITION_TextPanel_Level3" x:Uid="Obs. Level 3" T:NullStateHandler.IsVisible="{T:NullStateBinding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[3].DedicatedDocument_Description}">
+															<StackPanel>
+																<Limbus:TMProEmitter x:Name="RichTextViews__ObservationLogs_COMPOSITION_ObsLevelSign_3" Limbus:RichText="Obs. Level III" Style="{StaticResource ObservationLog_Title}" Visibility="Visible" />
+																<Limbus:TMProEmitter x:Name="RichTextViews__ObservationLogs_Level3" x:Uid="3" Limbus:RichText="{Binding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[3].DedicatedDocument_Description.Text}" Style="{StaticResource ObservationLog_Text}" />
+															</StackPanel>
+														</StackPanel>
+
+													</StackPanel>
+												</InternalStyle:SurfaceScrollViewer>
+											</Grid>
+
+										</InternalStyle:SingleViewer>
+
+										<Grid
+											x:Name="LogoComposition"
+											Grid.RowSpan="2"
+											Width="435"
+											HorizontalAlignment="Center"
+											VerticalAlignment="Center"
+											x:FieldModifier="private"
+											Visibility="Collapsed">
+											<Image Width="432" Height="472" Margin="0 -10 0 49" Opacity="1" Stretch="Fill" />
+											<!--    E.G.O Gift image    -->
+											<TextBlock
+												HorizontalAlignment="Center"
+												VerticalAlignment="Bottom"
+												FontFamily="GOST Type BU"
+												FontSize="40"
+												FontWeight="Bold"
+												Foreground="#C6C3BD"
+												Text="LC Localization Interface"
+												TextDecorations="Underline">
+												<TextBlock.Effect>
+													<DropShadowEffect BlurRadius="0" ShadowDepth="2.4" />
+												</TextBlock.Effect>
+											</TextBlock>
+										</Grid>
+
+									</Grid>
+
+
+									<Grid x:Uid="Right menu alignment debug view" Grid.Column="1" Margin="4 0 0 0" Background="Red" Visibility="Collapsed" />
+
+									<Grid
+										x:Name="RightMenu"
+										x:Uid="Right menu"
+										Grid.Column="1"
+										MaxWidth="284"
+										Margin="4 0 0 0"
+										HorizontalAlignment="Left">
+
+										<Grid.Resources>
+											<Style TargetType="{x:Type ScrollViewer}">
+												<Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />
+												<Setter Property="VerticalScrollBarVisibility" Value="Hidden" />
+											</Style>
+
+											<Style x:Key="Theme:ControlStyles.Spec.ConfirmTextButton" BasedOn="{StaticResource Theme:ControlStyles.SquareButton}" TargetType="{x:Type Button}">
+												<Setter Property="Content" Value="" />
+												<Setter Property="FontSize" Value="22" />
+												<Setter Property="Height" Value="33" />
+												<Setter Property="Width" Value="33" />
+												<Setter Property="Grid.Column" Value="1" />
+											</Style>
+
+											<Style BasedOn="{StaticResource Theme:ControlStyles.ElongatedButton}" TargetType="{x:Type Button}">
+												<Setter Property="Margin" Value="0 4 0 0" />
+												<Setter Property="Height" Value="33" />
+												<Setter Property="FontSize" Value="21" />
+												<Setter Property="MaxWidth" Value="272.6" />
+												<Setter Property="HorizontalContentAlignment" Value="Left" />
+											</Style>
+
+											<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType3}}" TargetType="{x:Type Terminus:IntenseStareType3}">
+												<Setter Property="Height" Value="33" />
+												<Setter Property="FontSize" Value="22" />
+												<Setter Property="Margin" Value="0 0 4 0" />
+												<Setter Property="MaxWidth" Value="235.6" />
+												<EventSetter Event="RoutedTextChanged" Handler="RightMenuTextfields_TextChanged" />
+											</Style>
+
+											<Style TargetType="{x:Type InternalStyle:TwoColumned}">
+												<Setter Property="Width2" Value="33" />
+												<Setter Property="Margin" Value="0 4 0 0" />
+											</Style>
+
+											<Style x:Key="Theme:ControlStyles.Spec.ManualJsonManagingTechButton" BasedOn="{StaticResource Theme:ControlStyles.SquareButton}" TargetType="{x:Type Button}">
+												<Setter Property="Width" Value="22" />
+												<Setter Property="Height" Value="22" />
+												<Setter Property="Margin" Value="0 29.5 29.5 0" />
+												<Setter Property="HorizontalAlignment" Value="Right" />
+												<Setter Property="VerticalAlignment" Value="Top" />
+												<Setter Property="Content" Value="" />
+												<Setter Property="Panel.ZIndex" Value="1" />
+												<Setter Property="FontSize" Value="15" />
+												<Setter Property="T:BooleanStateHandler.IsVisible" Value="{T:BooleanStateBinding DataContextDomain.Configuration.Internal.EnableManualJsonFilesManaging}" />
+												<Setter Property="Effect">
+													<Setter.Value>
+														<DropShadowEffect BlurRadius="10" ShadowDepth="0" />
+													</Setter.Value>
+												</Setter>
+												<EventSetter Event="Click" Handler="JsonManaging_TechButton_Click" />
+											</Style>
+
+										</Grid.Resources>
+
+										<StackPanel>
+
+											<InternalStyle:TwoColumned Height="36" Margin="0" Width2="36">
+												<Grid>
+													<Terminus:IntenseStareType3
+														x:Name="JsonPathText"
+														Height="36"
+														MaxWidth="244"
+														x:FieldModifier="private"
+														CaretBrush="Transparent"
+														ContextMenuOpening="JsonPathText_ContextMenuOpening"
+														FontSize="24"
+														IsReadOnly="True"
+														TextChanged="JsonPathText_TextChanged"
+														UID="[Main UI] * Json Path">
+														<Terminus:IntenseStareType3.ContextMenu>
+															<ContextMenu>
+																<ContextMenu.Resources>
+																	<Style BasedOn="{StaticResource {x:Type Terminus:MenuItem_T1}}" TargetType="{x:Type Terminus:MenuItem_T1}">
+																		<EventSetter Event="Click" Handler="JsonFilePath_ContextMenuClick" />
+																	</Style>
+																</ContextMenu.Resources>
+																<Terminus:MenuItem_T1 RichText="Open with external editor" UID="[Main UI] * Json Path — 'Open with external editor' context menu option" />
+																<Separator />
+																<Terminus:MenuItem_T1 RichText="Copy file text" UID="[Main UI] * Json Path — 'Copy file text' context menu option" />
+																<Terminus:MenuItem_T1 RichText="Copy file itself" UID="[Main UI] * Json Path — 'Copy file itself' context menu option" />
+																<Separator />
+																<Terminus:MenuItem_T1 RichText="Copy name" UID="[Main UI] * Json Path — 'Copy name' context menu option" />
+																<Terminus:MenuItem_T1 RichText="Copy full path" UID="[Main UI] * Json Path — 'Copy full path' context menu option" />
+															</ContextMenu>
+														</Terminus:IntenseStareType3.ContextMenu>
+													</Terminus:IntenseStareType3>
+													<Terminus:IntenseStareType1
+														Margin="2 0 8 0"
+														FontSize="24"
+														HideWhenThisDocumentTextIsNotEmpty="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Children[0]}"
+														Text="Json file path"
+														TextTrimming="CharacterEllipsis"
+														UID="[Main UI] * Json Path (Shadow Text)" />
+												</Grid>
+												<Button
+													x:Name="OpenJsonFile_Button"
+													Width="36"
+													Height="36"
+													Click="OpenJsonFileButton_Click"
+													Content=""
+													FontSize="25"
+													Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextButton}">
+													<Button.ContextMenu>
+														<ContextMenu T:BooleanStateHandler.IsVisible="{T:BooleanStateBinding DataContextDomain.Configuration.Internal.EnableManualJsonFilesManaging}">
+															<ContextMenu.Resources>
+																<Style BasedOn="{StaticResource {x:Type Terminus:MenuItem_T1}}" TargetType="{x:Type Terminus:MenuItem_T1}">
+																	<EventSetter Event="Click" Handler="JsonManaging_CreateFile" />
+																</Style>
+															</ContextMenu.Resources>
+															<Terminus:MenuItem_T1
+																Margin="8 0 8 0"
+																Padding="0 1 0 1"
+																HorizontalAlignment="Center"
+																IsHitTestVisible="False"
+																RichText="Create file"
+																UID="[Main UI / Create file context menu] * Title" />
+															<Separator />
+															<Terminus:MenuItem_T1 RichText="Skills" UID="[Main UI / Create file context menu] * Skills" />
+															<Terminus:MenuItem_T1 RichText="Passives" UID="[Main UI / Create file context menu] * Passives" />
+															<Terminus:MenuItem_T1 RichText="Keywords" UID="[Main UI / Create file context menu] * Keywords">
+																<Terminus:MenuItem_T1 RichText="Bufs….json" UID="[Main UI / Create file context menu] * Keywords (Bufs)" />
+																<Terminus:MenuItem_T1 RichText="BattleKeywords….json" UID="[Main UI / Create file context menu] * Keywords (BattleKeywords)" />
+															</Terminus:MenuItem_T1>
+															<Terminus:MenuItem_T1 RichText="E.G.O Gifts" UID="[Main UI / Create file context menu] * E.G.O Gifts" />
+															<Terminus:MenuItem_T1 RichText="Observation Logs" UID="[Main UI / Create file context menu] * Observation Logs" />
+														</ContextMenu>
+													</Button.ContextMenu>
+												</Button>
+											</InternalStyle:TwoColumned>
+
+											<Grid Height="22" Margin="0 4 0 0">
+												<Grid.ColumnDefinitions>
+													<ColumnDefinition Width="62" />
+													<ColumnDefinition />
+													<ColumnDefinition Width="62" />
+												</Grid.ColumnDefinitions>
+
+												<Button
+													x:Name="RightMenu_PreviousObjectSwitchButton"
+													x:Uid="Back"
+													Grid.Column="0"
+													Margin="0 0 2 0"
+													IsEnabled="False"
+													PreviewMouseLeftButtonDown="RightMenu_IDSwitch_NextOrPrevious"
+													PreviewMouseRightButtonDown="RightMenu_IDSwitch_NextOrPrevious_ToVeryFirstOrLast"
+													Style="{StaticResource Theme:ControlStyles.SquareButton}">
+													<TextBlock FontSize="16" RenderTransform="{StaticResource XReversed}" RenderTransformOrigin="0.5 0" Text="" />
+												</Button>
+
+												<Button
+													x:Name="ID_DisplayCopyButton"
+													Grid.Column="1"
+													Margin="2 0 2 0"
+													Click="CopyID_ButtonClick"
+													PreviewMouseRightButtonDown="RightMenu_ManualIDInput_Start"
+													Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+													<Grid>
+														<Grid.Resources>
+															<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+																<Setter Property="TextTrimming" Value="None" />
+																<Setter Property="TextWrapping" Value="NoWrap" />
+																<Setter Property="TextAlignment" Value="Center" />
+																<Setter Property="FontSize" Value="13" />
+															</Style>
+														</Grid.Resources>
+														<Terminus:IntenseStareType1 x:Name="IDManage_Display" Foreground="{DynamicResource Theme:Common.RightMenu.CurrentObjectID.Foreground}" Text="{Binding DataContextDomain.Editor.CurrentObjectID}" UID="[Main UI] [-] * ID Copy Button" Visibility="Visible" />
+														<Terminus:IntenseStareType1
+															x:Name="IDManage_CopiedBlink"
+															Foreground="{DynamicResource Theme:Common.RightMenu.CurrentObjectID.Foreground}"
+															Opacity="0"
+															RichText="ID Copied"
+															UID="[Main UI] * ID Copy Button (Copied)"
+															Visibility="Visible" />
+														<Terminus:IntenseStareType3
+															x:Name="IDManage_ManualInput"
+															Width="150"
+															MaxWidth="1111"
+															Margin="0"
+															Padding="-2 0.2 0 0"
+															VerticalAlignment="Center"
+															Background="Transparent"
+															BorderThickness="0"
+															ContextMenu="{x:Null}"
+															FontSize="13"
+															Foreground="{DynamicResource Theme:Common.RightMenu.CurrentObjectID.Foreground}"
+															SelectionForeground="{DynamicResource Theme:Common.RightMenu.CurrentObjectID.Foreground}"
+															UID="[Main UI] * Manual ID Input"
+															Visibility="Collapsed">
+															<Terminus:IntenseStareType3.Resources>
+
+																<Style TargetType="{x:Type AvalonEditRendering:TextView}">
+																	<!--    Defaults from default ControlTemplate for IntenseStareType3    -->
+																	<Setter Property="Margin" Value="2 1.8 2 2" />
+																	<Setter Property="ClipToBounds" Value="False" />
+
+																	<!--    TextAlignment="Center" :P    -->
+																	<Setter Property="HorizontalAlignment" Value="Center" />
+																</Style>
+
+															</Terminus:IntenseStareType3.Resources>
+														</Terminus:IntenseStareType3>
+													</Grid>
+												</Button>
+
+												<Button
+													x:Name="RightMenu_NextObjectSwitchButton"
+													x:Uid="Forward"
+													Grid.Column="2"
+													Margin="2 0 0 0"
+													ContextMenuOpening="RightMenu_NextObjectSwitchButton_JsonManagingContextMenuOpening"
+													IsEnabled="False"
+													PreviewMouseLeftButtonDown="RightMenu_IDSwitch_NextOrPrevious"
+													PreviewMouseRightButtonDown="RightMenu_IDSwitch_NextOrPrevious_ToVeryFirstOrLast"
+													Style="{StaticResource Theme:ControlStyles.SquareButton}">
+													<TextBlock FontSize="16" RenderTransformOrigin="0.5 0" Text="" />
+													<Button.ContextMenu>
+														<Terminus:PopupButton_T1 T:BooleanStateHandler.IsVisible="{T:BooleanStateBinding DataContextDomain.Configuration.Internal.EnableManualJsonFilesManaging}" Click="JsonManaging_AppendAdditionalObject" RichText="Create additional.." UID="[Main UI / Manual json files managing] * Add additional object button" />
+													</Button.ContextMenu>
+												</Button>
+
+											</Grid>
+
+										</StackPanel>
+
+
+
+
+
+
+
+
+										<InternalStyle:SingleViewer x:Name="RightMenuSections" Width="284" Margin="0 66 0 0" SelectedIndex="{DynamicResource DM:RightMenuSectionsTabIndex}">
+
+
+
+
+											<Grid x:Uid="[0] — Main menu" VerticalAlignment="Top">
+												<Border Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}" />
+												<StackPanel Width="280.6">
+													<Image x:Name="MainMenuLogoImage" Height="214" Margin="0 10 0 0" RenderOptions.BitmapScalingMode="Fant" Source="/UI/Logo.png" />
+
+													<StackPanel Margin="0 5 0 0" HorizontalAlignment="Center" Orientation="Horizontal">
+														<Terminus:IntenseStareType1 x:Name="ProgramVersionTitle" Margin="5" FontSize="28" RichText="Version" UID="[Main UI] * Version title" />
+														<Terminus:IntenseStareType1 Margin="5" RichText="※" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
+														<Terminus:IntenseStareType1 Margin="5" RichText="{Binding DataContextDomain.ProgramVersion, Mode=OneTime}" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
+													</StackPanel>
+												</StackPanel>
+											</Grid>
+
+
+
+
+											<Grid x:Uid="[1] — Skills">
+
+												<Grid.RowDefinitions>
+													<RowDefinition x:Name="RightMenu_Skills_UptieSwitchButtons_Row">
+														<RowDefinition.Style>
+															<Style TargetType="{x:Type RowDefinition}">
+																<Setter Property="Height" Value="58" />
+																<Style.Triggers>
+																	<!--    Set Uptie buttons as invisible if Upties list of current Skill contains only 1 object    -->
+																	<DataTrigger Binding="{T:NullStateBinding DataContextDomain.Editor.CurrentSkill.UptieLevels[1]}" Value="{x:Null}">
+																		<Setter Property="Height" Value="0" />
+																	</DataTrigger>
+																</Style.Triggers>
+															</Style>
+														</RowDefinition.Style>
+													</RowDefinition>
+													<RowDefinition Height="1*" />
+												</Grid.RowDefinitions>
+
+												<Grid.Resources>
+
+													<JsonManaging:PairedOptions x:Key="JsonManaging_SkillFlavorDesc" ButtonStyleSource="{Binding Source={x:Reference RightMenu}}">
+														<Terminus:PopupButton_T1 Click="JsonManaging_Skills_RemoveFlavorDesctiption" RichText="Remove flavor descritption" UID="[Main UI / Manual json files managing] * Skill flavor — Remove" />
+														<Terminus:PopupButton_T1 Click="JsonManaging_Skills_AddFlavorDesctiption" RichText="Add flavor descritption" UID="[Main UI / Manual json files managing] * Skill flavor — Add" />
+													</JsonManaging:PairedOptions>
+
+													<JsonManaging:PairedOptions x:Key="JsonManaging_CoinButtons" ButtonStyleSource="{Binding Source={x:Reference RightMenuButtons__Skills_CoinButtons}}">
+														<Terminus:PopupButton_T1 Click="JsonManaging_Skills_RemoveCoin" RichText="Remove Coin" UID="[Main UI / Manual json files managing] * Skill coin — Remove" />
+														<Terminus:PopupButton_T1 Click="JsonManaging_Skills_AddCoin" RichText="Add Coin" UID="[Main UI / Manual json files managing] * Skill coin — Add" />
+													</JsonManaging:PairedOptions>
+
+													<JsonManaging:PairedOptions x:Key="JsonManaging_CoinSummaryDescButton" ButtonStyleSource="{Binding Source={x:Reference RightMenuButtons__Skills_CoinDescSwitches}}">
+														<Terminus:PopupButton_T1 Click="JsonManaging_Skills_RemoveCoinSummaryDesctiption" RichText="Remove summary for this description" UID="[Main UI / Manual json files managing] * Skill coin description summary — Remove" />
+														<Terminus:PopupButton_T1 Click="JsonManaging_Skills_AddCoinSummaryDesctiption" RichText="Add summary for this description" UID="[Main UI / Manual json files managing] * Skill coin description summary — Add" />
+													</JsonManaging:PairedOptions>
+
+												</Grid.Resources>
+
+												<!--    This Border is hidden by the first RowDefinition Height    -->
+												<Border Margin="0 0 0 4" Background="{DynamicResource Theme:Common.RightMenu.UptieButtons.Background}" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
+													<Border.Resources>
+
+														<!--    Uptie button style    -->
+														<Style TargetType="{x:Type Limbus:UptieLevelButton}">
+															<EventSetter Event="PreviewMouseLeftButtonDown" Handler="RightMenuButtons__Skills_SwitchToUptie" />
+															<Setter Property="Focusable" Value="False" />
+															<Setter Property="ContextMenu" Value="{x:Null}" />
+															<Setter Property="Margin" Value="2 0 0 0" />
+															<Setter Property="Width" Value="37" />
+															<Setter Property="IsSelected" Value="False" />
+															<Setter Property="Template">
+																<Setter.Value>
+																	<ControlTemplate TargetType="{x:Type Limbus:UptieLevelButton}">
+																		<Grid x:Name="MainGrid" Width="{TemplateBinding Width}" Height="{TemplateBinding Width}" RenderTransformOrigin="0.5 0.5">
+																			<Image x:Name="UptieImage" Source="/UI/Limbus/Skills/Uptie buttons/Uptie 1.png" />
+																			<Image x:Name="Indicator_Selected" Margin="-3.2 -5.2 -3.2 -3.2" Opacity="0" Source="/UI/Limbus/Skills/Uptie Buttons/Frame.png" />
+																			<Image x:Name="Indicator_Highlighted" Margin="-3.2 -5.2 -3.2 -3.2" Opacity="0" Source="/UI/Limbus/Skills/Uptie Buttons/Frame Highlighted.png" />
+																			<Grid.RenderTransform>
+																				<ScaleTransform x:Name="ButtonScale" ScaleX="1" ScaleY="{Binding ElementName=ButtonScale, Path=ScaleX}" />
+																			</Grid.RenderTransform>
+																		</Grid>
+																		<ControlTemplate.Triggers>
+																			<!--#region Button animation-->
+																			<MultiTrigger>
+																				<MultiTrigger.Conditions>
+																					<Condition Property="IsPressed" Value="False" />
+																					<Condition Property="IsMouseOver" Value="True" />
+																				</MultiTrigger.Conditions>
+																				<MultiTrigger.EnterActions>
+																					<BeginStoryboard>
+																						<Storyboard>
+																							<DoubleAnimation Storyboard.TargetName="Indicator_Highlighted" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0.1" />
+																						</Storyboard>
+																					</BeginStoryboard>
+																				</MultiTrigger.EnterActions>
+																				<MultiTrigger.ExitActions>
+																					<BeginStoryboard>
+																						<Storyboard>
+																							<DoubleAnimation Storyboard.TargetName="Indicator_Highlighted" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.1" />
+																						</Storyboard>
+																					</BeginStoryboard>
+																				</MultiTrigger.ExitActions>
+																			</MultiTrigger>
+																			<Trigger Property="IsPressed" Value="True">
+																				<Trigger.EnterActions>
+																					<BeginStoryboard>
+																						<Storyboard>
+																							<DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" From="1" To="0.98" Duration="0:0:0.1" />
+																						</Storyboard>
+																					</BeginStoryboard>
+																				</Trigger.EnterActions>
+																				<Trigger.ExitActions>
+																					<BeginStoryboard>
+																						<Storyboard>
+																							<DoubleAnimation Storyboard.TargetName="ButtonScale" Storyboard.TargetProperty="ScaleX" From="0.98" To="1" Duration="0:0:0.1" />
+																						</Storyboard>
+																					</BeginStoryboard>
+																				</Trigger.ExitActions>
+																			</Trigger>
+																			<Trigger Property="IsSelected" Value="True">
+																				<Trigger.EnterActions>
+																					<BeginStoryboard>
+																						<Storyboard>
+																							<DoubleAnimation Storyboard.TargetName="Indicator_Selected" Storyboard.TargetProperty="Opacity" From="0" To="1" Duration="0:0:0" />
+																						</Storyboard>
+																					</BeginStoryboard>
+																				</Trigger.EnterActions>
+																				<Trigger.ExitActions>
+																					<BeginStoryboard>
+																						<Storyboard>
+																							<DoubleAnimation Storyboard.TargetName="Indicator_Selected" Storyboard.TargetProperty="Opacity" From="1" To="0" Duration="0:0:0.1" />
+																						</Storyboard>
+																					</BeginStoryboard>
+																				</Trigger.ExitActions>
+																			</Trigger>
+																			<!--#endregion-->
+
+																			<Trigger Property="IsEnabled" Value="False">
+																				<Setter TargetName="MainGrid" Property="Opacity" Value="0.4" />
+																			</Trigger>
+
+																			<Trigger Property="IndicatedNumber" Value="1">
+																				<Setter TargetName="UptieImage" Property="Source" Value="/UI/Limbus/Skills/Uptie buttons/Uptie 1.png" />
+																			</Trigger>
+																			<Trigger Property="IndicatedNumber" Value="2">
+																				<Setter TargetName="UptieImage" Property="Source" Value="/UI/Limbus/Skills/Uptie buttons/Uptie 2.png" />
+																			</Trigger>
+																			<Trigger Property="IndicatedNumber" Value="3">
+																				<Setter TargetName="UptieImage" Property="Source" Value="/UI/Limbus/Skills/Uptie buttons/Uptie 3.png" />
+																			</Trigger>
+																			<Trigger Property="IndicatedNumber" Value="4">
+																				<Setter TargetName="UptieImage" Property="Source" Value="/UI/Limbus/Skills/Uptie buttons/Uptie 4.png" />
+																			</Trigger>
+																			<Trigger Property="IndicatedNumber" Value="5">
+																				<Setter TargetName="UptieImage" Property="Source" Value="/UI/Limbus/Skills/Uptie buttons/Uptie 5.png" />
+																			</Trigger>
+																			<Trigger Property="IndicatedNumber" Value="6">
+																				<Setter TargetName="UptieImage" Property="Source" Value="/UI/Limbus/Skills/Uptie buttons/Uptie 6.png" />
+																			</Trigger>
+																		</ControlTemplate.Triggers>
+																	</ControlTemplate>
+																</Setter.Value>
+															</Setter>
+															<Style.Triggers>
+
+																<!--    Its imposible to set Value="{Binding/TemplateBinding}" so it looks ass    -->
+
+																<MultiDataTrigger>
+																	<MultiDataTrigger.Conditions>
+																		<Condition Binding="{Binding DataContextDomain.Editor.CurrentUptie.UptieNumber}" Value="1" />
+																		<Condition Binding="{Binding IndicatedNumber, RelativeSource={RelativeSource Mode=Self}}" Value="1" />
+																	</MultiDataTrigger.Conditions>
+																	<Setter Property="IsSelected" Value="True" />
+																</MultiDataTrigger>
+																<MultiDataTrigger>
+																	<MultiDataTrigger.Conditions>
+																		<Condition Binding="{Binding DataContextDomain.Editor.CurrentUptie.UptieNumber}" Value="2" />
+																		<Condition Binding="{Binding IndicatedNumber, RelativeSource={RelativeSource Mode=Self}}" Value="2" />
+																	</MultiDataTrigger.Conditions>
+																	<Setter Property="IsSelected" Value="True" />
+																</MultiDataTrigger>
+																<MultiDataTrigger>
+																	<MultiDataTrigger.Conditions>
+																		<Condition Binding="{Binding DataContextDomain.Editor.CurrentUptie.UptieNumber}" Value="3" />
+																		<Condition Binding="{Binding IndicatedNumber, RelativeSource={RelativeSource Mode=Self}}" Value="3" />
+																	</MultiDataTrigger.Conditions>
+																	<Setter Property="IsSelected" Value="True" />
+																</MultiDataTrigger>
+																<MultiDataTrigger>
+																	<MultiDataTrigger.Conditions>
+																		<Condition Binding="{Binding DataContextDomain.Editor.CurrentUptie.UptieNumber}" Value="4" />
+																		<Condition Binding="{Binding IndicatedNumber, RelativeSource={RelativeSource Mode=Self}}" Value="4" />
+																	</MultiDataTrigger.Conditions>
+																	<Setter Property="IsSelected" Value="True" />
+																</MultiDataTrigger>
+																<MultiDataTrigger>
+																	<MultiDataTrigger.Conditions>
+																		<Condition Binding="{Binding DataContextDomain.Editor.CurrentUptie.UptieNumber}" Value="5" />
+																		<Condition Binding="{Binding IndicatedNumber, RelativeSource={RelativeSource Mode=Self}}" Value="5" />
+																	</MultiDataTrigger.Conditions>
+																	<Setter Property="IsSelected" Value="True" />
+																</MultiDataTrigger>
+																<MultiDataTrigger>
+																	<MultiDataTrigger.Conditions>
+																		<Condition Binding="{Binding DataContextDomain.Editor.CurrentUptie.UptieNumber}" Value="6" />
+																		<Condition Binding="{Binding IndicatedNumber, RelativeSource={RelativeSource Mode=Self}}" Value="6" />
+																	</MultiDataTrigger.Conditions>
+																	<Setter Property="IsSelected" Value="True" />
+																</MultiDataTrigger>
+															</Style.Triggers>
+														</Style>
+
+													</Border.Resources>
+
+													<Grid>
+														<Grid.ColumnDefinitions>
+															<ColumnDefinition />
+															<ColumnDefinition Width="{Binding ElementName=RightMenuUIElements__Skills_UptieSwitchButtons_ParentGrid, Path=Width}" />
+														</Grid.ColumnDefinitions>
+														<Grid Grid.Column="0" VerticalAlignment="Center">
+															<Limbus:TMProEmitter
+																x:Name="RightMenuUIElements__Skills_SkillUptieLevelSign"
+																Margin="2 2 1.5 0"
+																Limbus:AcceptsRichTextDelay="False"
+																Limbus:FontType="Title"
+																Limbus:RichText="Uptie Tier"
+																Limbus:TextProcessingMode="None"
+																FontSize="17"
+																Foreground="{DynamicResource Theme:Common.RightMenu.UptieTierText.Foreground}"
+																LineHeight="16"
+																TextAlignment="Center"
+																Visibility="Visible" />
+														</Grid>
+														<!--    Those elements may be adjusted by the @EditorModesShelf.Skills.ReCheckRightMenuUptieButtonsAppearance()    -->
+														<Grid x:Name="RightMenuUIElements__Skills_UptieSwitchButtons_ParentGrid" Grid.Column="1" Width="280.6">
+															<StackPanel x:Name="RightMenuUIElements__Skills_UptieSwitchButtons" Margin="0 2 5 0" HorizontalAlignment="Center" Orientation="Horizontal">
+																<Limbus:UptieLevelButton x:Name="UptieSwitch_1" Margin="0" IndicatedNumber="1" />
+																<Limbus:UptieLevelButton x:Name="UptieSwitch_2" IndicatedNumber="2" />
+																<Limbus:UptieLevelButton x:Name="UptieSwitch_3" IndicatedNumber="3" />
+																<Limbus:UptieLevelButton x:Name="UptieSwitch_4" IndicatedNumber="4" />
+																<Limbus:UptieLevelButton x:Name="UptieSwitch_5" IndicatedNumber="5" />
+																<Limbus:UptieLevelButton x:Name="UptieSwitch_6" IndicatedNumber="6" />
+															</StackPanel>
+														</Grid>
+													</Grid>
+												</Border>
+
+
+												<ScrollViewer Grid.Row="1">
+													<Grid>
+														<Button x:Uid="Skills" Grid.Row="1" Style="{StaticResource Theme:ControlStyles.Spec.ManualJsonManagingTechButton}">
+															<Button.ContextMenu>
+																<ContextMenu>
+																	<ContextMenu.Resources>
+																		<Style BasedOn="{StaticResource {x:Type Terminus:MenuItem_T1}}" TargetType="{x:Type Terminus:MenuItem_T1}">
+																			<Setter Property="StaysOpenOnClick" Value="True" />
+																		</Style>
+																	</ContextMenu.Resources>
+																	<Terminus:MenuItem_T1 Click="JsonManaging_RemoveThisObject" RichText="Remove this skill" StaysOpenOnClick="False" UID="[Main UI / Manual json files managing] * Skill removal" />
+																	<Separator />
+																	<Terminus:MenuItem_T1 Click="JsonManaging_Skills_AddEGOAbnormalityName" RichText="Add E.G.O Abnormality name" UID="[Main UI / Manual json files managing] * Skill E.G.O Abnormality name — Add" />
+																	<Terminus:MenuItem_T1 Click="JsonManaging_Skills_RemoveEGOAbnormalityName" RichText="Remove E.G.O Abnormality name" UID="[Main UI / Manual json files managing] * Skill E.G.O Abnormality name — Remove" />
+																	<Separator />
+																	<Terminus:MenuItem_T1 RichText="Add uptie.." UID="[Main UI / Manual json files managing] * Skill Uptie — Add">
+																		<Terminus:MenuItem_T1 x:Uid="1" Click="JsonManaging_Skills_AddUptie" RichText="Uptie №1" UID="[Main UI / Manual json files managing] * Skill Uptie — Add (№1)" />
+																		<Terminus:MenuItem_T1 x:Uid="2" Click="JsonManaging_Skills_AddUptie" RichText="Uptie №2" UID="[Main UI / Manual json files managing] * Skill Uptie — Add (№2)" />
+																		<Terminus:MenuItem_T1 x:Uid="3" Click="JsonManaging_Skills_AddUptie" RichText="Uptie №3" UID="[Main UI / Manual json files managing] * Skill Uptie — Add (№3)" />
+																		<Terminus:MenuItem_T1 x:Uid="4" Click="JsonManaging_Skills_AddUptie" RichText="Uptie №4" UID="[Main UI / Manual json files managing] * Skill Uptie — Add (№4)" />
+																		<Terminus:MenuItem_T1 x:Uid="5" Click="JsonManaging_Skills_AddUptie" RichText="Uptie №4" UID="[Main UI / Manual json files managing] * Skill Uptie — Add (№5)" />
+																		<Terminus:MenuItem_T1 x:Uid="6" Click="JsonManaging_Skills_AddUptie" RichText="Uptie №4" UID="[Main UI / Manual json files managing] * Skill Uptie — Add (№6)" />
+																	</Terminus:MenuItem_T1>
+																	<Terminus:MenuItem_T1 RichText="Remove uptie.." UID="[Main UI / Manual json files managing] * Skill Uptie — Remove">
+																		<Terminus:MenuItem_T1 x:Uid="1" Click="JsonManaging_Skills_RemoveUptie" RichText="Uptie №1" UID="[Main UI / Manual json files managing] * Skill Uptie — Remove (№1)" />
+																		<Terminus:MenuItem_T1 x:Uid="2" Click="JsonManaging_Skills_RemoveUptie" RichText="Uptie №2" UID="[Main UI / Manual json files managing] * Skill Uptie — Remove (№2)" />
+																		<Terminus:MenuItem_T1 x:Uid="3" Click="JsonManaging_Skills_RemoveUptie" RichText="Uptie №3" UID="[Main UI / Manual json files managing] * Skill Uptie — Remove (№3)" />
+																		<Terminus:MenuItem_T1 x:Uid="4" Click="JsonManaging_Skills_RemoveUptie" RichText="Uptie №4" UID="[Main UI / Manual json files managing] * Skill Uptie — Remove (№4)" />
+																		<Terminus:MenuItem_T1 x:Uid="5" Click="JsonManaging_Skills_RemoveUptie" RichText="Uptie №4" UID="[Main UI / Manual json files managing] * Skill Uptie — Remove (№5)" />
+																		<Terminus:MenuItem_T1 x:Uid="6" Click="JsonManaging_Skills_RemoveUptie" RichText="Uptie №4" UID="[Main UI / Manual json files managing] * Skill Uptie — Remove (№6)" />
+																	</Terminus:MenuItem_T1>
+																</ContextMenu>
+															</Button.ContextMenu>
+														</Button>
+														<Border VerticalAlignment="Top" Background="{DynamicResource Theme:Common.RightMenu.NavigationPanel.Background}" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
+															<StackPanel Margin="4" VerticalAlignment="Top">
+
+																<InternalStyle:TwoColumned Margin="0">
+																	<Grid>
+																		<Terminus:IntenseStareType3 x:Name="SkillMainNameInput" Document="{Binding DataContextDomain.Editor.CurrentUptie.KeylessDedicatedDocument_MainName}" TextChanged="RightMenuTextBoxes__Skills_CommonTextChanged" UID="[Skills / Right menu] * Skill main name" />
+																		<Terminus:IntenseStareType1
+																			MaxWidth="231.6"
+																			Margin="0 0 8 0"
+																			HideWhenThisDocumentTextIsNotEmpty="{Binding ElementName=SkillMainNameInput}"
+																			Text="Skill name"
+																			TextTrimming="CharacterEllipsis"
+																			UID="[Skills / Right menu] * Skill main name (Shadow text)" />
+																	</Grid>
+																	<Button PreviewMouseLeftButtonDown="RightMenuButtons__Skills_SaveName" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextButton}" />
+																</InternalStyle:TwoColumned>
+
+																<InternalStyle:TwoColumned T:NullStateHandler.IsVisible="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.KeylessDedicatedDocument_EGOAbnormalityName}">
+																	<Grid>
+																		<Terminus:IntenseStareType3 x:Name="SkillEGOAbnormalityNameInput" Document="{Binding DataContextDomain.Editor.CurrentUptie.KeylessDedicatedDocument_EGOAbnormalityName}" TextChanged="RightMenuTextBoxes__Skills_CommonTextChanged" UID="[Skills / Right menu] * E.G.O Skill abnormality name" />
+																		<Terminus:IntenseStareType1
+																			MaxWidth="231.6"
+																			Margin="0 0 8 0"
+																			HideWhenThisDocumentTextIsNotEmpty="{Binding ElementName=SkillEGOAbnormalityNameInput}"
+																			Text="E.G.O Abnormality"
+																			TextTrimming="CharacterEllipsis"
+																			UID="[Skills / Right menu] * E.G.O Skill abnormality name (Shadow text)" />
+																	</Grid>
+																	<Button PreviewMouseLeftButtonDown="RightMenuButtons__Skills_SaveEGOAbnormalityName" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextButton}" />
+																</InternalStyle:TwoColumned>
+
+
+																<Button PreviewMouseLeftButtonDown="RightMenuButtons__Skills_SwitchToMainDesc">
+																	<Terminus:IntenseStareType1 Text="Main Description" UID="[Skills / Right menu] * Skill main desc" />
+																</Button>
+
+																<StackPanel x:Name="RightMenuButtons__Skills_CoinButtons">
+
+																	<StackPanel.Resources>
+																		<Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+																			<Setter Property="JsonManaging:Assistant.PairedOptions" Value="{StaticResource JsonManaging_CoinButtons}" />
+																			<EventSetter Event="PreviewMouseLeftButtonDown" Handler="RightMenuButtons__Skills_SwitchToCoinDesc" />
+																		</Style>
+																	</StackPanel.Resources>
+
+																	<!--    list indexes... = n - 1    -->
+																	<Button Uid="1" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.Coins[0].CoinDescriptions[0]}">
+																		<Terminus:IntenseStareType1 Text="Coin №1" UID="[Skills / Right menu] * Skill Coin 1" />
+																	</Button>
+
+																	<Button Uid="2" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.Coins[1].CoinDescriptions[0]}">
+																		<Terminus:IntenseStareType1 Text="Coin №2" UID="[Skills / Right menu] * Skill Coin 2" />
+																	</Button>
+
+																	<Button Uid="3" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.Coins[2].CoinDescriptions[0]}">
+																		<Terminus:IntenseStareType1 Text="Coin №3" UID="[Skills / Right menu] * Skill Coin 3" />
+																	</Button>
+
+																	<Button Uid="4" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.Coins[3].CoinDescriptions[0]}">
+																		<Terminus:IntenseStareType1 Text="Coin №4" UID="[Skills / Right menu] * Skill Coin 4" />
+																	</Button>
+
+																	<Button Uid="5" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.Coins[4].CoinDescriptions[0]}">
+																		<Terminus:IntenseStareType1 Text="Coin №5" UID="[Skills / Right menu] * Skill Coin 5" />
+																	</Button>
+
+																	<Button Uid="6" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.Coins[5].CoinDescriptions[0]}">
+																		<Terminus:IntenseStareType1 Text="Coin №6" UID="[Skills / Right menu] * Skill Coin 6" />
+																	</Button>
+
+																	<StackPanel T:BooleanStateHandler.IsVisible="{T:BooleanStateBinding DataContextDomain.Configuration.PreviewSettings.Base.Enable7to10CoinButtons}">
+																		<Button Uid="7" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.Coins[6].CoinDescriptions[0]}">
+																			<Terminus:IntenseStareType1 Text="Coin №7" UID="[Skills / Right menu] * Skill Coin 7" />
+																		</Button>
+
+																		<Button Uid="8" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.Coins[7].CoinDescriptions[0]}">
+																			<Terminus:IntenseStareType1 Text="Coin №8" UID="[Skills / Right menu] * Skill Coin 8" />
+																		</Button>
+
+																		<Button Uid="9" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.Coins[8].CoinDescriptions[0]}">
+																			<Terminus:IntenseStareType1 Text="Coin №9" UID="[Skills / Right menu] * Skill Coin 9" />
+																		</Button>
+
+																		<Button Uid="10" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.Coins[9].CoinDescriptions[0]}">
+																			<Terminus:IntenseStareType1 Text="Coin №10" UID="[Skills / Right menu] * Skill Coin 10" />
+																		</Button>
+																	</StackPanel>
+																</StackPanel>
+
+																<Button JsonManaging:Assistant.PairedOptions="{StaticResource JsonManaging_SkillFlavorDesc}" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentUptie.DedicatedDocument_FlavorDescription}" PreviewMouseLeftButtonDown="RightMenuButtons__Skills_SwitchToFlavorDesc">
+																	<Terminus:IntenseStareType1 Text="Flavor Description" UID="[Skills / Right menu] * Skill flavor desc" />
+																</Button>
+
+																<ComboBox
+																	x:Name="SkillAffinitySelector"
+																	Height="33"
+																	Margin="0 4 0 0"
+																	Padding="4 3 0 0"
+																	T:BooleanStateHandler.IsVisible="{T:BooleanStateBinding DataContextDomain.Configuration.Internal.EnableManualJsonFilesManaging}"
+																	SelectionChanged="JsonManaging_SkillOptionalAffinitySelector_SelectionChanged"
+																	Style="{StaticResource Theme:ControlStyles.ComboBox}">
+																	<ComboBox.Resources>
+																		<Style TargetType="{x:Type StackPanel}">
+																			<Setter Property="Orientation" Value="Horizontal" />
+																			<Setter Property="Height" Value="25.529" />
+																		</Style>
+																		<Style TargetType="{x:Type Image}">
+																			<Setter Property="Height" Value="23" />
+																		</Style>
+																		<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+																			<Setter Property="VerticalAlignment" Value="Center" />
+																			<Setter Property="FontSize" Value="21" />
+																		</Style>
+																	</ComboBox.Resources>
+																	<StackPanel x:Uid="Wrath">
+																		<Image Source="/UI/Limbus/Skills/Affinity Icons/Wrath.png" />
+																		<Terminus:IntenseStareType1 RichText="Wrath" UID="[Skills / Right menu] * Affinity — Wrath" />
+																	</StackPanel>
+																	<StackPanel x:Uid="Lust">
+																		<Image Source="/UI/Limbus/Skills/Affinity Icons/Lust.png" />
+																		<Terminus:IntenseStareType1 RichText="Lust" UID="[Skills / Right menu] * Affinity — Lust" />
+																	</StackPanel>
+																	<StackPanel x:Uid="Sloth">
+																		<Image Source="/UI/Limbus/Skills/Affinity Icons/Sloth.png" />
+																		<Terminus:IntenseStareType1 RichText="Sloth" UID="[Skills / Right menu] * Affinity — Sloth" />
+																	</StackPanel>
+																	<StackPanel x:Uid="Gluttony">
+																		<Image Source="/UI/Limbus/Skills/Affinity Icons/Gluttony.png" />
+																		<Terminus:IntenseStareType1 RichText="Gluttony" UID="[Skills / Right menu] * Affinity — Gluttony" />
+																	</StackPanel>
+																	<StackPanel x:Uid="Gloom">
+																		<Image Source="/UI/Limbus/Skills/Affinity Icons/Gloom.png" />
+																		<Terminus:IntenseStareType1 RichText="Gloom" UID="[Skills / Right menu] * Affinity — Gloom" />
+																	</StackPanel>
+																	<StackPanel x:Uid="Pride">
+																		<Image Source="/UI/Limbus/Skills/Affinity Icons/Pride.png" />
+																		<Terminus:IntenseStareType1 RichText="Pride" UID="[Skills / Right menu] * Affinity — Pride" />
+																	</StackPanel>
+																	<StackPanel x:Uid="Envy">
+																		<Image Source="/UI/Limbus/Skills/Affinity Icons/Envy.png" />
+																		<Terminus:IntenseStareType1 RichText="Envy" UID="[Skills / Right menu] * Affinity — Envy" />
+																	</StackPanel>
+																	<StackPanel x:Uid="None">
+																		<Canvas Width="23">
+																			<Terminus:IntenseStareType1 Margin="0.5 -3 0 0" FontFamily="Segoe UI" FontSize="23" Text="⌀" />
+																		</Canvas>
+																		<Terminus:IntenseStareType1 RichText="None" UID="[Skills / Right menu] * Affinity — None" />
+																	</StackPanel>
+																</ComboBox>
+
+																<Terminus:IntenseStareType1
+																	Margin="0 4 0 0"
+																	Padding="0"
+																	FontSize="20"
+																	RichText="Coin №... descs:"
+																	TextAlignment="Center"
+																	UID="[Skills / Right menu] * Skill Coin descs title" />
+
+																<Grid x:Name="RightMenuButtons__Skills_CoinDescSwitches" x:Uid="Next/Previous coin desc buttons" Margin="0 4 0 0">
+
+																	<Grid.Resources>
+																		<Style BasedOn="{StaticResource Theme:ControlStyles.SquareButton}" TargetType="{x:Type Button}">
+																			<Setter Property="Height" Value="27" />
+																			<Setter Property="FontSize" Value="16" />
+																			<Setter Property="RenderTransformOrigin" Value="0.5 0" />
+																			<Setter Property="Content" Value="" />
+																		</Style>
+
+																		<Terminus:PopupButton_T1 x:Key="JsonManaging_Single_AddCoinDesc" T:BooleanStateHandler.IsVisible="{T:BooleanStateBinding DataContextDomain.Configuration.Internal.EnableManualJsonFilesManaging}" Click="JsonManaging_Skills_AddCoinDesctiption" RichText="Add coin description" UID="[Main UI / Manual json files managing] * Skill coin description — Add" />
+																		<Terminus:PopupButton_T1 x:Key="JsonManaging_Single_RemoveCoinDesc" T:BooleanStateHandler.IsVisible="{T:BooleanStateBinding DataContextDomain.Configuration.Internal.EnableManualJsonFilesManaging}" Click="JsonManaging_Skills_RemoveCoinDesctiption" RichText="Remove coin description" UID="[Main UI / Manual json files managing] * Skill coin description — Remove" />
+
+																	</Grid.Resources>
+
+																	<Grid.ColumnDefinitions>
+																		<ColumnDefinition Width="62" />
+																		<ColumnDefinition />
+																		<ColumnDefinition Width="62" />
+																	</Grid.ColumnDefinitions>
+
+																	<!--    Context menu initializers to trigger embedded IntenseStareType1 creation before language loading occurs    -->
+																	<FrameworkElement ContextMenu="{StaticResource JsonManaging_Single_AddCoinDesc}" Visibility="Collapsed" />
+																	<FrameworkElement ContextMenu="{StaticResource JsonManaging_Single_RemoveCoinDesc}" Visibility="Collapsed" />
+
+																	<Button
+																		x:Name="RightMenu_Skills_SwitchToCoinDesc_Back"
+																		Uid="Back"
+																		Grid.Column="0"
+																		IsEnabled="False"
+																		PreviewMouseLeftButtonDown="RightMenuButtons__Skills_SwitchToPrevOrNextCoinDesc"
+																		RenderTransform="{StaticResource XReversed}" />
+																	<Button
+																		x:Name="RightMenu_Skills_SwitchToCoinDesc_Forward"
+																		Uid="Forward"
+																		Grid.Column="2"
+																		ContextMenuOpening="RightMenu_Skills_SwitchToCoinDesc_Forward_ContextMenuOpening"
+																		IsEnabled="False"
+																		PreviewMouseLeftButtonDown="RightMenuButtons__Skills_SwitchToPrevOrNextCoinDesc">
+																		<Button.Style>
+																			<Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+																				<Style.Triggers>
+																					<Trigger Property="IsEnabled" Value="False">
+																						<Setter Property="ContextMenu" Value="{StaticResource JsonManaging_Single_AddCoinDesc}" />
+																					</Trigger>
+																				</Style.Triggers>
+																			</Style>
+																		</Button.Style>
+																	</Button>
+
+																	<Button x:Name="RightMenu_Skills_CurrentCoinDesc_Display" Grid.Column="1" Height="27" Margin="4 0 4 0" PreviewMouseLeftButtonDown="RightMenuButtons__Skills_SwitchToCurrentCoinDescriptionMainDesc">
+																		<Terminus:IntenseStareType1
+																			Padding="0"
+																			VerticalAlignment="Center"
+																			FontSize="18"
+																			PerfectVerticalAlign="True"
+																			Text="№..."
+																			TextAlignment="Center"
+																			UID="[Skills / Right menu] * Skill Coin desc number" />
+																		<Button.Style>
+																			<Style BasedOn="{StaticResource Theme:ControlStyles.ElongatedButton}" TargetType="{x:Type Button}">
+																				<Style.Triggers>
+																					<Trigger Property="IsEnabled" Value="True">
+																						<Setter Property="ContextMenu" Value="{StaticResource JsonManaging_Single_RemoveCoinDesc}" />
+																					</Trigger>
+																				</Style.Triggers>
+																			</Style>
+																		</Button.Style>
+																	</Button>
+
+																</Grid>
+
+																<Button
+																	x:Name="RightMenu_Skills_SwitchToCoinSummaryDesc"
+																	Height="27"
+																	Margin="0 4 0 0"
+																	HorizontalContentAlignment="Center"
+																	JsonManaging:Assistant.PairedOptions="{StaticResource JsonManaging_CoinSummaryDescButton}"
+																	ContextMenuOpening="RightMenuButtons__Skills_SwitchToCurrentCoinDescriptionSummaryDesc_ContextMenuOpening"
+																	IsEnabled="False"
+																	PreviewMouseLeftButtonDown="RightMenuButtons__Skills_SwitchToCurrentCoinDescriptionSummaryDesc">
+																	<Terminus:IntenseStareType1
+																		Padding="0"
+																		FontSize="18"
+																		Foreground="{DynamicResource Theme:UIText.MainWindow.Foreground}"
+																		PerfectVerticalAlign="True"
+																		Text="Summary description"
+																		UID="[Skills / Right menu] * Skill Coin summary desc" />
+																</Button>
+															</StackPanel>
+														</Border>
+													</Grid>
+												</ScrollViewer>
+
+											</Grid>
+
+
+
+
+											<Grid x:Uid="[2] — Passives">
+
+												<Grid.Resources>
+
+													<JsonManaging:PairedOptions x:Key="JsonManaging_PassiveSummaryButton" ButtonStyleSource="{Binding Source={x:Reference RightMenu}}">
+														<Terminus:PopupButton_T1 Click="JsonManaging_Passives_RemoveSummaryDesctiption" RichText="Remove summary description" UID="[Main UI / Manual json files managing] * Passive summary — Remove" />
+														<Terminus:PopupButton_T1 Click="JsonManaging_Passives_AddSummaryDesctiption" RichText="Add summary description" UID="[Main UI / Manual json files managing] * Passive summary — Add" />
+													</JsonManaging:PairedOptions>
+
+													<JsonManaging:PairedOptions x:Key="JsonManaging_PassiveFlavorDesc" ButtonStyleSource="{Binding Source={x:Reference RightMenu}}">
+														<Terminus:PopupButton_T1 Click="JsonManaging_Passives_RemoveFlavorDesctiption" RichText="Remove flavor descritption" UID="[Main UI / Manual json files managing] * Passive flavor — Remove" />
+														<Terminus:PopupButton_T1 Click="JsonManaging_Passives_AddFlavorDesctiption" RichText="Add flavor descritption" UID="[Main UI / Manual json files managing] * Passive flavor — Add" />
+													</JsonManaging:PairedOptions>
+
+												</Grid.Resources>
+
+
+												<ScrollViewer>
+													<Grid>
+														<Button x:Uid="Passives" Style="{StaticResource Theme:ControlStyles.Spec.ManualJsonManagingTechButton}">
+															<Button.ContextMenu>
+																<ContextMenu>
+																	<Terminus:MenuItem_T1 Click="JsonManaging_RemoveThisObject" RichText="Remove this passive" UID="[Main UI / Manual json files managing] * Passive removal" />
+																</ContextMenu>
+															</Button.ContextMenu>
+														</Button>
+
+														<Border VerticalAlignment="Top" Background="{DynamicResource Theme:Common.RightMenu.NavigationPanel.Background}" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
+															<StackPanel Margin="4" VerticalAlignment="Top">
+
+																<InternalStyle:TwoColumned Margin="0">
+																	<Grid>
+																		<Terminus:IntenseStareType3 x:Name="PassiveNameInput" Document="{Binding DataContextDomain.Editor.CurrentPassive.KeylessDedicatedDocument_Name}" TextChanged="RightMenuTextBoxes__Passives_NameTextChanged" UID="[Passives / Right menu] * Passive name" />
+																		<Terminus:IntenseStareType1
+																			MaxWidth="231.6"
+																			Margin="0 0 8 0"
+																			HideWhenThisDocumentTextIsNotEmpty="{Binding ElementName=PassiveNameInput}"
+																			Text="Passive name"
+																			TextTrimming="CharacterEllipsis"
+																			UID="[Passives / Right menu] * Passive name (Shadow Text)" />
+																	</Grid>
+																	<Button PreviewMouseLeftButtonDown="RightMenuButtons__Passives_SaveName" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextButton}" />
+																</InternalStyle:TwoColumned>
+
+																<Button PreviewMouseLeftButtonDown="RightMenuButtons__Passives_SwitchToMainDesc">
+																	<Terminus:IntenseStareType1 Text="Main Description" UID="[Passives / Right menu] * Passive desc" />
+																</Button>
+
+																<Button JsonManaging:Assistant.PairedOptions="{StaticResource JsonManaging_PassiveSummaryButton}" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentPassive.DedicatedDocument_SummaryDescription}" PreviewMouseLeftButtonDown="RightMenuButtons__Passives_SwitchToSummaryDesc">
+																	<Terminus:IntenseStareType1 Text="Summary Description" UID="[Passives / Right menu] * Passive summary" />
+																</Button>
+
+																<Button JsonManaging:Assistant.PairedOptions="{StaticResource JsonManaging_PassiveFlavorDesc}" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentPassive.DedicatedDocument_FlavorDescription}" PreviewMouseLeftButtonDown="RightMenuButtons__Passives_SwitchToFlavorDesc">
+																	<Terminus:IntenseStareType1 Text="Flavor Description" UID="[Passives / Right menu] * Passive flavor" />
+																</Button>
+
+															</StackPanel>
+														</Border>
+													</Grid>
+												</ScrollViewer>
+											</Grid>
+
+
+
+
+											<Grid x:Uid="[3] — Keywords">
+
+												<Grid.Resources>
+
+													<JsonManaging:PairedOptions x:Key="JsonManaging_KeywordSummaryButton" ButtonStyleSource="{Binding Source={x:Reference RightMenu}}">
+														<Terminus:PopupButton_T1 Click="JsonManaging_Keywords_RemoveSummaryDesctiption" RichText="Remove summary description" UID="[Main UI / Manual json files managing] * Keyword summary — Remove" />
+														<Terminus:PopupButton_T1 Click="JsonManaging_Keywords_AddSummaryDesctiption" RichText="Add summary description" UID="[Main UI / Manual json files managing] * Keyword summary — Add" />
+													</JsonManaging:PairedOptions>
+
+													<JsonManaging:PairedOptions x:Key="JsonManaging_KeywordFlavorDesc" ButtonStyleSource="{Binding Source={x:Reference RightMenu}}">
+														<Terminus:PopupButton_T1 Click="JsonManaging_Keywords_RemoveFlavorDesctiption" RichText="Remove flavor descritption" UID="[Main UI / Manual json files managing] * Keyword flavor — Remove" />
+														<Terminus:PopupButton_T1 Click="JsonManaging_Keywords_AddFlavorDesctiption" RichText="Add flavor descritption" UID="[Main UI / Manual json files managing] * Keyword flavor — Add" />
+													</JsonManaging:PairedOptions>
+
+												</Grid.Resources>
+
+
+												<ScrollViewer>
+													<Grid>
+														<Button x:Uid="Keywords" Style="{StaticResource Theme:ControlStyles.Spec.ManualJsonManagingTechButton}">
+															<Button.ContextMenu>
+																<ContextMenu>
+																	<Terminus:MenuItem_T1 Click="JsonManaging_RemoveThisObject" RichText="Remove this keyword" UID="[Main UI / Manual json files managing] * Keyword removal" />
+																	<Separator />
+																	<Terminus:MenuItem_T1 Click="JsonManaging_Keywords_AddTemplateColor" RichText="Add template color" StaysOpenOnClick="True" UID="[Main UI / Manual json files managing] * Keyword template color — Add" />
+																	<Terminus:MenuItem_T1 Click="JsonManaging_Keywords_RemoveTemplateColor" RichText="Remove template color" StaysOpenOnClick="True" UID="[Main UI / Manual json files managing] * Keyword template color — Remove" />
+																</ContextMenu>
+															</Button.ContextMenu>
+														</Button>
+														<Border VerticalAlignment="Top" Background="{DynamicResource Theme:Common.RightMenu.NavigationPanel.Background}" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
+															<StackPanel Margin="4" VerticalAlignment="Top">
+
+																<InternalStyle:TwoColumned Margin="0">
+																	<Grid>
+																		<Terminus:IntenseStareType3 x:Name="KeywordNameInput" Document="{Binding DataContextDomain.Editor.CurrentKeyword.KeylessDedicatedDocument_Name}" TextChanged="RightMenuTextBoxes__Keywords_CommonTextChanged" UID="[Keywords / Right menu] * Keyword name" />
+																		<Terminus:IntenseStareType1
+																			MaxWidth="231.6"
+																			Margin="0 0 8 0"
+																			HideWhenThisDocumentTextIsNotEmpty="{Binding ElementName=KeywordNameInput}"
+																			Text="Keyword name"
+																			TextTrimming="CharacterEllipsis"
+																			UID="[Keywords / Right Menu] * Keyword name (Shadow Text)" />
+																	</Grid>
+																	<Button PreviewMouseLeftButtonDown="RightMenuButtons__Keywords_SaveName" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextButton}" />
+																</InternalStyle:TwoColumned>
+
+																<InternalStyle:TwoColumned T:NullStateHandler.IsVisible="{Binding DataContextDomain.Editor.CurrentKeyword.KeylessDedicatedDocument_Color}">
+																	<Terminus:IntenseStareType3
+																		x:Name="KeywordColorInput"
+																		Terminus:Assistant.PreviewInputRegexHandling="^[a-fA-F0-9]+$"
+																		x:FieldModifier="private"
+																		DisplayInputColor="True"
+																		Document="{Binding DataContextDomain.Editor.CurrentKeyword.KeylessDedicatedDocument_Color}"
+																		TextChanged="RightMenuTextBoxes__Keywords_CommonTextChanged"
+																		TextMaxLength="6"
+																		UID="[Keywords / Right menu] * Keyword color" />
+																	<Button PreviewMouseLeftButtonDown="RightMenuButtons__Keywords_SaveColor" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextButton}" />
+																</InternalStyle:TwoColumned>
+
+																<Button PreviewMouseLeftButtonDown="RightMenuButtons__Keywords_SwitchToMainDesc">
+																	<Terminus:IntenseStareType1 Text="Main Description" UID="[Keywords / Right Menu] * Keyword desc" />
+																</Button>
+
+																<Button JsonManaging:Assistant.PairedOptions="{StaticResource JsonManaging_KeywordSummaryButton}" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_SummaryDescription}" PreviewMouseLeftButtonDown="RightMenuButtons__Keywords_SwitchToSummaryDesc">
+																	<Terminus:IntenseStareType1 Text="Summary Description" UID="[Keywords / Right Menu] * Keyword summary" />
+																</Button>
+
+																<Button JsonManaging:Assistant.PairedOptions="{StaticResource JsonManaging_KeywordFlavorDesc}" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_FlavorDescription}" PreviewMouseLeftButtonDown="RightMenuButtons__Keywords_SwitchToFlavorDesc">
+																	<Terminus:IntenseStareType1 Text="Flavor Description" UID="[Keywords / Right Menu] * Keyword flavor" />
+																</Button>
+
+																<StackPanel x:Name="FormatInsertionsInputParentStackPanel">
+																	<Button Height="25" HorizontalAlignment="Center" PreviewMouseLeftButtonDown="ToggleKeywordsFormatInsertionsDropDown">
+																		<StackPanel Orientation="Horizontal">
+																			<TextBlock
+																				Margin="0 0 4 0"
+																				HorizontalAlignment="Left"
+																				VerticalAlignment="Center"
+																				FontFamily="/UI/Fonts/#Segoe Fluent Icons"
+																				FontSize="16"
+																				Foreground="{DynamicResource Theme:SquareButtons.Icons}"
+																				RenderTransformOrigin="0.5 0.5"
+																				Text="">
+																				<TextBlock.RenderTransform>
+																					<RotateTransform x:Name="FormatInsertionsDropDownIndicator" Angle="0" />
+																				</TextBlock.RenderTransform>
+																			</TextBlock>
+																			<Terminus:IntenseStareType1 VerticalAlignment="Center" FontSize="13" PerfectVerticalAlign="True" RichText="[b]Format Insertions[/b]" UID="[Keywords / Right Menu] * Keywords format insertions button" />
+																		</StackPanel>
+																	</Button>
+																	<StackPanel x:Name="FormatInsertionsDropDownStackPanel" Visibility="Collapsed">
+																		<StackPanel.Resources>
+																			<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType3}}" TargetType="{x:Type Terminus:IntenseStareType3}">
+																				<Setter Property="MaxWidth" Value="272.6" />
+																				<Setter Property="Margin" Value="0" />
+																			</Style>
+																			<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+																				<Setter Property="HideWhenThisDocumentTextIsNotEmpty" Value="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Children[0]}" />
+																			</Style>
+																			<Style TargetType="{x:Type Grid}">
+																				<Setter Property="Margin" Value="0 4 0 0" />
+																			</Style>
+																		</StackPanel.Resources>
+																		<Grid>
+																			<Terminus:IntenseStareType3 TextChanged="ChangeKeywordsFormatInsertions" UID="[Keywords / Right Menu] * Format Insertion {0}" />
+																			<Terminus:IntenseStareType1 Text="Insertion {0}" UID="[Keywords / Right Menu] * Format Insertion {0} (Shadow Text)" />
+																		</Grid>
+																		<Grid>
+																			<Terminus:IntenseStareType3 TextChanged="ChangeKeywordsFormatInsertions" UID="[Keywords / Right Menu] * Format Insertion {1}" />
+																			<Terminus:IntenseStareType1 Text="Insertion {1}" UID="[Keywords / Right Menu] * Format Insertion {1} (Shadow Text)" />
+																		</Grid>
+																		<Grid>
+																			<Terminus:IntenseStareType3 TextChanged="ChangeKeywordsFormatInsertions" UID="[Keywords / Right Menu] * Format Insertion {2}" />
+																			<Terminus:IntenseStareType1 Text="Insertion {2}" UID="[Keywords / Right Menu] * Format Insertion {2} (Shadow Text)" />
+																		</Grid>
+																		<Grid>
+																			<Terminus:IntenseStareType3 TextChanged="ChangeKeywordsFormatInsertions" UID="[Keywords / Right Menu] * Format Insertion {3}" />
+																			<Terminus:IntenseStareType1 Text="Insertion {3}" UID="[Keywords / Right Menu] * Format Insertion {3} (Shadow Text)" />
+																		</Grid>
+																		<Grid>
+																			<Terminus:IntenseStareType3 TextChanged="ChangeKeywordsFormatInsertions" UID="[Keywords / Right Menu] * Format Insertion {4}" />
+																			<Terminus:IntenseStareType1 Text="Insertion {4}" UID="[Keywords / Right Menu] * Format Insertion {4} (Shadow Text)" />
+																		</Grid>
+																		<Grid>
+																			<Terminus:IntenseStareType3 TextChanged="ChangeKeywordsFormatInsertions" UID="[Keywords / Right Menu] * Format Insertion {5}" />
+																			<Terminus:IntenseStareType1 Text="Insertion {5}" UID="[Keywords / Right Menu] * Format Insertion {5} (Shadow Text)" />
+																		</Grid>
+																		<Grid>
+																			<Terminus:IntenseStareType3 TextChanged="ChangeKeywordsFormatInsertions" UID="[Keywords / Right Menu] * Format Insertion {6}" />
+																			<Terminus:IntenseStareType1 Text="Insertion {6}" UID="[Keywords / Right Menu] * Format Insertion {6} (Shadow Text)" />
+																		</Grid>
+																	</StackPanel>
+																</StackPanel>
+
+															</StackPanel>
+														</Border>
+													</Grid>
+												</ScrollViewer>
+
+											</Grid>
+
+
+
+
+											<Grid x:Uid="[4] — E.G.O Gifts">
+
+												<Grid.Resources>
+													<JsonManaging:PairedOptions x:Key="JsonManaging_EGOGiftFlavorDesc" ButtonStyleSource="{Binding Source={x:Reference RightMenu}}">
+														<Terminus:PopupButton_T1 Click="JsonManaging_EGOGifts_RemoveFlavorDesctiption" RichText="Remove flavor descritption" UID="[Main UI / Manual json files managing] * E.G.O Gift flavor — Remove" />
+														<Terminus:PopupButton_T1 Click="JsonManaging_EGOGifts_AddFlavorDesctiption" RichText="Add flavor descritption" UID="[Main UI / Manual json files managing] * E.G.O Gift flavor — Add" />
+													</JsonManaging:PairedOptions>
+
+													<JsonManaging:PairedOptions x:Key="JsonManaging_EGOGiftSimpleDesc" ButtonStyleSource="{Binding Source={x:Reference RightMenuButtons__EGOGifts_SimpleDescButtons}}">
+														<Terminus:PopupButton_T1 Click="JsonManaging_EGOGifts_RemoveSimpleDesctiption" RichText="Remove simple descritption" UID="[Main UI / Manual json files managing] * E.G.O Gift simple desc — Remove" />
+														<Terminus:PopupButton_T1 Click="JsonManaging_EGOGifts_AddSimpleDesctiption" RichText="Add simple descritption" UID="[Main UI / Manual json files managing] * E.G.O Gift simple desc — Add" />
+													</JsonManaging:PairedOptions>
+												</Grid.Resources>
+
+
+												<ScrollViewer>
+													<Grid>
+														<Button x:Uid="E.G.O Gifts" Style="{StaticResource Theme:ControlStyles.Spec.ManualJsonManagingTechButton}">
+															<Button.ContextMenu>
+																<ContextMenu>
+																	<Terminus:MenuItem_T1 Click="JsonManaging_RemoveThisObject" RichText="Remove this E.G.O Gift" UID="[Main UI / Manual json files managing] * E.G.O Gift removal" />
+																</ContextMenu>
+															</Button.ContextMenu>
+														</Button>
+														<Border VerticalAlignment="Top" Background="{DynamicResource Theme:Common.RightMenu.NavigationPanel.Background}" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
+															<StackPanel Margin="4" VerticalAlignment="Top">
+
+																<InternalStyle:TwoColumned Margin="0">
+																	<Grid>
+																		<Terminus:IntenseStareType3 x:Name="EGOGiftNameInput" Document="{Binding DataContextDomain.Editor.CurrentEGOGift.KeylessDedicatedDocument_Name}" TextChanged="RightMenuTextBoxes__EGOGifts_NameTextChanged" UID="[E.G.O Gifts / Right Menu] * E.G.O Gift Name" />
+																		<Terminus:IntenseStareType1
+																			MaxWidth="231.6"
+																			Margin="0 0 8 0"
+																			HideWhenThisDocumentTextIsNotEmpty="{Binding ElementName=EGOGiftNameInput}"
+																			Text="E.G.O Gift name"
+																			TextTrimming="CharacterEllipsis"
+																			UID="[E.G.O Gifts / Right Menu] * E.G.O Gift Name (Shadow Text)" />
+																	</Grid>
+																	<Button PreviewMouseLeftButtonDown="RightMenuButtons__EGOGifts_SaveName" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextButton}" />
+																</InternalStyle:TwoColumned>
+
+																<Button PreviewMouseLeftButtonDown="RightMenuButtons__EGOGifts_SwitchToMainDesc">
+																	<Terminus:IntenseStareType1 Text="Main Description" UID="[E.G.O Gifts / Right Menu] * E.G.O Gift Desc" />
+																</Button>
+
+																<StackPanel x:Name="RightMenuButtons__EGOGifts_SimpleDescButtons">
+
+																	<StackPanel.Resources>
+																		<Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+																			<Setter Property="JsonManaging:Assistant.PairedOptions" Value="{StaticResource JsonManaging_EGOGiftSimpleDesc}" />
+																			<EventSetter Event="ContextMenuOpening" Handler="JsonManaging_EGOGifts_SimpleDescContextMenuOpening" />
+																			<EventSetter Event="PreviewMouseLeftButtonDown" Handler="RightMenuButtons__EGOGifts_SwitchToSimpleDesc" />
+																		</Style>
+																	</StackPanel.Resources>
+
+																	<Button x:Uid="1" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[0]}">
+																		<Terminus:IntenseStareType1 Text="Simple Desc 1" UID="[E.G.O Gifts / Right Menu] * Simple Desc 1" />
+																	</Button>
+
+																	<Button x:Uid="2" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[1]}">
+																		<Terminus:IntenseStareType1 Text="Simple Desc 2" UID="[E.G.O Gifts / Right Menu] * Simple Desc 2" />
+																	</Button>
+
+																	<Button x:Uid="3" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[2]}">
+																		<Terminus:IntenseStareType1 Text="Simple Desc 3" UID="[E.G.O Gifts / Right Menu] * Simple Desc 3" />
+																	</Button>
+
+																	<Button x:Uid="4" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[3]}">
+																		<Terminus:IntenseStareType1 Text="Simple Desc 4" UID="[E.G.O Gifts / Right Menu] * Simple Desc 4" />
+																	</Button>
+
+																	<Button x:Uid="5" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[4]}">
+																		<Terminus:IntenseStareType1 Text="Simple Desc 5" UID="[E.G.O Gifts / Right Menu] * Simple Desc 5" />
+																	</Button>
+
+																	<Button x:Uid="6" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[5]}">
+																		<Terminus:IntenseStareType1 Text="Simple Desc 6" UID="[E.G.O Gifts / Right Menu] * Simple Desc 6" />
+																	</Button>
+
+																	<StackPanel T:BooleanStateHandler.IsVisible="{T:BooleanStateBinding DataContextDomain.Configuration.PreviewSettings.Base.Enable7to10EGOGiftSimpleDescButtons}">
+																		<Button x:Uid="7" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[6]}">
+																			<Terminus:IntenseStareType1 Text="Simple Desc 7" UID="[E.G.O Gifts / Right Menu] * Simple Desc 7" />
+																		</Button>
+
+																		<Button x:Uid="8" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[7]}">
+																			<Terminus:IntenseStareType1 Text="Simple Desc 8" UID="[E.G.O Gifts / Right Menu] * Simple Desc 8" />
+																		</Button>
+
+																		<Button x:Uid="9" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[8]}">
+																			<Terminus:IntenseStareType1 Text="Simple Desc 9" UID="[E.G.O Gifts / Right Menu] * Simple Desc 9" />
+																		</Button>
+
+																		<Button x:Uid="10" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[9]}">
+																			<Terminus:IntenseStareType1 Text="Simple Desc 10" UID="[E.G.O Gifts / Right Menu] * Simple Desc 10" />
+																		</Button>
+																	</StackPanel>
+
+
+																</StackPanel>
+
+																<Button JsonManaging:Assistant.PairedOptions="{StaticResource JsonManaging_EGOGiftFlavorDesc}" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentEGOGift.DedicatedDocument_FlavorDescription}" PreviewMouseLeftButtonDown="RightMenuButtons__EGOGifts_SwitchToFlavorDesc">
+																	<Terminus:IntenseStareType1 Text="Flavor Description" UID="[E.G.O Gifts / Right Menu] * E.G.O Gift Flavor" />
+																</Button>
+
+															</StackPanel>
+														</Border>
+													</Grid>
+												</ScrollViewer>
+
+											</Grid>
+
+
+
+
+											<Grid x:Uid="[5] — Observation Logs">
+
+												<Grid.Resources>
+													<JsonManaging:PairedOptions x:Key="JsonManaging_ObservationLogStories" ButtonStyleSource="{Binding Source={x:Reference RightMenuButtons__ObservationLogs_ObservationStoryButtons}}">
+														<Terminus:PopupButton_T1 Click="JsonManaging_ObservationLogs_RemoveObservationStory" RichText="Remove observation story" UID="[Main UI / Manual json files managing] * Observation Log Story — Remove" />
+														<Terminus:PopupButton_T1 Click="JsonManaging_ObservationLogs_AddObservationStory" RichText="Add observation story" UID="[Main UI / Manual json files managing] * Observation Log Story — Add" />
+													</JsonManaging:PairedOptions>
+												</Grid.Resources>
+
+												<ScrollViewer>
+													<Grid>
+														<Button x:Uid="Observation Logs" Style="{StaticResource Theme:ControlStyles.Spec.ManualJsonManagingTechButton}">
+															<Button.ContextMenu>
+																<ContextMenu>
+																	<Terminus:MenuItem_T1 Click="JsonManaging_RemoveThisObject" RichText="Remove this Observation Log Story" UID="[Main UI / Manual json files managing] * Observation Log removal" />
+																</ContextMenu>
+															</Button.ContextMenu>
+														</Button>
+														<Border VerticalAlignment="Top" Background="{DynamicResource Theme:Common.RightMenu.NavigationPanel.Background}" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
+															<StackPanel Margin="4" VerticalAlignment="Top">
+																<InternalStyle:TwoColumned Margin="0">
+																	<Grid>
+																		<Terminus:IntenseStareType3 x:Name="ObservationLogsCodeNameInput" Document="{Binding DataContextDomain.Editor.CurrentObservationLog.KeylessDedicatedDocument_CodeName}" IsReadOnly="{Binding DataContextDomain.Configuration.Internal.EnableManualJsonFilesManaging, Converter={StaticResource BoolInversionConverter}}" TextChanged="RightMenuTextBoxes__ObservationLogs_CommonTextChanged" UID="[Observation Logs / Right Menu] * Code Name" />
+																		<Terminus:IntenseStareType1
+																			MaxWidth="231.6"
+																			Margin="0 0 8 0"
+																			HideWhenThisDocumentTextIsNotEmpty="{Binding ElementName=ObservationLogsCodeNameInput}"
+																			Text="Code name"
+																			TextTrimming="CharacterEllipsis"
+																			UID="[Observation Logs / Right Menu] * Code Name (Shadow Text)" />
+																	</Grid>
+																	<Button IsEnabled="{T:BooleanStateBinding DataContextDomain.Configuration.Internal.EnableManualJsonFilesManaging}" PreviewMouseLeftButtonDown="RightMenuButtons__ObservationLogs_SaveCodeName" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextButton}" />
+																</InternalStyle:TwoColumned>
+																<InternalStyle:TwoColumned>
+																	<Grid>
+																		<Terminus:IntenseStareType3 x:Name="ObservationLogsNameInput" Document="{Binding DataContextDomain.Editor.CurrentObservationLog.KeylessDedicatedDocument_Name}" TextChanged="RightMenuTextBoxes__ObservationLogs_CommonTextChanged" UID="[Observation Logs / Right Menu] * Name" />
+																		<Terminus:IntenseStareType1
+																			MaxWidth="231.6"
+																			Margin="0 0 8 0"
+																			HideWhenThisDocumentTextIsNotEmpty="{Binding ElementName=ObservationLogsNameInput}"
+																			Text="Abnormality name"
+																			TextTrimming="CharacterEllipsis"
+																			UID="[Observation Logs / Right Menu] * Name (Shadow Text)" />
+																	</Grid>
+																	<Button PreviewMouseLeftButtonDown="RightMenuButtons__ObservationLogs_SaveLogsName" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextButton}" />
+																</InternalStyle:TwoColumned>
+
+																<StackPanel x:Name="RightMenuButtons__ObservationLogs_ObservationStoryButtons">
+
+																	<StackPanel.Resources>
+																		<Style BasedOn="{StaticResource {x:Type Button}}" TargetType="{x:Type Button}">
+																			<Setter Property="JsonManaging:Assistant.PairedOptions" Value="{StaticResource JsonManaging_ObservationLogStories}" />
+																			<EventSetter Event="PreviewMouseLeftButtonDown" Handler="RightMenuButtons__ObservationLogs_SwitchToObservationStory" />
+																		</Style>
+																	</StackPanel.Resources>
+
+																	<Button x:Uid="Lacking Data" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[0].DedicatedDocument_Description}" PreviewMouseLeftButtonDown="RightMenuButtons__ObservationLogs_SwitchToObservationStory">
+																		<Terminus:IntenseStareType1 Text="Lacking Data" UID="[Observation Logs / Right Menu] * Lacking Data" />
+																	</Button>
+																	<Button x:Uid="1" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[1].DedicatedDocument_Description}" PreviewMouseLeftButtonDown="RightMenuButtons__ObservationLogs_SwitchToObservationStory">
+																		<Terminus:IntenseStareType1 Text="Observation Level I" UID="[Observation Logs / Right Menu] * Observation Level 1" />
+																	</Button>
+																	<Button x:Uid="2" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[2].DedicatedDocument_Description}" PreviewMouseLeftButtonDown="RightMenuButtons__ObservationLogs_SwitchToObservationStory">
+																		<Terminus:IntenseStareType1 Text="Observation Level II" UID="[Observation Logs / Right Menu] * Observation Level 2" />
+																	</Button>
+																	<Button x:Uid="3" T:NullStateHandler.IsEnabled="{T:NullStateBinding DataContextDomain.Editor.CurrentObservationLog.ObservationStoriesDictionary[3].DedicatedDocument_Description}" PreviewMouseLeftButtonDown="RightMenuButtons__ObservationLogs_SwitchToObservationStory">
+																		<Terminus:IntenseStareType1 Text="Observation Level III" UID="[Observation Logs / Right Menu] * Observation Level 3" />
+																	</Button>
+																</StackPanel>
+
+															</StackPanel>
+														</Border>
+													</Grid>
+												</ScrollViewer>
+											</Grid>
+
+
+
+										</InternalStyle:SingleViewer>
+									</Grid>
+								</Grid>
+							</Grid>
+						</Grid>
+
+					</Grid>
+
+					<!--    Content is set as "/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Page.xaml" from override App.OnStartup()    -->
+					<Frame x:Name="PreviewCreatorContentEmitter" Uid="IDENTITY/E.G.O PREVIEW CREATOR" />
+
+				</InternalStyle:SingleViewer>
+			</Grid>
+		</InternalStyle:InstancedWindowLayout.Content>
+
+	</InternalStyle:InstancedWindowLayout>
+
+</Abstractions:FadeableWindow>

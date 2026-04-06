@@ -1,0 +1,61 @@
+﻿<UserControl
+	x:Class="LCLocalizationInterface.LimbusRegistry.BattleKeywordContainer"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Limbus="clr-namespace:LCLocalizationInterface.LimbusRegistry"
+	x:Name="Root"
+	Width="422">
+	<Border MinHeight="100" BorderThickness="0.8" CornerRadius="0.55">
+		<Border.BorderBrush>
+			<LinearGradientBrush StartPoint="0 0" EndPoint="1 1">
+				<GradientStop Color="#4B3F31" />
+				<GradientStop Offset="0.6" Color="#00000000" />
+			</LinearGradientBrush>
+		</Border.BorderBrush>
+		<Border Margin="1.5" Background="#C6000000" BorderBrush="#4B3F31" BorderThickness="0.8">
+			<StackPanel>
+
+				<StackPanel MaxHeight="55" Orientation="Horizontal">
+					<Image Width="33" Margin="6 6 0 0" VerticalAlignment="Top" Source="{Binding ElementName=Root, Path=KeywordIcon}" />
+					<Viewbox Height="40" MaxWidth="345" Margin="5 6.6 0 0" HorizontalAlignment="Left" Stretch="Uniform">
+						<Limbus:TMProEmitter
+							MinWidth="305"
+							MaxWidth="345"
+							VerticalAlignment="Center"
+							Limbus:AcceptsRichTextDelay="False"
+							Limbus:FontType="Title"
+							Limbus:RichText="{Binding ElementName=Root, Path=KeywordName}"
+							Limbus:TextProcessingMode="None"
+							DisableKeyworLinksCreation="True"
+							FontSize="22"
+							LineHeight="24" />
+					</Viewbox>
+				</StackPanel>
+
+				<StackPanel Margin="18 0 25 18">
+					<Limbus:TMProEmitter
+						Limbus:AcceptsRichTextDelay="False"
+						Limbus:FontType="Context"
+						Limbus:RichText="{Binding ElementName=Root, Path=KeywordDesc}"
+						Limbus:TextProcessingMode="None"
+						DisableKeyworLinksCreation="True"
+						FontSize="20"
+						LineHeight="25" />
+					<Limbus:TMProEmitter
+						x:Uid="Flavor desc of tooltip"
+						Margin="0 22 0 0"
+						Limbus:AcceptsRichTextDelay="False"
+						Limbus:FontType="Context"
+						Limbus:RichText="{Binding ElementName=Root, Path=KeywordFlavor}"
+						Limbus:TextProcessingMode="None"
+						DisableKeyworLinksCreation="True"
+						FontSize="17.5"
+						FontStyle="Italic"
+						Foreground="#8a592f"
+						LineHeight="24" />
+				</StackPanel>
+
+			</StackPanel>
+		</Border>
+	</Border>
+</UserControl>

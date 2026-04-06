@@ -1,0 +1,142 @@
+﻿<ResourceDictionary
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:AvalonEdit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
+	xmlns:InternalStyle="clr-namespace:LCLocalizationInterface.Internal.UIStyle"
+	xmlns:T="clr-namespace:LCLocalizationInterface.MarkupExtensions"
+	xmlns:AvalonEditEditing="clr-namespace:ICSharpCode.AvalonEdit.Editing;assembly=ICSharpCode.AvalonEdit"
+	xmlns:AvalonEditRendering="clr-namespace:ICSharpCode.AvalonEdit.Rendering;assembly=ICSharpCode.AvalonEdit"
+	xmlns:Terminus="clr-namespace:LCLocalizationInterface.Internal.Terminus">
+
+	<ResourceDictionary.MergedDictionaries>
+		<!--    Its not inherinted from main app's ※ Entanglement Dictionary.xaml!!!!!!!!!!!!!    -->
+		<ResourceDictionary Source="/Internal/Resource Dictionaries/IValueConverters.xaml" />
+	</ResourceDictionary.MergedDictionaries>
+
+	<Style TargetType="{x:Type Terminus:IntenseStareType1}">
+		<Setter Property="Foreground" Value="{DynamicResource Theme:UIText.MainWindow.Foreground}" />
+		<Setter Property="TextWrapping" Value="Wrap" />
+		<Setter Property="LineStackingStrategy" Value="BlockLineHeight" />
+		<Setter Property="FontFamily" Value="/UI/Fonts/#GOST Type BU" />
+		<Setter Property="TextOptions.TextHintingMode" Value="Animated" />
+		<Style.Triggers>
+			<Trigger Property="IsEnabled" Value="False">
+				<Setter Property="Opacity" Value="0.55" />
+			</Trigger>
+		</Style.Triggers>
+	</Style>
+
+	<Style TargetType="{x:Type Terminus:IntenseStareType3}">
+		<Setter Property="TextOptions.TextHintingMode" Value="Animated" />
+		<Setter Property="FontFamily" Value="/UI/Fonts/#GOST Type BU" />
+
+
+		<!--#region Theme-->
+		<Setter Property="Foreground" Value="{DynamicResource Theme:UITextfields.Foreground}" />
+		<Setter Property="Background" Value="{DynamicResource Theme:UITextfields.Background}" />
+
+		<Setter Property="BorderThickness" Value="{DynamicResource Theme:UITextfields.Border.Thickness}" />
+		<Setter Property="CornerRadius" Value="{DynamicResource Theme:UITextfields.Border.CornerRadius}" />
+		<Setter Property="BorderBrush" Value="{DynamicResource Theme:UITextfields.Border}" />
+
+		<Setter Property="CaretBrush" Value="{DynamicResource Theme:UITextfields.Caret}" />
+
+		<Setter Property="SelectionBackground" Value="{DynamicResource Theme:UITextfields.Selection.Background}" />
+		<Setter Property="SelectionForeground" Value="{DynamicResource Theme:UITextfields.Selection.Foreground}" />
+
+		<Setter Property="SelectionBorderBrush" Value="{DynamicResource Theme:UITextfields.Selection.Border}" />
+		<Setter Property="SelectionBorderThickness" Value="{DynamicResource Theme:UITextfields.Selection.Border.Thickness}" />
+		<Setter Property="SelectionBorderCornerRadius" Value="{DynamicResource Theme:UITextfields.Selection.Border.CornerRadius}" />
+		<!--#endregion-->
+
+		<Setter Property="Padding" Value="2 0.2 -2 0" />
+
+
+		<Setter Property="Template">
+			<Setter.Value>
+				<ControlTemplate TargetType="{x:Type Terminus:IntenseStareType3}">
+					<ControlTemplate.Resources>
+						<!--    Minor fix to prevent left and top sides of the text selection border from disappearing    -->
+						<!--    (It extends beyond the TextArea's bounds, and disappears because ClipToBounds is set to True by default in the ICSharpCode.AvalonEdit.Rendering.TextView() static constructor)    -->
+						<!--    (Margin also neccessary for this)    -->
+						<Style TargetType="{x:Type AvalonEditRendering:TextView}">
+							<Setter Property="Margin" Value="2 1.8 2 2" />
+							<Setter Property="ClipToBounds" Value="False" />
+						</Style>
+					</ControlTemplate.Resources>
+					<Grid>
+						<Border x:Name="MainBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
+							<Grid>
+								<Grid.ColumnDefinitions>
+									<ColumnDefinition x:Name="TextInputScroller" Width="*" />
+									<ColumnDefinition x:Name="ColorDisplayingFade" Width="0" />
+								</Grid.ColumnDefinitions>
+								<Terminus:IntenseStareType1
+									x:Name="HexColorSharpMarker"
+									Grid.ColumnSpan="2"
+									Margin="4 0 0 0"
+									HorizontalAlignment="Left"
+									VerticalAlignment="Center"
+									FontFamily="{TemplateBinding FontFamily}"
+									FontSize="{TemplateBinding FontSize}"
+									FontStretch="{TemplateBinding FontStretch}"
+									FontWeight="{TemplateBinding FontWeight}"
+									Foreground="{TemplateBinding Foreground}"
+									Text="#"
+									Visibility="Collapsed" />
+								<ScrollViewer
+									x:Name="PART_ScrollViewer"
+									Grid.ColumnSpan="2"
+									Padding="{TemplateBinding Padding}"
+									Content="{Binding TextArea, RelativeSource={RelativeSource Mode=TemplatedParent}}"
+									Focusable="False"
+									VerticalAlignment="Center"
+									CanContentScroll="True"
+									HorizontalScrollBarVisibility="Hidden"
+									VerticalScrollBarVisibility="Disabled" />
+								<InternalStyle:ClippingBorder x:Name="HexColorVisualMarker" Grid.Column="1" Background="{Binding Document.Text, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TextToSolidColorBrushConverter}}" CornerRadius="{TemplateBinding CornerRadius}" Visibility="Collapsed">
+									<InternalStyle:ClippingBorder.OpacityMask>
+										<LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
+											<GradientStop Offset="1" Color="#ffffff" />
+											<GradientStop Offset="0.88" Color="#ffffff" />
+											<GradientStop Offset="0.1" Color="#11000000" />
+											<GradientStop Offset="0" Color="#00000000" />
+										</LinearGradientBrush>
+									</InternalStyle:ClippingBorder.OpacityMask>
+								</InternalStyle:ClippingBorder>
+							</Grid>
+						</Border>
+						<Border
+							x:Name="DisabledStateCovering"
+							Background="{DynamicResource Theme:ElongatedButtons.DisabledButtonsShadowing}"
+							BorderBrush="{DynamicResource Theme:ElongatedButtons.DisabledButtonsShadowing}"
+							BorderThickness="{TemplateBinding BorderThickness}"
+							CornerRadius="{TemplateBinding CornerRadius}"
+							Visibility="Collapsed" />
+					</Grid>
+					<ControlTemplate.Triggers>
+						<Trigger Property="WordWrap" Value="True">
+							<Setter TargetName="PART_ScrollViewer" Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
+						</Trigger>
+						<Trigger Property="DisplayInputColor" Value="True">
+							<Setter Property="TextMaxLength" Value="6" />
+							<Setter Property="Terminus:Assistant.PreviewInputRegexHandling" Value="^[a-fA-F0-9]+$" />
+							<Setter TargetName="HexColorSharpMarker" Property="Visibility" Value="Visible" />
+							<Setter TargetName="HexColorVisualMarker" Property="Visibility" Value="Visible" />
+							<Setter TargetName="PART_ScrollViewer" Property="Margin" Value="4 0 0 0" />
+							<Setter TargetName="PART_ScrollViewer" Property="RenderTransform">
+								<Setter.Value>
+									<TranslateTransform X="{Binding ElementName=HexColorSharpMarker, Path=ActualWidth}" />
+								</Setter.Value>
+							</Setter>
+							<Setter TargetName="ColorDisplayingFade" Property="Width" Value="0.7*" />
+						</Trigger>
+						<Trigger Property="IsEnabled" Value="False">
+							<Setter TargetName="DisabledStateCovering" Property="Visibility" Value="Visible" />
+						</Trigger>
+					</ControlTemplate.Triggers>
+				</ControlTemplate>
+			</Setter.Value>
+		</Setter>
+	</Style>
+</ResourceDictionary>

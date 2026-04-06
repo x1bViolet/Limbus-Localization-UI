@@ -1,0 +1,60 @@
+﻿<UserControl
+	x:Class="LCLocalizationInterface.LimbusRegistry.PreviewCreator.PassiveView"
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:Blend="http://schemas.microsoft.com/expression/blend/2008"
+	xmlns:Limbus="clr-namespace:LCLocalizationInterface.LimbusRegistry"
+	xmlns:MarkupCompatibility="http://schemas.openxmlformats.org/markup-compatibility/2006"
+	x:Name="Root"
+	Margin="21.39 30 0 0"
+	HorizontalAlignment="Left"
+	VerticalAlignment="Top"
+	MarkupCompatibility:Ignorable="Blend">
+
+	<UserControl.Resources>
+		<ResourceDictionary>
+			<ResourceDictionary.MergedDictionaries>
+				<!--    Its not inherinted from main app's ※ Entanglement Dictionary.xaml!!!!!!!!!!!!!    -->
+				<ResourceDictionary Source="/Internal/Resource Dictionaries/IValueConverters.xaml" />
+			</ResourceDictionary.MergedDictionaries>
+		</ResourceDictionary>
+	</UserControl.Resources>
+
+	<StackPanel>
+
+		<Limbus:NameLineElement x:Name="NameLine" Margin="-1 0 0 0" DisplayedName="{Binding ElementName=Root, Path=PassiveName}" FillColorRightOffsetReduction="32" NameMaximumWidth="{Binding ElementName=Root, Path=PassiveName_MaxWidth}">
+			<Limbus:NameLineElement.LayoutTransform>
+				<ScaleTransform ScaleX="0.67" ScaleY="0.67" />
+			</Limbus:NameLineElement.LayoutTransform>
+		</Limbus:NameLineElement>
+
+		<Border Height="{Binding ElementName=NameLine, Path=ActualHeight}" Margin="{Binding ElementName=NameLine, Path=ActualHeight, Converter={StaticResource DoubleToNegativeTopMarginConverter}}" />
+
+		<Limbus:TMProEmitter
+			MaxWidth="{Binding ElementName=Root, Path=PassiveDesc_MaxWidth}"
+			Margin="-1 3.4 0 0"
+			HorizontalAlignment="Left"
+			Limbus:AcceptsRichTextDelay="False"
+			Limbus:DisableKeyworLinksCreation="True"
+			Limbus:FontType="Context"
+			Limbus:RichText="{Binding ElementName=Root, Path=PassiveDesc}"
+			Limbus:TextProcessingMode="Passives"
+			FontSize="11"
+			LineHeight="13.7" />
+
+		<Limbus:TMProEmitter
+			MaxWidth="{Binding ElementName=Root, Path=PassiveDesc_MaxWidth}"
+			Margin="-1 10 0 0"
+			HorizontalAlignment="Left"
+			Limbus:AcceptsRichTextDelay="False"
+			Limbus:DisableKeyworLinksCreation="True"
+			Limbus:FontType="Context"
+			Limbus:RichText="{Binding ElementName=Root, Path=PassiveFlavor}"
+			Limbus:TextProcessingMode="None"
+			FontSize="8.5"
+			FontStyle="Italic"
+			Foreground="#8a592f"
+			LineHeight="11.7" />
+
+	</StackPanel>
+</UserControl>
