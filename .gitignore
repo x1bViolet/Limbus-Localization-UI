@@ -1,0 +1,23 @@
+.vs
+obj
+
+bin/Release
+
+# NuGets
+bin/Debug/net8.0-windows/**/*.dll
+
+# `LC Localization Interface.exe` & `LC Localization Interface.runtimeconfig.json`
+bin/Debug/net8.0-windows/LC Localization Interface.*
+
+LC Localization Interface.csproj.user
+Properties/PublishProfiles/FolderProfile.pubxml.user
+
+bin/Debug/net8.0-windows/\[⇲\] Assets Directory/Limbus Images/Keywords/**/*.png
+bin/Debug/net8.0-windows/\[⇲\] Assets Directory/Limbus Images/Keywords/**/*.jpg
+bin/Debug/net8.0-windows/\[⇲\] Assets Directory/Limbus Images/Keywords/**/*.jpeg
+
+bin/Debug/net8.0-windows/\[⇲\] Assets Directory/Limbus Images/E.G.O Gifts/**/*.png
+bin/Debug/net8.0-windows/\[⇲\] Assets Directory/Limbus Images/E.G.O Gifts/**/*.jpg
+bin/Debug/net8.0-windows/\[⇲\] Assets Directory/Limbus Images/E.G.O Gifts/**/*.jpeg
+
+bin/Debug/net8.0-windows/\[⇲\] Assets Directory/Limbus Images/Skills/**/*.json
