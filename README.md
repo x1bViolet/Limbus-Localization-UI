@@ -5,17 +5,21 @@
 ### Documentation: [GitBook](https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface)
 
 ### Able to edit:
-- `Bufs*.json` and `BattleKeywords*.json`
 - `Skills*.json`
 - `Passives*.json`
 - `EGOgift*.json`
+- `Bufs*.json` and `BattleKeywords*.json`
 - `AbnormalityGuides*.json`
 - *Custom Identity/E.G.O Preview creation
 
 ### Gallery
-<img alt="1" src="https://github.com/user-attachments/assets/36350c9f-b825-4976-b200-83a36fc4245c" />
-<img alt="2" src="https://github.com/user-attachments/assets/bb86d2a3-417a-44ab-8293-4b764641a9ad" />
-<img alt="3" src="https://github.com/user-attachments/assets/0e15c4eb-bf4c-4615-910b-4639f1c30f87" />
-<img alt="4" src="https://github.com/user-attachments/assets/28834507-6957-4fb7-989a-7b0a4402b671" />
-<img alt="5" src="https://github.com/user-attachments/assets/28b1cd52-4761-475b-ad34-8406cdefc7fa" />
-<img alt="6" src="https://github.com/user-attachments/assets/a62147a9-11f0-4e2f-8062-ca779a68ea1a" />
+<img alt="Skills" src="https://github.com/user-attachments/assets/398d8def-c7fe-4ddc-aa3e-28783e6a7080" />
+<img alt="Passives" src="https://github.com/user-attachments/assets/92624257-60b3-4176-bd26-4ddf1ff54ac7" />
+<img alt="E G O Gifts" src="https://github.com/user-attachments/assets/870eba94-9630-4e50-b45e-ff798434deca" />
+<img alt="Keywords (Bufs)" src="https://github.com/user-attachments/assets/739d85ba-8323-463d-b643-a733d5437c4b" />
+<img alt="Keywords (BattleKeywords)" src="https://github.com/user-attachments/assets/2f0f93b3-d5bf-4a32-afc6-0a22cf672f62" />
+<img alt="Observation Logs" src="https://github.com/user-attachments/assets/2d00a51b-0c5e-4409-9aef-2242159235b9" />
+
+---
+
+<img alt="Preview Creator" src="https://github.com/user-attachments/assets/54257943-4a51-4c73-893c-d74cb837751f" />
