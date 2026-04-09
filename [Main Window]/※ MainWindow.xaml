@@ -1520,6 +1520,7 @@
 														<Terminus:IntenseStareType1 x:Name="ProgramVersionTitle" Margin="5" FontSize="28" RichText="Version" UID="[Main UI] * Version title" />
 														<Terminus:IntenseStareType1 Margin="5" RichText="※" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
 														<Terminus:IntenseStareType1 Margin="5" RichText="{Binding DataContextDomain.ProgramVersion, Mode=OneTime}" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
+														<Terminus:IntenseStareType1 Visibility="Visible" RichText="{Binding DataContextDomain.VersionPrefix, Mode=OneTime}" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
 													</StackPanel>
 												</StackPanel>
 											</Grid>

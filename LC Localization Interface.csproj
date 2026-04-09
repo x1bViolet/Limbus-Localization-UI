@@ -11,13 +11,14 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>preview</LangVersion>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <FileVersion>1.4.0.0</FileVersion>
+    <FileVersion>1.4.0.999</FileVersion>
     <SignAssembly>False</SignAssembly>
     <RepositoryUrl>https://github.com/x1bViolet/Limbus-Localization-UI</RepositoryUrl>
     <Version>1.4.0</Version>
     <Authors>x1bViolet</Authors>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
+    <AssemblyVersion></AssemblyVersion>
   </PropertyGroup>
 
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|AnyCPU'">
