@@ -8,10 +8,10 @@ namespace LCLocalizationInterface.LimbusRegistry.AssetsDirectoryLoaders
         /// The structure of the E.G.O Gifts folder is different from the Keywords/Skill icons<br/>
         /// <c>[⇲] Assets Directory\Limbus Images\E.G.O Gifts\E.G.O Gifts Display Info.json</c> is responsible for ids
         /// </summary>
-        public static ReadOnlyDictionary<BigInteger, EGOGiftsDisplayInfoFile.EGOGiftDetails> LoadedEGOGiftsDisplayInfo { get; private set; } =
-            ReadOnlyDictionary<BigInteger, EGOGiftsDisplayInfoFile.EGOGiftDetails>.Empty;
+        public static ReadOnlyDictionary<BigInteger, EGOGiftsDisplayInfoFile.EGOGiftDetails> LoadedEGOGiftsDisplayInfo { get; private set; }
+            = ReadOnlyDictionary<BigInteger, EGOGiftsDisplayInfoFile.EGOGiftDetails>.Empty;
 
-        public static FileEventsNotifier EGOGiftsInfoWatcher { get; } = new(@"[⇲] Assets Directory\Limbus Images\E.G.O Gifts", ["*.png", "*.json"])
+        private static FileEventsNotifier EGOGiftsInfoWatcher { get; } = new(@"[⇲] Assets Directory\Limbus Images\E.G.O Gifts", ["*.png", "*.json"])
         {
             GeneralHandler = (_, _, _) => ReadEGOGiftsDisplayInfo()
         };

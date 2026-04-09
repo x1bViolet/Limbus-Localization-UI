@@ -6,7 +6,7 @@ namespace LCLocalizationInterface
     {
         public static class ContextMenuHotkeys
         {
-            public static FileEventsNotifier HotkeysFileWatcher { get; } = new(TargetFile: @"[⇲] Assets Directory\Context Menu Hotkeys.json")
+            private static FileEventsNotifier HotkeysFileWatcher { get; } = new(TargetFile: @"[⇲] Assets Directory\Context Menu Hotkeys.json")
             {
                 GeneralHandler = (_, _, _) => ContextMenuHotkeys.ReadFile()
             };

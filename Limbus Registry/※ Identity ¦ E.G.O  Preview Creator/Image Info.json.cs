@@ -6,13 +6,6 @@ using static LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreato
 
 namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 {
-    
-
-
-
-
-
-
     public partial class PreviewCreatorPage : Page
     {
         #region Save/Load image info

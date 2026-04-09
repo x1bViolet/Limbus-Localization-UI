@@ -31,7 +31,7 @@ namespace LCLocalizationInterface.LimbusRegistry.JsonTypes
         }
 
 
-        public static FileEventsNotifier SkillsDataWatcher { get; } = new(@"[⇲] Assets Directory\Limbus Images\Skills\Skills Data", "*.json")
+        private static FileEventsNotifier SkillsDataWatcher { get; } = new(@"[⇲] Assets Directory\Limbus Images\Skills\Skills Data", "*.json")
         {
             GeneralHandler = (_, _, _) =>
             {

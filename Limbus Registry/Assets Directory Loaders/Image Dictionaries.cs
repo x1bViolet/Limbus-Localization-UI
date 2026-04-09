@@ -158,7 +158,7 @@ namespace LCLocalizationInterface.LimbusRegistry.AssetsDirectoryLoaders
 
         public static ReadOnlyDictionary<string, string> NotSuitableForSpriteTagRedirections { get; private set; } = ReadOnlyDictionary<string, string>.Empty;
 
-        public static FileEventsNotifier NotSuitableForSpriteTagRedirectionsWatcher { get; } = new(@"[⇲] Assets Directory\Limbus Images\Keywords (Not suitable for Sprite tag)", "*.json")
+        private static FileEventsNotifier NotSuitableForSpriteTagRedirectionsWatcher { get; } = new(@"[⇲] Assets Directory\Limbus Images\Keywords (Not suitable for Sprite tag)", "*.json")
         {
             GeneralHandler = (_, _, _) => ReadKeywordIconsRedirectionJsonFiles()
         };

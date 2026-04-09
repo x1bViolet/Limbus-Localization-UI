@@ -71,7 +71,7 @@ namespace LCLocalizationInterface.Internal
                         @EditorModesShelf.CurrentEditorMode.ChangeRightMenuUnsavedChangesMarkers_OnSelectedDesc(MainWindowInstance.LimbusJsonTextEditor.Document);
                         @EditorModesShelf.CurrentEditorMode.ChangeAllRightMenuUnsavedChangesMarkers_OnStringInputs();
 
-                        Languages.ReModifyTextElementsWithThemeKeysApplied();
+                        @Languages.ReModifyTextElementsWithThemeKeysApplied();
 
                         MainWindowInstance.SizeChanged_CheckThemeBackgroundImageVisibility(null!, null!);
                     }

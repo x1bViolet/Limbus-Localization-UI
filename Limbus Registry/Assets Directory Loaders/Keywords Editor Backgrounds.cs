@@ -4,7 +4,7 @@ namespace LCLocalizationInterface.LimbusRegistry.AssetsDirectoryLoaders
 {
     public static class KeywordsEditorBackgrounds
     {
-        public static FileEventsNotifier BackgroundsImagesWatcher { get; } = new(TargetDirectory: @"[⇲] Assets Directory\Limbus Images\UI\Keywords Editor", FileFilters: ["BattleKeywords Background.png", "Bufs Background.png"])
+        private static FileEventsNotifier BackgroundsImagesWatcher { get; } = new(TargetDirectory: @"[⇲] Assets Directory\Limbus Images\UI\Keywords Editor", FileFilters: ["BattleKeywords Background.png", "Bufs Background.png"])
         {
             EventsRaisingDelay = 250,
             GeneralHandler = (_, _, _) => KeywordsEditorBackgrounds.ReadAndSetImages()
