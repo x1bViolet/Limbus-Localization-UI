@@ -386,14 +386,14 @@ namespace LCLocalizationInterface.Internal.Configuration
         
         private void TompostWindow_CheckedUnchecked(object Sender, RoutedEventArgs Args)
         {
-            if (!@CurrentPreviewCreator.ActiveState)
+            if (@CurrentPreviewCreator.ActiveState == false)
             {
                 MainWindowInstance.Topmost = (bool)(Sender as CheckBox)!.IsChecked!;
 
                 if (MainWindowInstance.WindowState is not WindowState.Minimized & @CurrentPreviewCreator.ActiveState == false)
                 {
-                    WindowState = WindowState.Minimized;
-                    WindowState = WindowState.Normal;
+                    SettingsWindowInstance.WindowState = WindowState.Minimized;
+                    SettingsWindowInstance.WindowState = WindowState.Normal;
                 }
             }
         }

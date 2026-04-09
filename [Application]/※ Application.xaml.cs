@@ -104,7 +104,15 @@ namespace LCLocalizationInterface
                     /**/SplashScreenWindow.ProgressSubObject = "";
                     /**/SplashScreenWindow.ProgressObject = @Languages.VariableData.ReadedStartupSteps.MainStages.Final;
                 }
-                MainWindowInstance.AdditionalFadeInCompleteActions.Add(SplashScreenWindow.Discard);
+
+                // SplashScreenWindow.Discard() execution with Topmost="False" for main window somehow moves it to the very back of windows z-order
+                MainWindowInstance.Topmost = true;
+                MainWindowInstance.AdditionalFadeInCompleteActions.Add(delegate ()
+                {
+                    SplashScreenWindow.Discard();
+                    MainWindowInstance.Topmost = LoadedConfiguration.Internal.IsAlwaysOnTop;
+                });
+
                 MainWindowInstance.BeginFadeShowing();
             }
             else
