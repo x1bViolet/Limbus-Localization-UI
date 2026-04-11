@@ -5,7 +5,7 @@
     "IndexPrescriptRien_2",
     "IndexPrescriptRien_3"
   ],
-  "KarmaOfIndexRien": ["KarmaOfIndexStudent"],
+  "KarmaOfIndexStudent": ["KarmaOfIndexRien"],
   "UnlockBuff_1": ["UnlockBuff_Rien1"],
   "UnlockBuff_2": ["UnlockBuff_Rien2"],
   "UnlockBuff_3": ["UnlockBuff_Rien3"],
