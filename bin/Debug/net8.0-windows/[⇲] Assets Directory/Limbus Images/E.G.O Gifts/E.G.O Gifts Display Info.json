@@ -2796,6 +2796,35 @@
     },
 
     {
+      "ID": 9256,
+      "Image": "Season 7/Mirror of Names and Spiders/Hidden Bosses/Imperfect Eye of Precognition",
+      "Affinity": "Lust",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9257,
+      "Image": "Season 7/Mirror of Names and Spiders/Hidden Bosses/The Abandoned Oracle",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "4"
+    },
+    {
+      "ID": 9258,
+      "Image": "Season 7/Mirror of Names and Spiders/Hidden Bosses/The Book of Vengeanceː Annex",
+      "Affinity": "Envy",
+      "Keyword": "Blunt",
+      "Tier": "4"
+    },
+    {
+      "ID": 9259,
+      "Image": "Season 7/Mirror of Names and Spiders/Hidden Bosses/A Maestro's Ring-Turned-Artwork",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+
+    {
       "ID": 9233,
       "Image": "Staticky Two-way Radio",
       "Affinity": "Gloom",
