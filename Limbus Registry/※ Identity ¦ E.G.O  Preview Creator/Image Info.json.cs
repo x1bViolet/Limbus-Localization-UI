@@ -482,7 +482,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                     public double LeftTopBottom { get; set; } = 40.0;
 
                     [JsonProperty("Right (Text background)")]
-                    public double Right { get; set; } = 255.0;
+                    public double Right { get; set; } = 140.0;
 
                     /* ------------------------------- */ public Double __Separator1__ { get; set; }
 
