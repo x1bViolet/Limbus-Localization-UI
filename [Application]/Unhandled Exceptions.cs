@@ -29,20 +29,20 @@ namespace LCLocalizationInterface
             AppDomain.CurrentDomain.UnhandledException += delegate (object Sender, UnhandledExceptionEventArgs Args)
             {
                 SplashScreenWindow.DiscardIfNotStarted();
-                LogUnhandledException((Exception)Args.ExceptionObject, "UnhandledException :: ");
+                LogUnhandledException((Exception)Args.ExceptionObject, $"{nameof(AppDomain.CurrentDomain.UnhandledException)} :: ");
             };
 
             DispatcherUnhandledException += delegate (object Sender, DispatcherUnhandledExceptionEventArgs Args)
             {
                 SplashScreenWindow.DiscardIfNotStarted();
-                LogUnhandledException(Args.Exception, "DispatcherUnhandledException :: ");
+                LogUnhandledException(Args.Exception, $"{nameof(Application.DispatcherUnhandledException)} :: ");
                 Args.Handled = true;
             };
 
             TaskScheduler.UnobservedTaskException += delegate (object? Sender, UnobservedTaskExceptionEventArgs Args)
             {
                 SplashScreenWindow.DiscardIfNotStarted();
-                LogUnhandledException(Args.Exception, "UnobservedTaskException :: ");
+                LogUnhandledException(Args.Exception, $"{nameof(TaskScheduler.UnobservedTaskException)} :: ");
                 Args.SetObserved();
             };
         }
