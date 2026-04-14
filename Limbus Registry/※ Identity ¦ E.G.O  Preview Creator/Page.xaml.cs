@@ -261,6 +261,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             ReEnumerateColumnItemsJsonData();
 
             // Sealed view memory clean on element removal .. idk how
+            if (TargetElement.RelatedJsonData.Type is not ColumnTextElementType.Keyword)
             {
                 ReSealAllTextElementsInColumn(ParentColumn);
 
