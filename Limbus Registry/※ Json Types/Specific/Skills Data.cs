@@ -8,22 +8,29 @@
         public static void ReadSkillsDataFiles()
         {
             Dictionary<BigInteger, SkillsDataFileJson.SkillDataItem> ReadedThere = [];
-            if (Directory.Exists(@"[⇲] Assets Directory\Limbus Images\Skills\Skills Data"))
+            try
             {
-                foreach (FileInfo SkillsDataFileInfo in new DirectoryInfo(@"[⇲] Assets Directory\Limbus Images\Skills\Skills Data").GetFiles("*.json", SearchOption.AllDirectories))
+                if (Directory.Exists(@"[⇲] Assets Directory\Limbus Images\Skills\Skills Data"))
                 {
-                    if (SkillsDataFileInfo.TryDeserealizeJsonAs(out SkillsDataFileJson SkillsDataFile, out Exception Occurred))
+                    foreach (FileInfo SkillsDataFileInfo in new DirectoryInfo(@"[⇲] Assets Directory\Limbus Images\Skills\Skills Data").GetFiles("*.json", SearchOption.AllDirectories))
                     {
-                        foreach (SkillsDataFileJson.SkillDataItem SkillDataItem in SkillsDataFile.List.Where(SkillData => SkillData.ID is not null))
+                        if (SkillsDataFileInfo.TryDeserealizeJsonAs(out SkillsDataFileJson SkillsDataFile, out Exception Occurred))
                         {
-                            ReadedThere[(BigInteger)SkillDataItem.ID!] = SkillDataItem;
+                            foreach (SkillsDataFileJson.SkillDataItem SkillDataItem in SkillsDataFile.List.Where(SkillData => SkillData.ID is not null))
+                            {
+                                ReadedThere[(BigInteger)SkillDataItem.ID!] = SkillDataItem;
+                            }
+                        }
+                        else
+                        {
+                            ErrorMessageWindow.ShowException(Occurred, @$"This exception occurred while trying to read skills data file ""<b>{SkillsDataFileInfo.Name}</b>"" from ""<b>[⇲] Assets Directory\Limbus Images\Skills\Skills Data</b>""");
                         }
                     }
-                    else
-                    {
-                        ErrorMessageWindow.ShowException(Occurred, @$"This exception occurred while trying to read skills data file ""<b>{SkillsDataFileInfo.Name}</b>"" from ""<b>[⇲] Assets Directory\Limbus Images\Skills\Skills Data</b>""");
-                    }
                 }
+            }
+            catch (Exception Occurred)
+            {
+                ErrorMessageWindow.ShowException(Occurred, @$"This exception occurred while trying to read skills data files from <b>""[⇲] Assets Directory\Limbus Images\Skills\Skills Data""</b> folder");
             }
             @SkillsData.ReadedSkillsData = new(ReadedThere);
         }
