@@ -1,6 +1,4 @@
-﻿using LCLocalizationInterface.Instruments.Classes;
-
-namespace LCLocalizationInterface.LimbusRegistry.JsonTypes
+﻿namespace LCLocalizationInterface.LimbusRegistry.JsonTypes
 {
     public ref struct @SkillsData
     {

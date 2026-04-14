@@ -27,7 +27,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                 string TextToPaste = (string)Args.DataObject.GetData(DataFormats.UnicodeText);
 
                 DataObject TransformedText = new();
-                string NewText = TextToPaste.Replace("\\\"", "\"").Replace("\\n", "\n").Del("\r");
+                string NewText = TextToPaste.Replace("\\\"", "\"").Replace("\\n", "\n").Cut("\r");
 
                 TransformedText.SetText(NewText, TextDataFormat.Text);
 

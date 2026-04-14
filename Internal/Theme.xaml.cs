@@ -1,5 +1,4 @@
-﻿using LCLocalizationInterface.Instruments.Classes;
-using LCLocalizationInterface.Internal.Configuration;
+﻿using LCLocalizationInterface.Internal.Configuration;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
 
 namespace LCLocalizationInterface

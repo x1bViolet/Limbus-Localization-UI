@@ -3,9 +3,10 @@ global using static LCLocalizationInterface.MainWindow;
 
 global using static LCLocalizationInterface.LimbusRegistry.Generic;
 
-global using static LCLocalizationInterface.Instruments.CSharp;
-global using static LCLocalizationInterface.Instruments.WPFTools;
-global using static LCLocalizationInterface.Instruments.Json;
+global using RijnadelClassLibrary; // FileEventsNotifier
+global using static RijnadelClassLibrary.Json;
+global using static RijnadelClassLibrary.CSharp;
+global using static RijnadelClassLibrary.WPFTools;
 
 global using LCLocalizationInterface.Internal;
 global using LCLocalizationInterface.Internal.Terminus;

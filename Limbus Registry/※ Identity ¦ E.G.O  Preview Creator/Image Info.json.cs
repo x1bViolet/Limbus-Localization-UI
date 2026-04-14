@@ -1,5 +1,4 @@
-﻿using LCLocalizationInterface.Instruments;
-using LCLocalizationInterface.LimbusRegistry.JsonTypes;
+﻿using LCLocalizationInterface.LimbusRegistry.JsonTypes;
 using LCLocalizationInterface.LimbusRegistry.JsonTypes.Specific;
 using static LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreatorPage.AssignedComboBoxAttribute;
 using static LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreatorPage.ImageInfoJsonFile.TextColumns_PROP;

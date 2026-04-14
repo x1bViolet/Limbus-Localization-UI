@@ -3,7 +3,7 @@ using LCLocalizationInterface.Internal.UIStyle;
 using LCLocalizationInterface.LimbusRegistry.JsonTypes;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
 using System.Diagnostics.CodeAnalysis;
-using static LCLocalizationInterface.SyntaxedTextEditorBase;
+using static RijnadelClassLibrary.SyntaxedTextEditorBase;
 
 namespace LCLocalizationInterface.Internal.Configuration
 {

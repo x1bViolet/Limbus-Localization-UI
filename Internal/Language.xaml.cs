@@ -1,6 +1,4 @@
 ﻿using ICSharpCode.AvalonEdit.Editing;
-using LCLocalizationInterface.Instruments;
-using LCLocalizationInterface.Instruments.Classes;
 using System.Diagnostics.CodeAnalysis;
 using static LCLocalizationInterface.Internal.@Languages;
 using static LCLocalizationInterface.Internal.@Languages.JsonClasses.UIModifyingParameters;
@@ -333,7 +331,7 @@ namespace LCLocalizationInterface.Internal
                     string TextToPaste = (string)Args.DataObject.GetData(DataFormats.UnicodeText);
 
                     DataObject TransformedText = new();
-                    TransformedText.SetText(TextToPaste.Replace("\\\"", "\"").Replace("\n", "\\n").Del("\r"), TextDataFormat.UnicodeText);
+                    TransformedText.SetText(TextToPaste.Replace("\\\"", "\"").Replace("\n", "\\n").Cut("\r"), TextDataFormat.UnicodeText);
 
                     Args.DataObject = TransformedText;
                 }));

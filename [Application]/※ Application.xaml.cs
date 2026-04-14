@@ -30,6 +30,10 @@ namespace LCLocalizationInterface
             {
                 SetupExceptionsHandling();
                 ErrorMessageWindow.ErrorMessageWindowInstance = new();
+                RijnadelClassLibrary.FileEventsNotifier.ExceptionsHandler += delegate (Exception OccurredException, string Context)
+                {
+                    ErrorMessageWindow.ShowException(OccurredException, Context, $"{nameof(FileEventsNotifier)} :: ");
+                };
 
                 // Sync window will freeze until last phrase during further operations
                 SplashScreenWindow.SplashScreenWindowInstance = await CreateAnotherThreadWindow<SplashScreenWindow>();

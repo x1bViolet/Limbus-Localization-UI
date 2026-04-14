@@ -1,5 +1,4 @@
 ﻿using ICSharpCode.AvalonEdit.Document;
-using LCLocalizationInterface.Instruments.Classes;
 using static LCLocalizationInterface.LimbusRegistry.InputRichTextFormatter;
 
 namespace LCLocalizationInterface.LimbusRegistry.JsonTypes

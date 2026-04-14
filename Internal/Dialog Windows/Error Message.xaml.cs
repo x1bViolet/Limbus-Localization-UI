@@ -1,5 +1,4 @@
-﻿using LCLocalizationInterface.Instruments.Classes;
-using LCLocalizationInterface.Internal.Abstractions;
+﻿using LCLocalizationInterface.Internal.Abstractions;
 
 namespace LCLocalizationInterface.Internal
 {
@@ -74,7 +73,7 @@ namespace LCLocalizationInterface.Internal
                 string Output = string.Join("\n", Sorted);
                 Output = Regex.Replace(Output, @$"   at (?<ExceptionPoint>.*?) in {Regex.Escape(GetCSProjectPath())}(?<FilePath>.*?):line (?<LineNumber>\d+)", Match =>
                 {
-                    return $"at *<u>/{Match.Groups["FilePath"].Value.Replace("\\", "/")}</u> <b>(Line №{Match.Groups["LineNumber"].Value})</b>:\n   {Match.Groups["ExceptionPoint"].Value.Del($"{nameof(LCLocalizationInterface)}.")}";
+                    return $"at *<u>/{Match.Groups["FilePath"].Value.Replace("\\", "/")}</u> <b>(Line №{Match.Groups["LineNumber"].Value})</b>:\n   {Match.Groups["ExceptionPoint"].Value.Cut($"{nameof(LCLocalizationInterface)}.")}";
                 });
                 return Output;
             }

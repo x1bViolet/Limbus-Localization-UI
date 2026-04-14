@@ -453,7 +453,7 @@ namespace LCLocalizationInterface.Internal
                 private void OnDeserialized(StreamingContext Context)
                 {
                     AssertScaleFactor();
-                    BackgroundColor = BackgroundColor.Del("#");
+                    BackgroundColor = BackgroundColor.Cut("#");
                 }
             }
         }

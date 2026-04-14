@@ -147,11 +147,11 @@ namespace LCLocalizationInterface.LimbusRegistry
                     catch { }
 
                         
-                    Instruments.Classes.Kaestarlyn.Actions.Apply(
+                    Kaestarlyn.Actions.Apply(
                         Target: this,
                         RichText: FormattedLimbusRichText,
-                        DividersMode: Instruments.Classes.Kaestarlyn.@PostInfo.FullStopDividers.FullStopDividers_TMPro,
-                        IgnoreTags: Instruments.Classes.Kaestarlyn.@PostInfo.IgnoreTags_UnityTMProExclude,
+                        DividersMode: Kaestarlyn.@PostInfo.FullStopDividers.FullStopDividers_TMPro,
+                        IgnoreTags: Kaestarlyn.@PostInfo.IgnoreTags_UnityTMProExclude,
                         DisableKeyworLinksCreation: this.DisableKeyworLinksCreation
                     );
                     

@@ -1,6 +1,4 @@
-﻿using LCLocalizationInterface.Instruments.Classes;
-
-namespace LCLocalizationInterface
+﻿namespace LCLocalizationInterface
 {
     public partial class MainWindow
     {

@@ -1,5 +1,4 @@
-﻿using LCLocalizationInterface.Instruments.Classes;
-using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
+﻿using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
 
 namespace LCLocalizationInterface.LimbusRegistry
 {

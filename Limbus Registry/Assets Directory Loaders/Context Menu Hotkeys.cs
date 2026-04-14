@@ -1,6 +1,4 @@
-﻿using LCLocalizationInterface.Instruments.Classes;
-
-namespace LCLocalizationInterface
+﻿namespace LCLocalizationInterface
 {
     namespace LimbusRegistry.AssetsDirectoryLoaders
     {

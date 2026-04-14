@@ -1,7 +1,7 @@
 ﻿using ICSharpCode.AvalonEdit.Highlighting;
 using LCLocalizationInterface.Internal.Abstractions;
 using static LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreatorPage;
-using static LCLocalizationInterface.SyntaxedTextEditorBase;
+using static RijnadelClassLibrary.SyntaxedTextEditorBase;
 
 namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 {

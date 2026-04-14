@@ -1,6 +1,5 @@
 ﻿using ICSharpCode.AvalonEdit.Document;
 using LCLocalizationInterface.LimbusRegistry.JsonTypes;
-using LCLocalizationInterface.Instruments.Classes;
 using static LCLocalizationInterface.LimbusRegistry.@EditorModesShelf.Types;
 
 namespace LCLocalizationInterface.LimbusRegistry
