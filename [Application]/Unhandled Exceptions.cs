@@ -29,7 +29,7 @@ namespace LCLocalizationInterface
             AppDomain.CurrentDomain.UnhandledException += delegate (object Sender, UnhandledExceptionEventArgs Args)
             {
                 SplashScreenWindow.DiscardIfNotStarted();
-                LogUnhandledException((Exception)Args.ExceptionObject, "AppDomain.CurrentDomain.UnhandledException :: ");
+                LogUnhandledException((Exception)Args.ExceptionObject, "UnhandledException :: ");
             };
 
             DispatcherUnhandledException += delegate (object Sender, DispatcherUnhandledExceptionEventArgs Args)
@@ -42,13 +42,17 @@ namespace LCLocalizationInterface
             TaskScheduler.UnobservedTaskException += delegate (object? Sender, UnobservedTaskExceptionEventArgs Args)
             {
                 SplashScreenWindow.DiscardIfNotStarted();
-                LogUnhandledException(Args.Exception, "TaskScheduler.UnobservedTaskException :: ");
+                LogUnhandledException(Args.Exception, "UnobservedTaskException :: ");
                 Args.SetObserved();
             };
         }
 
 
-        private void LogUnhandledException(Exception Exception, string HandlingSource) => ErrorMessageWindow.ShowException(Exception, HandlingSource: HandlingSource);
+        private void LogUnhandledException(Exception Exception, string HandlingSource)
+        {
+            ErrorMessageWindow.ShowException(Exception, HandlingSource: HandlingSource);
+            if (ProgramFullyLoaded == false) Application.Current.Shutdown();
+        }
 
 
         public const string ExceptionsWindowTestObsolete = "This is an Exceptions Info window test";
