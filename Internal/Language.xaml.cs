@@ -2,6 +2,7 @@
 using System.Diagnostics.CodeAnalysis;
 using static LCLocalizationInterface.Internal.@Languages;
 using static LCLocalizationInterface.Internal.@Languages.JsonClasses.UIModifyingParameters;
+using static LCLocalizationInterface.TextMeshLarp;
 
 namespace LCLocalizationInterface.Internal
 {
@@ -91,12 +92,12 @@ namespace LCLocalizationInterface.Internal
             public string DesiredTextPropertyName => this.UID.Contains("[!]") ? nameof(Text) : nameof(RichText);
 
             /// <summary>
-            /// Gets/sets value of <see cref="IntenseStareType1.RichText"/> or regular <see cref="TextBlock.Text"/> properties based on presence of "<c>[!]</c>" symbol in <see cref="UID"/>, which should indicate that rich text is not available for this element
+            /// Gets/sets value of <see cref="IntenseStareType1.RichText"/> or regular <see cref="TextBlock.Text"/> properties based on presence of "<c>[!]</c>" symbol in <see cref="UID"/>, which should indicate that rich text is not available for this text element
             /// </summary>
             public string? DesiredTextPropertyValue
             {
-                get => this.GetPropertyValue<string?>(DesiredTextPropertyName);
-                set => this.SetPropertyValue<string?>(DesiredTextPropertyName, value);
+                get => this.GetPropertyValue<string?>(this.DesiredTextPropertyName);
+                set => this.SetPropertyValue<string?>(this.DesiredTextPropertyName, value);
             }
 
             public string? RichText { get => (string?)GetValue(RichTextProperty); set => SetValue(RichTextProperty, value); }
@@ -106,12 +107,8 @@ namespace LCLocalizationInterface.Internal
                 string? InputRichText = (string?)Args.NewValue;
                 IntenseStareType1 ActualSender = (IntenseStareType1)Sender;
 
-                Kaestarlyn.Actions.Apply(
-                    Target: ActualSender,
-                    RichText: InputRichText,
-                    DividersMode: Kaestarlyn.@PostInfo.FullStopDividers.FullStopDividers_Regular,
-                    IgnoreTags: Kaestarlyn.@PostInfo.IgnoreTags_Default
-                );
+                // Square brackets can be used in XAML instead of &lt; &gt;
+                TextMeshLarp.SetRichText(ActualSender, InputRichText, [new(@"\[", @"\]"), new(@"<", @">")], IgnoredTagIDs: [ImportableLimbusTags.Mark.ID, ImportableLimbusTags.ChangesHighlight.ID]); // Except some specific for limbus text preview
             }
             #endregion
 
@@ -683,8 +680,54 @@ namespace LCLocalizationInterface.Internal
             }
         }
         #endregion
-        
-        
+
+
+
+        #region Inline image TagDefinition for TextMesh Larp
+        public static readonly TagDefinition InlineImage = new(@"image source=""(?<ImageSourceExpression>.*?)""(\s+((size=(?<Size>-?\d+))|(xoffset=(?<X>-?\d+))|(yoffset=(?<Y>-?\d+))))*", null, new TagID(nameof(InlineImage)))
+        {
+            CanBeAssignedToTextSegments = false,
+            StartExpressionToInlineTransformations = [delegate (TagDefinition.TagToInlineTransformationContext Context, ref Func<DifferentiatedTagMatch, bool> AssignedTagsProjectionPredicate)
+            {
+                string ImageSourceExpression = Context.TagExpressionMatch.Groups["ImageSourceExpression"].Value;
+
+                double GetGroupValue(string GroupName, double Fallback)
+                {
+                    return double.TryParse(Context.TagExpressionMatch.Groups[GroupName].Value, out double DefinedValue) ? DefinedValue : Fallback;
+                }
+                double Size  = GetGroupValue("Size",  Context.RichTextGenerationContext.TargetTextBlock.FontSize);
+                double XOffset = GetGroupValue("X", 0);
+                double YOffset = GetGroupValue("Y", 0);
+
+                Brush ImageBackground = Context.CurrentTextSegmentWithTag.AssignedTags.TryGetValue(nameof(TagsPreset.Background), out DifferentiatedTagMatch? BackgroundTag)
+                    ? ToSolidColorBrush(BackgroundTag.ExpressionMatch.Groups["ColorValue"].Value)
+                    : Context.CurrentTextSegmentWithTag.AssignedTags.TryGetValue("Mark", out DifferentiatedTagMatch? MarkTag)
+                        ? ToSolidColorBrush(MarkTag.ExpressionMatch.Groups["ColorValue"].Value)
+                        : Brushes.Transparent;
+
+                Image CreatedImage = new Image()
+                {
+                    Source = File.Exists(ImageSourceExpression) ? BitmapFromFile(ImageSourceExpression) : ImageDictionaries.UnknownSpriteImage,
+                    Width = Size, Height = Size,
+                    RenderTransform = new TranslateTransform(XOffset, YOffset)
+                };
+                Canvas ImageContainer = new() { Children = { CreatedImage }, Width = Size };
+
+                AssignedTagsProjectionPredicate = (TagMatch) => false;
+                return new RichTextGenerationInstrumentary.Specific.PreConstructedInlineUIContainer([
+                    Context.RichTextGenerationContext.TargetTextBlock.CreateBindedCopy(PropertyExceptions: [TextBlock.BackgroundProperty]),
+                    new Grid()
+                    {
+                        Background = ImageBackground,
+                        Children =
+                        {
+                            ImageContainer
+                        }
+                    },
+                ]);
+            }]
+        };
+        #endregion
 
 
 

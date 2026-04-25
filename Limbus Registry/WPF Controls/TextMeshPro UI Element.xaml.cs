@@ -146,13 +146,11 @@ namespace LCLocalizationInterface.LimbusRegistry
                     }
                     catch { }
 
-                        
-                    Kaestarlyn.Actions.Apply(
-                        Target: this,
-                        RichText: FormattedLimbusRichText,
-                        DividersMode: Kaestarlyn.@PostInfo.FullStopDividers.FullStopDividers_TMPro,
-                        IgnoreTags: Kaestarlyn.@PostInfo.IgnoreTags_UnityTMProExclude,
-                        DisableKeyworLinksCreation: this.DisableKeyworLinksCreation
+
+                    TextMeshLarp.SetRichText(
+                        this,
+                        FormattedLimbusRichText,
+                        IgnoredTagIDs: [TextMeshLarp.TagsPreset.FontStretch.ID, TextMeshLarp.TagsPreset.Hyperlink.ID, TextMeshLarp.TagsPreset.VOffset.ID, TextMeshLarp.TagsPreset.HOffset.ID, @Languages.InlineImage.ID]
                     );
                     
                     string? PreviousRichText = CurrentRichText;

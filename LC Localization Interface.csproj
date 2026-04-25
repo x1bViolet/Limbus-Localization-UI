@@ -392,7 +392,7 @@
     <PackageReference Include="RijnadelClassLibrary.Json" Version="1.0.0" />
     <PackageReference Include="RijnadelClassLibrary.ObservableDictionary" Version="1.0.0" />
     <PackageReference Include="RijnadelClassLibrary.SyntaxedTextEditorBase" Version="1.0.1" />
-    <PackageReference Include="RijnadelClassLibrary.WPFTools" Version="1.0.2" />
+    <PackageReference Include="RijnadelClassLibrary.WPFTools" Version="1.0.3" />
   </ItemGroup>
 
   <ItemGroup>
