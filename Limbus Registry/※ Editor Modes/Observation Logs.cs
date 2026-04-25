@@ -330,9 +330,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                         ["Obs. Level 3"] = MainWindowInstance.RichTextViews__ObservationLogs_COMPOSITION_TextPanel_Level3,
                     };
 
-                    #warning Its fine if UIElement extension property 'Visible' marked as unknown (CS1061) ("Preview" C# language version, whatever)
-                    /// <see cref="Instruments.WPFTools.set_Visible(UIElement, bool)"/>
-                    
+                    #warning Its fine if UIElement extension property 'Visible' marked as unknown (CS1061) ("Preview" C# language version, whatever)                    
                     MainWindowInstance.RichTextViews__ObservationLogs_COMPOSITION_SeparatorBetweenLackingDataAnd1.Visible =
                         TextViews["Lacking Data"].Visible & (TextViews["Obs. Level 1"].Visible | TextViews["Obs. Level 2"].Visible | TextViews["Obs. Level 3"].Visible);
 

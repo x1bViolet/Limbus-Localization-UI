@@ -16,6 +16,7 @@ dotnet_diagnostic.CS0162.severity = none
 dotnet_diagnostic.CA1823.severity = none
 dotnet_diagnostic.CA1041.severity = none
 dotnet_diagnostic.IDE0052.severity = none
+dotnet_diagnostic.IDE0090.severity = none
 
 # CA2211: Поля, не являющиеся константами, не должны быть видимыми
 dotnet_diagnostic.CA2211.severity = none

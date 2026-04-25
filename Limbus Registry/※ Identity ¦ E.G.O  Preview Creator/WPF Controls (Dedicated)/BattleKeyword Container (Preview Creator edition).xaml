@@ -21,6 +21,7 @@
 				</Grid.ColumnDefinitions>
 				<Image Height="27" VerticalAlignment="Top" Source="{Binding ElementName=Root, Path=KeywordIcon}" />
 				<Limbus:TMProEmitter
+					x:Uid="Keyword name"
 					Grid.Column="1"
 					MaxWidth="{Binding ElementName=Root, Path=KeywordName_MaxWidth}"
 					Margin="3 0 8 0"
@@ -38,6 +39,7 @@
 			<!--    Main and Flavor descs    -->
 			<StackPanel Margin="4.5 0 3.5 3.5">
 				<Limbus:TMProEmitter
+					x:Uid="Main description"
 					Limbus:AcceptsRichTextDelay="False"
 					Limbus:FontType="Context"
 					Limbus:RichText="{Binding ElementName=Root, Path=KeywordDesc}"
@@ -46,7 +48,7 @@
 					FontSize="11"
 					LineHeight="13.7" />
 				<Limbus:TMProEmitter
-					x:Uid="Flavor desc of tooltip"
+					x:Uid="Flavor description"
 					Margin="0 10 0 0"
 					Limbus:AcceptsRichTextDelay="False"
 					Limbus:FontType="Context"

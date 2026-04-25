@@ -108,11 +108,11 @@ namespace LCLocalizationInterface.Internal
                     string FullExceptionMessage = ExceptionContext + HandlingSource + FormatException(Exception);
                     ErrorMessageWindow.LatestExceptionMessage = FullExceptionMessage;
 
-                    if (!IgnoredExceptionMessages.Contains(FullExceptionMessage))
+                    if (@Languages.PresentedTextElements.TryGetValue("[Error Message] [-] * Text", out IntenseStareType1? ErrorMessageTextElement) && !IgnoredExceptionMessages.Contains(FullExceptionMessage))
                     {
                         try
                         {
-                            @Languages.PresentedTextElements["[Error Message] [-] * Text"].RichText = FullExceptionMessage;
+                            ErrorMessageTextElement.RichText = FullExceptionMessage;
                             
                             List<string> ZenaPics = ["fu", "기둥 야옹", "눙물", "닌자", "으앙", "찌릿", "캬악", "훡유", "식빵"];
                             ErrorMessageWindowInstance.ZenaImage.Source = BitmapFromResource($"UI/Limbus/Zena Cat/{ZenaPics[Random.Shared.Next(0, ZenaPics.Count)]}.png");
@@ -128,6 +128,10 @@ namespace LCLocalizationInterface.Internal
                             }
                         }
                         catch (Exception Occurred) { HandleUnusual(Occurred, FullExceptionMessage); }
+                    }
+                    else
+                    {
+                        HandleUnusual(Exception, FullExceptionMessage);
                     }
                 }
                 catch (Exception Occurred) { HandleUnusual(Occurred, Exception.ToString()); }
