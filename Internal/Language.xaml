@@ -65,7 +65,7 @@
 						</Style>
 					</ControlTemplate.Resources>
 					<Grid>
-						<Border x:Name="MainBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
+						<InternalStyle:ClippingBorder ClipToBounds="True" Padding="0 0 2 0" x:Name="MainBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
 							<Grid>
 								<Grid.ColumnDefinitions>
 									<ColumnDefinition x:Name="TextInputScroller" Width="*" />
@@ -94,18 +94,18 @@
 									CanContentScroll="True"
 									HorizontalScrollBarVisibility="Hidden"
 									VerticalScrollBarVisibility="Disabled" />
-								<InternalStyle:ClippingBorder x:Name="HexColorVisualMarker" Grid.Column="1" Background="{Binding Document.Text, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TextToSolidColorBrushConverter}}" CornerRadius="{TemplateBinding CornerRadius}" Visibility="Collapsed">
-									<InternalStyle:ClippingBorder.OpacityMask>
+								<Grid x:Name="HexColorVisualMarker" Grid.Column="1" Background="{Binding Document.Text, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TextToSolidColorBrushConverter}}" Visibility="Collapsed">
+									<Grid.OpacityMask>
 										<LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
 											<GradientStop Offset="1" Color="#ffffff" />
 											<GradientStop Offset="0.88" Color="#ffffff" />
 											<GradientStop Offset="0.1" Color="#11000000" />
 											<GradientStop Offset="0" Color="#00000000" />
 										</LinearGradientBrush>
-									</InternalStyle:ClippingBorder.OpacityMask>
-								</InternalStyle:ClippingBorder>
+									</Grid.OpacityMask>
+								</Grid>
 							</Grid>
-						</Border>
+						</InternalStyle:ClippingBorder>
 						<Border
 							x:Name="DisabledStateCovering"
 							Background="{DynamicResource Theme:ElongatedButtons.DisabledButtonsShadowing}"

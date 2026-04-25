@@ -4,30 +4,61 @@ namespace LCLocalizationInterface.LimbusRegistry
 {
     public partial class SkillNameReplicaUIElement : UserControl
     {
+        public string SkillName { get => (string)GetValue(SkillNameProperty); set => SetValue(SkillNameProperty, value); }
         public static readonly DependencyProperty SkillNameProperty = RegisterProperty<SkillNameReplicaUIElement, string>(DefaultValue: "");
+
+        public double NameMaximumWidth { get => (double)GetValue(NameMaximumWidthProperty); set => SetValue(NameMaximumWidthProperty, value); }
         public static readonly DependencyProperty NameMaximumWidthProperty = RegisterProperty<SkillNameReplicaUIElement, double>(DefaultValue: 500.0);
 
+        public ImageSource Icon { get => (ImageSource)GetValue(IconProperty); set => SetValue(IconProperty, value); }
         public static readonly DependencyProperty IconProperty = RegisterProperty<SkillNameReplicaUIElement, ImageSource>();
 
+        public int Rank { get => (int)GetValue(RankProperty); set => SetValue(RankProperty, value); }
         public static readonly DependencyProperty RankProperty = RegisterProperty<SkillNameReplicaUIElement, int>(DefaultValue: 1, PropertyChangedEvent: AffinityAndRankUpdater);
+        
+        public AffinityName Affinity { get => (AffinityName)GetValue(AffinityProperty); set => SetValue(AffinityProperty, value); }
         public static readonly DependencyProperty AffinityProperty = RegisterProperty<SkillNameReplicaUIElement, AffinityName>(DefaultValue: AffinityName.None, PropertyChangedEvent: AffinityAndRankUpdater);
+        
+        public SkillType SkillType { get => (SkillType)GetValue(SkillTypeProperty); set => SetValue(SkillTypeProperty, value); }
         public static readonly DependencyProperty SkillTypeProperty = RegisterProperty<SkillNameReplicaUIElement, SkillType>(DefaultValue: SkillType.Guard);
+        
+        public DamageType DamageType { get => (DamageType)GetValue(DamageTypeProperty); set => SetValue(DamageTypeProperty, value); }
         public static readonly DependencyProperty DamageTypeProperty = RegisterProperty<SkillNameReplicaUIElement, DamageType>(DefaultValue: DamageType.None);
 
+        public string Coins { get => (string)GetValue(CoinsProperty); set => SetValue(CoinsProperty, value); }
         public static readonly DependencyProperty CoinsProperty = RegisterProperty<SkillNameReplicaUIElement, string>(DefaultValue: "Regular, \0"); // ", 0" to trigger dependency property changed event and update Binding
 
+
+        public string LevelText { get => (string)GetValue(LevelTextProperty); set => SetValue(LevelTextProperty, value); }
         public static readonly DependencyProperty LevelTextProperty = RegisterProperty<SkillNameReplicaUIElement, string>(DefaultValue: "??");
+        
+        public string AttackWeightLabel { get => (string)GetValue(AttackWeightLabelProperty); set => SetValue(AttackWeightLabelProperty, value); }
         public static readonly DependencyProperty AttackWeightLabelProperty = RegisterProperty<SkillNameReplicaUIElement, string>(DefaultValue: "Atk Weight");
+        
+        public int AttackWeight { get => (int)GetValue(AttackWeightProperty); set => SetValue(AttackWeightProperty, value); }
         public static readonly DependencyProperty AttackWeightProperty = RegisterProperty<SkillNameReplicaUIElement, int>(DefaultValue: 1);
 
+        public string BasePower { get => (string)GetValue(BasePowerProperty); set => SetValue(BasePowerProperty, value); }
         public static readonly DependencyProperty BasePowerProperty = RegisterProperty<SkillNameReplicaUIElement, string>(DefaultValue: "?");
+
+        public string CoinPower { get => (string)GetValue(CoinPowerProperty); set => SetValue(CoinPowerProperty, value); }
         public static readonly DependencyProperty CoinPowerProperty = RegisterProperty<SkillNameReplicaUIElement, string>(DefaultValue: "+?");
 
+
         #region Technical DependencyProperties
+        public string AffinityAndRank { get => (string)GetValue(AffinityAndRankProperty); set => SetValue(AffinityAndRankProperty, value); }
         public static readonly DependencyProperty AffinityAndRankProperty = RegisterProperty<SkillNameReplicaUIElement, string>(DefaultValue: "None|1");
+        
+        public SolidColorBrush InternalAffinityColor { get => (SolidColorBrush)GetValue(InternalAffinityColorProperty); set => SetValue(InternalAffinityColorProperty, value); }
         public static readonly DependencyProperty InternalAffinityColorProperty = RegisterProperty<SkillNameReplicaUIElement, SolidColorBrush>(DefaultValue: ToSolidColorBrush("#9f6a3a"));
         #endregion
 
+
+
+
+        /// <summary>
+        /// Sets <see cref="AffinityAndRank"/> value as "Affinity|Rank" to trigger {TemplateBindings AffinityAndRank} inside ControlTemplate
+        /// </summary>
         private static void AffinityAndRankUpdater(DependencyObject Sender, DependencyPropertyChangedEventArgs Args)
         {
             SkillNameReplicaUIElement ActualSender = (Sender as SkillNameReplicaUIElement)!;
@@ -39,35 +70,7 @@ namespace LCLocalizationInterface.LimbusRegistry
         }
 
 
-        public void RefreshNameRichText() => this.FindTypeNameFromTemplate<NameLineElement>("NameLine")!.RefreshNameRichText();
-
-
-        // Values controlled by the Bindings in MainWindow
-        public string SkillName { get => (string)GetValue(SkillNameProperty); set => SetValue(SkillNameProperty, value); }
-        public double NameMaximumWidth { get => (double)GetValue(NameMaximumWidthProperty); set => SetValue(NameMaximumWidthProperty, value); }
-
-
-        public ImageSource Icon { get => (ImageSource)GetValue(IconProperty); set => SetValue(IconProperty, value); }
-
-        public int Rank { get => (int)GetValue(RankProperty); set => SetValue(RankProperty, value); }
-
-        public AffinityName Affinity { get => (AffinityName)GetValue(AffinityProperty); set => SetValue(AffinityProperty, value); }
-        public SkillType SkillType { get => (SkillType)GetValue(SkillTypeProperty); set => SetValue(SkillTypeProperty, value); }
-        public DamageType DamageType { get => (DamageType)GetValue(DamageTypeProperty); set => SetValue(DamageTypeProperty, value); }
-
-        public string Coins { get => (string)GetValue(CoinsProperty); set => SetValue(CoinsProperty, value); }
-
-        public string LevelText { get => (string)GetValue(LevelTextProperty); set => SetValue(LevelTextProperty, value); }
-        public int AttackWeight { get => (int)GetValue(AttackWeightProperty); set => SetValue(AttackWeightProperty, value); }
-        public string AttackWeightLabel { get => (string)GetValue(AttackWeightLabelProperty); set => SetValue(AttackWeightLabelProperty, value); }
-
-        public string CoinPower { get => (string)GetValue(CoinPowerProperty); set => SetValue(CoinPowerProperty, value); }
-        public string BasePower { get => (string)GetValue(BasePowerProperty); set => SetValue(BasePowerProperty, value); }
-
-
-        public string AffinityAndRank { get => (string)GetValue(AffinityAndRankProperty); set => SetValue(AffinityAndRankProperty, value); }
-
-        public SolidColorBrush InternalAffinityColor { get => (SolidColorBrush)GetValue(InternalAffinityColorProperty); set => SetValue(InternalAffinityColorProperty, value); }
+        public void RefreshNameRichText() => this.FindTypeNameFromTemplate<NameLineElement>("NameLine")?.RefreshNameRichText();
     }
 
 

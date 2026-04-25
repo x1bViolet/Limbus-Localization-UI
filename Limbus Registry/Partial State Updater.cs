@@ -1,5 +1,4 @@
-﻿using LCLocalizationInterface.Instruments.Classes;
-using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
+﻿using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
 
 namespace LCLocalizationInterface.LimbusRegistry
 {
@@ -89,7 +88,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                 }
 
 
-                public static FileEventsNotifier CompositeFontDefinitionsWatcher { get; } = new(TargetFile: @"[⇲] Assets Directory\Limbus Embedded Fonts\CompositeFont Definitions.json")
+                private static FileEventsNotifier CompositeFontDefinitionsWatcher { get; } = new(TargetFile: @"[⇲] Assets Directory\Limbus Embedded Fonts\CompositeFont Definitions.json")
                 {
                     GeneralHandler = (_, _, _) => ReadCompositeFontDefinitionsFile()
                 };

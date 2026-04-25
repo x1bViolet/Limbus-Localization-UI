@@ -1,5 +1,4 @@
-﻿using LCLocalizationInterface.Instruments.Classes;
-using LCLocalizationInterface.Internal.Abstractions;
+﻿using LCLocalizationInterface.Internal.Abstractions;
 
 namespace LCLocalizationInterface.Internal
 {
@@ -74,7 +73,7 @@ namespace LCLocalizationInterface.Internal
                 string Output = string.Join("\n", Sorted);
                 Output = Regex.Replace(Output, @$"   at (?<ExceptionPoint>.*?) in {Regex.Escape(GetCSProjectPath())}(?<FilePath>.*?):line (?<LineNumber>\d+)", Match =>
                 {
-                    return $"at *<u>/{Match.Groups["FilePath"].Value.Replace("\\", "/")}</u> <b>(Line №{Match.Groups["LineNumber"].Value})</b>:\n   {Match.Groups["ExceptionPoint"].Value.Del($"{nameof(LCLocalizationInterface)}.")}";
+                    return $"at *<u>/{Match.Groups["FilePath"].Value.Replace("\\", "/")}</u> <b>(Line №{Match.Groups["LineNumber"].Value})</b>:\n   {Match.Groups["ExceptionPoint"].Value.Cut($"{nameof(LCLocalizationInterface)}.")}";
                 });
                 return Output;
             }
@@ -109,11 +108,11 @@ namespace LCLocalizationInterface.Internal
                     string FullExceptionMessage = ExceptionContext + HandlingSource + FormatException(Exception);
                     ErrorMessageWindow.LatestExceptionMessage = FullExceptionMessage;
 
-                    if (!IgnoredExceptionMessages.Contains(FullExceptionMessage))
+                    if (@Languages.PresentedTextElements.TryGetValue("[Error Message] [-] * Text", out IntenseStareType1? ErrorMessageTextElement) && !IgnoredExceptionMessages.Contains(FullExceptionMessage))
                     {
                         try
                         {
-                            @Languages.PresentedTextElements["[Error Message] [-] * Text"].RichText = FullExceptionMessage;
+                            ErrorMessageTextElement.RichText = FullExceptionMessage;
                             
                             List<string> ZenaPics = ["fu", "기둥 야옹", "눙물", "닌자", "으앙", "찌릿", "캬악", "훡유", "식빵"];
                             ErrorMessageWindowInstance.ZenaImage.Source = BitmapFromResource($"UI/Limbus/Zena Cat/{ZenaPics[Random.Shared.Next(0, ZenaPics.Count)]}.png");
@@ -129,6 +128,10 @@ namespace LCLocalizationInterface.Internal
                             }
                         }
                         catch (Exception Occurred) { HandleUnusual(Occurred, FullExceptionMessage); }
+                    }
+                    else
+                    {
+                        HandleUnusual(Exception, FullExceptionMessage);
                     }
                 }
                 catch (Exception Occurred) { HandleUnusual(Occurred, Exception.ToString()); }

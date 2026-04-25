@@ -86,7 +86,3 @@ The lines inside the `"Unicode"` list must look like this: `"<Unicode start poin
   "Context": [ ... ]
 }
 ```
-
-
-> [!NOTE]
-> If you have problems loading a font, you can try specifying the font family name by transforming `"Font"` property to the following format: `"Font": ["Font file path", "Target font family name"]` (See the docs about .........)

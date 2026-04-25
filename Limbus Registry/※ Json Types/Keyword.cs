@@ -73,7 +73,7 @@ namespace LCLocalizationInterface.LimbusRegistry.JsonTypes
             if (FlavorDescription is not null) DedicatedDocument_FlavorDescription  = NewDedicatedDocument(Text: FlavorDescription,  CarriedSyntaxKey: RichTextFormat.None);
             if (Color is not null)
             {
-                Color = Color.Del("\r", "\n");
+                Color = Color.Cut("\r", "\n");
                 KeylessDedicatedDocument_Color = new TextDocument(Color.RemovePrefix("#"));
             }
         }

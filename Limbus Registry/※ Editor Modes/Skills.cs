@@ -599,6 +599,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                         VisualElement.CoinPower = $"{CurrentUptieData.CoinMathOperator}{CurrentUptieData.CoinPower}";
                         
                         // Anyway
+                        static void Try(Action TryAction) { try { TryAction(); } catch { } }
                         Try(delegate () { VisualElement.Affinity   = Enum.Parse<AffinityName>(CurrentUptieData.Affinity!  ); });
                         Try(delegate () { VisualElement.DamageType = Enum.Parse<DamageType>  (CurrentUptieData.DamageType!); });
                         Try(delegate () { VisualElement.SkillType  = Enum.Parse<SkillType>   (CurrentUptieData.SkillType! ); });

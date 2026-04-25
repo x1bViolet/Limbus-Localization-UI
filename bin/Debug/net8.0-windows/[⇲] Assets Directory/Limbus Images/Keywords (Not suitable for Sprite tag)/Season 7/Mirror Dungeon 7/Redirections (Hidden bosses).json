@@ -1,0 +1,12 @@
+{
+  // Matthias
+  "MiddleFatherGuts": ["MiddleFatherGutsMirror"],
+
+  // Valencina
+  "FutureEyeOn": ["FutureEyeOnMirror"],
+  "FutureEyeOff": ["FutureEyeOffMirror"],
+  "TeachersPrey": ["TeachersPreyMirror"],
+
+  // Callisto
+  "ObservationTheRings": ["ObservationTheRingsHidden"]
+}

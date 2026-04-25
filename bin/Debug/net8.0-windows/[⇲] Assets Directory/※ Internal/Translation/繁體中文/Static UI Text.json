@@ -13,7 +13,7 @@
     [
       {
         "UID": {"[Main UI] * Program Title":null},
-        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\">Limbus Company <size=86%><font-weight=\"500\">介面化技能描述編輯器</font-weight></size>",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=70 yoffset=-20>Limbus Company <size=86%><font-weight=\"500\">介面化技能描述編輯器</font-weight></size>",
         "Font": "Arita-buri", "Font Weight": "Bold"
       },
       {
@@ -64,7 +64,7 @@
     [
       {
         "UID": {"[Update notice] * Title":null},
-        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\"><size=86%><font-weight=\"500\">新版本</font-weight></size> ",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=70 yoffset=-20><size=86%><font-weight=\"500\">新版本</font-weight></size> ",
         "Font": "Arita-buri", "Font Weight": "Regular"
       },
       {
@@ -87,7 +87,7 @@
     [
       {
         "UID": {"[Error Message] * Title":null},
-        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\"><size=86%><font-weight=\"500\">發生例外錯誤</font-weight></size>",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=70 yoffset=-20><size=86%><font-weight=\"500\">發生例外錯誤</font-weight></size>",
         "Font": "Arita-buri", "Font Weight": "Regular"
       },
       {
@@ -110,7 +110,7 @@
     [
       {
         "UID": {"[Confirm Dialog] * Title":null},
-        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\"><size=86%><font-weight=\"500\">[$]</font-weight></size> ", // [$] Is given "Title" from translation lines with '<Confirm Dialog>' in UID
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=70 yoffset=-20><size=86%><font-weight=\"500\">[$]</font-weight></size> ", // [$] Is given "Title" from translation lines with '<Confirm Dialog>' in UID
         "Font": "Arita-buri", "Font Weight": "Regular"
       },
       {
@@ -132,7 +132,7 @@
     [
       {
         "UID": {"[Input Dialog] * Title":null},
-        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\"><size=86%><font-weight=\"500\">[$]</font-weight></size> ", // [$] Is given "Title" from translation lines with '<Input Dialog>' in UID
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=70 yoffset=-20><size=86%><font-weight=\"500\">[$]</font-weight></size> ", // [$] Is given "Title" from translation lines with '<Input Dialog>' in UID
         "Font": "Arita-buri", "Font Weight": "Bold"
       },
       {
@@ -638,37 +638,37 @@
       {
         "UID": {"[Context Menu] * TextMeshPro to [KeywordID]":null},
 
-        "Text": "<images-yoffset=-3><images-size=22><image id=\"2038\"><u>TextMeshPro</u> 轉換為 <image id=\"9732\"><u>[關鍵詞ID]</u>",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Warning Notice.png\" size=22 yoffset=-3><u>TextMeshPro</u> 轉換為 <image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Economy Class Discount Voucher.png\" size=22 yoffset=-4><u>[關鍵詞ID]</u>",
         "Visible": true
       },
       {
         "UID": {"[Context Menu] * TextMeshPro to Shorthands":null},
 
-        "Text": "<images-yoffset=-3><images-size=22><image id=\"2038\"><u>TextMeshPro</u> 轉換為 <image id=\"9202\"><u>關鍵詞縮寫</u>",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Warning Notice.png\" size=22 yoffset=-3><u>TextMeshPro</u> 轉換為 <image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=22 yoffset=-4><u>關鍵詞縮寫</u>",
         "Visible": true
       },
       {
         "UID": {"[Context Menu] * Implicit to [KeywordID]":null},
 
-        "Text": "<images-yoffset=-3><images-size=22><image id=\"9085\"><u>不明顯的關鍵詞文字</u> 轉換為 <image id=\"9732\"><u>[關鍵詞ID]</u>",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Non-disclosure Agreement.png\" size=22 yoffset=-3><u>不明顯的關鍵詞文字</u> 轉換為 <image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Economy Class Discount Voucher.png\" size=22 yoffset=-4><u>[關鍵詞ID]</u>",
         "Visible": true
       },
       {
         "UID": {"[Context Menu] * Implicit to Shorthands":null},
 
-        "Text": "<images-yoffset=-3><images-size=22><image id=\"9085\"><u>不明顯的關鍵詞文字</u> 轉換為 <image id=\"9202\"><u>關鍵詞縮寫</u>",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Non-disclosure Agreement.png\" size=22 yoffset=-3><u>不明顯的關鍵詞文字</u> 轉換為 <image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=22 yoffset=-4><u>關鍵詞縮寫</u>",
         "Visible": true
       },
       {
         "UID": {"[Context Menu] * [KeywordID] to Shorthands":null},
 
-        "Text": "<images-yoffset=-3><images-size=22><image id=\"9732\"><u>[關鍵詞ID]</u> 轉換為 <image id=\"9202\"><u>關鍵詞縮寫</u>",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Economy Class Discount Voucher.png\" size=22 yoffset=-3><u>[關鍵詞ID]</u> 轉換為 <image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=22 yoffset=-4><u>關鍵詞縮寫</u>",
         "Visible": true
       },
       {
         "UID": {"[Context Menu] * [KeywordID] to TextMeshPro":null},
 
-        "Text": "<images-yoffset=-3><images-size=22><image id=\"9732\"><u>[關鍵詞ID]</u> 轉換為 <image id=\"2038\"><u>TextMeshPro</u>",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Economy Class Discount Voucher.png\" size=22 yoffset=-3><u>[關鍵詞ID]</u> 轉換為 <image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Warning Notice.png\" size=20 yoffset=-4><u>TextMeshPro</u>",
         "Visible": true
       },
 
@@ -953,7 +953,7 @@
     [
       {
         "UID": {"[Settings] * Settings Title":null},
-        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\"><size=86%><font-weight=\"500\">選項</font-weight></size> ",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=70 yoffset=-20><size=86%><font-weight=\"500\">選項</font-weight></size> ",
         "Font": "Arita-buri", "Font Weight": "Bold"
       },
       {
@@ -1222,7 +1222,7 @@
       },
       {
         "UID": {"[Skills DI Manager] * Title":null},
-        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\"><size=86%><font-weight=\"500\">技能顯示資訊管理器</font-weight></size> ",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=70 yoffset=-20><size=86%><font-weight=\"500\">技能顯示資訊管理器</font-weight></size> ",
         "Font": "Arita-buri", "Font Weight": "Bold"
       },
       {
@@ -1895,7 +1895,7 @@
     [
       {
         "UID": {"[C] * [Column element creation dialog] Dialog Title":null},
-        "Text": "<images-size=70><images-yoffset=-20><image id=\"9202\"><size=86%><font-weight=\"500\">新欄位元素</font-weight></size> ",
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=70 yoffset=-20><size=86%><font-weight=\"500\">新欄位元素</font-weight></size> ",
         "Font": "Arita-buri", "Font Weight": "Bold"
       },
       {

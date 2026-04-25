@@ -45,7 +45,8 @@ namespace LCLocalizationInterface.Entanglement
         public record DataContextDomainProperties : Explicit
         {
             /// <summary>Formatted <see cref="App.@Version"/> with rich text tags for OneTime Binding in main menu</summary>
-            public string ProgramVersion => App.@Version.Replace("ː", "<b><size=250%>ː</size><size=19%> </size></b>");
+            public string ProgramVersion => App.@Version.Replace("ː", "<b>ː<size=19%> </size></b>");
+            public string VersionPrefix => $"<u>{App.VersionPrefix}</u>";
 
 
             public LimbusCustomLangDefinition.LangProperties? SelectedLimbusCustomLanguage { get; set; }

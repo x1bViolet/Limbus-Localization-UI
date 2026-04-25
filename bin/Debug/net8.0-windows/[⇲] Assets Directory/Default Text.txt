@@ -1,6 +1,6 @@
-                    <font="BebasKai SDF"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'1.4<b><size=160%>ː</size></b>0</color></size></font>
+                    <font="BebasKai SDF"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'1.4<b><size=160%>ː</size></b>1</color></size></font>
 
-<font="EN/Pretendard/Pretendard-Regular SDF">What the <sprite name="AaCePaBa"><u><color=#c1d7e2>White whale</color></u> was to <sprite name="HeatedGasHarpoon"><color=#ff6100><u>Ahab</u></color>, has been hinted; what, at times, he was to me, as yet remains unsaid.
+What the <sprite name="AaCePaBa"><u><color=#c1d7e2>White whale</color></u> was to <sprite name="HeatedGasHarpoon"><color=#ff6100><u>Ahab</u></color>, has been hinted; what, at times, he was to me, as yet remains unsaid.
 
 Aside from those more obvious considerations touching <sprite name="AaCePaBa"><u><color=#b03534>Moby Dick</color></u>, which could not but occasionally awaken in any man’s soul some alarm, there was another thought, or rather vague, nameless horror concerning him, which at times by its intensity completely overpowered all the rest; and yet so mystical and well nigh ineffable was it, that <b>I</b> almost despair of putting it in a comprehensible form. It was the whiteness of the whale that above all things appalled me. But how can <b>I</b> hope to explain myself here; and yet, in some dim, random way, explain myself <b>I</b> must, else all these chapters might be naught.
 

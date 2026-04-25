@@ -2796,6 +2796,35 @@
     },
 
     {
+      "ID": 9256,
+      "Image": "Season 7/Mirror of Names and Spiders/Hidden Bosses/Imperfect Eye of Precognition",
+      "Affinity": "Lust",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9257,
+      "Image": "Season 7/Mirror of Names and Spiders/Hidden Bosses/The Abandoned Oracle",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "4"
+    },
+    {
+      "ID": 9258,
+      "Image": "Season 7/Mirror of Names and Spiders/Hidden Bosses/The Book of Vengeanceː Annex",
+      "Affinity": "Envy",
+      "Keyword": "Blunt",
+      "Tier": "4"
+    },
+    {
+      "ID": 9259,
+      "Image": "Season 7/Mirror of Names and Spiders/Hidden Bosses/A Maestro's Ring-Turned-Artwork",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+
+    {
       "ID": 9233,
       "Image": "Staticky Two-way Radio",
       "Affinity": "Gloom",
@@ -2900,6 +2929,70 @@
       "Affinity": "Sloth",
       "Keyword": "-",
       "Tier": "4"
+    },
+
+    {
+      "ID": 9260,
+      "Image": "Season 7/Intervallos/Twining Threads/Artworkː Pulsation",
+      "Affinity": "Envy",
+      "Keyword": "Charge",
+      "Tier": "3"
+    },
+    {
+      "ID": 9261,
+      "Image": "Season 7/Intervallos/Twining Threads/Artworkː Ferity",
+      "Affinity": "Gloom",
+      "Keyword": "Sinking",
+      "Tier": "3"
+    },
+    {
+      "ID": 9262,
+      "Image": "Season 7/Intervallos/Twining Threads/Universal Skeleton",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9263,
+      "Image": "Season 7/Intervallos/Twining Threads/Artworkː Evolving Pulsation",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9264,
+      "Image": "Season 7/Intervallos/Twining Threads/Artworkː Taxidermied Ferity",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9265,
+      "Image": "Season 7/Intervallos/Twining Threads/The Middle Styled Knuckle-dusters",
+      "Affinity": "Sloth",
+      "Keyword": "Blunt",
+      "Tier": "4"
+    },
+    {
+      "ID": 9266,
+      "Image": "Season 7/Intervallos/Twining Threads/Unoccupied Birdcage",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "2"
+    },
+    {
+      "ID": 9267,
+      "Image": "Season 7/Intervallos/Twining Threads/Searing Brass",
+      "Affinity": "Sloth",
+      "Keyword": "Burn",
+      "Tier": "4"
+    },
+    {
+      "ID": 9268,
+      "Image": "Season 7/Intervallos/Twining Threads/Universal Instinct",
+      "Affinity": "Lust",
+      "Keyword": "-",
+      "Tier": "2"
     },
 
     {

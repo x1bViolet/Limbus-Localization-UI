@@ -15,7 +15,9 @@
 	MarkupCompatibility:Ignorable="Blend"
 	DataContext="{Binding Source={StaticResource ThatOnePeskyMvvmThing}}"
 	ResizeMode="NoResize"
-	SizeToContent="WidthAndHeight"
+	Width="472"
+	Height="580"
+	
 	Style="{StaticResource Base:WindowLayout}"
 	Topmost="True"
 	WindowStartupLocation="CenterScreen">
@@ -44,7 +46,7 @@
 
 		<TStyle:InstancedWindowLayout.Content>
 
-			<Grid Width="420" Height="495" Background="{DynamicResource Theme:Common.SettingsWindow.Background.Color}">
+			<Grid Background="{DynamicResource Theme:Common.SettingsWindow.Background.Color}">
 
 				<Grid.Resources>
 					<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">

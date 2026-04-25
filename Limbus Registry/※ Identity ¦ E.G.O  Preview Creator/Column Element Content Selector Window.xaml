@@ -9,7 +9,6 @@
 	Width="443"
 	SizeToContent="Height"
 	Style="{StaticResource Base:WindowLayout.DialogWindow}">
-
 	<TStyle:InstancedWindowLayout BorderBrush="{DynamicResource Theme:Common.DialogWindows.Border.Color}" CornerRadius="{DynamicResource Theme:Common.DialogWindows.Border.CornerRadius}" HasPaddedDropShadow="True">
 
 		<TStyle:InstancedWindowLayout.Title>
@@ -61,7 +60,6 @@
 						<StackPanel>
 
 							<TStyle:SingleViewer x:Name="CurrentSelectorView" SelectedIndex="0">
-
 
 								<StackPanel x:Uid="Skills">
 									<Terminus:IntenseStareType1 RichText="Select Skill IDs" Style="{StaticResource Theme:ControlStyles.Spec.SelectionHeader}" UID="[C] * [Column element creation dialog] Skill header" />

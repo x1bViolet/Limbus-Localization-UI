@@ -1,18 +1,10 @@
-﻿using LCLocalizationInterface.Instruments;
-using LCLocalizationInterface.LimbusRegistry.JsonTypes;
+﻿using LCLocalizationInterface.LimbusRegistry.JsonTypes;
 using LCLocalizationInterface.LimbusRegistry.JsonTypes.Specific;
 using static LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreatorPage.AssignedComboBoxAttribute;
 using static LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreatorPage.ImageInfoJsonFile.TextColumns_PROP;
 
 namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 {
-    
-
-
-
-
-
-
     public partial class PreviewCreatorPage : Page
     {
         #region Save/Load image info
@@ -489,7 +481,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                     public double LeftTopBottom { get; set; } = 40.0;
 
                     [JsonProperty("Right (Text background)")]
-                    public double Right { get; set; } = 255.0;
+                    public double Right { get; set; } = 140.0;
 
                     /* ------------------------------- */ public Double __Separator1__ { get; set; }
 

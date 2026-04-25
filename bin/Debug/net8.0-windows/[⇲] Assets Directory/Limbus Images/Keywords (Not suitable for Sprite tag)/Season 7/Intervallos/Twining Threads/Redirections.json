@@ -1,0 +1,22 @@
+{
+  // Fauvist Docent Rodion
+  "BearClawWound": ["BearClawWoundAlly"],
+  "EagleClawWound": ["EagleClawWoundAlly"],
+
+  // Rufo
+  "Fauvism_Panic": ["Fauvism_Lowmorale"],
+  "FauvismDocent_Panic": ["FauvismDocent_Lowmorale"],
+
+  // Index Proselyte
+  "KarmaOfIndexAlly": ["KarmaOfIndexEnemy"],
+  "IndexPrescript_Base": [
+    "IndexPrescriptEnemy_0",
+    "IndexPrescriptEnemy_1",
+    "IndexPrescriptEnemy_2",
+    "IndexPrescriptEnemy_3"
+  ],
+
+  // Ally unit Kira
+  "ResentmentSpider": ["ResentmentSpiderDaughterTwo"],
+  "ReinforcedTattooSpider": ["ReinforcedTattooSpiderDaughterTwo"]
+}

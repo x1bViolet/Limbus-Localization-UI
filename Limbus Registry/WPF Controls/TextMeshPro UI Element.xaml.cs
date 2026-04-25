@@ -49,14 +49,10 @@ namespace LCLocalizationInterface.LimbusRegistry
                 // Reset running delayed rich text set timers when switching to another editor object (-> to not occasionaly set previous object text after delay time)
                 if ((field = value) == false)
                 {
-                    TMProEmitter.AllInstances.Where(x => x.AcceptsRichTextDelay).ToList().ForEach(ActiveTMProEmitter =>
+                    TMProEmitter.AllInstances.Where(x => x.AcceptsRichTextDelay && x.DelayedRichTextContext.Pending).ToList().ForEach(ActiveTMProEmitter =>
                     {
-                        if (ActiveTMProEmitter.AcceptsRichTextDelay && ActiveTMProEmitter.DelayedRichTextContext.RecentlyRunnedTimer is not null)
-                        {
-                            ActiveTMProEmitter.DelayedRichTextContext.RecentlyRunnedTimer.Stop();
-                            ActiveTMProEmitter.DelayedRichTextContext.CurrentRichTextSetAction!.Invoke();
-                            ActiveTMProEmitter.DelayedRichTextContext.Pending = false;
-                        }
+                        ActiveTMProEmitter.DelayedRichTextContext.Timer.Stop();
+                        ActiveTMProEmitter.DelayedRichTextContext.Pending = false;
                     });
                 }
             }
@@ -93,16 +89,13 @@ namespace LCLocalizationInterface.LimbusRegistry
                     catch { return 0; } // XAML Designer ........................................
                 }
             }
-            private DispatcherTimer Timer = new();  public bool Pending = false;
-            public DispatcherTimer? RecentlyRunnedTimer { get; private set; }
-            public Action? CurrentRichTextSetAction { get; private set; }
-            public void StartDelayedSet(Action RichTextSet)
+            public DispatcherTimer Timer = new();  public bool Pending = false;  public string RequestedText = "";
+            public void StartDelayedSet(Action<string> RichTextSet)
             {
-                CurrentRichTextSetAction = RichTextSet;
                 Timer.Stop(); Timer = new() { Interval = TimeSpan.FromSeconds(RichTextDelay) };
-                Timer.Tick += (_, _) => { Timer.Stop(); RichTextSet.Invoke(); Pending = false; };
+                Timer.Tick += (_, _) => { Timer.Stop(); RichTextSet.Invoke(RequestedText); Pending = false; };
                 
-                Pending = true; Timer.Start(); RecentlyRunnedTimer = Timer;
+                Pending = true; Timer.Start();
             }
         }
         #endregion
@@ -129,7 +122,8 @@ namespace LCLocalizationInterface.LimbusRegistry
                     LoadedConfiguration.PreviewSettings.Base.PreviewUpdateDelay > 0 &&
                     this.AcceptsRichTextDelay && TMProEmitter.IsRichTextDelayAllowed
                 ) {
-                    if (DelayedRichTextContext.Pending == false) DelayedRichTextContext.StartDelayedSet(delegate () { ActuallySetRichText(value); });
+                    DelayedRichTextContext.RequestedText = value; // It must be an external variable updated <independently!!!!!> of the timer!!!!!!!!! while its maybe RUNNING
+                    if (DelayedRichTextContext.Pending is false) DelayedRichTextContext.StartDelayedSet(ActuallySetRichText);
                 }
                 else
                 {
@@ -152,13 +146,11 @@ namespace LCLocalizationInterface.LimbusRegistry
                     }
                     catch { }
 
-                        
-                    Instruments.Classes.Kaestarlyn.Actions.Apply(
-                        Target: this,
-                        RichText: FormattedLimbusRichText,
-                        DividersMode: Instruments.Classes.Kaestarlyn.@PostInfo.FullStopDividers.FullStopDividers_TMPro,
-                        IgnoreTags: Instruments.Classes.Kaestarlyn.@PostInfo.IgnoreTags_UnityTMProExclude,
-                        DisableKeyworLinksCreation: this.DisableKeyworLinksCreation
+
+                    TextMeshLarp.SetRichText(
+                        this,
+                        FormattedLimbusRichText,
+                        IgnoredTagIDs: [TextMeshLarp.TagsPreset.FontStretch.ID, TextMeshLarp.TagsPreset.Hyperlink.ID, TextMeshLarp.TagsPreset.VOffset.ID, TextMeshLarp.TagsPreset.HOffset.ID, @Languages.InlineImage.ID]
                     );
                     
                     string? PreviousRichText = CurrentRichText;

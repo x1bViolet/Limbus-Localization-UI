@@ -1,7 +1,7 @@
 ﻿using ICSharpCode.AvalonEdit.Highlighting;
 using LCLocalizationInterface.Internal.Abstractions;
 using static LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreatorPage;
-using static LCLocalizationInterface.SyntaxedTextEditorBase;
+using static RijnadelClassLibrary.SyntaxedTextEditorBase;
 
 namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 {
@@ -261,6 +261,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             ReEnumerateColumnItemsJsonData();
 
             // Sealed view memory clean on element removal .. idk how
+            if (TargetElement.RelatedJsonData.Type is not ColumnTextElementType.Keyword)
             {
                 ReSealAllTextElementsInColumn(ParentColumn);
 

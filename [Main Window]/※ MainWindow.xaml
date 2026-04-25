@@ -87,15 +87,15 @@
 								</Style>
 							</ContextMenu.Resources>
 							<Terminus:MenuItem_T1 IsHitTestVisible="False" RichText="Opened files" TextBlock.TextAlignment="Center" UID="[Main UI] * Current editor switch — Title" />
-							<Separator />
+							<Separator UseLayoutRounding="True"/>
 							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_MainMenu" RichText="Main menu" UID="[Main UI] * Current editor switch — Main menu" />
-							<Separator />
+							<Separator UseLayoutRounding="True" />
 							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_Skills" RichText="Skills" UID="[Main UI] * Current editor switch — Skills" />
 							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_Passives" RichText="Passives" UID="[Main UI] * Current editor switch — Passives" />
 							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_Keywords" RichText="Keywords" UID="[Main UI] * Current editor switch — Keywords" />
 							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_EGOGifts" RichText="E.G.O Gifts" UID="[Main UI] * Current editor switch — E.G.O Gifts" />
 							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_ObservationLogs" RichText="Observation Logs" UID="[Main UI] * Current editor switch — Observation Logs" />
-							<Separator />
+							<Separator UseLayoutRounding="True" />
 							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_DiscardCurrentFile" RichText="Discard current file" UID="[Main UI] * Current editor switch — Discard current file" />
 						</ContextMenu>
 					</Button.ContextMenu>
@@ -1520,6 +1520,7 @@
 														<Terminus:IntenseStareType1 x:Name="ProgramVersionTitle" Margin="5" FontSize="28" RichText="Version" UID="[Main UI] * Version title" />
 														<Terminus:IntenseStareType1 Margin="5" RichText="※" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
 														<Terminus:IntenseStareType1 Margin="5" RichText="{Binding DataContextDomain.ProgramVersion, Mode=OneTime}" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
+														<Terminus:IntenseStareType1 Visibility="Visible" RichText="{Binding DataContextDomain.VersionPrefix, Mode=OneTime}" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
 													</StackPanel>
 												</StackPanel>
 											</Grid>

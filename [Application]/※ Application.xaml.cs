@@ -1,10 +1,12 @@
 ﻿using LCLocalizationInterface.Internal.Configuration;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
+using static LCLocalizationInterface.TextMeshLarp;
 
 namespace LCLocalizationInterface
 {
     public partial class App : Application
     {
+        public static string ThisAssembly { get; } = Assembly.GetExecutingAssembly().GetName().Name!;
         public static bool ProgramFullyLoaded { get; private set; } = false;
 
 
@@ -26,10 +28,11 @@ namespace LCLocalizationInterface
             try   {          Console.OutputEncoding = Encoding.UTF8;            }
             catch { /* Then application output type is "Windows Application" */ }
 
-            if (true)
+            if (typeof(MainWindow) == typeof(MainWindow))
             {
                 SetupExceptionsHandling();
                 ErrorMessageWindow.ErrorMessageWindowInstance = new();
+                SetupExternalStatics();
 
                 // Sync window will freeze until last phrase during further operations
                 SplashScreenWindow.SplashScreenWindowInstance = await CreateAnotherThreadWindow<SplashScreenWindow>();
@@ -104,7 +107,15 @@ namespace LCLocalizationInterface
                     /**/SplashScreenWindow.ProgressSubObject = "";
                     /**/SplashScreenWindow.ProgressObject = @Languages.VariableData.ReadedStartupSteps.MainStages.Final;
                 }
-                MainWindowInstance.AdditionalFadeInCompleteActions.Add(SplashScreenWindow.Discard);
+
+                // SplashScreenWindow.Discard() execution with Topmost="False" for main window somehow moves it to the very back of windows z-order
+                MainWindowInstance.Topmost = true;
+                MainWindowInstance.AdditionalFadeInCompleteActions.Add(delegate ()
+                {
+                    SplashScreenWindow.Discard();
+                    MainWindowInstance.Topmost = LoadedConfiguration.Internal.IsAlwaysOnTop;
+                });
+
                 MainWindowInstance.BeginFadeShowing();
             }
             else
@@ -115,6 +126,17 @@ namespace LCLocalizationInterface
 
                 Application.Current.Shutdown();
             }
+        }
+
+        private static void SetupExternalStatics()
+        {
+            RijnadelClassLibrary.FileEventsNotifier.ExceptionsHandler += delegate (Exception OccurredException, string Context)
+            {
+                ErrorMessageWindow.ShowException(OccurredException, Context, $"{nameof(FileEventsNotifier)} :: ");
+            };
+
+            TextMeshLarp.TagsPreset.DefaultRegistry.ImportTagsFromNewInstanceOf<ImportableLimbusTags>();
+            TextMeshLarp.TagsPreset.DefaultRegistry.Add(@Languages.InlineImage);
         }
     }
 }

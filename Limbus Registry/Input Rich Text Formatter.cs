@@ -104,9 +104,16 @@ namespace LCLocalizationInterface.LimbusRegistry
                 {
                     LimbusText = InputRichTextFormatter.TMProKeywordPattern.Replace(LimbusText, Match =>
                     {
-                        string KeywordName = Match.Groups["Name"].Value;
-
-                        return Match.Value.Replace($">{KeywordName}<", $">{KeywordName.Replace(" ", InternalTMProAntiImplicitKeywordsConversionSpace)}<");
+                        string ID = Match.Groups["DescID"].Value;
+                        string MatchedName = Match.Groups["Name"].Value;
+                        if (KeywordsLoader.LoadedKeywords_Bufs.TryGetValue(ID, out PlainKeyword? FoundKeyword) && FoundKeyword.Name == MatchedName)
+                        {
+                            return Match.Value.Replace($">{MatchedName}<", $">{MatchedName.Replace(" ", InternalTMProAntiImplicitKeywordsConversionSpace)}<");
+                        }
+                        else
+                        {
+                            return Match.Value;
+                        }
                     });
                 }
 

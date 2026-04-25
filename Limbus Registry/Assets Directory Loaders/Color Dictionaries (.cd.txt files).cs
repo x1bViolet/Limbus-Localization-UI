@@ -1,6 +1,4 @@
-﻿using LCLocalizationInterface.Instruments.Classes;
-
-namespace LCLocalizationInterface.LimbusRegistry.AssetsDirectoryLoaders
+﻿namespace LCLocalizationInterface.LimbusRegistry.AssetsDirectoryLoaders
 {
     public static class ColorDictionaries
     {

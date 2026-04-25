@@ -1,5 +1,4 @@
-﻿using LCLocalizationInterface.Instruments;
-using LCLocalizationInterface.Internal.Configuration;
+﻿using LCLocalizationInterface.Internal.Configuration;
 using LCLocalizationInterface.Internal.UIStyle;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
 using static LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreatorPage;
