@@ -732,7 +732,7 @@
       },
       {
         "UID": {"[Skills / Right menu] * Affinity — Envy":null},
-        "Text": "忌妒"
+        "Text": "嫉妒"
       },
       {
         "UID": {"[Skills / Right menu] * Affinity — None":null},
@@ -1005,7 +1005,7 @@
       },
       {
         "UID": {"[Settings / Editor Parameters] * Enable 7~10 Simple Desc Buttons":null},
-        "Text": "啟用 E.G.O 禮物的第 7~10 個簡要描述按鈕"
+        "Text": "啟用 E.G.O 飾品的第 7~10 個簡要描述按鈕"
       },
       {
         "UID": {"[Settings / Editor Parameters] * Preview update delay":null},
@@ -1748,7 +1748,7 @@
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — Envy":null},
-        "Text": "忌妒"
+        "Text": "嫉妒"
       },
       {
         "UID": {"[Skills DI Manager] * Affinity — None":null},
