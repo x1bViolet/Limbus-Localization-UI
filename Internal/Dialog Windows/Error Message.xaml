@@ -53,6 +53,9 @@
 								ToolTipService.ShowOnDisabled="True">
 								<Terminus:IntenseStareType1 Padding="20 0 20 0" FontSize="20" RichText="Add to ignore list" TextAlignment="Center" UID="[Error Message] * Add to ignore list" />
 							</Button>
+							<Button x:Name="LimbusLocalizationFilesProcessor_CancelCurrentProcessing" Margin="5 0 0 0" Click="CancelLocalizationFilesProcessorOperation" Style="{StaticResource Theme:ControlStyles.ElongatedButton}" Visibility="Collapsed">
+								<Terminus:IntenseStareType1 Padding="20 0 20 0" FontSize="20" RichText="Cancel processing" TextAlignment="Center" UID="[Localization Processor &amp; Error Message] * Cancel processing" />
+							</Button>
 						</StackPanel>
 					</StackPanel>
 				</Abstractions:DialogWindowContentPresenter>

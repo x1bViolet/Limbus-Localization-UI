@@ -288,7 +288,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                 /// </summary>
                 public void TryValidateJsonAndSwitchMode(FileInfo TargetFile, string OpenFile_TypeCheckName /* Without "EN_", "KR_", "JP_" prefixes */)
                 {
-                    string Text = File.ReadAllText(TargetFile.FullName);
+                    string Text = StreamReadText(TargetFile.FullName);
                     LimbusLocalizationFile<LocalizationDataType> TestDeserialized = Text.DeserealizeJsonAs<LimbusLocalizationFile<LocalizationDataType>>()!;
 
                     if (TestDeserialized.DataList.Any(DataListValidator))
@@ -1071,7 +1071,7 @@ namespace LCLocalizationInterface
                             string ID = KeywordInfo.ID!;
                             string SpriteID = ID;
                             string Name = KeywordInfo.Name!;
-                            string Color = ColorDictionaries.LoadedKeywordColors[KeywordInfo.ID!];
+                            string Color = ColorDictionaries.KeywordColors[KeywordInfo.ID!];
 
                             if (ImageDictionaries.NotSuitableForSpriteTagRedirections.TryGetValue(ID, out string? AnotherSpriteID))
                             {

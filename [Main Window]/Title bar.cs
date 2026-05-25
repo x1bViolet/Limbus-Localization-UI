@@ -1,6 +1,7 @@
 ﻿using LCLocalizationInterface.Internal.Configuration;
 using LCLocalizationInterface.Internal.UIStyle;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
+using LCLocalizationInterface.LimbusRegistry.LocalizationFilesProcessing;
 using static LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreatorPage;
 
 namespace LCLocalizationInterface
@@ -39,7 +40,7 @@ namespace LCLocalizationInterface
         {
             SettingsWindow.SettingsWindowInstance.BeginFadeShowing();
 
-            // Show over this window
+            // Show over main window
             SettingsWindow.SettingsWindowInstance.WindowState = WindowState.Minimized;
             SettingsWindow.SettingsWindowInstance.WindowState = WindowState.Normal;
         }
@@ -123,7 +124,14 @@ namespace LCLocalizationInterface
             }
         }
 
+        private void OpenLocalizationFilesProcessorWindow(object Sender, RoutedEventArgs Args)
+        {
+            LocalizationFilesProcessorWindow.LocalizationFilesProcessorWindowInstance.BeginFadeShowing();
 
+            // Show over main window
+            LocalizationFilesProcessorWindow.LocalizationFilesProcessorWindowInstance.WindowState = WindowState.Minimized;
+            LocalizationFilesProcessorWindow.LocalizationFilesProcessorWindowInstance.WindowState = WindowState.Normal;
+        }
         private void ShowSkillDisplayInfoManagerWindow(object Sender, RoutedEventArgs Args)
         {
             SkillsDisplayInfoManagerWindow.SkillsDisplayInfoManagerWindowInstance.Show();

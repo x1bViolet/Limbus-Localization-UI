@@ -1,6 +1,5 @@
 ﻿using LCLocalizationInterface.Entanglement;
 using LCLocalizationInterface.LimbusRegistry.JsonTypes;
-using LCLocalizationInterface.LimbusRegistry.JsonTypes.Specific;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
 using PropertyChanged;
 using static LCLocalizationInterface.Entanglement.EntanglementModel;
@@ -98,13 +97,12 @@ namespace LCLocalizationInterface.Entanglement
 
 
 
-            #region TBD
-            public SkillsDisplayInfoOrchestrator_PROP SkillsDisplayInfoOrchestrator { get; } = new();
-            public record SkillsDisplayInfoOrchestrator_PROP : Explicit
+            public LocalizationFilesProcessor_PROP LocalizationFilesProcessor { get; } = new();
+            public record LocalizationFilesProcessor_PROP : Explicit
             {
-                public SkillConstructor CurrentConstructor { get; set; } = new();
+                public LocalizationFilesProcessingProfile Profile { get; set; } = new();
+                public ObservableCollection<string> ProfilesList { get; set; } = [];
             }
-            #endregion
 
 
 

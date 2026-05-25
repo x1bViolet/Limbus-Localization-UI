@@ -39,60 +39,13 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             RecentlySerializedImageInfoJson = CurrentImageInfoJson;
 
 
-            // Style reverse engineering for DiffPlex.Wpf.Controls.InternalLinesViewer because it is AN 'INTERNAL' CLASS FOR SOME REASON (Means unable to change ControlTemplate that has its own ScrollBar styles for content.............)
             {
                 bool StyleAlreadyForced = false;
                 this.Loaded += (_, _) =>
                 {
                     if (!StyleAlreadyForced)
                     {
-                        foreach (ScrollViewer InternalScrollViewer in ImageInfoUnsavedChangesViewer.FindVisualChildren<ScrollViewer>())
-                        {
-                            if (InternalScrollViewer is { Name: "ValueScrollViewer" } FoundDiffTextScrollViewer)
-                            {
-                                FoundDiffTextScrollViewer.Padding = new Thickness(0, 0, 8, 0); // Diff line offset from ScrollBar
-                                FoundDiffTextScrollViewer.Template = @Themes.GetDefaultStyleDictionaryResource<ControlTemplate>("Theme:ControlTemplates:ControlStyles.ScrollViewer");
-                                FoundDiffTextScrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
-
-
-                                Button ActualCorner = new() { Opacity = 0 };
-                                #pragma warning disable CS0618
-                                ActualCorner.Click += GeneralActionToken;
-                                #pragma warning restore CS0618
-
-                                Grid Corner = new()
-                                {
-                                    Width = 16, Height = 16,
-                                    HorizontalAlignment = HorizontalAlignment.Right, VerticalAlignment = VerticalAlignment.Bottom,
-                                    Margin = new Thickness(0, 0, 1, 1),
-                                    Children =
-                                    {
-                                        ActualCorner,
-                                        new Button() { Style = @Themes.GetDefaultStyleDictionaryResource<Style>("Theme:ControlStyles.SquareButton"), IsHitTestVisible = false },
-                                    }
-                                };
-
-                                Grid.SetColumn(Corner, 2);
-
-                                (FoundDiffTextScrollViewer.Parent as Grid)!.Children.Add(Corner);
-                            }
-                            else if (InternalScrollViewer is { Name: "NumberScrollViewer" } FoundLineNumbersScrollViewer)
-                            {
-                                (FoundLineNumbersScrollViewer.Content as StackPanel)!.Resources.Add(key: typeof(TextBlock), value: new Style()
-                                {
-                                    TargetType = typeof(TextBlock),
-                                    Setters = { new Setter() { Property = TextBlock.PaddingProperty, Value = new Thickness(0, 0, 4, 0) } } // Additional line numbers offset from right
-                                });
-                            }
-                        }
-                        foreach (UserControl InternalUserControl in ImageInfoUnsavedChangesViewer.FindVisualChildren<UserControl>())
-                        {
-                            if (InternalUserControl.GetType() is { Name: "InternalLinesViewer" })
-                            {
-                                InternalUserControl.SetPropertyValue<ContextMenu>("LineContextMenu", null!);
-                            }
-                        }
-
+                        Internal.UIStyle.DefaultStyleDictionaryClass.OverrideDiffPlexScrollBarStyle(ImageInfoUnsavedChangesViewer);
 
                         StyleAlreadyForced = true;
                     }
@@ -147,39 +100,36 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             DoubleAnimation FadeOut = ReuseableFadeOut;
             FadeOut.Completed += async (_, _) =>
             {
-                MainWindowInstance.Visibility = Visibility.Collapsed;
+                MainWindowInstance.WindowContentView.SelectedIndex = 1;
+
+                MainWindowInstance.Topmost = false;
+                MainWindowInstance.MaxWidth = double.PositiveInfinity;
+
+                Rect ScreenSpace = SystemParameters.WorkArea;
+                MainWindowInstance.Left = ScreenSpace.Left;
+                MainWindowInstance.Top = ScreenSpace.Top;
+                MainWindowInstance.Width = ScreenSpace.Width;
+                MainWindowInstance.Height = ScreenSpace.Height;
+
+                MainWindowInstance.VisualBorder.ShowTitleBarCursor = false;
+                MainWindowInstance.CurrentWindowChrome.ResizeBorderThickness = new Thickness(0);
+                MainWindowInstance.ResizeMode = ResizeMode.NoResize;
+
+                MainWindowInstance.VisualBorder.BorderThickness = new Thickness(0);
+                MainWindowInstance.VisualBorder.CornerRadius = new CornerRadius(0);
+                MainWindowInstance.CanDragMove = false;
+
+                MainWindowInstance.UpdateLayout();
+
+                if (IsPreloadImageInfoWasLoaded == false)
                 {
-                    MainWindowInstance.WindowContentView.SelectedIndex = 1;
-
-                    MainWindowInstance.Topmost = false;
-                    MainWindowInstance.MaxWidth = double.PositiveInfinity;
-
-                    Rect ScreenSpace = SystemParameters.WorkArea;
-                    MainWindowInstance.Left = ScreenSpace.Left;
-                    MainWindowInstance.Top = ScreenSpace.Top;
-                    MainWindowInstance.Width = ScreenSpace.Width;
-                    MainWindowInstance.Height = ScreenSpace.Height;
-
-                    MainWindowInstance.VisualBorder.ShowTitleBarCursor = false;
-                    MainWindowInstance.CurrentWindowChrome.ResizeBorderThickness = new Thickness(0);
-                    MainWindowInstance.ResizeMode = ResizeMode.NoResize;
-
-                    MainWindowInstance.VisualBorder.BorderThickness = new Thickness(0);
-                    MainWindowInstance.VisualBorder.CornerRadius = new CornerRadius(0);
-                    MainWindowInstance.CanDragMove = false;
-
-                    MainWindowInstance.UpdateLayout();
-
-                    if (IsPreloadImageInfoWasLoaded == false)
-                    {
-                        PreviewCreatorPageInstance.OpenImageInfo_Action(LoadedConfiguration.ScanParameters.PreloadedImageInfoForPreviewCreator);
-                        PreviewCreatorPageInstance.RecentlySerializedImageInfoJson = PreviewCreatorPageInstance.CurrentImageInfoJson;
-                        IsPreloadImageInfoWasLoaded = true;
-                    }
-
-                    @CurrentPreviewCreator.ActiveState = true;
+                    PreviewCreatorPageInstance.OpenImageInfo_Action(LoadedConfiguration.ScanParameters.PreloadedImageInfoForPreviewCreator);
+                    PreviewCreatorPageInstance.RecentlySerializedImageInfoJson = PreviewCreatorPageInstance.CurrentImageInfoJson;
+                    IsPreloadImageInfoWasLoaded = true;
                 }
-                MainWindowInstance.Visibility = Visibility.Visible;
+
+                @CurrentPreviewCreator.ActiveState = true;
+                
 
                 MainWindowInstance.BeginAnimation(MainWindow.OpacityProperty, ReuseableFadeIn);
                 if (RebuildTextElementsOnSwitch)
@@ -200,32 +150,29 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             DoubleAnimation FadeOut = ReuseableFadeOut;
             FadeOut.Completed += (_, _) =>
             {
-                MainWindowInstance.Visibility = Visibility.Collapsed;
-                {
-                    MainWindowInstance.WindowContentView.SelectedIndex = 0;
+                MainWindowInstance.WindowContentView.SelectedIndex = 0;
 
-                    @EditorModesShelf.CurrentEditorMode.AdjustMainWindow();
+                @EditorModesShelf.CurrentEditorMode.AdjustMainWindow();
 
-                    MainWindowInstance.Left = PreviousWindowLocation_Left;
-                    MainWindowInstance.Top = PreviousWindowLocation_Top;
+                MainWindowInstance.Left = PreviousWindowLocation_Left;
+                MainWindowInstance.Top = PreviousWindowLocation_Top;
 
-                    MainWindowInstance.VisualBorder.ShowTitleBarCursor = true;
-                    MainWindowInstance.CurrentWindowChrome.ResizeBorderThickness = new Thickness(10);
-                    MainWindowInstance.ResizeMode = ResizeMode.CanResizeWithGrip;
+                MainWindowInstance.VisualBorder.ShowTitleBarCursor = true;
+                MainWindowInstance.CurrentWindowChrome.ResizeBorderThickness = new Thickness(10);
+                MainWindowInstance.ResizeMode = ResizeMode.CanResize;
 
-                    MainWindowInstance.VisualBorder.BorderThickness = new Thickness(1);
-                    MainWindowInstance.VisualBorder.CornerRadius = CornerRadiusFrom(@Themes.CurrentTheme.Common.MainWindow.BorderCornerRadius);
-                    MainWindowInstance.CanDragMove = true;
+                MainWindowInstance.VisualBorder.BorderThickness = new Thickness(1);
+                MainWindowInstance.VisualBorder.CornerRadius = CornerRadiusFrom(@Themes.CurrentTheme.Common.MainWindow.BorderCornerRadius);
+                MainWindowInstance.CanDragMove = true;
 
-                    MainWindowInstance.Topmost = LoadedConfiguration.Internal.IsAlwaysOnTop;
+                MainWindowInstance.Topmost = LoadedConfiguration.Internal.IsAlwaysOnTop;
 
-                    MainWindowInstance.UpdateLayout();
+                MainWindowInstance.UpdateLayout();
 
-                    @CurrentPreviewCreator.ActiveState = false;
+                @CurrentPreviewCreator.ActiveState = false;
 
-                    CompleteAction?.Invoke();
-                }
-                MainWindowInstance.Visibility = Visibility.Visible;
+                CompleteAction?.Invoke();
+                
 
                 MainWindowInstance.BeginAnimation(MainWindow.OpacityProperty, ReuseableFadeIn);
             };

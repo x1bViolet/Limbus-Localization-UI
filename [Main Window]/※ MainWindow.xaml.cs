@@ -2,6 +2,7 @@
 using LCLocalizationInterface.LimbusRegistry.JsonTypes;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
 using System.Diagnostics;
+using static LCLocalizationInterface.LimbusRegistry.LocalizationFilesProcessing.LocalizationFilesProcessorWindow;
 
 namespace LCLocalizationInterface
 {
@@ -152,7 +153,7 @@ namespace LCLocalizationInterface
 
 
                     case "[Main UI] * Json Path — 'Copy file text' context menu option":
-                        string Text = @EditorModesShelf.CurrentEditorMode.RecentlySerializedJsonText ?? File.ReadAllText(@EditorModesShelf.CurrentEditorMode.CurrentFile.FullName);
+                        string Text = @EditorModesShelf.CurrentEditorMode.RecentlySerializedJsonText ?? StreamReadText(@EditorModesShelf.CurrentEditorMode.CurrentFile.FullName);
                         Clipboard.SetDataObject(Text);
                         break;
 
@@ -189,25 +190,59 @@ namespace LCLocalizationInterface
         /// <summary>Check for unsaved changes before calling <see cref="FadeableWindow.BeginFadeHiding"/></summary>
         private void ExplicitClose()
         {
-            if (PreviewCreatorPage.PreviewCreatorPageInstance.CurrentImageInfoJson != PreviewCreatorPage.PreviewCreatorPageInstance.RecentlySerializedImageInfoJson)
+            // UnsavedChangesCheckingInPreviewCreator -> UnsavedChangesCheckingInLocalizationFilesProcessor -> UnsavedChangesCheckingInEditors   sequence
+
+
+            CheckUnsavedChangesCheckingInPreviewCreator();
+
+
+            void CheckUnsavedChangesCheckingInPreviewCreator()
             {
-                if (@CurrentPreviewCreator.ActiveState == false)
+                if (PreviewCreatorPage.PreviewCreatorPageInstance.CurrentImageInfoJson != PreviewCreatorPage.PreviewCreatorPageInstance.RecentlySerializedImageInfoJson)
                 {
-                    PreviewCreatorPage.SwitchUI_Activate();
+                    if (@CurrentPreviewCreator.ActiveState == false)
+                    {
+                        PreviewCreatorPage.SwitchUI_Activate();
+                    }
+
+                    PreviewCreatorPage.PreviewCreatorPageInstance.UnsavedChangesDialog_ShowMenu(ProceedAction: delegate ()
+                    {
+                        CheckUnsavedChangesCheckingInLocalizationFilesProcessor();
+                        return true; // Hide preview creator unsaved changes view
+                    });
                 }
-
-                PreviewCreatorPage.PreviewCreatorPageInstance.UnsavedChangesDialog_ShowMenu(ProceedAction: delegate ()
+                else
                 {
-                    UnsavedChangesCheckingInEditors();
-                    return true; // Hide preview creator unsaved changes view
-                });
-            }
-            else
-            {
-                UnsavedChangesCheckingInEditors();
+                    CheckUnsavedChangesCheckingInLocalizationFilesProcessor();
+                }
             }
 
-            void UnsavedChangesCheckingInEditors()
+
+            void CheckUnsavedChangesCheckingInLocalizationFilesProcessor()
+            {
+                if (LocalizationFilesProcessorWindowInstance.HasLoadedProfile && LocalizationFilesProcessorWindowInstance.CurrentProfileHasUnsavedChanges)
+                {
+                    LocalizationFilesProcessorWindowInstance.ExitPseudoMaximizedState();
+                    LocalizationFilesProcessorWindowInstance.CenterOnScreen();
+
+                    if (LocalizationFilesProcessorWindowInstance.IsVisible == false)
+                    {
+                        LocalizationFilesProcessorWindowInstance.BeginFadeShowing();
+                    }
+                    LocalizationFilesProcessorWindowInstance.UnsavedChangesDialog_ShowMenu(ProceedAction: CheckUnsavedChangesCheckingInEditors);
+
+                    // Show over main window
+                    LocalizationFilesProcessorWindowInstance.WindowState = WindowState.Minimized;
+                    LocalizationFilesProcessorWindowInstance.WindowState = WindowState.Normal;
+                }
+                else
+                {
+                    CheckUnsavedChangesCheckingInEditors();
+                }
+            }
+
+
+            void CheckUnsavedChangesCheckingInEditors()
             {
                 List<@EditorModesShelf.Types.EditorModeIntermediator> EditorsWithOpenedFiles =
                     [.. @EditorModesShelf.ModesMapping.Select(x => x.AssociatedMode).Where(x => x.CurrentFile is not null)];

@@ -60,7 +60,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                             Text: TryReadAllText(
                                 FilePath: @"[⇲] Assets Directory\Default Text.txt",
                                 Fallback: $"                    <font=\"BebasKai SDF\"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'{App.@Version}</font>\n\nЧерти вылезли из омута"
-                            ),
+                            ).Replace("{v:Major}", $"{App.VersionHeading.Major}").Replace("{v:Minor}", $"{App.VersionHeading.Minor}").Replace("{v:Patch}", $"{App.VersionHeading.Patch}"),
                             CarriedSyntaxKey: RichTextFormat.EGOGifts
                         );
 

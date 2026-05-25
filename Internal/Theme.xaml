@@ -47,12 +47,40 @@
     <Color           x:Key="Theme:Common.SettingsWindow.SpecificSettings.CautionsColor">#FF4500</Color>
 
 
-    <SolidColorBrush x:Key="Theme:Common.SkillsDisplayInfoManagerWindow.Border.Color" Color="#3A3A3A" />
-    <CornerRadius    x:Key="Theme:Common.SkillsDisplayInfoManagerWindow.Border.CornerRadius">4</CornerRadius>
-    <SolidColorBrush x:Key="Theme:Common.SkillsDisplayInfoManagerWindow.Background.Color" Color="#0F0F0F" />
-    <BitmapImage     x:Key="Theme:Common.SkillsDisplayInfoManagerWindow.Background.Image" UriSource="/UI/Empty image.png" />
-    <SolidColorBrush x:Key="Theme:Common.SkillsDisplayInfoManagerWindow.Background.Image.Shadow" Color="#00000000" />
+	<SolidColorBrush x:Key="Theme:Common.LocalizationFilesProcessorWindow.Border.Color" Color="#3A3A3A" />
+	<CornerRadius    x:Key="Theme:Common.LocalizationFilesProcessorWindow.Border.CornerRadius">4</CornerRadius>
+	<SolidColorBrush x:Key="Theme:Common.LocalizationFilesProcessorWindow.Background.Color" Color="#181818" />
+	<BitmapImage     x:Key="Theme:Common.LocalizationFilesProcessorWindow.Background.Image" UriSource="/UI/Empty image.png" />
+	<SolidColorBrush x:Key="Theme:Common.LocalizationFilesProcessorWindow.Background.Image.Shadow" Color="#00000000" />
 
+	<SolidColorBrush x:Key="Theme:Common.LocalizationFilesProcessorWindow.MenuSwitchButton.Foreground.Inactive" Color="#A6A2A2" />
+	<SolidColorBrush x:Key="Theme:Common.LocalizationFilesProcessorWindow.MenuSwitchButton.Foreground.MouseOver" Color="#C9C2C2" />
+	<SolidColorBrush x:Key="Theme:Common.LocalizationFilesProcessorWindow.MenuSwitchButton.Foreground.Active" Color="#EBE2E2" />
+	
+	<SolidColorBrush x:Key="Theme:Common.LocalizationFilesProcessorWindow.SectionHeaders" Color="#EBE2E2" />
+	<SolidColorBrush x:Key="Theme:Common.LocalizationFilesProcessorWindow.SectionSeparators" Color="#EBE2E2" />
+
+	<!--#region LocalizationFilesProcessorWindow Json Difference Viewer-->
+	<SolidColorBrush x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.BlurredBackground">#8C090909</SolidColorBrush>
+
+	<FontFamily x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.Font">Cascadia Code</FontFamily>
+	<sys:Double x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.FontSize">12</sys:Double>
+	<FontWeight x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.FontWeight">Regular</FontWeight>
+	<FontStretch x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.FontStretch">Normal</FontStretch>
+
+	<SolidColorBrush x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.Foreground">#D5CDCD</SolidColorBrush>
+	<SolidColorBrush x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.LineNumbers">#999393</SolidColorBrush>
+
+
+	<SolidColorBrush x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.OldValue.Foreground">#D5CDCD</SolidColorBrush>
+	<SolidColorBrush x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.OldValue.Background">#40D82020</SolidColorBrush>
+
+	<SolidColorBrush x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.NewValue.Foreground">#D5CDCD</SolidColorBrush>
+	<SolidColorBrush x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.NewValue.Background">#4060D820</SolidColorBrush>
+
+
+	<SolidColorBrush x:Key="Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.ChangeTypeIcon">#808080</SolidColorBrush>
+	<!--#endregion-->
 
 
 	<SolidColorBrush x:Key="Theme:Common.RightMenu.NavigationPanel.Background" Color="#00000000" />
@@ -65,8 +93,10 @@
 	<!--#region UI Text-->
 	<SolidColorBrush x:Key="Theme:UIText.MainWindow.Foreground" Color="#D5CDCD" />
 	<SolidColorBrush x:Key="Theme:UIText.MainWindow.Foreground.Tooltips" Color="#D5CDCD" />
+    <SolidColorBrush x:Key="Theme:UIText.MainWindow.LocalizationFilesProcessorWindow" Color="#D5CDCD" />
 	<SolidColorBrush x:Key="Theme:UIText.MainWindow.PreviewCreator.Foreground" Color="#D5CDCD" />
 	<SolidColorBrush x:Key="Theme:UIText.MainWindow.PreviewCreator.Foreground.Tooltips" Color="#D5CDCD" />
+    <SolidColorBrush x:Key="Theme:UIText.LocalizationFilesProcessorWindow.Foreground" Color="#D5CDCD" />
 	<SolidColorBrush x:Key="Theme:UIText.DialogWindows.Foreground" Color="#EEEEEE" />
 	<SolidColorBrush x:Key="Theme:UIText.DialogWindows.Foreground.Tooltips" Color="#D5CDCD" />
 	<SolidColorBrush x:Key="Theme:UIText.SettingsWindow.Foreground" Color="#D5CDCD" />
@@ -79,8 +109,10 @@
 	<SolidColorBrush x:Key="Theme:UITextfields.Foreground" Color="#ABA193" />
 	<SolidColorBrush x:Key="Theme:UITextfields.ShadowText.Foreground" Color="#514C46" />
 	<SolidColorBrush x:Key="Theme:UITextfields.Background" Color="#181818" />
+	<SolidColorBrush x:Key="Theme:UITextfields.Background.Focused" Color="#202020" />
 
 	<SolidColorBrush x:Key="Theme:UITextfields.Border" Color="#333333" />
+    <SolidColorBrush x:Key="Theme:UITextfields.Border.WhenMissingPath" Color="#CC4747" />
 	<Thickness       x:Key="Theme:UITextfields.Border.Thickness">1</Thickness>
 	<CornerRadius    x:Key="Theme:UITextfields.Border.CornerRadius">1.5</CornerRadius>
 

@@ -1,0 +1,65 @@
+{Regex Option}
+- Files: MirrorDungeonRentalName.json
+- JsonPath: $.dataList[*].content
+
+This is a 'auto translation' via replacements
+* Pattern: Pierce
+  Replace: Пронзающий
+
+* Pattern: Blunt
+  Replace: Дробящий
+
+* Pattern: Slash
+  Replace: Рубящий
+
+
+* Pattern: Poise
+  Replace: Дыхание
+
+* Pattern: Charge
+  Replace: Заряд
+
+* Pattern: Sinking
+  Replace: Утопание
+
+* Pattern: Rupture
+  Replace: Разрыв
+
+* Pattern: Burn
+  Replace: Огонь
+
+* Pattern: Bleed
+  Replace: Кровотечение
+
+* Pattern: Tremor
+  Replace: Тремор
+
+
+* Pattern: Wrath
+  Replace: Гнев
+
+* Pattern: Lust
+  Replace: Похоть
+
+* Pattern: Sloth
+  Replace: Леность
+
+* Pattern: Gluttony
+  Replace: Чревоугодие
+
+* Pattern: Gloom
+  Replace: Уныние
+
+* Pattern: Pride
+  Replace: Гордыня
+
+* Pattern: Envy
+  Replace: Зависть
+
+
+{Regex Option}
+- Files: Bufs*.json, BattleKeywords*.json
+- JsonPath: $.dataList[*].desc
+
+* Pattern: ^(.*?)$
+  Replace: $1\u2605

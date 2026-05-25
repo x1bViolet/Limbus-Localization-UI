@@ -30,19 +30,19 @@
       },
       {
         "UID": {"[Main UI] * Json Path — 'Copy file text' context menu option":null},
-        "Text": "Скопировать содержимое файла"
+        "Text": "Копировать содержимое файла"
       },
       {
         "UID": {"[Main UI] * Json Path — 'Copy file itself' context menu option":null},
-        "Text": "Скопировать сам файл"
+        "Text": "Копировать сам файл"
       },
       {
         "UID": {"[Main UI] * Json Path — 'Copy name' context menu option":null},
-        "Text": "Скопировать имя"
+        "Text": "Копировать имя"
       },
       {
         "UID": {"[Main UI] * Json Path — 'Copy full path' context menu option":null},
-        "Text": "Скопировать полный путь"
+        "Text": "Копировать полный путь"
       },
       {
         "UID": {"[Main UI] * Export Preview as PNG Tooltip":null},
@@ -680,18 +680,17 @@
     [
       {
         "UID": {"[Unsaved Changes] * Title":null},
-        "Text": "Несохранённые изменения",
-        "Font": "Excelsior Sans"
+        "Text": "<size=90%>Несохранённые изменения"
       },
       {
-        "UID": {"[Unsaved Changes] * Confirm Exit":null},
-        "Text": "Продолжить",
-        "Font": "Excelsior Sans", "Width": 150
+        "UID": {"[Unsaved Changes] * Proceed":null},
+        "Text": "<size=90%>Продолжить",
+        "Width": 150
       },
       {
         "UID": {"[Unsaved Changes] * Cancel":null},
-        "Text": "Остаться",
-        "Font": "Excelsior Sans", "Width": 150
+        "Text": "<size=90%>Остаться",
+        "Width": 150
       },
       {
         "UID": {"[Unsaved Changes] [-] * Information Text":null}
@@ -1016,7 +1015,7 @@
     [
       {
         "UID": {"[Settings / Custom Language] * Section Name":null},
-        "Text": "⦁ Кастомная локализация лимбуса<size=88%> <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/custom-localization-properties\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
+        "Text": "⦁ Кастомная локализация лимбуса<size=88%> <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/setup/all-properties-of-limbus-custom-language\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
       },
       {
         "UID": {"[Settings / Custom Language] * Selected Properties":null},
@@ -1215,6 +1214,344 @@
         "Text": "Больший Масштаб = больше качества, больше времени на сканирование контента, больше размер файла, и ЕЩЁ БОЛЬШЕ потребления оперативной памяти (Вплоть до ~1.8 Гб)[b].[/b]\n\nПоследние две опции применяются к ключевым словам, которые в своём конечном виде совпадают с паттерном [size=92%][font=\"Consolas\"]<\u200Bsprite name=\"...\"><\u200Bcolor><\u200Bu><\u200Blink=\"...\">...</\u200Blink><\u200B/u><\u200B/color>[/font][/size] (С любым порядом открывающих и закрывающих [size=92%][font=\"Consolas\"]<\u200Blink=\"...\">[/font][/size], [size=92%][font=\"Consolas\"]<\u200Bu>[/font][/size] и [size=92%][font=\"Consolas\"]<\u200Bcolor>[/font][/size] тегов)[b].[/b]"
       }
     ],
+    
+    [
+      {
+        "UID": {"[Main UI] * Open Localization Files Processor button Tooltip":null},
+        "Text": "Открыть Обработчик файлов локализации"
+      },
+      {
+        "UID": {"[Localization Processor] * Title":null},
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=70 yoffset=-20>Обработчик файлов локализации",
+        "Font": "Arita-buri"
+      },
+      {
+        "UID": {"[Localization Processor] [!] [#] * Title (Window Caption)":null},
+        "Text": "Обработчик файлов локализации"
+      }
+    ],
+
+    [
+      {
+        "UID": {"[Localization Processor] * Menu switch — Files processing":null},
+        "Text": "Обработка файлов"
+      },
+      {
+        "UID": {"[Localization Processor] * Menu switch (Delimiter)":null},
+        "Text": "|"
+      },
+      {
+        "UID": {"[Localization Processor] * Menu switch — Parameters":null},
+        "Text": "Параметры"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Source path of localization files (Shadow Text)":null},
+        "Text": "Директория исходных файлов локализации"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Destination path of processed files (Shadow Text)":null},
+        "Text": "Директория для обработанных файлов локализации"
+      },
+      {
+        "UID": {"[Localization Processor] [-] * Files counter":null}
+      },
+      {
+        "UID": {"[Localization Processor] * Process files Button":null},
+        "Text": "Начать"
+      },
+      {
+        "UID": {"[Localization Processor] * Cancel processing Button":null},
+        "Text": "Остановить"
+      },
+      {
+        "UID": {"[Localization Processor & Error Message] * Cancel processing":null},
+        "Text": "Остановить обработку" // Additional button in Error Message Window
+      },
+
+      {
+        "UID": {"[Localization Processor] [-] * Template for name of exported file":null}
+      },
+      {
+        "UID": {"[Localization Processor] * Cancelled processing message":null},
+        "Text": "<Процесс был остановлен>"
+      },
+      {
+        "UID": {"[Localization Processor] * Finished processing message":null},
+        "Text": "<Процесс завершён>"
+      },
+
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] [-] * File name":null}
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Open with external editor":null},
+        "Text": "Открыть во внешнем редакторе"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy file text":null},
+        "Text": "Копировать содержимое файла"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy file itself":null},
+        "Text": "Копировать сам файл"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy name":null},
+        "Text": "Копировать имя"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy full path":null},
+        "Text": "Копировать полный путь"
+      }
+    ],
+    [
+      {
+        "UID": {"[Localization Processor] * Topmost":null},
+        "Text": "Поверх других окон"
+      },
+      {
+        "UID": {"[Localization Processor] [-] * Template for name of profile":null}
+      },
+      {
+        "UID": {"[Localization Processor] * Save edited profile button":null},
+        "Text": "Сохранить профиль"
+      },
+      {
+        "UID": {"[Localization Processor] * Documentation hint":null},
+        "Text": "<hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/localization-files-processing\">Документация <color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
+      }
+    ],
+
+    // Profile settings
+
+    // Main
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * General localization files whitelist":null},
+        "Text": "Общий белый список файлов"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Files processing order":null},
+        "Text": "Порядок обработки файлов"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * General localization files whitelist — Recently changed first":null},
+        "Text": "Сортировать по дате изменения (Сначала недавние)"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * General localization files whitelist — Sort by name":null},
+        "Text": "Сортировать по имени"
+      }
+    ],
+
+    // Json files formatting
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Json files formatting (Section title)":null},
+        "Text": "Формат Json файлов"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule":null},
+        "Text": "Перезапись существующих файлов"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule — If Json content itself is not the same":null},
+        "Text": "Если фактическое содержимое Json файла отличается"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule — If just text of both files is not the same":null},
+        "Text": "Если обычный текст файла отличается"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule — Always overwrite existing files":null},
+        "Text": "Всегда перезаписывать"
+      },
+      
+      {
+        "UID": {"[Localization Processor / Profile] * Output json formatting":null},
+        "Text": "Форматирование"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Output json formatting — Indented":null},
+        "Text": "Обычное (С отступами и явной структурой)"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Output json formatting — None (Just long single line without any spaces)":null},
+        "Text": "Нет (Одна длинная строка без пробелов)"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Json Indentation size":null},
+        "Text": "Размер отступа"
+      },
+      // 1..8 (Inherints "[Localization Processor / Profile] * Json Indentation size" style)
+      {
+        "UID": {"[Localization Processor / Profile] * Json Indentation size — Keep original":null},
+        "Text": "Сохранять оригинальный"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Line break mode":null},
+        "Text": "Формат переноса строк"
+      },
+      // CRLF CR LF (Inherints "[Localization Processor / Profile] * Line break mode — Keep original" style)
+      {
+        "UID": {"[Localization Processor / Profile] * Line break mode — Keep original":null},
+        "Text": "Сохранять оригинальный"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks":null},
+        "Text": "UTF-8 Byte Order Marks"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks — Keep BOM if they are inside original file":null},
+        "Text": "Сохранять BOM, если кодировка исходного файла имеет их"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks — Save files with regular UTF-8 encoding":null},
+        "Text": "Сохранять файлы в обычной UTF-8 кодировке"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks — Save files with UTF-8 BOM encoding":null},
+        "Text": "Сохранять файлы в кодировке UTF-8 BOM"
+      }
+    ],
+
+    // Reference localization
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Reference localization (Section title)":null},
+        "Text": "Референс"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Directory of reference localization":null},
+        "Text": "Директория референсной локализации"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Prefix of files from reference localization":null},
+        "Text": "<size=98%>Префикс файлов референсной локализации"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Append missing files":null},
+        "Text": "Добавлять отсутствующие файлы"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Whitelist of missing files to append":null},
+        "Text": "Белый список файлов для добавления"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Append missing IDs":null},
+        "Text": "Добавлять отсутствующие объекты"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Whitelist of existing files to add IDs to":null},
+        "Text": "<size=80%>Белый список существующих файлов, в которые могут быть добавлены отсутствующие объекты"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Count IDs as missed starting from the last one from source file":null},
+        "Text": "<size=80%>Считать объект за пропущенный, если его ID идёт после ID последнего объекта из исходного файла"
+      }
+    ],
+
+    // Font files
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Font files (Section title)":null},
+        "Text": "Файлы шрифтов"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Also copy font files":null},
+        "Text": "<size=80%>Копировать файлы шрифтов в директорию обработанных файлов"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Title font file":null},
+        "Text": "Title шрифт"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Context font file":null},
+        "Text": "Context шрифт"
+      }
+    ],
+
+    // Miscellaneous
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Miscellaneous (Section title)":null},
+        "Text": "Разное"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Add <style> placeholders":null},
+        "Text": "<size=80%>Добавлять <style=\"highlight\"></style> заглушки в файлы скиллов Айди/E.G.O"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Do JsonPath regex conversions":null},
+        "Text": "<size=97%>Производить JsonPath-Regex конвертации"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * JsonPath regex conversions config":null},
+        "Text": "Конфиг JsonPath-Regex конвертаций"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Convert Keyword Shorthands":null},
+        "Text": "Конвертировать Shorthands"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Shorthands pattern":null},
+        "Text": "Паттерн Shorthands"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Keyword Shorthands files whitelist":null},
+        "Text": "<size=80%>Белый список файлов, в которых будет производиться конвертация Shorthands"
+      }
+    ],
+
+    // Merged fonts
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Merged fonts (Section title)":null},
+        "Text": "Объединённые шрифты"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Merged font Characters Replacement Map":null},
+        "Text": "Карта замены символов"
+      },
+      
+      {
+        "UID": {"[Localization Processor / Profile] * Apply merged fonts by Multiple Apply config":null},
+        "Text": "<size=80%>Производить конвертацию через Конфиг множественного применения"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Merged font Multiple Apply config":null},
+        "Text": "Конфиг множественного применения"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Apply merged fonts by [font=name] markers":null},
+        "Text": "<size=80%>Производить конвертацию через <size=70%><font=\"Consolas\">[font=name]</font></size> маркеры в начале строковых свойств"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Regex pattern of text parts to ignore during conversion":null},
+        "Text": "<size=80%>Паттерн игнорируемых при конвертации фрагментов строки"
+      }
+    ],
+
+    [
+      {
+        "UID": {"[Localization Processor / Warnings] * Invalid Merged Font name in marker":null},
+        "Variable": {
+          "Title": "Неизвестное имя шрифта",
+          "Text": "Строка <b>\"<noparse>[$1]</noparse>\"</b> в файле <b>\"[$2]\"</b> содержит маркер \"[font=[$3]]\" для применения объединённого шрифта \"[$3]\", имя которого не найдено в выбранной карте замены символов (Доступные шрифты в текущей карте замены символов: <b>[[$4]]</b>)\nИгнорировать эту проблему?\n\n<size=88%>Нажмите \"Да\" для продолжения, \"Нет\" для отмены обработки файлов.</size>"
+        }
+      }
+    ],
+
     [
       {
         "UID": {"[Skills DI Manager] * Title bar button tooltip":null},
@@ -1467,17 +1804,17 @@
     [
       {
         "UID": {"[C] * [Unsaved Changes] Title":null},
-        "Text": "Несохранённые изменения", "Font": "Excelsior Sans"
+        "Text": "Несохранённые изменения"
       },
       {
         "UID": {"[C] * [Unsaved Changes] Proceed":null},
         "Text": "Продолжить",
-        "Font": "Excelsior Sans", "Width": 150
+        "Width": 150
       },
       {
         "UID": {"[C] * [Unsaved Changes] Cancel":null},
         "Text": "Остаться",
-        "Font": "Excelsior Sans", "Width": 150
+        "Width": 150
       }
     ],
     [
@@ -1885,8 +2222,7 @@
 
       {
         "UID": {"[C] * [Section:Textual info/Text sources] Reload files and rebuild text (Button)":null},
-        "Text": "Перезагрузить файлы и перестроить текст",
-        "Font Size": 17,
+        "Text": "Перезагрузить файлы и перестроить текст", "Font Size": 17,
         "Text Alignment": "Center"
       }
     ],

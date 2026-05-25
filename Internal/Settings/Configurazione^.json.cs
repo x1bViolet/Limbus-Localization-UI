@@ -323,6 +323,10 @@ namespace LCLocalizationInterface.Internal
 
                     [JsonProperty("Export text to image")]
                     public bool ExportTextToImage { get; set; } = true;
+
+
+                    [JsonProperty("Localization Files Processor")]
+                    public bool LocalizationFilesProcessor { get; set; } = true;
                 }
             }
 
@@ -414,6 +418,19 @@ namespace LCLocalizationInterface.Internal
                     }
                 }
             }
+
+
+            [JsonProperty("Localization Files Processor")]
+            public LocalizationFilesProcessorSettings_PROP LocalizationFilesProcessorSettings { get; set; } = new();
+            public record LocalizationFilesProcessorSettings_PROP : Explicit
+            {
+                [JsonProperty("Selected Profile")]
+                public string SelctedProfile { get; set; } = "";
+
+                [JsonProperty("Topmost")]
+                public bool Topmost { get; set; } = true;
+            }
+
 
 
             [JsonProperty("Scan Parameters")]

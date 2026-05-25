@@ -66,7 +66,16 @@
                             }
                             else if (LatestOptionName is not null && Line.StartsWith("* Pattern: ") && LineIndex < Lines.Count - 1 && Lines[LineIndex + 1].StartsWith("  Replace: "))
                             {
-                                Readed[LatestOptionName].Add(new RegexReplaceOption(RegularExpression: new Regex(pattern: Line[11..]), Replacement: Lines[LineIndex + 1][11..]));
+                                string RepalceForPattern = Lines[LineIndex + 1][11..];
+
+                                // Unicode escapes
+                                RepalceForPattern = Regex.Replace(RepalceForPattern, @"\\u(?<UnicodeCharacterCode>[a-fA-F0-9]{4})", Match =>
+                                {
+                                    int UnicodeCharacterCode = int.Parse(Match.Groups["UnicodeCharacterCode"].Value, System.Globalization.NumberStyles.HexNumber);
+                                    return $"{(char)UnicodeCharacterCode}";
+                                });
+
+                                Readed[LatestOptionName].Add(new RegexReplaceOption(RegularExpression: new Regex(pattern: Line[11..]), Replacement: RepalceForPattern));
                             }
 
                             LineIndex++;

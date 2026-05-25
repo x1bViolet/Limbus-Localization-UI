@@ -1,0 +1,7 @@
+{
+  "TimeEntangleUnstable":  ["SojiRyoshuEchoPast"],
+  "SojiAbiBuffOne":        ["SojiRyoshuEchoFuture"],
+  "LittleFingerBoss_Shin": ["SojiRyoshuShin"],
+  "PhantomIncision":       ["PhantomIncisionID"],
+  "PhantomIncisionTotal":  ["PhantomIncisionTotalID"]
+}

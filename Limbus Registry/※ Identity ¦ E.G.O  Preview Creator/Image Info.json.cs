@@ -54,7 +54,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                         ReconstructColumnItems(@DataContextDomain.PreviewCreator.ImageInfo.TextColumns.First.Items, TextColumn_1);
                         ReconstructColumnItems(@DataContextDomain.PreviewCreator.ImageInfo.TextColumns.Second.Items, TextColumn_2);
 
-                        //CompositionScrollViewer.UpdateLayout();
+                        CompositionScrollViewer.UpdateLayout(); // To be sure cautions will be sealed normally
                         SealCautions();
                     }
                     else

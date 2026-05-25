@@ -13,6 +13,8 @@ namespace LCLocalizationInterface.Internal
 
         #region FadeableWindow things
         public override bool UseShowDialog => true;
+
+        public override List<Action> AdditionalFadeOutCompleteActions => [delegate() { LimbusLocalizationFilesProcessor_CancelCurrentProcessing.Visibility = Visibility.Collapsed; }];
         #endregion
 
 
@@ -38,6 +40,11 @@ namespace LCLocalizationInterface.Internal
                 IgnoredExceptionMessages.Add(LatestExceptionMessage!);
                 IgnoredExceptionMessages.SerializeToFormattedJsonFile(@"[⇲] Assets Directory\※ Internal\Ignored Exceptions.json");
             }
+            this.BeginFadeHiding();
+        }
+        private void CancelLocalizationFilesProcessorOperation(object Sender, RoutedEventArgs Args)
+        {
+            LimbusRegistry.LocalizationFilesProcessing.Modules.Main.CurrentLocalizationFilesProcessingCancelTokenSource.Cancel();
             this.BeginFadeHiding();
         }
         #endregion
@@ -82,14 +89,14 @@ namespace LCLocalizationInterface.Internal
             string? SubSubStackTtace = SortStackTrace(TargetException.InnerException?.InnerException?.StackTrace, TargetException is not ZenaException);
 
             string FinalMessage =
-                $"[{TargetException.GetType().Name}] <images-size=25><image id=\"ZenaConfused\">\n{Message}{(string.IsNullOrWhiteSpace(StackTtace) ? "" : $"\n\n{StackTtace}")}" +
+                $"[{TargetException.GetType().Name}] <image source=\"[⇲] Assets Directory/Limbus Images/Keywords/Shhhhh/ZenaConfused.png\" size=32 yoffset=-5>\n{Message}{(string.IsNullOrWhiteSpace(StackTtace) ? "" : $"\n\n{StackTtace}")}" +
                 (SubStackTtace is not null ? $"\n\n\n[InnerException]\n{SubMessage} [{TargetException.InnerException!.GetType().Name}]\n\n{SubStackTtace}" : "") +
                 (SubSubStackTtace is not null ? $"\n\n\n[InnerException]\n{SubMessage} [{TargetException.InnerException!.GetType().Name}]\n\n{SubStackTtace}" : "");
 
             return FinalMessage;
         }
 
-        public static void ShowException(Exception Exception, string ExceptionContext = "", string? HandlingSource = null, bool UseFadeAnimation = true)
+        public static void ShowException(Exception Exception, string ExceptionContext = "", string? HandlingSource = null, bool EnableLocalizationFilesProcessorCancelButton = false, bool UseFadeAnimation = true)
         {
             Application.Current.Dispatcher.Invoke(delegate ()
             {
@@ -107,6 +114,11 @@ namespace LCLocalizationInterface.Internal
 
                     string FullExceptionMessage = ExceptionContext + HandlingSource + FormatException(Exception);
                     ErrorMessageWindow.LatestExceptionMessage = FullExceptionMessage;
+
+                    if (EnableLocalizationFilesProcessorCancelButton)
+                    {
+                        ErrorMessageWindowInstance.LimbusLocalizationFilesProcessor_CancelCurrentProcessing.Visibility = Visibility.Visible;
+                    }
 
                     if (@Languages.PresentedTextElements.TryGetValue("[Error Message] [-] * Text", out IntenseStareType1? ErrorMessageTextElement) && !IgnoredExceptionMessages.Contains(FullExceptionMessage))
                     {

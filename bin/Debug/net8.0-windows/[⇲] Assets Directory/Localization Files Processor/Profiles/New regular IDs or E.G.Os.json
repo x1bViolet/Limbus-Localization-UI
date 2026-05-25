@@ -1,0 +1,46 @@
+{
+  "Paths": {
+    "Source path of localization files": "Your workspace folder",
+    "Destination path of processed files": "Your workspace folder"
+  },
+  "General localization files whitelist": "*.json",
+  "Files processing order": "Sort by name",
+  "Json files formatting": {
+    "Existing files overwriting rule": "If Json content itself is not the same",
+    "Output json formatting": "Indented",
+    "Json Indentation size": "Keep original",
+    "Line break mode": "Keep original",
+    "UTF-8 Byte Order Marks": "Keep BOM if they are inside original file"
+  },
+  "Reference localization": {
+    "Directory of reference localization": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/en",
+    "Prefix of reference localization": "EN_",
+    "Missing content appending": {
+      "Append missing files": false,
+      "Append missing IDs": true,
+      "Whitelist of missing files to append": "",
+      "Whitelist of existing files to add IDs to": "Skills_personality-*.json, Skills_Ego_Personality-*.json, Passives.json, Passive_Ego.json, BattleKeywords.json, Bufs.json, PanicInfo.json, Personalities.json, Egos.json, Personality_Get_Condition.json, GachaTitle.json, IntroductionPreset.json",
+      "Count IDs as missed starting from the last one from source file": true
+    }
+  },
+  "Font files": {
+    "Also copy font files": false,
+    "Title font file": "",
+    "Context font file": ""
+  },
+  "Miscellaneous": {
+    "Add <style> placeholders": false,
+    "Do JsonPath Multiple Regex Conversions": false,
+    "JsonPath Multiple Regex Conversions config": "",
+    "Convert Keyword Shorthands": false,
+    "Keyword Shorthands regex pattern": "",
+    "Keyword Shorthands files whitelist": ""
+  },
+  "Merged fonts": {
+    "Merged font Characters Replacement Map": "",
+    "Merged font Multiple Apply config": "",
+    "Regex pattern of text parts to ignore during conversion": "{\\d+}|<.*?>|\\\\n",
+    "Convert fonts by '[font=name]' markers": false,
+    "Convert fonts by Multiple Apply config": false
+  }
+}

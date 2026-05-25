@@ -56,6 +56,62 @@
                 (Sender as Window)!.RenderImage(@$"[⇲] Assets Directory\Scans\{DateTime.Now:HHːmmːss (dd.MM.yyyy)}.png", LoadedConfiguration.ScanParameters.ScaleFactor, DoLayoutUpdate: false);
             }
         }
+
+
+        /// <summary>
+        /// Style reverse engineering for DiffPlex.Wpf.Controls.InternalLinesViewer because it is AN 'INTERNAL' CLASS FOR SOME REASON (Means unable to change ControlTemplate that has its own ScrollBar styles for content.............)
+        /// </summary>
+        public static void OverrideDiffPlexScrollBarStyle(DiffPlex.Wpf.Controls.DiffViewer Target)
+        {
+            foreach (ScrollViewer InternalScrollViewer in Target.FindVisualChildren<ScrollViewer>())
+            {
+                if (InternalScrollViewer is { Name: "ValueScrollViewer" } FoundDiffTextScrollViewer)
+                {
+                    FoundDiffTextScrollViewer.Padding = new Thickness(0, 0, 8, 0); // Diff line offset from ScrollBar
+                    FoundDiffTextScrollViewer.Template = @Themes.GetDefaultStyleDictionaryResource<ControlTemplate>("Theme:ControlTemplates:ControlStyles.ScrollViewer");
+                    FoundDiffTextScrollViewer.HorizontalScrollBarVisibility = ScrollBarVisibility.Visible;
+
+
+                    Button ActualCorner = new() { Opacity = 0 };
+                    #pragma warning disable CS0618
+                    ActualCorner.Click += GeneralActionToken;
+                    #pragma warning restore CS0618
+
+                    Grid Corner = new()
+                    {
+                        Width = 16,
+                        Height = 16,
+                        HorizontalAlignment = HorizontalAlignment.Right,
+                        VerticalAlignment = VerticalAlignment.Bottom,
+                        Margin = new Thickness(0, 0, 1, 1),
+                        Children =
+                                    {
+                                        ActualCorner,
+                                        new Button() { Style = @Themes.GetDefaultStyleDictionaryResource<Style>("Theme:ControlStyles.SquareButton"), IsHitTestVisible = false },
+                                    }
+                    };
+
+                    Grid.SetColumn(Corner, 2);
+
+                    (FoundDiffTextScrollViewer.Parent as Grid)!.Children.Add(Corner);
+                }
+                else if (InternalScrollViewer is { Name: "NumberScrollViewer" } FoundLineNumbersScrollViewer)
+                {
+                    (FoundLineNumbersScrollViewer.Content as StackPanel)!.Resources.Add(key: typeof(TextBlock), value: new Style()
+                    {
+                        TargetType = typeof(TextBlock),
+                        Setters = { new Setter() { Property = TextBlock.PaddingProperty, Value = new Thickness(0, 0, 4, 0) } } // Additional line numbers offset from right
+                    });
+                }
+            }
+            foreach (UserControl InternalUserControl in Target.FindVisualChildren<UserControl>())
+            {
+                if (InternalUserControl.GetType() is { Name: "InternalLinesViewer" })
+                {
+                    InternalUserControl.SetPropertyValue<ContextMenu>("LineContextMenu", null!);
+                }
+            }
+        }
     }
 
 

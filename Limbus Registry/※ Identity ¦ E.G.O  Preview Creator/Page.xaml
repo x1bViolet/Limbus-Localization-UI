@@ -341,7 +341,7 @@
 																TickFrequency="0"
 																ValueChanged="LeftBehindEGOVignettePlusLength_NegativeValueHandler"
 																Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.PlusLength.Left_BehindEGOPortrait, FallbackValue=0}" />
-															<Terminus:IntenseStareType1 RichText="Left behind E.G.O portrait [color=#919188][b][font=&quot;Times New Roman&quot;][&#x200b;i]" ToolTipService.InitialShowDelay="100" UID="[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait">
+															<Terminus:IntenseStareType1 RichText="Left behind E.G.O portrait (i)" ToolTipService.InitialShowDelay="100" UID="[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait">
 																<Terminus:IntenseStareType1.ToolTip>
 																	<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
 																		<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.PreviewCreator.Foreground.Tooltips}" LineHeight="18" RichText="Designed to shade Text Background Effects" UID="[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait (Tooltip info)" />
@@ -388,7 +388,7 @@
 															MouseLeave="UnHighlightVignette_LeftBehindEGOPortrait"
 															Opacity="0.55">
 															<Slider x:Name="VC_LeftBehindEGOVignetteSoftness" Maximum="600" Minimum="0" TickFrequency="0" Value="{Binding DataContextDomain.PreviewCreator.ImageInfo.Vignette.Softness.Left_BehindEGOPortrait, FallbackValue=0}" />
-															<Terminus:IntenseStareType1 RichText="Left behind E.G.O portrait [color=#919188][b][font=&quot;Times New Roman&quot;][&#x200b;i]" ToolTipService.InitialShowDelay="100" UID="[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait">
+                                                            <Terminus:IntenseStareType1 RichText="Left behind E.G.O portrait (i)" ToolTipService.InitialShowDelay="100" UID="[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait">
 																<Terminus:IntenseStareType1.ToolTip>
 																	<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
 																		<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.PreviewCreator.Foreground.Tooltips}" LineHeight="18" RichText="Designed to shade Text Background Effects" UID="[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait (Tooltip info)" />
@@ -913,7 +913,7 @@
 
 										<StackPanel Grid.Column="1">
 											<TStyle:TwoColumned>
-												<Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Effects image [color=#919188][b][font=&quot;Times New Roman&quot;][&#x200b;i]" ToolTipService.InitialShowDelay="100" UID="[C] * [Section:Text background effects] Effects image (Label)">
+                                                <Terminus:IntenseStareType1 Margin="0 0 5 0" PerfectVerticalAlign="True" RichText="Effects image (i)" ToolTipService.InitialShowDelay="100" UID="[C] * [Section:Text background effects] Effects image (Label)">
 													<Terminus:IntenseStareType1.ToolTip>
 														<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
 															<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.PreviewCreator.Foreground.Tooltips}" LineHeight="18" RichText="If it looks invisible in E.G.O portrait mode, then most likely it is blocked by the 'Right' or 'Left behind E.G.O portrait' Vignette, try to reduce it" UID="[C] * [Section:Text background effects] Effects image (Label) (Tooltip info)" />
@@ -2000,7 +2000,7 @@
 			</Grid>
 
 			<Grid x:Name="UnsavedChangesGrid" x:Uid="Unsaved changes" Panel.ZIndex="-1" Background="{DynamicResource Theme:UnsavedChanges.PreviewCreator.BlurredBackground}" Opacity="0">
-				<Grid x:Uid="Click area to cancel" Background="Transparent" MouseLeftButtonUp="UnsavedChangesDialog_ButtonsClick_Cancel" />
+				<Grid x:Uid="Click area to cancel" Background="Transparent" />
 				<Border Width="900" Height="650" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
 					<Grid Margin="10" ClipToBounds="True">
 						<Terminus:IntenseStareType1 FontSize="40" RichText="Unsaved changes" TextAlignment="Center" UID="[C] * [Unsaved Changes] Title" />

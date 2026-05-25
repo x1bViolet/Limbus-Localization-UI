@@ -155,7 +155,49 @@
     ],
     [
       {
-        "UID": {"[GlyphTypeface Viewer] * Target Culture Info":null}
+        "UID": {"[Localization Processor / Profile] * Source path of localization files":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Destination path of processed files":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * General localization files whitelist":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Directory of reference localization":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Prefix of files from reference localization":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Whitelist of missing files to append":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Whitelist of existing files to add IDs to":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Title font file":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Context font file":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * JsonPath regex conversions config":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Shorthands pattern":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Keyword Shorthands files whitelist":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Merged font Characters Replacement Map":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Merged font Multiple Apply config":null}
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Regex pattern of text parts to ignore during conversion":null}
       }
     ],
     [

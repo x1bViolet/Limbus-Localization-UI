@@ -1,0 +1,64 @@
+{
+  // "Font": "name" should point to the font name from the Replacement Map, see "Characters Replacement Map.json" file
+  
+  
+  "Enemies*.json": [
+    {
+      "JsonPath": "$.dataList[*].name",
+      "Font": "bebas"
+    }
+  ],
+
+
+
+  "AbEvents*.json":[
+    {
+      "JsonPath": "$.dataList[*].prevDesc",
+      "Font": "bebas"
+    }
+  ],
+
+
+
+  "StageChapterText*.json": [
+    {
+      "JsonPath": "$.dataList[*].company",
+      "Font": "bebas"
+    },
+    {
+      "JsonPath": "$.dataList[*].area",
+      "Font": "bebas"
+    },
+    {
+      "JsonPath": "$.dataList[*].chapter",
+      "Font": "bebas"
+    }
+  ],
+
+
+  
+  "SeasonTitle.json": [
+    {
+      "JsonPath": "$.dataList[*].content",
+      "Font": "bebas"
+    }
+  ],
+
+
+
+  "RailwayDungeon.json": [
+    {
+      "JsonPath": "$.dataList[*].name",
+      "Font": "bebas"
+    }
+  ],
+
+
+
+  "Ch8VideoEffectSettings.json": [
+    {
+      "JsonPath": "$.dataList[*].texts[*].texts[*].text",
+      "Font": "mikodacs"
+    }
+  ]
+}

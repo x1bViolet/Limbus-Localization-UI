@@ -282,7 +282,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         public ColumnTextElementContainer CreateKeyword(PlainKeyword GivenKeywordText, ImageSource Icon, ColumnTextElementData GivenJsonData, TextElementsColumn TargetColumn)
         {
             #region Keyword text view creation
-            string ResolvedKeywordColor = GivenKeywordText.Color ?? ColorDictionaries.LoadedKeywordColors[GivenKeywordText.ID!];
+            string ResolvedKeywordColor = GivenKeywordText.Color ?? ColorDictionaries.KeywordColors[GivenKeywordText.ID!];
             PreviewCreator.BattleKeywordContainer_PCE KeywordContainer = new()
             {
                 KeywordIcon = Icon,

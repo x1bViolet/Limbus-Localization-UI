@@ -1,0 +1,333 @@
+{
+  "Readme": [
+    "[0, 0, 0, 0] Corner Radius — [Left-Top, Right-Top, Bottom-Right, Bottom-Left]  or  [Single number for each 4 corners]",
+    "[0, 0, 0, 0] Border Thickness — [Left, Top, Right, Bottom]  or  [Single number for all 4 sides]"
+  ],
+  "Theme Comment": "Yet, it is still difficult.",
+  "Title Bar": {
+    "Background": "#101117", // Does not support transparency
+    "Icons": "#9D9D9D",
+    "Titles Foreground": "Gradient From[0.5, 0] To[0.5, 1]: [#BE4646:0.0, #A03400:0.48]",
+    "Buttons Corner Radius": [4],
+    "Buttons Highlight": "#282A37",
+    "Buttons Highlight (Exit button)": "#A52C42"
+  },
+  "Common": {
+
+    "Context Menu Separators Color": "#45444C",
+
+    // Warning: does not applied to main window and localization files processor window
+    "Windows Drop Shadow": {
+      "Enabled": true,
+      "Color": "#000000" // WARNING: this is global window backgrond color for windows if Drop Shadow is enabled
+    },
+
+    /* https://learn.microsoft.com/en-us/dotnet/api/system.windows.media.animation.timeline#properties, watch "Properties" section for details */
+    "Windows Fade Animation Timings": {
+      "Duration (Seconds)": {
+        // Value form: [Fade in duration, Fade out duration]
+        
+        "Main Window": [0.35, 0.11], "Settings Window": [0.08, 0.1], "Dialog Windows": [0.11, 0.21],
+        "Identity/E.G.O Preivew Creator Switch Transition": [0.2, 0.2],
+        "Localization Files Processor Window": [0.11, 0.21]
+      },
+      
+      "Speed Ratio": {
+        // Value form: [Fade in speed ratio, Fade out speed ratio], min value is 0.05
+
+        "Main Window": [1.0, 1.0], "Settings Window": [1.0, 1.0], "Dialog Windows": [1.0, 1.0],
+        "Identity/E.G.O Preivew Creator Switch Transition": [1.0, 1.0],
+        "Localization Files Processor Window": [1.0, 1.0]
+      },
+      
+      "Acceleration/Deceleration Ratios": {
+        // Warning: Max sum of acceleration and deceleration must be less than or equal to 1.0 (Otherwise it will be reset to [0.0, 0.0])
+        // Value form: [ (Fade in) [Acceleration, Deceleration],  (Fade out) [Acceleration, Deceleration] ]
+
+        "Main Window": [[0.0, 0.0], [0.0, 0.0]], "Settings Window": [[0.0, 0.0], [0.0, 0.0]], "Dialog Windows": [[0.0, 0.0], [0.0, 0.0]],
+        "Identity/E.G.O Preivew Creator Switch Transition": [[0.0, 0.0], [0.0, 0.0]],
+        "Localization Files Processor Window": [[0.0, 0.0], [0.0, 0.0]]
+      }
+    },
+
+    "Main Window": {
+      "Border Color": "#2B2933",
+      "Border Corner radius": [5],
+  
+      "Background Color": "#1A191F",
+      "Background Image": "",
+      "Background Image Shadow": "#00000000",
+
+      "Hide background image at minimum window width": false,
+  
+      "Identity/E.G.O preview creator": {
+        "Background Color": "#1A191F",
+        "Background Image": "",
+        "Background Image Shadow": "#00000000"
+      }
+    },
+
+    "Dialog Windows": {
+      "Border Color": "#2B2933",
+      "Border Corner radius": [5],
+  
+      "Background Color": "#1A191F",
+      "Background Image": "",
+      "Background Image Shadow": "#00000000"
+    },
+
+    "Settings Window": {
+      "Border Color": "#2B2933",
+      "Border Corner radius": [5],
+  
+      "Background Color": "#1A191F",
+      "Background Image": "",
+      "Background Image Shadow": "#00000000",
+
+      "Specific Settings Caution": "#FF6933"
+    },
+
+    "Localization Files Processor Window": {
+      "Border Color": "#2B2933",
+      "Border Corner radius": [5],
+  
+      "Background Color": "#1A191F",
+      "Background Image": "",
+      "Background Image Shadow": "#00000000",
+
+      "Menu Switch Buttons": {
+        "Inactive": "#45444C",
+        "Mouse Over": "#605E6A",
+        "Active": "#7C7A8A"
+      },
+
+      "Sections": {
+        "Headers": "#CCCCCC",
+        "Separators": "#45444C"
+      }
+    },
+
+    "Right Menu": {
+      "Uptie Buttons Background": "#0E0907",
+      "Navigation Panel Background": "#00000000",
+      "Current Object ID Foreground": "#DDD9D9",
+      "Uptie Tier Text Foreground": "#E6C5C5"
+    }
+
+  },
+  "UI Text": {
+    "Unsaved Changes Marker Color": "#FC5A03", // The "(Changed)" part appended to the button text ("[Main UI] Unsaved changes marker" UID in localization, "Dynamic UI Text.json" file)
+
+    "Foreground": "#D5CDCD",
+    "Foreground (Dialog Windows)": "#EEEEEE",
+    "Foreground (Settings)": "#D5CDCD",
+    "Foreground (Settings (Comments))": "#B2ABAB",
+    "Foreground (Localization Files Processor)": "#D5CDCD",
+    "Foreground (Identity/E.G.O Preview creator)": "#D5CDCD",
+
+    "Tooltips Foreground": "#D5CDCD",
+    "Tooltips Foreground (Dialog Windows)": "#D5CDCD",
+    "Tooltips Foreground (Settings)": "#D5CDCD",
+    "Tooltips Foreground (Identity/E.G.O Preview creator)": "#D5CDCD"
+  },
+  "UI Textfields": {
+    "Foreground": "#B7B7B7",
+    "Foreground (Shadow text)": "#5c5b5b",
+
+    "Background": "#26252D",
+    "Background (When Focused)": "#2B2A33",
+
+    "Border": "#34333D",
+    "Border (When input path is missing)": "#782F2F", // If textfield has file/directory selection button
+    "Border Thickness": [2],
+    "Border Corner Radius": [2],
+
+    "Caret": "#E9DBC6",
+
+    "Selection": {
+      "Foreground": "#B1B1B9",
+      "Background": "#55B4B4B4",
+
+      "Border": "#66D4D4D4",
+      "Border Thickness": 1,
+      "Border Corner Radius": 0
+    },
+
+    "Syntax": {
+      "Highlight 1": "#F54927",
+      "Highlight 2": "#F52727",
+      "Highlight 3": "#E24A4A",
+      "Highlight 4": "#E2734A"
+    }
+  },
+  "Json Text Editor": {
+
+    "Visual Markers Visibility": {
+      "Tabs": false,
+      "Spaces": false,
+      "Line Numbers": true,
+      "Line End Symbol": false,
+      "Box for Control Characters": true // e.g. \u0000 ~ \u001F chars
+    },
+
+    "Foreground": "#B7B7B7",
+    "Background": "#26252D",
+
+    "Font": "[⇲] Assets Directory/Limbus Embedded Fonts/SCDream5.otf",
+    "Font Weight": "Regular",
+    "Font Stretch": "Normal",
+    "Font Size": 16.8,
+
+    "Border": "#34333D",
+    "Border Thickness": [2],
+    "Border Corner Radius": [2],
+    
+    "Caret": "#E9DBC6",
+
+    "Selection": {
+      "Foreground": "#ABA193",
+      "Background": "#55B4B4B4",
+
+      "Border": "#66D4D4D4",
+      "Border Thickness": 1, // Not [n] format there
+      "Border Corner Radius": 0
+    }
+  },
+  "Unsaved Changes Info": {
+    "Main Editor": {
+      "Blurred Background": "#8C090909"
+    },
+    "Identity/E.G.O Preview Creator": {
+      "Blurred Background": "#8C090909",
+
+      "Json Difference Viewer": {
+        "Font": "Cascadia Code",
+        "Font Size": "14",
+        "Font Weight": "Regular",
+        "Font Stretch": "Normal",
+
+        "Foreground": "#D5CDCD", // Warning: foreground changes only after restart because of DiffViewer UI element specific, idk
+        "Line Numbers": "#999393",
+
+        "Old Value (Background)": "#40D82020",
+        "Old Value (Foreground)": "#D5CDCD",
+
+        "New Value (Background)": "#4060D820",
+        "New Value (Foreground)": "#D5CDCD",
+        
+        
+        "Change Type Icon": "#808080"
+      }
+    }
+  },
+  "Square Buttons": { // Change name, open file, (next/previous/copy id too)
+    "Disabled Buttons Shadowing": "#77000000",
+
+    "Icons": "#DEDEDE",
+
+    "ComboBox Drop-down Arrow": "#DEDEDE",
+    
+    "Background": "#26252D",
+    "Background (Pressed)": "#28272F",
+    "Background (Highlighted)": "#36353D",
+    
+    "Border": "#34333D",
+    "Border Thickness": [2],
+    "Border Corner Radius": [2]
+  },
+  "Elongated Buttons": { // Desc switch buttons
+    "Disabled Buttons Shadowing": "#77000000",
+
+    "Background": "#26252D",
+    "Background (Pressed)": "#28272F",
+    "Background (Highlighted)": "#36353D",
+
+    "Border": "#34333D",
+    "Border Thickness": [2],
+    "Border Corner Radius": [2]
+  },
+  "Scrollbars": {
+    "Line": "#2B2933",
+    "Line Thickness": 2.5,
+    
+    "Up/Down Buttons": {
+      "Icon": "#DEDEDE",
+
+      "Background": "#26252D",
+      "Background (Pressed)": "#28272F",
+      "Background (Highlighted)": "#36353D",
+
+      "Border": "#34333D",
+      "Border Thickness": [2],
+      "Border Corner Radius": [2]
+    },
+
+    "Thumb": {
+      "Background": "#26252D",
+      "Background (Pressed)": "#222128",
+      "Background (Highlighted)": "#26252D",
+
+      "Border": "#34333D",
+      "Border Thickness": [2],
+      "Border Corner Radius": [2]
+    }
+  },
+  "Sliders": {
+    "Thumb": {
+      "Background": "#B8B3B1",
+      "Background (Pressed)": "#999593",
+      "Background (Highlighted)": "#CDC7C5",
+      
+      "Border": "#888381",
+      "Border (Pressed)": "#888381",
+      "Border (Highlighted)": "#888381",
+
+      "Border Corner Radius": [1],
+      "Border Thickness": [1],
+
+      "Width": 11,
+      "Height": 18,
+      "Scale": 1
+    },
+    "Line": {
+      "Height": 3.5,
+
+      "Border Thickness": [1],
+      "Border Corner Radius": [0],
+
+      "Background": "#B0ADAC",
+      "Border": "#A6A09E"
+    }
+  },
+  "Other Border-like things": {
+    "Background": "#26252D",
+
+    "Border": "#34333D",
+    "Border Thickness": [2],
+    "Border Corner Radius": [2]
+  },
+  "Json Editor Syntax": {
+    "Tags": "#CCCCCC",
+    "Tags Value": "#F54927",
+    "[TabExplain]": "#616abb"
+  },
+  "Color Keys for Translation": {
+     // Color inserts applied to all interface translation text from `[⇲] Assets Directory\Internal\Translation`
+     // As example: `"Text": "Some <color={Theme.IColor0}>themed</color> text" -> "Some <color=#FFFFFF>themed</color> text"`
+    "{Theme.HyperlinkColor}": "#727bcc",
+    "{Theme.SelectedFileNameColor}": "#FC5A03",
+    "{Theme.UnsavedChanges.IDColor}": "#FC5A03",
+    "{Theme.UnsavedChanges.NameColor}": "#CFCFCF",
+    "{Theme.TooltipHints}": "#919188",
+    "{Theme.IColor0}": "#FFFFFF",
+    "{Theme.IColor1}": "#FFFFFF",
+    "{Theme.IColor2}": "#FFFFFF",
+    "{Theme.IColor3}": "#FFFFFF",
+    "{Theme.IColor4}": "#FFFFFF",
+    "{Theme.IColor5}": "#FFFFFF",
+    "{Theme.IColor6}": "#FFFFFF",
+    "{Theme.IColor7}": "#FFFFFF",
+    "{Theme.IColor8}": "#FFFFFF",
+    "{Theme.IColor9}": "#FFFFFF"
+  }
+}

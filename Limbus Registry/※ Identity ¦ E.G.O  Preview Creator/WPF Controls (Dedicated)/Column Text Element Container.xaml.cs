@@ -47,9 +47,13 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                         await Task.Delay(500); // Idk, some oddities with the Template elements creation timings when settings options "Enable Keywords Underline/Sprite" is clicked too frequently or even on Loaded/OnTemplateApplying
                     }
 
-                    this.TemplateSealedView.Source = CaptureElement(this.TemplateContentGrid!);
-                    this.TemplateSealedView.Visibility = Visibility.Visible;
-                    this.TemplateContentGrid!.Visibility = Visibility.Collapsed;
+                    try
+                    {
+                        this.TemplateSealedView.Source = CaptureElement(this.TemplateContentGrid!);
+                        this.TemplateSealedView.Visibility = Visibility.Visible;
+                        this.TemplateContentGrid!.Visibility = Visibility.Collapsed;
+                    }
+                    catch { }
                 }
             }
         }

@@ -6,12 +6,17 @@
 	xmlns:T="clr-namespace:LCLocalizationInterface.MarkupExtensions"
 	xmlns:AvalonEditEditing="clr-namespace:ICSharpCode.AvalonEdit.Editing;assembly=ICSharpCode.AvalonEdit"
 	xmlns:AvalonEditRendering="clr-namespace:ICSharpCode.AvalonEdit.Rendering;assembly=ICSharpCode.AvalonEdit"
-	xmlns:Terminus="clr-namespace:LCLocalizationInterface.Internal.Terminus">
+	xmlns:Terminus="clr-namespace:LCLocalizationInterface.Internal.Terminus"
+	x:Class="LCLocalizationInterface.Internal.Terminus.LanguageUIElementsResourceDictionary">
 
 	<ResourceDictionary.MergedDictionaries>
 		<!--    Its not inherinted from main app's ※ Entanglement Dictionary.xaml!!!!!!!!!!!!!    -->
 		<ResourceDictionary Source="/Internal/Resource Dictionaries/IValueConverters.xaml" />
 	</ResourceDictionary.MergedDictionaries>
+	
+	<Terminus:FileSelectAttributes x:Key="FileSelecion_Json" Extensions="json" FilesHint=".json files" />
+	<Terminus:FileSelectAttributes x:Key="FileSelecion_Font" Extensions="ttf, otf" FilesHint=".ttf/otf font files" />
+	<Terminus:FileSelectAttributes x:Key="FileSelecion_RegexReplacements" Extensions="rg.txt" FilesHint="Regex replacements config" />
 
 	<Style TargetType="{x:Type Terminus:IntenseStareType1}">
 		<Setter Property="Foreground" Value="{DynamicResource Theme:UIText.MainWindow.Foreground}" />
@@ -65,11 +70,16 @@
 						</Style>
 					</ControlTemplate.Resources>
 					<Grid>
-						<InternalStyle:ClippingBorder ClipToBounds="True" Padding="0 0 2 0" x:Name="MainBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
+						<Grid.ColumnDefinitions>
+							<ColumnDefinition Width="*" />
+							<ColumnDefinition x:Name="GridColumn_PathSelectionSpacing" Width="0" />
+							<ColumnDefinition x:Name="GridColumn_PathSelectionButtons" Width="0" />
+						</Grid.ColumnDefinitions>
+						<InternalStyle:ClippingBorder Grid.Column="0" ClipToBounds="True" x:Name="MainBorder" Background="{TemplateBinding Background}" BorderBrush="{TemplateBinding BorderBrush}" BorderThickness="{TemplateBinding BorderThickness}" CornerRadius="{TemplateBinding CornerRadius}">
 							<Grid>
 								<Grid.ColumnDefinitions>
-									<ColumnDefinition x:Name="TextInputScroller" Width="*" />
-									<ColumnDefinition x:Name="ColorDisplayingFade" Width="0" />
+									<ColumnDefinition Width="*" />
+									<ColumnDefinition x:Name="GridColumn_ColorDisplayingFade" Width="0" />
 								</Grid.ColumnDefinitions>
 								<Terminus:IntenseStareType1
 									x:Name="HexColorSharpMarker"
@@ -87,14 +97,14 @@
 								<ScrollViewer
 									x:Name="PART_ScrollViewer"
 									Grid.ColumnSpan="2"
-									Padding="{TemplateBinding Padding}"
+									Padding="2 0 2 0"
 									Content="{Binding TextArea, RelativeSource={RelativeSource Mode=TemplatedParent}}"
 									Focusable="False"
 									VerticalAlignment="Center"
 									CanContentScroll="True"
 									HorizontalScrollBarVisibility="Hidden"
 									VerticalScrollBarVisibility="Disabled" />
-								<Grid x:Name="HexColorVisualMarker" Grid.Column="1" Background="{Binding Document.Text, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TextToSolidColorBrushConverter}}" Visibility="Collapsed">
+								<Grid HorizontalAlignment="Stretch" x:Name="ColorDisplayingFade" Grid.Column="1" Background="{Binding Document.Text, RelativeSource={RelativeSource TemplatedParent}, Converter={StaticResource TextToSolidColorBrushConverter}}" Visibility="Collapsed">
 									<Grid.OpacityMask>
 										<LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
 											<GradientStop Offset="1" Color="#ffffff" />
@@ -105,35 +115,76 @@
 									</Grid.OpacityMask>
 								</Grid>
 							</Grid>
-						</InternalStyle:ClippingBorder>
-						<Border
+                        </InternalStyle:ClippingBorder>
+                        <Border
+                            Grid.Column="0"
 							x:Name="DisabledStateCovering"
 							Background="{DynamicResource Theme:ElongatedButtons.DisabledButtonsShadowing}"
 							BorderBrush="{DynamicResource Theme:ElongatedButtons.DisabledButtonsShadowing}"
 							BorderThickness="{TemplateBinding BorderThickness}"
 							CornerRadius="{TemplateBinding CornerRadius}"
 							Visibility="Collapsed" />
+                        
+                        <Grid x:Name="PathSelectionButtons" Grid.Column="2">
+							<!--StaticResource is not working idk-->
+							<Button x:Name="PathSelection_File" FontWeight="Light" Visibility="Collapsed" Click="PathSelection_File_Click" Content="" Style="{DynamicResource Theme:ControlStyles.SquareButton}" HorizontalAlignment="Right" Width="{TemplateBinding ActualHeight}" Height="{TemplateBinding ActualHeight}"/>
+							<Button x:Name="PathSelection_Directory" FontWeight="Light" Visibility="Collapsed" Click="PathSelection_Directory_Click" Content="" Style="{DynamicResource Theme:ControlStyles.SquareButton}" HorizontalAlignment="Right" Width="{TemplateBinding ActualHeight}" Height="{TemplateBinding ActualHeight}"/>
+						</Grid>
 					</Grid>
 					<ControlTemplate.Triggers>
-						<Trigger Property="WordWrap" Value="True">
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsKeyboardFocusWithin" Value="True" />
+                                <Condition Property="IsReadOnly" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="Background" Value="{DynamicResource Theme:UITextfields.Background.Focused}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+                        <Trigger Property="PathSelectionButtonType" Value="File">
+							<Setter TargetName="GridColumn_PathSelectionSpacing" Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PathSelectionButtonSpacing}" />
+							<Setter TargetName="GridColumn_PathSelectionButtons" Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight}" />
+							<Setter TargetName="PathSelection_File" Property="Visibility" Value="Visible" />
+						</Trigger>
+						<Trigger Property="PathSelectionButtonType" Value="Directory">
+							<Setter TargetName="GridColumn_PathSelectionSpacing" Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=PathSelectionButtonSpacing}" />
+							<Setter TargetName="GridColumn_PathSelectionButtons" Property="Width" Value="{Binding RelativeSource={RelativeSource TemplatedParent}, Path=ActualHeight}" />
+                            <Setter TargetName="PathSelection_Directory" Property="Visibility" Value="Visible" />
+                        </Trigger>
+
+                        <MultiTrigger>
+                            <MultiTrigger.Conditions>
+                                <Condition Property="IsEnabled" Value="True" />
+                                <Condition Property="IsInputPathExists" Value="False" />
+                            </MultiTrigger.Conditions>
+                            <MultiTrigger.Setters>
+                                <Setter Property="BorderBrush" Value="{DynamicResource Theme:UITextfields.Border.WhenMissingPath}" />
+                            </MultiTrigger.Setters>
+                        </MultiTrigger>
+
+
+                        <Trigger Property="WordWrap" Value="True">
 							<Setter TargetName="PART_ScrollViewer" Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Disabled" />
 						</Trigger>
 						<Trigger Property="DisplayInputColor" Value="True">
 							<Setter Property="TextMaxLength" Value="6" />
 							<Setter Property="Terminus:Assistant.PreviewInputRegexHandling" Value="^[a-fA-F0-9]+$" />
 							<Setter TargetName="HexColorSharpMarker" Property="Visibility" Value="Visible" />
-							<Setter TargetName="HexColorVisualMarker" Property="Visibility" Value="Visible" />
+							<Setter TargetName="ColorDisplayingFade" Property="Visibility" Value="Visible" />
 							<Setter TargetName="PART_ScrollViewer" Property="Margin" Value="4 0 0 0" />
 							<Setter TargetName="PART_ScrollViewer" Property="RenderTransform">
 								<Setter.Value>
 									<TranslateTransform X="{Binding ElementName=HexColorSharpMarker, Path=ActualWidth}" />
 								</Setter.Value>
 							</Setter>
-							<Setter TargetName="ColorDisplayingFade" Property="Width" Value="0.7*" />
+							<Setter TargetName="GridColumn_ColorDisplayingFade" Property="Width" Value="0.7*" />
 						</Trigger>
 						<Trigger Property="IsEnabled" Value="False">
-							<Setter TargetName="DisabledStateCovering" Property="Visibility" Value="Visible" />
-						</Trigger>
+                            <Setter TargetName="DisabledStateCovering" Property="Visibility" Value="Visible" />
+                            <!--    PathSelection_File and PathSelection_Directory having their own DisabledStateCovering inside ControlTemplate    -->
+                        </Trigger>
 					</ControlTemplate.Triggers>
 				</ControlTemplate>
 			</Setter.Value>

@@ -65,7 +65,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                         }
 
                         string KeywordName = Match.Groups["Name"].Value;
-                        string KeywordColor = ColorDictionaries.LoadedKeywordColors[KeywordID];
+                        string KeywordColor = ColorDictionaries.KeywordColors[KeywordID];
 
                         if (Match.Groups["Color"].Value != "") KeywordColor = Match.Groups["Color"].Value;
 
@@ -83,7 +83,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                     {
                         return Match.Value;
                     }
-                });
+                }, RegexOptions.Singleline);
             }
 
 
@@ -120,7 +120,7 @@ namespace LCLocalizationInterface.LimbusRegistry
 
 
                 // Implicit keywords conversion to [KeywordID] (e.g. just 'Burn' in the text to '[Combustion]')
-                foreach (PlainKeyword MaybeImplicitKeyword in KeywordsLoader.LoadedKeywords_Bufs.Values)
+                foreach (PlainKeyword MaybeImplicitKeyword in KeywordsLoader.LoadedKeywords_Bufs.Values.OrderByDescending(Keyword => Keyword.Name))
                 {
                     if (LimbusText.Contains(MaybeImplicitKeyword.Name))
                     {
@@ -134,12 +134,13 @@ namespace LCLocalizationInterface.LimbusRegistry
 
 
 
-                /// Reset InternalTMProAntiImplicitKeywordsConversionSpace placed before Implicit keywords conversion
+                // Reset InternalTMProAntiImplicitKeywordsConversionSpace placed before Implicit keywords conversion
                 LimbusText = LimbusText.Replace(InternalTMProAntiImplicitKeywordsConversionSpace, " ");
 
 
 
                 // [KeywordID]
+                // .*? as content pattern instead of \w+ because limbus also doing this...
                 LimbusText = Regex.Replace(LimbusText, @"\[(?<DescID>.*?)\]", Match =>
                 {
                     string DescID = Match.Groups["DescID"].Value;
@@ -152,7 +153,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                             : DescID;
 
                         string KeywordName = FoundKeyword.Name;
-                        string KeywordColor = ColorDictionaries.LoadedKeywordColors[DescID];
+                        string KeywordColor = ColorDictionaries.KeywordColors[DescID];
 
                         return
                         $"<sprite name=\"{SpriteID}\">" +
@@ -165,12 +166,12 @@ namespace LCLocalizationInterface.LimbusRegistry
                         $"</color>";
                     }
 
-                    // Otherwise, if Skills/Passives and ID not found in loaded keywords list, then maybe Skill Tag
+                    // Else if Skills/Passives and ID not found in loaded keywords list, then maybe Skill Tag
                     else if (SpecifiedRichTextFormat.EqualsToOneOf(RichTextFormat.Skills, RichTextFormat.Passives))
                     {
                         if (KeywordsLoader.LoadedSkillTags.TryGetValue(DescID, out PlainSkillTag? FoundSkillTag))
                         {
-                            return $"<color={ColorDictionaries.LoadedSkillTagColors[FoundSkillTag.ID!]}>{FoundSkillTag.Tag}</color>";
+                            return $"<color={ColorDictionaries.SkillTagColors[FoundSkillTag.ID!]}>{FoundSkillTag.Tag}</color>";
                         }
                         else
                         {
@@ -191,12 +192,12 @@ namespace LCLocalizationInterface.LimbusRegistry
 
                 if (LoadedConfiguration.PreviewSettings.Base.HighlightStyle == false)
                 {
-                    LimbusText = LimbusText.RegexRemove(@"<style=""\w+"">|</style>");
+                    LimbusText = LimbusText.RegexRemove(@"<style=""(highlight|upgradeHighlight)"">|</style>");
                 }
 
 
 
-                // Changes highlight type restriction
+                // Changes highlight tag assertion based on desc type
                 const char ZWSP = '\u200B';
                 if (SpecifiedRichTextFormat is RichTextFormat.EGOGifts)
                 {

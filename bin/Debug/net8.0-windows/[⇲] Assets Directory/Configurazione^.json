@@ -15,7 +15,8 @@
       "Editor mode switch": true,
       "Open Skills Display Info manager": true,
       "Switch UI to Identity/E.G.O Preview Creator": true,
-      "Export text to image": true
+      "Export text to image": true,
+      "Localization Files Processor": true
     }
   },
   "Preview Settings": {
@@ -220,6 +221,10 @@
         ]
       }
     }
+  },
+  "Localization Files Processor": {
+    "Selected Profile": "Blank.json",
+    "Topmost": true
   },
   "Scan Parameters": {
     "Scale Factor": 3.6,

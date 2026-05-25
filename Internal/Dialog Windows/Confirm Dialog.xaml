@@ -25,12 +25,12 @@
 
 				<Abstractions:DialogWindowContentPresenter>
 					<StackPanel>
-						<Terminus:IntenseStareType1 FontSize="19" LineHeight="20" TextAlignment="Center" UID="[Confirm Dialog] [-] * Text" />
+						<Terminus:IntenseStareType1 MaxWidth="580" FontSize="18" LineHeight="20" TextAlignment="Center" UID="[Confirm Dialog] [-] * Text" />
 						<StackPanel Margin="0 10 0 0" HorizontalAlignment="Center" Orientation="Horizontal">
 							<Button Click="Confirm_ButtonClick" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
 								<Terminus:IntenseStareType1 Width="50" FontSize="20" RichText="Yes" TextAlignment="Center" UID="[Confirm Dialog] * Yes Button" />
 							</Button>
-							<Button Margin="5 0 0 0" Click="FadeClose" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+							<Button Margin="5 0 0 0" Click="Cancel_ButtonClick" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
 								<Terminus:IntenseStareType1 Width="50" FontSize="20" RichText="No" TextAlignment="Center" UID="[Confirm Dialog] * No Button" />
 							</Button>
 						</StackPanel>

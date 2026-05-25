@@ -356,7 +356,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
                             IntenseStareType1 SelectionLabel = new() { DataContext = Keyword, Effect = SelectionLabelsEffect };
 
-                            string DefinedColor = Keyword.Color ?? ColorDictionaries.LoadedKeywordColors[Keyword.ID!];
+                            string DefinedColor = Keyword.Color ?? ColorDictionaries.KeywordColors[Keyword.ID!];
 
                             SelectionLabel.InherintPropertiesFrom(@Languages.PresentedTextElements["[C] * [Column element creation dialog] Keyword ID from localization file"]);
                             SelectionLabel.RichText = $"{Keyword.ID}: <color={DefinedColor}>{Keyword.Name}</color>";

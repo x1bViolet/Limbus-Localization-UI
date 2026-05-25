@@ -681,7 +681,6 @@
       {
         "UID": {"[Unsaved Changes] * Title":null},
         "Text": "未儲存的變更"
-
       },
       {
         "UID": {"[Unsaved Changes] * Proceed":null},
@@ -1016,7 +1015,7 @@
     [
       {
         "UID": {"[Settings / Custom Language] * Section Name":null},
-        "Text": "⦁ Limbus 自訂語言 <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/custom-localization-properties\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink>"
+        "Text": "⦁ Limbus 自訂語言 <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/setup/all-properties-of-limbus-custom-language\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink>"
       },
       {
         "UID": {"[Settings / Custom Language] * Selected Properties":null},
@@ -1215,6 +1214,344 @@
         "Text": "較大的縮放比例 = 較高的品質、掃描內容耗時更久、檔案較大，且大量佔用記憶體（最高可達約 1.8 GB[b].[/b]\n\n最後兩個選項會套用於所有符合以下模式的關鍵詞：[size=92%][font=\"Consolas\"]<\u200Bsprite name=\"...\"><\u200Bcolor><\u200Bu><\u200Blink=\"...\">...</\u200Blink><\u200B/u><\u200B/color>[/font][/size]（開啟與關閉的[size=92%][font=\"Consolas\"]<\u200Blink=\"...\">[/font][/size], [size=92%][font=\"Consolas\"]<\u200Bu>[/font][/size], 與 [size=92%][font=\"Consolas\"]<\u200Bcolor>[/font][/size]標籤順序不限）[b].[/b]"
       }
     ],
+    
+    [
+      {
+        "UID": {"[Main UI] * Open Localization Files Processor button Tooltip":null},
+        "Text": "開啟本地化檔案處理器"
+      },
+      {
+        "UID": { "[Localization Processor] * Title": null },
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=70 yoffset=-20>本地化檔案處理器",
+        "Font": "Arita-buri"
+      },
+      {
+        "UID": {"[Localization Processor] [!] [#] * Title (Window Caption)":null},
+        "Text": "本地化檔案處理器"
+      }
+    ],
+
+    [
+      {
+        "UID": {"[Localization Processor] * Menu switch — Files processing":null},
+        "Text": "檔案處理"
+      },
+      {
+        "UID": { "[Localization Processor] * Menu switch (Delimiter)": null },
+        "Text": "|"
+      },
+      {
+        "UID": { "[Localization Processor] * Menu switch — Parameters": null },
+        "Text": "參數"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Source path of localization files (Shadow Text)":null},
+        "Text": "本地化檔案來源路徑"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Destination path of processed files (Shadow Text)":null},
+        "Text": "已處理檔案的目標路徑"
+      },
+      {
+        "UID": { "[Localization Processor] [-] * Files counter": null }
+      },
+      {
+        "UID": { "[Localization Processor] * Process files Button": null },
+        "Text": "處理檔案"
+      },
+      {
+        "UID": { "[Localization Processor] * Cancel processing Button": null },
+        "Text": "取消"
+      },
+      {
+        "UID": {"[Localization Processor & Error Message] * Cancel processing":null},
+        "Text": "取消處理" // Additional button in Error Message Window
+      },
+
+      {
+        "UID": {"[Localization Processor] [-] * Template for name of exported file":null}
+      },
+      {
+        "UID": {"[Localization Processor] * Cancelled processing message":null},
+        "Text": "<處理已取消>"
+      },
+      {
+        "UID": {"[Localization Processor] * Finished processing message":null},
+        "Text": "<處理完成>"
+      },
+
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] [-] * File name":null}
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Open with external editor":null},
+        "Text": "使用外部編輯器開啟"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy file text":null},
+        "Text": "複製檔案內容"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy file itself":null},
+        "Text": "複製檔案本體"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy name":null},
+        "Text": "複製名稱"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy full path":null},
+        "Text": "複製完整路徑"
+      }
+    ],
+    [
+      {
+        "UID": { "[Localization Processor] * Topmost": null },
+        "Text": "最上層顯示"
+      },
+      {
+        "UID": {"[Localization Processor] [-] * Template for name of profile":null}
+      },
+      {
+        "UID": {"[Localization Processor] * Save edited profile button":null},
+        "Text": "儲存已編輯的設定檔"
+      },
+      {
+        "UID": { "[Localization Processor] * Documentation hint": null },
+        "Text": "<hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/localization-files-processing\">文件說明 <color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
+      }
+    ],
+
+    // Profile settings
+
+    // Main
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * General localization files whitelist":null},
+        "Text": "通用本地化檔案白名單"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Files processing order":null},
+        "Text": "檔案處理順序"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * General localization files whitelist — Recently changed first":null},
+        "Text": "最近變更優先"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * General localization files whitelist — Sort by name":null},
+        "Text": "依名稱排序"
+      }
+    ],
+
+    // Json files formatting
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Json files formatting (Section title)":null},
+        "Text": "JSON 檔案格式化"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule":null},
+        "Text": "已存在檔案的覆寫規則"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule — If Json content itself is not the same":null},
+        "Text": "若 JSON 內容本身不同"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule — If just text of both files is not the same":null},
+        "Text": "若兩檔案的文本不同"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule — Always overwrite existing files":null},
+        "Text": "總是覆寫現有檔案"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Output json formatting":null},
+        "Text": "輸出 JSON 格式"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Output json formatting — Indented":null},
+        "Text": "縮排格式"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Output json formatting — None (Just long single line without any spaces)":null},
+        "Text": "無（僅單行長文字，不含任何空白）"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Json Indentation size":null},
+        "Text": "JSON 縮排大小"
+      },
+      // 1..8 (Inherints "[Localization Processor / Profile] * Json Indentation size" style)
+      {
+        "UID": {"[Localization Processor / Profile] * Json Indentation size — Keep original":null},
+        "Text": "保持原樣"
+      },
+
+      {
+        "UID": { "[Localization Processor / Profile] * Line break mode": null },
+        "Text": "換行模式"
+      },
+      // CRLF CR LF (Inherints "[Localization Processor / Profile] * Line break mode — Keep original" style)
+      {
+        "UID": {"[Localization Processor / Profile] * Line break mode — Keep original":null},
+        "Text": "保持原樣"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks":null},
+        "Text": "UTF-8 位元組順序標記（BOM）"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks — Keep BOM if they are inside original file":null},
+        "Text": "若原始檔案包含 BOM 則保留"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks — Save files with regular UTF-8 encoding":null},
+        "Text": "以一般 UTF-8 編碼儲存檔案"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks — Save files with UTF-8 BOM encoding":null},
+        "Text": "以 UTF-8 BOM 編碼儲存檔案"
+      }
+    ],
+
+    // Reference localization
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Reference localization (Section title)":null},
+        "Text": "參考本地化檔案"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Directory of reference localization":null},
+        "Text": "參考本地化檔案目錄"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Prefix of files from reference localization":null},
+        "Text": "參考本地化檔案的檔名前綴"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Append missing files":null},
+        "Text": "補入缺少的檔案"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Whitelist of missing files to append":null},
+        "Text": "可補入缺少檔案的白名單"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Append missing IDs":null},
+        "Text": "補入缺少的 ID"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Whitelist of existing files to add IDs to":null},
+        "Text": "可補入 ID 的現有檔案白名單"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Count IDs as missed starting from the last one from source file":null},
+        "Text": "從來源檔案最後一個 ID 開始計算缺少的 ID"
+      }
+    ],
+
+    // Font files
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Font files (Section title)":null},
+        "Text": "字型檔案"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Also copy font files":null},
+        "Text": "同時複製字體檔案"
+      },
+      {
+        "UID": { "[Localization Processor / Profile] * Title font file": null },
+        "Text": "標題字型檔案"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Context font file":null},
+        "Text": "內文字型檔案"
+      }
+    ],
+
+    // Miscellaneous
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Miscellaneous (Section title)":null},
+        "Text": "雜項"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Add <style> placeholders":null},
+        "Text": "新增 <style> 占位符"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Do JsonPath regex conversions":null},
+        "Text": "執行 JsonPath 正規表示式轉換"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * JsonPath regex conversions config":null},
+        "Text": "JsonPath 正規表示式轉換設定"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Convert Keyword Shorthands":null},
+        "Text": "轉換關鍵詞縮寫"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Shorthands pattern":null},
+        "Text": "縮寫模式"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Keyword Shorthands files whitelist":null},
+        "Text": "關鍵詞縮寫檔案白名單"
+      }
+    ],
+
+    // Merged fonts
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Merged fonts (Section title)":null},
+        "Text": "合併字型"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Merged font Characters Replacement Map":null},
+        "Text": "合併字型字元替換對照表"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Apply merged fonts by Multiple Apply config":null},
+        "Text": "依多重套用設定套用合併字型"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Merged font Multiple Apply config":null},
+        "Text": "合併字型多重套用設定"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Apply merged fonts by [font=name] markers":null},
+        "Text": "依 <size=90%><font=\"Consolas\">[font=name]</font></size> 標記套用合併字型"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Regex pattern of text parts to ignore during conversion":null},
+        "Text": "轉換時忽略的文字區段的正規表示式"
+      }
+    ],
+
+    [
+      {
+        "UID": {"[Localization Processor / Warnings] * Invalid Merged Font name in marker":null},
+        "Variable": {
+          "Title": "標記中的合併字型名稱無效",
+          "Text": "檔案 <b>\"[$2]\"</b> 中的 <b>\"<noparse>[$1]</noparse>\"</b> 這一行應透過標記進行合併字型轉換，但其包含的 \"[font=[$3]]\" 標記參照了未知的字型（目前替換對照表中可用的字型：<b>[[$4]]</b>）\n要忽略此問題嗎？\n\n<size=88%>點擊「是」以忽略，點擊「否」以取消處理。</size>"
+        }
+      }
+    ],
+
     [
       {
         "UID": {"[Skills DI Manager] * Title bar button tooltip":null},

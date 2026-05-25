@@ -1,6 +1,6 @@
 ﻿using LCLocalizationInterface.Internal.Configuration;
+using LCLocalizationInterface.LimbusRegistry.LocalizationFilesProcessing;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
-using static LCLocalizationInterface.TextMeshLarp;
 
 namespace LCLocalizationInterface
 {
@@ -17,7 +17,14 @@ namespace LCLocalizationInterface
             [JsonProperty("Internal")]
             public Internal_PROP Internal { get; set; } = new();
 
-            public record Internal_PROP([JsonProperty("Show startup progress")] bool ShowStartupProgress = true, [JsonProperty("UI Language")] string UILanguage = "");
+            public record Internal_PROP
+            {
+                [JsonProperty("Show startup progress")]
+                public bool ShowStartupProgress { get; set; } = true;
+
+                [JsonProperty("UI Language")]
+                public string UILanguage { get; set; } = "";
+            }
         }
 
         /// <summary>Content initialization order</summary>
@@ -66,23 +73,26 @@ namespace LCLocalizationInterface
                 {
                     string WindowsInitalizingString = @Languages.VariableData.ReadedStartupSteps.MainStages.WindowsInitializing;
 
-                    /**/SplashScreenWindow.ProgressObject = WindowsInitalizingString.Exform(1, 4);
+                    /**/SplashScreenWindow.ProgressObject = WindowsInitalizingString.Exform(1, 5);
                     MainWindowInstance = new();
                     Application.Current.MainWindow = MainWindowInstance;
 
-                    /**/SplashScreenWindow.ProgressObject = WindowsInitalizingString.Exform(2, 4);
+                    /**/SplashScreenWindow.ProgressObject = WindowsInitalizingString.Exform(2, 5);
                     PreviewCreatorPage.PreviewCreatorPageInstance = new();
                     ColumnElementContentSelectorWindow.ColumnElementContentSelectorInstance = new();
                     MainWindowInstance.PreviewCreatorContentEmitter.Content = PreviewCreatorPage.PreviewCreatorPageInstance;
 
-                    /**/SplashScreenWindow.ProgressObject = WindowsInitalizingString.Exform(3, 4);
+                    /**/SplashScreenWindow.ProgressObject = WindowsInitalizingString.Exform(3, 5);
                     SkillsDisplayInfoManagerWindow.SkillsDisplayInfoManagerWindowInstance = new();
 
-                    /**/SplashScreenWindow.ProgressObject = WindowsInitalizingString.Exform(4, 4);
+                    /**/SplashScreenWindow.ProgressObject = WindowsInitalizingString.Exform(4, 5);
                     SettingsWindow.SettingsWindowInstance = new();
 
+                    /**/SplashScreenWindow.ProgressObject = WindowsInitalizingString.Exform(5, 5);
+                    LocalizationFilesProcessorWindow.LocalizationFilesProcessorWindowInstance = new();
 
-                    /**/SplashScreenWindow.ProgressObject = WindowsInitalizingString.Exform(5, 4);
+
+                    /**/SplashScreenWindow.ProgressObject = WindowsInitalizingString.Exform(6, 5);
                     UpdateNoticeWindow.UpdateNoticeWindowInstance = new();
                     ConfirmDialog.ConfirmDialogInstance = new();
                     InputDialog.InputDialogInstance = new();

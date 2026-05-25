@@ -141,7 +141,7 @@
 									<Border x:Name="PART_TitleBarTextArea" Background="Transparent" Cursor="Hand">
 										<ContentPresenter Content="{TemplateBinding Title}" />
 									</Border>
-									<ItemsControl x:Name="PART_TitleBarNavigationArea" Grid.Column="1" Margin="15 0 0 0" ItemsSource="{TemplateBinding Navigation}">
+									<ItemsControl x:Name="PART_TitleBarNavigationArea" Grid.Column="1" ItemsSource="{TemplateBinding Navigation}">
 										<ItemsControl.ItemsPanel>
 											<ItemsPanelTemplate>
 												<StackPanel Style="{StaticResource Base:WindowLayout.TitleBar.ButtonsSite}">
@@ -407,11 +407,21 @@
 									Foreground="{DynamicResource Theme:SquareButtons.Icons}"
 									Text=""
 									Visibility="Collapsed" />
-							</Viewbox>
-						</Border>
-					</Grid>
-					<ControlTemplate.Triggers>
-						<Trigger Property="HasContent" Value="True">
+                            </Viewbox>
+                        </Border>
+                        <Border
+							x:Name="DisabledStateCovering"
+							Background="{DynamicResource Theme:SquareButtons.DisabledButtonsShadowing}"
+							BorderBrush="{DynamicResource Theme:SquareButtons.DisabledButtonsShadowing}"
+							BorderThickness="{DynamicResource Theme:SquareButtons.Border.Thickness}"
+							CornerRadius="{DynamicResource Theme:SquareButtons.Border.CornerRadius}"
+							Visibility="Collapsed" />
+                    </Grid>
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter TargetName="DisabledStateCovering" Property="Visibility" Value="Visible" />
+                        </Trigger>
+                        <Trigger Property="HasContent" Value="True">
 							<Setter Property="Padding" Value="4 -1 0 0" />
 						</Trigger>
 						<Trigger Property="IsMouseOver" Value="True">
@@ -640,8 +650,8 @@
 				<ControlTemplate TargetType="{x:Type ToggleButton}">
 					<Border Background="{DynamicResource Theme:ElongatedButtons.Background}" BorderBrush="{DynamicResource Theme:ElongatedButtons.Border}" BorderThickness="{DynamicResource Theme:ElongatedButtons.Border.Thickness}" CornerRadius="{DynamicResource Theme:ElongatedButtons.Border.CornerRadius}" SnapsToDevicePixels="True">
 						<Border
-							Width="18"
-							Margin="0 -0.5 -0.5 -0.5"
+							Width="20"
+							Margin="0 -0.5 -1 -0.5"
 							HorizontalAlignment="Right"
 							Background="{DynamicResource Theme:ElongatedButtons.Border}"
 							BorderBrush="{DynamicResource Theme:ElongatedButtons.Border}"
@@ -712,9 +722,15 @@
 							SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}" />
 					</Grid>
 					<ControlTemplate.Triggers>
+						<Trigger Property="T:MarkupShrinking.FreeComboBoxDropDownWidth" Value="True">
+							<Setter TargetName="PART_Popup" Property="Width" Value="Auto" />
+						</Trigger>
 						<Trigger Property="HasItems" Value="False">
 							<Setter TargetName="DropDownBorder" Property="Height" Value="95" />
 						</Trigger>
+                        <Trigger Property="IsEnabled" Value="False">
+                            <Setter Property="Opacity" Value="0.55" />
+                        </Trigger>
 						<MultiTrigger>
 							<MultiTrigger.Conditions>
 								<Condition Property="IsGrouping" Value="True" />

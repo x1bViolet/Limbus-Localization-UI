@@ -126,7 +126,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                         {
                             // lang=regex
                             string ShorthandRegex = SelectedLimbusCustomLanguage.Keywords_ShorthandsRegex.Replace(@"(?<ID>\w+)", Keyword.ID);
-                            string Color = ColorDictionaries.LoadedKeywordColors[Keyword.ID!];
+                            string Color = ColorDictionaries.KeywordColors[Keyword.ID!];
 
                             MainRuleSet.Rules.Add(new HighlightingRule()
                             {
@@ -187,9 +187,9 @@ namespace LCLocalizationInterface.LimbusRegistry
                     if (SpecifiedRichTextFormat.EqualsToOneOf(RichTextFormat.Skills, RichTextFormat.Passives, RichTextFormat.EGOGifts))
                     {
                         // All [KeywordID] and Implicits
-                        foreach (PlainKeyword Keyword in KeywordsLoader.LoadedKeywords_Bufs.Values)
+                        foreach (PlainKeyword Keyword in KeywordsLoader.LoadedKeywords_Bufs.Values.Where(Keyword => !string.IsNullOrWhiteSpace(Keyword.ID) & !string.IsNullOrWhiteSpace(Keyword.Name)).OrderByDescending(Keyword => Keyword.Name))
                         {
-                            string Color = ColorDictionaries.LoadedKeywordColors[Keyword.ID!];
+                            string Color = ColorDictionaries.KeywordColors[Keyword.ID!];
 
                             MainRuleSet.Rules.Add(new HighlightingRule()
                             {
@@ -214,14 +214,14 @@ namespace LCLocalizationInterface.LimbusRegistry
                         // All [SkillTagID] (But only for Skills and Passives, excluding E.G.O Gifts)
                         if (SpecifiedRichTextFormat.EqualsToOneOf(RichTextFormat.Skills, RichTextFormat.Passives))
                         {
-                            foreach (PlainSkillTag SkillTag in KeywordsLoader.LoadedSkillTags.Values)
+                            foreach (PlainSkillTag SkillTag in KeywordsLoader.LoadedSkillTags.Values.Where(SkillTag => !string.IsNullOrWhiteSpace(SkillTag.ID)))
                             {
                                 MainRuleSet.Rules.Add(new HighlightingRule()
                                 {
                                     Regex = new Regex(@$"\[{SkillTag.ID}\]"),
                                     Color = SkillTag.ID == "TabExplain"
                                         ? new HighlightingColor() { Underline = true, Foreground = new HighlightionBrush(@Themes.CurrentTheme.JsonEditorSyntax.TabExplainColor) }
-                                        : new HighlightingColor() { Foreground = new HighlightionBrush(ColorDictionaries.LoadedSkillTagColors[SkillTag.ID!]) }
+                                        : new HighlightingColor() { Foreground = new HighlightionBrush(ColorDictionaries.SkillTagColors[SkillTag.ID!]) }
                                 });
                             }
 

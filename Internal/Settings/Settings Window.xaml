@@ -17,7 +17,6 @@
 	ResizeMode="NoResize"
 	Width="472"
 	Height="580"
-	
 	Style="{StaticResource Base:WindowLayout}"
 	Topmost="True"
 	WindowStartupLocation="CenterScreen">
@@ -68,6 +67,8 @@
 					<Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType3}}" TargetType="{x:Type Terminus:IntenseStareType3}">
 						<Setter Property="Height" Value="29" />
 						<Setter Property="FontSize" Value="19" />
+						<Setter Property="PathSelectionButtonSpacing" Value="5" />
+						<EventSetter Event="PathSelectionAction" Handler="ConfirmValueAfterPathSelection" />
 					</Style>
 					<Style BasedOn="{StaticResource Theme:ControlStyles.ComboBox}" TargetType="{x:Type ComboBox}">
 						<Setter Property="Height" Value="29" />
@@ -104,7 +105,7 @@
 							<Setter.Value>
 								<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
 									<Terminus:IntenseStareType1
-										Padding="3 0.5 0 0.5"
+										Padding="0 0.5 0 0.5"
 										FontSize="15"
 										Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}"
 										LineHeight="18"
@@ -297,7 +298,7 @@
 								<StackPanel>
 									<Terminus:IntenseStareType1 RichText="Keywords directory" UID="[Settings / Custom Language] * Keywords Directory" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
-										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.KeywordsDirectory}" UID="[Settings / Custom Language] * Keywords Directory" />
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.KeywordsDirectory}" UID="[Settings / Custom Language] * Keywords Directory" PathSelectionButtonType="Directory" />
 										<Button Grid.Column="1" Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 								</StackPanel>
@@ -307,7 +308,7 @@
 								<StackPanel Margin="0 5 0 0">
 									<Terminus:IntenseStareType1 RichText="Title font" UID="[Settings / Custom Language] * Title Font" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
-										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.TitleFont}" UID="[Settings / Custom Language] * Title Font" />
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.TitleFont}" UID="[Settings / Custom Language] * Title Font" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_Font}" />
 										<Button Grid.Column="1" Click="SaveAndDeploy_TitleFont" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 
@@ -331,7 +332,7 @@
 								<StackPanel Margin="0 5 0 0">
 									<Terminus:IntenseStareType1 RichText="Context font" UID="[Settings / Custom Language] * Context Font" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
-										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.ContextFont}" UID="[Settings / Custom Language] * Context Font" />
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.ContextFont}" UID="[Settings / Custom Language] * Context Font" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_Font}" />
 										<Button Grid.Column="1" Click="SaveAndDeploy_ContextFont" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 
@@ -386,7 +387,7 @@
 									<StackPanel Margin="0 18 0 0">
 										<Terminus:IntenseStareType1 RichText="Keywords Multiple meanings dictionary file" UID="[Settings / Custom Language] * Keywords Multiple meanings dictionary file" />
 										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
-											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.KeywordsMultipleMeaningsDictionary}" UID="[Settings / Custom Language] * Keywords Multiple meanings dictionary file" />
+											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.KeywordsMultipleMeaningsDictionary}" UID="[Settings / Custom Language] * Keywords Multiple meanings dictionary file" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_Json}" />
 											<Button Grid.Column="1" Click="SaveAndDeploy_KeywordsMultipleMeaningsDictionary" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 										</TStyle:TwoColumned>
 									</StackPanel>
@@ -394,7 +395,7 @@
 									<StackPanel Margin="0 6 0 0">
 										<Terminus:IntenseStareType1 RichText="Context Menu Extra replacements file" UID="[Settings / Custom Language] * Context Menu Extra replacements file" />
 										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
-											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.ContextMenuExtraReplacements}" UID="[Settings / Custom Language] * Context Menu Extra replacements file" />
+											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.ContextMenuExtraReplacements}" UID="[Settings / Custom Language] * Context Menu Extra replacements file" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_RegexReplacements}" />
 											<Button Grid.Column="1" Click="SaveAndDeploy_ExtraReplacements" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 										</TStyle:TwoColumned>
 									</StackPanel>
@@ -422,7 +423,7 @@
 								<StackPanel Margin="0 18 0 0">
 									<Terminus:IntenseStareType1 RichText="Fallback keywords directory" UID="[Settings / Custom Language] * Fallback Keywords Directory" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
-										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.PreviewSettings.CustomLang.KeywordsFallbackDirectory}" UID="[Settings / Custom Language] * Fallback Keywords Directory" />
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.PreviewSettings.CustomLang.KeywordsFallbackDirectory}" UID="[Settings / Custom Language] * Fallback Keywords Directory" PathSelectionButtonType="Directory" />
 										<Button Grid.Column="1" Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 								</StackPanel>
@@ -430,7 +431,7 @@
 								<StackPanel Margin="0 6 0 0">
 									<Terminus:IntenseStareType1 RichText="Additional keywords directory" UID="[Settings / Custom Language] * Additional Keywords Directory" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
-										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.PreviewSettings.CustomLang.AdditionalKeywordsDirectory}" UID="[Settings / Custom Language] * Additional Keywords Directory" />
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.PreviewSettings.CustomLang.AdditionalKeywordsDirectory}" UID="[Settings / Custom Language] * Additional Keywords Directory" PathSelectionButtonType="Directory" />
 										<Button Grid.Column="1" Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 								</StackPanel>
@@ -446,7 +447,14 @@
 
 							<TStyle:Section>
 
-								<TStyle:TwoColumned Margin="0">
+                                <Terminus:IntenseStareType1
+									FontSize="16"
+									Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Comments}"
+									LineHeight="20"
+									RichText="Drop-down lists only consider files and folders from «[⇲] Assets Directory\※ Internal\Translation» and «[⇲] Assets Directory\※ Internal\Themes» respectively"
+									UID="[Settings / Internal] * Dropdown lists Readme" />
+
+                                <TStyle:TwoColumned>
 									<Terminus:IntenseStareType1 x:Name="InterfaceLanguageSelectorLabel" RichText="Interface language" UID="[Settings / Internal] * Selected UI Lanugage" />
 									<ComboBox x:Name="InterfaceLanguageSelector" Grid.Column="1" ItemTemplate="{StaticResource InterfaceLanguageSelectorContainerStyle}" SelectionChanged="InterfaceLanguageSelector_SelectionChanged" />
 								</TStyle:TwoColumned>
@@ -482,6 +490,8 @@
 												<Setter Property="MinHeight" Value="27" />
 												<Setter Property="Cursor" Value="Hand" />
 												<Setter Property="Focusable" Value="False" />
+												<Setter Property="FontFamily" Value="/UI/Fonts/#Segoe Fluent Icons" />
+												<Setter Property="FontSize" Value="25" />
 												<Setter Property="Height" Value="{Binding ElementName=MiscTitleBarButtonsToggle, Path=ActualHeight}" />
 												<Setter Property="Template">
 													<Setter.Value>
@@ -491,8 +501,8 @@
 																	x:Name="OptionMark"
 																	HorizontalAlignment="Center"
 																	VerticalAlignment="Center"
-																	FontFamily="/UI/Fonts/#Segoe Fluent Icons"
-																	FontSize="25"
+																	FontFamily="{TemplateBinding FontFamily}"
+																	FontSize="{TemplateBinding FontSize}"
 																	Foreground="{DynamicResource Theme:TitleBar.Icons}"
 																	Text="{TemplateBinding Content}" />
 															</Border>
@@ -506,20 +516,13 @@
 												</Setter>
 											</Style>
 										</StackPanel.Resources>
+										<CheckBox Content="" FontFamily="/UI/Fonts/#Material Symbols Outlined ExtraLight" FontSize="28" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.LocalizationFilesProcessor, FallbackValue=True}" />
 										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.EditorModeSwitch, FallbackValue=True}" />
 										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.OpenSkillsDisplayInfoManager, FallbackValue=True}" />
 										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.SwitchUIToPreviewCreator, FallbackValue=True}" />
 										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.ExportTextToImage, FallbackValue=True}" />
 									</StackPanel>
 								</TStyle:TwoColumned>
-
-								<Terminus:IntenseStareType1
-									Margin="0 5 0 0"
-									FontSize="16"
-									Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Comments}"
-									LineHeight="20"
-									RichText="Drop-down lists only consider files and folders from «[⇲] Assets Directory\※ Internal\Translation» and «[⇲] Assets Directory\※ Internal\Themes» respectively"
-									UID="[Settings / Internal] * Dropdown lists Readme" />
 
 
 								<StackPanel x:Name="SpecificSettingsWithCaution" Margin="0 16 0 5">
@@ -609,7 +612,7 @@
 											</CheckBox>
 										</TStyle:TwoColumned>
 
-										<TStyle:TwoColumned T:BooleanStateHandler.IsEnabled="{T:BooleanStateBinding DataContextDomain.Configuration.Internal.EnableAutoSave}">
+										<TStyle:TwoColumned IsEnabled="{Binding DataContextDomain.Configuration.Internal.EnableAutoSave}">
 											<Terminus:IntenseStareType1 RichText="Autosave delay (Seconds)" UID="[Settings / Editor Parameters] * Autosave delay" />
 											<TStyle:TwoColumned Grid.Column="1" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 												<Terminus:IntenseStareType3 UID="[Settings / Editor Parameters] * Autosave delay" />
@@ -669,7 +672,7 @@
 								<StackPanel Margin="0 10 0 0">
 									<Terminus:IntenseStareType1 RichText="Preloaded Image Info for Identity/E.G.O Preview Creator" UID="[Settings / Image Exports] * Preloaded Image Info for Identity/E.G.O Preview Creator" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
-										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.ScanParameters.PreloadedImageInfoForPreviewCreator}" UID="[Settings / Image Exports] * Preloaded Image Info for Identity/E.G.O Preview Creator" />
+										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.ScanParameters.PreloadedImageInfoForPreviewCreator}" UID="[Settings / Image Exports] * Preloaded Image Info for Identity/E.G.O Preview Creator" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_Json}" />
 										<Button Grid.Column="1" Click="SaveAndDeploy_PreloadImageInfoForPreviewCreator" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 								</StackPanel>

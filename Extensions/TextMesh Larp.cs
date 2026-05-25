@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Diagnostics;
 using System.Diagnostics.CodeAnalysis;
+using System.Globalization;
 
 namespace LCLocalizationInterface
 {
@@ -199,9 +200,18 @@ namespace LCLocalizationInterface
                 ToolTipService.SetInitialShowDelay(Context.CreatedInline, 100);
             }]);
 
+            private class SizePercentageConverter(double MultiplierValue) : IValueConverter
+            {
+                public double Multiplier { get; } = MultiplierValue;
+                public object Convert(object Value, Type TargetType, object Parameter, CultureInfo Culture) => (double)Value * Multiplier;
+                public object ConvertBack(object Value, Type TargetType, object Parameter, CultureInfo Culture) => DependencyProperty.UnsetValue;
+            }
             public static readonly TagDefinition SizePercentage = new(@"size=(?<SizePercentageValue>(\d+)((\.|\,)\d+)?)%", @"/size", new TagID(nameof(SizePercentage)), [(Context) => {
                 double SizePercentageValue = double.Parse(Context.StartExpressionMatch.Groups["SizePercentageValue"].Value.Replace(".", ",")) / 100;
-                Context.CreatedInline.FontSize = Context.RichTextGenerationContext.TargetTextBlock.FontSize * SizePercentageValue;
+                Context.CreatedInline.SetBinding(TextElement.FontSizeProperty, new Binding(nameof(TextBlock.FontSize))
+                {
+                    Source = Context.RichTextGenerationContext.TargetTextBlock, Converter = new SizePercentageConverter(SizePercentageValue)
+                });
             }]);
 
             public static readonly TagDefinition VOffset = new(@"voffset=(?<VerticalOffsetValue>(\+|\-)?\d+((\.|\,)\d+)?)",   "/voffset", new TagID(nameof(VOffset)), [(Context) => {

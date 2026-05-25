@@ -1250,3 +1250,25 @@ BearClawWoundAlly ¤ #e30000
 EagleClawWoundAlly ¤ #e30000
 RingFingerPhysical ¤ #f8c200
 RingFingerFauvism ¤ #f8c200
+
+VengeanceBookHeathcliff ¤ #f8c200
+MiddleFingerTattooID ¤ #f8c200
+ScarletMothRodion ¤ #f8c200
+
+RepressedMurderousIntendHard ¤ #e30000
+WeighedMurderousIntendHard ¤ #e30000
+
+KAmpouleMirror ¤ #f8c200
+
+RicardoBookRaid ¤ #e30000
+RicardoTattooRaid ¤ #f8c200
+RicardoJokeRaid ¤ #e30000
+
+SojiRyoshuEchoPast ¤ #f8c200
+SojiRyoshuEchoFuture ¤ #e30000
+SojiRyoshuEntangle ¤ #f8c200
+SojiRyoshuShin ¤ #f8c200
+PhantomIncisionID ¤ #e30000
+PhantomIncisionTotalID ¤ #9f6a3a
+
+RedButterfly ¤ #f8c200

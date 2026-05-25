@@ -1,5 +1,7 @@
 ﻿using ICSharpCode.AvalonEdit.Editing;
+using ICSharpCode.AvalonEdit.Highlighting;
 using System.Diagnostics.CodeAnalysis;
+using System.Windows.Markup;
 using static LCLocalizationInterface.Internal.@Languages;
 using static LCLocalizationInterface.Internal.@Languages.JsonClasses.UIModifyingParameters;
 using static LCLocalizationInterface.TextMeshLarp;
@@ -63,6 +65,7 @@ namespace LCLocalizationInterface.Internal
 
         #region Generic text element
         /// <summary><see cref="TextBlock"/></summary>
+        [ContentProperty(nameof(RichText))]
         public class IntenseStareType1 : TextBlock, UITranslationEntry
         {
             #region Translation UID
@@ -108,8 +111,11 @@ namespace LCLocalizationInterface.Internal
                 IntenseStareType1 ActualSender = (IntenseStareType1)Sender;
 
                 // Square brackets can be used in XAML instead of &lt; &gt;
-                TextMeshLarp.SetRichText(ActualSender, InputRichText, [new(@"\[", @"\]"), new(@"<", @">")], IgnoredTagIDs: [ImportableLimbusTags.Mark.ID, ImportableLimbusTags.ChangesHighlight.ID]); // Except some specific for limbus text preview
+                TextMeshLarp.SetRichText(ActualSender, ActualSender.ShouldTrimRichText ? InputRichText?.Trim() : InputRichText, [new(@"\[", @"\]"), new(@"<", @">")], IgnoredTagIDs: [ImportableLimbusTags.Mark.ID, ImportableLimbusTags.ChangesHighlight.ID]); // Except some specific for limbus text preview
             }
+
+            public bool ShouldTrimRichText { get => (bool)GetValue(ShouldTrimRichTextProperty); set => SetValue(ShouldTrimRichTextProperty, value); }
+            public static readonly DependencyProperty ShouldTrimRichTextProperty = RegisterProperty<IntenseStareType1, bool>(DefaultValue: false);
             #endregion
 
 
@@ -335,6 +341,7 @@ namespace LCLocalizationInterface.Internal
 
                 // RoutedEvent for default TextChanged (Which is not)
                 this.TextChanged += (_, _) => RaiseEvent(new RoutedEventArgs(RoutedTextChangedEvent, this));
+                this.TextChanged += (_, _) => CheckInputPathExistance();
 
                 // IntenseStareType3 is always single line input (AcceptsReturn="False")
                 this.PreviewKeyDown += delegate (object Sender, KeyEventArgs Args)
@@ -345,7 +352,6 @@ namespace LCLocalizationInterface.Internal
                     }
                 };
             }
-
 
 
             #region Translation UID
@@ -424,20 +430,21 @@ namespace LCLocalizationInterface.Internal
 
 
             #region Additional things
-            public bool DisplayInputColor { get => (bool)GetValue(DisplayInputColorProperty); set => SetValue(DisplayInputColorProperty, value); }
-            public static readonly DependencyProperty DisplayInputColorProperty = RegisterProperty<IntenseStareType3, bool>(DefaultValue: false);
-
-            /// <summary>Does nothing, needed to satisfy <see cref="UITranslationEntry"/> <see langword="interface"/></summary>
+            /// <summary>Does nothing in <see cref="ICSharpCode.AvalonEdit.TextEditor"/>, needed to satisfy <see cref="UITranslationEntry"/> <see langword="interface"/></summary>
             [Obsolete] public TextAlignment TextAlignment { get; set; }
 
             /// <summary>Returns <see cref="UIElement.IsFocused"/> from <see cref="ICSharpCode.AvalonEdit.TextEditor.TextArea"/></summary>
             public new bool IsFocused => this.TextArea.IsFocused;
 
+            #region Input color visualization
+            public bool DisplayInputColor { get => (bool)GetValue(DisplayInputColorProperty); set => SetValue(DisplayInputColorProperty, value); }
+            public static readonly DependencyProperty DisplayInputColorProperty = RegisterProperty<IntenseStareType3, bool>(DefaultValue: false);
+            #endregion
 
+
+            #region TextMaxLength
             public uint? TextMaxLength { get => (uint?)GetValue(TextMaxLengthProperty); set => SetValue(TextMaxLengthProperty, value); }
             public static readonly DependencyProperty TextMaxLengthProperty = RegisterProperty<IntenseStareType3, uint?>(PropertyChangedEvent: OnTextMaxLengthChanged);
-
-
 
             private static void OnTextMaxLengthChanged(DependencyObject Sender, DependencyPropertyChangedEventArgs Args)
             {
@@ -471,8 +478,112 @@ namespace LCLocalizationInterface.Internal
                 }
             });
             #endregion
+
+
+            #region File/Directory selection buttons
+            public enum PathType { File, Directory, None }
+
+            public FileSelectAttributes FileSelectAttributes { get => (FileSelectAttributes)GetValue(FileSelectAttributesProperty); set => SetValue(FileSelectAttributesProperty, value); }
+            public static readonly DependencyProperty FileSelectAttributesProperty = RegisterProperty<IntenseStareType3, FileSelectAttributes>(DefaultValue: new());
+
+            public PathType PathSelectionButtonType { get => (PathType)GetValue(PathSelectionButtonTypeProperty); set => SetValue(PathSelectionButtonTypeProperty, value); }
+            public static readonly DependencyProperty PathSelectionButtonTypeProperty = RegisterProperty<IntenseStareType3, PathType>(DefaultValue: PathType.None);
+
+            public double PathSelectionButtonSpacing { get => (double)GetValue(PathSelectionButtonSpacingProperty); set => SetValue(PathSelectionButtonSpacingProperty, value); }
+            public static readonly DependencyProperty PathSelectionButtonSpacingProperty = RegisterProperty<IntenseStareType3, double>(DefaultValue: 4);
+
+            public event RoutedEventHandler PathSelectionAction { add => AddHandler(PathSelectionActionEvent, value); remove => RemoveHandler(PathSelectionActionEvent, value); }
+            public static readonly RoutedEvent PathSelectionActionEvent = RegisterEvent<IntenseStareType3, RoutedEventHandler>();
+
+            public void CheckInputPathExistance()
+            {
+                if (this.HighlightMissingPath is not PathType.None)
+                {
+                    Func<string?, bool> ExistanceCheckProvider = this.HighlightMissingPath switch
+                    {
+                        PathType.File => File.Exists,
+                        PathType.Directory => Directory.Exists
+                    };
+
+                    IsInputPathExists = ExistanceCheckProvider(this.BindableText);
+                }
+                else
+                {
+                    IsInputPathExists = true;
+                }
+            }
+
+
+            public PathType HighlightMissingPath { get => (PathType)GetValue(HighlightMissingPathProperty); set => SetValue(HighlightMissingPathProperty, value); }
+            public static readonly DependencyProperty HighlightMissingPathProperty = RegisterProperty<IntenseStareType3, PathType>(DefaultValue: PathType.None, PropertyChangedEvent: OnHighlightMissingPathChanged);
+            private static void OnHighlightMissingPathChanged(DependencyObject Sender, DependencyPropertyChangedEventArgs Args)
+            {
+                (Sender as IntenseStareType3)!.CheckInputPathExistance();
+            }
+
+            // Set by TextChaged check
+            public bool IsInputPathExists { get => (bool)GetValue(IsInputPathExistsProperty); set => SetValue(IsInputPathExistsProperty, value); }
+            public static readonly DependencyProperty IsInputPathExistsProperty = RegisterProperty<IntenseStareType3, bool>(DefaultValue: true);
+            #endregion
+
+
+
+            #region Syntax shenanigans
+            public void ResetHighlightDefinition() => this.SyntaxHighlighting = new SyntaxedTextEditorBase.SyntaxHighlightDefinition();
+
+            public record RegexHighlightSimple([StringSyntax(StringSyntaxAttribute.Regex)] string Pattern, string Foreground, bool UseUnderline = true);
+            public void AddHighlight(params RegexHighlightSimple[] Highlights)
+            {
+                foreach (RegexHighlightSimple Highlight in Highlights)
+                {
+                    SyntaxHighlighting.MainRuleSet.Rules.Add(new HighlightingRule()
+                    {
+                        Regex = new Regex(Highlight.Pattern),
+                        Color = new HighlightingColor() { Foreground = new HighlightionBrush(Highlight.Foreground), Underline = Highlight.UseUnderline }
+                    });
+                }
+            }
+            #endregion
+
+            #endregion
+        }
+
+        public class FileSelectAttributes
+        {
+            public string FilesHint { get; set; } = "";
+            public string Extensions { get; set; } = "*";
         }
         #endregion
+
+
+        public partial class LanguageUIElementsResourceDictionary : ResourceDictionary
+        {
+            private void PathSelection_File_Click(object Sender, RoutedEventArgs Args)
+            {
+                IntenseStareType3 ActualSender = (Sender as Button)!.FindVisualParent<IntenseStareType3>()!;
+
+                OpenFileDialog FileSelect = NewOpenFileDialog(ActualSender.FileSelectAttributes.FilesHint, ActualSender.FileSelectAttributes.Extensions.Split(", "));
+                if (FileSelect.ShowDialog() == true)
+                {
+                    ActualSender.Document.Text = FileSelect.FileName.Cut(Path.GetDirectoryName(Environment.ProcessPath) + "\\").Replace("\\", "/");
+                    ActualSender.ScrollToHorizontalOffset(double.PositiveInfinity);
+                    ActualSender.RaiseEvent(new RoutedEventArgs(IntenseStareType3.PathSelectionActionEvent, ActualSender));
+                }
+            }
+
+            private void PathSelection_Directory_Click(object Sender, RoutedEventArgs Args)
+            {
+                IntenseStareType3 ActualSender = (Sender as Button)!.FindVisualParent<IntenseStareType3>()!;
+
+                OpenFolderDialog DirectorySelect = new();
+                if (DirectorySelect.ShowDialog() == true)
+                {
+                    ActualSender.Document.Text = DirectorySelect.FolderName.Cut(Path.GetDirectoryName(Environment.ProcessPath) + "\\").Replace("\\", "/");
+                    ActualSender.ScrollToHorizontalOffset(double.PositiveInfinity);
+                    ActualSender.RaiseEvent(new RoutedEventArgs(IntenseStareType3.PathSelectionActionEvent, ActualSender));
+                }
+            }
+        }
 
 
 
@@ -491,8 +602,19 @@ namespace LCLocalizationInterface.Internal
 
             public IntenseStareType1 HeaderText;
 
-            public string UID { set => HeaderText.UID = value; }
-            public string RichText { set => HeaderText.RichText = value; }
+            public string UID { get => (string)GetValue(UIDProperty); set => SetValue(UIDProperty, value); }
+            public static readonly DependencyProperty UIDProperty = RegisterProperty<MenuItem_T1, string>(PropertyChangedEvent: OnUIDChanged);
+            private static void OnUIDChanged(DependencyObject Sender, DependencyPropertyChangedEventArgs Args)
+            {
+                (Sender as MenuItem_T1)!.HeaderText.UID = (string)Args.NewValue;
+            }
+
+            public string RichText { get => (string)GetValue(RichTextProperty); set => SetValue(RichTextProperty, value); }
+            public static readonly DependencyProperty RichTextProperty = RegisterProperty<MenuItem_T1, string>(PropertyChangedEvent: OnRichTextChanged);
+            private static void OnRichTextChanged(DependencyObject Sender, DependencyPropertyChangedEventArgs Args)
+            {
+                (Sender as MenuItem_T1)!.HeaderText.RichText = (string)Args.NewValue;
+            }
         }
 
         /// <summary><see cref="ContextMenu"/> with <see cref="MenuItem_T1"/> inside, <see cref="MenuItem_T1"/>'s header is <see cref="IntenseStareType1"/></summary>
@@ -1121,7 +1243,7 @@ namespace LCLocalizationInterface.Internal
                 {
                     Dictionary<string, @JsonClasses.UIModifyingParameters.UIModifier> DynamicModifiers = DynamicUITextParameters.List
                         .SelectMany(section => section)
-                        .ToDictionary(Param => Param.UID, Param => Param);
+                        .ToDictionarySafe(Param => Param.UID, Param => Param);
 
 
                     VariableData.UnsavedChangesMarkerContainer = DynamicModifiers.TryGetValue("[Main UI] [#] Unsaved changes marker", out var UnsavedChangesMarkerInfo)
@@ -1148,7 +1270,7 @@ namespace LCLocalizationInterface.Internal
 
                     @LoadedStaticTextModifiers = StaticUITextParameters.List
                         .SelectMany(Section => Section)
-                        .ToDictionary(Param => Param.UID, Param => Param);
+                        .ToDictionarySafe(Param => Param.UID, Param => Param);
                 }
             
                 if (IsFileValid("Textfield Parameters.json", out @JsonClasses.UIModifyingParameters TextfieldParameters))

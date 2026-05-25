@@ -658,6 +658,29 @@
       "Keyword": "-",
       "Tier": "-"
     },
+
+    {
+      "ID": 2080,
+      "Image": "Worn Hilt",
+      "Affinity": "Sloth",
+      "Keyword": "Slash",
+      "Tier": "3"
+    },
+    {
+      "ID": 2081,
+      "Image": "Resplendence",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 2082,
+      "Image": "Cultivation",
+      "Affinity": "Pride",
+      "Keyword": "Slash",
+      "Tier": "4"
+    },
+
     {
       "ID": 9001,
       "Image": "Hellterfly’s Dream",
@@ -2932,6 +2955,56 @@
     },
 
     {
+      "ID": 9250,
+      "Image": "Season 7/Mid-range K Corp. Ampule",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "4"
+    },
+    {
+      "ID": 9251,
+      "Image": "Season 7/Burning Fate",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "4"
+    },
+    {
+      "ID": 9252,
+      "Image": "Season 7/Nail and Hammer",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9253,
+      "Image": "Season 7/Carousel Figurine",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "4"
+    },
+    {
+      "ID": 9254,
+      "Image": "Season 7/Another Round!",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9255,
+      "Image": "Season 7/Clappity Clap!",
+      "Affinity": "Gloom",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+    {
+      "ID": 9273,
+      "Image": "Season 7/Mirror of Names and Spiders/Spiderweb Entangled in Red",
+      "Affinity": "Wrath",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+
+    {
       "ID": 9260,
       "Image": "Season 7/Intervallos/Twining Threads/Artworkː Pulsation",
       "Affinity": "Envy",
@@ -2993,6 +3066,35 @@
       "Affinity": "Lust",
       "Keyword": "-",
       "Tier": "2"
+    },
+
+    {
+      "ID": 9269,
+      "Image": "Season 7/Intervallos/Nocturnal Sweeping BokGak/Boombox of Dramatic Entrances",
+      "Affinity": "Envy",
+      "Keyword": "Blunt",
+      "Tier": "2"
+    },
+    {
+      "ID": 9270,
+      "Image": "Season 7/Intervallos/Nocturnal Sweeping BokGak/ENTERː The B.B.",
+      "Affinity": "Envy",
+      "Keyword": "Blunt",
+      "Tier": "4"
+    },
+    {
+      "ID": 9271,
+      "Image": "Season 7/Intervallos/Nocturnal Sweeping BokGak/Heishou Bolus - Mao",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "2"
+    },
+    {
+      "ID": 9272,
+      "Image": "Season 7/Intervallos/Nocturnal Sweeping BokGak/Shadowlurking",
+      "Affinity": "Gluttony",
+      "Keyword": "Rupture",
+      "Tier": "4"
     },
 
     {

@@ -2,13 +2,13 @@
 {
     public static class ColorDictionaries
     {
-        public static LimbusColorsDictionary LoadedKeywordColors { get; } = new
+        public static LimbusColorsDictionary KeywordColors { get; } = new
         (
             SourceColorsDictionaryFile: @"[⇲] Assets Directory\Color Dictionaries\Keyword Colors.cd.txt",
             FallbackColor: "#9f6a3a" // Brown
         );
 
-        public static LimbusColorsDictionary LoadedSkillTagColors { get; } = new
+        public static LimbusColorsDictionary SkillTagColors { get; } = new
         (
             SourceColorsDictionaryFile: @"[⇲] Assets Directory\Color Dictionaries\SkillTag Colors.cd.txt",
             FallbackColor: "#93f03f" // Green

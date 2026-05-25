@@ -1,0 +1,651 @@
+﻿<Abstractions:FadeableWindow
+    x:Class="LCLocalizationInterface.LimbusRegistry.LocalizationFilesProcessing.LocalizationFilesProcessorWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:Blend="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:MarkupCompatibility="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    xmlns:DiffPlex="clr-namespace:DiffPlex.Wpf.Controls;assembly=DiffPlex.Wpf"
+    xmlns:Entanglement="clr-namespace:LCLocalizationInterface.Entanglement"
+    xmlns:Abstractions="clr-namespace:LCLocalizationInterface.Internal.Abstractions"
+    xmlns:Terminus="clr-namespace:LCLocalizationInterface.Internal.Terminus"
+    xmlns:InternalStyle="clr-namespace:LCLocalizationInterface.Internal.UIStyle"
+    xmlns:T="clr-namespace:LCLocalizationInterface.MarkupExtensions"
+    Title="{Binding ElementName=CaptionBinder, Path=Text}"
+    Width="858"
+    Height="500"
+    MinWidth="858"
+    MinHeight="500"
+    Blend:DataContext="{Blend:DesignInstance Type=Entanglement:EntanglementModel}"
+    MarkupCompatibility:Ignorable="Blend"
+    DataContext="{Binding Source={StaticResource ThatOnePeskyMvvmThing}}"
+    ResizeMode="CanResize"
+    Style="{StaticResource Base:WindowLayout}"
+    Topmost="{Binding ElementName=TopmostStateCheckBox, Path=IsChecked}"
+    WindowStartupLocation="CenterScreen">
+
+    <WindowChrome.WindowChrome>
+        <WindowChrome x:Name="CurrentWindowChrome" CaptionHeight="0" ResizeBorderThickness="4 10 10 10" />
+    </WindowChrome.WindowChrome>
+
+    <Window.TaskbarItemInfo>
+        <TaskbarItemInfo x:Name="TaskBarProgress" />
+    </Window.TaskbarItemInfo>
+
+    <Abstractions:FadeableWindow.Resources>
+        <Terminus:FileSelectAttributes x:Key="FileSelecion_RegexReplacementsViaJsonPathsAndFiles" Extensions="rgpfjp.txt" FilesHint=".rgpfjp.txt (Regex replacements : files + JsonPaths) files" />
+    </Abstractions:FadeableWindow.Resources>
+
+    <InternalStyle:InstancedWindowLayout x:Name="VisualBorder" BorderBrush="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.Border.Color}" CornerRadius="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.Border.CornerRadius}" WindowDragging="WindowOverrideDragMove">
+
+        <InternalStyle:InstancedWindowLayout.Title>
+            <Terminus:IntenseStareType1 Style="{StaticResource Base:WindowLayout.TitleBar.TitleText}" UID="[Localization Processor] * Title" />
+        </InternalStyle:InstancedWindowLayout.Title>
+
+        <InternalStyle:InstancedWindowLayout.Navigation>
+            <Button Click="Minimize" Style="{StaticResource Base:TitleBar.Button.Defaults.Minimize}" />
+            <Button Click="ToggleMaximizedStage" Content="" Style="{StaticResource Base:TitleBar.Button}" />
+            <Button Click="FadeClose" Style="{StaticResource Base:TitleBar.Button.Defaults.Close}" />
+        </InternalStyle:InstancedWindowLayout.Navigation>
+
+        <InternalStyle:InstancedWindowLayout.Content>
+            <Grid Background="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.Background.Color}">
+                <Grid.Resources>
+                    <Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+                        <Setter Property="Foreground" Value="{DynamicResource Theme:UIText.LocalizationFilesProcessorWindow.Foreground}" />
+                    </Style>
+                </Grid.Resources>
+
+                <Terminus:IntenseStareType1 x:Name="CaptionBinder" UID="[Localization Processor] [!] [#] * Title (Window Caption)" Visibility="Collapsed" />
+
+                <Grid Margin="0 1 0 0">
+
+                    <!--#region Background image-->
+                    <Grid VerticalAlignment="Top">
+                        <StackPanel Orientation="Horizontal">
+
+                            <StackPanel>
+                                <Image HorizontalAlignment="Left" Source="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.Background.Image}" Stretch="None" />
+
+                                <!--    Mirrored version at the bottom    -->
+                                <Image Margin="0 -1 0 0" HorizontalAlignment="Left" RenderTransformOrigin="0 0.5" Source="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.Background.Image}" Stretch="None">
+                                    <Image.RenderTransform>
+                                        <ScaleTransform ScaleY="-1" />
+                                    </Image.RenderTransform>
+                                </Image>
+
+                            </StackPanel>
+
+                            <!--    Mirrored version at the right    -->
+                            <StackPanel RenderTransformOrigin="0.5 0.5" Visibility="Visible">
+                                <Image HorizontalAlignment="Left" Source="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.Background.Image}" Stretch="None" />
+
+                                <!--    Mirrored version at the bottom    -->
+                                <Image Margin="0 -1 0 0" HorizontalAlignment="Left" RenderTransformOrigin="0 0.5" Source="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.Background.Image}" Stretch="None">
+                                    <Image.RenderTransform>
+                                        <ScaleTransform ScaleY="-1" />
+                                    </Image.RenderTransform>
+                                </Image>
+
+                                <StackPanel.RenderTransform>
+                                    <ScaleTransform ScaleX="-1" />
+                                </StackPanel.RenderTransform>
+
+                            </StackPanel>
+
+                        </StackPanel>
+
+                        <Border Background="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.Background.Image.Shadow}" />
+                    </Grid>
+
+                    <Grid x:Name="MainGrid" Margin="0 5 5 5">
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="32" />
+                            <ColumnDefinition />
+                        </Grid.ColumnDefinitions>
+
+                        <InternalStyle:SingleViewer x:Name="MenusView" Grid.Column="1">
+
+                            <InternalStyle:SingleViewer.Style>
+                                <Style TargetType="{x:Type InternalStyle:SingleViewer}">
+                                    <Style.Triggers>
+                                        <DataTrigger Binding="{Binding ElementName=MenuSelector_FilesProcessing, Path=Tag}" Value="This menu is selected">
+                                            <Setter Property="SelectedIndex" Value="0" />
+                                        </DataTrigger>
+                                        <DataTrigger Binding="{Binding ElementName=MenuSelector_Parameters, Path=Tag}" Value="This menu is selected">
+                                            <Setter Property="SelectedIndex" Value="1" />
+                                        </DataTrigger>
+                                    </Style.Triggers>
+                                </Style>
+                            </InternalStyle:SingleViewer.Style>
+
+                            <Grid x:Uid="Files processing menu">
+                                <StackPanel VerticalAlignment="Top">
+                                    <Grid Height="30">
+                                        <Terminus:IntenseStareType3
+                                            x:Name="SourcePathInput"
+                                            BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.Paths.SourceDirectory}"
+                                            FontSize="19.5"
+                                            HighlightMissingPath="Directory"
+                                            UID="[Localization Processor / Profile] * Source path of localization files"
+                                            PathSelectionButtonType="Directory" />
+                                        <Terminus:IntenseStareType1 FontSize="19.5" HideWhenThisDocumentTextIsNotEmpty="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Children[0]}" IsHitTestVisible="False" RichText="Source path of localization files" UID="[Localization Processor / Profile] * Source path of localization files (Shadow Text)" />
+                                    </Grid>
+                                    <Grid Height="30" Margin="0 5 0 0">
+                                        <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.Paths.DestinationDirectory}" FontSize="19.5" UID="[Localization Processor / Profile] * Destination path of processed files" PathSelectionButtonType="Directory" />
+                                        <Terminus:IntenseStareType1 FontSize="19.5" HideWhenThisDocumentTextIsNotEmpty="{Binding RelativeSource={RelativeSource AncestorType=Grid}, Path=Children[0]}" IsHitTestVisible="False" RichText="Destination path of processed files" UID="[Localization Processor / Profile] * Destination path of processed files (Shadow Text)" />
+                                    </Grid>
+                                </StackPanel>
+                                <Grid Margin="0 80 0 0">
+                                    <Grid VerticalAlignment="Top">
+                                        <Terminus:IntenseStareType1
+                                            x:Name="FilesCounter"
+                                            Margin="8 0 0 0"
+                                            HorizontalAlignment="Left"
+                                            VerticalAlignment="Top"
+                                            FontSize="25"
+                                            RichText="100/1900"
+                                            UID="[Localization Processor] [-] * Files counter"
+                                            Visibility="Collapsed" />
+                                        <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+                                            <StackPanel.Resources>
+                                                <Style TargetType="{x:Type TextBlock}">
+                                                    <Setter Property="FontFamily" Value="/UI/Fonts/#Segoe Fluent Icons" />
+                                                    <Setter Property="Foreground" Value="{DynamicResource Theme:SquareButtons.Icons}" />
+                                                    <Setter Property="VerticalAlignment" Value="Center" />
+                                                    <Setter Property="FontSize" Value="31" />
+                                                    <Setter Property="Margin" Value="0 0 2 0" />
+                                                    <Setter Property="Text" Value="" />
+                                                </Style>
+                                            </StackPanel.Resources>
+                                            <Button
+                                                x:Name="ViewReportButton"
+                                                Margin="0 0 30 0"
+                                                Padding="5 0 5 0"
+                                                Click="ViewReportButton_Click"
+                                                FontSize="24"
+                                                Style="{StaticResource Theme:ControlStyles.ElongatedButton}"
+                                                Visibility="Collapsed">
+                                                <Terminus:IntenseStareType1 RichText="View report" UID="[Localization Processor] * View report Button" />
+                                            </Button>
+                                            <Button
+                                                x:Name="StartButton"
+                                                Padding="5 0 5 0"
+                                                Click="StartButton_Click"
+                                                FontSize="24"
+                                                IsEnabled="{Binding ElementName=SourcePathInput, Path=IsInputPathExists}"
+                                                Style="{StaticResource Theme:ControlStyles.ElongatedButton}"
+                                                Visibility="Visible">
+                                                <Terminus:IntenseStareType1 RichText="Process files" UID="[Localization Processor] * Process files Button" />
+                                            </Button>
+                                            <Button
+                                                x:Name="CancelButton"
+                                                Padding="5 0 5 0"
+                                                Click="CancelButton_Click"
+                                                FontSize="24"
+                                                Style="{StaticResource Theme:ControlStyles.ElongatedButton}"
+                                                Visibility="Collapsed">
+                                                <Terminus:IntenseStareType1 RichText="Cancel" UID="[Localization Processor] * Cancel processing Button" />
+                                            </Button>
+                                        </StackPanel>
+                                    </Grid>
+
+                                    <Border Margin="0 45 0 0" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
+                                        <ScrollViewer x:Name="ExportedFilesLog_ParentScrollViewer" Margin="3" Style="{StaticResource Theme:ControlStyles.ScrollViewer}">
+                                            <ScrollViewer.Resources>
+                                                <Style x:Key="LogFileName" BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+                                                    <Setter Property="StyleInherintingSource" Value="{Binding ElementName=TemplateForExportedaNameOfExportedFile}" />
+                                                    <Setter Property="ContextMenu">
+                                                        <Setter.Value>
+                                                            <ContextMenu>
+                                                                <Terminus:MenuItem_T1 FontSize="16" IsHitTestVisible="False" RichText="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.Tag.FileName}" UID="[Localization Processor / Exported file name Context Menu] [-] * File name" />
+                                                                <Separator UseLayoutRounding="True" />
+                                                                <Terminus:MenuItem_T1 Click="LogFileName_OpenWithExternalEditor" FontSize="16" RichText="Open with external editor" Tag="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.Tag}" UID="[Localization Processor / Exported file name Context Menu] * Open with external editor" />
+                                                                <Separator UseLayoutRounding="True" />
+                                                                <!--    Content    -->
+                                                                <Terminus:MenuItem_T1 Click="LogFileName_CopyFileText" FontSize="16" RichText="Copy file text" Tag="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.Tag}" UID="[Localization Processor / Exported file name Context Menu] * Copy file text" />
+                                                                <Terminus:MenuItem_T1 Click="LogFileName_CopyFileItself" FontSize="16" RichText="Copy file itself" Tag="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.Tag}" UID="[Localization Processor / Exported file name Context Menu] * Copy file itself" />
+                                                                <Separator UseLayoutRounding="True" />
+                                                                <Terminus:MenuItem_T1 Click="LogFileName_CopyName" FontSize="16" RichText="Copy name" Tag="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.Tag}" UID="[Localization Processor / Exported file name Context Menu] * Copy name" />
+                                                                <Terminus:MenuItem_T1 Click="LogFileName_CopyFullPath" FontSize="16" RichText="Copy full path" Tag="{Binding RelativeSource={RelativeSource AncestorType=ContextMenu}, Path=PlacementTarget.Tag}" UID="[Localization Processor / Exported file name Context Menu] * Copy full path" />
+                                                            </ContextMenu>
+                                                        </Setter.Value>
+                                                    </Setter>
+                                                </Style>
+                                            </ScrollViewer.Resources>
+                                            <Grid>
+
+                                                <Terminus:IntenseStareType1
+                                                    Padding="0 5 0 0"
+                                                    FontSize="25"
+                                                    RichText="&lt;Processing was cancelled&gt;"
+                                                    TextAlignment="Center"
+                                                    UID="[Localization Processor] * Cancelled processing message"
+                                                    Visibility="Collapsed" />
+                                                <Terminus:IntenseStareType1
+                                                    Padding="0 5 0 0"
+                                                    FontSize="25"
+                                                    RichText="&lt;Processing finished&gt;"
+                                                    TextAlignment="Center"
+                                                    UID="[Localization Processor] * Finished processing message"
+                                                    Visibility="Collapsed" />
+                                                <Terminus:IntenseStareType1 x:Name="TemplateForExportedaNameOfExportedFile" FontSize="18" UID="[Localization Processor] [-] * Template for name of exported file" Visibility="Collapsed" />
+                                                <Terminus:IntenseStareType1 x:Uid="Placeholder to trigger Terminus:MenuItem_T1's init inside LogFileName Style" Style="{StaticResource LogFileName}" Visibility="Collapsed" />
+
+                                                <StackPanel x:Name="ExportedFilesLog">
+
+                                                    <!--    ... Processing log    -->
+
+                                                </StackPanel>
+
+                                            </Grid>
+                                        </ScrollViewer>
+                                    </Border>
+
+                                </Grid>
+                            </Grid>
+
+                            <Grid x:Uid="Parameters menu">
+
+                                <Grid Height="26.7" VerticalAlignment="Top">
+
+                                    <StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+
+                                        <StackPanel Orientation="Horizontal">
+                                            <Terminus:IntenseStareType1 VerticalAlignment="Center" FontSize="18" Text="Topmost" UID="[Localization Processor] * Topmost" />
+                                            <CheckBox
+                                                x:Name="TopmostStateCheckBox"
+                                                Width="26"
+                                                Height="26"
+                                                Margin="4 0 0 0"
+                                                Checked="TopmostStateCheckChanged"
+                                                IsChecked="{Binding DataContextDomain.Configuration.LocalizationFilesProcessorSettings.Topmost, FallbackValue=True}"
+                                                Style="{StaticResource Theme:ControlStyles.CheckBox}"
+                                                Unchecked="TopmostStateCheckChanged" />
+                                        </StackPanel>
+
+                                        <Terminus:IntenseStareType1 x:Name="TemplateForProfileNames" Padding="0 0 8 0" FontSize="18" UID="[Localization Processor] [-] * Template for name of profile" Visibility="Collapsed" />
+
+                                        <ComboBox
+                                            x:Name="ProfileSelector"
+                                            Width="272"
+                                            Margin="21.25 0 0 0"
+                                            Padding="6 2 6 0"
+                                            T:MarkupShrinking.FreeComboBoxDropDownWidth="True"
+                                            ItemsSource="{Binding DataContextDomain.LocalizationFilesProcessor.ProfilesList}"
+                                            SelectedItem="{Binding DataContextDomain.Configuration.LocalizationFilesProcessorSettings.SelctedProfile}"
+                                            SelectionChanged="ProfileSelector_SelectionChanged"
+                                            Style="{StaticResource Theme:ControlStyles.ComboBox}">
+                                            <ComboBox.ItemTemplate>
+                                                <DataTemplate>
+                                                    <Terminus:IntenseStareType1 StyleInherintingSource="{Binding ElementName=TemplateForProfileNames}" Text="{Binding}" />
+                                                </DataTemplate>
+                                            </ComboBox.ItemTemplate>
+                                        </ComboBox>
+
+                                        <Button
+                                            Margin="21.25 0 0 0"
+                                            Padding="5 0 5 0"
+                                            HorizontalAlignment="Right"
+                                            Click="SaveEditedProfile"
+                                            FontSize="18"
+                                            Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+                                            <Terminus:IntenseStareType1 RichText="Save edited profile" UID="[Localization Processor] * Save edited profile button" />
+                                        </Button>
+
+                                        <Terminus:IntenseStareType1 Margin="21.25 0 0 0" VerticalAlignment="Center" FontSize="18" UID="[Localization Processor] * Documentation hint" />
+
+                                    </StackPanel>
+                                </Grid>
+
+                                <ScrollViewer Margin="0 32 0 0" Style="{StaticResource Theme:ControlStyles.ScrollViewer}">
+
+                                    <StackPanel Margin="0 1 6 0">
+                                        <StackPanel.Resources>
+                                            <Style TargetType="{x:Type InternalStyle:TwoColumned}">
+                                                <!--    Fixed width for parameter names -> flexible width for value selectors    -->
+                                                <Setter Property="Width1" Value="365" />
+                                                <Setter Property="Margin" Value="0 5 0 0" />
+                                            </Style>
+                                            <Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+                                                <Setter Property="VerticalAlignment" Value="Center" />
+                                                <Setter Property="FontSize" Value="20" />
+                                                <Setter Property="Margin" Value="0 0 4 0" />
+                                                <Setter Property="ShouldTrimRichText" Value="True" />
+                                            </Style>
+                                            <Style x:Key="SectionHeader" BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+                                                <Setter Property="HorizontalAlignment" Value="Center" />
+                                                <Setter Property="Foreground" Value="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.SectionHeaders}" />
+                                                <Setter Property="FontSize" Value="24" />
+                                                <Setter Property="FontWeight" Value="Bold" />
+                                                <Setter Property="Margin" Value="0 0 0 4" />
+                                            </Style>
+                                            <Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType3}}" TargetType="{x:Type Terminus:IntenseStareType3}">
+                                                <Setter Property="FontSize" Value="18" />
+                                                <Setter Property="FontWeight" Value="Bold" />
+                                                <Setter Property="Height" Value="30" />
+                                                <Setter Property="Grid.Column" Value="1" />
+                                            </Style>
+                                            <Style BasedOn="{StaticResource Theme:ControlStyles.ComboBox}" TargetType="{x:Type ComboBox}">
+                                                <Setter Property="Padding" Value="6 3 6 0" />
+                                                <Setter Property="Height" Value="30" />
+                                                <Setter Property="Grid.Column" Value="1" />
+                                                <Setter Property="T:MarkupShrinking.FreeComboBoxDropDownWidth" Value="True" />
+                                            </Style>
+                                            <Style TargetType="{x:Type Separator}">
+                                                <Setter Property="UseLayoutRounding" Value="True" />
+                                                <Setter Property="Margin" Value="7" />
+                                                <Setter Property="Background" Value="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.SectionSeparators}" />
+                                            </Style>
+                                            <Style BasedOn="{StaticResource Theme:ControlStyles.CheckBox}" TargetType="{x:Type CheckBox}">
+                                                <Setter Property="Width" Value="30" />
+                                                <Setter Property="Height" Value="30" />
+                                                <Setter Property="HorizontalAlignment" Value="Left" />
+                                                <Setter Property="Grid.Column" Value="1" />
+                                            </Style>
+                                        </StackPanel.Resources>
+
+                                        <InternalStyle:TwoColumned Margin="0">
+                                            <Terminus:IntenseStareType1 RichText="General localization files whitelist" UID="[Localization Processor / Profile] * General localization files whitelist" />
+                                            <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.GeneralLocalizationFilesWhitelist}" UID="[Localization Processor / Profile] * General localization files whitelist" />
+                                        </InternalStyle:TwoColumned>
+
+                                        <InternalStyle:TwoColumned>
+                                            <Terminus:IntenseStareType1 RichText="Files processing order" UID="[Localization Processor / Profile] * Files processing order" />
+                                            <ComboBox SelectedValue="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.FilesProcessingOrder}" SelectedValuePath="Uid">
+                                                <Terminus:IntenseStareType1 x:Uid="Recently changed first" RichText="Recently changed first" UID="[Localization Processor / Profile] * General localization files whitelist — Recently changed first" />
+                                                <Terminus:IntenseStareType1 x:Uid="Sort by name" RichText="Sort by name" UID="[Localization Processor / Profile] * General localization files whitelist — Sort by name" />
+                                            </ComboBox>
+                                        </InternalStyle:TwoColumned>
+
+                                        <Separator />
+
+                                        <Terminus:IntenseStareType1 RichText="Json files formatting" Style="{StaticResource SectionHeader}" UID="[Localization Processor / Profile] * Json files formatting (Section title)" />
+                                        <StackPanel>
+
+                                            <InternalStyle:TwoColumned Margin="0">
+                                                <Terminus:IntenseStareType1 RichText="Already existing files overwriting rule" UID="[Localization Processor / Profile] * Already existing files overwriting rule" />
+                                                <ComboBox SelectedValue="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.JsonFilesFormatting.ExistingFilesOverwritingRule}" SelectedValuePath="Uid">
+                                                    <Terminus:IntenseStareType1 x:Uid="If Json content itself is not the same" RichText="If Json content itself is not the same" UID="[Localization Processor / Profile] * Already existing files overwriting rule — If Json content itself is not the same" />
+                                                    <Terminus:IntenseStareType1 x:Uid="If just text of both files is not the same" RichText="If just text of both files is not the same" UID="[Localization Processor / Profile] * Already existing files overwriting rule — If just text of both files is not the same" />
+                                                    <Terminus:IntenseStareType1 x:Uid="Always overwrite existing files" RichText="Always overwrite existing files" UID="[Localization Processor / Profile] * Already existing files overwriting rule — Always overwrite existing files" />
+                                                </ComboBox>
+                                            </InternalStyle:TwoColumned>
+
+                                            <InternalStyle:TwoColumned>
+                                                <Terminus:IntenseStareType1 RichText="Output json formatting" UID="[Localization Processor / Profile] * Output json formatting" />
+                                                <ComboBox x:Name="OutputJsonFormattingSelection" SelectedValue="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.JsonFilesFormatting.OutputJsonFormatting}" SelectedValuePath="Uid">
+                                                    <Terminus:IntenseStareType1 x:Uid="Indented" RichText="Indented" UID="[Localization Processor / Profile] * Output json formatting — Indented" />
+                                                    <Terminus:IntenseStareType1 x:Uid="None" RichText="None (Just long single line without any spaces)" UID="[Localization Processor / Profile] * Output json formatting — None (Just long single line without any spaces)" />
+                                                </ComboBox>
+                                            </InternalStyle:TwoColumned>
+
+                                            <StackPanel IsEnabled="{T:EqualityStateBinding ElementName=OutputJsonFormattingSelection, Path=SelectedValue, EqualityObject='Indented'}">
+
+                                                <InternalStyle:TwoColumned>
+                                                    <Terminus:IntenseStareType1 RichText="Json Indentation size" UID="[Localization Processor / Profile] * Json Indentation size" />
+                                                    <ComboBox SelectedValue="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.JsonFilesFormatting.JsonIndentationSize}" SelectedValuePath="Uid">
+                                                        <Terminus:IntenseStareType1 x:Uid="1" RichText="1" StyleInherintingSource="{Binding ElementName=JsonIndentationKeepOriginalOption}" />
+                                                        <Terminus:IntenseStareType1 x:Uid="2" RichText="2" StyleInherintingSource="{Binding ElementName=JsonIndentationKeepOriginalOption}" />
+                                                        <Terminus:IntenseStareType1 x:Uid="3" RichText="3" StyleInherintingSource="{Binding ElementName=JsonIndentationKeepOriginalOption}" />
+                                                        <Terminus:IntenseStareType1 x:Uid="4" RichText="4" StyleInherintingSource="{Binding ElementName=JsonIndentationKeepOriginalOption}" />
+                                                        <Terminus:IntenseStareType1 x:Uid="5" RichText="5" StyleInherintingSource="{Binding ElementName=JsonIndentationKeepOriginalOption}" />
+                                                        <Terminus:IntenseStareType1 x:Uid="6" RichText="6" StyleInherintingSource="{Binding ElementName=JsonIndentationKeepOriginalOption}" />
+                                                        <Terminus:IntenseStareType1 x:Uid="7" RichText="7" StyleInherintingSource="{Binding ElementName=JsonIndentationKeepOriginalOption}" />
+                                                        <Terminus:IntenseStareType1 x:Uid="8" RichText="8" StyleInherintingSource="{Binding ElementName=JsonIndentationKeepOriginalOption}" />
+                                                        <Terminus:IntenseStareType1 x:Name="JsonIndentationKeepOriginalOption" x:Uid="Keep original" RichText="Keep original" UID="[Localization Processor / Profile] * Json Indentation size — Keep original" />
+                                                    </ComboBox>
+                                                </InternalStyle:TwoColumned>
+
+                                                <InternalStyle:TwoColumned>
+                                                    <Terminus:IntenseStareType1 RichText="Line break mode" UID="[Localization Processor / Profile] * Line break mode" />
+                                                    <ComboBox SelectedValue="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.JsonFilesFormatting.LineBreakMode}" SelectedValuePath="Uid">
+                                                        <Terminus:IntenseStareType1 x:Name="LineBreakModeKeepOriginalOption" x:Uid="Keep original" RichText="Keep original" UID="[Localization Processor / Profile] * Line break mode — Keep original" />
+                                                        <Terminus:IntenseStareType1 x:Uid="CRLF" RichText="CRLF" StyleInherintingSource="{Binding ElementName=LineBreakModeKeepOriginalOption}" />
+                                                        <Terminus:IntenseStareType1 x:Uid="CR" RichText="CR" StyleInherintingSource="{Binding ElementName=LineBreakModeKeepOriginalOption}" />
+                                                        <Terminus:IntenseStareType1 x:Uid="LF" RichText="LF" StyleInherintingSource="{Binding ElementName=LineBreakModeKeepOriginalOption}" />
+                                                    </ComboBox>
+                                                </InternalStyle:TwoColumned>
+
+                                            </StackPanel>
+
+                                            <InternalStyle:TwoColumned>
+                                                <Terminus:IntenseStareType1 RichText="UTF-8 Byte Order Marks" UID="[Localization Processor / Profile] * UTF-8 Byte Order Marks" />
+                                                <ComboBox SelectedValue="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.JsonFilesFormatting.UTF8ByteOrderMarks}" SelectedValuePath="Uid">
+                                                    <Terminus:IntenseStareType1 x:Uid="Keep BOM if they are inside original file" RichText="Keep BOM if they are inside original file" UID="[Localization Processor / Profile] * UTF-8 Byte Order Marks — Keep BOM if they are inside original file" />
+                                                    <Terminus:IntenseStareType1 x:Uid="Save files with regular UTF-8 encoding" RichText="Save files with regular UTF-8 encoding" UID="[Localization Processor / Profile] * UTF-8 Byte Order Marks — Save files with regular UTF-8 encoding" />
+                                                    <Terminus:IntenseStareType1 x:Uid="Save files with UTF-8 BOM encoding" RichText="Save files with UTF-8 BOM encoding" UID="[Localization Processor / Profile] * UTF-8 Byte Order Marks — Save files with UTF-8 BOM encoding" />
+                                                </ComboBox>
+                                            </InternalStyle:TwoColumned>
+                                        </StackPanel>
+
+                                        <Separator />
+
+                                        <Terminus:IntenseStareType1 RichText="Reference localization" Style="{StaticResource SectionHeader}" UID="[Localization Processor / Profile] * Reference localization (Section title)" />
+                                        <StackPanel>
+
+                                            <InternalStyle:TwoColumned Margin="0">
+                                                <Terminus:IntenseStareType1 RichText="Directory of reference localization" UID="[Localization Processor / Profile] * Directory of reference localization" />
+                                                <Terminus:IntenseStareType3
+                                                    x:Name="ReferenceLocalizationPathInput"
+                                                    BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.ReferenceLocalization.Directory}"
+                                                    BorderBrush="{DynamicResource Theme:UITextfields.Border}"
+                                                    HighlightMissingPath="Directory"
+                                                    UID="[Localization Processor / Profile] * Directory of reference localization"
+                                                    PathSelectionButtonType="Directory" />
+                                            </InternalStyle:TwoColumned>
+
+                                            <StackPanel IsEnabled="{Binding ElementName=ReferenceLocalizationPathInput, Path=IsInputPathExists}">
+
+                                                <InternalStyle:TwoColumned>
+                                                    <Terminus:IntenseStareType1 RichText="Prefix of files from reference localization" UID="[Localization Processor / Profile] * Prefix of files from reference localization" />
+                                                    <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.ReferenceLocalization.Prefix}" UID="[Localization Processor / Profile] * Prefix of files from reference localization" />
+                                                </InternalStyle:TwoColumned>
+
+                                                <InternalStyle:TwoColumned Margin="0 15 0 0">
+                                                    <Terminus:IntenseStareType1 RichText="Append missing files" UID="[Localization Processor / Profile] * Append missing files" />
+                                                    <CheckBox IsChecked="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.ReferenceLocalization.MissingContentAppending.AppendMissingFiles}" />
+                                                </InternalStyle:TwoColumned>
+
+                                                <InternalStyle:TwoColumned IsEnabled="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.ReferenceLocalization.MissingContentAppending.AppendMissingFiles}">
+                                                    <Terminus:IntenseStareType1 RichText="Whitelist of missing files to append" UID="[Localization Processor / Profile] * Whitelist of missing files to append" />
+                                                    <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.ReferenceLocalization.MissingContentAppending.WhitelistOfFilesToAppend}" UID="[Localization Processor / Profile] * Whitelist of missing files to append" />
+                                                </InternalStyle:TwoColumned>
+
+                                                <InternalStyle:TwoColumned Margin="0 15 0 0">
+                                                    <Terminus:IntenseStareType1 RichText="Append missing IDs" UID="[Localization Processor / Profile] * Append missing IDs" />
+                                                    <CheckBox IsChecked="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.ReferenceLocalization.MissingContentAppending.AppendMissingIDs}" />
+                                                </InternalStyle:TwoColumned>
+
+                                                <StackPanel IsEnabled="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.ReferenceLocalization.MissingContentAppending.AppendMissingIDs}">
+                                                    <InternalStyle:TwoColumned>
+                                                        <Terminus:IntenseStareType1 RichText="Whitelist of existing files to add IDs to" UID="[Localization Processor / Profile] * Whitelist of existing files to add IDs to" />
+                                                        <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.ReferenceLocalization.MissingContentAppending.WhitelistOfFilesToAddIDsTo}" UID="[Localization Processor / Profile] * Whitelist of existing files to add IDs to" />
+                                                    </InternalStyle:TwoColumned>
+
+                                                    <InternalStyle:TwoColumned>
+                                                        <Terminus:IntenseStareType1 RichText="Count IDs as missed starting from the last one from source file" UID="[Localization Processor / Profile] * Count IDs as missed starting from the last one from source file" />
+                                                        <CheckBox IsChecked="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.ReferenceLocalization.MissingContentAppending.CountIDsAsMissedStartingFromLastOneFromSourceFile}" />
+                                                    </InternalStyle:TwoColumned>
+                                                </StackPanel>
+                                            </StackPanel>
+
+                                        </StackPanel>
+
+                                        <Separator />
+
+                                        <Terminus:IntenseStareType1 RichText="Font files" Style="{StaticResource SectionHeader}" UID="[Localization Processor / Profile] * Font files (Section title)" />
+                                        <StackPanel>
+                                            <InternalStyle:TwoColumned Margin="0">
+                                                <Terminus:IntenseStareType1 RichText="Also copy font files" UID="[Localization Processor / Profile] * Also copy font files" />
+                                                <CheckBox IsChecked="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.FontFiles.AlsoCopyFontFiles}" />
+                                            </InternalStyle:TwoColumned>
+
+                                            <InternalStyle:TwoColumned IsEnabled="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.FontFiles.AlsoCopyFontFiles}">
+                                                <Terminus:IntenseStareType1 RichText="Title font file" UID="[Localization Processor / Profile] * Title font file" />
+                                                <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.FontFiles.TitleFontFile}" HighlightMissingPath="File" UID="[Localization Processor / Profile] * Title font file" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_Font}" />
+                                            </InternalStyle:TwoColumned>
+
+                                            <InternalStyle:TwoColumned IsEnabled="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.FontFiles.AlsoCopyFontFiles}">
+                                                <Terminus:IntenseStareType1 RichText="Context font file" UID="[Localization Processor / Profile] * Context font file" />
+                                                <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.FontFiles.ContextFontFile}" HighlightMissingPath="File" UID="[Localization Processor / Profile] * Context font file" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_Font}" />
+                                            </InternalStyle:TwoColumned>
+                                        </StackPanel>
+
+                                        <Separator />
+
+                                        <Terminus:IntenseStareType1 RichText="Miscellaneous" Style="{StaticResource SectionHeader}" UID="[Localization Processor / Profile] * Miscellaneous (Section title)" />
+                                        <StackPanel>
+
+                                            <InternalStyle:TwoColumned Margin="0">
+                                                <Terminus:IntenseStareType1 RichText="Add &lt;style&gt; placeholders" UID="[Localization Processor / Profile] * Add &lt;style&gt; placeholders" />
+                                                <CheckBox IsChecked="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.Misc.AddStylePlaceholders}" />
+                                            </InternalStyle:TwoColumned>
+
+
+                                            <InternalStyle:TwoColumned Margin="0 15 0 0">
+                                                <Terminus:IntenseStareType1 RichText="Do JsonPath regex conversions" UID="[Localization Processor / Profile] * Do JsonPath regex conversions" />
+                                                <CheckBox IsChecked="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.Misc.DoJsonPathMultipleRegexConversions}" />
+                                            </InternalStyle:TwoColumned>
+                                            <InternalStyle:TwoColumned IsEnabled="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.Misc.DoJsonPathMultipleRegexConversions}">
+                                                <Terminus:IntenseStareType1 RichText="JsonPath regex conversions config" UID="[Localization Processor / Profile] * JsonPath regex conversions config" />
+                                                <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.Misc.JsonPathMultipleRegexConversionsConfigFile}" HighlightMissingPath="File" UID="[Localization Processor / Profile] * JsonPath Regex Conversions config" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_RegexReplacementsViaJsonPathsAndFiles}" />
+                                            </InternalStyle:TwoColumned>
+
+
+                                            <InternalStyle:TwoColumned Margin="0 15 0 0">
+                                                <Terminus:IntenseStareType1 RichText="Convert Keyword Shorthands" UID="[Localization Processor / Profile] * Convert Keyword Shorthands" />
+                                                <CheckBox IsChecked="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.Misc.ConvertKeywordShorthands}" />
+                                            </InternalStyle:TwoColumned>
+
+                                            <InternalStyle:TwoColumned IsEnabled="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.Misc.ConvertKeywordShorthands}">
+                                                <Terminus:IntenseStareType1 RichText="Keyword Shorthands regex pattern" UID="[Localization Processor / Profile] * Shorthands pattern" />
+                                                <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.Misc.KeywordShorthandsRegexPattern}" UID="[Localization Processor / Profile] * Shorthands pattern" />
+                                            </InternalStyle:TwoColumned>
+
+                                            <InternalStyle:TwoColumned IsEnabled="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.Misc.ConvertKeywordShorthands}">
+                                                <Terminus:IntenseStareType1 RichText="Keyword Shorthands files whitelist" UID="[Localization Processor / Profile] * Keyword Shorthands files whitelist" />
+                                                <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.Misc.KeywordShorthandsFilesWhiteList}" UID="[Localization Processor / Profile] * Keyword Shorthands files whitelist" />
+                                            </InternalStyle:TwoColumned>
+
+                                        </StackPanel>
+
+                                        <Separator />
+
+                                        <Terminus:IntenseStareType1 RichText="Merged fonts" Style="{StaticResource SectionHeader}" UID="[Localization Processor / Profile] * Merged fonts (Section title)" />
+                                        <StackPanel>
+
+                                            <InternalStyle:TwoColumned Margin="0">
+                                                <Terminus:IntenseStareType1 RichText="Merged font Characters Replacement Map" UID="[Localization Processor / Profile] * Merged font Characters Replacement Map" />
+                                                <Terminus:IntenseStareType3
+                                                    x:Name="MergedFontReplacementMapPathInput"
+                                                    BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.MergedFonts.MergedFontCharactersReplacementMap}"
+                                                    BorderBrush="{DynamicResource Theme:UITextfields.Border}"
+                                                    HighlightMissingPath="File"
+                                                    UID="[Localization Processor / Profile] * Merged font Characters Replacement Map"
+                                                    PathSelectionButtonType="File"
+                                                    FileSelectAttributes="{StaticResource FileSelecion_Json}" />
+                                            </InternalStyle:TwoColumned>
+
+                                            <StackPanel IsEnabled="{Binding ElementName=MergedFontReplacementMapPathInput, Path=IsInputPathExists}">
+
+                                                <InternalStyle:TwoColumned Margin="0 15 0 0">
+                                                    <Terminus:IntenseStareType1 RichText="Apply merged fonts by Multiple Apply config" UID="[Localization Processor / Profile] * Apply merged fonts by Multiple Apply config" />
+                                                    <CheckBox IsChecked="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.MergedFonts.ConvertFontsByMultipleApplyConfig}" />
+                                                </InternalStyle:TwoColumned>
+
+                                                <InternalStyle:TwoColumned IsEnabled="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.MergedFonts.ConvertFontsByMultipleApplyConfig}">
+                                                    <Terminus:IntenseStareType1 RichText="Merged font Multiple Apply config" UID="[Localization Processor / Profile] * Merged font Multiple Apply config" />
+                                                    <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.MergedFonts.MergedFontMultipleApplyConfig}" HighlightMissingPath="File" UID="[Localization Processor / Profile] * Merged font Multiple Apply config" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_Json}" />
+                                                </InternalStyle:TwoColumned>
+
+                                                <InternalStyle:TwoColumned Margin="0 15 0 0">
+                                                    <Terminus:IntenseStareType1 RichText="Apply merged fonts by [size=90%][font=&quot;Consolas&quot;][font=name][/font][/size] markers" UID="[Localization Processor / Profile] * Apply merged fonts by [font=name] markers" />
+                                                    <CheckBox IsChecked="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.MergedFonts.ConvertFontsByMarkers}" />
+                                                </InternalStyle:TwoColumned>
+
+                                                <InternalStyle:TwoColumned Margin="0 15 0 0">
+                                                    <Terminus:IntenseStareType1 RichText="Regex pattern of text parts to ignore during conversion" UID="[Localization Processor / Profile] * Regex pattern of text parts to ignore during conversion" />
+                                                    <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.LocalizationFilesProcessor.Profile.MergedFonts.MergedFontIgnoreSequencesRegexPattern}" UID="[Localization Processor / Profile] * Regex pattern of text parts to ignore during conversion" />
+                                                </InternalStyle:TwoColumned>
+
+                                            </StackPanel>
+                                        </StackPanel>
+
+                                    </StackPanel>
+
+                                </ScrollViewer>
+                            </Grid>
+
+                        </InternalStyle:SingleViewer>
+
+                        <Grid x:Uid="Menu selector at the right" Margin="0 0 4 0">
+                            <StackPanel HorizontalAlignment="Right" VerticalAlignment="Top" Orientation="Horizontal">
+                                <StackPanel.LayoutTransform>
+                                    <RotateTransform Angle="-90" />
+                                </StackPanel.LayoutTransform>
+                                <StackPanel.Resources>
+                                    <Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+                                        <Setter Property="Foreground" Value="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.MenuSwitchButton.Foreground.Inactive}" />
+                                        <Setter Property="Padding" Value="0 5 0 0" />
+                                        <Setter Property="FontSize" Value="20" />
+                                        <Setter Property="Height" Value="28" />
+                                        <Setter Property="Background" Value="Transparent" />
+                                        <EventSetter Event="PreviewMouseLeftButtonDown" Handler="SwitchMenu" />
+                                        <Style.Triggers>
+                                            <Trigger Property="IsMouseOver" Value="True">
+                                                <Setter Property="Foreground" Value="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.MenuSwitchButton.Foreground.MouseOver}" />
+                                            </Trigger>
+                                            <Trigger Property="Tag" Value="This menu is selected">
+                                                <Setter Property="Foreground" Value="{DynamicResource Theme:Common.LocalizationFilesProcessorWindow.MenuSwitchButton.Foreground.Active}" />
+                                            </Trigger>
+                                        </Style.Triggers>
+                                    </Style>
+                                </StackPanel.Resources>
+                                <Terminus:IntenseStareType1 x:Name="MenuSelector_Parameters" Tag="This menu is selected" Text="Parameters" UID="[Localization Processor] * Menu switch — Parameters" />
+                                <Terminus:IntenseStareType1 Margin="20.5 0 20.5 0" IsHitTestVisible="False" Text="|" UID="[Localization Processor] * Menu switch (Delimiter)" />
+                                <Terminus:IntenseStareType1 x:Name="MenuSelector_FilesProcessing" Text="Files processing" UID="[Localization Processor] * Menu switch — Files processing" />
+                            </StackPanel>
+                        </Grid>
+                    </Grid>
+
+                    <Grid x:Name="UnsavedChangesGrid" x:Uid="Unsaved changes" Panel.ZIndex="-1" Background="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.BlurredBackground}" Opacity="0">
+                        <Grid x:Uid="Click area to cancel" Background="Transparent" />
+                        <Border Margin="30" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
+                            <Grid Margin="10" ClipToBounds="True">
+                                <Terminus:IntenseStareType1 FontSize="40" RichText="Unsaved changes" TextAlignment="Center" />
+
+                                <DiffPlex:DiffViewer
+                                    x:Name="ProfileUnsavedChangesViewer"
+                                    Margin="0 60 0 60"
+                                    ChangeTypeForeground="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.ChangeTypeIcon}"
+                                    DeletedBackground="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.OldValue.Background}"
+                                    DeletedForeground="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.OldValue.Foreground}"
+                                    FontFamily="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.Font}"
+                                    FontSize="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.FontSize}"
+                                    FontStretch="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.FontStretch}"
+                                    FontWeight="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.FontWeight}"
+                                    Foreground="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.Foreground}"
+                                    InsertedBackground="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.NewValue.Background}"
+                                    InsertedForeground="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.NewValue.Foreground}"
+                                    IsSideBySide="False"
+                                    LineNumberForeground="{DynamicResource Theme:UnsavedChanges.LocalizationFilesProcessorWindow.Diff.LineNumbers}" />
+
+                                <StackPanel HorizontalAlignment="Center" VerticalAlignment="Bottom" Orientation="Horizontal">
+                                    <Button Height="45" Margin="0 0 5 0" Click="UnsavedChangesDialog_ButtonsClick_Proceed" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+                                        <Terminus:IntenseStareType1 Width="150" FontSize="30" RichText="Proceed" TextAlignment="Center" />
+                                    </Button>
+                                    <Button Height="45" Click="UnsavedChangesDialog_ButtonsClick_Cancel" Style="{StaticResource Theme:ControlStyles.ElongatedButton}">
+                                        <Terminus:IntenseStareType1 Width="150" FontSize="30" RichText="Cancel" TextAlignment="Center" />
+                                    </Button>
+                                </StackPanel>
+                            </Grid>
+                        </Border>
+                    </Grid>
+
+                </Grid>
+
+            </Grid>
+        </InternalStyle:InstancedWindowLayout.Content>
+
+    </InternalStyle:InstancedWindowLayout>
+</Abstractions:FadeableWindow>

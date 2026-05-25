@@ -86,7 +86,7 @@
             protected virtual (double In, double Out) FadeSpeedRatios => (In: 1.0, Out: 1.0);
 
             protected virtual ((double Acceleration, double Deceleation) In, (double Acceleration, double Deceleation) Out) FadeKinematics
-                => (In: (Acceleration: 1.0, Deceleation: 1.0), Out: (Acceleration: 1.0, Deceleation: 1.0));
+                => (In: (Acceleration: 0.0, Deceleation: 0.0), Out: (Acceleration: 0.0, Deceleation: 0.0));
 
 
             /// Easy transforming for double[] arrays from <see cref="ThemeTimings"/>

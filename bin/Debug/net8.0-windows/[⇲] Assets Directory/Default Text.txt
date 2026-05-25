@@ -1,4 +1,4 @@
-                    <font="BebasKai SDF"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'1.4<b><size=160%>ː</size></b>1</color></size></font>
+                    <font="BebasKai SDF"><size=140%><u>Limbus Company Localization Interface</u> <color=#f8c200>'{v:Major}.{v:Minor}<b><size=160%>ː</size></b>{v:Patch}</color></size></font>
 
 What the <sprite name="AaCePaBa"><u><color=#c1d7e2>White whale</color></u> was to <sprite name="HeatedGasHarpoon"><color=#ff6100><u>Ahab</u></color>, has been hinted; what, at times, he was to me, as yet remains unsaid.
 

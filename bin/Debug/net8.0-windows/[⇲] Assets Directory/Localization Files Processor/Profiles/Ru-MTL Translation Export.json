@@ -1,0 +1,46 @@
+{
+  "Paths": {
+    "Source path of localization files": "Folder with json localization files (\"localize\" folder if you downloaded them from GitHub)",
+    "Destination path of processed files": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Lang/ru-mtl"
+  },
+  "General localization files whitelist": "*.json",
+  "Files processing order": "Recently changed first",
+  "Json files formatting": {
+    "Existing files overwriting rule": "If Json content itself is not the same",
+    "Output json formatting": "Indented",
+    "Json Indentation size": "Keep original",
+    "Line break mode": "Keep original",
+    "UTF-8 Byte Order Marks": "Keep BOM if they are inside original file"
+  },
+  "Reference localization": {
+    "Directory of reference localization": "C:/Program Files (x86)/Steam/steamapps/common/Limbus Company/LimbusCompany_Data/Assets/Resources_moved/Localize/en",
+    "Prefix of reference localization": "EN_",
+    "Missing content appending": {
+      "Append missing files": false,
+      "Append missing IDs": false,
+      "Whitelist of missing files to append": "",
+      "Whitelist of existing files to add IDs to": "",
+      "Count IDs as missed starting from the last one from source file": false
+    }
+  },
+  "Font files": {
+    "Also copy font files": true,
+    "Title font file": "[⇲] Assets Directory/Localization Files Processor/Assets for profiles/Ru-MTL Translation Export/Merged Font/Title.ttf",
+    "Context font file": "[⇲] Assets Directory/Localization Files Processor/Assets for profiles/Ru-MTL Translation Export/Merged Font/Context.ttf"
+  },
+  "Miscellaneous": {
+    "Add <style> placeholders": true,
+    "Do JsonPath Multiple Regex Conversions": false,
+    "JsonPath Multiple Regex Conversions config": "",
+    "Convert Keyword Shorthands": true,
+    "Keyword Shorthands regex pattern": "\\[(?<ID>\\w+):`(?<Name>.*?)`\\](\\((?<Color>#[a-fA-F0-9]{6})?(;(?<SpriteID>\\w+))?\\))?",
+    "Keyword Shorthands files whitelist": "Skills*.json, Passive*.json, EGOgift_*.json, PanicInfo*.json, BuffAbilities.json, MentalCondition*.json, BattleKeywords*.json, Bufs*.json, Walpu*EventText.json, UI_Mission_MirrorDungeon*Event.json"
+  },
+  "Merged fonts": {
+    "Merged font Characters Replacement Map": "[⇲] Assets Directory/Localization Files Processor/Assets for profiles/Ru-MTL Translation Export/Merged Font/Characters Replacement Map.json",
+    "Merged font Multiple Apply config": "[⇲] Assets Directory/Localization Files Processor/Assets for profiles/Ru-MTL Translation Export/Merged Font/Merged Font Multiple Apply Config.json",
+    "Regex pattern of text parts to ignore during conversion": "{\\d+}|<.*?>|\\\\n",
+    "Convert fonts by '[font=name]' markers": true,
+    "Convert fonts by Multiple Apply config": true
+  }
+}

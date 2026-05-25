@@ -680,18 +680,17 @@
     [
       {
         "UID": {"[Unsaved Changes] * Title":null},
-        "Text": "Unsaved Changes",
-        "Font": "Excelsior Sans"
+        "Text": "Unsaved Changes"
       },
       {
         "UID": {"[Unsaved Changes] * Proceed":null},
         "Text": "Proceed",
-        "Font": "Excelsior Sans", "Width": 150
+        "Width": 150
       },
       {
         "UID": {"[Unsaved Changes] * Cancel":null},
         "Text": "Cancel",
-        "Font": "Excelsior Sans", "Width": 150
+        "Width": 150
       },
       {
         "UID": {"[Unsaved Changes] [-] * Information Text":null}
@@ -1016,7 +1015,7 @@
     [
       {
         "UID": {"[Settings / Custom Language] * Section Name":null},
-        "Text": "⦁ Limbus Custom Language<size=88%> <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/custom-localization-properties\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
+        "Text": "⦁ Limbus Custom Language<size=88%> <hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/setup/all-properties-of-limbus-custom-language\"><color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
       },
       {
         "UID": {"[Settings / Custom Language] * Selected Properties":null},
@@ -1215,6 +1214,344 @@
         "Text": "Larger Scale Factor = higher quality, more time to scan content, larger file size, and A LOT of RAM usage (Up to ~1.8 GB)[b].[/b]\n\nTwo last options is applied to all keywords that ultimately fit the [size=92%][font=\"Consolas\"]<\u200Bsprite name=\"...\"><\u200Bcolor><\u200Bu><\u200Blink=\"...\">...</\u200Blink><\u200B/u><\u200B/color>[/font][/size] pattern (With any order of opening and closing [size=92%][font=\"Consolas\"]<\u200Blink=\"...\">[/font][/size], [size=92%][font=\"Consolas\"]<\u200Bu>[/font][/size], and [size=92%][font=\"Consolas\"]<\u200Bcolor>[/font][/size] tags)[b].[/b]"
       }
     ],
+
+    [
+      {
+        "UID": {"[Main UI] * Open Localization Files Processor button Tooltip":null},
+        "Text": "Open Localization Files Processor"
+      },
+      {
+        "UID": {"[Localization Processor] * Title":null},
+        "Text": "<image source=\"[⇲] Assets Directory/Limbus Images/E.G.O Gifts/Pocket Flashcards.png\" size=70 yoffset=-20>Localization Files Processor",
+        "Font": "Arita-buri"
+      },
+      {
+        "UID": {"[Localization Processor] [!] [#] * Title (Window Caption)":null},
+        "Text": "Localization Files Processor"
+      }
+    ],
+
+    [
+      {
+        "UID": {"[Localization Processor] * Menu switch — Files processing":null},
+        "Text": "Files processing"
+      },
+      {
+        "UID": {"[Localization Processor] * Menu switch (Delimiter)":null},
+        "Text": "|"
+      },
+      {
+        "UID": {"[Localization Processor] * Menu switch — Parameters":null},
+        "Text": "Parameters"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Source path of localization files (Shadow Text)":null},
+        "Text": "Source path of localization files"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Destination path of processed files (Shadow Text)":null},
+        "Text": "Destination path of processed files"
+      },
+      {
+        "UID": {"[Localization Processor] [-] * Files counter":null}
+      },
+      {
+        "UID": {"[Localization Processor] * Process files Button":null},
+        "Text": "Process files"
+      },
+      {
+        "UID": {"[Localization Processor] * Cancel processing Button":null},
+        "Text": "Cancel"
+      },
+      {
+        "UID": {"[Localization Processor & Error Message] * Cancel processing":null},
+        "Text": "Cancel processing" // Additional button in Error Message Window
+      },
+
+      {
+        "UID": {"[Localization Processor] [-] * Template for name of exported file":null}
+      },
+      {
+        "UID": {"[Localization Processor] * Cancelled processing message":null},
+        "Text": "<Processing was cancelled>"
+      },
+      {
+        "UID": {"[Localization Processor] * Finished processing message":null},
+        "Text": "<Processing finished>"
+      },
+
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] [-] * File name":null}
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Open with external editor":null},
+        "Text": "Open with external editor"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy file text":null},
+        "Text": "Copy file text"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy file itself":null},
+        "Text": "Copy file itself"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy name":null},
+        "Text": "Copy name"
+      },
+      {
+        "UID": {"[Localization Processor / Exported file name Context Menu] * Copy full path":null},
+        "Text": "Copy full path"
+      }
+    ],
+    [
+      {
+        "UID": {"[Localization Processor] * Topmost":null},
+        "Text": "Topmost"
+      },
+      {
+        "UID": {"[Localization Processor] [-] * Template for name of profile":null}
+      },
+      {
+        "UID": {"[Localization Processor] * Save edited profile button":null},
+        "Text": "Save edited profile"
+      },
+      {
+        "UID": {"[Localization Processor] * Documentation hint":null},
+        "Text": "<hyperlink=\"https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/additional-features/localization-files-processing\">Documentation <color={Theme.HyperlinkColor}>⯑</color></hyperlink></size>"
+      }
+    ],
+
+    // Profile settings
+
+    // Main
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * General localization files whitelist":null},
+        "Text": "General localization files whitelist"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Files processing order":null},
+        "Text": "Files processing order"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * General localization files whitelist — Recently changed first":null},
+        "Text": "Recently changed first"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * General localization files whitelist — Sort by name":null},
+        "Text": "Sort by name"
+      }
+    ],
+
+    // Json files formatting
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Json files formatting (Section title)":null},
+        "Text": "Json files formatting"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule":null},
+        "Text": "Already existing files overwriting rule"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule — If Json content itself is not the same":null},
+        "Text": "If Json content itself is not the same"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule — If just text of both files is not the same":null},
+        "Text": "If just text of both files is not the same"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Already existing files overwriting rule — Always overwrite existing files":null},
+        "Text": "Always overwrite existing files"
+      },
+      
+      {
+        "UID": {"[Localization Processor / Profile] * Output json formatting":null},
+        "Text": "Output json formatting"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Output json formatting — Indented":null},
+        "Text": "Indented"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Output json formatting — None (Just long single line without any spaces)":null},
+        "Text": "None (Just long single line without any spaces)"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Json Indentation size":null},
+        "Text": "Json Indentation size"
+      },
+      // 1..8 (Inherints "[Localization Processor / Profile] * Json Indentation size" style)
+      {
+        "UID": {"[Localization Processor / Profile] * Json Indentation size — Keep original":null},
+        "Text": "Keep original"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Line break mode":null},
+        "Text": "Line break mode"
+      },
+      // CRLF CR LF (Inherints "[Localization Processor / Profile] * Line break mode — Keep original" style)
+      {
+        "UID": {"[Localization Processor / Profile] * Line break mode — Keep original":null},
+        "Text": "Keep original"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks":null},
+        "Text": "UTF-8 Byte Order Marks"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks — Keep BOM if they are inside original file":null},
+        "Text": "Keep BOM if they are inside original file"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks — Save files with regular UTF-8 encoding":null},
+        "Text": "Save files with regular UTF-8 encoding"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * UTF-8 Byte Order Marks — Save files with UTF-8 BOM encoding":null},
+        "Text": "Save files with UTF-8 BOM encoding"
+      }
+    ],
+
+    // Reference localization
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Reference localization (Section title)":null},
+        "Text": "Reference localization"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Directory of reference localization":null},
+        "Text": "Directory of reference localization"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Prefix of files from reference localization":null},
+        "Text": "Prefix of files from reference localization"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Append missing files":null},
+        "Text": "Append missing files"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Whitelist of missing files to append":null},
+        "Text": "Whitelist of missing files to append"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Append missing IDs":null},
+        "Text": "Append missing IDs"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Whitelist of existing files to add IDs to":null},
+        "Text": "Whitelist of existing files to add IDs to"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Count IDs as missed starting from the last one from source file":null},
+        "Text": "Count IDs as missed starting from the last one from source file"
+      }
+    ],
+
+    // Font files
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Font files (Section title)":null},
+        "Text": "Font files"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Also copy font files":null},
+        "Text": "Also copy font files"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Title font file":null},
+        "Text": "Title font file"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Context font file":null},
+        "Text": "Context font file"
+      }
+    ],
+
+    // Miscellaneous
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Miscellaneous (Section title)":null},
+        "Text": "Miscellaneous"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Add <style> placeholders":null},
+        "Text": "Add <style> placeholders"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Do JsonPath regex conversions":null},
+        "Text": "Do JsonPath regex conversions"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * JsonPath regex conversions config":null},
+        "Text": "JsonPath regex conversions config"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Convert Keyword Shorthands":null},
+        "Text": "Convert Keyword Shorthands"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Shorthands pattern":null},
+        "Text": "Shorthands pattern"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Keyword Shorthands files whitelist":null},
+        "Text": "Keyword Shorthands files whitelist"
+      }
+    ],
+
+    // Merged fonts
+    [
+      {
+        "UID": {"[Localization Processor / Profile] * Merged fonts (Section title)":null},
+        "Text": "Merged fonts"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Merged font Characters Replacement Map":null},
+        "Text": "Merged font Characters Replacement Map"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Apply merged fonts by Multiple Apply config":null},
+        "Text": "Apply merged fonts by Multiple Apply config"
+      },
+      {
+        "UID": {"[Localization Processor / Profile] * Merged font Multiple Apply config":null},
+        "Text": "Merged font Multiple Apply config"
+      },
+
+      {
+        "UID": {"[Localization Processor / Profile] * Apply merged fonts by [font=name] markers":null},
+        "Text": "Apply merged fonts by <size=90%><font=\"Consolas\">[font=name]</font></size> markers"
+      },
+      
+      {
+        "UID": {"[Localization Processor / Profile] * Regex pattern of text parts to ignore during conversion":null},
+        "Text": "Regex pattern of text parts to ignore during conversion"
+      }
+    ],
+
+    [
+      {
+        "UID": {"[Localization Processor / Warnings] * Invalid Merged Font name in marker":null},
+        "Variable": {
+          "Title": "Invalid Merged Font name in marker",
+          "Text": "The line <b>\"<noparse>[$1]</noparse>\"</b> in the <b>\"[$2]\"</b> file, for which Merged Font conversion via a marker should occur, contains \"[font=[$3]]\" marker with reference to the unknown font (Available fonts in current replacement map: <b>[[$4]]</b>)\nIgnore this issue?\n\n<size=88%>Click \"Yes\" to ignore, \"No\" to cancel the processing.</size>"
+        }
+      }
+    ],
+
     [
       {
         "UID": {"[Skills DI Manager] * Title bar button tooltip":null},
@@ -1467,18 +1804,17 @@
     [
       {
         "UID": {"[C] * [Unsaved Changes] Title":null},
-        "Text": "Unsaved Changes",
-        "Font": "Excelsior Sans"
+        "Text": "Unsaved Changes"
       },
       {
         "UID": {"[C] * [Unsaved Changes] Proceed":null},
         "Text": "Proceed",
-        "Font": "Excelsior Sans", "Width": 150
+        "Width": 150
       },
       {
         "UID": {"[C] * [Unsaved Changes] Cancel":null},
         "Text": "Cancel",
-        "Font": "Excelsior Sans", "Width": 150
+        "Width": 150
       }
     ],
     [

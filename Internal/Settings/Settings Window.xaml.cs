@@ -1,9 +1,6 @@
-﻿using ICSharpCode.AvalonEdit.Highlighting;
-using LCLocalizationInterface.Internal.UIStyle;
+﻿using LCLocalizationInterface.Internal.UIStyle;
 using LCLocalizationInterface.LimbusRegistry.JsonTypes;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
-using System.Diagnostics.CodeAnalysis;
-using static RijnadelClassLibrary.SyntaxedTextEditorBase;
 
 namespace LCLocalizationInterface.Internal.Configuration
 {
@@ -96,27 +93,29 @@ namespace LCLocalizationInterface.Internal.Configuration
         public void UpdateSyntaxHighlightColors()
         {
             var SyntaxColors = @Themes.CurrentTheme.UITextfields.Syntax;
-            static void SetHighlight(IntenseStareType3 Target, [StringSyntax(StringSyntaxAttribute.Regex)] string Pattern, string Foreground)
+            static void NewSyntax(List<string> IDs)
             {
-                Target.SyntaxHighlighting.MainRuleSet.Rules.Add(new HighlightingRule()
-                {
-                    Regex = new Regex(Pattern),
-                    Color = new HighlightingColor() { Foreground = new HighlightionBrush(Foreground), Underline = true }
-                });
+                IDs.ForEach(ID => @Languages.PresentedTextFields[ID].ResetHighlightDefinition());
             }
-            @Languages.PresentedTextFields["[Settings / Custom Language] * Keywords autodetection Regex pattern"].SyntaxHighlighting = new SyntaxedTextEditorBase.SyntaxHighlightDefinition();
-            @Languages.PresentedTextFields["[Settings / Custom Language] * Shorthands Regex pattern"].SyntaxHighlighting = new SyntaxedTextEditorBase.SyntaxHighlightDefinition();
-            @Languages.PresentedTextFields["[Settings / Custom Language] * Shorthands Context Menu insertion shape"].SyntaxHighlighting = new SyntaxedTextEditorBase.SyntaxHighlightDefinition();
 
-            SetHighlight(@Languages.PresentedTextFields["[Settings / Custom Language] * Keywords autodetection Regex pattern"], @"KeywordNameWillBeHere", SyntaxColors.Highlight1);
-
-            SetHighlight(@Languages.PresentedTextFields["[Settings / Custom Language] * Shorthands Regex pattern"], @"\(\?\<ID\>\\w\+\)", SyntaxColors.Highlight1);
-            SetHighlight(@Languages.PresentedTextFields["[Settings / Custom Language] * Shorthands Regex pattern"], @"\?<Name>", SyntaxColors.Highlight2);
-            SetHighlight(@Languages.PresentedTextFields["[Settings / Custom Language] * Shorthands Regex pattern"], @"\?<Color>", SyntaxColors.Highlight3);
-            SetHighlight(@Languages.PresentedTextFields["[Settings / Custom Language] * Shorthands Regex pattern"], @"\?<SpriteID>", SyntaxColors.Highlight4);
-
-            SetHighlight(@Languages.PresentedTextFields["[Settings / Custom Language] * Shorthands Context Menu insertion shape"], @"<KeywordID>", SyntaxColors.Highlight1);
-            SetHighlight(@Languages.PresentedTextFields["[Settings / Custom Language] * Shorthands Context Menu insertion shape"], @"<KeywordName>", SyntaxColors.Highlight2);
+            NewSyntax([
+                "[Settings / Custom Language] * Keywords autodetection Regex pattern",
+                "[Settings / Custom Language] * Shorthands Regex pattern",
+                "[Settings / Custom Language] * Shorthands Context Menu insertion shape"
+            ]);
+            @Languages.PresentedTextFields["[Settings / Custom Language] * Keywords autodetection Regex pattern"].AddHighlight([
+                new(@"KeywordNameWillBeHere", SyntaxColors.Highlight1)
+            ]);
+            @Languages.PresentedTextFields["[Settings / Custom Language] * Shorthands Context Menu insertion shape"].AddHighlight([
+                new(@"<KeywordID>",   SyntaxColors.Highlight1),
+                new(@"<KeywordName>", SyntaxColors.Highlight2)
+            ]);
+            @Languages.PresentedTextFields["[Settings / Custom Language] * Shorthands Regex pattern"].AddHighlight([
+                new(@"\(\?\<ID\>\\w\+\)", SyntaxColors.Highlight1),
+                new(@"\?<Name>",          SyntaxColors.Highlight2),
+                new(@"\?<Color>",         SyntaxColors.Highlight3),
+                new(@"\?<SpriteID>",      SyntaxColors.Highlight4)
+            ]);
         }
 
 
@@ -148,6 +147,12 @@ namespace LCLocalizationInterface.Internal.Configuration
         private void SaveAndDeploy_Common_UpdateLimbusCustomLang(object Sender, RoutedEventArgs Args)
         {
             @PartialStateUpdater.Limbus.UpdateFull();
+        }
+
+        private void ConfirmValueAfterPathSelection(object Sender, RoutedEventArgs Args)
+        {
+            Button CorrespondingConfirmButton = (((Sender as IntenseStareType3)!.Parent as TwoColumned)!.Children[1] as Button)!;
+            CorrespondingConfirmButton.RaiseEvent(new RoutedEventArgs(Button.ClickEvent, CorrespondingConfirmButton));
         }
 
 

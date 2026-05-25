@@ -11,10 +11,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>preview</LangVersion>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <FileVersion>1.4.1</FileVersion>
+    <FileVersion>1.4.2</FileVersion>
     <SignAssembly>False</SignAssembly>
     <RepositoryUrl>https://github.com/x1bViolet/Limbus-Localization-UI</RepositoryUrl>
-    <Version>1.4.1</Version>
+    <Version>1.4.2</Version>
     <Authors>x1bViolet</Authors>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -389,10 +389,10 @@
     <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
     <PackageReference Include="RijnadelClassLibrary.CSharp" Version="1.0.0" />
     <PackageReference Include="RijnadelClassLibrary.FileEventsNotifier" Version="1.0.1" />
-    <PackageReference Include="RijnadelClassLibrary.Json" Version="1.0.0" />
+    <PackageReference Include="RijnadelClassLibrary.Json" Version="1.0.1" />
     <PackageReference Include="RijnadelClassLibrary.ObservableDictionary" Version="1.0.0" />
     <PackageReference Include="RijnadelClassLibrary.SyntaxedTextEditorBase" Version="1.0.1" />
-    <PackageReference Include="RijnadelClassLibrary.WPFTools" Version="1.0.3" />
+    <PackageReference Include="RijnadelClassLibrary.WPFTools" Version="1.0.4" />
   </ItemGroup>
 
   <ItemGroup>

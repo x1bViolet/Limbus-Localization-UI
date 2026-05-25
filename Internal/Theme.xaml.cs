@@ -1,5 +1,6 @@
 ﻿using LCLocalizationInterface.Internal.Configuration;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
+using LCLocalizationInterface.LimbusRegistry.LocalizationFilesProcessing;
 
 namespace LCLocalizationInterface
 {
@@ -47,6 +48,7 @@ namespace LCLocalizationInterface.Internal
 
                     ThemeFileWatcher.Path = Path.GetDirectoryName(ThemeFilePath)!;
                     CurrentTheme = Theme;
+                    LocalizationFilesProcessorWindow.LocalizationFilesProcessorWindowInstance.UpdateSyntaxHighlightColors();
                     SettingsWindow.SettingsWindowInstance.UpdateSyntaxHighlightColors();
                     PreviewCreatorPage.PreviewCreatorPageInstance.SetIdentityOrEGONameLineBreakSyntaxColor();
                     @Languages.PresentedTextElements["[Settings / Internal] [-] * Selected UI Theme (Comment)"].RichText = CurrentTheme.ThemeComment;
@@ -113,7 +115,7 @@ namespace LCLocalizationInterface.Internal
         {
             Thickness,
             CornerRadius,
-            SolidColorBrush,
+            ColorBrush,
             SystemColor,
             FontFamily,
             FontWeight,
@@ -146,15 +148,56 @@ namespace LCLocalizationInterface.Internal
                     {
                         try
                         {
-                            if (!ThemeKeysDictionary.Contains(ThemeKeyAttr!.ResourceKey)) throw new UnknownXAMLResourceKeyException($"Unknown theme key \"{ThemeKeyAttr.ResourceKey}\" (Its presented in this ThemeDefinitionSection, but not in the `UI Theme.xaml` file)");
+                            if (!ThemeKeysDictionary.Contains(ThemeKeyAttr!.ResourceKey)) throw new UnknownXAMLResourceKeyException($"Unknown theme key \"{ThemeKeyAttr.ResourceKey}\" (Its presented in this ThemeDefinitionSection, but not in the `Theme.xaml` file)");
 
                             object? ThemeKeyValue = JsonProperty.GetValue(obj: this);
+
+
+                            bool ColorWasConvertedToSolidColorBrush = false;
+                            Brush ParseBrushValue(string Value)
+                            {
+                                Regex LinearGradientPattern = new(@"^Gradient From\[(?<FromX>\d+(.\d+)?), (?<FromY>\d+(\.\d+)?)\] To\[(?<ToX>\d+(\.\d+)?), (?<ToY>\d+(.\d+)?)\]: \[(?<GradientStops>.*?)\]$");
+                                Match LinearGradientTry = LinearGradientPattern.Match(Value);
+
+                                if (LinearGradientTry.Success)
+                                {
+                                    static double AsDouble(string Value) => double.Parse(Value.Replace('.', ','));
+                                    string Group(string Name, Match From) => From.Groups[Name].Value;
+
+                                    LinearGradientBrush Gradient = new()
+                                    {
+                                        StartPoint = new(AsDouble(Group("FromX", LinearGradientTry)), AsDouble(Group("FromY", LinearGradientTry))),
+                                        EndPoint   = new(AsDouble(Group("ToX"  , LinearGradientTry)), AsDouble(Group("ToY"  , LinearGradientTry))),
+                                    };
+                                    foreach (string GradientStop in Group("GradientStops", LinearGradientTry).Split(",").Select(GradientStop => GradientStop.Trim()))
+                                    {
+                                        Regex GradientStopPattern = new(@"^(?<Color>#[a-fA-F0-9]{6}):(?<Offset>\d+\.\d+)$");
+                                        Match GradientStopTry = GradientStopPattern.Match(GradientStop);
+                                        if (GradientStopTry.Success)
+                                        {
+                                            Color Color = ToColor(Group("Color", GradientStopTry));
+                                            double Offset = AsDouble(Group("Offset", GradientStopTry));
+                                            Gradient.GradientStops.Add(new GradientStop(Color, Offset));
+                                        }
+                                    }
+                                    if (Gradient.GradientStops.Count == 0)
+                                    {
+                                        Gradient.GradientStops.Add(new(ToColor("#ffffff"), 0.0));
+                                    }
+                                    return Gradient;
+                                }
+                                else
+                                {
+                                    ColorWasConvertedToSolidColorBrush = true;
+                                    return ToSolidColorBrush(Value);
+                                }
+                            }
 
                             object? ConvertedValueToSet = ThemeKeyAttr.ResourceType switch
                             {
                                 ThemeKeyType.Thickness => ThicknessFrom((double[])ThemeKeyValue!),
                                 ThemeKeyType.CornerRadius => CornerRadiusFrom((double[])ThemeKeyValue!),
-                                ThemeKeyType.SolidColorBrush => ToSolidColorBrush((string)ThemeKeyValue!),
+                                ThemeKeyType.ColorBrush => ParseBrushValue((string)ThemeKeyValue!),
                                 ThemeKeyType.SystemColor => ToColor((string)ThemeKeyValue!),
                                 ThemeKeyType.FontFamily => FontFamilyFromFileOrName((string)ThemeKeyValue!),
                                 ThemeKeyType.FontWeight => WeightFrom((string)ThemeKeyValue!),
@@ -163,7 +206,7 @@ namespace LCLocalizationInterface.Internal
                                 _ => ThemeKeyValue
                             };
 
-                            if (ThemeKeyAttr.ResourceType == ThemeKeyType.SolidColorBrush)
+                            if (ThemeKeyAttr.ResourceType == ThemeKeyType.ColorBrush && ColorWasConvertedToSolidColorBrush)
                             {
                                 object? CurrentValue = ThemeKeysDictionary[ThemeKeyAttr.ResourceKey];
 
@@ -208,15 +251,15 @@ namespace LCLocalizationInterface.Internal
             public TitleBar_PROP TitleBar { get; set; } = new();
             public record TitleBar_PROP : ThemeDefinitionSection
             {
-                [JsonProperty("Background"), ThemeKey([@"Theme:TitleBar.Background.Color"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Background"), ThemeKey([@"Theme:TitleBar.Background.Color"], ThemeKeyType.ColorBrush)]
                 public string Background { get; set => field = RemoveAlphaValue(value); } = "#101117";
 
 
-                [JsonProperty("Icons"), ThemeKey([@"Theme:TitleBar.Icons"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Icons"), ThemeKey([@"Theme:TitleBar.Icons"], ThemeKeyType.ColorBrush)]
                 public string Icons { get; set; } = "#ADADAD";
 
 
-                [JsonProperty("Titles Foreground"), ThemeKey([@"Theme:TitleBar.TitlesForeground"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Titles Foreground"), ThemeKey([@"Theme:TitleBar.TitlesForeground"], ThemeKeyType.ColorBrush)]
                 public string TitlesForeground { get; set; } = "#473131";
 
 
@@ -224,11 +267,11 @@ namespace LCLocalizationInterface.Internal
                 public double[] ButtonsCornerRadius { get; set; } = [4];
 
 
-                [JsonProperty("Buttons Highlight"), ThemeKey([@"Theme:TitleBar.Buttons.Highlighted"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Buttons Highlight"), ThemeKey([@"Theme:TitleBar.Buttons.Highlighted"], ThemeKeyType.ColorBrush)]
                 public string ButtonsHighlight { get; set; } = "#302829";
 
 
-                [JsonProperty("Buttons Highlight (Exit button)"), ThemeKey([@"Theme:TitleBar.Buttons.Highlighted.ExitButton"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Buttons Highlight (Exit button)"), ThemeKey([@"Theme:TitleBar.Buttons.Highlighted.ExitButton"], ThemeKeyType.ColorBrush)]
                 public string ButtonsHighlight_ExitButton { get; set; } = "#A52C42";
             }
 
@@ -238,7 +281,7 @@ namespace LCLocalizationInterface.Internal
             public Common_PROP Common { get; set; } = new();
             public record Common_PROP : ThemeDefinitionSection
             {
-                [JsonProperty("Context Menu Separators Color"), ThemeKey([@"Theme:Common.ContextMenus.Separator.Color"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Context Menu Separators Color"), ThemeKey([@"Theme:Common.ContextMenus.Separator.Color"], ThemeKeyType.ColorBrush)]
                 public string ContextMenuSeparatorsColor { get; set; } = "#FFFFFF";
 
 
@@ -279,6 +322,9 @@ namespace LCLocalizationInterface.Internal
                         [JsonProperty("Settings Window")] public double[] SettingsWindow { get; set; } = [0.04, 0.1];
                         [JsonProperty("Dialog Windows" )] public double[] DialogWindows  { get; set; } = [0.11, 0.21];
 
+                        [JsonProperty("Localization Files Processor Window")]
+                        public double[] LocalizationFilesProcessorWindow { get; set; } = [0.11, 0.21];
+
                         [JsonProperty("Identity/E.G.O Preivew Creator Switch Transition")]
                         public double[] PreviewCreator { get; set; } = [0.2, 0.2];
 
@@ -309,7 +355,10 @@ namespace LCLocalizationInterface.Internal
                         [JsonProperty("Main Window"    )] public double[] MainWindow     { get; set; } = [1.0, 1.0];
                         [JsonProperty("Settings Window")] public double[] SettingsWindow { get; set; } = [1.0, 1.0];
                         [JsonProperty("Dialog Windows" )] public double[] DialogWindows  { get; set; } = [1.0, 1.0];
-                        
+
+                        [JsonProperty("Localization Files Processor Window")]
+                        public double[] LocalizationFilesProcessorWindow { get; set; } = [1.0, 1.0];
+
                         [JsonProperty("Identity/E.G.O Preivew Creator Switch Transition")]
                         public double[] PreviewCreator { get; set; } = [1.0, 1.0];
 
@@ -340,7 +389,10 @@ namespace LCLocalizationInterface.Internal
                         [JsonProperty("Main Window"    )] public double[][] MainWindow     { get; set; } = [[0.0, 0.0], [0.0, 0.0]];
                         [JsonProperty("Settings Window")] public double[][] SettingsWindow { get; set; } = [[0.0, 0.0], [0.0, 0.0]];
                         [JsonProperty("Dialog Windows" )] public double[][] DialogWindows  { get; set; } = [[0.0, 0.0], [0.0, 0.0]];
-                        
+
+                        [JsonProperty("Localization Files Processor Window")]
+                        public double[][] LocalizationFilesProcessorWindow { get; set; } = [[0.0, 0.0], [0.0, 0.0]];
+
                         [JsonProperty("Identity/E.G.O Preivew Creator Switch Transition")]
                         public double[][] PreviewCreator { get; set; } = [[0.0, 0.0], [0.0, 0.0]];
 
@@ -394,7 +446,7 @@ namespace LCLocalizationInterface.Internal
                 public MainWindow_PROP MainWindow { get; set; } = new();
                 public record MainWindow_PROP : ThemeDefinitionSection
                 {
-                    [JsonProperty("Border Color"), ThemeKey([@"Theme:Common.MainWindow.Border.Color"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Border Color"), ThemeKey([@"Theme:Common.MainWindow.Border.Color"], ThemeKeyType.ColorBrush)]
                     public string BorderColor { get; set; } = "#3A3A3A";
 
 
@@ -403,7 +455,7 @@ namespace LCLocalizationInterface.Internal
 
 
 
-                    [JsonProperty("Background Color"), ThemeKey([@"Theme:Common.MainWindow.Background.Color"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background Color"), ThemeKey([@"Theme:Common.MainWindow.Background.Color"], ThemeKeyType.ColorBrush)]
                     public string BackgroundColor { get; set; } = "#0F0F0F";
 
 
@@ -411,7 +463,7 @@ namespace LCLocalizationInterface.Internal
                     public string BackgroundImage { get; set; } = "";
 
 
-                    [JsonProperty("Background Image Shadow"), ThemeKey([@"Theme:Common.MainWindow.Background.Image.Shadow"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background Image Shadow"), ThemeKey([@"Theme:Common.MainWindow.Background.Image.Shadow"], ThemeKeyType.ColorBrush)]
                     public string BackgroundImageShadow { get; set; } = "#00000000";
 
 
@@ -425,7 +477,7 @@ namespace LCLocalizationInterface.Internal
                     public MainWindow_PreviewCreator_PROP MainWindow_PreviewCreator { get; set; } = new();
                     public record MainWindow_PreviewCreator_PROP : ThemeDefinitionSection
                     {
-                        [JsonProperty("Background Color"), ThemeKey([@"Theme:Common.MainWindow.PreviewCreator.Background.Color"], ThemeKeyType.SolidColorBrush)]
+                        [JsonProperty("Background Color"), ThemeKey([@"Theme:Common.MainWindow.PreviewCreator.Background.Color"], ThemeKeyType.ColorBrush)]
                         public string BackgroundColor { get; set; } = "#0F0F0F";
 
 
@@ -433,7 +485,7 @@ namespace LCLocalizationInterface.Internal
                         public string BackgroundImage { get; set; } = "";
 
 
-                        [JsonProperty("Background Image Shadow"), ThemeKey([@"Theme:Common.MainWindow.PreviewCreator.Background.Image.Shadow"], ThemeKeyType.SolidColorBrush)]
+                        [JsonProperty("Background Image Shadow"), ThemeKey([@"Theme:Common.MainWindow.PreviewCreator.Background.Image.Shadow"], ThemeKeyType.ColorBrush)]
                         public string BackgroundImageShadow { get; set; } = "#00000000";
                     }
                 }
@@ -443,7 +495,7 @@ namespace LCLocalizationInterface.Internal
                 public DialogWindows_PROP DialogWindows { get; set; } = new();
                 public record DialogWindows_PROP : ThemeDefinitionSection
                 {
-                    [JsonProperty("Border Color"), ThemeKey([@"Theme:Common.DialogWindows.Border.Color"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Border Color"), ThemeKey([@"Theme:Common.DialogWindows.Border.Color"], ThemeKeyType.ColorBrush)]
                     public string BorderColor { get; set; } = "#0F0F0F";
 
                     [JsonProperty("Border Corner radius"), ThemeKey([@"Theme:Common.DialogWindows.Border.CornerRadius"], ThemeKeyType.CornerRadius)]
@@ -451,7 +503,7 @@ namespace LCLocalizationInterface.Internal
 
 
 
-                    [JsonProperty("Background Color"), ThemeKey([@"Theme:Common.DialogWindows.Background.Color"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background Color"), ThemeKey([@"Theme:Common.DialogWindows.Background.Color"], ThemeKeyType.ColorBrush)]
                     public string BackgroundColor { get; set; } = "#0F0F0F";
 
 
@@ -459,7 +511,7 @@ namespace LCLocalizationInterface.Internal
                     public string BackgroundImage { get; set; } = "";
 
 
-                    [JsonProperty("Background Image Shadow"), ThemeKey([@"Theme:Common.DialogWindows.Background.Image.Shadow"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background Image Shadow"), ThemeKey([@"Theme:Common.DialogWindows.Background.Image.Shadow"], ThemeKeyType.ColorBrush)]
                     public string BackgroundImageShadow { get; set; } = "#00000000";
                 }
 
@@ -468,7 +520,7 @@ namespace LCLocalizationInterface.Internal
                 public SettingsWindow_PROP SettingsWindow { get; set; } = new();
                 public record SettingsWindow_PROP : ThemeDefinitionSection
                 {
-                    [JsonProperty("Border Color"), ThemeKey([@"Theme:Common.SettingsWindow.Border.Color"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Border Color"), ThemeKey([@"Theme:Common.SettingsWindow.Border.Color"], ThemeKeyType.ColorBrush)]
                     public string BorderColor { get; set; } = "#3A3A3A";
 
                     [JsonProperty("Border Corner radius"), ThemeKey([@"Theme:Common.SettingsWindow.Border.CornerRadius"], ThemeKeyType.CornerRadius)]
@@ -476,7 +528,7 @@ namespace LCLocalizationInterface.Internal
 
 
 
-                    [JsonProperty("Background Color"), ThemeKey([@"Theme:Common.SettingsWindow.Background.Color"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background Color"), ThemeKey([@"Theme:Common.SettingsWindow.Background.Color"], ThemeKeyType.ColorBrush)]
                     public string BackgroundColor { get; set; } = "#191818";
 
 
@@ -484,7 +536,7 @@ namespace LCLocalizationInterface.Internal
                     public string BackgroundImage { get; set; } = "";
 
 
-                    [JsonProperty("Background Image Shadow"), ThemeKey([@"Theme:Common.SettingsWindow.Background.Image.Shadow"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background Image Shadow"), ThemeKey([@"Theme:Common.SettingsWindow.Background.Image.Shadow"], ThemeKeyType.ColorBrush)]
                     public string BackgroundImageShadow { get; set; } = "#00000000";
 
 
@@ -493,45 +545,77 @@ namespace LCLocalizationInterface.Internal
                 }
 
 
-                //[JsonProperty("Skills Display Info Manager Window")]
-                //public SkillsDisplayInfoManagerWindow_PROP SkillsDisplayInfoManagerWindow { get; set; } = new();
-                //public record SkillsDisplayInfoManagerWindow_PROP : ThemeDefinitionSection
-                //{
-                //    [JsonProperty("Border Color"), ThemeKey([@"Theme:Common.SkillsDisplayInfoManagerWindow.Border.Color"], ThemeKeyType.SolidColorBrush)]
-                //    public string BorderColor { get; set; } = "#0F0F0F";
-
-                //    [JsonProperty("Border Corner radius"), ThemeKey([@"Theme:Common.SkillsDisplayInfoManagerWindow.Border.CornerRadius"], ThemeKeyType.CornerRadius)]
-                //    public double[] BorderCornerRadius { get; set; } = [4];
+                [JsonProperty("Localization Files Processor Window")]
+                public LocalizationFilesProcessorWindow_PROP LocalizationFilesProcessorWindow { get; set; } = new();
+                public record LocalizationFilesProcessorWindow_PROP : ThemeDefinitionSection
+                {
+                    [JsonProperty("Border Color"), ThemeKey([@"Theme:Common.LocalizationFilesProcessorWindow.Border.Color"], ThemeKeyType.ColorBrush)]
+                    public string BorderColor { get; set; } = "#3A3A3A";
 
 
-
-                //    [JsonProperty("Background Color"), ThemeKey([@"Theme:Common.SkillsDisplayInfoManagerWindow.Background.Color"], ThemeKeyType.SolidColorBrush)]
-                //    public string BackgroundColor { get; set; } = "#0F0F0F";
-
-
-                //    [JsonProperty("Background Image"), ThemeKey([@"Theme:Common.SkillsDisplayInfoManagerWindow.Background.Image"], ThemeKeyType.BitmapImage)]
-                //    public string BackgroundImage { get; set; } = "";
+                    [JsonProperty("Border Corner radius"), ThemeKey([@"Theme:Common.LocalizationFilesProcessorWindow.Border.CornerRadius"], ThemeKeyType.CornerRadius)]
+                    public double[] BorderCornerRadius { get; set; } = [4];
 
 
-                //    [JsonProperty("Background Image Shadow"), ThemeKey([@"Theme:Common.SkillsDisplayInfoManagerWindow.Background.Image.Shadow"], ThemeKeyType.SolidColorBrush)]
-                //    public string BackgroundImageShadow { get; set; } = "#00000000";
-                //}
+
+                    [JsonProperty("Background Color"), ThemeKey([@"Theme:Common.LocalizationFilesProcessorWindow.Background.Color"], ThemeKeyType.ColorBrush)]
+                    public string BackgroundColor { get; set; } = "#0F0F0F";
+
+
+                    [JsonProperty("Background Image"), ThemeKey([@"Theme:Common.LocalizationFilesProcessorWindow.Background.Image"], ThemeKeyType.BitmapImage)]
+                    public string BackgroundImage { get; set; } = "";
+
+
+                    [JsonProperty("Background Image Shadow"), ThemeKey([@"Theme:Common.LocalizationFilesProcessorWindow.Background.Image.Shadow"], ThemeKeyType.ColorBrush)]
+                    public string BackgroundImageShadow { get; set; } = "#00000000";
+
+
+
+                    [JsonProperty("Menu Switch Buttons")]
+                    public MenuSwitchButtons_PROP MenuSwitchButtons { get; set; } = new();
+                    public record MenuSwitchButtons_PROP : ThemeDefinitionSection
+                    {
+                        [JsonProperty("Inactive"), ThemeKey([@"Theme:Common.LocalizationFilesProcessorWindow.MenuSwitchButton.Foreground.Inactive"], ThemeKeyType.ColorBrush)]
+                        public string Inactive { get; set; } = "#A6A2A2";
+
+
+                        [JsonProperty("Mouse Over"), ThemeKey([@"Theme:Common.LocalizationFilesProcessorWindow.MenuSwitchButton.Foreground.MouseOver"], ThemeKeyType.ColorBrush)]
+                        public string MouseOver { get; set; } = "#C9C2C2";
+
+
+                        [JsonProperty("Active"), ThemeKey([@"Theme:Common.LocalizationFilesProcessorWindow.MenuSwitchButton.Foreground.Active"], ThemeKeyType.ColorBrush)]
+                        public string Active { get; set; } = "#EBE2E2";
+                    }
+
+
+
+                    [JsonProperty("Sections")]
+                    public Sections_PROP Sections { get; set; } = new();
+                    public record Sections_PROP : ThemeDefinitionSection
+                    {
+                        [JsonProperty("Headers"), ThemeKey([@"Theme:Common.LocalizationFilesProcessorWindow.SectionHeaders"], ThemeKeyType.ColorBrush)]
+                        public string Headers { get; set; } = "#EBE2E2";
+
+                        [JsonProperty("Separators"), ThemeKey([@"Theme:Common.LocalizationFilesProcessorWindow.SectionSeparators"], ThemeKeyType.ColorBrush)]
+                        public string Separators { get; set; } = "#EBE2E2";
+                    }
+                }
 
 
                 [JsonProperty("Right Menu")]
                 public RightMenu_PROP RightMenu { get; set; } = new();
                 public record RightMenu_PROP : ThemeDefinitionSection
                 {
-                    [JsonProperty("Uptie Buttons Background"), ThemeKey([@"Theme:Common.RightMenu.UptieButtons.Background"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Uptie Buttons Background"), ThemeKey([@"Theme:Common.RightMenu.UptieButtons.Background"], ThemeKeyType.ColorBrush)]
                     public string UptieButtonsBackground { get; set; } = "#0E0907";
 
-                    [JsonProperty("Navigation Panel Background"), ThemeKey([@"Theme:Common.RightMenu.NavigationPanel.Background"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Navigation Panel Background"), ThemeKey([@"Theme:Common.RightMenu.NavigationPanel.Background"], ThemeKeyType.ColorBrush)]
                     public string NavigationPanelBackground { get; set; } = "#00000000";
 
-                    [JsonProperty("Current Object ID Foreground"), ThemeKey([@"Theme:Common.RightMenu.CurrentObjectID.Foreground"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Current Object ID Foreground"), ThemeKey([@"Theme:Common.RightMenu.CurrentObjectID.Foreground"], ThemeKeyType.ColorBrush)]
                     public string CurrentObjectIDForeground { get; set; } = "#DDD9D9";
 
-                    [JsonProperty("Uptie Tier Text Foreground"), ThemeKey([@"Theme:Common.RightMenu.UptieTierText.Foreground"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Uptie Tier Text Foreground"), ThemeKey([@"Theme:Common.RightMenu.UptieTierText.Foreground"], ThemeKeyType.ColorBrush)]
                     public string UptieTierTextForeground { get; set; } = "#E6C5C5";
                 }
             }
@@ -548,41 +632,45 @@ namespace LCLocalizationInterface.Internal
 
                 
                 
-                [JsonProperty("Foreground"), ThemeKey([@"Theme:UIText.MainWindow.Foreground"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Foreground"), ThemeKey([@"Theme:UIText.MainWindow.Foreground"], ThemeKeyType.ColorBrush)]
                 public string Foreground { get; set; } = "#D5CDCD";
 
 
-                [JsonProperty("Foreground (Dialog Windows)"), ThemeKey([@"Theme:UIText.DialogWindows.Foreground"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Foreground (Dialog Windows)"), ThemeKey([@"Theme:UIText.DialogWindows.Foreground"], ThemeKeyType.ColorBrush)]
                 public string Foreground_DialogWindows { get; set; } = "#EEEEEE";
 
 
-                [JsonProperty("Foreground (Settings)"), ThemeKey([@"Theme:UIText.SettingsWindow.Foreground"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Foreground (Settings)"), ThemeKey([@"Theme:UIText.SettingsWindow.Foreground"], ThemeKeyType.ColorBrush)]
                 public string Foreground_Settings { get; set; } = "#D5CDCD";
 
 
-                [JsonProperty("Foreground (Settings (Comments))"), ThemeKey([@"Theme:UIText.SettingsWindow.Foreground.Comments"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Foreground (Settings (Comments))"), ThemeKey([@"Theme:UIText.SettingsWindow.Foreground.Comments"], ThemeKeyType.ColorBrush)]
                 public string Foreground_SettingsComments { get; set; } = "#B2ABAB";
 
 
-                [JsonProperty("Foreground (Identity/E.G.O Preview creator)"), ThemeKey([@"Theme:UIText.MainWindow.PreviewCreator.Foreground"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Foreground (Localization Files Processor)"), ThemeKey([@"Theme:UIText.LocalizationFilesProcessorWindow.Foreground"], ThemeKeyType.ColorBrush)]
+                public string Foreground_LocalizationFilesProcessor { get; set; } = "#D5CDCD";
+
+
+                [JsonProperty("Foreground (Identity/E.G.O Preview creator)"), ThemeKey([@"Theme:UIText.MainWindow.PreviewCreator.Foreground"], ThemeKeyType.ColorBrush)]
                 public string Foreground_IdentityOrEGOPreviewCreator { get; set; } = "#D5CDCD";
 
 
 
 
-                [JsonProperty("Tooltips Foreground"), ThemeKey([@"Theme:UIText.MainWindow.Foreground.Tooltips"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Tooltips Foreground"), ThemeKey([@"Theme:UIText.MainWindow.Foreground.Tooltips"], ThemeKeyType.ColorBrush)]
                 public string Foreground_Tooltips { get; set; } = "#D5CDCD";
 
 
-                [JsonProperty("Tooltips Foreground (Identity/E.G.O Preview creator)"), ThemeKey([@"Theme:UIText.DialogWindows.Foreground.Tooltips"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Tooltips Foreground (Identity/E.G.O Preview creator)"), ThemeKey([@"Theme:UIText.DialogWindows.Foreground.Tooltips"], ThemeKeyType.ColorBrush)]
                 public string Foreground_DialogWindows_Tooltips { get; set; } = "#D5CDCD";
 
 
-                [JsonProperty("Tooltips Foreground (Settings)"), ThemeKey([@"Theme:UIText.SettingsWindow.Foreground.Tooltips"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Tooltips Foreground (Settings)"), ThemeKey([@"Theme:UIText.SettingsWindow.Foreground.Tooltips"], ThemeKeyType.ColorBrush)]
                 public string Foreground_SettingsWindow_Tooltips { get; set; } = "#D5CDCD";
 
 
-                [JsonProperty("Tooltips Foreground (Dialog Windows)"), ThemeKey([@"Theme:UIText.MainWindow.PreviewCreator.Foreground.Tooltips"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Tooltips Foreground (Dialog Windows)"), ThemeKey([@"Theme:UIText.MainWindow.PreviewCreator.Foreground.Tooltips"], ThemeKeyType.ColorBrush)]
                 public string Foreground_IdentityOrEGOPreviewCreator_Tooltips { get; set; } = "#D5CDCD";
             }
 
@@ -592,21 +680,28 @@ namespace LCLocalizationInterface.Internal
             public UITexfields_PROP UITextfields { get; set; } = new();
             public record UITexfields_PROP : ThemeDefinitionSection
             {
-                [JsonProperty("Foreground"), ThemeKey([@"Theme:UITextfields.Foreground"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Foreground"), ThemeKey([@"Theme:UITextfields.Foreground"], ThemeKeyType.ColorBrush)]
                 public string Foreground { get; set; } = "#B1B1B9";
 
 
-                [JsonProperty("Foreground (Shadow text)"), ThemeKey([@"Theme:UITextfields.ShadowText.Foreground"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Foreground (Shadow text)"), ThemeKey([@"Theme:UITextfields.ShadowText.Foreground"], ThemeKeyType.ColorBrush)]
                 public string Foreground_ShadowText { get; set; } = "#514C46";
 
 
 
-                [JsonProperty("Background"), ThemeKey([@"Theme:UITextfields.Background"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Background"), ThemeKey([@"Theme:UITextfields.Background"], ThemeKeyType.ColorBrush)]
                 public string Background { get; set; } = "#181818";
 
+                [JsonProperty("Background (When Focused)"), ThemeKey([@"Theme:UITextfields.Background.Focused"], ThemeKeyType.ColorBrush)]
+                public string Background_Focused { get; set; } = "#202020";
 
-                [JsonProperty("Border"), ThemeKey([@"Theme:UITextfields.Border"], ThemeKeyType.SolidColorBrush)]
+
+                [JsonProperty("Border"), ThemeKey([@"Theme:UITextfields.Border"], ThemeKeyType.ColorBrush)]
                 public string Border { get; set; } = "#333333";
+
+
+                [JsonProperty("Border (When input path is missing)"), ThemeKey([@"Theme:UITextfields.Border.WhenMissingPath"], ThemeKeyType.ColorBrush)]
+                public string Border_WhenMissingPath { get; set; } = "#CC4747";
 
 
                 [JsonProperty("Border Thickness"), ThemeKey([@"Theme:UITextfields.Border.Thickness"], ThemeKeyType.Thickness)]
@@ -618,7 +713,7 @@ namespace LCLocalizationInterface.Internal
 
 
 
-                [JsonProperty("Caret"), ThemeKey([@"Theme:UITextfields.Caret"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Caret"), ThemeKey([@"Theme:UITextfields.Caret"], ThemeKeyType.ColorBrush)]
                 public string Caret { get; set; } = "#E9DBC6";
 
 
@@ -627,15 +722,15 @@ namespace LCLocalizationInterface.Internal
                 public Selection_PROP Selection { get; set; } = new();
                 public record Selection_PROP : ThemeDefinitionSection
                 {
-                    [JsonProperty("Foreground"), ThemeKey([@"Theme:UITextfields.Selection.Foreground"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Foreground"), ThemeKey([@"Theme:UITextfields.Selection.Foreground"], ThemeKeyType.ColorBrush)]
                     public string Foreground { get; set; } = "#ABA193";
 
 
-                    [JsonProperty("Background"), ThemeKey([@"Theme:UITextfields.Selection.Background"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background"), ThemeKey([@"Theme:UITextfields.Selection.Background"], ThemeKeyType.ColorBrush)]
                     public string Background { get; set; } = "#55B4B4B4";
 
 
-                    [JsonProperty("Border"), ThemeKey([@"Theme:UITextfields.Selection.Border"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Border"), ThemeKey([@"Theme:UITextfields.Selection.Border"], ThemeKeyType.ColorBrush)]
                     public string Border { get; set; } = "#66D4D4D4";
 
 
@@ -697,11 +792,11 @@ namespace LCLocalizationInterface.Internal
 
 
 
-                [JsonProperty("Foreground"), ThemeKey([@"Theme:JsonTextEditor.Foreground"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Foreground"), ThemeKey([@"Theme:JsonTextEditor.Foreground"], ThemeKeyType.ColorBrush)]
                 public string Foreground { get; set; } = "#ABA193";
 
 
-                [JsonProperty("Background"), ThemeKey([@"Theme:JsonTextEditor.Background"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Background"), ThemeKey([@"Theme:JsonTextEditor.Background"], ThemeKeyType.ColorBrush)]
                 public string Background { get; set; } = "#191919";
 
 
@@ -721,11 +816,11 @@ namespace LCLocalizationInterface.Internal
                 public double FontSize { get; set; } = 16.8;
 
 
-                [JsonProperty("Caret"), ThemeKey([@"Theme:JsonTextEditor.Caret"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Caret"), ThemeKey([@"Theme:JsonTextEditor.Caret"], ThemeKeyType.ColorBrush)]
                 public string Caret { get; set; } = "#E9DBC6";
 
 
-                [JsonProperty("Border"), ThemeKey([@"Theme:JsonTextEditor.Border"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Border"), ThemeKey([@"Theme:JsonTextEditor.Border"], ThemeKeyType.ColorBrush)]
                 public string Border { get; set; } = "#333333";
 
 
@@ -742,15 +837,15 @@ namespace LCLocalizationInterface.Internal
                 public Selection_PROP Selection { get; set; } = new();
                 public record Selection_PROP : ThemeDefinitionSection
                 {
-                    [JsonProperty("Foreground"), ThemeKey([@"Theme:JsonTextEditor.Selection.Foreground"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Foreground"), ThemeKey([@"Theme:JsonTextEditor.Selection.Foreground"], ThemeKeyType.ColorBrush)]
                     public string Foreground { get; set; } = "#ABA193";
 
 
-                    [JsonProperty("Background"), ThemeKey([@"Theme:JsonTextEditor.Selection.Background"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background"), ThemeKey([@"Theme:JsonTextEditor.Selection.Background"], ThemeKeyType.ColorBrush)]
                     public string Background { get; set; } = "#55B4B4B4";
 
 
-                    [JsonProperty("Border"), ThemeKey([@"Theme:JsonTextEditor.Selection.Border"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Border"), ThemeKey([@"Theme:JsonTextEditor.Selection.Border"], ThemeKeyType.ColorBrush)]
                     public string Border { get; set; } = "#66D4D4D4";
 
 
@@ -773,7 +868,7 @@ namespace LCLocalizationInterface.Internal
                 public MainEditor_PROP MainEditor { get; set; } = new();
                 public record MainEditor_PROP : ThemeDefinitionSection
                 {
-                    [JsonProperty("Blurred Background"), ThemeKey([@"Theme:UnsavedChanges.MainEditor.BlurredBackground"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Blurred Background"), ThemeKey([@"Theme:UnsavedChanges.MainEditor.BlurredBackground"], ThemeKeyType.ColorBrush)]
                     public string BlurredBackground { get; set; } = "#8C090909";
                 }
 
@@ -782,7 +877,7 @@ namespace LCLocalizationInterface.Internal
                 public PreviewCreator_PROP PreviewCreator { get; set; } = new();
                 public record PreviewCreator_PROP : ThemeDefinitionSection
                 {
-                    [JsonProperty("Blurred Background"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.BlurredBackground"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Blurred Background"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.BlurredBackground"], ThemeKeyType.ColorBrush)]
                     public string BlurredBackground { get; set; } = "#8C090909";
 
 
@@ -807,31 +902,31 @@ namespace LCLocalizationInterface.Internal
 
 
 
-                        [JsonProperty("Foreground"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.Foreground"], ThemeKeyType.SolidColorBrush)]
+                        [JsonProperty("Foreground"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.Foreground"], ThemeKeyType.ColorBrush)]
                         public string Foreground { get; set; } = "#D5CDCD";
 
 
-                        [JsonProperty("Line Numbers"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.LineNumbers"], ThemeKeyType.SolidColorBrush)]
+                        [JsonProperty("Line Numbers"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.LineNumbers"], ThemeKeyType.ColorBrush)]
                         public string LineNumbers { get; set; } = "#999393";
 
 
 
-                        [JsonProperty("Old Value (Background)"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.OldValue.Background"], ThemeKeyType.SolidColorBrush)]
+                        [JsonProperty("Old Value (Background)"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.OldValue.Background"], ThemeKeyType.ColorBrush)]
                         public string OldValue_Background { get; set; } = "#40D82020";
 
-                        [JsonProperty("Old Value (Foreground)"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.OldValue.Foreground"], ThemeKeyType.SolidColorBrush)]
+                        [JsonProperty("Old Value (Foreground)"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.OldValue.Foreground"], ThemeKeyType.ColorBrush)]
                         public string OldValue_Foreground { get; set; } = "#D5CDCD";
 
 
-                        [JsonProperty("New Value (Background)"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.NewValue.Background"], ThemeKeyType.SolidColorBrush)]
+                        [JsonProperty("New Value (Background)"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.NewValue.Background"], ThemeKeyType.ColorBrush)]
                         public string NewValue_Background { get; set; } = "#4060D820";
 
-                        [JsonProperty("New Value (Foreground)"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.NewValue.Foreground"], ThemeKeyType.SolidColorBrush)]
+                        [JsonProperty("New Value (Foreground)"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.NewValue.Foreground"], ThemeKeyType.ColorBrush)]
                         public string NewValue_Foreground { get; set; } = "#D5CDCD";
 
 
 
-                        [JsonProperty("Change Type Icon"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.ChangeTypeIcon"], ThemeKeyType.SolidColorBrush)]
+                        [JsonProperty("Change Type Icon"), ThemeKey([@"Theme:UnsavedChanges.PreviewCreator.Diff.ChangeTypeIcon"], ThemeKeyType.ColorBrush)]
                         public string ChangeTypeIcon { get; set; } = "#808080";
                     }
                 }
@@ -843,31 +938,31 @@ namespace LCLocalizationInterface.Internal
             public SquareButtons_PROP SquareButtons { get; set; } = new();
             public record SquareButtons_PROP : ThemeDefinitionSection
             {
-                [JsonProperty("Disabled Buttons Shadowing"), ThemeKey([@"Theme:SquareButtons.DisabledButtonsShadowing"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Disabled Buttons Shadowing"), ThemeKey([@"Theme:SquareButtons.DisabledButtonsShadowing"], ThemeKeyType.ColorBrush)]
                 public string DisabledButtonsShadowing { get; set; } = "#77000000";
 
 
-                [JsonProperty("Icons"), ThemeKey([@"Theme:SquareButtons.Icons"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Icons"), ThemeKey([@"Theme:SquareButtons.Icons"], ThemeKeyType.ColorBrush)]
                 public string Icons { get; set; } = "#C4B0B6";
 
 
-                [JsonProperty("ComboBox Drop-down Arrow"), ThemeKey([@"Theme:SquareButtons.ComboBox.DropDownArrow"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("ComboBox Drop-down Arrow"), ThemeKey([@"Theme:SquareButtons.ComboBox.DropDownArrow"], ThemeKeyType.ColorBrush)]
                 public string ComboBoxDropDownArrow { get; set; } = "#9D9D9D";
 
 
-                [JsonProperty("Background"), ThemeKey([@"Theme:SquareButtons.Background"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Background"), ThemeKey([@"Theme:SquareButtons.Background"], ThemeKeyType.ColorBrush)]
                 public string Background { get; set; } = "#181818";
 
 
-                [JsonProperty("Background (Pressed)"), ThemeKey([@"Theme:SquareButtons.Background.Pressed"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Background (Pressed)"), ThemeKey([@"Theme:SquareButtons.Background.Pressed"], ThemeKeyType.ColorBrush)]
                 public string Background_Pressed { get; set; } = "#212121";
 
 
-                [JsonProperty("Background (Highlighted)"), ThemeKey([@"Theme:SquareButtons.Background.Highlighted"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Background (Highlighted)"), ThemeKey([@"Theme:SquareButtons.Background.Highlighted"], ThemeKeyType.ColorBrush)]
                 public string Background_Highlighted { get; set; } = "#282828";
 
 
-                [JsonProperty("Border"), ThemeKey([@"Theme:SquareButtons.Border"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Border"), ThemeKey([@"Theme:SquareButtons.Border"], ThemeKeyType.ColorBrush)]
                 public string Border { get; set; } = "#333333";
 
 
@@ -885,23 +980,23 @@ namespace LCLocalizationInterface.Internal
             public ElongatedButtons_PROP ElongatedButtons { get; set; } = new();
             public record ElongatedButtons_PROP : ThemeDefinitionSection
             {
-                [JsonProperty("Disabled Buttons Shadowing"), ThemeKey([@"Theme:ElongatedButtons.DisabledButtonsShadowing"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Disabled Buttons Shadowing"), ThemeKey([@"Theme:ElongatedButtons.DisabledButtonsShadowing"], ThemeKeyType.ColorBrush)]
                 public string DisabledButtonsShadowing { get; set; } = "#77000000";
 
 
-                [JsonProperty("Background"), ThemeKey([@"Theme:ElongatedButtons.Background"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Background"), ThemeKey([@"Theme:ElongatedButtons.Background"], ThemeKeyType.ColorBrush)]
                 public string Background { get; set; } = "#181818";
 
 
-                [JsonProperty("Background (Pressed)"), ThemeKey([@"Theme:ElongatedButtons.Background.Pressed"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Background (Pressed)"), ThemeKey([@"Theme:ElongatedButtons.Background.Pressed"], ThemeKeyType.ColorBrush)]
                 public string Background_Pressed { get; set; } = "#212121";
 
 
-                [JsonProperty("Background (Highlighted)"), ThemeKey([@"Theme:ElongatedButtons.Background.Highlighted"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Background (Highlighted)"), ThemeKey([@"Theme:ElongatedButtons.Background.Highlighted"], ThemeKeyType.ColorBrush)]
                 public string Background_Highlighted { get; set; } = "#282828";
 
 
-                [JsonProperty("Border"), ThemeKey([@"Theme:ElongatedButtons.Border"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Border"), ThemeKey([@"Theme:ElongatedButtons.Border"], ThemeKeyType.ColorBrush)]
                 public string Border { get; set; } = "#333333";
 
 
@@ -919,11 +1014,11 @@ namespace LCLocalizationInterface.Internal
             public OtherBorderLikeThings_PROP OtherBorderLikeThings { get; set; } = new();
             public record OtherBorderLikeThings_PROP : ThemeDefinitionSection
             {
-                [JsonProperty("Background"), ThemeKey([@"Theme:OtherBorderLikeThings.Background"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Background"), ThemeKey([@"Theme:OtherBorderLikeThings.Background"], ThemeKeyType.ColorBrush)]
                 public string Background { get; set; } = "#181818";
 
 
-                [JsonProperty("Border"), ThemeKey([@"Theme:OtherBorderLikeThings.Border"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Border"), ThemeKey([@"Theme:OtherBorderLikeThings.Border"], ThemeKeyType.ColorBrush)]
                 public string Border { get; set; } = "#333333";
 
 
@@ -941,7 +1036,7 @@ namespace LCLocalizationInterface.Internal
             public Scrollbars_PROP Scrollbars { get; set; } = new();
             public record Scrollbars_PROP : ThemeDefinitionSection
             {
-                [JsonProperty("Line"), ThemeKey([@"Theme:ScrollBars.Line"], ThemeKeyType.SolidColorBrush)]
+                [JsonProperty("Line"), ThemeKey([@"Theme:ScrollBars.Line"], ThemeKeyType.ColorBrush)]
                 public string Line { get; set; } = "#333333";
 
 
@@ -954,23 +1049,23 @@ namespace LCLocalizationInterface.Internal
                 public UpDownButtons_PROP UpDownButtons { get; set; } = new();
                 public record UpDownButtons_PROP : ThemeDefinitionSection
                 {
-                    [JsonProperty("Icon"), ThemeKey([@"Theme:ScrollBars.UpDownButtons.Icon"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Icon"), ThemeKey([@"Theme:ScrollBars.UpDownButtons.Icon"], ThemeKeyType.ColorBrush)]
                     public string Icon { get; set; } = "#DEDEDE";
 
 
-                    [JsonProperty("Background"), ThemeKey([@"Theme:ScrollBars.UpDownButtons.Background"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background"), ThemeKey([@"Theme:ScrollBars.UpDownButtons.Background"], ThemeKeyType.ColorBrush)]
                     public string Background { get; set; } = "#181818";
 
 
-                    [JsonProperty("Background (Pressed)"), ThemeKey([@"Theme:ScrollBars.UpDownButtons.Background.Pressed"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background (Pressed)"), ThemeKey([@"Theme:ScrollBars.UpDownButtons.Background.Pressed"], ThemeKeyType.ColorBrush)]
                     public string Background_Pressed { get; set; } = "#282828";
 
 
-                    [JsonProperty("Background (Highlighted)"), ThemeKey([@"Theme:ScrollBars.UpDownButtons.Background.Highlighted"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background (Highlighted)"), ThemeKey([@"Theme:ScrollBars.UpDownButtons.Background.Highlighted"], ThemeKeyType.ColorBrush)]
                     public string Background_Highlighted { get; set; } = "#282828";
 
 
-                    [JsonProperty("Border"), ThemeKey([@"Theme:ScrollBars.UpDownButtons.Border"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Border"), ThemeKey([@"Theme:ScrollBars.UpDownButtons.Border"], ThemeKeyType.ColorBrush)]
                     public string Border { get; set; } = "#333333";
 
 
@@ -988,19 +1083,19 @@ namespace LCLocalizationInterface.Internal
                 public Thumb_PROP Thumb { get; set; } = new();
                 public record Thumb_PROP : ThemeDefinitionSection
                 {
-                    [JsonProperty("Background"), ThemeKey([@"Theme:ScrollBars.Thumb.Background"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background"), ThemeKey([@"Theme:ScrollBars.Thumb.Background"], ThemeKeyType.ColorBrush)]
                     public string Background { get; set; } = "#181818";
 
 
-                    [JsonProperty("Background (Pressed)"), ThemeKey([@"Theme:ScrollBars.Thumb.Background.Pressed"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background (Pressed)"), ThemeKey([@"Theme:ScrollBars.Thumb.Background.Pressed"], ThemeKeyType.ColorBrush)]
                     public string Background_Pressed { get; set; } = "#282828";
 
 
-                    [JsonProperty("Background (Highlighted)"), ThemeKey([@"Theme:ScrollBars.Thumb.Background.Highlighted"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background (Highlighted)"), ThemeKey([@"Theme:ScrollBars.Thumb.Background.Highlighted"], ThemeKeyType.ColorBrush)]
                     public string Background_Highlighted { get; set; } = "#282828";
 
 
-                    [JsonProperty("Border"), ThemeKey([@"Theme:ScrollBars.Thumb.Border"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Border"), ThemeKey([@"Theme:ScrollBars.Thumb.Border"], ThemeKeyType.ColorBrush)]
                     public string Border { get; set; } = "#333333";
 
 
@@ -1023,23 +1118,23 @@ namespace LCLocalizationInterface.Internal
                 public Thumb_PROP Thumb { get; set; } = new();
                 public record Thumb_PROP : ThemeDefinitionSection
                 {
-                    [JsonProperty("Background"), ThemeKey([@"Theme:Slider.Thumb.Default.Background"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background"), ThemeKey([@"Theme:Slider.Thumb.Default.Background"], ThemeKeyType.ColorBrush)]
                     public string Background { get; set; } = "#B8B3B1";
 
-                    [JsonProperty("Background (Pressed)"), ThemeKey([@"Theme:Slider.Thumb.Pressed.Background"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background (Pressed)"), ThemeKey([@"Theme:Slider.Thumb.Pressed.Background"], ThemeKeyType.ColorBrush)]
                     public string Background_Pressed { get; set; } = "#B8B3B1";
 
-                    [JsonProperty("Background (Highlighted)"), ThemeKey([@"Theme:Slider.Thumb.Highlighted.Background"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background (Highlighted)"), ThemeKey([@"Theme:Slider.Thumb.Highlighted.Background"], ThemeKeyType.ColorBrush)]
                     public string Background_Highlighted { get; set; } = "#B8B3B1";
                     
 
-                    [JsonProperty("Border"), ThemeKey([@"Theme:Slider.Thumb.Default.Border"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Border"), ThemeKey([@"Theme:Slider.Thumb.Default.Border"], ThemeKeyType.ColorBrush)]
                     public string Border { get; set; } = "#888381";
 
-                    [JsonProperty("Border (Pressed)"), ThemeKey([@"Theme:Slider.Thumb.Pressed.Border"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Border (Pressed)"), ThemeKey([@"Theme:Slider.Thumb.Pressed.Border"], ThemeKeyType.ColorBrush)]
                     public string Border_Pressed { get; set; } = "#888381";
                     
-                    [JsonProperty("Border (Highlighted)"), ThemeKey([@"Theme:Slider.Thumb.Highlighted.Border"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Border (Highlighted)"), ThemeKey([@"Theme:Slider.Thumb.Highlighted.Border"], ThemeKeyType.ColorBrush)]
                     public string Border_Highlighted { get; set; } = "#888381";
 
 
@@ -1076,10 +1171,10 @@ namespace LCLocalizationInterface.Internal
                     public double[] CornerRadius { get; set; } = [0];
 
 
-                    [JsonProperty("Background"), ThemeKey([@"Theme:Slider.Line.Background"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Background"), ThemeKey([@"Theme:Slider.Line.Background"], ThemeKeyType.ColorBrush)]
                     public string Background { get; set; } = "#B0ADAC";
 
-                    [JsonProperty("Border"), ThemeKey([@"Theme:Slider.Line.Border"], ThemeKeyType.SolidColorBrush)]
+                    [JsonProperty("Border"), ThemeKey([@"Theme:Slider.Line.Border"], ThemeKeyType.ColorBrush)]
                     public string Border { get; set; } = "#A6A09E";
                 }
             }

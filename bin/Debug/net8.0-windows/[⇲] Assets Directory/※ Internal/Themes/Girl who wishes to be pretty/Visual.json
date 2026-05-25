@@ -16,7 +16,7 @@
 
     "Context Menu Separators Color": "#FFFFFF",
 
-    // Warning: does not applied to main window (Quick Q&A: -Why? -Because the shadow is created through padding for the window content and because of this the resize border will be outside the visual border (No, I can't recreate a working imitation of it inside the window))
+    // Warning: does not applied to main window and localization files processor window
     "Windows Drop Shadow": {
       "Enabled": true,
       "Color": "#000000" // WARNING: this is global window backgrond color for windows if Drop Shadow is enabled
@@ -28,14 +28,16 @@
         // Value form: [Fade in duration, Fade out duration]
         
         "Main Window": [0.18, 0.09], "Settings Window": [0.04, 0.1], "Dialog Windows": [0.11, 0.21],
-        "Identity/E.G.O Preivew Creator Switch Transition": [0.2, 0.2]
+        "Identity/E.G.O Preivew Creator Switch Transition": [0.2, 0.2],
+        "Localization Files Processor Window": [0.11, 0.21]
       },
 
       "Speed Ratio": {
         // Value form: [Fade in speed ratio, Fade out speed ratio], min value is 0.05
 
         "Main Window": [1.0, 1.0], "Settings Window": [1.0, 1.0], "Dialog Windows": [1.0, 1.0],
-        "Identity/E.G.O Preivew Creator Switch Transition": [1.0, 1.0]
+        "Identity/E.G.O Preivew Creator Switch Transition": [1.0, 1.0],
+        "Localization Files Processor Window": [1.0, 1.0]
       },
       
       "Acceleration/Deceleration Ratios": {
@@ -43,7 +45,8 @@
         // Value form: [ (Fade in) [Acceleration, Deceleration],  (Fade out) [Acceleration, Deceleration] ]
 
         "Main Window": [[0.0, 0.0], [0.0, 0.0]], "Settings Window": [[0.0, 0.0], [0.0, 0.0]], "Dialog Windows": [[0.0, 0.0], [0.0, 0.0]],
-        "Identity/E.G.O Preivew Creator Switch Transition": [[0.0, 0.0], [0.0, 0.0]]
+        "Identity/E.G.O Preivew Creator Switch Transition": [[0.0, 0.0], [0.0, 0.0]],
+        "Localization Files Processor Window": [[0.0, 0.0], [0.0, 0.0]]
       }
     },
 
@@ -89,6 +92,26 @@
       "Specific Settings Caution": "#A2B5BE"
     },
 
+    "Localization Files Processor Window": {
+      "Border Color": "#3A3A3A",
+      "Border Corner radius": [6, 6, 6, 0],
+  
+      "Background Color": "#0B0E14",
+      "Background Image": "[⇲] Assets Directory/※ Internal/Themes/Girl who wishes to be pretty/Background.jpg",
+      "Background Image Shadow": "#99030612",
+
+      "Menu Switch Buttons": {
+        "Inactive": "#A6A2A2",
+        "Mouse Over": "#C9C2C2",
+        "Active": "#EBE2E2"
+      },
+
+      "Sections": {
+        "Headers": "#EBE2E2",
+        "Separators": "#EBE2E2"
+      }
+    },
+
     "Right Menu": {
       "Uptie Buttons Background": "#0E0907",
       "Navigation Panel Background": "#51000000",
@@ -104,6 +127,7 @@
     "Foreground (Dialog Windows)": "#F5F5DC",
     "Foreground (Settings)": "#DDD9D9",
     "Foreground (Settings (Comments))": "#C7BCBC",
+    "Foreground (Localization Files Processor)": "#C4C5D2",
     "Foreground (Identity/E.G.O Preview creator)": "#F5F5DC",
 
     "Tooltips Foreground": "#C7BCBC",
@@ -116,10 +140,14 @@
     "Foreground (Shadow text)": "#514C46",
 
     "Background": "#070D17",
+    "Background (When Focused)": "#A212A2",
 
     "Border": "#192A49",
+    "Border (When input path is missing)": "#FF2020", // If textfield has file/directory selection button
     "Border Thickness": [1.7],
     "Border Corner Radius": [6, 6, 6, 0],
+
+    "Caret": "#E9DBC6",
 
     "Selection": {
       "Foreground": "#B1B1B9",

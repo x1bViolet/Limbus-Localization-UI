@@ -26,7 +26,7 @@
 	PreviewKeyDown="MainWindow_PreviewKeyDown"
 	PreviewKeyUp="MainWindow_PreviewKeyUp"
 	PreviewMouseDown="MainWindow_PreviewMouseDown"
-	ResizeMode="CanResizeWithGrip"
+	ResizeMode="CanResize"
 	SizeChanged="SizeChanged_CheckThemeBackgroundImageVisibility"
 	Style="{StaticResource Base:WindowLayout}"
 	Topmost="True"
@@ -67,17 +67,14 @@
 
 		<InternalStyle:InstancedWindowLayout.Navigation>
 			<StackPanel MouseEnter="DisableWindowChromeResizeBorder" MouseLeave="EnableWindowChromeResizeBorder" Orientation="Horizontal">
-				<Canvas Margin="0 0 -5 0" IsHitTestVisible="False">
-					<Grid Canvas.Right="0" Width="15" Height="{Binding ActualHeight, RelativeSource={RelativeSource AncestorLevel=1, AncestorType=StackPanel}}" Background="{DynamicResource Theme:TitleBar.Background.Color}">
-						<Grid.OpacityMask>
-							<LinearGradientBrush StartPoint="0 0" EndPoint="1 0">
-								<GradientStop Color="#00000000" />
-								<GradientStop Offset="0.5" Color="#000000" />
-							</LinearGradientBrush>
-						</Grid.OpacityMask>
-					</Grid>
-				</Canvas>
 				<Button Click="Minimize" Style="{StaticResource Base:TitleBar.Button.Defaults.Minimize}" />
+				<Button T:BooleanStateHandler.IsVisible="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.LocalizationFilesProcessor, FallbackValue=True}" Click="OpenLocalizationFilesProcessorWindow" Content="" FontFamily="/UI/Fonts/#Material Symbols Outlined ExtraLight" FontSize="26">
+					<Button.ToolTip>
+						<ToolTip MaxWidth="700" Style="{StaticResource Theme:ControlStyles.Tooltip}">
+							<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.Foreground.Tooltips}" LineHeight="18" RichText="Open Localization Files Processor" UID="[Main UI] * Open Localization Files Processor button Tooltip" />
+						</ToolTip>
+					</Button.ToolTip>
+				</Button>
 				<Button T:BooleanStateHandler.IsVisible="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.EditorModeSwitch, FallbackValue=True}" Click="ModeSwitchContextMenu_OpenOnLeftClick" Content="">
 					<Button.ContextMenu>
 						<ContextMenu>
@@ -87,7 +84,7 @@
 								</Style>
 							</ContextMenu.Resources>
 							<Terminus:MenuItem_T1 IsHitTestVisible="False" RichText="Opened files" TextBlock.TextAlignment="Center" UID="[Main UI] * Current editor switch — Title" />
-							<Separator UseLayoutRounding="True"/>
+							<Separator UseLayoutRounding="True" />
 							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_MainMenu" RichText="Main menu" UID="[Main UI] * Current editor switch — Main menu" />
 							<Separator UseLayoutRounding="True" />
 							<Terminus:MenuItem_T1 x:Name="ModeSwitchButton_Skills" RichText="Skills" UID="[Main UI] * Current editor switch — Skills" />
@@ -137,7 +134,7 @@
 						<Grid Margin="0 1 0 0">
 
 							<Grid x:Name="UnsavedChangesGrid" Panel.ZIndex="1" Background="{DynamicResource Theme:UnsavedChanges.MainEditor.BlurredBackground}" Visibility="Collapsed">
-								<Grid x:Uid="Click area to cancel" Background="Transparent" MouseLeftButtonUp="UnsavedChangesDialog_ButtonsClick_Cancel" />
+								<Grid x:Uid="Click area to cancel" Background="Transparent" />
 								<Border Width="500" Height="380" Style="{StaticResource Theme:ControlStyles.OtherBorderLikeThing}">
 									<Grid Margin="10">
 										<Terminus:IntenseStareType1 FontSize="40" RichText="Unsaved changes" TextAlignment="Center" UID="[Unsaved Changes] * Title" />
@@ -1520,7 +1517,7 @@
 														<Terminus:IntenseStareType1 x:Name="ProgramVersionTitle" Margin="5" FontSize="28" RichText="Version" UID="[Main UI] * Version title" />
 														<Terminus:IntenseStareType1 Margin="5" RichText="※" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
 														<Terminus:IntenseStareType1 Margin="5" RichText="{Binding DataContextDomain.ProgramVersion, Mode=OneTime}" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
-														<Terminus:IntenseStareType1 Visibility="Visible" RichText="{Binding DataContextDomain.VersionPrefix, Mode=OneTime}" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
+														<Terminus:IntenseStareType1 RichText="{Binding DataContextDomain.VersionPrefix, Mode=OneTime}" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" Visibility="Visible" />
 													</StackPanel>
 												</StackPanel>
 											</Grid>

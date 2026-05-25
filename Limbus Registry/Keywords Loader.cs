@@ -13,7 +13,7 @@ namespace LCLocalizationInterface.LimbusRegistry
 
 
         /// <summary>
-        /// Key is Name, value is ID. Used by "Implicit to ..." options in <see cref="MainWindow.TextEditor_ContextMenuClick"/> method, contains keyword names from both fallback and loaded custom lang.
+        /// Key is Name, value is ID. Used <b>only by "Implicit to ..."</b> options in <see cref="MainWindow.TextEditor_ContextMenuClick"/> method, contains keyword names from both fallback and loaded custom lang.
         /// </summary>
         public static Dictionary<string, string> LimbusKeywords_ImplicitConversionOrder { get; set; } = [];
 
@@ -41,8 +41,8 @@ namespace LCLocalizationInterface.LimbusRegistry
                 LoadedKeywords_Bufs.Clear();
                 LoadedKeywords_BattleKeywords.Clear();
 
-                ColorDictionaries.LoadedKeywordColors.ExternalColors.Clear();
-                ColorDictionaries.LoadedSkillTagColors.ExternalColors.Clear();
+                ColorDictionaries.KeywordColors.ExternalColors.Clear();
+                ColorDictionaries.SkillTagColors.ExternalColors.Clear();
 
                 LimbusKeywords_ImplicitConversionOrder.Clear();
             }
@@ -91,7 +91,7 @@ namespace LCLocalizationInterface.LimbusRegistry
 
                                 if (!string.IsNullOrEmpty(SkillTag.Color))
                                 {
-                                    ColorDictionaries.LoadedSkillTagColors.ExternalColors[SkillTag.ID!] = SkillTag.Color;
+                                    ColorDictionaries.SkillTagColors.ExternalColors[SkillTag.ID!] = SkillTag.Color;
                                 }
                             }
                         }
@@ -151,7 +151,7 @@ namespace LCLocalizationInterface.LimbusRegistry
         {
             if (!string.IsNullOrEmpty(Keyword.Color))
             {
-                ColorDictionaries.LoadedKeywordColors.ExternalColors[Keyword.ID!] = Keyword.Color;
+                ColorDictionaries.KeywordColors.ExternalColors[Keyword.ID!] = Keyword.Color;
             }
         }
 
