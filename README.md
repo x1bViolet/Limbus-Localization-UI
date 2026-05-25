@@ -1,6 +1,6 @@
 ## Limbus Company gameplay localization files editor with text preview.
 
-### Latest version: [1.4:1 Release](https://github.com/x1bViolet/Limbus-Localization-UI/releases/tag/1.4%CB%901)
+### Latest version: [1.4:2 Release](https://github.com/x1bViolet/Limbus-Localization-UI/releases/tag/1.4%CB%902)
 
 ### Documentation: [GitBook](https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface)
 
@@ -10,7 +10,10 @@
 - `EGOgift*.json`
 - `Bufs*.json` and `BattleKeywords*.json`
 - `AbnormalityGuides*.json`
-- *Custom Identity/E.G.O Preview creation
+
+### Additional:
+- Custom Identity/E.G.O Preview creation
+- Localization files processing
 
 ### Gallery
 <img alt="Skills" src="https://github.com/user-attachments/assets/398d8def-c7fe-4ddc-aa3e-28783e6a7080" />
