@@ -516,10 +516,10 @@
 												</Setter>
 											</Style>
 										</StackPanel.Resources>
-										<CheckBox Content="" FontFamily="/UI/Fonts/#Material Symbols Outlined ExtraLight" FontSize="28" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.LocalizationFilesProcessor, FallbackValue=True}" />
 										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.EditorModeSwitch, FallbackValue=True}" />
 										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.OpenSkillsDisplayInfoManager, FallbackValue=True}" />
 										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.SwitchUIToPreviewCreator, FallbackValue=True}" />
+										<CheckBox Content="" FontFamily="/UI/Fonts/#Material Symbols Outlined ExtraLight" FontSize="28" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.LocalizationFilesProcessor, FallbackValue=True}" />
 										<CheckBox Content="" IsChecked="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.ExportTextToImage, FallbackValue=True}" />
 									</StackPanel>
 								</TStyle:TwoColumned>
@@ -581,10 +581,21 @@
 
 										<TStyle:TwoColumned>
 											<Terminus:IntenseStareType1 RichText="Disable &quot;Unknown&quot; for unidentified keywords" UID="[Settings / Internal] * Disable 'Unknown' for unidentified keywords" />
-											<CheckBox Grid.Column="1" Checked="DisableUnknownForUnidentifiedKeywords_CheckedUnchecked" IsChecked="{Binding DataContextDomain.Configuration.Internal.DisableUnknownForUnidentifiedKeywords}" ToolTipService.InitialShowDelay="100" Unchecked="DisableUnknownForUnidentifiedKeywords_CheckedUnchecked">
+											<CheckBox Grid.Column="1" Checked="OptionChanged_UpdateCurrentRichText" IsChecked="{Binding DataContextDomain.Configuration.Internal.DisableUnknownForUnidentifiedKeywords}" ToolTipService.InitialShowDelay="100" Unchecked="OptionChanged_UpdateCurrentRichText">
 												<CheckBox.ToolTip>
 													<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
-														<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}" LineHeight="18" RichText="Don't convert [KeywordID] with an unknown keyword ID to green &quot;Unknown&quot; text in Skills and Passives localization files. This means allowing free use of square brackets (I wish this was the case in the game too...)." UID="[Settings / Internal] * Disable 'Unknown' for unidentified keywords (CheckBox Tooltip)" />
+														<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}" LineHeight="18" RichText="Do not convert [KeywordID] with an unknown keyword ID to green &quot;Unknown&quot; text in Skills and Passives localization files. This means allowing free use of square brackets (I wish this was the case in the game too...)." UID="[Settings / Internal] * Disable 'Unknown' for unidentified keywords (CheckBox Tooltip)" />
+													</ToolTip>
+												</CheckBox.ToolTip>
+											</CheckBox>
+										</TStyle:TwoColumned>
+
+										<TStyle:TwoColumned>
+                                            <Terminus:IntenseStareType1 RichText="Disable Implicit keywords highlightion" UID="[Settings / Internal] * Disable Implicit keywords highlightion" />
+											<CheckBox Grid.Column="1" Checked="OptionChanged_UpdateCurrentRichText" IsChecked="{Binding DataContextDomain.Configuration.Internal.DisableImplicitKeywordsHighlightion}" ToolTipService.InitialShowDelay="100" Unchecked="OptionChanged_UpdateCurrentRichText">
+												<CheckBox.ToolTip>
+													<ToolTip Style="{StaticResource Theme:ControlStyles.Tooltip}">
+                                                        <Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Tooltips}" LineHeight="18" RichText="Do not highlight names of implicitly written keywords in the text (Just exact matching keyword names instead of strict [KeywordID])." UID="[Settings / Internal] * Disable Implicit keywords highlightion (CheckBox Tooltip)" />
 													</ToolTip>
 												</CheckBox.ToolTip>
 											</CheckBox>

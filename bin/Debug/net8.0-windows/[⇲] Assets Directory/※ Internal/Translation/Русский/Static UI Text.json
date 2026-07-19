@@ -567,6 +567,15 @@
     ],
     [
       {
+        "UID": {"[Main UI] * File resaving <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "Повторное сохранение файла",
+          "Text": "Текущий файл больше не существует, будет открыт диалог для повторного сохранения."
+        }
+      }
+    ],
+    [
+      {
         "UID": {"[Main UI] * Current editor switch — Title":null},
         "Text": "Открытые файлы"
       },
@@ -1161,6 +1170,14 @@
       {
         "UID": {"[Settings / Internal] * Disable 'Unknown' for unidentified keywords (CheckBox Tooltip)":null},
         "Text": "Не конвертировать [KeywordID] с неизвестным ID ключевого слова в зелёный текст \"Unknown\" в файлах локализации скиллов и пассивок.\n\nТо есть разрешить свободное использование квадратных скобок."
+      },
+      {
+        "UID": {"[Settings / Internal] * Disable Implicit keywords highlightion":null},
+        "Text": "Отключить подсветку неочевидных ключевых слов"
+      },
+      {
+        "UID": {"[Settings / Internal] * Disable Implicit keywords highlightion (CheckBox Tooltip)":null},
+        "Text": "Не подсвечивать имена неявно написанных ключевых слов в тексте (То есть просто точно совпадающие имена ключевых слов в тексте, а не строгое [KeywordID])."
       },
       {
         "UID": {"[Settings / Internal] * Disable Text Elements Sealing in Identity/E.G.O Preview Creator":null},
@@ -1833,6 +1850,18 @@
       {
         "UID": {"[C] * [Section:Image parameters] Image width (Second step)":null},
         "Text": "Ширина изображения (Второй шаг)"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type":null},
+        "Text": "Тип изображения"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type — Text":null},
+        "Text": "Текст"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type — Summary":null},
+        "Text": "Суммарно"
       }
     ],
     [
@@ -1880,6 +1909,10 @@
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Image scale":null},
         "Text": "Масштаб изображения"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Shading strength":null},
+        "Text": "Затенение"
       }
     ],
     [
@@ -1906,20 +1939,12 @@
         "Text": "<u>Виньетка (Плавность)</u>"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left / Top / Bottom (General)":null},
-        "Text": "Левая / Верхняя / Нижняя <b>(Основная)</b>"
+        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left / Top / Right (General)":null},
+        "Text": "Левая / Верхняя / Правая <b>(Основная)</b>"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Right (Text background)":null},
-        "Text": "Правая <b>(Фон текста)</b>"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait":null},
-        "Text": "Левая позади потрета ЭГО <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait (Tooltip info)":null},
-        "Text": "Предназначена для затенения <b>'Эффектов фона текста'</b>."
+        "UID": {"[C] * [Section:Image parameters / Vignette softness] Bottom (Text background)":null},
+        "Text": "Нижняя <b>(Фон текста)</b>"
       }
     ],
     [
@@ -1938,21 +1963,13 @@
         "Text Alignment": "Center"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Bottom":null},
-        "Text": "Нижняя",
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Right":null},
+        "Text": "Правая",
         "Text Alignment": "Center"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Right (Text background)":null},
-        "Text": "Правая <b>(Фон текста)</b>"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait":null},
-        "Text": "Левая позади потрета E.G.O <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait (Tooltip info)":null},
-        "Text": "Предназначена для затенения <b>'Эффектов фона текста'</b>."
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Bottom (Text background)":null},
+        "Text": "Нижняя <b>(Фон текста)</b>"
       }
     ],
     [
@@ -2309,28 +2326,24 @@
       {
         "UID": {"[C] * [Section:Text background effects] Effects image (Label)":null},
         "Variable": {
-          "Default": "Изображение эффектов <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]</font></b></color>",
-          "Selected": "Изображение эффектов <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]</font></b></color>\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
+          "Default": "Изображение эффектов",
+          "Selected": "Изображение эффектов\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
-      },
-      {
-        "UID": {"[C] * [Section:Text background effects] Effects image (Label) (Tooltip info)":null},
-        "Text": "Если они выглядят невидимыми в режите портрета ЭГО,\nто, скорее всего, они перекрыты виньеткой (<b>'Правой'</b> или\n<b>'Позади портрета ЭГО'</b>). Попробуйте уменьшить её."
       },
       {
         "UID": {"[C] * [Section:Text background effects] Effects image (Button)":null},
         "Text": "Выбрать файл"
       },
       {
-        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only)":null},
-        "Text": "Режим расположения <size=78%>(Для Идентичности)</size>"
+        "UID": {"[C] * [Section:Text background effects] Placement mode":null},
+        "Text": "Режим расположения"
       },
       {
-        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — Right vignette":null},
-        "Text": "На правой виньетке"
+        "UID": {"[C] * [Section:Text background effects] Placement mode — Bottom vignette":null},
+        "Text": "На нижней виньетке"
       },
       {
-        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — All vignettes":null},
+        "UID": {"[C] * [Section:Text background effects] Placement mode — All vignettes":null},
         "Text": "На всей виньетке"
       },
       {
@@ -2397,23 +2410,8 @@
         "Text": "<u>Другие эффекты</u>"
       },
       {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo mode":null},
-        "Text": "Режим лого Вальпургиевой ночи"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo image (Label)":null},
-        "Variable": {
-          "Default": "Лого вальпургиевой ночи",
-          "Selected": "Лого Вальпургиевой ночи\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
-        }
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo image (Button)":null},
-        "Text": "Выбрать файл"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo scale":null},
-        "Text": "Масштаб лого Вальпургиевой ночи"
+        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo":null},
+        "Text": "Лого Вальпургиевой ночи"
       },
       {
         "UID": {"[C] * [Section:Other effects] Upper left logo image (Label)":null},
@@ -2429,25 +2427,6 @@
       {
         "UID": {"[C] * [Section:Other effects] Upper left logo scale":null},
         "Text": "Масштаб лого сверху слева"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo image (Label)":null},
-        "Variable": {
-          "Default": "Лого справа снизу",
-          "Selected": "Лого справа снизу\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
-        }
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo image (Button)":null},
-        "Text": "Выбрать файл"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo scale":null},
-        "Text": "Масштаб лого справа снизу"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo opacity":null},
-        "Text": "Непрозрачность лого справа снизу"
       }
     ],
     [
@@ -2502,6 +2481,28 @@
       {
         "UID": {"[C] * [Element context menu] Skill coin descriptions width":null},
         "Text": "Ширина описания монет навыка"
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Summary columns] Add Skill 1":null},
+        "Text": "Добавить Скилл 1"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Skill 2":null},
+        "Text": "Добавить Скилл 2"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Skill 3":null},
+        "Text": "Добавить Скилл 3"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Defense":null},
+        "Text": "Добавить Защиту"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Passive":null},
+        "Text": "Добавить Пассивку"
       }
     ],
     [

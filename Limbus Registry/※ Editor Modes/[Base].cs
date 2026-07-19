@@ -226,7 +226,7 @@ namespace LCLocalizationInterface.LimbusRegistry
 
 
 
-            /// <summary>(Just to make a visual distinction in code) Class contents required for editor mode beyond the core set provided by the <see cref="EditorModeIntermediator"/> interface or parent <see cref="EditorModeAbstraction{LocalizationDataType}"/> <see langword="class"/></summary>
+            /// <summary>(Just to make a visual distinction in code) Class contents required for editor mode beyond the core set provided by the <see cref="EditorModeIntermediator"/> <see langword="interface"/> or parent <see cref="EditorModeAbstraction{LocalizationDataType}"/> <see langword="class"/></summary>
             [AttributeUsage(AttributeTargets.Method | AttributeTargets.Property)]
             private class LayeredComponentAttribute : Attribute;
 
@@ -540,12 +540,25 @@ namespace LCLocalizationInterface.LimbusRegistry
 
                     this.RecentlySerializedJsonText = JsonText;
 
-                    if (CurrentFile!.Directory!.Exists == false)
+                    if (File.Exists(CurrentFile!.FullName) == false)
                     {
-                        CurrentFile!.Directory.Create();
+                        string DialogTitle = @Languages.GetLocalizationTextFor("[Main UI] * File resaving <Confirm Dialog>", "Title");
+                        string DialogText = @Languages.GetLocalizationTextFor("[Main UI] * File resaving <Confirm Dialog>", "Text");
+                        ConfirmDialog.ConfirmDialogInstance.ShowConfirmDialog(DialogTitle, DialogText, ConfirmAction: delegate ()
+                        {
+                            SaveFileDialog Dialog = NewSaveFileDialog("Json files", ["json"], CurrentFile.Name);
+                            if (Dialog.ShowDialog() == true)
+                            {
+                                File.WriteAllText(Dialog.FileName, JsonText, new UTF8Encoding(encoderShouldEmitUTF8Identifier: CurrentFileSpecific.IsBOM));
+                                this.CurrentFile = new FileInfo(Dialog.FileName);
+                                this.CheckFileName = this.DeserializedLocalizationData!.ManualFileType ?? Dialog.SafeFileName.RemovePostfix(".json");
+                            }
+                        });
                     }
-
-                    File.WriteAllText(CurrentFile!.FullName, JsonText, new UTF8Encoding(encoderShouldEmitUTF8Identifier: CurrentFileSpecific.IsBOM));
+                    else
+                    {
+                        File.WriteAllText(CurrentFile.FullName, JsonText, new UTF8Encoding(encoderShouldEmitUTF8Identifier: CurrentFileSpecific.IsBOM));
+                    }
                 }
 
 
@@ -1152,19 +1165,30 @@ namespace LCLocalizationInterface
         private static bool AutoSaveTimer_IsPending = false;
         public void TryStartAutoSaveTimer()
         {
-            if (TMProEmitter.IsRichTextDelayAllowed)
+            if (TMProEmitter.IsRichTextDelayAllowed) // Means text change occurring due to manual text change and not through current object switch
             {
-                if (ProgramFullyLoaded && LoadedConfiguration.Internal.EnableAutoSave == true & AutoSaveTimer_IsPending == false)
+                if (ProgramFullyLoaded && LoadedConfiguration.Internal.EnableAutoSave == true)
                 {
-                    AutoSaveTimer.Stop();
-                    AutoSaveTimer = new() { Interval = TimeSpan.FromSeconds(LoadedConfiguration.Internal.AutosaveDelay) };
-                    AutoSaveTimer.Tick += (_, _) =>
+                    if (AutoSaveTimer_IsPending == false)
                     {
-                        @EditorModesShelf.CurrentEditorMode.SaveCurrentFile_Entry();
-                        AutoSaveTimer.Stop(); AutoSaveTimer_IsPending = false;
-                    };
+                        AutoSaveTimer.Stop();
 
-                    AutoSaveTimer_IsPending = true; AutoSaveTimer.Start();
+                        AutoSaveTimer = new() { Interval = TimeSpan.FromSeconds(LoadedConfiguration.Internal.AutosaveDelay) };
+                        AutoSaveTimer.Tick += (_, _) =>
+                        {
+                            try
+                            {
+                                @EditorModesShelf.CurrentEditorMode.SaveCurrentFile_Entry();
+                            }
+                            catch (Exception Occurred)
+                            {
+                                ErrorMessageWindow.ShowException(Occurred, $"This exception occured while trying to execute autosave{(Occurred is UnauthorizedAccessException ? " (Maybe file has \"Read only\" attribute?)" : "")}");
+                            }
+                            AutoSaveTimer.Stop(); AutoSaveTimer_IsPending = false;
+                        };
+
+                        AutoSaveTimer_IsPending = true; AutoSaveTimer.Start();
+                    }
                 }
             }
         }

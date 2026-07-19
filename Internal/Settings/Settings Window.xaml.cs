@@ -422,7 +422,7 @@ namespace LCLocalizationInterface.Internal.Configuration
             }
         }
 
-        private void DisableUnknownForUnidentifiedKeywords_CheckedUnchecked(object Sender, RoutedEventArgs Args)
+        private void OptionChanged_UpdateCurrentRichText(object Sender, RoutedEventArgs Args)
         {
             if (ProgramFullyLoaded)
             {

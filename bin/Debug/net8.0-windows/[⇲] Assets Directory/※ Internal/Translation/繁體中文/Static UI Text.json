@@ -567,6 +567,15 @@
     ],
     [
       {
+        "UID": {"[Main UI] * File resaving <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "重新儲存檔案",
+          "Text": "目前檔案已不存在，將開啟對話方塊以重新儲存。"
+        }
+      }
+    ],
+    [
+      {
         "UID": {"[Main UI] * Current editor switch — Title":null},
         "Text": "已開啟的檔案"
       },
@@ -1161,6 +1170,14 @@
       {
         "UID": {"[Settings / Internal] * Disable 'Unknown' for unidentified keywords (CheckBox Tooltip)":null},
         "Text": "在技能與被動能力本地化檔案中，不將未知的 [KeywordID] 轉換為綠色「未知」文字。\n\n也就是允許自由使用方括號。"
+      },
+      {
+        "UID": {"[Settings / Internal] * Disable Implicit keywords highlightion":null},
+        "Text": "停用未標記的關鍵詞醒目顯示"
+      },
+      {
+        "UID": {"[Settings / Internal] * Disable Implicit keywords highlightion (CheckBox Tooltip)":null},
+        "Text": "不要醒目顯示文字中未標記的關鍵詞名稱（僅比對完全相符的關鍵詞名稱，而非嚴格使用 [KeywordID] 標記的關鍵詞）。"
       },
       {
         "UID": {"[Settings / Internal] * Disable Text Elements Sealing in Identity/E.G.O Preview Creator":null},
@@ -1833,6 +1850,18 @@
       {
         "UID": {"[C] * [Section:Image parameters] Image width (Second step)":null},
         "Text": "寬度調整（第二步）"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type":null},
+        "Text": "圖片類型"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type — Text":null},
+        "Text": "文字"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type — Summary":null},
+        "Text": "摘要"
       }
     ],
     [
@@ -1880,6 +1909,10 @@
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Image scale":null},
         "Text": "圖片縮放"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Shading strength":null},
+        "Text": "陰影強度"
       }
     ],
     [
@@ -1906,20 +1939,12 @@
         "Text": "<u>暗角柔化</u>"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left / Top / Bottom (General)":null},
-        "Text": "左側 / 上方 / 下方 <b>（一般）</b>"
+        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left / Top / Right (General)":null},
+        "Text": "左側 / 上方 / 右側 <b>（一般）</b>"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Right (Text background)":null},
-        "Text": "右側 <b>（文字背景）</b>"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait":null},
-        "Text": "左側E.G.O 立繪後方<color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait (Tooltip info)":null},
-        "Text": "用於文字背景效果的陰影", "Font Weight": "Regular"
+        "UID": {"[C] * [Section:Image parameters / Vignette softness] Bottom (Text background)":null},
+        "Text": "下方 <b>（文字背景）</b>"
       }
     ],
     [
@@ -1938,21 +1963,13 @@
         "Text Alignment": "Center"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Bottom":null},
-        "Text": "下方",
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Right":null},
+        "Text": "右側",
         "Text Alignment": "Center"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Right (Text background)":null},
-        "Text": "右側 <b>（文字背景）</b>"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait":null},
-        "Text": "左側E.G.O 立繪後方<color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait (Tooltip info)":null},
-        "Text": "用於文字背景效果的陰影", "Font Weight": "Regular"
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Bottom (Text background)":null},
+        "Text": "下方 <b>（文字背景）</b>"
       }
     ],
     [
@@ -2309,28 +2326,24 @@
       {
         "UID": {"[C] * [Section:Text background effects] Effects image (Label)":null},
         "Variable": {
-          "Default": "效果圖片<color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]</font></b></color>",
-          "Selected": "效果圖片<color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]</font></b></color>\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
+          "Default": "效果圖片",
+          "Selected": "效果圖片\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
-      },
-      {
-        "UID": {"[C] * [Section:Text background effects] Effects image (Label) (Tooltip info)":null},
-        "Text": "如果在 E.G.O 模式下看不到，通常是被 <b>「右側」</b> 或 <b>「左側E.G.O 立繪後方」</b> 的暗角遮擋，請嘗試調低其數值", "Font Weight": "Regular"
       },
       {
         "UID": {"[C] * [Section:Text background effects] Effects image (Button)":null},
         "Text": "選擇圖片", "Margin": [0, 2, 0, 0]
       },
       {
-        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only)":null},
-        "Text": "放置模式<size=78%>（僅限人格）</size>"
+        "UID": {"[C] * [Section:Text background effects] Placement mode":null},
+        "Text": "放置模式"
       },
       {
-        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — Right vignette":null},
-        "Text": "在右側暗角"
+        "UID": {"[C] * [Section:Text background effects] Placement mode — Bottom vignette":null},
+        "Text": "下方"
       },
       {
-        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — All vignettes":null},
+        "UID": {"[C] * [Section:Text background effects] Placement mode — All vignettes":null},
         "Text": "在所有暗角上"
       },
       {
@@ -2397,23 +2410,8 @@
         "Text": "<u>其他效果</u>"
       },
       {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo mode":null},
+        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo":null},
         "Text": "瓦爾普吉斯之夜Logo模式"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo image (Label)":null},
-        "Variable": {
-          "Default": "瓦爾普吉斯之夜Logo圖片",
-          "Selected": "瓦爾普吉斯之夜Logo圖片\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
-        }
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo image (Button)":null},
-        "Text": "選擇圖片", "Margin": [0, 2, 0, 0]
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo scale":null},
-        "Text": "瓦爾普吉斯之夜Logo縮放"
       },
       {
         "UID": {"[C] * [Section:Other effects] Upper left logo image (Label)":null},
@@ -2429,25 +2427,6 @@
       {
         "UID": {"[C] * [Section:Other effects] Upper left logo scale":null},
         "Text": "左上角Logo縮放"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo image (Label)":null},
-        "Variable": {
-          "Default": "右下角Logo圖片",
-          "Selected": "右下角Logo圖片\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
-        }
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo image (Button)":null},
-        "Text": "選擇圖片", "Margin": [0, 2, 0, 0]
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo scale":null},
-        "Text": "右下角Logo縮放"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo opacity":null},
-        "Text": "右下角Logo不透明度"
       }
     ],
     [
@@ -2502,6 +2481,28 @@
       {
         "UID": {"[C] * [Element context menu] Skill coin descriptions width":null},
         "Text": "技能硬幣描述寬度"
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Summary columns] Add Skill 1":null},
+        "Text": "增加技能 1"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Skill 2":null},
+        "Text": "增加技能 2"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Skill 3":null},
+        "Text": "增加技能 3"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Defense":null},
+        "Text": "增加防禦"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Passive":null},
+        "Text": "增加被動能力"
       }
     ],
     [

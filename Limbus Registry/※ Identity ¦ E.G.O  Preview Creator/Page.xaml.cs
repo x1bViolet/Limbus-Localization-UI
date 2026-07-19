@@ -1,5 +1,6 @@
 ﻿using ICSharpCode.AvalonEdit.Highlighting;
 using LCLocalizationInterface.Internal.Abstractions;
+using LCLocalizationInterface.Internal.UIStyle;
 using static LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreatorPage;
 using static RijnadelClassLibrary.SyntaxedTextEditorBase;
 
@@ -187,31 +188,74 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
 
         #region Column elements context menu
-        private ColumnTextElementContainer GetContextMenuItemTarget(object ContextMenuItem)
+        private ColumnTextElementContainer GetContextMenuItemTarget(object ContextObject)
         {
-            ColumnTextElementContainer TargetElement = (((ContextMenuItem as MenuItem)!.Parent as ContextMenu)!.PlacementTarget as ColumnTextElementContainer)!;
-            return TargetElement;
+            if (ContextObject is ColumnTextElementContainer PrimaryPassedContainer)
+            {
+                return PrimaryPassedContainer;
+            }
+            else
+            {
+                ColumnTextElementContainer ContainerByContextMenuPlacement = (((ContextObject as MenuItem)!.Parent as ContextMenu)!.PlacementTarget as ColumnTextElementContainer)!;
+                return ContainerByContextMenuPlacement;
+            }
         }
 
         private void ColumnItem_MoveUp(object Sender, RoutedEventArgs Args)
         {
             ColumnTextElementContainer TargetElement = GetContextMenuItemTarget(Sender);
-            TargetElement.ParentColumn.Children.MoveItemUp(TargetElement);
-            ReEnumerateColumnItemsJsonData();
+
+            if (TargetElement is ColumnTextElementContainer { IsSummaryView: true, RelatedJsonData.Type: ColumnTextElementType.Skill } TargetSkillSummary)
+            {
+                int CurrentRow = Grid.GetRow(TargetSkillSummary);
+                int CurrentColumn = Grid.GetColumn(TargetSkillSummary);
+                if (CurrentRow > 0)
+                {
+                    int RowToMoveOn = CurrentRow - 1;
+                    ColumnTextElementContainer PreviousSkillSummary = SummarySkillsTable.GetSkillAt(RowToMoveOn, CurrentColumn)!;
+                    Grid.SetRow(PreviousSkillSummary, CurrentRow);
+                    Grid.SetRow(TargetSkillSummary, RowToMoveOn);
+                }
+
+                ReEnumerateSummarySkillsTableJsonData();
+            }
+            else
+            {
+                TargetElement.ParentColumn.Children.MoveItemUp(TargetElement);
+                ReEnumerateColumnItemsJsonData();
+            }
         }
         private void ColumnItem_Delete(object Sender, RoutedEventArgs Args)
         {
             ColumnTextElementContainer TargetElement = GetContextMenuItemTarget(Sender);
-            TextElementsColumn ParentColumn = TargetElement.ParentColumn;
-            TargetElement.UnsealLocalizationTextView();
-            TargetElement.ParentColumn.Children.Remove(TargetElement);
-            ReEnumerateColumnItemsJsonData();
+
+            if (TargetElement is ColumnTextElementContainer { IsSummaryView: true, RelatedJsonData.Type: ColumnTextElementType.Skill } TargetSkillSummary)
+            {
+                int CurrentRow = Grid.GetRow(TargetSkillSummary);
+                int CurrentColumn = Grid.GetColumn(TargetSkillSummary);
+
+                while (Grid.GetRow(TargetSkillSummary) != SummarySkillsTable.SkillsCountInColumn(CurrentColumn) - 1)
+                {
+                    ColumnItem_MoveDown(TargetSkillSummary, null!);
+                }
+
+                ReSealAllTextElementsInSkillsSummaryTable();
+                TargetSkillSummary.UnsealLocalizationTextView();
+                SummarySkillsTable.Children.Remove(TargetSkillSummary);
+                ReEnumerateSummarySkillsTableJsonData();
+            }
+            else
+            {
+                TextElementsColumn ParentColumn = TargetElement.ParentColumn;
+                ReSealAllTextElementsInColumn(ParentColumn);
+                TargetElement.UnsealLocalizationTextView();
+                TargetElement.ParentColumn.Children.Remove(TargetElement);
+                ReEnumerateColumnItemsJsonData();
+            }
 
             // Sealed view memory clean on element removal .. idk how
             if (TargetElement.RelatedJsonData.Type is not ColumnTextElementType.Keyword)
             {
-                ReSealAllTextElementsInColumn(ParentColumn);
-
                 // Scrolling to the bottom right corner and returning back magically cleans memory
                 double OriginalHorizontalOffset = CompositionScrollViewer.HorizontalOffset;
                 double OriginalVerticalOffset = CompositionScrollViewer.VerticalOffset;
@@ -226,12 +270,30 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         private void ColumnItem_MoveDown(object Sender, RoutedEventArgs Args)
         {
             ColumnTextElementContainer TargetElement = GetContextMenuItemTarget(Sender);
-            TargetElement.ParentColumn.Children.MoveItemDown(TargetElement);
-            ReEnumerateColumnItemsJsonData();
+
+            if (TargetElement is ColumnTextElementContainer { IsSummaryView: true, RelatedJsonData.Type: ColumnTextElementType.Skill } TargetSkillSummary)
+            {
+                int CurrentRow = Grid.GetRow(TargetSkillSummary);
+                int CurrentColumn = Grid.GetColumn(TargetSkillSummary);
+                if (CurrentRow != SummarySkillsTable.SkillsCountInColumn(CurrentColumn) - 1)
+                {
+                    int RowToMoveOn = CurrentRow + 1;
+                    ColumnTextElementContainer NextSkill = SummarySkillsTable.GetSkillAt(RowToMoveOn, CurrentColumn)!;
+                    Grid.SetRow(NextSkill, CurrentRow);
+                    Grid.SetRow(TargetSkillSummary, RowToMoveOn);
+                }
+
+                ReEnumerateSummarySkillsTableJsonData();
+            }
+            else
+            {
+                TargetElement.ParentColumn.Children.MoveItemDown(TargetElement);
+                ReEnumerateColumnItemsJsonData();
+            }
         }
 
 
-        private static ContextMenu ColumnElemenetContextMenu => (PreviewCreatorPageInstance!.__TextColumnsCanvas__.Resources["ColumnItemContextMenu"] as ContextMenu)!;
+        private ContextMenu ColumnElemenetContextMenu => (CompositionGrid.Resources["ColumnItemContextMenu"] as ContextMenu)!;
         private void ColumnElemenetContextMenu_MakeSemiTransperent(object Sender, RoutedEventArgs Args)
         {
             ColumnElemenetContextMenu.BeginAnimation(ContextMenu.OpacityProperty, new DoubleAnimation() { From = 1, To = 0.245, Duration = TimeSpan.FromSeconds(0.11) });
@@ -245,15 +307,47 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             ColumnTextElementContainer Target = (Sender as ColumnTextElementContainer)!;
             StackPanel OptionsPanel = (((Target.ContextMenu.Items[7] as MenuItem)!.Header as Grid)!.Children[0] as StackPanel)!;
             
-            UIElement SignatureInput = OptionsPanel.Children[0];
-            UIElement PassiveWidthAdjust = OptionsPanel.Children[3];
-            UIElement SkillWidthsAdjust = OptionsPanel.Children[4];
+            T FindMenuElement<T>(string Name) where T : FrameworkElement => OptionsPanel.FindVisualChildren<T>().Where(Slider => Slider.Name == Name).First();
 
-            SignatureInput.Visibility = Target.RelatedJsonData.Type != ColumnTextElementType.Keyword ? Visibility.Visible : Visibility.Collapsed;
-            PassiveWidthAdjust.Visibility = Target.RelatedJsonData.Type == ColumnTextElementType.Passive ? Visibility.Visible : Visibility.Collapsed;
-            SkillWidthsAdjust.Visibility = Target.RelatedJsonData.Type == ColumnTextElementType.Skill ? Visibility.Visible : Visibility.Collapsed;
+            TwoColumned SignatureInput = FindMenuElement<TwoColumned>("SignatureInputPanel");
+            StackPanel PassiveDescriptionWidth_Panel = FindMenuElement<StackPanel>("PassiveDescriptionWidth_Panel");
+            TwoColumned SkillWidths_Panel = FindMenuElement<TwoColumned>("SkillWidths_Panel");
 
-            SealAllTextElementsInBothColumns(Predicate: TextElement => TextElement != Target); // ContextMenuClosing event does not firing if another context menu is opened while the current one is active, so unsealed text elements would remain unsealed
+            Slider ColumnTextElementNameMaximumLengthSlider = FindMenuElement<Slider>("NameMaximumLengthSlider");
+            TwoColumned OffsetSliders = FindMenuElement<TwoColumned>("OffsetSliders");
+            StackPanel HorizontalOffset_Panel = FindMenuElement<StackPanel>("HorizontalOffset_Panel");
+
+            if (Target.IsSummaryView)
+            {
+                ColumnTextElementNameMaximumLengthSlider.Maximum = 190;
+                ColumnTextElementNameMaximumLengthSlider.TickFrequency = 190;
+                OffsetSliders.Width2 = new GridLength(0);
+                HorizontalOffset_Panel.Visibility = Visibility.Collapsed;
+                SkillWidths_Panel.Visibility = PassiveDescriptionWidth_Panel.Visibility = Visibility.Collapsed;
+            }
+            else
+            {
+                ColumnTextElementNameMaximumLengthSlider.Maximum = 1100;
+                ColumnTextElementNameMaximumLengthSlider.TickFrequency = 450;
+                OffsetSliders.Width2 = new GridLength(1, GridUnitType.Star);
+                HorizontalOffset_Panel.Visibility = Visibility.Visible;
+
+                SignatureInput.Visibility = Target.RelatedJsonData.Type != ColumnTextElementType.Keyword ? Visibility.Visible : Visibility.Collapsed;
+                PassiveDescriptionWidth_Panel.Visibility = Target.RelatedJsonData.Type == ColumnTextElementType.Passive ? Visibility.Visible : Visibility.Collapsed;
+                SkillWidths_Panel.Visibility = Target.RelatedJsonData.Type == ColumnTextElementType.Skill ? Visibility.Visible : Visibility.Collapsed;
+            }
+
+
+            // ContextMenuClosing event does not firing if another context menu is opened while the current one is active, so unsealed text elements would remain unsealed
+            if (Target.IsSummaryView & Target.RelatedJsonData.Type is ColumnTextElementType.Skill)
+            {
+                SealAllSkillsInSummarySkillsTable(Predicate: TextElement => TextElement != Target);
+                SealAllTextElementsInColumn(SummaryPassivesView); // If jumped from passives to skills
+            }
+            else
+            {
+                SealAllTextElementsInAllAffectedColumns(Predicate: TextElement => TextElement != Target);
+            }
 
             await Task.Delay(150);
             
@@ -324,17 +418,17 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             }
         }
 
-        private void HighlightVignette_LeftTopBottom(object Sender, MouseEventArgs EventArgs)
+        private void HighlightVignette_LeftTopRight(object Sender, MouseEventArgs EventArgs)
         {
             OpacityAnimation_In("VignettesViewBorder_Left");
             OpacityAnimation_In("VignettesViewBorder_Top");
-            OpacityAnimation_In("VignettesViewBorder_Bottom");
+            OpacityAnimation_In("VignettesViewBorder_Right");
         }
-        private void UnHighlightVignette_LeftTopBottom(object Sender, MouseEventArgs EventArgs)
+        private void UnHighlightVignette_LeftTopRight(object Sender, MouseEventArgs EventArgs)
         {
             OpacityAnimation_Out("VignettesViewBorder_Left");
             OpacityAnimation_Out("VignettesViewBorder_Top");
-            OpacityAnimation_Out("VignettesViewBorder_Bottom");
+            OpacityAnimation_Out("VignettesViewBorder_Right");
         }
 
         private void HighlightVignette_Right(object Sender, MouseEventArgs EventArgs) => OpacityAnimation_In("VignettesViewBorder_Right");
@@ -348,19 +442,19 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
         private void HighlightVignette_Left(object Sender, MouseEventArgs EventArgs) => OpacityAnimation_In("VignettesViewBorder_Left");
         private void UnHighlightVignette_Left(object Sender, MouseEventArgs EventArgs) => OpacityAnimation_Out("VignettesViewBorder_Left");
-
-        private void HighlightVignette_LeftBehindEGOPortrait(object Sender, MouseEventArgs EventArgs) => OpacityAnimation_In("VignettesViewBorder_LeftBehindEGOPortrait");
-        private void UnHighlightVignette_LeftBehindEGOPortrait(object Sender, MouseEventArgs EventArgs) => OpacityAnimation_Out("VignettesViewBorder_LeftBehindEGOPortrait");
         #endregion
 
         #endregion
 
-        public void RebuildTextElements()
+        public void RebuildTextElements(bool ReEnumerateJsonData = true)
         {
             ReconstructColumnItems(@DataContextDomain.PreviewCreator.ImageInfo.TextColumns.First.Items, TextColumn_1);
             ReconstructColumnItems(@DataContextDomain.PreviewCreator.ImageInfo.TextColumns.Second.Items, TextColumn_2);
 
-            ReEnumerateColumnItemsJsonData();
+            ReconstructSkillsInSummarySkillsTable();
+            ReconstructColumnItems(@DataContextDomain.PreviewCreator.ImageInfo.SummaryInfo.Passives, SummaryPassivesView, IsReconstructingSummaryPassivesColumn: true);
+
+            if (ReEnumerateJsonData) ReEnumerateColumnItemsJsonData();
         }
 
         public void SetIdentityOrEGONameLineBreakSyntaxColor()
@@ -374,7 +468,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                         new HighlightingRule()
                         {
                             Regex = new Regex(@"\\n"),
-                            Color = new HighlightingColor() { Foreground = new HighlightionBrush(Themes.CurrentTheme.UITextfields.Syntax.Highlight1) }
+                            Color = new HighlightingColor() { Foreground = new HighlightionBrush(@Themes.CurrentTheme.UITextfields.Syntax.Highlight1) }
                         }
                     }
                 }
@@ -405,7 +499,23 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         }
 
 
-
+        public void SealAllSkillsInSummarySkillsTable(Func<ColumnTextElementContainer, bool>? Predicate = null)
+        {
+            Predicate ??= (TextElement => true);
+            foreach (ColumnTextElementContainer TextElement in SummarySkillsTable.Children.OfType<ColumnTextElementContainer>().Where(Predicate))
+            {
+                TextElement.SealLocalizationTextView();
+            }
+        }
+        public void UnsealAllSkillsInSummarySkillsTable(Func<ColumnTextElementContainer, bool>? Predicate = null)
+        {
+            Predicate ??= (TextElement => true);
+            foreach (ColumnTextElementContainer TextElement in SummarySkillsTable.Children.OfType<ColumnTextElementContainer>().Where(Predicate))
+            {
+                TextElement.UnsealLocalizationTextView();
+            }
+        }
+        
         public void SealAllTextElementsInColumn(TextElementsColumn TargetColumn, Func<ColumnTextElementContainer, bool>? Predicate = null)
         {
             Predicate ??= (TextElement => true);
@@ -422,15 +532,42 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 TextElement.UnsealLocalizationTextView();
             }
         }
-        public void SealAllTextElementsInBothColumns(Func<ColumnTextElementContainer, bool>? Predicate = null)
+
+        public void SealAllTextElementsInAllAffectedColumns(Func<ColumnTextElementContainer, bool>? Predicate = null)
         {
-            SealAllTextElementsInColumn(TextColumn_1, Predicate);
-            SealAllTextElementsInColumn(TextColumn_2, Predicate);
+            if (VC_ImageType.SelectedIndex == 0)
+            {
+                SealAllTextElementsInColumn(TextColumn_1, Predicate);
+                SealAllTextElementsInColumn(TextColumn_2, Predicate);
+            }
+            else
+            {
+                SealAllSkillsInSummarySkillsTable(Predicate);
+                SealAllTextElementsInColumn(SummaryPassivesView, Predicate);
+            }
         }
-        public void UnsealAllTextElementsInBothColumns(Func<ColumnTextElementContainer, bool>? Predicate = null)
+        public void UnsealAllTextElementsInAllAffectedColumns(Func<ColumnTextElementContainer, bool>? Predicate = null)
         {
-            UnsealAllTextElementsInColumn(TextColumn_1, Predicate);
-            UnsealAllTextElementsInColumn(TextColumn_2, Predicate);
+            if (VC_ImageType.SelectedIndex == 0)
+            {
+                UnsealAllTextElementsInColumn(TextColumn_1, Predicate);
+                UnsealAllTextElementsInColumn(TextColumn_2, Predicate);
+            }
+            else
+            {
+                UnsealAllSkillsInSummarySkillsTable(Predicate);
+                UnsealAllTextElementsInColumn(SummaryPassivesView, Predicate);
+            }
+        }
+
+        public void ReSealAllTextElementsInSkillsSummaryTable(Func<ColumnTextElementContainer, bool>? Predicate = null)
+        {
+            Predicate ??= (TextElement => true);
+            foreach (ColumnTextElementContainer TextElement in SummarySkillsTable.Children.OfType<ColumnTextElementContainer>().Where(Predicate))
+            {
+                TextElement.UnsealLocalizationTextView();
+                TextElement.SealLocalizationTextView();
+            }
         }
 
         public void ReSealAllTextElementsInColumn(TextElementsColumn TargetColumn, Func<ColumnTextElementContainer, bool>? Predicate = null)
@@ -448,8 +585,12 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             ReSealAllTextElementsInColumn(TextColumn_2, Predicate);
         }
 
+
         private void ItemSignaturesOffset_MouseEnter_UnsealTextElements(object Sender, MouseEventArgs Args) => UnsealAllTextElementsInColumn(((Sender as StackPanel)!.Tag as TextElementsColumn)!);
         private void ItemSignaturesOffset_MouseLeave_SealTextElements(object Sender, MouseEventArgs Args) => SealAllTextElementsInColumn(((Sender as StackPanel)!.Tag as TextElementsColumn)!);
+
+        private void PassiveSignaturesOffsetOnSummaryView_MouseEnter_UnsealTextElements(object Sender, MouseEventArgs Args) => UnsealAllTextElementsInColumn(SummaryPassivesView);
+        private void PassiveSignaturesOffsetOnSummaryView_MouseLeave_SealTextElements(object Sender, MouseEventArgs Args) => SealAllTextElementsInColumn(SummaryPassivesView);
 
         private void DecorativeCautionsParametersPanel_MouseEnter_UnsealCautions(object Sender, MouseEventArgs Args) => UnsealCautions();
         private void DecorativeCautionsParametersPanel_MouseLeave_SealCautions(object Sender, MouseEventArgs Args)

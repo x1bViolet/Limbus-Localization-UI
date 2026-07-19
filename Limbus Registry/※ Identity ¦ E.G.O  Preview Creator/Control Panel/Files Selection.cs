@@ -17,9 +17,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 case nameof(SelectItemSignaturesFont_Button        ): SelectTextElementsSignatureFont_Action ("#Bebas Neue Bold"); break;
                 case nameof(SelectTextBackgroundEffectsImage_Button): SelectTextBackgroundEffectsImage_Action("")                ; break;
                 case nameof(SelectOverlaySketchImage_Button        ): SelectOverlaySketchImage_Action        ("")                ; break;
-                case nameof(SelectWalpurgisNightLogoImage_Button   ): SelectWalpurgisNighLogoImage_Action    ("")                ; break;
                 case nameof(SelectUpperLeftLogoImage_Button        ): SelectUpperLeftLogoImage_Action        ("")                ; break;
-                case nameof(SelectBottomRightLogoImage_Button      ): SelectBottomRightLogoImage_Action      ("")                ; break;
                 case nameof(SelectSkillsLocalization_Button        ): SelectSkillsLocalization_Action        ("")                ; break;
                 case nameof(SelectSkillsDisplayInfo_Button         ): SelectSkillsDisplayInfo_Action         ("")                ; break;
                 case nameof(SelectPassivesLocalization_Button      ): SelectPassivesLocalization_Action      ("")                ; break;
@@ -58,7 +56,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         }
         public void SelectPortraitImage_Action(string ImagePath)
         {
-            IdentityPortrait_Image.Source = EGOPortrait_Image.Source = BitmapFromFile(ImagePath);
+            PortraitImageBinder.Source = BitmapFromFile(ImagePath);
             @DataContextDomain.PreviewCreator.ImageInfo.Portrait.ImagePath = ImagePath;
 
             ExternFileLabelConditional(
@@ -77,7 +75,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         }
         public void SelectImageLabelFont_Action(string FontPath)
         {
-            ImageLabel.FontFamily = FontPath == "#Bebas Neue Bold" ? BebasNeueBold : FontFamilyFromFileOrName(FontPath);
+            ImageLabel_Top.FontFamily = ImageLabel_Low.FontFamily = FontPath == "#Bebas Neue Bold" ? BebasNeueBold : FontFamilyFromFileOrName(FontPath);
             @DataContextDomain.PreviewCreator.ImageInfo.ImageLabelText.Font = FontPath;
 
             ExternFileLabelConditional(
@@ -123,7 +121,10 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         }
         public async void SelectTextElementsSignatureFont_Action(string FontPath)
         {
-            if (@CurrentPreviewCreator.IsImageInfoLoadingEvent == false) UnsealAllTextElementsInBothColumns();
+            if (@CurrentPreviewCreator.IsImageInfoLoadingEvent == false)
+            {
+                UnsealAllTextElementsInAllAffectedColumns();
+            }
 
             @CurrentPreviewCreator.TextColumnsDynamicResources.SignaturesFont = FontPath == "#Bebas Neue Bold" ? BebasNeueBold : FontFamilyFromFileOrName(FontPath);
             @DataContextDomain.PreviewCreator.ImageInfo.TextColumns.TextElementsSignaturesFont = FontPath;
@@ -138,7 +139,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             if (@CurrentPreviewCreator.IsImageInfoLoadingEvent == false)
             {
                 await Task.Delay(150);
-                SealAllTextElementsInBothColumns();
+                SealAllTextElementsInAllAffectedColumns();
             }
         }
         #endregion
@@ -407,9 +408,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         {
             @DataContextDomain.PreviewCreator.ImageInfo.TextBackgroundEffects.ImagePath = ImagePath;
 
-           _ = TextBackgroundEffects_Image_IDENTITY.Source
-             = TextBackgroundEffects_Image_EGO.Source
-             = BitmapFromFile(ImagePath);
+            TextBackgroundEffects_Image.Source = BitmapFromFile(ImagePath);
 
             ExternFileLabelConditional(
                 UID: "[C] * [Section:Text background effects] Effects image (Label)",
@@ -439,24 +438,6 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
 
         #region Other effects
-
-        private void SelectWalpurgisNighLogoImage_ButtonClick(object Sender, RoutedEventArgs Args)
-        {
-            OpenFileDialog Select = NewOpenFileDialog("Image files", ["jpg", "png"]);
-            if (Select.ShowDialog() == true) SelectWalpurgisNighLogoImage_Action(Select.FileName);
-        }
-        public void SelectWalpurgisNighLogoImage_Action(string ImagePath)
-        {
-            @DataContextDomain.PreviewCreator.ImageInfo.OtherEffects.WalpurgisNightLogoImage = ImagePath;
-            WalpurgisNightLogo.Source = ExchangeImageFile(ImagePath, "Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Walpurgis Night/Logo.png");
-
-            ExternFileLabelConditional(
-                UID: "[C] * [Section:Other effects] Walpurgis Night logo image (Label)",
-                Condition: File.Exists(ImagePath), SuccessExternString: Path.GetFileName(ImagePath)
-            );
-        }
-
-
         private void SelectUpperLeftLogoImage_ButtonClick(object Sender, RoutedEventArgs Args)
         {
             OpenFileDialog Select = NewOpenFileDialog("Image files", ["jpg", "png"]);
@@ -469,23 +450,6 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
             ExternFileLabelConditional(
                 UID: "[C] * [Section:Other effects] Upper left logo image (Label)",
-                Condition: File.Exists(ImagePath), SuccessExternString: Path.GetFileName(ImagePath)
-            );
-        }
-
-
-        private void SelectBottomRightLogoImage_ButtonClick(object Sender, RoutedEventArgs Args)
-        {
-            OpenFileDialog Select = NewOpenFileDialog("Image files", ["jpg", "png"]);
-            if (Select.ShowDialog() == true) SelectBottomRightLogoImage_Action(Select.FileName);
-        }
-        public void SelectBottomRightLogoImage_Action(string ImagePath)
-        {
-            @DataContextDomain.PreviewCreator.ImageInfo.OtherEffects.BottomRightLogoImage = ImagePath;
-            Logo_RightBottomCorner.Source = ExchangeImageFile(ImagePath, "Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/Images/Logo/Right Bottom Corner.png");
-
-            ExternFileLabelConditional(
-                UID: "[C] * [Section:Other effects] Bottom right logo image (Label)",
                 Condition: File.Exists(ImagePath), SuccessExternString: Path.GetFileName(ImagePath)
             );
         }

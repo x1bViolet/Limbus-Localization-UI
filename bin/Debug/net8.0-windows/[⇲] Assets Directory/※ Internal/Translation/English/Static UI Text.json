@@ -567,6 +567,15 @@
     ],
     [
       {
+        "UID": {"[Main UI] * File resaving <Confirm Dialog>":null},
+        "Variable": {
+          "Title": "File resaving",
+          "Text": "The current file no longer exists, dialog will be opened to save it again."
+        }
+      }
+    ],
+    [
+      {
         "UID": {"[Main UI] * Current editor switch — Title":null},
         "Text": "Opened files"
       },
@@ -1161,6 +1170,14 @@
       {
         "UID": {"[Settings / Internal] * Disable 'Unknown' for unidentified keywords (CheckBox Tooltip)":null},
         "Text": "Don't convert [KeywordID] with an unknown keyword ID to green \"Unknown\" text in Skills and Passives localization files.\n\nThis means allowing free use of square brackets."
+      },
+      {
+        "UID": {"[Settings / Internal] * Disable Implicit keywords highlightion":null},
+        "Text": "Disable Implicit keywords highlightion"
+      },
+      {
+        "UID": {"[Settings / Internal] * Disable Implicit keywords highlightion (CheckBox Tooltip)":null},
+        "Text": "Do not highlight names of implicitly written keywords in the text (Just exact matching keyword names instead of strict [KeywordID])."
       },
       {
         "UID": {"[Settings / Internal] * Disable Text Elements Sealing in Identity/E.G.O Preview Creator":null},
@@ -1833,6 +1850,18 @@
       {
         "UID": {"[C] * [Section:Image parameters] Image width (Second step)":null},
         "Text": "Image width (Second step)"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type":null},
+        "Text": "Image type"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type — Text":null},
+        "Text": "Text"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters] Image type — Summary":null},
+        "Text": "Summary"
       }
     ],
     [
@@ -1880,6 +1909,10 @@
       {
         "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Image scale":null},
         "Text": "Image scale"
+      },
+      {
+        "UID": {"[C] * [Section:Image parameters / Portrait parameters [Identity]] Shading strength":null},
+        "Text": "Shading strength"
       }
     ],
     [
@@ -1906,20 +1939,12 @@
         "Text": "<u>Vignette softness</u>"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left / Top / Bottom (General)":null},
-        "Text": "Left / Top / Bottom <b>(General)</b>"
+        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left / Top / Right (General)":null},
+        "Text": "Left / Top / Right <b>(General)</b>"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Right (Text background)":null},
-        "Text": "Right <b>(Text background)</b>"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait":null},
-        "Text": "Left behind E.G.O portrait <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette softness] Left behind E.G.O portrait (Tooltip info)":null},
-        "Text": "Designed to shade <b>'Text Background Effects'</b>."
+        "UID": {"[C] * [Section:Image parameters / Vignette softness] Bottom (Text background)":null},
+        "Text": "Bottom <b>(Text background)</b>"
       }
     ],
     [
@@ -1938,21 +1963,13 @@
         "Text Alignment": "Center"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Bottom":null},
-        "Text": "Bottom",
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Right":null},
+        "Text": "Right",
         "Text Alignment": "Center"
       },
       {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Right (Text background)":null},
-        "Text": "Right <b>(Text background)</b>"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait":null},
-        "Text": "Left behind E.G.O portrait <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]"
-      },
-      {
-        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Left behind E.G.O portrait (Tooltip info)":null},
-        "Text": "Designed to shade <b>'Text Background Effects'</b>."
+        "UID": {"[C] * [Section:Image parameters / Vignette additional length] Bottom (Text background)":null},
+        "Text": "Bottom <b>(Text background)</b>"
       }
     ],
     [
@@ -2309,28 +2326,24 @@
       {
         "UID": {"[C] * [Section:Text background effects] Effects image (Label)":null},
         "Variable": {
-          "Default": "Effects image <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]</font></b></color>",
-          "Selected": "Effects image <color={Theme.TooltipHints}><b><font=\"Times New Roman\">[\u0000i]</font></b></color>\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
+          "Default": "Effects image",
+          "Selected": "Effects image\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
         }
-      },
-      {
-        "UID": {"[C] * [Section:Text background effects] Effects image (Label) (Tooltip info)":null},
-        "Text": "If it looks invisible in E.G.O portrait mode, then\nmost likely it is blocked by the <b>'Right'</b> or <b>'Left\nbehind E.G.O portrait'</b> Vignette, try to reduce it."
       },
       {
         "UID": {"[C] * [Section:Text background effects] Effects image (Button)":null},
         "Text": "Select image file"
       },
       {
-        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only)":null},
-        "Text": "Placement mode <size=78%>(Identity only)</size>"
+        "UID": {"[C] * [Section:Text background effects] Placement mode":null},
+        "Text": "Placement mode"
       },
       {
-        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — Right vignette":null},
-        "Text": "On right vignette"
+        "UID": {"[C] * [Section:Text background effects] Placement mode — Bottom vignette":null},
+        "Text": "On bottom vignette"
       },
       {
-        "UID": {"[C] * [Section:Text background effects] Placement mode (Identity only) — All vignettes":null},
+        "UID": {"[C] * [Section:Text background effects] Placement mode — All vignettes":null},
         "Text": "On all vignettes"
       },
       {
@@ -2397,23 +2410,8 @@
         "Text": "<u>Other effects</u>"
       },
       {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo mode":null},
-        "Text": "Walpurgis Night logo mode"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo image (Label)":null},
-        "Variable": {
-          "Default": "Walpurgis Night logo image",
-          "Selected": "Walpurgis Night logo image\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
-        }
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo image (Button)":null},
-        "Text": "Select image file"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo scale":null},
-        "Text": "Walpurgis Night logo scale"
+        "UID": {"[C] * [Section:Other effects] Walpurgis Night logo":null},
+        "Text": "Walpurgis Night logo"
       },
       {
         "UID": {"[C] * [Section:Other effects] Upper left logo image (Label)":null},
@@ -2429,25 +2427,6 @@
       {
         "UID": {"[C] * [Section:Other effects] Upper left logo scale":null},
         "Text": "Upper left logo scale"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo image (Label)":null},
-        "Variable": {
-          "Default": "Bottom right logo image",
-          "Selected": "Bottom right logo image\n<size=78%><color={Theme.SelectedFileNameColor}>[$]</color></size>"
-        }
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo image (Button)":null},
-        "Text": "Select image file"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo scale":null},
-        "Text": "Bottom right logo scale"
-      },
-      {
-        "UID": {"[C] * [Section:Other effects] Bottom right logo opacity":null},
-        "Text": "Bottom right logo opacity"
       }
     ],
     [
@@ -2502,6 +2481,28 @@
       {
         "UID": {"[C] * [Element context menu] Skill coin descriptions width":null},
         "Text": "Skill coin descriptions width"
+      }
+    ],
+    [
+      {
+        "UID": {"[C] * [Summary columns] Add Skill 1":null},
+        "Text": "Add Skill 1"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Skill 2":null},
+        "Text": "Add Skill 2"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Skill 3":null},
+        "Text": "Add Skill 3"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Defense":null},
+        "Text": "Add Defense"
+      },
+      {
+        "UID": {"[C] * [Summary columns] Add Passive":null},
+        "Text": "Add Passive"
       }
     ],
     [

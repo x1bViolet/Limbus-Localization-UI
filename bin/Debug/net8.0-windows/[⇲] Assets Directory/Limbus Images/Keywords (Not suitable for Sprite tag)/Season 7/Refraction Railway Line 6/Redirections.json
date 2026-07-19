@@ -1,0 +1,26 @@
+{
+  // Sunset Wayfarer's Sap
+  "NoeulNageuneBuffA": [
+    "NoeulNageuneBuffA3",
+    "NoeulNageuneBuffA4",
+    "NoeulNageuneBuffA5"
+  ],
+
+  // Sunset Wayfarer's Moth
+  "NoeulNageuneBuffB": [
+    "NoeulNageuneBuffB3",
+    "NoeulNageuneBuffB4",
+    "NoeulNageuneBuffB5"
+  ],
+
+  "HeatedWingScales":      ["HeatedWingScalesExplain"],
+  "TransparentWingScales": ["TransparentWingScalesExplain"],
+  "RustedWingScales":      ["RustedWingScalesExplain"],
+
+  "ObservationTheRings": ["ObservationTheRingsRail"],
+  
+  "ScarBygoneDays_LowMorale": ["ScarBygoneDaysRefraction_LowMorale"],
+  "ScarBygoneDays_Panic":     ["ScarBygoneDaysRefraction_Panic"],
+  "PainfulScar_LowMorale":    ["PainfulScarRailway_LowMorale"],
+  "PainfulScar_Panic":        ["PainfulScarRailway_Panic"]
+}

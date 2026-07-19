@@ -8,6 +8,7 @@
     "Enable manual Json files managing": false,
     "Skip Skills Data reading": false,
     "Disable 'Unknown' for unidentified keywords": false,
+    "Disable Implicit keywords highlight": false,
     "Disable Sealing of Text Elements in Identity/E.G.O Preview Creator": false,
     "Enable autosave": false,
     "Autosave delay": 0.0,

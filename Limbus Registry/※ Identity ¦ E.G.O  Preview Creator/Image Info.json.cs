@@ -51,8 +51,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
                         ClearUndos();
 
-                        ReconstructColumnItems(@DataContextDomain.PreviewCreator.ImageInfo.TextColumns.First.Items, TextColumn_1);
-                        ReconstructColumnItems(@DataContextDomain.PreviewCreator.ImageInfo.TextColumns.Second.Items, TextColumn_2);
+                        RebuildTextElements(ReEnumerateJsonData: false);
 
                         CompositionScrollViewer.UpdateLayout(); // To be sure cautions will be sealed normally
                         SealCautions();
@@ -87,7 +86,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         }
 
         #region Column items reconstruction
-        private void ReconstructColumnItems(ObservableCollection<ColumnTextElementData> JsonDataItems, TextElementsColumn TargetColumn)
+        private void ReconstructColumnItems(ObservableCollection<ColumnTextElementData> JsonDataItems, TextElementsColumn TargetColumn, bool IsReconstructingSummaryPassivesColumn = false)
         {
             foreach (ColumnTextElementContainer ColumnTextElementJsonData in TargetColumn.Children)
             {
@@ -111,7 +110,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                                 ) {
                                     AddTextElementToColumn(
                                         TargetColumn: TargetColumn,
-                                        CreatedColumnElement: this.CreateSkill(
+                                        CreatedColumnElement: CreateSkill(
                                             GivenSkillText: Uptie,
                                             Displaying: Constructor,
                                             GivenJsonData: ColumnTextElementJsonData
@@ -130,13 +129,15 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                             {
                                 if (PreviewCreatorPage.LoadedPassives.TryGetValue(PassiveID, out PlainPassive? Passive))
                                 {
+                                    Func<PlainPassive, ColumnTextElementData, ColumnTextElementContainer> PassiveGetter = IsReconstructingSummaryPassivesColumn
+                                        ? CreatePassive_Summary
+                                        : CreatePassive;
+
                                     AddTextElementToColumn(
                                         TargetColumn: TargetColumn,
-                                        CreatedColumnElement: this.CreatePassive(
-                                            GivenPassiveText: Passive,
-                                            GivenJsonData: ColumnTextElementJsonData
-                                        ),
-                                        DoColumnsJsonDataReEnumeration: false // !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                        CreatedColumnElement: PassiveGetter(Passive, ColumnTextElementJsonData),
+                                        DoColumnsJsonDataReEnumeration: false, // !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                        IsAddingSummaryPassive: IsReconstructingSummaryPassivesColumn
                                     );
                                 }
                             }
@@ -165,6 +166,50 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                             break;
                     }
                 }
+            }
+        }
+
+        private void ReconstructSkillsInSummarySkillsTable()
+        {
+            foreach (ColumnTextElementContainer ColumnTextElementJsonData in SummarySkillsTable.Children.OfType<ColumnTextElementContainer>())
+            {
+                ColumnTextElementJsonData.UnsealLocalizationTextView();
+            }
+
+            SummarySkillsTable.Children.Clear();
+            int ColumnIndex = 0;
+            foreach (ObservableCollection<ColumnTextElementData> SkillVersionsColumn in new[]
+            {
+                @DataContextDomain.PreviewCreator.ImageInfo.SummaryInfo.Skll1,
+                @DataContextDomain.PreviewCreator.ImageInfo.SummaryInfo.Skll2,
+                @DataContextDomain.PreviewCreator.ImageInfo.SummaryInfo.Skll3,
+                @DataContextDomain.PreviewCreator.ImageInfo.SummaryInfo.DefenseSkll,
+            }) {
+                foreach (ColumnTextElementData SkillSummaryElementJsonData in SkillVersionsColumn)
+                {
+                    if (SkillSummaryElementJsonData.SelectedLocalizationID is not null)
+                    {
+                        if (BigInteger.TryParse(SkillSummaryElementJsonData.SelectedLocalizationID, out BigInteger SkillID) &&
+                            BigInteger.TryParse(SkillSummaryElementJsonData.SelectedSkillConstructorID, out BigInteger SkillConstructorID)
+                        ) {
+                            if (PreviewCreatorPage.LoadedSkills.TryGetValue(SkillID, out PlainSkill.UptieLevel? Uptie) &&
+                                PreviewCreatorPage.LoadedSkillsDisplayInfo.TryGetValue(SkillConstructorID, out SkillConstructor? Constructor)
+                            ) {
+                                AddSkillToSummarySkillsTable(
+                                    ColumnIndex,
+                                    CreateSkill_Summary(
+                                        GivenSkillText: Uptie,
+                                        Displaying: Constructor,
+                                        GivenJsonData: SkillSummaryElementJsonData
+                                    ),
+                                    DoColumnsJsonDataReEnumeration: false // !!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                                );
+                            }
+                        }
+
+                    }
+                }
+                ColumnIndex++;
             }
         }
         #endregion
@@ -253,31 +298,15 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             public string ComboBoxName { get; } = TargetComboBoxName;
             public Dictionary<string, int> SelectedIndexMatcher { get; } = RemoteDictionaries[RemoteDictionaryKey];
 
-            // Selected item x:Uid matches for ComboBoxes when loading/saving Image Info
-            public enum IndexMatchingRemoteDictionary { PortraitType, RarityOrRiskLevel, SinnerIcon, TextBackgroundEffectsClip }
+            // Specific thing for sinner icon because its property value can also be used as path to custom image
+            public enum IndexMatchingRemoteDictionary { SinnerIcon }
             public static Dictionary<IndexMatchingRemoteDictionary, Dictionary<string, int>> RemoteDictionaries = new()
             {
-                [IndexMatchingRemoteDictionary.PortraitType] = new()
-                {
-                    ["Identity"] = 0, ["E.G.O"] = 1,
-                },
-
-                [IndexMatchingRemoteDictionary.RarityOrRiskLevel] = new()
-                {
-                    ["ZAYIN"] = 0, ["TETH"] = 1, ["HE"] = 2, ["WAW"] = 3, ["ALEPH"] = 4,
-                    ["000"] = 5,   ["00"] = 6,   ["0"] = 7
-                },
-
                 [IndexMatchingRemoteDictionary.SinnerIcon] = new()
                 {
                     ["Yi Sang"] = 0, ["Faust"] = 1,      ["Don Quixote"] = 2, ["Ryōshū"] = 3, ["Ryoshu"] = 3,    ["Meursault"] = 4, ["Meur"] = 4,
                     ["Hong Lu"] = 5, ["Heathcliff"] = 6, ["Ishmael"] = 7,     ["Rodion"] = 8, ["Sinclair"] = 9,  ["Outis"] = 10,    ["Gregor"] = 11
-                },
-
-                [IndexMatchingRemoteDictionary.TextBackgroundEffectsClip] = new()
-                {
-                    ["Right Vignette"] = 0, ["All Vignettes"] = 1
-                },
+                }
             };
         }
 
@@ -399,7 +428,15 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             [JsonProperty("Height")]
             public double Height { get; set; } = 742.0;
 
+
             /* ------------------------------- */ public Double __Separator1__ { get; set; }
+
+
+            [JsonProperty("Image Type")]
+            public string ImageType { get; set; } = "Text";
+
+
+            /* ------------------------------- */ public Double __Separator2__ { get; set; }
 
 
             [ImageInfoSection, JsonProperty("Portrait")]
@@ -418,7 +455,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 }
 
 
-                [JsonProperty("Type"), AssignedComboBox(nameof(VC_PortraitType), IndexMatchingRemoteDictionary.PortraitType)]
+                [JsonProperty("Type")]
                 public string Type { get; set; } = "Identity";
 
                 /* ------------------------------- */ public Double __Separator1__ { get; set; }
@@ -448,12 +485,6 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
                     [JsonProperty("Whole Image Scale")]
                     public double WholeImageScale { get; set; } = 1.0;
-
-                    /* ------------------------------- */ public Double __Separator1__ { get; set; }
-
-
-                    [JsonProperty("Frame Color")]
-                    public string FrameColor { get; set; } = "ffffff";
                 }
 
                 /* ------------------------------- */ public Double __Separator4__ { get; set; }
@@ -465,6 +496,9 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 {
                     [JsonProperty("Scale")]
                     public double Scale { get; set; } = 1.0;
+
+                    [JsonProperty("Shading Strength")]
+                    public double ShadingStrength { get; set; } = 0.79;
                 }
             }
 
@@ -477,17 +511,11 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 public Softness_PROP Softness { get; set; } = new();
                 public record Softness_PROP : Explicit
                 {
-                    [JsonProperty("Left, Top, Bottom")]
-                    public double LeftTopBottom { get; set; } = 40.0;
+                    [JsonProperty("Left, Top, Right")]
+                    public double LeftTopRight { get; set; } = 40.0;
 
-                    [JsonProperty("Right (Text background)")]
-                    public double Right { get; set; } = 140.0;
-
-                    /* ------------------------------- */ public Double __Separator1__ { get; set; }
-
-
-                    [JsonProperty("Left (Behind E.G.O Portrait)")]
-                    public double Left_BehindEGOPortrait { get; set; } = 0.0;
+                    [JsonProperty("Bottom (Text background)")]
+                    public double Bottom { get; set; } = 140.0;
                 }
 
 
@@ -502,16 +530,10 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                     public double Top { get; set; } = 0.0;
 
                     [JsonProperty("Right"),]
-                    public double Right { get; set; } = 600.0;
+                    public double Right { get; set; } = 0.0;
 
                     [JsonProperty("Bottom")]
-                    public double Bottom { get; set; } = 0.0;
-
-                    /* ------------------------------- */ public Double __Separator1__ { get; set; }
-
-
-                    [JsonProperty("Left (Behind E.G.O Portrait)")]
-                    public double Left_BehindEGOPortrait { get; set; } = 0.0;
+                    public double Bottom { get; set; } = 403;
                 }
             }
 
@@ -567,7 +589,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 public RarityOrRiskLevel_PROP RarityOrRiskLevel { get; set; } = new();
                 public record RarityOrRiskLevel_PROP : Explicit
                 {
-                    [JsonProperty("Selected"), AssignedComboBox(nameof(VC_Header_RarityOrRiskLevel), IndexMatchingRemoteDictionary.RarityOrRiskLevel)]
+                    [JsonProperty("Selected")]
                     public string Selected { get; set; } = "000";
 
                     /* ------------------------------- */ public Double __Separator1__ { get; set; }
@@ -605,7 +627,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 public double Opacity { get; set; } = 0.15;
 
                 [JsonProperty("Size")]
-                public double Size { get; set; } = 124.0;
+                public double Size { get; set; } = 134.0;
             }
 
 
@@ -626,13 +648,13 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
 
                 [JsonProperty("Text")]
-                public string Text { get; set; } = "IDENTITY INFO";
+                public string Text { get; set; } = "IDENTITY SKILL/PASSIVE";
 
                 [JsonProperty("Font"), AssignedFileSelection(nameof(SelectImageLabelFont_Action))]
                 public string Font { get; set => field = PathStringFormat(value); } = "#Bebas Neue Bold";
 
                 [JsonProperty("Size")]
-                public double Size { get; set; } = 80.0;
+                public double Size { get; set; } = 61.0;
 
                 [JsonProperty("VerticalOffset")]
                 public double VerticalOffset { get; set; } = 0.0;
@@ -665,7 +687,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 public double BloomRadius { get; set; } = 6;
 
                 [JsonProperty("Opacity")]
-                public double Opacity { get; set; } = 0.148;
+                public double Opacity { get; set; } = 0.6;
 
                 /* ------------------------------- */ public Double __Separator1__ { get; set; }
 
@@ -740,16 +762,10 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 /* ------------------------------- */ public Double __Separator1__ { get; set; }
 
 
-                [JsonProperty("Keyword Containers Width")]
-                public double KeywordContainersWidth { get; set; } = 375.0;
-
-                /* ------------------------------- */ public Double __Separator2__ { get; set; }
-
-
                 [JsonProperty("Signatures Font"), AssignedFileSelection(nameof(SelectTextElementsSignatureFont_Action))]
                 public string TextElementsSignaturesFont { get; set => field = PathStringFormat(value); } = "#Bebas Neue Bold";
 
-                /* ------------------------------- */ public Double __Separator3__ { get; set; }
+                /* ------------------------------- */ public Double __Separator2__ { get; set; }
 
 
                 [ImageInfoSection, JsonProperty("First")]
@@ -762,7 +778,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                     [JsonProperty("Signatures Horizontal Offset")]
                     public double ItemSignatures_HorizontalOffset { get; set; } = 0.0;
 
-                    [JsonProperty("Keyword containers width")]
+                    [JsonProperty("Keyword Containers Width")]
                     public double KeywordContainersWidth { get; set; } = 370.0;
 
                     /* ------------------------------- */ public Double __Separator1__ { get; set; }
@@ -782,7 +798,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                     [JsonProperty("Signatures Horizontal Offset")]
                     public double ItemSignatures_HorizontalOffset { get; set; } = 0.0;
 
-                    [JsonProperty("Keyword containers width")]
+                    [JsonProperty("Keyword Containers Width")]
                     public double KeywordContainersWidth { get; set; } = 370.0;
 
                     /* ------------------------------- */  public Double __Separator1__ { get; set; }
@@ -864,6 +880,32 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             }
 
 
+            [ImageInfoSection, JsonProperty("Summary info")]
+            public SummaryInfo_PROP SummaryInfo { get; set; } = new();
+            public record SummaryInfo_PROP
+            {
+                [JsonProperty("Skill №1")]
+                public ObservableCollection<ColumnTextElementData> Skll1 { get; set; } = [];
+
+                [JsonProperty("Skill №2")]
+                public ObservableCollection<ColumnTextElementData> Skll2 { get; set; } = [];
+
+                [JsonProperty("Skill №3")]
+                public ObservableCollection<ColumnTextElementData> Skll3 { get; set; } = [];
+
+
+                [JsonProperty("Defense Skill")]
+                public ObservableCollection<ColumnTextElementData> DefenseSkll { get; set; } = [];
+
+
+                [JsonProperty("Passives")]
+                public ObservableCollection<ColumnTextElementData> Passives { get; set; } = [];
+
+                [JsonProperty("Signatures Horizontal Offset for Passives")]
+                public double Passives_SignaturesOffset { get; set; } = 0;
+            }
+
+
             [ImageInfoSection, JsonProperty("Text Background Effects")]
             public TextBackgroundEffects_PROP TextBackgroundEffects { get; set; } = new();
             public record TextBackgroundEffects_PROP : Explicit
@@ -883,8 +925,8 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 [JsonProperty("Image Path"), AssignedFileSelection(nameof(SelectTextBackgroundEffectsImage_Action))]
                 public string ImagePath { get; set => field = PathStringFormat(value); } = "";
 
-                [JsonProperty("Clip Mode"), AssignedComboBox(nameof(VC_TextBackgroundEffectsClipMode), IndexMatchingRemoteDictionary.TextBackgroundEffectsClip)]
-                public string ClipMode { get; set; } = "Right Vignette";
+                [JsonProperty("Clip Mode")]
+                public string ClipMode { get; set; } = "Bottom Vignette";
 
                 [JsonProperty("Opacity")]
                 public double Opacity { get; set; } = 0.17;
@@ -939,8 +981,8 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 [JsonProperty("Opacity")]
                 public double Opacity { get; set; } = 0.50;
 
-                [JsonProperty("Scale")]
-                public double Scale { get; set; } = 742.0;
+                [JsonProperty("Size")]
+                public double Size { get; set; } = 742.0;
             }
 
             [ImageInfoSection, JsonProperty("Other Effects")]
@@ -951,26 +993,16 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 private void HandleRelativePaths_OnSave(StreamingContext FileLocationContext)
                 {
                     UpperLeftLogoImage = UpperLeftLogoImage.Replace($"{FileLocationContext.Context}", RelativeMarker);
-                    BottomRightLogoImage = BottomRightLogoImage.Replace($"{FileLocationContext.Context}", RelativeMarker);
-                    WalpurgisNightLogoImage = WalpurgisNightLogoImage.Replace($"{FileLocationContext.Context}", RelativeMarker);
                 }
                 [OnDeserialized]
                 private void HandleRelativePaths_OnRead(StreamingContext FileLocationContext)
                 {
                     UpperLeftLogoImage = UpperLeftLogoImage.Replace(RelativeMarker, $"{FileLocationContext.Context}");
-                    BottomRightLogoImage = BottomRightLogoImage.Replace(RelativeMarker, $"{FileLocationContext.Context}");
-                    WalpurgisNightLogoImage = WalpurgisNightLogoImage.Replace(RelativeMarker, $"{FileLocationContext.Context}");
                 }
 
 
-                [JsonProperty("Walpurgis Night Logo Mode")]
-                public bool WalpurgisNightLogoMode { get; set; } = false;
-
-                [JsonProperty("Walpurgis Night Logo Image"), AssignedFileSelection(nameof(SelectWalpurgisNighLogoImage_Action))]
-                public string WalpurgisNightLogoImage { get; set => field = PathStringFormat(value); } = "";
-
-                [JsonProperty("Walpurgis Night Logo Scale")]
-                public double WalpurgisNightLogoScale { get; set; } = 1.0;
+                [JsonProperty("Walpurgis Night Logo")]
+                public bool WalpurgisNightLogo { get; set; } = false;
 
                 /* ------------------------------- */ public Double __Separator1__ { get; set; }
 
@@ -980,18 +1012,6 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
                 [JsonProperty("Upper Left Logo Scale")]
                 public double UpperLeftLogoScale { get; set; } = 1.0;
-
-                /* ------------------------------- */ public Double __Separator2__ { get; set; }
-
-
-                [JsonProperty("Bottom Right Logo Image"), AssignedFileSelection(nameof(SelectBottomRightLogoImage_Action))]
-                public string BottomRightLogoImage { get; set => field = PathStringFormat(value); } = "";
-
-                [JsonProperty("Bottom Right Logo Scale")]
-                public double BottomRightLogoScale { get; set; } = 1.0;
-
-                [JsonProperty("Bottom Right Logo Opacity")]
-                public double BottomRightLogoOpacity { get; set; } = 0.37;
             }
         }
     }

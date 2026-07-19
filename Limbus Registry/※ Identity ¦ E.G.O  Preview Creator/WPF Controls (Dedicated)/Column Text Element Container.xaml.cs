@@ -5,17 +5,51 @@ using static LCLocalizationInterface.LimbusRegistry.PreviewCreator.PreviewCreato
 namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 {
     public class TextElementsColumn : VirtualizingStackPanel;
+
+    /// <summary>
+    /// <see cref="PlaceSkillAt"/>, <see cref="GetSkillAt"/>, <see cref="SkillsCountInColumn"/>
+    /// </summary>
+    public class SummarySkillTextElementsGrid : Grid
+    {
+        public SummarySkillTextElementsGrid()
+        {
+            for (int i = 0; i <= 4; i++) this.ColumnDefinitions.Add(new ColumnDefinition() { Width = new GridLength(145) });
+            for (int i = 0; i <= 50; i++) this.RowDefinitions.Add(new RowDefinition() { MinHeight = 145 });
+            this.Width = 580;
+        }
+
+        public void PlaceSkillAt(int RowIndex, int ColumnIndex, UIElement Element)
+        {
+            this.Children.Remove(this.GetSkillAt(RowIndex, ColumnIndex));
+
+            Grid.SetColumn(Element, ColumnIndex);
+            Grid.SetRow(Element, RowIndex);
+            this.Children.Add(Element);
+        }
+        public ColumnTextElementContainer? GetSkillAt(int RowIndex, int ColumnIndex)
+        {
+            return this.Children.OfType<ColumnTextElementContainer>().FirstOrDefault(x => Grid.GetRow(x) == RowIndex & Grid.GetColumn(x) == ColumnIndex);
+        }
+        public int SkillsCountInColumn(int ColumnIndex)
+        {
+            return this.Children.OfType<ColumnTextElementContainer>().Count(x => Grid.GetColumn(x) == ColumnIndex);
+        }
+    }
     
 
     [ContentProperty(nameof(LocalizationTextView))]
     public partial class ColumnTextElementContainer : UserControl
     {
+        /// <summary>
+        /// <paramref name="CancelDefaultOnLoadSeal"/> needed to cancel <see cref="SealLocalizationTextView"/> call before <see cref="OnIsSummaryChanged"/> if it was
+        /// </summary>
         public ColumnTextElementContainer()
         {
-            InitializeComponent();
-
-            this.Loaded += (_, _) => this.SealLocalizationTextView();
+            this.Loaded += SealOnLoad;
+            this.IsVisibleChanged += ColumnTextElementContainer_IsVisibleChanged;
         }
+
+        private static void SealOnLoad(object Sender, RoutedEventArgs Args) => (Sender as ColumnTextElementContainer)!.SealLocalizationTextView();
 
 
         public TextElementsColumn ParentColumn => (this.Parent as TextElementsColumn)!;
@@ -32,7 +66,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         /// <summary>
         /// Convert UI element view to static image and then hide UI element view, huge performance benefit in case with Skills and Passives + their Signature with drop shadow within <see cref="CautionsTextElement"/> template + Cautions (<see cref="DropShadowEffect"/> has a particularly strong impact on scrolling performance, I think it's really its fault)<br/>
         /// • <see cref="BattleKeywordContainer_PCE"/>s are unaffected because they have no impact on performance (i.e. small text in general + no drop shadows within <see cref="BattleKeywordContainer_PCE"/> template)<br/>
-        /// • Template must be applied at the moment of execution of this method (i.e. <c>`IsLoaded == <see langword="true"/>`</c> or <c>`Template != <see langword="null"/>`</c> or <c>`CautionsTextElement.Loaded += (_, _) => CautionsTextElement.SealLocalizationTextView()`</c>)
+        /// • Template must be already applied at the moment of execution of this method (i.e. <c>`IsLoaded == <see langword="true"/>`</c> or <c>`Template != <see langword="null"/>`</c> or <c>`CautionsTextElement.Loaded += (_, _) => CautionsTextElement.SealLocalizationTextView()`</c>)
         /// </summary>
         public async void SealLocalizationTextView()
         {
@@ -46,6 +80,8 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                     {
                         await Task.Delay(500); // Idk, some oddities with the Template elements creation timings when settings options "Enable Keywords Underline/Sprite" is clicked too frequently or even on Loaded/OnTemplateApplying
                     }
+
+                    //if (this.IsSummaryView == false) await Task.Delay(1000);
 
                     try
                     {
@@ -86,6 +122,81 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
         public required ColumnTextElementData RelatedJsonData { get => (ColumnTextElementData)GetValue(RelatedJsonDataProperty); set => SetValue(RelatedJsonDataProperty, value); }
         public static readonly DependencyProperty RelatedJsonDataProperty = RegisterProperty<ColumnTextElementContainer, ColumnTextElementData>();
+
+
+        /// <summary>
+        /// Affects only Passives (Reduces size of <see cref="SignatureText"/>) and Skills (Enables alternate version of <see cref="SignatureText"/>)
+        /// </summary>
+        public bool IsSummaryView { get => (bool)GetValue(IsSummaryViewProperty); set => SetValue(IsSummaryViewProperty, value); }
+        public static readonly DependencyProperty IsSummaryViewProperty = RegisterProperty<ColumnTextElementContainer, bool>(DefaultValue: false, PropertyChangedEvent: OnIsSummaryChanged);
+
+        /// <summary>
+        /// <see cref="FrameworkElement.Loaded"/> goes wrong somehow and fires even if this element in <see cref="Visibility.Collapsed"/> area
+        /// </summary>
+        public List<Action> FirstTimeShowingActions = [];
+        private bool WasShownForTheFirstTime = false;
+        private void ColumnTextElementContainer_IsVisibleChanged(object Sender, DependencyPropertyChangedEventArgs Args)
+        {
+            if (WasShownForTheFirstTime == false && (bool)Args.NewValue == true)
+            {
+                WasShownForTheFirstTime = true;
+                FirstTimeShowingActions.ForEach(FirstTimeShowingAction => FirstTimeShowingAction?.Invoke());
+            }
+        }
+        /// <summary>
+        /// I fuckin hate ControlTemplate MultiDataTriggers headache it just doesnt work even if all Condition values from Bindings is correct
+        /// </summary>
+        private static void OnIsSummaryChanged(DependencyObject Sender, DependencyPropertyChangedEventArgs Args)
+        {
+            ColumnTextElementContainer ActualSender = (Sender as ColumnTextElementContainer)!;
+
+            ActualSender.Loaded -= SealOnLoad; // Prevent sealing on load before CheckAndSet call
+
+            async void CheckAndSet()
+            {
+                if (ActualSender.TemplateContentGrid is null)
+                {
+                    await Task.Delay(50); // Idk template is empty when ui element was shown
+                }
+
+                Grid PART_SignatureGrid = ActualSender.FindTypeNameFromTemplate<Grid>("PART_SignatureGrid")!;
+                TextBlock PART_SignatureText = ActualSender.FindTypeNameFromTemplate<TextBlock>("PART_SignatureText")!;
+                TextBlock PART_AlternativeSignatureForSkillSummaryView = ActualSender.FindTypeNameFromTemplate<TextBlock>("PART_AlternativeSignatureForSkillSummaryView")!;
+
+                // Reset
+                PART_SignatureGrid.Visibility = Visibility.Visible;
+                PART_SignatureText.FontSize = 31;
+                PART_SignatureText.SetRightMargin(32);
+                PART_AlternativeSignatureForSkillSummaryView.Visibility = Visibility.Collapsed;
+
+                if ((bool)Args.NewValue == true)
+                {
+                    if (ActualSender.RelatedJsonData.Type == ColumnTextElementType.Skill)
+                    {
+                        PART_SignatureGrid.Visibility = Visibility.Collapsed;
+                        PART_AlternativeSignatureForSkillSummaryView.Visibility = Visibility.Visible;
+                    }
+                    else if (ActualSender.RelatedJsonData.Type == ColumnTextElementType.Passive)
+                    {
+                        PART_SignatureText.FontSize = 26;
+                        PART_SignatureText.SetRightMargin(135);
+                    }
+                }
+
+                await Task.Delay(1000);
+
+                ActualSender.SealLocalizationTextView();
+            }
+
+            if (ActualSender.IsLoaded == false)
+            {
+                ActualSender.FirstTimeShowingActions.Add(CheckAndSet);
+            }
+            else
+            {
+                CheckAndSet();
+            }
+        }
 
 
         public required UIElement LocalizationTextView { get => (UIElement)GetValue(LocalizationTextViewProperty); set => SetValue(LocalizationTextViewProperty, value); }

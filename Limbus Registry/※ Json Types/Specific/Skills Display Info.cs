@@ -92,6 +92,11 @@
                 IconID = IconID.Replace((string)ThisFilePathContext.Context!, RelativeMarker);
             }
 
+            [OnSerialized]
+            private void RestoreRelativePathsAfterSave(StreamingContext ThisFilePathContext)
+            {
+                HandleRelativePaths_OnRead(ThisFilePathContext); // Reset ":Current-Directory:/Some icon.png" to original full path to avoid "[None]" icon text after save
+            }
 
 
             public static SkillConstructor CreateBlank(BigInteger InitialID)

@@ -6,28 +6,44 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 {
     public partial class PreviewCreatorPage : Page
     {
-        private void OpenContentSelectionDialog(object Sender, SelectionChangedEventArgs Args)
+        private void OpenContentSelectionDialog(object Sender, RoutedEventArgs Args)
         {
-            if (Args.AddedItems.Count > 0)
+            ColumnElementContentSelectorWindow SelectionDialog = ColumnElementContentSelectorWindow.ColumnElementContentSelectorInstance;
+            
+            if (Args is SelectionChangedEventArgs ColumnTextElementsSelectionArgs && ColumnTextElementsSelectionArgs.AddedItems.Count > 0)
             {
-                string[] Context = (Args.AddedItems[0] as ComboBoxItem)!.Uid.Split(", ");
+                string[] Context = (ColumnTextElementsSelectionArgs.AddedItems[0] as ComboBoxItem)!.Uid.Split(", ");
                 (string ColumnNumber, string Type) = (Context[0], Context[1]);
 
                 FirstColumnItemsSelector_ComboBox.SelectedIndex = -1;
                 SecondColumnItemsSelector_ComboBox.SelectedIndex = -1;
 
-
-                ColumnElementContentSelectorWindow.ColumnElementContentSelectorInstance.CurrentTargetColumn = ColumnNumber == "1" ? TextColumn_1 : TextColumn_2;
-                ColumnElementContentSelectorWindow.ColumnElementContentSelectorInstance.OKButtonView.SelectedIndex = ColumnNumber == "1" ? 0 : 1;
-                ColumnElementContentSelectorWindow.ColumnElementContentSelectorInstance.CurrentSelectorView.SelectedIndex = Type switch
+                SelectionDialog.SummaryInfoAdditionTarget = null;
+                SelectionDialog.CurrentTargetColumn = ColumnNumber == "1" ? TextColumn_1 : TextColumn_2;
+                SelectionDialog.OKButtonView.SelectedIndex = ColumnNumber == "1" ? 0 : 1;
+                SelectionDialog.CurrentSelectorView.SelectedIndex = Type switch
                 {
                     "Skill" => 0, "Passive" => 1, "Keyword" => 2
                 };
-
-                ColumnElementContentSelectorWindow.ColumnElementContentSelectorInstance.BeginFadeShowing();
-                ColumnElementContentSelectorWindow.ColumnElementContentSelectorInstance.WindowState = WindowState.Normal;
-                ColumnElementContentSelectorWindow.ColumnElementContentSelectorInstance.Focus();
             }
+            else if (Sender is Button SummaryElementAddButton)
+            {
+                SelectionDialog.SummaryInfoAdditionTarget = SummaryElementAddButton.Uid;
+                SelectionDialog.CurrentSelectorView.SelectedIndex = SummaryElementAddButton.Uid.Contains("Skill") ? 0 : 1;
+                SelectionDialog.OKButtonView.SelectedIndex = SummaryElementAddButton.Uid switch
+                {
+                    "Skill 1" => 2,
+                    "Skill 2" => 3,
+                    "Skill 3" => 4,
+                    "Defense Skill" => 5,
+                    "Passive" => 6,
+                };
+                SelectionDialog.CurrentTargetColumn = null!;
+            }
+
+            SelectionDialog.BeginFadeShowing();
+            SelectionDialog.WindowState = WindowState.Normal;
+            SelectionDialog.Focus();
         }
 
 
@@ -44,50 +60,67 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         
         private string RandomUID(int Length = 5) => new([.. Enumerable.Repeat("ABCDEFGHIJKЙLMNOPQRSTUVWXYZ0123456789", Length).Select(s => s[Random.Shared.Next(s.Length)])]);
 
+        private ColumnTextElementContainer SetupNewTextElementContainer(ColumnTextElementContainer CreatedColumnElement, TextElementsColumn TargetColumn, bool DoColumnsJsonDataReEnumeration = true, bool IsAddingSummaryPassive = false)
+        {
+            // When RelatedJsonData was created from 'Column Element content selector' window
+            if (CreatedColumnElement.RelatedJsonData.UID == "") CreatedColumnElement.RelatedJsonData.UID = RandomUID();
+            CreatedColumnElement.Uid = CreatedColumnElement.RelatedJsonData.UID;
+
+            Slider SignaturesOffsetValueSource = IsAddingSummaryPassive == false
+                ? TargetColumn == TextColumn_1
+                    ? VC_FirstColumnSignaturesOffset
+                    : VC_SecondColumnSignaturesOffset
+                : VC_PassiveSignaturesOffsetOnSummaryView;
+
+            CreatedColumnElement.SetBinding(ColumnTextElementContainer.SignatureText_HOffsetProperty, new Binding()
+            {
+                Source = SignaturesOffsetValueSource,
+                Path = new PropertyPath(nameof(Slider.Value))
+            });
+
+            return CreatedColumnElement;
+        }
+
         /// <summary>
         /// Give UID and create Bindings for <paramref name="CreatedColumnElement"/> properties based on its RelatedJsonData and <paramref name="TargetColumn"/>, then add it to the <paramref name="TargetColumn"/>.
         /// </summary>
         /// <param name="DoColumnsJsonDataReEnumeration">Must be <see langword="false"/> when this method is called at the moment of image info loading to not suddenly break everything</param>
-        public void AddTextElementToColumn(TextElementsColumn TargetColumn, ColumnTextElementContainer CreatedColumnElement, bool DoColumnsJsonDataReEnumeration = true)
+        public void AddTextElementToColumn(TextElementsColumn TargetColumn, ColumnTextElementContainer CreatedColumnElement, bool DoColumnsJsonDataReEnumeration = true, bool IsAddingSummaryPassive = false)
         {
-            // When RelatedJsonData was created from 'Column Element content selector' window
-            if (CreatedColumnElement.RelatedJsonData.UID == "") CreatedColumnElement.RelatedJsonData.UID = RandomUID();
-
-            CreatedColumnElement.Uid = CreatedColumnElement.RelatedJsonData.UID;
-            CreatedColumnElement.Background = Brushes.Transparent;
-
-            #region RelatedJsonData Bindings
-            CreatedColumnElement.SetBinding(ColumnTextElementContainer.VerticalOffsetProperty, new Binding()
-            { 
-                Source = CreatedColumnElement.RelatedJsonData, Path = new PropertyPath(nameof(ColumnTextElementData.VerticalOffset))
-            });
-
-            CreatedColumnElement.SetBinding(ColumnTextElementContainer.ContentHorizontalOffsetProperty, new Binding()
-            {
-                Source = CreatedColumnElement.RelatedJsonData, Path = new PropertyPath(nameof(ColumnTextElementData.HorizontalOffset))
-            });
-
-            CreatedColumnElement.SetBinding(ColumnTextElementContainer.SignatureTextProperty, new Binding()
-            {
-                Source = CreatedColumnElement.RelatedJsonData, Path = new PropertyPath(nameof(ColumnTextElementData.Signature))
-            });
-
-            CreatedColumnElement.SetBinding(ColumnTextElementContainer.SignatureText_HOffsetProperty, new Binding()
-            {
-                Source = TargetColumn == TextColumn_1 ? VC_FirstColumnSignaturesOffset : VC_SecondColumnSignaturesOffset, Path = new PropertyPath(nameof(Slider.Value))
-            });
-            #endregion
+            SetupNewTextElementContainer(CreatedColumnElement, TargetColumn, DoColumnsJsonDataReEnumeration, IsAddingSummaryPassive);
 
             TargetColumn.Children.Add(CreatedColumnElement);
 
             if (DoColumnsJsonDataReEnumeration) ReEnumerateColumnItemsJsonData();
         }
 
+        public void AddSkillToSummarySkillsTable(int ColumnIndex, ColumnTextElementContainer CreatedColumnElement, bool DoColumnsJsonDataReEnumeration = true)
+        {
+            SetupNewTextElementContainer(CreatedColumnElement, null!, DoColumnsJsonDataReEnumeration, false);
+
+            SummarySkillsTable.PlaceSkillAt(SummarySkillsTable.SkillsCountInColumn(ColumnIndex), ColumnIndex, CreatedColumnElement);
+
+            if (DoColumnsJsonDataReEnumeration) ReEnumerateSummarySkillsTableJsonData();
+        }
+
         /// <summary>Synchronize json list order with the actual view by enumerating <see cref="ColumnTextElementContainer.RelatedJsonData"/> of each column text element</summary>
         private void ReEnumerateColumnItemsJsonData()
         {
-            @DataContextDomain.PreviewCreator.ImageInfo.TextColumns. First  .Items = [.. TextColumn_1.Children.Cast<ColumnTextElementContainer>().Select(x => x.RelatedJsonData)];
-            @DataContextDomain.PreviewCreator.ImageInfo.TextColumns. Second .Items = [.. TextColumn_2.Children.Cast<ColumnTextElementContainer>().Select(x => x.RelatedJsonData)];
+            static ObservableCollection<ColumnTextElementData> From(TextElementsColumn Column) => [.. Column.Children.Cast<ColumnTextElementContainer>().Select(x => x.RelatedJsonData)];
+            
+            @DataContextDomain.PreviewCreator.ImageInfo.TextColumns. First  .Items = From(TextColumn_1);
+            @DataContextDomain.PreviewCreator.ImageInfo.TextColumns. Second .Items = From(TextColumn_2);
+
+            @DataContextDomain.PreviewCreator.ImageInfo.SummaryInfo.Passives    = From(SummaryPassivesView);
+        }
+        private void ReEnumerateSummarySkillsTableJsonData()
+        {
+            ObservableCollection<ColumnTextElementData> From(int Column) => [.. SummarySkillsTable.Children.OfType<ColumnTextElementContainer>().Where(x => Grid.GetColumn(x) == Column - 1).Select(x => x.RelatedJsonData)];
+
+            @DataContextDomain.PreviewCreator.ImageInfo.SummaryInfo.Skll1 = From(1);
+            @DataContextDomain.PreviewCreator.ImageInfo.SummaryInfo.Skll2 = From(2);
+            @DataContextDomain.PreviewCreator.ImageInfo.SummaryInfo.Skll3 = From(3);
+            @DataContextDomain.PreviewCreator.ImageInfo.SummaryInfo.DefenseSkll = From(4);
         }
 
 
@@ -100,9 +133,8 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
         #region Skills / Passives / Keywords  visualization
         #pragma warning disable IDE0017
-        public ColumnTextElementContainer CreateSkill(PlainSkill.UptieLevel GivenSkillText, SkillConstructor Displaying, ColumnTextElementData GivenJsonData)
+        private BitmapImage ResolveSkillIcon(SkillConstructor Displaying)
         {
-            #region Skill name replica creation
             BitmapImage ResolvedSkillIcon = new();
 
             if (File.Exists(Displaying.IconID))
@@ -121,7 +153,15 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 }
                 catch { }
             }
-            
+
+            return ResolvedSkillIcon;
+        }
+        public ColumnTextElementContainer CreateSkill(PlainSkill.UptieLevel GivenSkillText, SkillConstructor Displaying, ColumnTextElementData GivenJsonData)
+        {
+            #region Skill name replica creation
+            BitmapImage ResolvedSkillIcon = ResolveSkillIcon(Displaying);
+
+
 
             SkillNameReplicaUIElement_PCE SkillNameReplicaElement = new()
             {
@@ -252,6 +292,26 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
             return new ColumnTextElementContainer() { RelatedJsonData = GivenJsonData, LocalizationTextView = SkillNameReplicaElement };
         }
+        public ColumnTextElementContainer CreateSkill_Summary(PlainSkill.UptieLevel GivenSkillText, SkillConstructor Displaying, ColumnTextElementData GivenJsonData)
+        {
+            #region Skill name replica creation
+            BitmapImage ResolvedSkillIcon = ResolveSkillIcon(Displaying);
+
+
+            SkillNameReplicaUIElement_PCE_Summary SkillNameReplicaElement = new()
+            {
+                SkillName = GivenSkillText.Name, Icon = ResolvedSkillIcon,
+                Rank = Displaying.Specific.Rank, Coins = string.Join(", ", Displaying.Characteristics.CoinsList),
+                SkillType = Displaying.Specific.Action, Affinity = Displaying.Specific.Affinity, DamageType = Displaying.Specific.DamageType,
+            };
+            SkillNameReplicaElement.SetBinding(SkillNameReplicaUIElement_PCE.NameMaximumWidthProperty, new Binding()
+            {
+                Source = GivenJsonData, Path = new PropertyPath(nameof(ColumnTextElementData.MaxWidth_Name))
+            });
+            #endregion
+
+            return new ColumnTextElementContainer() { RelatedJsonData = GivenJsonData, LocalizationTextView = SkillNameReplicaElement, IsSummaryView = true, VerticalAlignment = VerticalAlignment.Top };
+        }
 
 
 
@@ -276,7 +336,17 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
             return new ColumnTextElementContainer() { RelatedJsonData = GivenJsonData, LocalizationTextView = Passive };
         }
+        public ColumnTextElementContainer CreatePassive_Summary(PlainPassive GivenPassiveText, ColumnTextElementData GivenJsonData)
+        {
+            // Take default, remove descs and change Margin
+            ColumnTextElementContainer PassiveContainer = CreatePassive(GivenPassiveText, GivenJsonData);
+            PassiveView InnerPassiveView = (PassiveContainer.LocalizationTextView as PassiveView)!;
+            PassiveContainer.IsSummaryView = true;
+            InnerPassiveView.PassiveDesc = InnerPassiveView.PassiveFlavor = "";
+            InnerPassiveView.Margin = new Thickness(0, 30, 0, 30);
 
+            return PassiveContainer;
+        }
 
 
         public ColumnTextElementContainer CreateKeyword(PlainKeyword GivenKeywordText, ImageSource Icon, ColumnTextElementData GivenJsonData, TextElementsColumn TargetColumn)

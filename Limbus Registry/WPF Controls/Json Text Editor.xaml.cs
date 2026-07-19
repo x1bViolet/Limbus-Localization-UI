@@ -198,7 +198,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                             });
 
                             // lang=regex
-                            if (SelectedLimbusCustomLanguage.Keywords_AutodetectionRegex.Contains(@"(KeywordNameWillBeHere)"))
+                            if (LoadedConfiguration.Internal.DisableImplicitKeywordsHighlightion == false && SelectedLimbusCustomLanguage.Keywords_AutodetectionRegex.Contains(@"(KeywordNameWillBeHere)"))
                             {
                                 MainRuleSet.Rules.Add(new HighlightingRule()
                                 {

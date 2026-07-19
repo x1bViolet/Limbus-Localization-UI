@@ -92,6 +92,24 @@
 * Pattern: Gain
   Replace: Получает
 
+* Pattern: once per turn
+  Replace: Единожды за ход
+
+* Pattern: Activate \[Laceration\] on target once. Target loses 1 \[Laceration\] Count
+  Replace: Активирует [Laceration:`Кровотечение`] на цели и понижает его счётчик на 1
+
+* Pattern: Deal \+(\d+)% damage on Critical Hit
+  Replace: На $1% больше урона при критическом попадани
+
+* Pattern: Raise Stagger Threshold by (\d+)
+  Replace: Поднимает границу выносливости цели на $1
+
+* Pattern: Raise Stagger Threshold by (\d+)% of damage dealt
+  Replace: Поднимает границу выносливости цели на $1% от нанесённого урона
+  
+* Pattern: \(max (\d+)(%)?\)
+  Replace: (До $1$2)
+
 
 
 

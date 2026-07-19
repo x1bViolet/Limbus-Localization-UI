@@ -68,13 +68,6 @@
 		<InternalStyle:InstancedWindowLayout.Navigation>
 			<StackPanel MouseEnter="DisableWindowChromeResizeBorder" MouseLeave="EnableWindowChromeResizeBorder" Orientation="Horizontal">
 				<Button Click="Minimize" Style="{StaticResource Base:TitleBar.Button.Defaults.Minimize}" />
-				<Button T:BooleanStateHandler.IsVisible="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.LocalizationFilesProcessor, FallbackValue=True}" Click="OpenLocalizationFilesProcessorWindow" Content="" FontFamily="/UI/Fonts/#Material Symbols Outlined ExtraLight" FontSize="26">
-					<Button.ToolTip>
-						<ToolTip MaxWidth="700" Style="{StaticResource Theme:ControlStyles.Tooltip}">
-							<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.Foreground.Tooltips}" LineHeight="18" RichText="Open Localization Files Processor" UID="[Main UI] * Open Localization Files Processor button Tooltip" />
-						</ToolTip>
-					</Button.ToolTip>
-				</Button>
 				<Button T:BooleanStateHandler.IsVisible="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.EditorModeSwitch, FallbackValue=True}" Click="ModeSwitchContextMenu_OpenOnLeftClick" Content="">
 					<Button.ContextMenu>
 						<ContextMenu>
@@ -108,6 +101,13 @@
 					<Button.ToolTip>
 						<ToolTip MaxWidth="700" Style="{StaticResource Theme:ControlStyles.Tooltip}">
 							<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.Foreground.Tooltips}" LineHeight="18" RichText="Switch UI to Identity/E.G.O Preview creator" UID="[C] * Title bar button tooltip" />
+						</ToolTip>
+					</Button.ToolTip>
+				</Button>
+				<Button T:BooleanStateHandler.IsVisible="{Binding DataContextDomain.Configuration.Internal.SpecificTitleBarButtonsOnOff.LocalizationFilesProcessor, FallbackValue=True}" Click="OpenLocalizationFilesProcessorWindow" Content="" FontFamily="/UI/Fonts/#Material Symbols Outlined ExtraLight" FontSize="26">
+					<Button.ToolTip>
+						<ToolTip MaxWidth="700" Style="{StaticResource Theme:ControlStyles.Tooltip}">
+							<Terminus:IntenseStareType1 FontSize="15" Foreground="{DynamicResource Theme:UIText.MainWindow.Foreground.Tooltips}" LineHeight="18" RichText="Open Localization Files Processor" UID="[Main UI] * Open Localization Files Processor button Tooltip" />
 						</ToolTip>
 					</Button.ToolTip>
 				</Button>

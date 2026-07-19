@@ -20,6 +20,8 @@
 
 		<ResourceDictionary Source="/Limbus Registry/WPF Controls/Specific Elements/Skill Name Replica UI Element.xaml" />
 		<ResourceDictionary Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/WPF Controls (Dedicated)/Skill Name Replica (Preview Creator Edition).xaml" />
+        <ResourceDictionary Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/WPF Controls (Dedicated)/Skill Name Replica (Preview Creator edition - Summary).xaml" />
+        <ResourceDictionary Source="/Limbus Registry/※ Identity ¦ E.G.O  Preview Creator/WPF Controls (Dedicated)/Column Text Element Container.xaml" />
 
 	</ResourceDictionary.MergedDictionaries>
 

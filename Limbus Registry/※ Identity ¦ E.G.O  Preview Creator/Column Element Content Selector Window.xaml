@@ -108,10 +108,22 @@
 								HorizontalAlignment="Center"
 								Width="Auto"
 								Click="ConfirmSelection_ButtonClick">
-								<TStyle:SingleViewer x:Name="OKButtonView" SelectedIndex="0">
-									<Terminus:IntenseStareType1 Margin="0" PerfectVerticalAlign="False" RichText="Add element to Column №1" UID="[C] * [Column element creation dialog] OK Button (Column 1)" />
-									<Terminus:IntenseStareType1 Margin="0" PerfectVerticalAlign="False" RichText="Add element to Column №2" UID="[C] * [Column element creation dialog] OK Button (Column 2)" />
-								</TStyle:SingleViewer>
+								<TStyle:SingleViewer x:Name="OKButtonView" SelectedIndex="2">
+                                    <TStyle:SingleViewer.Resources>
+                                        <Style BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
+                                            <Setter Property="Margin" Value="0" />
+                                            <Setter Property="PerfectVerticalAlign" Value="False" />
+                                        </Style>
+                                    </TStyle:SingleViewer.Resources>
+									<Terminus:IntenseStareType1 RichText="Add element to Column №1" UID="[C] * [Column element creation dialog] OK Button (Column 1)" />
+                                    <Terminus:IntenseStareType1 RichText="Add element to Column №2" UID="[C] * [Column element creation dialog] OK Button (Column 2)" />
+
+                                    <Terminus:IntenseStareType1 RichText="Add as version of Skill №1" UID="[C] * [Column element creation dialog] OK Button (Summary Info view) - Add Skill 1 version" />
+                                    <Terminus:IntenseStareType1 RichText="Add as version of Skill №2" UID="[C] * [Column element creation dialog] OK Button (Summary Info view) - Add Skill 2 version" />
+                                    <Terminus:IntenseStareType1 RichText="Add as version of Skill №3" UID="[C] * [Column element creation dialog] OK Button (Summary Info view) - Add Skill 3 version" />
+                                    <Terminus:IntenseStareType1 RichText="Add as version Defense Skill" UID="[C] * [Column element creation dialog] OK Button (Summary Info view) - Add Defense Skill" />
+                                    <Terminus:IntenseStareType1 RichText="Add Passive" UID="[C] * [Column element creation dialog] OK Button (Summary Info view) - Add Defense Skill" />
+                                </TStyle:SingleViewer>
 							</Button>
 						</StackPanel>
 					</Grid>

@@ -1001,6 +1001,10 @@ RyoshuStartA1C9 ¤ #f8c200
 NiddleEGO ¤ #e30000
 IDMicroChip ¤ #e30000
 
+ReinforcedTattooIshmael ¤ #f8c200
+ResentmentIshmael ¤ #f8c200
+HeatingWireIshmael ¤ #9f6a3a
+
 PhantomIncision ¤ #e30000
 PhantomIncisionTotal ¤ #9f6a3a
 LvDownLittleFingerBoss ¤ #9f6a3a
@@ -1272,3 +1276,95 @@ PhantomIncisionID ¤ #e30000
 PhantomIncisionTotalID ¤ #9f6a3a
 
 RedButterfly ¤ #f8c200
+
+RetaliationBookSpiderOutis ¤ #e30000
+ResentmentSpiderOutis ¤ #f8c200
+ReinforcedTattooSpiderOutis ¤ #f8c200
+DaughterEducationSpiderOutis ¤ #f8c200
+GotAComplimentIshmael ¤ #f8c200
+MiddleFatherGutsOutis ¤ #f8c200
+MiddleFatherSwordOneOutis ¤ #a16a3b
+MiddleFatherSwordTwoOutis ¤ #a16a3b
+MiddleFatherSwordThreeOutis ¤ #a16a3b
+MiddleFatherSwordFourOutis ¤ #a16a3b
+MidFamilyOutis ¤ #f8c200
+CountSkillMidOutis ¤ #a16a3b
+
+MatchesPersonality ¤ #a16a3b
+
+NoeulNageuneBuffA3 ¤ #f8c200
+NoeulNageuneBuffA4 ¤ #f8c200
+NoeulNageuneBuffA5 ¤ #f8c200
+NoeulNageuneBuffB3 ¤ #f8c200
+NoeulNageuneBuffB4 ¤ #f8c200
+NoeulNageuneBuffB5 ¤ #f8c200
+
+HeatedWingScalesExplain ¤ #a16a3b
+TransparentWingScalesExplain ¤ #a16a3b
+RustedWingScalesExplain ¤ #a16a3b
+HeatedWingScales ¤ #a16a3b
+TransparentWingScales ¤ #a16a3b
+RustedWingScales ¤ #a16a3b
+StackPast ¤ #a16a3b
+StackPresent ¤ #a16a3b
+StackFuture ¤ #a16a3b
+StackPastActivate ¤ #f8c200
+StackPresentActivate ¤ #f8c200
+StackFutureActivate ¤ #f8c200
+TimeGap ¤ #e30000
+
+YesdragonSelfRefraction ¤ #f8c200
+CondensedBloodRefraction ¤ #e30000
+DragonLanceRefraction ¤ #f8c200
+YesdragonPower ¤ #f8c200
+YesdragonWind ¤ #f8c200
+YesdragonScale ¤ #e30000
+
+TagGameBuff ¤ #a16a3b
+
+MiddleFingerLeashBuff ¤ #e30000
+ObservationTheRingsRail ¤ #a16a3b
+
+ChoiSwordsmanship ¤ #9f6a3a
+ChoiSwordsmanshipOne ¤ #9f6a3a
+ChoiSwordsmanshipMany ¤ #9f6a3a
+ChoiSwordsmanshipShield ¤ #f8c200
+RegretSCorp ¤ #f8c200
+PhotoTransitionChoi ¤ #9f6a3a
+PhotoTransitionChoiCamera ¤ #9f6a3a
+TakePicture ¤ #e30000
+LensmanNail ¤ #e30000
+PhotoTransition ¤ #f8c200
+ScratchesHurt ¤ #e30000
+TiedRope ¤ #e30000
+TiedWithRope ¤ #9f6a3a
+BrandedKimSatgat ¤ #9f6a3a
+AengduNewArm ¤ #f8c200
+WindBlade ¤ #f8c200
+DimensionalBagEzraETwo ¤ #9f6a3a
+DimensionalBagEzraDTwo ¤ #9f6a3a
+
+ScratchesHurtID ¤ #e30000
+TiedRopeHonglu ¤ #e30000
+TiedWithRopeID ¤ #f8c200
+AengduNewArmIshmael ¤ #f8c200
+BladelineagePride ¤ #f8c200
+WindBladeIshmael ¤ #f8c200
+AlcoholKimPersonal ¤ #f8c200
+GrudgePersonal ¤ #f8c200
+GhostKimPersonal ¤ #f8c200
+RootSoupKimPersonal ¤ #f8c200
+RootSoupKimSatgat ¤ #f8c200
+BongukGiftEnhance ¤ #f8c200
+
+SlaveHunersPower ¤ #f8c200
+LensmanPower ¤ #f8c200
+
+DuelEdgeAlly ¤ #e30000
+SeveredTendonAlly ¤ #e30000
+EvolvingManual ¤ #f8c200
+ObsessionAndGreedRodion ¤ #f8c200
+FutureEyeOnRodion ¤ #f8c200
+FutureEyeOffRodion ¤ #a16a3b
+LookingFutureRodion ¤ #f8c200
+TeachersPreyRodion ¤ #e30000

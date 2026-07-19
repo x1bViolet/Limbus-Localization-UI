@@ -28,7 +28,7 @@
 		<Setter Property="HorizontalContentAlignment" Value="Left" />
 		<Setter Property="FocusVisualStyle" Value="{x:Null}" />
 		<Setter Property="AllowDrop" Value="True" />
-		<Setter Property="Padding" Value="1 1.2 0 0" />
+		<Setter Property="Padding" Value="2 1.2 0 0" />
 		<Setter Property="ScrollViewer.PanningMode" Value="VerticalFirst" />
 		<Setter Property="Stylus.IsFlicksEnabled" Value="False" />
 		<Setter Property="HorizontalScrollBarVisibility" Value="Hidden" />

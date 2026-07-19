@@ -6,10 +6,10 @@
 
 
         public string PassiveName { get => (string)GetValue(PassiveNameProperty); set => SetValue(PassiveNameProperty, value); }
-        public static readonly DependencyProperty PassiveNameProperty = RegisterProperty<PassiveView, string>(DefaultValue: "Unknown");
+        public static readonly DependencyProperty PassiveNameProperty = RegisterProperty<PassiveView, string?>();
 
         public string PassiveDesc { get => (string)GetValue(PassiveDescProperty); set => SetValue(PassiveDescProperty, value); }
-        public static readonly DependencyProperty PassiveDescProperty = RegisterProperty<PassiveView, string>(DefaultValue: "Unknown");
+        public static readonly DependencyProperty PassiveDescProperty = RegisterProperty<PassiveView, string?>();
 
         public string? PassiveFlavor { get => (string?)GetValue(PassiveFlavorProperty); set => SetValue(PassiveFlavorProperty, value); }
         public static readonly DependencyProperty PassiveFlavorProperty = RegisterProperty<PassiveView, string?>();

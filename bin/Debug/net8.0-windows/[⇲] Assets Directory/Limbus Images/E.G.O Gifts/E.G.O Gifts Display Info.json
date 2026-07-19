@@ -3005,6 +3005,71 @@
     },
 
     {
+      "ID": 9274,
+      "Image": "Season 7/Intervallos/Mnestic Experience/Ohra Bond",
+      "Affinity": "Pride",
+      "Keyword": "Poise",
+      "Tier": "3"
+    },
+    {
+      "ID": 9275,
+      "Image": "Season 7/Intervallos/Mnestic Experience/N Corp. Service des Clous Briefcase",
+      "Affinity": "Lust",
+      "Keyword": "Bleed",
+      "Tier": "2"
+    },
+    {
+      "ID": 9276,
+      "Image": "Season 7/Intervallos/Mnestic Experience/Baekja Water Dropper",
+      "Affinity": "Gluttony",
+      "Keyword": "-",
+      "Tier": "3"
+    },
+    {
+      "ID": 9277,
+      "Image": "Season 7/Intervallos/Mnestic Experience/Flagroot Cane Sword",
+      "Affinity": "Gloom",
+      "Keyword": "Slash",
+      "Tier": "2"
+    },
+    {
+      "ID": 9278,
+      "Image": "Season 7/Intervallos/Mnestic Experience/Crushed Wooden Manacle",
+      "Affinity": "Envy",
+      "Keyword": "Slash",
+      "Tier": "2"
+    },
+    {
+      "ID": 9279,
+      "Image": "Season 7/Intervallos/Mnestic Experience/Unadorned Sword-guard",
+      "Affinity": "Sloth",
+      "Keyword": "Slash",
+      "Tier": "1"
+    },
+    {
+      "ID": 9280,
+      "Image": "Season 7/Intervallos/Mnestic Experience/The Book of the Homeland Swordplay [本國劍譜]",
+      "Affinity": "Pride",
+      "Keyword": "Slash",
+      "Tier": "4"
+    },
+
+    {
+      "ID": 9282,
+      "Image": "Season 7/Wing-shaped Waxen Candle",
+      "Affinity": "Wrath",
+      "Keyword": "Burn",
+      "Tier": "3"
+    },
+    {
+      "ID": 9283,
+      "Image": "Season 7/Tributary Cigar",
+      "Affinity": "Sloth",
+      "Keyword": "Tremor",
+      "Tier": "4"
+    },
+
+    {
       "ID": 9260,
       "Image": "Season 7/Intervallos/Twining Threads/Artworkː Pulsation",
       "Affinity": "Envy",

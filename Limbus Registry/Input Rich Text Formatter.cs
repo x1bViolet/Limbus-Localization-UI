@@ -120,15 +120,18 @@ namespace LCLocalizationInterface.LimbusRegistry
 
 
                 // Implicit keywords conversion to [KeywordID] (e.g. just 'Burn' in the text to '[Combustion]')
-                foreach (PlainKeyword MaybeImplicitKeyword in KeywordsLoader.LoadedKeywords_Bufs.Values.OrderByDescending(Keyword => Keyword.Name))
+                if (LoadedConfiguration.Internal.DisableImplicitKeywordsHighlightion == false)
                 {
-                    if (LimbusText.Contains(MaybeImplicitKeyword.Name))
+                    foreach (PlainKeyword MaybeImplicitKeyword in KeywordsLoader.LoadedKeywords_Bufs.Values.OrderByDescending(Keyword => Keyword.Name))
                     {
-                        /// Replace if matches <see cref="@Configurazione.JsonConfigurationFile.LimbusCustomLangDefinition.LangProperties.Keywords_AutodetectionRegex"/> Implicit pattern
-                        LimbusText = Regex.Replace(LimbusText, SelectedLimbusCustomLanguage.Keywords_AutodetectionRegex.Replace("KeywordNameWillBeHere", Regex.Escape(MaybeImplicitKeyword.Name)), Match =>
+                        if (LimbusText.Contains(MaybeImplicitKeyword.Name))
                         {
-                            return $"[{MaybeImplicitKeyword.ID}]";
-                        });
+                            /// Replace if matches <see cref="@Configurazione.JsonConfigurationFile.LimbusCustomLangDefinition.LangProperties.Keywords_AutodetectionRegex"/> Implicit pattern
+                            LimbusText = Regex.Replace(LimbusText, SelectedLimbusCustomLanguage.Keywords_AutodetectionRegex.Replace("KeywordNameWillBeHere", Regex.Escape(MaybeImplicitKeyword.Name)), Match =>
+                            {
+                                return $"[{MaybeImplicitKeyword.ID}]";
+                            });
+                        }
                     }
                 }
 

@@ -345,7 +345,9 @@
         private FrameworkElement? CurrentElement;
         public ScaleTransform CurrentElementTransform { get; set; } = new(1.0, 1.0);
 
-
+        
+        public double CurrentZoom { get => (double)GetValue(CurrentZoomProperty); set => SetValue(CurrentZoomProperty, value); }
+        public static readonly DependencyProperty CurrentZoomProperty = RegisterProperty<ZoomableScrollViewer, double>(DefaultValue: 1.0);
 
         public double ZoomStep { get => (double)GetValue(ZoomStepProperty); set => SetValue(ZoomStepProperty, value); }
         public static readonly DependencyProperty ZoomStepProperty = RegisterProperty<ZoomableScrollViewer, double>(DefaultValue: 0.1);
@@ -354,7 +356,7 @@
         public static readonly DependencyProperty MaxZoomScaleProperty = RegisterProperty<ZoomableScrollViewer, double>(DefaultValue: 6.0);
 
         public double MinZoomScale { get => (double)GetValue(MinZoomScaleProperty); set => SetValue(MinZoomScaleProperty, value); }
-        public static readonly DependencyProperty MinZoomScaleProperty = RegisterProperty<ZoomableScrollViewer, double>(DefaultValue: 1.0);
+        public static readonly DependencyProperty MinZoomScaleProperty = RegisterProperty<ZoomableScrollViewer, double>(DefaultValue: 0.6);
 
 
         protected override void OnContentChanged(object OldContent, object NewContent)
@@ -387,16 +389,18 @@
 
                     //CurrentElement.RenderTransformOrigin = new Point(NormalizedX, NormalizedY);
 
-                    if (Args.Delta > 0 && CurrentElementTransform.ScaleX < this.MaxZoomScale)
+                    if (Args.Delta > 0 && CurrentElementTransform.ScaleX < this.MaxZoomScale - this.ZoomStep)
                     {
                         CurrentElementTransform.ScaleX += this.ZoomStep;
                         CurrentElementTransform.ScaleY += this.ZoomStep;
                     }
-                    else if (Args.Delta < 0 && CurrentElementTransform.ScaleX > this.MinZoomScale)
+                    else if (Args.Delta < 0 && CurrentElementTransform.ScaleX > this.MinZoomScale + this.ZoomStep)
                     {
                         CurrentElementTransform.ScaleX -= this.ZoomStep;
                         CurrentElementTransform.ScaleY -= this.ZoomStep;
                     }
+
+                    this.CurrentZoom = double.Round(CurrentElementTransform.ScaleX, 1);
                 }
             }
         }

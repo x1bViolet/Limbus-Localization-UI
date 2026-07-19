@@ -11,6 +11,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         public static ColumnElementContentSelectorWindow ColumnElementContentSelectorInstance { get; set; }
         #pragma warning restore CS8618
 
+        public string? SummaryInfoAdditionTarget { get; set; } = null;
         public TextElementsColumn CurrentTargetColumn { get; set; } = null!;
         private string SelectedKeywordIcon_Path = "";
         private BitmapImage? SelectedKeywordIcon = null;
@@ -94,35 +95,65 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                     IntenseStareType1 SelectedSkillLabel = (SkillLocalizationIDSelector.SelectedItem as IntenseStareType1)!;
                     IntenseStareType1 SelectedConstructorLabel = (SkillConstructorIDSelector.SelectedItem as IntenseStareType1)!;
 
-                    PreviewCreatorPage.PreviewCreatorPageInstance.AddTextElementToColumn(
-                        TargetColumn: this.CurrentTargetColumn,
-                        CreatedColumnElement: PreviewCreatorPage.PreviewCreatorPageInstance.CreateSkill(
-                            GivenSkillText: (PlainSkill.UptieLevel)SelectedSkillLabel.DataContext,
-                            Displaying: (SelectedConstructorLabel.DataContext as SkillConstructor)!,
-                            GivenJsonData: new ColumnTextElementData()
+                    ColumnTextElementData SkillJsonData = new ColumnTextElementData()
+                    {
+                        Type = PreviewCreatorPage.ColumnTextElementType.Skill,
+                        SelectedLocalizationID = $"{SelectedSkillLabel.Uid}",
+                        SelectedSkillConstructorID = $"{SelectedConstructorLabel.Uid}"
+                    };
+
+                    if (SummaryInfoAdditionTarget == null)
+                    {
+                        PreviewCreatorPage.PreviewCreatorPageInstance.AddTextElementToColumn(
+                            TargetColumn: this.CurrentTargetColumn,
+                            CreatedColumnElement: PreviewCreatorPage.PreviewCreatorPageInstance.CreateSkill(
+                                GivenSkillText: (PlainSkill.UptieLevel)SelectedSkillLabel.DataContext,
+                                Displaying: (SelectedConstructorLabel.DataContext as SkillConstructor)!,
+                                GivenJsonData: SkillJsonData
+                            )
+                        );
+                    }
+                    else
+                    {
+                        PreviewCreatorPage.PreviewCreatorPageInstance.AddSkillToSummarySkillsTable(
+                            ColumnIndex: SummaryInfoAdditionTarget switch
                             {
-                                Type = PreviewCreatorPage.ColumnTextElementType.Skill,
-                                SelectedLocalizationID = $"{SelectedSkillLabel.Uid}",
-                                SelectedSkillConstructorID = $"{SelectedConstructorLabel.Uid}"
-                            }
-                        )
-                    );
+                                "Skill 1" => 0,
+                                "Skill 2" => 1,
+                                "Skill 3" => 2,
+                                "Defense Skill" => 3,
+                            },
+                            CreatedColumnElement: PreviewCreatorPage.PreviewCreatorPageInstance.CreateSkill_Summary(
+                                GivenSkillText: (PlainSkill.UptieLevel)SelectedSkillLabel.DataContext,
+                                Displaying: (SelectedConstructorLabel.DataContext as SkillConstructor)!,
+                                GivenJsonData: SkillJsonData
+                            )
+                        );
+                    }
+
                     break;
 
 
                 case 1: // Passives
                     IntenseStareType1 SelectedPassiveLabel = (PassiveLocalizationIDSelector.SelectedItem as IntenseStareType1)!;
 
+                    Func<PlainPassive, ColumnTextElementData, ColumnTextElementContainer> PassiveGetter = SummaryInfoAdditionTarget == "Passive"
+                        ? PreviewCreatorPage.PreviewCreatorPageInstance.CreatePassive_Summary
+                        : PreviewCreatorPage.PreviewCreatorPageInstance.CreatePassive;
+
                     PreviewCreatorPage.PreviewCreatorPageInstance.AddTextElementToColumn(
-                        TargetColumn: this.CurrentTargetColumn,
-                        CreatedColumnElement: PreviewCreatorPage.PreviewCreatorPageInstance.CreatePassive(
-                            GivenPassiveText: (PlainPassive)SelectedPassiveLabel.DataContext,
-                            GivenJsonData: new ColumnTextElementData()
+                        TargetColumn: SummaryInfoAdditionTarget == "Passive"
+                            ? PreviewCreatorPage.PreviewCreatorPageInstance.SummaryPassivesView
+                            : this.CurrentTargetColumn,
+                        CreatedColumnElement: PassiveGetter(
+                            (PlainPassive)SelectedPassiveLabel.DataContext,
+                            new ColumnTextElementData()
                             {
                                 Type = PreviewCreatorPage.ColumnTextElementType.Passive,
                                 SelectedLocalizationID = $"{SelectedPassiveLabel.Uid}"
                             }
-                        )
+                        ),
+                        IsAddingSummaryPassive: SummaryInfoAdditionTarget == "Passive"
                     );
                     break;
 

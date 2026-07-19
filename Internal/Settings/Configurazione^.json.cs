@@ -287,6 +287,10 @@ namespace LCLocalizationInterface.Internal
                 public bool DisableUnknownForUnidentifiedKeywords { get; set; } = false;
 
 
+                [JsonProperty("Disable Implicit keywords highlight")]
+                public bool DisableImplicitKeywordsHighlightion { get; set; } = false;
+
+
                 [JsonProperty("Disable Sealing of Text Elements in Identity/E.G.O Preview Creator")]
                 public bool DisableTextElementsSealingInPreviewCreator { get; set; } = false;
 

@@ -41,25 +41,33 @@
 
 
 
+        private void Portrait_HorizontalOffset(object Sender, RoutedPropertyChangedEventArgs<double> Args)
+        {
+            EGOPortraitInnerGrid.SetLeftMargin(Args.NewValue);
+        }
+        private void Portrait_VerticalOffset(object Sender, RoutedPropertyChangedEventArgs<double> Args)
+        {
+            EGOPortraitInnerGrid.SetTopMargin(Args.NewValue);
+        }
+
+
+
+
         private void TopVignettePlusLength_NegativeValueHandler(object Sender, RoutedPropertyChangedEventArgs<double> Args)
         {
-            if (IsLoaded) TopVignettePlusLength_Identity_Parent.SetTopMargin(Args.NewValue < 0 ? Args.NewValue : 0);
+            if (IsLoaded) TopVignettePlusLength_Parent.SetTopMargin(Args.NewValue < 0 ? Args.NewValue : 0);
         }
         private void LeftVignettePlusLength_NegativeValueHandler(object Sender, RoutedPropertyChangedEventArgs<double> Args)
         {
-            if (IsLoaded) LeftVignettePlusLength_Identity_Parent.SetLeftMargin(Args.NewValue < 0 ? Args.NewValue : 0);
+            if (IsLoaded) LeftVignettePlusLength_Parent.SetLeftMargin(Args.NewValue < 0 ? Args.NewValue : 0);
         }
         private void BottomVignettePlusLength_NegativeValueHandler(object Sender, RoutedPropertyChangedEventArgs<double> Args)
         {
-            if (IsLoaded) BottomVignettePlusLength_Identity_Parent.SetBottomMargin(Args.NewValue < 0 ? Args.NewValue : 0);
+            //uuughh
         }
         private void RightVignettePlusLength_NegativeValueHandler(object Sender, RoutedPropertyChangedEventArgs<double> Args)
         {
-            if (IsLoaded) RightVignettePlusLength_Identity_Parent.SetRightMargin(Args.NewValue < 0 ? Args.NewValue : 0);
-        }
-        private void LeftBehindEGOVignettePlusLength_NegativeValueHandler(object Sender, RoutedPropertyChangedEventArgs<double> Args)
-        {
-            if (IsLoaded) LeftBehindEGOPortraitVignettePlusLength_EGO_Parent.SetLeftMargin(Args.NewValue < 0 ? Args.NewValue : 0);
+            if (IsLoaded) RightVignettePlusLength_Parent.SetRightMargin(Args.NewValue < 0 ? Args.NewValue : 0);
         }
     }
     #endregion

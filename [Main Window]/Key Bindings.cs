@@ -22,6 +22,14 @@ namespace LCLocalizationInterface
             }
 
 
+            if (@CurrentPreviewCreator.ActiveState)
+            {
+                PreviewCreatorPageInstance.ZoomAmountDisplay.Visibility = new[] { Key.LeftCtrl, Key.RightCtrl }.Any(Keyboard.IsKeyDown) & PreviewCreatorPageInstance.CompositionScrollViewer.IsMouseOver
+                    ? Visibility.Visible
+                    : Visibility.Collapsed;
+            }
+
+
 
             if (CommonHotkeyExecutionLock == false)
             {
@@ -104,6 +112,8 @@ namespace LCLocalizationInterface
 
                         _ = PreviewCreatorPageInstance.FirstColumnItemsSelector.Visibility
                           = PreviewCreatorPageInstance.SecondColumnItemsSelector.Visibility
+                          = PreviewCreatorPageInstance.SummarySkillsSelector.Visibility
+                          = PreviewCreatorPageInstance.SummaryPassivesSelector.Visibility
                           = PreviewCreator_ColumnButtonsWasManuallyHidden ? Visibility.Collapsed : Visibility.Visible;
                     }
                 }
@@ -185,6 +195,11 @@ namespace LCLocalizationInterface
         private void MainWindow_PreviewKeyUp(object Sender, KeyEventArgs Args)
         {
             CommonHotkeyExecutionLock = UserHotkeyExecutionLock = false;
+
+            if (Args.Key is Key.LeftCtrl | Args.Key is Key.RightCtrl)
+            {
+                PreviewCreatorPageInstance.ZoomAmountDisplay.Visibility = Visibility.Collapsed;
+            }
         }
     }
 }

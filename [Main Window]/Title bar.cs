@@ -60,6 +60,8 @@ namespace LCLocalizationInterface
 
                 _ = PreviewCreatorPageInstance.FirstColumnItemsSelector.Visibility
                   = PreviewCreatorPageInstance.SecondColumnItemsSelector.Visibility
+                  = PreviewCreatorPageInstance.SummarySkillsSelector.Visibility
+                  = PreviewCreatorPageInstance.SummaryPassivesSelector.Visibility
                   = Visibility.Collapsed;
 
                 double OriginalZoom = Target.CurrentElementTransform.ScaleX;
@@ -70,7 +72,7 @@ namespace LCLocalizationInterface
                 (double OriginalHOffset, double OriginalVOffset) = (Target.HorizontalOffset, Target.VerticalOffset);
                 Target.ScrollToHome();
 
-                PreviewCreatorPageInstance.UnsealAllTextElementsInBothColumns();
+                PreviewCreatorPageInstance.UnsealAllTextElementsInAllAffectedColumns();
                 PreviewCreatorPageInstance.UnsealCautions();
 
                 BitmapEncoder Screenshot = (Target.Content as FrameworkElement)!.RenderImage(LoadedConfiguration.ScanParameters.ScaleFactor, UseJpegEncoder: true);
@@ -82,7 +84,7 @@ namespace LCLocalizationInterface
                 Target.ScrollToHorizontalOffset(OriginalHOffset);
                 Target.ScrollToVerticalOffset(OriginalVOffset);
                 
-                PreviewCreatorPageInstance.SealAllTextElementsInBothColumns();
+                PreviewCreatorPageInstance.SealAllTextElementsInAllAffectedColumns();
                 PreviewCreatorPageInstance.SealCautions();
 
 
@@ -90,6 +92,8 @@ namespace LCLocalizationInterface
                 {
                     _ = PreviewCreatorPageInstance.FirstColumnItemsSelector.Visibility
                       = PreviewCreatorPageInstance.SecondColumnItemsSelector.Visibility
+                      = PreviewCreatorPageInstance.SummarySkillsSelector.Visibility
+                      = PreviewCreatorPageInstance.SummaryPassivesSelector.Visibility
                       = Visibility.Visible;
                 }
 

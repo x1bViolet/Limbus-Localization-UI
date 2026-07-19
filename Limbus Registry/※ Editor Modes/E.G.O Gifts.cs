@@ -51,7 +51,6 @@ namespace LCLocalizationInterface.LimbusRegistry
                 {
                     using (new ScreenshotBackgroundSetter(this.SreenshotArea))
                     {
-                        _ = ScanPathTemplate.Exform(CurrentFile!.Name, this.CurrentEGOGiftID);
                         (this.SreenshotArea as FrameworkElement)!.RenderImage(ScanPathTemplate.Exform(CurrentFile!.Name, this.CurrentEGOGiftID), ScreenshotsUpscale);
                     }
                 }

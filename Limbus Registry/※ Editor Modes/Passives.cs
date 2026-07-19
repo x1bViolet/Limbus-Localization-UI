@@ -24,7 +24,7 @@ namespace LCLocalizationInterface.LimbusRegistry
 
                 protected override MainWindowDimensing Dimensing { get; } = new()
                 {
-                    MaxWidth = 1000, MinWidth = 713, MinHeight = 425,
+                    MaxWidth = 1000, MinWidth = 712, MinHeight = 425,
                     Width    = 1000, Height   = 600,
 
                     RichTextViewsHeight             = new GridLength(387),
