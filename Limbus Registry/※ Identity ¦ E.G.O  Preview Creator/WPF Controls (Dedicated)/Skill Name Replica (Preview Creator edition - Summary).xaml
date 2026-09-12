@@ -102,6 +102,15 @@
                         </StackPanel>
 
                     </StackPanel>
+
+                    <ControlTemplate.Triggers>
+                        <Trigger Property="SkillType" Value="Guard">
+                            <Setter TargetName="DamageTypeParentGrid" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                        <Trigger Property="SkillType" Value="Evade">
+                            <Setter TargetName="DamageTypeParentGrid" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
+                    </ControlTemplate.Triggers>
                     
                 </ControlTemplate>
             </Setter.Value>

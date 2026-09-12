@@ -148,6 +148,9 @@
 						<Trigger Property="SkillType" Value="Guard">
 							<Setter TargetName="DamageTypeParentGrid" Property="Visibility" Value="Collapsed" />
 						</Trigger>
+						<Trigger Property="SkillType" Value="Evade">
+							<Setter TargetName="DamageTypeParentGrid" Property="Visibility" Value="Collapsed" />
+						</Trigger>
 						<!--#endregion-->
 
 						<Trigger Property="ShowAffinityIcon" Value="False">

@@ -550,6 +550,9 @@ namespace LCLocalizationInterface.LimbusRegistry
                             if (Dialog.ShowDialog() == true)
                             {
                                 File.WriteAllText(Dialog.FileName, JsonText, new UTF8Encoding(encoderShouldEmitUTF8Identifier: CurrentFileSpecific.IsBOM));
+
+                                @Languages.PresentedTextFields["[Main UI] * Json Path"].Text = Dialog.FileName;
+
                                 this.CurrentFile = new FileInfo(Dialog.FileName);
                                 this.CheckFileName = this.DeserializedLocalizationData!.ManualFileType ?? Dialog.SafeFileName.RemovePostfix(".json");
                             }

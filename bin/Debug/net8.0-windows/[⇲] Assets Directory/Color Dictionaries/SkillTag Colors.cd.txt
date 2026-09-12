@@ -33,6 +33,7 @@ EndSkillAll ¤ #93f03f
 StartBattle ¤ #93f03f
 DefeatDuel ¤ #fe0000
 TargetKill ¤ #93f03f
+nxPostLine ¤ #f1e7d7
 EndBattle ¤ #93f03f
 BeforeHit ¤ #93f03f
 EnemyKill ¤ #93f03f

@@ -36,5 +36,7 @@ foreach (FileInfo KeywordsFile in KeywordFiles)
     }
 }
 Clipboard.SetText(Total); // 'Clipboard' available only in WPF or WinForms
+
+// Then insert this copied "Total" to any desc in localization and check how it looks in game, invalid keyword icons will remain as "<sprite name="...">" in text instead of turning into an image.
 ```
 </details>

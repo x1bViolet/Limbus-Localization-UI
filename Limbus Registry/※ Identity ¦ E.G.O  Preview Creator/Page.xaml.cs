@@ -323,6 +323,7 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 ColumnTextElementNameMaximumLengthSlider.TickFrequency = 190;
                 OffsetSliders.Width2 = new GridLength(0);
                 HorizontalOffset_Panel.Visibility = Visibility.Collapsed;
+
                 SkillWidths_Panel.Visibility = PassiveDescriptionWidth_Panel.Visibility = Visibility.Collapsed;
             }
             else
@@ -332,10 +333,11 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                 OffsetSliders.Width2 = new GridLength(1, GridUnitType.Star);
                 HorizontalOffset_Panel.Visibility = Visibility.Visible;
 
-                SignatureInput.Visibility = Target.RelatedJsonData.Type != ColumnTextElementType.Keyword ? Visibility.Visible : Visibility.Collapsed;
                 PassiveDescriptionWidth_Panel.Visibility = Target.RelatedJsonData.Type == ColumnTextElementType.Passive ? Visibility.Visible : Visibility.Collapsed;
                 SkillWidths_Panel.Visibility = Target.RelatedJsonData.Type == ColumnTextElementType.Skill ? Visibility.Visible : Visibility.Collapsed;
             }
+
+            SignatureInput.Visibility = Target.RelatedJsonData.Type != ColumnTextElementType.Keyword ? Visibility.Visible : Visibility.Collapsed;
 
 
             // ContextMenuClosing event does not firing if another context menu is opened while the current one is active, so unsealed text elements would remain unsealed
@@ -610,16 +612,23 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
         {
             if (LoadedConfiguration.Internal.DisableTextElementsSealingInPreviewCreator == false & PreviewCreatorPageInstance.IsLoaded)
             {
-                _ = Cautions_Top_SealedView.Visibility
-                  = Cautions_Bottom_SealedView.Visibility
-                  = Visibility.Visible;
+                try
+                {
+                    _ = Cautions_Top_SealedView.Visibility
+                      = Cautions_Bottom_SealedView.Visibility
+                      = Visibility.Visible;
 
-                Cautions_Top_SealedView.Source = CaptureElement(Cautions_Top_ActualView, Upscale: 2.0);
-                Cautions_Bottom_SealedView.Source = CaptureElement(Cautions_Bottom_ActualView, Upscale: 2.0);
+                    Cautions_Top_SealedView.Source = CaptureElement(Cautions_Top_ActualView, Upscale: 2.0);
+                    Cautions_Bottom_SealedView.Source = CaptureElement(Cautions_Bottom_ActualView, Upscale: 2.0);
 
-                _ = Cautions_Top_ActualView.Visibility
-                  = Cautions_Bottom_ActualView.Visibility
-                  = Visibility.Collapsed;
+                    _ = Cautions_Top_ActualView.Visibility
+                      = Cautions_Bottom_ActualView.Visibility
+                      = Visibility.Collapsed;
+                }
+                catch
+                {
+                    UnsealCautions();
+                }
             }
 
         }

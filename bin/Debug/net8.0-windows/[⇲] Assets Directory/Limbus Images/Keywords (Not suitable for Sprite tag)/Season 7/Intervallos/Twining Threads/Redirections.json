@@ -3,10 +3,6 @@
   "BearClawWound": ["BearClawWoundAlly"],
   "EagleClawWound": ["EagleClawWoundAlly"],
 
-  // Rufo
-  "Fauvism_Panic": ["Fauvism_Lowmorale"],
-  "FauvismDocent_Panic": ["FauvismDocent_Lowmorale"],
-
   // Index Proselyte
   "KarmaOfIndexAlly": ["KarmaOfIndexEnemy"],
   "IndexPrescript_Base": [
