@@ -48,8 +48,10 @@
 
 
                     case nameof(VC_PortraitType):
-                        MakeAvailableConditional(NewSelection != "E.G.O", IdentityPortraitImageParametersPanel, ImageTypeSelectionPanel, LeftVignetteAddLengthAdjustPanel, RightVignetteAddLengthAdjustPanel, Vignette_Right, Vignette_Left);
+                        MakeAvailableConditional(NewSelection != "E.G.O", IdentityPortraitImageParametersPanel, ImageTypeSelectionPanel, LeftVignetteAddLengthAdjustPanel, RightVignetteAddLengthAdjustPanel);
                         MakeAvailableConditional(NewSelection == "E.G.O", EGOPortraitImageParametersPanel);
+
+                        Vignette_Right.Visibility = Vignette_Left.Visibility = NewSelection != "E.G.O" ? Visibility.Visible : Visibility.Collapsed;
 
                         if (NewSelection == "E.G.O")
                         {

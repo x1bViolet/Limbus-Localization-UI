@@ -104,12 +104,27 @@
                     </StackPanel>
 
                     <ControlTemplate.Triggers>
+                        <!--#region Damage type-->
+                        <Trigger Property="DamageType" Value="Blunt">
+                            <Setter TargetName="DamageTypesSingleViewer" Property="SelectedIndex" Value="0" />
+                        </Trigger>
+                        <Trigger Property="DamageType" Value="Slash">
+                            <Setter TargetName="DamageTypesSingleViewer" Property="SelectedIndex" Value="1" />
+                        </Trigger>
+                        <Trigger Property="DamageType" Value="Pierce">
+                            <Setter TargetName="DamageTypesSingleViewer" Property="SelectedIndex" Value="2" />
+                        </Trigger>
+
+                        <Trigger Property="DamageType" Value="None">
+                            <Setter TargetName="DamageTypeParentGrid" Property="Visibility" Value="Collapsed" />
+                        </Trigger>
                         <Trigger Property="SkillType" Value="Guard">
                             <Setter TargetName="DamageTypeParentGrid" Property="Visibility" Value="Collapsed" />
                         </Trigger>
                         <Trigger Property="SkillType" Value="Evade">
                             <Setter TargetName="DamageTypeParentGrid" Property="Visibility" Value="Collapsed" />
                         </Trigger>
+                        <!--#endregion-->
                     </ControlTemplate.Triggers>
                     
                 </ControlTemplate>
