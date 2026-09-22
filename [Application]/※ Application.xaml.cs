@@ -1,4 +1,5 @@
 ﻿using LCLocalizationInterface.Internal.Configuration;
+using LCLocalizationInterface.LimbusRegistry.JsonTypes;
 using LCLocalizationInterface.LimbusRegistry.LocalizationFilesProcessing;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
 
@@ -130,9 +131,64 @@ namespace LCLocalizationInterface
             }
             else
             {
-                // [...]
-                
-                Console.ReadKey();
+                /*
+                 * Some other technical stuff to do with te program's code
+                 */
+
+                Dictionary<string, Action> Scenarios = new()
+                {
+                    ["Skills Data selection"] = delegate
+                    {
+                        string DownloadedDatamineJsonFilesFolder = @"";
+                        string DestinationFolder = @"";
+                        foreach (FileInfo JsonFile in new DirectoryInfo(DownloadedDatamineJsonFilesFolder).GetFiles())
+                        {
+                            if (JsonFile.Name.Contains("skill") && JsonFile.Name.StartsWith("ally-skill-buff") == false)
+                            {
+                                JsonFile.CopyTo(@$"{DestinationFolder}\{JsonFile.Name}");
+                            }
+                        }
+                    },
+
+                    ["Keyword things"] = delegate
+                    {
+                        // if (JsonFile.Name.Contains("buff") & JsonFile.Name.ContainsOneOf("by-formation", "railway-dungeon-buff") == false)
+
+                        string WhatToDo = "Keyword Colors extraction";
+
+                        LimbusDataFile<KeywordData> SelectedFile = new FileInfo(@"").DeserealizeJsonAs<LimbusDataFile<KeywordData>>()!;
+                        switch (WhatToDo)
+                        {
+                            case "Keyword Colors extraction":
+
+                                string Colors = "";
+                                foreach (KeywordData Info in SelectedFile.DataList)
+                                {
+                                    Colors += $"{Info.ID} ¤ {Info.Color}\n";
+                                }
+                                Clipboard.SetText(Colors);
+
+                                break;
+
+
+                            case "Print as list for Sprites availability check":
+
+                                string Total = "";
+                                foreach (KeywordData Info in SelectedFile.DataList)
+                                {
+                                    Total += $"<sprite name=\\\"{Info.ID}\\\"\\n";
+                                }
+                                Clipboard.SetText(Total);
+
+                                break;
+
+
+                            default: break;
+                        }
+                    }
+                };
+
+                // Scenarios["..."].Invoke();
 
                 Application.Current.Shutdown();
             }

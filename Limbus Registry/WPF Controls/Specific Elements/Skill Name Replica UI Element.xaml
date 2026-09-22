@@ -67,7 +67,18 @@
 										<Grid>
 											<Image x:Uid="Icon image" Source="{TemplateBinding Icon}" />
 										</Grid>
-										<Grid.OpacityMask>
+                                        <TextBlock
+                                            x:Name="ClashableDefenseMarker"
+                                            Visibility="Collapsed"
+                                            HorizontalAlignment="Right"
+                                            VerticalAlignment="Bottom"
+                                            Margin="0 0 7.5 -2"
+                                            Text="+"
+                                            FontFamily="Arial Black"
+                                            FontWeight="Bold"
+											FontSize="38.1"
+											Foreground="#EBCAA2"/>
+                                        <Grid.OpacityMask>
 											<ImageBrush ImageSource="/UI/Limbus/Skills/Icon Opacity Mask.png" />
 										</Grid.OpacityMask>
 									</Grid>
@@ -258,6 +269,10 @@
 							<Setter TargetName="DamageTypeParentGrid" Property="Visibility" Value="Collapsed" />
 						</Trigger>
 						<!--#endregion-->
+
+                        <Trigger Property="IsClashableDefense" Value="True">
+                            <Setter TargetName="ClashableDefenseMarker" Property="Visibility" Value="Visible" />
+                        </Trigger>
 
 						<!--    Offense/Defense level    -->
 						<Trigger Property="SkillType" Value="Guard">

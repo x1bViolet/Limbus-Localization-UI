@@ -49,9 +49,13 @@ namespace LCLocalizationInterface.LimbusRegistry
                 private object SreenshotArea => MainWindowInstance.RichTextViews__Passives_COMPOSITION_SurfaceScrollViewer.Content;
                 public override void ScreenshotRichText()
                 {
-                    using (new ScreenshotBackgroundSetter(this.SreenshotArea))
+                    using (new ScreenshotAreaVerticalScrollTempNormalizer(MainWindowInstance.RichTextViews__Passives_COMPOSITION_SurfaceScrollViewer))
                     {
-                        (this.SreenshotArea as FrameworkElement)!.RenderImage(ScanPathTemplate.Exform(CurrentFile!.Name, this.CurrentPassiveID), ScreenshotsUpscale);
+                        using (new ScreenshotBackgroundSetter(this.SreenshotArea))
+                        {
+                            MainWindowInstance.RichTextViews__Passives_COMPOSITION_SurfaceScrollViewer.ScrollToTop();
+                            (this.SreenshotArea as FrameworkElement)!.RenderImage(ScanPathTemplate.Exform(CurrentFile!.Name, this.CurrentPassiveID), ScreenshotsUpscale);
+                        }
                     }
                 }
 

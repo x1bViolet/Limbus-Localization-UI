@@ -824,7 +824,7 @@
 														</TStyle:TwoColumned>
 
                                                         <TStyle:TwoColumned Margin="0 15 0 0" x:Name="PassiveSignaturesOffsetOnSummaryViewPnel" MouseEnter="PassiveSignaturesOffsetOnSummaryView_MouseEnter_UnsealTextElements" MouseLeave="PassiveSignaturesOffsetOnSummaryView_MouseLeave_SealTextElements" Opacity="0.55" IsHitTestVisible="False">
-                                                            <Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Passive signatures offset in &quot;Summary&quot;" UID="[C] * [Section:Decorative cautions] Text size" />
+                                                            <Terminus:IntenseStareType1 PerfectVerticalAlign="True" RichText="Passive signatures offset in &quot;Summary&quot;" UID="[C] * [Section:Textual info/General options] Passive signatures offset in Summary Image Type" />
                                                             <Slider
 																x:Name="VC_PassiveSignaturesOffsetOnSummaryView"
 																Grid.Column="1"

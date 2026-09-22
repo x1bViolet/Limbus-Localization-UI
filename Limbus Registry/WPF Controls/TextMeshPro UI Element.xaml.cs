@@ -108,6 +108,11 @@ namespace LCLocalizationInterface.LimbusRegistry
             (Sender as TMProEmitter)!.RichText = (string)Args.NewValue; // From DataContextDomain {Bindings}
         }
 
+        /// <summary>
+        /// It just allows <see cref="TMProEmitter.RichText"/>
+        /// </summary>
+        public bool RichTextGenerationAllowed { get; set; } = true;
+
         private string CurrentRichText { get; set; } = "";
         /// <summary>
         /// Not linked with <see cref="RichTextProperty"/> SetValue/GetValue because need to be set without equality check on <see cref="RefreshRichText"/>, the only issue is Visibility property style trigger based on rich text presence which is not active if value is set manually from the code.<br/><br/>
@@ -127,7 +132,8 @@ namespace LCLocalizationInterface.LimbusRegistry
                 }
                 else
                 {
-                    ActuallySetRichText(value);
+                    if (this.RichTextGenerationAllowed) ActuallySetRichText(value);
+                    else this.Inlines.Clear();
                 }
 
                 void ActuallySetRichText(string RichText)

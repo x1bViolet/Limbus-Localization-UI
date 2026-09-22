@@ -193,6 +193,7 @@ namespace LCLocalizationInterface.LimbusRegistry.LocalizationFilesProcessing
                                 @"BgmLyrics",
                                 @"EGOVoiceDig",
                                 @"PersonalityVoiceDlg",
+                                @"RPGSystem",
                                 @"StoryData",
                                 @Profile.FontFiles.AlsoCopyFontFiles ? @"Font"         : @"",
                                 @Profile.FontFiles.AlsoCopyFontFiles ? @"Font\Context" : @"",
@@ -460,6 +461,12 @@ namespace LCLocalizationInterface.LimbusRegistry.LocalizationFilesProcessing
 
                                 if (CanSaveFile)
                                 {
+                                    string ExpectedDestinationDirectory = Path.GetDirectoryName(OutputFile_DestinationFullPath)!;
+                                    if (Directory.Exists(ExpectedDestinationDirectory) == false)
+                                    {
+                                        Directory.CreateDirectory(ExpectedDestinationDirectory);
+                                    }
+
                                     File.WriteAllText(path: OutputFile_DestinationFullPath, contents: FinalJsonFile, encoding: OuputEncoding);
 
                                     ProcessedFilesCounter++;

@@ -122,7 +122,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                 // Implicit keywords conversion to [KeywordID] (e.g. just 'Burn' in the text to '[Combustion]')
                 if (LoadedConfiguration.Internal.DisableImplicitKeywordsHighlightion == false)
                 {
-                    foreach (PlainKeyword MaybeImplicitKeyword in KeywordsLoader.LoadedKeywords_Bufs.Values.OrderByDescending(Keyword => Keyword.Name))
+                    foreach (PlainKeyword MaybeImplicitKeyword in KeywordsLoader.LoadedKeywords_Bufs.Values.OrderByDescending(Keyword => Keyword.Name.Length))
                     {
                         if (LimbusText.Contains(MaybeImplicitKeyword.Name))
                         {

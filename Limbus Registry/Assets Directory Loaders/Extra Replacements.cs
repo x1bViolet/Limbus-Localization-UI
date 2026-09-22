@@ -75,6 +75,9 @@
                                     return $"{(char)UnicodeCharacterCode}";
                                 });
 
+                                // Line breaks
+                                RepalceForPattern = RepalceForPattern.Replace("\\n", "\n");
+
                                 Readed[LatestOptionName].Add(new RegexReplaceOption(RegularExpression: new Regex(pattern: Line[11..]), Replacement: RepalceForPattern));
                             }
 

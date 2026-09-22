@@ -48,20 +48,26 @@ namespace LCLocalizationInterface.LimbusRegistry
 
                 private object SreenshotArea_Bufs => MainWindowInstance.RichTextViews__Keywords_COMPOSITION_Bufs_SurfaceScrollViewer.Content;
                 private object SreenshotArea_BattleKeywords => MainWindowInstance.RichTextViews__Keywords_COMPOSITION_BattleKeywords_GeneralParentScrollViewer.Content;
+                private Grid SreenshotArea_BattleKeywords_ParentBorder => MainWindowInstance.RichTextViews__Keywords_COMPOSITION_BattleKeywords_GeneralParentBorder;
                 public override void ScreenshotRichText()
                 {
                     object TargetSreenshotArea = CheckFileName!.StartsWith("Bufs")
                         ? SreenshotArea_Bufs
                         : SreenshotArea_BattleKeywords;
 
-                    MainWindowInstance.RichTextViews__Keywords_COMPOSITION_BattleKeywords_GeneralParentBorder.MaxHeight = double.MaxValue;
+                    SreenshotArea_BattleKeywords_ParentBorder.MaxHeight = double.MaxValue;
+                    double OriginalBufsScroll = MainWindowInstance.RichTextViews__Keywords_COMPOSITION_Bufs_SurfaceScrollViewer.VerticalOffset;
 
                     using (new ScreenshotBackgroundSetter(TargetSreenshotArea))
                     {
                         (TargetSreenshotArea as FrameworkElement)!.RenderImage(ScanPathTemplate.Exform(CurrentFile!.Name, this.CurrentKeywordID), ScreenshotsUpscale);
                     }
 
-                    MainWindowInstance.RichTextViews__Keywords_COMPOSITION_BattleKeywords_GeneralParentBorder.MaxHeight = 277;
+                    SreenshotArea_BattleKeywords_ParentBorder.MaxHeight = 277;
+                    if (TargetSreenshotArea == SreenshotArea_Bufs)
+                    {
+                        MainWindowInstance.RichTextViews__Keywords_COMPOSITION_Bufs_SurfaceScrollViewer.ScrollToVerticalOffset(OriginalBufsScroll);
+                    }
                 }
                 
                 
@@ -245,6 +251,40 @@ namespace LCLocalizationInterface.LimbusRegistry
 
                     MainWindowInstance.RichTextViews__Keywords_COMPOSITION_CurrentKeywordsViewVersionTab.SelectedIndex
                         = CheckFileName!.StartsWith("Bufs") ? 1 : 0; // Bufs / BattleKeywords view version select
+
+
+                    // Make rich text generation available only for current view to avoid double rich text gen for both Bufs and BattleKeywords views
+                    List<TMProEmitter> Descs_Bufs =
+                    [
+                        MainWindowInstance.RichTextViews__Keywords_Bufs_Name,
+                        MainWindowInstance.RichTextViews__Keywords_Bufs_MainDescription,
+                        MainWindowInstance.RichTextViews__Keywords_Bufs_FlavorDescription,
+                        MainWindowInstance.RichTextViews__Keywords_Bufs_SummaryDescription,
+                    ];
+
+                    List<TMProEmitter> Descs_BattleKeywords =
+                    [
+                        MainWindowInstance.RichTextViews__Keywords_BattleKeywords_Name,
+                        MainWindowInstance.RichTextViews__Keywords_BattleKeywords_MainDescription,
+                        MainWindowInstance.RichTextViews__Keywords_BattleKeywords_FlavorDescription,
+                        MainWindowInstance.RichTextViews__Keywords_BattleKeywords_SummaryDescription,
+                    ];
+
+                    static void ToggleRichTextGen(List<TMProEmitter> Enabled, List<TMProEmitter> Disabled)
+                    {
+                        Enabled.ForEach(TMProEmitter => TMProEmitter.RichTextGenerationAllowed = true);
+                        Disabled.ForEach(TMProEmitter => TMProEmitter.RichTextGenerationAllowed = false);
+                    }
+
+                    if (CheckFileName!.StartsWith("Bufs"))
+                    {
+                        ToggleRichTextGen(Descs_Bufs, Descs_BattleKeywords);
+                    }
+                    else
+                    {
+                        MainWindowInstance.RichTextViews__Keywords_Bufs_MainDescription.RichTextGenerationAllowed = false;
+                        ToggleRichTextGen(Descs_BattleKeywords, Descs_Bufs);
+                    }
                 }
 
 

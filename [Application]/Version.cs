@@ -4,7 +4,7 @@ namespace LCLocalizationInterface
 {
     public partial class App : Application
     {
-        public static readonly (sbyte Major, sbyte Minor, sbyte Patch) VersionHeading = (1, 4, 4);
+        public static readonly (sbyte Major, sbyte Minor, sbyte Patch) VersionHeading = (1, 4, 5);
         public static readonly string @Version = $"{VersionHeading.Major}.{VersionHeading.Minor}ː{VersionHeading.Patch}";
         public static readonly string VersionPrefix = "";
 

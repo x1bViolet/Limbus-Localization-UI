@@ -135,6 +135,6 @@ namespace LCLocalizationInterface.LimbusRegistry.JsonTypes
 
     public interface IHasIdentifier<TIdentifier>
     {
-        public TIdentifier ID { get; }
+        public TIdentifier? ID { get; }
     }
 }

@@ -187,7 +187,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                     if (SpecifiedRichTextFormat.EqualsToOneOf(RichTextFormat.Skills, RichTextFormat.Passives, RichTextFormat.EGOGifts))
                     {
                         // All [KeywordID] and Implicits
-                        foreach (PlainKeyword Keyword in KeywordsLoader.LoadedKeywords_Bufs.Values.Where(Keyword => !string.IsNullOrWhiteSpace(Keyword.ID) & !string.IsNullOrWhiteSpace(Keyword.Name)).OrderByDescending(Keyword => Keyword.Name))
+                        foreach (PlainKeyword Keyword in KeywordsLoader.LoadedKeywords_Bufs.Values.Where(Keyword => !string.IsNullOrWhiteSpace(Keyword.ID) & !string.IsNullOrWhiteSpace(Keyword.Name)).OrderByDescending(Keyword => Keyword.Name.Length))
                         {
                             string Color = ColorDictionaries.KeywordColors[Keyword.ID!];
 

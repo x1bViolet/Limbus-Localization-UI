@@ -122,7 +122,7 @@
                                     <Terminus:IntenseStareType1 RichText="Add as version of Skill №2" UID="[C] * [Column element creation dialog] OK Button (Summary Info view) - Add Skill 2 version" />
                                     <Terminus:IntenseStareType1 RichText="Add as version of Skill №3" UID="[C] * [Column element creation dialog] OK Button (Summary Info view) - Add Skill 3 version" />
                                     <Terminus:IntenseStareType1 RichText="Add as version Defense Skill" UID="[C] * [Column element creation dialog] OK Button (Summary Info view) - Add Defense Skill" />
-                                    <Terminus:IntenseStareType1 RichText="Add Passive" UID="[C] * [Column element creation dialog] OK Button (Summary Info view) - Add Defense Skill" />
+                                    <Terminus:IntenseStareType1 RichText="Add Passive" UID="[C] * [Column element creation dialog] OK Button (Summary Info view) - Add Passive" />
                                 </TStyle:SingleViewer>
 							</Button>
 						</StackPanel>

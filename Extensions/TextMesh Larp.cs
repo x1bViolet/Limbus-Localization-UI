@@ -193,7 +193,7 @@ namespace LCLocalizationInterface
             }]);
 
             public static readonly TagDefinition Hyperlink = new(@"hyperlink=""(?<Url>.*?)""", "/hyperlink", new TagID(nameof(Hyperlink)), [(Context) => {
-                string Url = Context.StartExpressionMatch.Groups["Url"].Value;
+                string Url = Context.StartExpressionMatch.Groups["Url"].Value.Replace("{ApplicationFolder}", AppDomain.CurrentDomain.BaseDirectory.Replace('\\', '/').RemovePostfix("/"));
                 Context.CreatedInline.MouseLeftButtonUp += (_, _) => Process.Start(new ProcessStartInfo(Url) { UseShellExecute = true });
                 Context.CreatedInline.Cursor = Cursors.Help;
                 Context.CreatedInline.ToolTip = Url;

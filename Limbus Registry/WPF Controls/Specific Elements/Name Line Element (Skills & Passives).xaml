@@ -55,7 +55,7 @@
 								LineHeight="20"
 								Visibility="Visible" />
 							<Grid.Effect>
-								<DropShadowEffect BlurRadius="0" Direction="-50" ShadowDepth="1.88" />
+								<DropShadowEffect BlurRadius="0" Direction="-50" ShadowDepth="2.28" />
 							</Grid.Effect>
 						</Grid>
 

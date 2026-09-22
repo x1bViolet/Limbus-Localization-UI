@@ -77,7 +77,7 @@ namespace LCLocalizationInterface.Internal
                 if (LoadedConfiguration.Internal.SkipSkillsDataReading == false)
                 {
                     /**/SplashScreenWindow.ProgressSubObject = @Languages.VariableData.ReadedStartupSteps.SubStages.SkillsData;
-                    @SkillsData.ReadSkillsDataFiles();
+                    @SkillsDataCenter.ReadSkillsDataFiles();
                 }
 
                 /**/SplashScreenWindow.ProgressSubObject = @Languages.VariableData.ReadedStartupSteps.SubStages.CompositeFonts;

@@ -407,12 +407,12 @@ namespace LCLocalizationInterface.Internal.Configuration
         {
             if (ProgramFullyLoaded)
             {
-                if (@SkillsData.ReadedSkillsData == ReadOnlyDictionary<BigInteger, @SkillsData.SkillsDataFileJson.SkillDataItem>.Empty)
+                if (@SkillsDataCenter.ReadedSkillsData == ReadOnlyDictionary<BigInteger, SkillData>.Empty)
                 {
                     // Let tooltip disappear
                     Await(0.3, CompleteAction: delegate ()
                     {
-                        @SkillsData.ReadSkillsDataFiles();
+                        @SkillsDataCenter.ReadSkillsDataFiles();
                         if (@EditorModesShelf.Skills.CurrentFile is not null)
                         {
                             @EditorModesShelf.Skills.ChangeSkillNameReplicaAppearance();

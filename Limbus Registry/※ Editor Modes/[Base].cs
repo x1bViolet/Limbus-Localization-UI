@@ -328,6 +328,25 @@ namespace LCLocalizationInterface.LimbusRegistry
                 /// </summary>
                 public virtual void ScreenshotRichText() { }
 
+                protected class ScreenshotAreaVerticalScrollTempNormalizer : IDisposable
+                {
+                    private ScrollViewer TargetScrollViewer { get; }
+                    private double OriginalVerticalOffset { get; }
+
+                    public ScreenshotAreaVerticalScrollTempNormalizer(ScrollViewer TargetScrollViewer)
+                    {
+                        this.TargetScrollViewer = TargetScrollViewer;
+                        this.OriginalVerticalOffset = TargetScrollViewer.VerticalOffset;
+                        TargetScrollViewer.ScrollToTop();
+                    }
+
+                    public void Dispose()
+                    {
+                        TargetScrollViewer.ScrollToVerticalOffset(this.OriginalVerticalOffset);
+                        GC.SuppressFinalize(this);
+                    }
+                }
+
                 protected class ScreenshotBackgroundSetter : IDisposable
                 {
                     private object TargetElement { get; }

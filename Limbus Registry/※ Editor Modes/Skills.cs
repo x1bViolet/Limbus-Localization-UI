@@ -51,9 +51,12 @@ namespace LCLocalizationInterface.LimbusRegistry
                 private object SreenshotArea => MainWindowInstance.RichTextViews__Skills_COMPOSITION_SurfaceScrollViewer.Content;
                 public override void ScreenshotRichText()
                 {
-                    using (new ScreenshotBackgroundSetter(this.SreenshotArea))
+                    using (new ScreenshotAreaVerticalScrollTempNormalizer(MainWindowInstance.RichTextViews__Skills_COMPOSITION_SurfaceScrollViewer))
                     {
-                        (this.SreenshotArea as FrameworkElement)!.RenderImage(ScanPathTemplate.Exform(CurrentFile!.Name, this.CurrentSkillID), ScreenshotsUpscale);
+                        using (new ScreenshotBackgroundSetter(this.SreenshotArea))
+                        {
+                            (this.SreenshotArea as FrameworkElement)!.RenderImage(ScanPathTemplate.Exform(CurrentFile!.Name, this.CurrentSkillID), ScreenshotsUpscale);
+                        }
                     }
                 }
 
@@ -221,19 +224,27 @@ namespace LCLocalizationInterface.LimbusRegistry
 
                 public override void WindowPreviewMouseDown(MouseButtonEventArgs Args, ref bool CancelIDSwitchByMouseXButtons)
                 {
-                    // Uptie switch on Left Ctrl + Forward/Back mouse buttons
                     // XButton1 = Back, XButton2 = Forward
-                    if (Args.ChangedButton.EqualsToOneOf(MouseButton.XButton1, MouseButton.XButton2) &&
-                        Keyboard.IsKeyDown(Key.LeftShift)
-                    ) {
-                        CancelIDSwitchByMouseXButtons = true;
-
-                        List<int> AvailableUpties = [.. this.RouteDictionary_UptieLevels[this.CurrentSkillID].Keys];
-                        int TargetUptieIndex = AvailableUpties.IndexOf(this.CurrentUptieNumber) + (Args.ChangedButton == MouseButton.XButton1 ? -1 : +1);
-
-                        if (TargetUptieIndex != -1 & TargetUptieIndex <= AvailableUpties.Count - 1)
+                    if (Args.ChangedButton.EqualsToOneOf(MouseButton.XButton1, MouseButton.XButton2))
+                    {
+                        // Uptie switch on Left Shift + Forward/Back mouse buttons
+                        if (Keyboard.IsKeyDown(Key.LeftShift))
                         {
-                            SwitchToSkill(this.CurrentSkillID, AvailableUpties[TargetUptieIndex]);
+                            CancelIDSwitchByMouseXButtons = true;
+
+                            Shortcut_UptieSwitch(Forward: Args.ChangedButton != MouseButton.XButton1);
+                        }
+
+                        // Coin desc switch on Left Ctrl + Forward/Back mouse buttons
+                        else if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                        {
+                            // If currently editing Coin desc
+                            if (MainWindowInstance.RightMenu_Skills_CurrentCoinDesc_Display.IsEnabled)
+                            {
+                                CancelIDSwitchByMouseXButtons = true;
+
+                                Shortcut_CoinDescSwitch(Forward: Args.ChangedButton != MouseButton.XButton1);
+                            }
                         }
                     }
                 }
@@ -241,24 +252,51 @@ namespace LCLocalizationInterface.LimbusRegistry
                 
                 public override void WindowPreviewKeyDown(KeyEventArgs Args, ref bool CancelIDSwitchByArrowButtons)
                 {
-                    // Uptie switch on Left Shift + Left/Right keyboard buttons
-                    if (Args.Key.EqualsToOneOf(Key.Left, Key.Right) && Keyboard.IsKeyDown(Key.LeftShift))
+                    if (Args.Key.EqualsToOneOf(Key.Left, Key.Right))
                     {
-                        if (Keyboard.FocusedElement is not ICSharpCode.AvalonEdit.Editing.TextArea) // Prevent left shift + left/right button text selection breaking
+                        // Uptie switch on Left Shift + Left/Right keyboard buttons
+                        if (Keyboard.IsKeyDown(Key.LeftShift))
                         {
-                            MouseButton Direction = MouseButton.Middle;
-                            if      (Args.Key == Key.Left ) Direction = MouseButton.XButton1;
-                            else if (Args.Key == Key.Right) Direction = MouseButton.XButton2;
-
-                            if (Direction != MouseButton.Middle)
+                            if (Keyboard.FocusedElement is not ICSharpCode.AvalonEdit.Editing.TextArea) // Prevent Left Shift + Left/Right button text selection breaking
                             {
-                                this.WindowPreviewMouseDown(new MouseButtonEventArgs(Mouse.PrimaryDevice, Environment.TickCount, Direction), ref CancelIDSwitchByArrowButtons);
+                                CancelIDSwitchByArrowButtons = true;
+
+                                Shortcut_UptieSwitch(Forward: Args.Key != Key.Left);
                             }
+                        }
+
+                        // Coin desc switch on Left Ctrl + Forward/Back mouse buttons
+                        else if (Keyboard.IsKeyDown(Key.LeftCtrl))
+                        {
+                            CancelIDSwitchByArrowButtons = true;
+
+                            Shortcut_CoinDescSwitch(Forward: Args.Key != Key.Left);
                         }
                     }
                 }
 
+                private void Shortcut_UptieSwitch(bool Forward = true)
+                {
+                    List<int> AvailableUpties = [.. this.RouteDictionary_UptieLevels[this.CurrentSkillID].Keys];
+                    int TargetUptieIndex = AvailableUpties.IndexOf(this.CurrentUptieNumber) + (Forward ? +1 : -1);
 
+                    if (TargetUptieIndex != -1 & TargetUptieIndex <= AvailableUpties.Count - 1)
+                    {
+                        SwitchToSkill(this.CurrentSkillID, AvailableUpties[TargetUptieIndex]);
+                    }
+                }
+                private void Shortcut_CoinDescSwitch(bool Forward = true)
+                {
+                    Button PreviousDescButton = MainWindowInstance.RightMenu_Skills_SwitchToCoinDesc_Back;
+                    Button NextDescButton = MainWindowInstance.RightMenu_Skills_SwitchToCoinDesc_Forward;
+
+                    Button TargetButton = Forward ? NextDescButton : PreviousDescButton;
+
+                    if (TargetButton.IsEnabled)
+                    {
+                        MainWindowInstance.RightMenuButtons__Skills_SwitchToPrevOrNextCoinDesc(TargetButton, null!);
+                    }
+                }
 
 
 
@@ -562,7 +600,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                 }
 
                 /// <summary>
-                /// Change properties of <see cref="MainWindow.RichTextViews__Skills_COMPOSITION_SkillNameReplica"/> UI element based on info found at <see cref="@SkillsData.ReadedSkillsData"/> dictionary (<see cref="LimbusRegistry.SkillNameReplicaUIElement"/> UserControl)
+                /// Change properties of <see cref="MainWindow.RichTextViews__Skills_COMPOSITION_SkillNameReplica"/> UI element based on info found at <see cref="@SkillsDataCenter.ReadedSkillsData"/> dictionary (<see cref="LimbusRegistry.SkillNameReplicaUIElement"/> UserControl)
                 /// </summary>
                 [LayeredComponent]
                 public void ChangeSkillNameReplicaAppearance()
@@ -588,7 +626,7 @@ namespace LCLocalizationInterface.LimbusRegistry
 
 
                     #region Set actual if can find data
-                    if (@SkillsData.ReadedSkillsData   .TryGetValue(this.CurrentSkillID,     out var SkillData) &&
+                    if (@SkillsDataCenter.ReadedSkillsData.TryGetValue(this.CurrentSkillID , out var SkillData) &&
                         SkillData.UptieLevelsDictionary.TryGetValue(this.CurrentUptieNumber, out var CurrentUptieData)
                     ) {
                         VisualElement.Rank = SkillData.Rank;
@@ -597,7 +635,8 @@ namespace LCLocalizationInterface.LimbusRegistry
                         VisualElement.LevelText = $"{60 + CurrentUptieData.LevelCorrection}";
                         VisualElement.BasePower = $"{CurrentUptieData.BasePower}";
                         VisualElement.CoinPower = $"{CurrentUptieData.CoinMathOperator}{CurrentUptieData.CoinPower}";
-                        
+                        VisualElement.IsClashableDefense = false;
+
                         // Anyway
                         static void Try(Action TryAction) { try { TryAction(); } catch { } }
                         Try(delegate () { VisualElement.Affinity   = Enum.Parse<AffinityName>(CurrentUptieData.Affinity!  ); });
@@ -605,6 +644,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                         Try(delegate () { VisualElement.SkillType  = Enum.Parse<SkillType>   (CurrentUptieData.SkillType! ); });
 
                         VisualElement.Coins = CurrentUptieData.CoinsSequence!;
+                        VisualElement.IsClashableDefense = CurrentUptieData.IsClashableDefense;
 
 
 
@@ -710,7 +750,7 @@ namespace LCLocalizationInterface
             TargetDesc.BringIntoView();
         }
         
-        private void RightMenuButtons__Skills_SwitchToPrevOrNextCoinDesc(object Sender, MouseButtonEventArgs Args)
+        public void RightMenuButtons__Skills_SwitchToPrevOrNextCoinDesc(object Sender, MouseButtonEventArgs Args)
         {
             var Direction = Enum.Parse<@EditorModesShelf.IDSwitchDirection>((Sender as Button)!.Uid);
 

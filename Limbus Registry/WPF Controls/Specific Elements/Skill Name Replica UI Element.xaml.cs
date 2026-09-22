@@ -28,6 +28,8 @@ namespace LCLocalizationInterface.LimbusRegistry
         public string Coins { get => (string)GetValue(CoinsProperty); set => SetValue(CoinsProperty, value); }
         public static readonly DependencyProperty CoinsProperty = RegisterProperty<SkillNameReplicaUIElement, string>(DefaultValue: "Regular, \0"); // ", 0" to trigger dependency property changed event and update Binding
 
+        public bool IsClashableDefense { get => (bool)GetValue(IsClashableDefenseProperty); set => SetValue(IsClashableDefenseProperty, value); }
+        public static readonly DependencyProperty IsClashableDefenseProperty = RegisterProperty<SkillNameReplicaUIElement, bool>(DefaultValue: false);
 
         public string LevelText { get => (string)GetValue(LevelTextProperty); set => SetValue(LevelTextProperty, value); }
         public static readonly DependencyProperty LevelTextProperty = RegisterProperty<SkillNameReplicaUIElement, string>(DefaultValue: "??");

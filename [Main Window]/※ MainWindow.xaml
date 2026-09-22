@@ -531,7 +531,7 @@
 																					HorizontalAlignment="Left"
 																					Stretch="Uniform">
 																					<Limbus:TMProEmitter
-																						x:Name="RichTextViews__Keywords_Bufs_Name"
+																						x:Name="RichTextViews__Keywords_BattleKeywords_Name"
 																						Width="290"
 																						VerticalAlignment="Center"
 																						Limbus:AcceptsRichTextDelay="False"
@@ -548,7 +548,7 @@
 																				<InternalStyle:SingleViewer HorizontalAlignment="Left" VerticalAlignment="Top" SelectedIndex="{Binding ElementName=RichTextViews__Keywords_COMPOSITION_MainAndSummaryDescsTab, Path=SelectedIndex}">
 																					<StackPanel>
 																						<Limbus:TMProEmitter
-																							x:Name="RichTextViews__Keywords_Bufs_MainDescription"
+																							x:Name="RichTextViews__Keywords_BattleKeywords_MainDescription"
 																							Limbus:FontType="Context"
 																							Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_MainDescription.Text}"
 																							Limbus:TextProcessingMode="None"
@@ -556,7 +556,7 @@
 																							LineHeight="25"
 																							PreviewMouseRightButtonDown="RichTextViews__Keywords_FastSwitch_ToKeywordMainDescription" />
 																						<Limbus:TMProEmitter
-																							x:Name="RichTextViews__Keywords_Bufs_FlavorDescription"
+																							x:Name="RichTextViews__Keywords_BattleKeywords_FlavorDescription"
 																							Margin="0 25 0 0"
 																							Limbus:FontType="Context"
 																							Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
@@ -569,7 +569,7 @@
 																					</StackPanel>
 																					<Grid>
 																						<Limbus:TMProEmitter
-																							x:Name="RichTextViews__Keywords_Bufs_SummaryDescription"
+																							x:Name="RichTextViews__Keywords_BattleKeywords_SummaryDescription"
 																							Limbus:FontType="Context"
 																							Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_SummaryDescription.Text, FallbackValue={x:Null}}"
 																							Limbus:TextProcessingMode="None"
@@ -634,7 +634,7 @@
 
 																		<StackPanel Margin="60 0 0 0" VerticalAlignment="Top">
 																			<Limbus:TMProEmitter
-																				x:Name="RichTextViews__Keywords_BattleKeywords_Name"
+																				x:Name="RichTextViews__Keywords_Bufs_Name"
 																				MaxWidth="249"
 																				Margin="5 0 0 8"
 																				HorizontalAlignment="Left"
@@ -648,7 +648,7 @@
 																			<InternalStyle:SingleViewer Margin="5 0 7.8 0" SelectedIndex="{Binding ElementName=RichTextViews__Keywords_COMPOSITION_MainAndSummaryDescsTab, Path=SelectedIndex}">
 																				<StackPanel>
 																					<Limbus:TMProEmitter
-																						x:Name="RichTextViews__Keywords_BattleKeywords_MainDescription"
+																						x:Name="RichTextViews__Keywords_Bufs_MainDescription"
 																						Limbus:FontType="Context"
 																						Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_MainDescription.Text}"
 																						Limbus:TextProcessingMode="None"
@@ -656,7 +656,7 @@
 																						LineHeight="22"
 																						PreviewMouseRightButtonDown="RichTextViews__Keywords_FastSwitch_ToKeywordMainDescription" />
 																					<Limbus:TMProEmitter
-																						x:Name="RichTextViews__Keywords_BattleKeywords_FlavorDescription"
+																						x:Name="RichTextViews__Keywords_Bufs_FlavorDescription"
 																						Margin="0 15 0 0"
 																						Limbus:FontType="Context"
 																						Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
@@ -669,7 +669,7 @@
 																				</StackPanel>
 																				<Grid>
 																					<Limbus:TMProEmitter
-																						x:Name="RichTextViews__Keywords_BattleKeywords_SummaryDescription"
+																						x:Name="RichTextViews__Keywords_Bufs_SummaryDescription"
 																						HorizontalAlignment="Left"
 																						Limbus:FontType="Context"
 																						Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_SummaryDescription.Text, FallbackValue={x:Null}}"
@@ -1760,13 +1760,14 @@
 																<ContextMenu>
 																	<ContextMenu.Resources>
 																		<Style BasedOn="{StaticResource {x:Type Terminus:MenuItem_T1}}" TargetType="{x:Type Terminus:MenuItem_T1}">
+                                                                            <!--    For Add/Remove Uptie buttons   -->
 																			<Setter Property="StaysOpenOnClick" Value="True" />
 																		</Style>
 																	</ContextMenu.Resources>
 																	<Terminus:MenuItem_T1 Click="JsonManaging_RemoveThisObject" RichText="Remove this skill" StaysOpenOnClick="False" UID="[Main UI / Manual json files managing] * Skill removal" />
 																	<Separator />
-																	<Terminus:MenuItem_T1 Click="JsonManaging_Skills_AddEGOAbnormalityName" RichText="Add E.G.O Abnormality name" UID="[Main UI / Manual json files managing] * Skill E.G.O Abnormality name — Add" />
-																	<Terminus:MenuItem_T1 Click="JsonManaging_Skills_RemoveEGOAbnormalityName" RichText="Remove E.G.O Abnormality name" UID="[Main UI / Manual json files managing] * Skill E.G.O Abnormality name — Remove" />
+                                                                    <Terminus:MenuItem_T1 Click="JsonManaging_Skills_AddEGOAbnormalityName" RichText="Add E.G.O Abnormality name" StaysOpenOnClick="False" UID="[Main UI / Manual json files managing] * Skill E.G.O Abnormality name — Add" />
+                                                                    <Terminus:MenuItem_T1 Click="JsonManaging_Skills_RemoveEGOAbnormalityName" RichText="Remove E.G.O Abnormality name" StaysOpenOnClick="False" UID="[Main UI / Manual json files managing] * Skill E.G.O Abnormality name — Remove" />
 																	<Separator />
 																	<Terminus:MenuItem_T1 RichText="Add uptie.." UID="[Main UI / Manual json files managing] * Skill Uptie — Add">
 																		<Terminus:MenuItem_T1 x:Uid="1" Click="JsonManaging_Skills_AddUptie" RichText="Uptie №1" UID="[Main UI / Manual json files managing] * Skill Uptie — Add (№1)" />
@@ -2133,8 +2134,8 @@
 																<ContextMenu>
 																	<Terminus:MenuItem_T1 Click="JsonManaging_RemoveThisObject" RichText="Remove this keyword" UID="[Main UI / Manual json files managing] * Keyword removal" />
 																	<Separator />
-																	<Terminus:MenuItem_T1 Click="JsonManaging_Keywords_AddTemplateColor" RichText="Add template color" StaysOpenOnClick="True" UID="[Main UI / Manual json files managing] * Keyword template color — Add" />
-																	<Terminus:MenuItem_T1 Click="JsonManaging_Keywords_RemoveTemplateColor" RichText="Remove template color" StaysOpenOnClick="True" UID="[Main UI / Manual json files managing] * Keyword template color — Remove" />
+																	<Terminus:MenuItem_T1 Click="JsonManaging_Keywords_AddTemplateColor" RichText="Add template color" UID="[Main UI / Manual json files managing] * Keyword template color — Add" />
+																	<Terminus:MenuItem_T1 Click="JsonManaging_Keywords_RemoveTemplateColor" RichText="Remove template color" UID="[Main UI / Manual json files managing] * Keyword template color — Remove" />
 																</ContextMenu>
 															</Button.ContextMenu>
 														</Button>
