@@ -1,1 +1,0 @@
-The "Preload list.txt" file determines which icons are loaded when the program starts (Effect icons are otherwise loaded dynamically the first time they requested during a session).
