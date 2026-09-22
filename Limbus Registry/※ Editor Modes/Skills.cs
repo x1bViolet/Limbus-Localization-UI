@@ -644,7 +644,6 @@ namespace LCLocalizationInterface.LimbusRegistry
                         Try(delegate () { VisualElement.SkillType  = Enum.Parse<SkillType>   (CurrentUptieData.SkillType! ); });
 
                         VisualElement.Coins = CurrentUptieData.CoinsSequence!;
-                        VisualElement.IsClashableDefense = CurrentUptieData.IsClashableDefense;
 
 
 
@@ -681,7 +680,9 @@ namespace LCLocalizationInterface.LimbusRegistry
                         // Then apply placeholder if icon is still unknown after all steps
                         if (AcquiredSkillIcon == ImageDictionaries.UnknownSpriteImage)
                         {
-                            AcquiredSkillIcon = BitmapFromResource($"UI/Limbus/Skills/Default Icons/{VisualElement.Affinity}/{VisualElement.SkillType}.png");
+                            AcquiredSkillIcon = BitmapFromResource($"UI/Limbus/Skills/Default Icons/{VisualElement.Affinity}/{VisualElement.SkillType}.png"); // Only for placeholders
+
+                            VisualElement.IsClashableDefense = CurrentUptieData.IsClashableDefense;
                         }
 
                         // Finally set icon
