@@ -1,1 +1,0 @@
-Excerpt from the documentation about Extra Replacements: https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface/usage/interface-utilizing#extra-replacements-context-menu
