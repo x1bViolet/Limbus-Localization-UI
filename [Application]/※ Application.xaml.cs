@@ -152,17 +152,17 @@ namespace LCLocalizationInterface
 
                     ["Keyword things"] = delegate
                     {
-                        // if (JsonFile.Name.Contains("buff") & JsonFile.Name.ContainsOneOf("by-formation", "railway-dungeon-buff") == false)
+                        string WhatToDo = "Print as list for Sprites availability check";
 
-                        string WhatToDo = "Keyword Colors extraction";
-
-                        LimbusDataFile<KeywordData> SelectedFile = new FileInfo(@"").DeserealizeJsonAs<LimbusDataFile<KeywordData>>()!;
                         switch (WhatToDo)
                         {
                             case "Keyword Colors extraction":
 
+                                // if (JsonFile.Name.Contains("buff") & JsonFile.Name.ContainsOneOf("by-formation", "railway-dungeon-buff") == false)
+                                LimbusDataFile<KeywordData> SelectedDataFile = new FileInfo(@"").DeserealizeJsonAs<LimbusDataFile<KeywordData>>()!;
+
                                 string Colors = "";
-                                foreach (KeywordData Info in SelectedFile.DataList)
+                                foreach (KeywordData Info in SelectedDataFile.DataList)
                                 {
                                     Colors += $"{Info.ID} ¤ {Info.Color}\n";
                                 }
@@ -173,10 +173,12 @@ namespace LCLocalizationInterface
 
                             case "Print as list for Sprites availability check":
 
+                                LimbusLocalizationFile<PlainKeyword> SelectedLocalizationFile = new FileInfo(@"").DeserealizeJsonAs<LimbusLocalizationFile<PlainKeyword>>()!;
+
                                 string Total = "";
-                                foreach (KeywordData Info in SelectedFile.DataList)
+                                foreach (PlainKeyword Info in SelectedLocalizationFile.DataList)
                                 {
-                                    Total += $"<sprite name=\\\"{Info.ID}\\\"\\n";
+                                    Total += $"<sprite name=\\\"{Info.ID}\\\"> ({Info.ID})\\n";
                                 }
                                 Clipboard.SetText(Total);
 
@@ -188,7 +190,7 @@ namespace LCLocalizationInterface
                     }
                 };
 
-                // Scenarios["..."].Invoke();
+                Scenarios[""].Invoke();
 
                 Application.Current.Shutdown();
             }
