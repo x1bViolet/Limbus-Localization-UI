@@ -1,6 +1,6 @@
 ## Limbus Company gameplay localization files editor with text preview.
 
-### Latest version: [1.4:5 Release](https://github.com/x1bViolet/Limbus-Localization-UI/releases/tag/1.4%CB%905)
+### Latest version: [1.5:0 Release](https://github.com/x1bViolet/Limbus-Localization-UI/releases/latest)
 
 ### Documentation: [GitBook](https://translation-devouring-siltcurren.gitbook.io/lc-localization-interface)
 
