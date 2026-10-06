@@ -22,7 +22,6 @@
 							MinWidth="305"
 							MaxWidth="345"
 							VerticalAlignment="Center"
-							Limbus:AcceptsRichTextDelay="False"
 							Limbus:FontType="Title"
 							Limbus:RichText="{Binding ElementName=Root, Path=KeywordName}"
 							Limbus:TextProcessingMode="None"
@@ -34,7 +33,6 @@
 
 				<StackPanel Margin="18 0 25 18">
 					<Limbus:TMProEmitter
-						Limbus:AcceptsRichTextDelay="False"
 						Limbus:FontType="Context"
 						Limbus:RichText="{Binding ElementName=Root, Path=KeywordDesc}"
 						Limbus:TextProcessingMode="None"
@@ -44,7 +42,6 @@
 					<Limbus:TMProEmitter
 						x:Uid="Flavor desc of tooltip"
 						Margin="0 22 0 0"
-						Limbus:AcceptsRichTextDelay="False"
 						Limbus:FontType="Context"
 						Limbus:RichText="{Binding ElementName=Root, Path=KeywordFlavor}"
 						Limbus:TextProcessingMode="None"

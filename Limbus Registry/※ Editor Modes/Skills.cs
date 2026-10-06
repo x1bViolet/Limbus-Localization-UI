@@ -476,9 +476,12 @@ namespace LCLocalizationInterface.LimbusRegistry
                     this.CurrentSkillID = TargetSkillID;
                     this.CurrentUptieNumber = UptieLevelNumber;
 
+                    this.VirtualCurrentObject = this.CurrentUptie;
+
                     #region DataContextDomain values set
                     @DataContextDomain.Editor.CurrentSkill = this.RouteDictionary_SkillObjects[this.CurrentSkillID];
                     @DataContextDomain.Editor.CurrentUptie = this.RouteDictionary_UptieLevels[this.CurrentSkillID][this.CurrentUptieNumber];
+                    @DataContextDomain.Editor.CurrentObjectName = this.CurrentUptie.Name;
                     #endregion
 
                     /// <see cref="MainWindow.JsonManaging_SkillOptionalAffinitySelector_SelectionChanged"/>
@@ -879,6 +882,7 @@ namespace LCLocalizationInterface
                         Uid = $"Coin {CoinNumber}, Desc {CoinDescNumber}",
                         FontType = LimbusFontTypes.Context,
                         TextProcessingMode = RichTextFormat.Skills,
+                        AcceptsRichTextDelay = true,
                         FontSize = 20, LineHeight = 27
                     };
                     MainCoinDesc.SetBinding(TMProEmitter.RichTextProperty, new Binding()
@@ -894,6 +898,7 @@ namespace LCLocalizationInterface
                         Uid = $"Coin {CoinNumber}, Desc {CoinDescNumber} (Summary)",
                         FontType = LimbusFontTypes.Context,
                         TextProcessingMode = RichTextFormat.Skills,
+                        AcceptsRichTextDelay = true,
                         FontSize = 16, LineHeight = 21,
                         Margin = new Thickness(4, 0, 4, 8)
                     };

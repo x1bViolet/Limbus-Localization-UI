@@ -202,7 +202,7 @@
 													</Style>
 												</ContextMenu.Resources>
 												<Terminus:MenuItem_T1 x:Uid="Insert Style" RichText="Insert &lt;style&gt;" UID="[Context Menu] * Insert Style" />
-												<Separator />
+												<Separator UseLayoutRounding="True" />
 												<Terminus:MenuItem_T1 x:Uid="&lt;TMPro&gt; To [KeywordID]" RichText="TextMeshPro to [KeywordID]" UID="[Context Menu] * TextMeshPro to [KeywordID]" />
 												<Terminus:MenuItem_T1 x:Uid="&lt;TMPro&gt; To Shorthands" RichText="TextMeshPro to Shorthands" UID="[Context Menu] * TextMeshPro to Shorthands" />
 												<Terminus:MenuItem_T1 x:Uid="Implicit To [KeywordID]" RichText="Implicit to [KeywordID]" UID="[Context Menu] * Implicit to [KeywordID]" />
@@ -244,15 +244,31 @@
 													RenderOptions.BitmapScalingMode="NearestNeighbor"
 													Source="/UI/Limbus/Skills/Background.png" />
 												<InternalStyle:SurfaceScrollViewer x:Name="RichTextViews__MainMenu_COMPOSITION_SurfaceScrollViewer" Margin="10 20 40 50">
-													<Limbus:TMProEmitter
-														x:Name="RichTextViews__MainMenu_DefaultDesc"
-														Margin="5 0 0 0"
-														Limbus:FontType="Context"
-														Limbus:RichText="{Binding DataContextDomain.Editor.MainMenuDocument.Text}"
-														Limbus:TextProcessingMode="EGOGifts"
-														FontSize="20" />
+                                                    <Grid>
+                                                        <Limbus:TMProEmitter
+															x:Name="RichTextViews__MainMenu_DefaultDesc"
+															Margin="5 0 0 0"
+															Limbus:FontType="Context"
+															Limbus:RichText="{Binding DataContextDomain.Editor.MainMenuDocument.Text}"
+															Limbus:TextProcessingMode="EGOGifts"
+															Limbus:AcceptsRichTextDelay="True"
+															FontSize="20" />
+														<Grid x:Name="DiscordRPCLogo" Visibility="Collapsed" HorizontalAlignment="Center" VerticalAlignment="Top">
+															<Image Source="/UI/TestLogo.png"/>
+                                                            <Grid>
+																<TextBlock HorizontalAlignment="Right" Margin="0 0 35 0" FontWeight="Black" VerticalAlignment="Bottom" FontSize="180" FontFamily="GOST Type BU" Foreground="#b3b0a9" Text="LCLI">
+																	<TextBlock.Effect>
+																		<DropShadowEffect BlurRadius="0" ShadowDepth="11" Direction="130" />
+																	</TextBlock.Effect>
+																</TextBlock>
+                                                                <Grid.Effect>
+                                                                    <DropShadowEffect BlurRadius="10" ShadowDepth="3" Color="#716f6c" />
+                                                                </Grid.Effect>
+                                                            </Grid>
+														</Grid>
+													</Grid>
 												</InternalStyle:SurfaceScrollViewer>
-											</Grid>
+                                            </Grid>
 
 
 
@@ -323,6 +339,7 @@
 															Limbus:FontType="Context"
 															Limbus:RichText="{Binding DataContextDomain.Editor.CurrentUptie.DedicatedDocument_MainDescription.Text}"
 															Limbus:TextProcessingMode="Skills"
+															Limbus:AcceptsRichTextDelay="True"
 															Background="Transparent"
 															FontSize="20"
 															LineHeight="27"
@@ -343,6 +360,7 @@
 															Limbus:FontType="Context"
 															Limbus:RichText="{Binding DataContextDomain.Editor.CurrentUptie.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
 															Limbus:TextProcessingMode="None"
+															Limbus:AcceptsRichTextDelay="True"
 															Background="Transparent"
 															FontSize="17.5"
 															FontStyle="Italic"
@@ -441,13 +459,14 @@
 															FillColorRightOffsetReduction="12"
 															NameMaximumWidth="585" />
 														<InternalStyle:SingleViewer x:Name="RichTextViews__Passives_COMPOSITION_MainAndSummaryDescsTab">
-															<StackPanel>
-																<Limbus:TMProEmitter
+                                                            <StackPanel>
+                                                                <Limbus:TMProEmitter
 																	x:Name="RichTextViews__Passives_MainDescription"
 																	Margin="5 0 0 0"
 																	Limbus:FontType="Context"
 																	Limbus:RichText="{Binding DataContextDomain.Editor.CurrentPassive.DedicatedDocument_MainDescription.Text}"
 																	Limbus:TextProcessingMode="Passives"
+                                                                    Limbus:AcceptsRichTextDelay="True"
 																	FontSize="20"
 																	LineHeight="27"
 																	PreviewMouseRightButtonDown="RichTextViews__Passives_FastSwitch_ToPassiveMainDescription" />
@@ -457,6 +476,7 @@
 																	Limbus:FontType="Context"
 																	Limbus:RichText="{Binding DataContextDomain.Editor.CurrentPassive.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
 																	Limbus:TextProcessingMode="None"
+                                                                    Limbus:AcceptsRichTextDelay="True"
 																	FontSize="17.5"
 																	FontStyle="Italic"
 																	Foreground="#8a592f"
@@ -470,6 +490,7 @@
 																	Limbus:FontType="Context"
 																	Limbus:RichText="{Binding DataContextDomain.Editor.CurrentPassive.DedicatedDocument_SummaryDescription.Text, FallbackValue={x:Null}}"
 																	Limbus:TextProcessingMode="Passives"
+                                                                    Limbus:AcceptsRichTextDelay="True"
 																	FontSize="20"
 																	LineHeight="27" />
 															</Grid>
@@ -534,7 +555,6 @@
 																						x:Name="RichTextViews__Keywords_BattleKeywords_Name"
 																						Width="290"
 																						VerticalAlignment="Center"
-																						Limbus:AcceptsRichTextDelay="False"
 																						Limbus:FontType="Title"
 																						Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.KeylessDedicatedDocument_Name.Text, Converter={StaticResource EscapedLineBreaksConverter}}"
 																						Limbus:TextProcessingMode="None"
@@ -552,6 +572,7 @@
 																							Limbus:FontType="Context"
 																							Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_MainDescription.Text}"
 																							Limbus:TextProcessingMode="None"
+																							Limbus:AcceptsRichTextDelay="True"
 																							FontSize="19"
 																							LineHeight="25"
 																							PreviewMouseRightButtonDown="RichTextViews__Keywords_FastSwitch_ToKeywordMainDescription" />
@@ -561,6 +582,7 @@
 																							Limbus:FontType="Context"
 																							Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
 																							Limbus:TextProcessingMode="None"
+																							Limbus:AcceptsRichTextDelay="True"
 																							FontSize="16.5"
 																							FontStyle="Italic"
 																							Foreground="#8a592f"
@@ -573,6 +595,7 @@
 																							Limbus:FontType="Context"
 																							Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_SummaryDescription.Text, FallbackValue={x:Null}}"
 																							Limbus:TextProcessingMode="None"
+																							Limbus:AcceptsRichTextDelay="True"
 																							FontSize="19"
 																							LineHeight="25" />
 																					</Grid>
@@ -638,7 +661,6 @@
 																				MaxWidth="249"
 																				Margin="5 0 0 8"
 																				HorizontalAlignment="Left"
-																				Limbus:AcceptsRichTextDelay="False"
 																				Limbus:FontType="Title"
 																				Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.KeylessDedicatedDocument_Name.Text, Converter={StaticResource EscapedLineBreaksConverter}}"
 																				Limbus:TextProcessingMode="None"
@@ -652,6 +674,7 @@
 																						Limbus:FontType="Context"
 																						Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_MainDescription.Text}"
 																						Limbus:TextProcessingMode="None"
+																						Limbus:AcceptsRichTextDelay="True"
 																						FontSize="14"
 																						LineHeight="22"
 																						PreviewMouseRightButtonDown="RichTextViews__Keywords_FastSwitch_ToKeywordMainDescription" />
@@ -661,6 +684,7 @@
 																						Limbus:FontType="Context"
 																						Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
 																						Limbus:TextProcessingMode="None"
+																						Limbus:AcceptsRichTextDelay="True"
 																						FontSize="13.5"
 																						FontStyle="Italic"
 																						Foreground="#8a592f"
@@ -674,6 +698,7 @@
 																						Limbus:FontType="Context"
 																						Limbus:RichText="{Binding DataContextDomain.Editor.CurrentKeyword.DedicatedDocument_SummaryDescription.Text, FallbackValue={x:Null}}"
 																						Limbus:TextProcessingMode="None"
+																						Limbus:AcceptsRichTextDelay="True"
 																						FontSize="14"
 																						LineHeight="22" />
 																				</Grid>
@@ -872,7 +897,6 @@
 															x:Name="EGOGiftVisualView_Name"
 															MinWidth="280"
 															MaxWidth="430"
-															Limbus:AcceptsRichTextDelay="False"
 															Limbus:FontType="Title"
 															Limbus:RichText="{Binding DataContextDomain.Editor.CurrentEGOGift.KeylessDedicatedDocument_Name.Text, Converter={StaticResource EscapedLineBreaksConverter}}"
 															Limbus:TextProcessingMode="None"
@@ -949,7 +973,6 @@
 															MinWidth="105"
 															Margin="0 0 25 0"
 															VerticalAlignment="Center"
-															Limbus:AcceptsRichTextDelay="False"
 															Limbus:FontType="Title"
 															Limbus:RichText="View Desc."
 															Limbus:TextProcessingMode="None"
@@ -1115,6 +1138,7 @@
 																Limbus:FontType="Context"
 																Limbus:RichText="{Binding DataContextDomain.Editor.CurrentEGOGift.DedicatedDocument_MainDescription.Text}"
 																Limbus:TextProcessingMode="EGOGifts"
+																Limbus:AcceptsRichTextDelay="True"
 																FontSize="18.5"
 																LineHeight="24.9"
 																PreviewMouseRightButtonDown="RichTextViews__EGOGifts_FastSwitch_ToEGOGiftMainDescription" />
@@ -1125,6 +1149,7 @@
 																Limbus:FontType="Context"
 																Limbus:RichText="{Binding DataContextDomain.Editor.CurrentEGOGift.DedicatedDocument_FlavorDescription.Text, FallbackValue={x:Null}}"
 																Limbus:TextProcessingMode="EGOGifts"
+																Limbus:AcceptsRichTextDelay="True"
 																FontSize="16.1875"
 																FontStyle="Italic"
 																Foreground="#8a592f"
@@ -1132,7 +1157,7 @@
 																PreviewMouseRightButtonDown="RichTextViews__EGOGifts_FastSwitch_ToEGOGiftFlavorDescription" />
 														</StackPanel>
 
-														<!--    Initialized from MainWindow.EGOGifts_SetupInteractions    -->
+                                                        <!--    Initialized from MainWindow.EGOGifts_SetupSimpleDescsView    -->
 														<InternalStyle:SingleViewer x:Name="RichTextViews__EGOGifts_COMPOSITION_SimpleDescriptionsTab" x:Uid="Simple descriptions" />
 
 													</InternalStyle:SingleViewer>
@@ -1159,9 +1184,8 @@
 													<InternalStyle:SurfaceScrollViewer.Resources>
 
 														<Style x:Key="ObservationLog_Title" BasedOn="{StaticResource {x:Type Limbus:TMProEmitter}}" TargetType="{x:Type Limbus:TMProEmitter}">
-															<Setter Property="FontType" Value="Title" />
-															<Setter Property="AcceptsRichTextDelay" Value="False" />
-															<Setter Property="TextProcessingMode" Value="None" />
+                                                            <Setter Property="FontType" Value="Title" />
+                                                            <Setter Property="TextProcessingMode" Value="None" />
 
 															<Setter Property="FontSize" Value="18.3" />
 															<Setter Property="Foreground" Value="#9f6a3a" />
@@ -1172,6 +1196,7 @@
 														<Style x:Key="ObservationLog_Text" BasedOn="{StaticResource {x:Type Limbus:TMProEmitter}}" TargetType="{x:Type Limbus:TMProEmitter}">
 															<Setter Property="FontType" Value="Context" />
 															<Setter Property="TextProcessingMode" Value="None" />
+															<Setter Property="AcceptsRichTextDelay" Value="True" />
 
 															<Setter Property="FontSize" Value="16" />
 															<Setter Property="LineHeight" Value="22.45" />
@@ -1349,10 +1374,10 @@
 																	</Style>
 																</ContextMenu.Resources>
 																<Terminus:MenuItem_T1 RichText="Open with external editor" UID="[Main UI] * Json Path — 'Open with external editor' context menu option" />
-																<Separator />
+																<Separator UseLayoutRounding="True" />
 																<Terminus:MenuItem_T1 RichText="Copy file text" UID="[Main UI] * Json Path — 'Copy file text' context menu option" />
 																<Terminus:MenuItem_T1 RichText="Copy file itself" UID="[Main UI] * Json Path — 'Copy file itself' context menu option" />
-																<Separator />
+																<Separator UseLayoutRounding="True" />
 																<Terminus:MenuItem_T1 RichText="Copy name" UID="[Main UI] * Json Path — 'Copy name' context menu option" />
 																<Terminus:MenuItem_T1 RichText="Copy full path" UID="[Main UI] * Json Path — 'Copy full path' context menu option" />
 															</ContextMenu>
@@ -1388,7 +1413,7 @@
 																IsHitTestVisible="False"
 																RichText="Create file"
 																UID="[Main UI / Create file context menu] * Title" />
-															<Separator />
+															<Separator UseLayoutRounding="True" />
 															<Terminus:MenuItem_T1 RichText="Skills" UID="[Main UI / Create file context menu] * Skills" />
 															<Terminus:MenuItem_T1 RichText="Passives" UID="[Main UI / Create file context menu] * Passives" />
 															<Terminus:MenuItem_T1 RichText="Keywords" UID="[Main UI / Create file context menu] * Keywords">
@@ -1517,7 +1542,6 @@
 														<Terminus:IntenseStareType1 x:Name="ProgramVersionTitle" Margin="5" FontSize="28" RichText="Version" UID="[Main UI] * Version title" />
 														<Terminus:IntenseStareType1 Margin="5" RichText="※" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
 														<Terminus:IntenseStareType1 Margin="5" RichText="{Binding DataContextDomain.ProgramVersion, Mode=OneTime}" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" />
-														<Terminus:IntenseStareType1 RichText="{Binding DataContextDomain.VersionPrefix, Mode=OneTime}" StyleInherintingSource="{Binding ElementName=ProgramVersionTitle}" Visibility="Visible" />
 													</StackPanel>
 												</StackPanel>
 											</Grid>
@@ -1728,7 +1752,6 @@
 															<Limbus:TMProEmitter
 																x:Name="RightMenuUIElements__Skills_SkillUptieLevelSign"
 																Margin="2 2 1.5 0"
-																Limbus:AcceptsRichTextDelay="False"
 																Limbus:FontType="Title"
 																Limbus:RichText="Uptie Tier"
 																Limbus:TextProcessingMode="None"
@@ -1765,10 +1788,10 @@
 																		</Style>
 																	</ContextMenu.Resources>
 																	<Terminus:MenuItem_T1 Click="JsonManaging_RemoveThisObject" RichText="Remove this skill" StaysOpenOnClick="False" UID="[Main UI / Manual json files managing] * Skill removal" />
-																	<Separator />
+																	<Separator UseLayoutRounding="True" />
                                                                     <Terminus:MenuItem_T1 Click="JsonManaging_Skills_AddEGOAbnormalityName" RichText="Add E.G.O Abnormality name" StaysOpenOnClick="False" UID="[Main UI / Manual json files managing] * Skill E.G.O Abnormality name — Add" />
                                                                     <Terminus:MenuItem_T1 Click="JsonManaging_Skills_RemoveEGOAbnormalityName" RichText="Remove E.G.O Abnormality name" StaysOpenOnClick="False" UID="[Main UI / Manual json files managing] * Skill E.G.O Abnormality name — Remove" />
-																	<Separator />
+																	<Separator UseLayoutRounding="True" />
 																	<Terminus:MenuItem_T1 RichText="Add uptie.." UID="[Main UI / Manual json files managing] * Skill Uptie — Add">
 																		<Terminus:MenuItem_T1 x:Uid="1" Click="JsonManaging_Skills_AddUptie" RichText="Uptie №1" UID="[Main UI / Manual json files managing] * Skill Uptie — Add (№1)" />
 																		<Terminus:MenuItem_T1 x:Uid="2" Click="JsonManaging_Skills_AddUptie" RichText="Uptie №2" UID="[Main UI / Manual json files managing] * Skill Uptie — Add (№2)" />
@@ -2133,7 +2156,7 @@
 															<Button.ContextMenu>
 																<ContextMenu>
 																	<Terminus:MenuItem_T1 Click="JsonManaging_RemoveThisObject" RichText="Remove this keyword" UID="[Main UI / Manual json files managing] * Keyword removal" />
-																	<Separator />
+																	<Separator UseLayoutRounding="True" />
 																	<Terminus:MenuItem_T1 Click="JsonManaging_Keywords_AddTemplateColor" RichText="Add template color" UID="[Main UI / Manual json files managing] * Keyword template color — Add" />
 																	<Terminus:MenuItem_T1 Click="JsonManaging_Keywords_RemoveTemplateColor" RichText="Remove template color" UID="[Main UI / Manual json files managing] * Keyword template color — Remove" />
 																</ContextMenu>

@@ -327,6 +327,8 @@ namespace LCLocalizationInterface.LimbusRegistry
                 {
                     this.CurrentEGOGiftID = TargetEGOGiftID;
 
+                    this.VirtualCurrentObject = this.CurrentEGOGift;
+
                     base.CheckSwitchIDButtonsAvailability(this.AvailableIDsList.IndexOf(this.CurrentEGOGiftID), this.AvailableIDsList.Count - 1);
 
                     #region DataContextDomain values set
@@ -543,18 +545,20 @@ namespace LCLocalizationInterface
         
         private void EGOGifts_SetupSimpleDescsView()
         {
-            for (int CoinDescNumber = 1; CoinDescNumber <= 10; CoinDescNumber++)
+            for (int SimpleDescNumber = 1; SimpleDescNumber <= 10; SimpleDescNumber++)
             {
                 TMProEmitter SimpleDesc = new()
                 {
+                    Uid = $"Simple Desc ({SimpleDescNumber})",
                     FontType = LimbusFontTypes.Context,
                     TextProcessingMode = InputRichTextFormatter.RichTextFormat.EGOGifts,
+                    AcceptsRichTextDelay = true,
                     FontSize = 18.5, LineHeight = 24.9,
                 };
                 SimpleDesc.SetBinding(TMProEmitter.RichTextProperty, new Binding()
                 {
                     /// <see cref="Entanglement.EntanglementModel.DataContextDomain"/>
-                    Path = new PropertyPath($"DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[{CoinDescNumber - 1}].DedicatedDocument_Description.Text"),
+                    Path = new PropertyPath($"DataContextDomain.Editor.CurrentEGOGift.SimpleDescriptions[{SimpleDescNumber - 1}].DedicatedDocument_Description.Text"),
                     Mode = BindingMode.OneWay, FallbackValue = null
                 });
                 RichTextViews__EGOGifts_COMPOSITION_SimpleDescriptionsTab.Children.Add(new Grid() { Children = { SimpleDesc } });

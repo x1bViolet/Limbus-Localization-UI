@@ -44,7 +44,7 @@ namespace LCLocalizationInterface.Entanglement
         public record DataContextDomainProperties : Explicit
         {
             /// <summary>Formatted <see cref="App.@Version"/> with rich text tags for OneTime Binding in main menu</summary>
-            public string ProgramVersion => App.@Version.Replace("ː", "<b>ː<size=19%> </size></b>");
+            public string ProgramVersion => App.@Version.Replace("ː", "<b>ː</b>");
             public string VersionPrefix => $"<u>{App.VersionPrefix}</u>";
 
 
@@ -58,9 +58,11 @@ namespace LCLocalizationInterface.Entanglement
             public record Editor_PROP : Explicit
             {
                 public string? CurrentObjectID { get; set; }
-                private void DisplayedIDSetter<TIdentifier>(IHasIdentifier<TIdentifier>? IDObject)
+                public string? CurrentObjectName { get; set; }
+                private void DisplayedIDSetter(object? IDObject)
                 {
-                    CurrentObjectID = IDObject is not null ? $"{IDObject.ID}" : @Languages.VariableData.InsertionsDefaultValue;
+                    CurrentObjectID = IDObject is not null ? $"{IDObject.GetPropertyValue<object>("ID")}" : @Languages.VariableData.InsertionsDefaultValue;
+                    CurrentObjectName = IDObject is Skill Skill ? Skill.UptieLevels.First().Name : IDObject?.GetPropertyValue<string>("Name");
                 }
 
                 /// [PropertyChanged.DoNotCheckEquality] is needed because when switching between active editor modes using the button in the title bar, <see cref="DisplayedIDSetter"/> should be called anyway by switch to the same current object to update the displayed ID
@@ -85,7 +87,7 @@ namespace LCLocalizationInterface.Entanglement
 
 
                 [DoNotCheckEquality]
-                public ObservationLog? CurrentObservationLog { get; set => DisplayedIDSetter(field = value); }
+                public ObservationLog? CurrentObservationLog { get; set { using (TMProEmitter.DisabledRichTextDelay) DisplayedIDSetter(field = value); } }
                 
                 public ObservationStory? CurrentObservationStory { get; set { using (TMProEmitter.DisabledRichTextDelay) field = value; } }
 

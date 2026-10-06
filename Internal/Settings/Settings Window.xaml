@@ -57,7 +57,7 @@
 					</Style>
 					<Style x:Key="Theme:ControlStyles.Spec.Settings.SectionHeader" BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}" TargetType="{x:Type Terminus:IntenseStareType1}">
 						<Setter Property="Margin" Value="0 0 0 5" />
-						<Setter Property="Padding" Value="0 12 0 0" />
+						<Setter Property="Padding" Value="0 22 0 0" />
 						<Setter Property="FontSize" Value="26" />
 						<Setter Property="LineHeight" Value="26" />
 						<Setter Property="Cursor" Value="Hand" />
@@ -92,7 +92,8 @@
 					</Style>
 					<Style x:Key="Theme:ControlStyles.Spec.ConfirmValueButton" BasedOn="{StaticResource Theme:ControlStyles.SquareButton}" TargetType="{x:Type Button}">
 						<EventSetter Event="Click" Handler="Buttons_AutoSaveConfig" />
-						<Setter Property="Width" Value="29" />
+                        <Setter Property="Grid.Column" Value="1" />
+                        <Setter Property="Width" Value="29" />
 						<Setter Property="Height" Value="29" />
 						<Setter Property="HorizontalAlignment" Value="Right" />
 						<Setter Property="Content" Value="" />
@@ -263,7 +264,7 @@
 									<Terminus:IntenseStareType1 RichText="Limbus Preview update delay" UID="[Settings / Editor Parameters] * Preview update delay" />
 									<TStyle:TwoColumned Grid.Column="1" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 										<Terminus:IntenseStareType3 UID="[Settings / Editor Parameters] * Preview update delay" />
-										<Button Grid.Column="1" Click="SaveAndDeploy_LimbusPreviewDelay" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										<Button Click="SaveAndDeploy_LimbusPreviewDelay" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 								</TStyle:TwoColumned>
 
@@ -280,7 +281,7 @@
 
 								<TStyle:TwoColumned Margin="0">
 									<Terminus:IntenseStareType1 x:Name="LimbusCustomLangSelectorHeader" RichText="Selected" UID="[Settings / Custom Language] * Selected Properties" />
-									<ComboBox x:Name="SV_SelectingCustomLanguage" Grid.Column="1" Padding="5 1 5 0" VerticalContentAlignment="Center" SelectionChanged="LimbusCustomLanguageSelector_SelectionChanged" />
+									<ComboBox x:Name="SV_SelectingCustomLanguage" Grid.Column="1" Padding="6 1 5 0" VerticalContentAlignment="Center" SelectionChanged="LimbusCustomLanguageSelector_SelectionChanged" />
 								</TStyle:TwoColumned>
 
 								<TStyle:TwoColumned>
@@ -299,7 +300,7 @@
 									<Terminus:IntenseStareType1 RichText="Keywords directory" UID="[Settings / Custom Language] * Keywords Directory" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.KeywordsDirectory}" UID="[Settings / Custom Language] * Keywords Directory" PathSelectionButtonType="Directory" />
-										<Button Grid.Column="1" Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										<Button Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 								</StackPanel>
 
@@ -309,7 +310,7 @@
 									<Terminus:IntenseStareType1 RichText="Title font" UID="[Settings / Custom Language] * Title Font" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.TitleFont}" UID="[Settings / Custom Language] * Title Font" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_Font}" />
-										<Button Grid.Column="1" Click="SaveAndDeploy_TitleFont" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										<Button Click="SaveAndDeploy_TitleFont" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 
 									<TStyle:TwoColumned Margin="0 5 0 10" T:BooleanStateHandler.IsVisible="{Binding ElementName=ShowCustomLangExtendedButtons, Path=IsChecked}">
@@ -319,7 +320,7 @@
 											<ComboBox
 												x:Name="TitleFontWeightSelector"
 												Margin="0 2 0 0"
-												Padding="5 1 5 0"
+												Padding="6 1 5 0"
 												ItemTemplate="{StaticResource FontWeightsItemContainerStyle_Title}"
 												ItemsSource="{StaticResource FontWeights}"
 												SelectedItem="{Binding DataContextDomain.SelectedLimbusCustomLanguage.TitleFont_FontWeight}"
@@ -333,7 +334,7 @@
 									<Terminus:IntenseStareType1 RichText="Context font" UID="[Settings / Custom Language] * Context Font" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.ContextFont}" UID="[Settings / Custom Language] * Context Font" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_Font}" />
-										<Button Grid.Column="1" Click="SaveAndDeploy_ContextFont" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										<Button Click="SaveAndDeploy_ContextFont" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 
 									<TStyle:TwoColumned Margin="0 5 0 10" T:BooleanStateHandler.IsVisible="{Binding ElementName=ShowCustomLangExtendedButtons, Path=IsChecked}">
@@ -343,7 +344,7 @@
 											<ComboBox
 												x:Name="ContextFontWeightSelector"
 												Margin="0 2 0 0"
-												Padding="5 1 5 0"
+												Padding="6 1 5 0"
 												ItemTemplate="{StaticResource FontWeightsItemContainerStyle_Context}"
 												ItemsSource="{StaticResource FontWeights}"
 												SelectedItem="{Binding DataContextDomain.SelectedLimbusCustomLanguage.ContextFont_FontWeight}"
@@ -359,7 +360,7 @@
 										<Terminus:IntenseStareType1 RichText="Sprites horizontal offset" UID="[Settings / Custom Language] * Sprites horizontal offset" />
 										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 											<Terminus:IntenseStareType3 Terminus:Assistant.PreviewInputRegexHandling="^[0-9,.+-]+$" UID="[Settings / Custom Language] * Sprites horizontal offset" />
-											<Button Grid.Column="1" Click="ChangeSpritesHorizontalOffset" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+											<Button Click="ChangeSpritesHorizontalOffset" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 										</TStyle:TwoColumned>
 									</StackPanel>
 
@@ -367,7 +368,7 @@
 										<Terminus:IntenseStareType1 RichText="Sprites vertical offset" UID="[Settings / Custom Language] * Sprites vertical offset" />
 										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 											<Terminus:IntenseStareType3 Terminus:Assistant.PreviewInputRegexHandling="^[0-9,.+-]+$" UID="[Settings / Custom Language] * Sprites vertical offset" />
-											<Button Grid.Column="1" Click="ChangeSpritesVerticalOffset" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+											<Button Click="ChangeSpritesVerticalOffset" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 										</TStyle:TwoColumned>
 									</StackPanel>
 
@@ -380,7 +381,7 @@
 										<Terminus:IntenseStareType1 RichText="Keywords autodetection Regex pattern" UID="[Settings / Custom Language] * Keywords autodetection Regex pattern" />
 										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.Keywords_AutodetectionRegex}" UID="[Settings / Custom Language] * Keywords autodetection Regex pattern" />
-											<Button Grid.Column="1" Click="SaveAndDeploy_KeywordsAutodetectionRegex" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+											<Button Click="SaveAndDeploy_KeywordsAutodetectionRegex" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 										</TStyle:TwoColumned>
 									</StackPanel>
 
@@ -388,7 +389,7 @@
 										<Terminus:IntenseStareType1 RichText="Keywords Multiple meanings dictionary file" UID="[Settings / Custom Language] * Keywords Multiple meanings dictionary file" />
 										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.KeywordsMultipleMeaningsDictionary}" UID="[Settings / Custom Language] * Keywords Multiple meanings dictionary file" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_Json}" />
-											<Button Grid.Column="1" Click="SaveAndDeploy_KeywordsMultipleMeaningsDictionary" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+											<Button Click="SaveAndDeploy_KeywordsMultipleMeaningsDictionary" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 										</TStyle:TwoColumned>
 									</StackPanel>
 
@@ -396,7 +397,7 @@
 										<Terminus:IntenseStareType1 RichText="Context Menu Extra replacements file" UID="[Settings / Custom Language] * Context Menu Extra replacements file" />
 										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.ContextMenuExtraReplacements}" UID="[Settings / Custom Language] * Context Menu Extra replacements file" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_RegexReplacements}" />
-											<Button Grid.Column="1" Click="SaveAndDeploy_ExtraReplacements" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+											<Button Click="SaveAndDeploy_ExtraReplacements" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 										</TStyle:TwoColumned>
 									</StackPanel>
 
@@ -404,7 +405,7 @@
 										<Terminus:IntenseStareType1 RichText="Shorthands Regex pattern" UID="[Settings / Custom Language] * Shorthands Regex pattern" />
 										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.Keywords_ShorthandsRegex}" UID="[Settings / Custom Language] * Shorthands Regex pattern" />
-											<Button Grid.Column="1" Click="SaveAndDeploy_ShorthandsPattern" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+											<Button Click="SaveAndDeploy_ShorthandsPattern" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 										</TStyle:TwoColumned>
 									</StackPanel>
 
@@ -412,7 +413,7 @@
 										<Terminus:IntenseStareType1 RichText="Shorthands Context Menu insertion shape" UID="[Settings / Custom Language] * Shorthands Context Menu insertion shape" />
 										<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 											<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.SelectedLimbusCustomLanguage.Shorthands_InsertionShape}" UID="[Settings / Custom Language] * Shorthands Context Menu insertion shape" />
-											<Button Grid.Column="1" Click="SaveAndDeploy_ShorthandsPatternInsertionShape" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+											<Button Click="SaveAndDeploy_ShorthandsPatternInsertionShape" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 										</TStyle:TwoColumned>
 									</StackPanel>
 
@@ -424,7 +425,7 @@
 									<Terminus:IntenseStareType1 RichText="Fallback keywords directory" UID="[Settings / Custom Language] * Fallback Keywords Directory" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.PreviewSettings.CustomLang.KeywordsFallbackDirectory}" UID="[Settings / Custom Language] * Fallback Keywords Directory" PathSelectionButtonType="Directory" />
-										<Button Grid.Column="1" Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										<Button Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 								</StackPanel>
 
@@ -432,7 +433,7 @@
 									<Terminus:IntenseStareType1 RichText="Additional keywords directory" UID="[Settings / Custom Language] * Additional Keywords Directory" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.PreviewSettings.CustomLang.AdditionalKeywordsDirectory}" UID="[Settings / Custom Language] * Additional Keywords Directory" PathSelectionButtonType="Directory" />
-										<Button Grid.Column="1" Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										<Button Click="SaveAndDeploy_Common_UpdateLimbusCustomLang" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 								</StackPanel>
 
@@ -627,7 +628,7 @@
 											<Terminus:IntenseStareType1 RichText="Autosave delay (Seconds)" UID="[Settings / Editor Parameters] * Autosave delay" />
 											<TStyle:TwoColumned Grid.Column="1" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 												<Terminus:IntenseStareType3 UID="[Settings / Editor Parameters] * Autosave delay" />
-												<Button Grid.Column="1" Click="SaveAndDeploy_AutoSaveDelay" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+												<Button Click="SaveAndDeploy_AutoSaveDelay" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 											</TStyle:TwoColumned>
 										</TStyle:TwoColumned>
 									</TStyle:Section>
@@ -648,7 +649,7 @@
 						</StackPanel>
 
 
-						<StackPanel>
+						<StackPanel Margin="0 -5 0 0">
 
 							<Terminus:IntenseStareType1 RichText="⦁ Image Exports" Style="{StaticResource Theme:ControlStyles.Spec.Settings.SectionHeader}" UID="[Settings / Image Exports] * Section Name" />
 
@@ -658,7 +659,7 @@
 									<Terminus:IntenseStareType1 RichText="Scans Scale Factor" UID="[Settings / Image Exports] * Scale Factor" />
 									<TStyle:TwoColumned Grid.Column="1" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 										<Terminus:IntenseStareType3 x:Name="ImageExportsScaleFactorInput" Terminus:Assistant.PreviewInputRegexHandling="^[0-9,.+-]+$" UID="[Settings / Image Exports] * Scale Factor" />
-										<Button Grid.Column="1" Click="SaveAndDeploy_ImageExportsScale" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										<Button Click="SaveAndDeploy_ImageExportsScale" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 								</TStyle:TwoColumned>
 
@@ -666,7 +667,7 @@
 									<Terminus:IntenseStareType1 RichText="Skills Background Color (Hex [u]RGB[/u] / [u]ARGB[/u])" UID="[Settings / Image Exports] * Background Color" />
 									<TStyle:TwoColumned Grid.Column="1" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 										<Terminus:IntenseStareType3 x:Name="ImageExportsBGColorInput" BindableText="{Binding DataContextDomain.Configuration.ScanParameters.BackgroundColor, UpdateSourceTrigger=PropertyChanged}" DisplayInputColor="True" TextMaxLength="8" UID="[Settings / Image Exports] * Background Color" />
-										<Button Grid.Column="1" Click="SaveAndDeploy_BackgroundColor" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										<Button Click="SaveAndDeploy_BackgroundColor" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 								</TStyle:TwoColumned>
 
@@ -684,7 +685,7 @@
 									<Terminus:IntenseStareType1 RichText="Preloaded Image Info for Identity/E.G.O Preview Creator" UID="[Settings / Image Exports] * Preloaded Image Info for Identity/E.G.O Preview Creator" />
 									<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
 										<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.ScanParameters.PreloadedImageInfoForPreviewCreator}" UID="[Settings / Image Exports] * Preloaded Image Info for Identity/E.G.O Preview Creator" PathSelectionButtonType="File" FileSelectAttributes="{StaticResource FileSelecion_Json}" />
-										<Button Grid.Column="1" Click="SaveAndDeploy_PreloadImageInfoForPreviewCreator" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+										<Button Click="SaveAndDeploy_PreloadImageInfoForPreviewCreator" Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
 									</TStyle:TwoColumned>
 								</StackPanel>
 
@@ -700,7 +701,179 @@
 
 						</StackPanel>
 
-					</StackPanel>
+
+                        <StackPanel>
+
+                            <Terminus:IntenseStareType1 RichText="⦁ Discord RPC" Style="{StaticResource Theme:ControlStyles.Spec.Settings.SectionHeader}" UID="[Settings / Discord RPC] * Section Name" />
+
+                            <TStyle:Section>
+
+                                <TStyle:TwoColumned>
+                                    <Terminus:IntenseStareType1 RichText="Enable Discord RPC" UID="[Settings / Discord RPC] * Enable RPC" />
+                                    <CheckBox Grid.Column="1" Checked="EnableAutoSave_Checked" IsChecked="{Binding DataContextDomain.Configuration.DiscordRPCOptions.Enabled}" />
+                                </TStyle:TwoColumned>
+
+                                <StackPanel IsEnabled="{Binding DataContextDomain.Configuration.DiscordRPCOptions.Enabled}">
+									<TStyle:TwoColumned>
+										<Terminus:IntenseStareType1 RichText="Activity Type" UID="[Settings / Discord RPC] * Activity Type" />
+										<ComboBox x:Name="SV_SelectingDiscordRPCActivityType" SelectedValuePath="Uid" SelectedValue="{Binding DataContextDomain.Configuration.DiscordRPCOptions.ActivityType}" Grid.Column="1" Padding="6 1 5 0" VerticalContentAlignment="Center" SelectionChanged="DiscordRPCActivitySelector_SelectionChanged">
+											<Terminus:IntenseStareType1 UID="[Settings / Discord RPC] * Activity Type — Playing"   RichText="Playing"   x:Uid="Playing"   />
+											<Terminus:IntenseStareType1 UID="[Settings / Discord RPC] * Activity Type — Listening" RichText="Listening" x:Uid="Listening" />
+											<Terminus:IntenseStareType1 UID="[Settings / Discord RPC] * Activity Type — Watching"  RichText="Watching"  x:Uid="Watching"  />
+											<Terminus:IntenseStareType1 UID="[Settings / Discord RPC] * Activity Type — Competing" RichText="Competing" x:Uid="Competing" />
+										</ComboBox>
+									</TStyle:TwoColumned>
+                                    
+									<Grid Margin="0 18 0 0">
+                                        <Grid.ColumnDefinitions>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                            <ColumnDefinition/>
+                                        </Grid.ColumnDefinitions>
+
+                                        <Grid.Resources>
+                                            <Style TargetType="{x:Type Terminus:IntenseStareType1}" BasedOn="{StaticResource {x:Type Terminus:IntenseStareType1}}">
+                                                <Setter Property="Cursor" Value="Hand" />
+                                                <EventSetter Event="PreviewMouseLeftButtonDown" Handler="SwitchDiscordRPCScopeEditing" />
+                                                <Style.Triggers>
+                                                    <Trigger Property="Tag" Value="Disabled">
+                                                        <Setter Property="Opacity" Value="0.55" />
+                                                    </Trigger>
+                                                </Style.Triggers>
+                                            </Style>
+                                        </Grid.Resources>
+
+                                        <Terminus:IntenseStareType1 TextAlignment="Left" UID="[Settings / Discord RPC] * Editing Scope Switch - Main Menu" x:Uid="Main Menu" Tag="Disabled" Grid.Column="0" VerticalAlignment="Top" RichText="Main Menu" />
+                                        <Terminus:IntenseStareType1 TextAlignment="Left" UID="[Settings / Discord RPC] * Editing Scope Switch - Active Editor" x:Uid="Active Editor" Grid.Column="1" VerticalAlignment="Top" RichText="Active Editor" />
+                                        <Terminus:IntenseStareType1 TextAlignment="Right" UID="[Settings / Discord RPC] * Editing Scope Switch - Preview Creator" x:Uid="Preview Creator" Tag="Disabled" Grid.Column="2" VerticalAlignment="Top" RichText="Preview Creator" />
+									</Grid>
+                                    
+                                    
+									<StackPanel x:Name="DiscordRPCTextFields">
+                                        
+                                        <StackPanel Margin="0 6 0 0">
+                                            <Terminus:IntenseStareType1 RichText="Details Text" UID="[Settings / Discord RPC] * Details Text" />
+                                            <TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+                                                <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.Details}" UID="[Settings / Discord RPC] * Details Text" />
+                                                <Button Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+                                            </TStyle:TwoColumned>
+                                        </StackPanel>
+                                        <StackPanel Margin="0 6 0 0">
+                                            <Terminus:IntenseStareType1 RichText="State Text" UID="[Settings / Discord RPC] * State Text" />
+                                            <TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+                                                <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.State}" UID="[Settings / Discord RPC] * State Text" />
+                                                <Button Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+                                            </TStyle:TwoColumned>
+                                        </StackPanel>
+
+                                        <TStyle:TwoColumned Margin="0 12 0 0">
+                                            <StackPanel Margin="0 0 5 0">
+												<Terminus:IntenseStareType1 RichText="Details Click URL" UID="[Settings / Discord RPC] * Details Click URL" />
+												<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+													<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.Details_URL}" UID="[Settings / Discord RPC] * Details Text" />
+													<Button Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+												</TStyle:TwoColumned>
+											</StackPanel>
+											<StackPanel Grid.Column="1">
+												<Terminus:IntenseStareType1 RichText="State Click URL" UID="[Settings / Discord RPC] * State Click URL" />
+												<TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+													<Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.State_URL}" UID="[Settings / Discord RPC] * State Text" />
+													<Button Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+												</TStyle:TwoColumned>
+											</StackPanel>
+                                        </TStyle:TwoColumned>
+
+                                        <StackPanel>
+											<TStyle:TwoColumned Margin="0 14 0 0">
+												<Terminus:IntenseStareType1 RichText="Enable Button №1" UID="[Settings / Discord RPC] * Enable Button №1" />
+												<CheckBox Grid.Column="1" Checked="EnableAutoSave_Checked" IsChecked="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.Button1.Enabled}" />
+											</TStyle:TwoColumned>
+
+                                            <TStyle:TwoColumned Margin="0 6 0 0" IsEnabled="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.Button1.Enabled}">
+                                                <StackPanel Margin="0 0 5 0">
+                                                    <Terminus:IntenseStareType1 RichText="Label" UID="[Settings / Discord RPC] * Button №1 Label" />
+                                                    <TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+                                                        <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.Button1.Label}" UID="[Settings / Discord RPC] * Button №1 Label" />
+                                                        <Button Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+                                                    </TStyle:TwoColumned>
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="1">
+                                                    <Terminus:IntenseStareType1 RichText="Click URL" UID="[Settings / Discord RPC] * Button №1 Click URL" />
+                                                    <TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+                                                        <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.Button1.URL}" UID="[Settings / Discord RPC] * Button №1 Click URL" />
+                                                        <Button Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+                                                    </TStyle:TwoColumned>
+                                                </StackPanel>
+                                            </TStyle:TwoColumned>
+                                        </StackPanel>
+
+                                        <StackPanel>
+                                            <TStyle:TwoColumned Margin="0 14 0 0">
+                                                <Terminus:IntenseStareType1 RichText="Enable Button №2" UID="[Settings / Discord RPC] * Enable Button №2" />
+                                                <CheckBox Grid.Column="1" Checked="EnableAutoSave_Checked" IsChecked="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.Button2.Enabled}" />
+                                            </TStyle:TwoColumned>
+                                            
+                                            <TStyle:TwoColumned Margin="0 6 0 0" IsEnabled="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.Button2.Enabled}">
+                                                <StackPanel Margin="0 0 5 0">
+                                                    <Terminus:IntenseStareType1 RichText="Label" UID="[Settings / Discord RPC] * Button №2 Label" />
+                                                    <TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+                                                        <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.Button2.Label}" UID="[Settings / Discord RPC] * Button №2 Label" />
+                                                        <Button Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+                                                    </TStyle:TwoColumned>
+                                                </StackPanel>
+                                                <StackPanel Grid.Column="1">
+                                                    <Terminus:IntenseStareType1 RichText="Click URL" UID="[Settings / Discord RPC] * Button №2 Click URL" />
+                                                    <TStyle:TwoColumned Style="{StaticResource Theme:ControlStyles.Spec.ConfirmTextInputWrapper}">
+                                                        <Terminus:IntenseStareType3 BindableText="{Binding DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings.Button2.URL}" UID="[Settings / Discord RPC] * Button №2 Click URL" />
+                                                        <Button Style="{StaticResource Theme:ControlStyles.Spec.ConfirmValueButton}" />
+                                                    </TStyle:TwoColumned>
+                                                </StackPanel>
+                                            </TStyle:TwoColumned>
+                                        </StackPanel>
+
+                                    </StackPanel>
+
+                                    <StackPanel>
+										<TStyle:TwoColumned Margin="0 20 0 0">
+											<Terminus:IntenseStareType1 RichText="Show Information" UID="[Settings / Discord RPC] * Show Information" />
+											<CheckBox x:Name="ShowDiscordRPCInformationCheckBox" Grid.Column="1" IsChecked="False" />
+										</TStyle:TwoColumned>
+
+                                        <Grid>
+                                            <Grid.Style>
+                                                <Style TargetType="{x:Type Grid}">
+                                                    <Style.Triggers>
+                                                        <DataTrigger Binding="{Binding ElementName=ShowDiscordRPCInformationCheckBox, Path=IsChecked}" Value="False">
+                                                            <Setter Property="MaxHeight" Value="60" />
+                                                            <Setter Property="OpacityMask">
+                                                                <Setter.Value>
+                                                                    <LinearGradientBrush StartPoint="0 0" EndPoint="0 1">
+                                                                        <GradientStop Color="#FFFFFF" Offset="0.0"/>
+                                                                        <GradientStop Color="#00000000" Offset="1.0"/>
+                                                                    </LinearGradientBrush>
+                                                                </Setter.Value>
+                                                            </Setter>
+                                                        </DataTrigger>
+                                                    </Style.Triggers>
+                                                </Style>
+                                            </Grid.Style>
+                                            <Terminus:IntenseStareType1
+                                                VerticalAlignment="Top"
+												Margin="0 5 0 0"
+												FontSize="16"
+												Foreground="{DynamicResource Theme:UIText.SettingsWindow.Foreground.Comments}"
+												LineHeight="20"
+												UID="[Settings / Discord RPC] * Information"/>
+                                        </Grid>
+                                    </StackPanel>
+
+                                </StackPanel>
+                                
+                            </TStyle:Section>
+
+                        </StackPanel>
+
+                    </StackPanel>
 				</ScrollViewer>
 
 			</Grid>

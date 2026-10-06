@@ -237,5 +237,57 @@
       "'Background Color' can be ARGB",
       "'Scale Factor' highly affects on text quality, bigger values cuses long export time, max value is 15 (About ~7 seconds of absurdres image exporting)"
     ]
+  },
+  "Discord RPC": {
+    "Enabled": false,
+    "Activity Type": "Watching",
+    "Main Menu": {
+      "Details": "In the Main Menu",
+      "Details (Click URL)": "",
+      "State": "> Idling",
+      "State (Click URL)": "",
+      "Button 1": {
+        "Enabled": false,
+        "Label": "",
+        "URL": ""
+      },
+      "Button 2": {
+        "Enabled": false,
+        "Label": "Download LCLI",
+        "URL": "https://github.com/x1bViolet/Limbus-Localization-UI/releases/latest"
+      }
+    },
+    "Active Text Editor": {
+      "Details": "Editing \"{file_name}\"",
+      "Details (Click URL)": "",
+      "State": "> ID {current_object_id} (\"{current_object_name}\") [{current_object_number}/{total_objects_count}]",
+      "State (Click URL)": "",
+      "Button 1": {
+        "Enabled": false,
+        "Label": "",
+        "URL": ""
+      },
+      "Button 2": {
+        "Enabled": false,
+        "Label": "Download LCLI",
+        "URL": "https://github.com/x1bViolet/Limbus-Localization-UI/releases/latest"
+      }
+    },
+    "Identity/E.G.O Preview Creator": {
+      "Details": "In Identity/E.G.O Preview Creator",
+      "Details (Click URL)": "",
+      "State": "> {previewcreator_identity_or_ego_name} {previewcreator_sinner_name} ({previewcreator_portrait_type} | {previewcreator_rarity_or_risk_level})",
+      "State (Click URL)": "",
+      "Button 1": {
+        "Enabled": false,
+        "Label": "",
+        "URL": ""
+      },
+      "Button 2": {
+        "Enabled": false,
+        "Label": "Download LCLI",
+        "URL": "https://github.com/x1bViolet/Limbus-Localization-UI/releases/latest"
+      }
+    }
   }
 }

@@ -328,6 +328,8 @@ namespace LCLocalizationInterface.LimbusRegistry
                 {
                     this.CurrentKeywordID = TargetKeywordID;
 
+                    this.VirtualCurrentObject = this.CurrentKeyword;
+
                     base.CheckSwitchIDButtonsAvailability(this.AvailableIDsList.IndexOf(this.CurrentKeywordID), this.AvailableIDsList.Count - 1);
 
                     #region DataContextDomain values set

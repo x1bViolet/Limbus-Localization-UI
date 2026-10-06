@@ -319,7 +319,8 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
 
             if (Target.IsSummaryView)
             {
-                ColumnTextElementNameMaximumLengthSlider.Maximum = 190;
+                // 190 = max width of summary skill container
+                ColumnTextElementNameMaximumLengthSlider.Maximum = Target.RelatedJsonData.Type is ColumnTextElementType.Passive ? 1100 : 190;
                 ColumnTextElementNameMaximumLengthSlider.TickFrequency = 190;
                 OffsetSliders.Width2 = new GridLength(0);
                 HorizontalOffset_Panel.Visibility = Visibility.Collapsed;

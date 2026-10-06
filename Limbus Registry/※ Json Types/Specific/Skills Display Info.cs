@@ -108,37 +108,6 @@
                     Attributes = new() { ShowAffinityIcon = true, },
                 };
             }
-
-            private class InvalidEnumLiteralResolver<TEnum>(TEnum DefaultEnumValueInput) : JsonConverter<TEnum> where TEnum : struct, Enum
-            {
-                private readonly TEnum DefaultEnumValue = DefaultEnumValueInput;
-
-                public override TEnum ReadJson(JsonReader Reader, Type ObjectType, TEnum ExistingValue, bool HasExistingValue, JsonSerializer Serializer)
-                {
-                    if (Reader.TokenType == JsonToken.String)
-                    {
-                        string? EnumText = Reader.Value?.ToString();
-                        if (Enum.TryParse(EnumText, ignoreCase: true, out TEnum ParsedEnum))
-                        {
-                            return ParsedEnum;
-                        }
-                        else
-                        {
-                            return DefaultEnumValue;
-                        }
-                    }
-                    // Maybe `if (Reader.TokenType == JsonToken.Integer)` too, unused there
-                    else
-                    {
-                        return DefaultEnumValue;
-                    }
-                }
-
-                public override void WriteJson(JsonWriter Writer, TEnum Value, JsonSerializer Serializer)
-                {
-                    Writer.WriteValue(Value.ToString());
-                }
-            }
         }
     }
 }

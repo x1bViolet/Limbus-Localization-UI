@@ -1,7 +1,7 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <OutputType>WinExe</OutputType>
+    <OutputType>Exe</OutputType>
     <TargetFramework>net8.0-windows</TargetFramework>
     <RootNamespace>LCLocalizationInterface</RootNamespace>
     <Nullable>enable</Nullable>
@@ -11,10 +11,10 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <LangVersion>preview</LangVersion>
     <GenerateDocumentationFile>False</GenerateDocumentationFile>
-    <FileVersion>1.4.5</FileVersion>
+    <FileVersion>1.5.0</FileVersion>
     <SignAssembly>False</SignAssembly>
     <RepositoryUrl>https://github.com/x1bViolet/Limbus-Localization-UI</RepositoryUrl>
-    <Version>1.4.5</Version>
+    <Version>1.5.0</Version>
     <Authors>x1bViolet</Authors>
     <AssemblyName>$(MSBuildProjectName)</AssemblyName>
     <PackageLicenseFile>LICENSE</PackageLicenseFile>
@@ -29,11 +29,21 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <Page Remove="[Application]\※ Application.xaml" />
+    <ApplicationDefinition Include="[Application]\※ Application.xaml" />
   </ItemGroup>
 
   <ItemGroup>
-    <ApplicationDefinition Include="[Application]\※ Application.xaml" />
+    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
+    <PackageReference Include="DiffPlex.Wpf" Version="1.9.1" />
+    <PackageReference Include="DiscordRichPresence" Version="1.6.1.70" />
+    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
+    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
+    <PackageReference Include="RijnadelClassLibrary.CSharp" Version="1.0.0" />
+    <PackageReference Include="RijnadelClassLibrary.FileEventsNotifier" Version="1.0.1" />
+    <PackageReference Include="RijnadelClassLibrary.Json" Version="1.0.1" />
+    <PackageReference Include="RijnadelClassLibrary.ObservableDictionary" Version="1.0.0" />
+    <PackageReference Include="RijnadelClassLibrary.SyntaxedTextEditorBase" Version="1.0.1" />
+    <PackageReference Include="RijnadelClassLibrary.WPFTools" Version="1.0.4" />
   </ItemGroup>
 
   <ItemGroup>
@@ -178,22 +188,6 @@
     <Resource Include="UI\Limbus\Skills\Default Icons\Pride\Guard.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
-    <PackageReference Include="AvalonEdit" Version="6.3.1.120" />
-    <PackageReference Include="DiffPlex.Wpf" Version="1.9.1" />
-    <PackageReference Include="Newtonsoft.Json" Version="13.0.4" />
-    <PackageReference Include="PropertyChanged.Fody" Version="4.1.0" />
-    <PackageReference Include="RijnadelClassLibrary.CSharp" Version="1.0.0" />
-    <PackageReference Include="RijnadelClassLibrary.FileEventsNotifier" Version="1.0.1" />
-    <PackageReference Include="RijnadelClassLibrary.Json" Version="1.0.1" />
-    <PackageReference Include="RijnadelClassLibrary.ObservableDictionary" Version="1.0.0" />
-    <PackageReference Include="RijnadelClassLibrary.SyntaxedTextEditorBase" Version="1.0.1" />
-    <PackageReference Include="RijnadelClassLibrary.WPFTools" Version="1.0.4" />
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="Limbus Registry\※ Identity ¦ E.G.O  Preview Creator\Images\E.G.O Risk Levels\ALEPH.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
@@ -623,9 +617,6 @@
     <Resource Include="UI\Logo.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>
-  </ItemGroup>
-
-  <ItemGroup>
     <Resource Include="UI\Limbus\Zena Cat\fu.png">
       <CopyToOutputDirectory>Never</CopyToOutputDirectory>
     </Resource>

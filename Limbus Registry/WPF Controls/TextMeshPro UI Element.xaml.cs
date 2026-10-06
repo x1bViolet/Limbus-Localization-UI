@@ -5,11 +5,6 @@ namespace LCLocalizationInterface.LimbusRegistry
 {
     public class TMProEmitter : TextBlock
     {
-        public static List<TMProEmitter> AllInstances { get; } = [];
-
-        public TMProEmitter() => AllInstances.Add(this);
-        ~TMProEmitter() => AllInstances.Remove(this);
-
         /// <summary>
         /// Prevent endless keyword tooltips creation for keywords inside keywords tooltips inside tooltips for keywords inside tooltips
         /// </summary>
@@ -39,8 +34,10 @@ namespace LCLocalizationInterface.LimbusRegistry
 
 
         #region Delayed RichText
+        public static List<TMProEmitter> InstancesWithEnabledRichTextDelay { get; } = [];
+
         /// <summary>
-        /// This property is <see langword="false"/> when rich text set occurres via editor object switch / file load / etc,,, anything except actual text typing
+        /// This property is <see langword="false"/> when rich text set occurres via editor object switch / file load / etc,,, anything except actual text typing. When set to <see langword="false"/>, stops all currently running timers for rich text update after time set by <see cref="Configurazione.JsonConfigurationFile.Internal_PROP.AutosaveDelay"/>.
         /// </summary>
         public static bool IsRichTextDelayAllowed
         {
@@ -49,7 +46,7 @@ namespace LCLocalizationInterface.LimbusRegistry
                 // Reset running delayed rich text set timers when switching to another editor object (-> to not occasionaly set previous object text after delay time)
                 if ((field = value) == false)
                 {
-                    TMProEmitter.AllInstances.Where(x => x.AcceptsRichTextDelay && x.DelayedRichTextContext.Pending).ToList().ForEach(ActiveTMProEmitter =>
+                    TMProEmitter.InstancesWithEnabledRichTextDelay.Where(x => x.DelayedRichTextContext.Pending).ToList().ForEach(ActiveTMProEmitter =>
                     {
                         ActiveTMProEmitter.DelayedRichTextContext.Timer.Stop();
                         ActiveTMProEmitter.DelayedRichTextContext.Pending = false;
@@ -59,8 +56,19 @@ namespace LCLocalizationInterface.LimbusRegistry
         } = true;
 
 
-        public static readonly DependencyProperty AcceptsRichTextDelayProperty = RegisterProperty<TMProEmitter, bool>(DefaultValue: true);
+        public static readonly DependencyProperty AcceptsRichTextDelayProperty = RegisterProperty<TMProEmitter, bool>(DefaultValue: false, PropertyChangedEvent: OnAcceptsRichTextDelayPropertyChanged);
         public bool AcceptsRichTextDelay { get => (bool)GetValue(AcceptsRichTextDelayProperty); set => SetValue(AcceptsRichTextDelayProperty, value); }
+        private static void OnAcceptsRichTextDelayPropertyChanged(DependencyObject Sender, DependencyPropertyChangedEventArgs Args)
+        {
+            if ((bool)Args.NewValue is true)
+            {
+                InstancesWithEnabledRichTextDelay.Add((Sender as TMProEmitter)!);
+            }
+            else
+            {
+                InstancesWithEnabledRichTextDelay.Remove((Sender as TMProEmitter)!);
+            }
+        }
 
         /// <summary>
         /// Returns new instance of <see cref="DelayDisabler"/>.
@@ -75,7 +83,7 @@ namespace LCLocalizationInterface.LimbusRegistry
         public class DelayDisabler : IDisposable
         {
             public DelayDisabler() { IsRichTextDelayAllowed = false; }
-            public void Dispose() { IsRichTextDelayAllowed = true; GC.SuppressFinalize(this); }
+            public void Dispose() { IsRichTextDelayAllowed = true; }
         }
 
         private DelayedRichTextContextData DelayedRichTextContext = new();
@@ -152,12 +160,18 @@ namespace LCLocalizationInterface.LimbusRegistry
                     }
                     catch { }
 
-
-                    TextMeshLarp.SetRichText(
-                        this,
-                        FormattedLimbusRichText,
-                        IgnoredTagIDs: [TextMeshLarp.TagsPreset.FontStretch.ID, TextMeshLarp.TagsPreset.Hyperlink.ID, TextMeshLarp.TagsPreset.VOffset.ID, TextMeshLarp.TagsPreset.HOffset.ID, @Languages.InlineImage.ID]
-                    );
+                    if (@DataContextDomain.Configuration is not null && @DataContextDomain.Configuration.PreviewSettings.Base.HidePreview)
+                    {
+                        // .. . . .. .  .
+                    }
+                    else
+                    {
+                        TextMeshLarp.SetRichText(
+                            this,
+                            FormattedLimbusRichText,
+                            IgnoredTagIDs: [TextMeshLarp.TagsPreset.FontStretch.ID, TextMeshLarp.TagsPreset.Hyperlink.ID, TextMeshLarp.TagsPreset.VOffset.ID, TextMeshLarp.TagsPreset.HOffset.ID, @Languages.InlineImage.ID]
+                        );
+                    }
                     
                     string? PreviousRichText = CurrentRichText;
                     CurrentRichText = RichText;

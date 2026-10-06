@@ -69,12 +69,22 @@ namespace LCLocalizationInterface.LimbusRegistry
         {
             public enum EditorModeKey
             {
+                [Description("Main Menu")]
                 MainMenu,
 
+                [Description("Skills")]
                 Skills,
+
+                [Description("Passives")]
                 Passives,
+
+                [Description("Keywords")]
                 Keywords,
+
+                [Description("E.G.O Gifts")]
                 EGOGifts,
+
+                [Description("Observation Logs")]
                 ObservationLogs,
             }
 
@@ -87,6 +97,8 @@ namespace LCLocalizationInterface.LimbusRegistry
             public interface EditorModeIntermediator
             {
                 public EditorModeKey Identifier { get; }
+
+                public string ReadableIdentifierName { get; }
 
 
 
@@ -121,6 +133,14 @@ namespace LCLocalizationInterface.LimbusRegistry
 
                 /// <inheritdoc cref="EditorModeAbstraction{LocalizationDataType}.CurrentFile"/>
                 public FileSpecific? CurrentFileSpecific { get; }
+
+
+                /// <inheritdoc cref="EditorModeAbstraction{LocalizationDataType}.VirtualDataList"/>
+                public List<object> VirtualDataList { get; }
+
+
+                /// <inheritdoc cref="EditorModeAbstraction{LocalizationDataType}.VirtualCurrentObject"/>
+                public object? VirtualCurrentObject { get; }
 
 
                 /// <inheritdoc cref="EditorModeAbstraction{LocalizationDataType}.PresentedRightMenuSytaxedTextInputs"/>
@@ -246,6 +266,8 @@ namespace LCLocalizationInterface.LimbusRegistry
             {
                 public abstract EditorModeKey Identifier { get; }
 
+                public string ReadableIdentifierName => this.Identifier switch { EditorModeKey.EGOGifts => "E.G.O Gifts", EditorModeKey.ObservationLogs => "Observation Logs", _ => this.Identifier.ToString() };
+
 
 
 
@@ -343,7 +365,6 @@ namespace LCLocalizationInterface.LimbusRegistry
                     public void Dispose()
                     {
                         TargetScrollViewer.ScrollToVerticalOffset(this.OriginalVerticalOffset);
-                        GC.SuppressFinalize(this);
                     }
                 }
 
@@ -358,7 +379,6 @@ namespace LCLocalizationInterface.LimbusRegistry
                     public void Dispose()
                     {
                         TargetElement.SetPropertyValue<Brush>("Background", Brushes.Transparent);
-                        GC.SuppressFinalize(this);
                     }
                 }
 
@@ -386,6 +406,20 @@ namespace LCLocalizationInterface.LimbusRegistry
                 /// Used in <see cref="SaveCurrentFile_Entry"/> method to keep original formatting when serializing json
                 /// </summary>
                 public FileSpecific? CurrentFileSpecific { get; private set; }
+
+
+
+                /// <summary>
+                /// Returns <see cref="LimbusLocalizationFile{LocalizationDataType}.DataList"/> as <see cref="List"/> of <see cref="object"/><see langword="s"/>
+                /// </summary>
+                public List<object> VirtualDataList => this.DeserializedLocalizationData is not null ? [.. this.DeserializedLocalizationData.DataList.Cast<object>()] : [];
+
+
+
+                /// <summary>
+                /// Must be set manually by editor
+                /// </summary>
+                public object? VirtualCurrentObject { get; protected set; }
 
 
                 /// <summary>
@@ -1132,7 +1166,10 @@ namespace LCLocalizationInterface
                     {
                         foreach (ExtraReplacementsContextMenu.RegexReplaceOption RegexReplacement in RegexReplacements)
                         {
-                            SelectedTextToEdit = RegexReplacement.RegularExpression.Replace(SelectedTextToEdit, RegexReplacement.Replacement);
+                            if (RegexReplacement.RegularExpression is not null && RegexReplacement.Replacement is not null)
+                            {
+                                SelectedTextToEdit = RegexReplacement.RegularExpression.Replace(SelectedTextToEdit, RegexReplacement.Replacement);
+                            }
                         }
                     }
 

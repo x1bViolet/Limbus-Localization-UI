@@ -187,7 +187,6 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             #region Main desc
             TMProEmitter Skill_MainDesc = new()
             {
-                AcceptsRichTextDelay = false,
                 FontType = LimbusFontTypes.Context, TextProcessingMode = InputRichTextFormatter.RichTextFormat.Skills,
                 FontSize = 11, LineHeight = 13.7, DisableKeyworLinksCreation = true,
                 HorizontalAlignment = HorizontalAlignment.Left
@@ -226,7 +225,6 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
                         {
                             TMProEmitter Skill_DescOfSingleCoin = new()
                             {
-                                AcceptsRichTextDelay = false,
                                 FontType = LimbusFontTypes.Context, TextProcessingMode = InputRichTextFormatter.RichTextFormat.Skills,
                                 FontSize = 11, LineHeight = 13.7, DisableKeyworLinksCreation = true,
                                 Margin = new Thickness(25, 5, 0, 0), HorizontalAlignment = HorizontalAlignment.Left
@@ -266,7 +264,6 @@ namespace LCLocalizationInterface.LimbusRegistry.PreviewCreator
             {
                 TMProEmitter Skill_FlavorDesc = new()
                 {
-                    AcceptsRichTextDelay = false,
                     FontType = LimbusFontTypes.Context, TextProcessingMode = InputRichTextFormatter.RichTextFormat.Passives,
                     FontSize = 8.5, LineHeight = 11.7, DisableKeyworLinksCreation = true,
                     Foreground = ToSolidColorBrush("#8a592f"), FontStyle = FontStyles.Italic,

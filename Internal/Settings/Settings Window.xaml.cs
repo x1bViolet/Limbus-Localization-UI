@@ -1,6 +1,7 @@
 ﻿using LCLocalizationInterface.Internal.UIStyle;
 using LCLocalizationInterface.LimbusRegistry.JsonTypes;
 using LCLocalizationInterface.LimbusRegistry.PreviewCreator;
+using System.Threading.Tasks;
 
 namespace LCLocalizationInterface.Internal.Configuration
 {
@@ -101,7 +102,11 @@ namespace LCLocalizationInterface.Internal.Configuration
             NewSyntax([
                 "[Settings / Custom Language] * Keywords autodetection Regex pattern",
                 "[Settings / Custom Language] * Shorthands Regex pattern",
-                "[Settings / Custom Language] * Shorthands Context Menu insertion shape"
+                "[Settings / Custom Language] * Shorthands Context Menu insertion shape",
+                "[Settings / Discord RPC] * Details Text",
+                "[Settings / Discord RPC] * State Text",
+                "[Settings / Discord RPC] * Button №1 Label",
+                "[Settings / Discord RPC] * Button №2 Label"
             ]);
             @Languages.PresentedTextFields["[Settings / Custom Language] * Keywords autodetection Regex pattern"].AddHighlight([
                 new(@"KeywordNameWillBeHere", SyntaxColors.Highlight1)
@@ -116,6 +121,48 @@ namespace LCLocalizationInterface.Internal.Configuration
                 new(@"\?<Color>",         SyntaxColors.Highlight3),
                 new(@"\?<SpriteID>",      SyntaxColors.Highlight4)
             ]);
+
+            {
+                List<string> DiscordRPCInputs =
+                [
+                    "[Settings / Discord RPC] * Details Text",
+                    "[Settings / Discord RPC] * State Text",
+                    "[Settings / Discord RPC] * Button №1 Label",
+                    "[Settings / Discord RPC] * Button №2 Label"
+                ];
+                List<string> DiscordRPCInsertions =
+                [
+                    "{selected_limbus_lang}",
+
+                    "{ui_lang}",
+                    "{ui_theme}",
+
+                    "{file_name}",
+                    "{editor_mode}",
+
+                    "{current_object_id}",
+                    "{current_object_name}",
+
+                    "{current_object_number}",
+                    "{total_objects_count}",
+
+
+                    "{previewcreator_image_type}",
+
+                    "{previewcreator_portrait_type}",
+                    "{previewcreator_rarity_or_risk_level}",
+
+                    "{previewcreator_sinner_name}",
+                    "{previewcreator_identity_or_ego_name}"
+                ];
+                DiscordRPCInsertions.ForEach(InsertionToHiglight =>
+                {
+                    DiscordRPCInputs.ForEach(RPCTextInputID =>
+                    {
+                        @Languages.PresentedTextFields[RPCTextInputID].AddHighlight([new(InsertionToHiglight, SyntaxColors.Highlight1, UseUnderline: false)]);
+                    });
+                });
+            }
         }
 
 
@@ -177,6 +224,7 @@ namespace LCLocalizationInterface.Internal.Configuration
 
                 case "[Settings / Editor Parameters] * Hide Limbus Text Preview":
                     MainWindowInstance.RichTextViews__PARENT_Height.MaxHeight = (bool)ActualSender.IsChecked! ? 0 : double.MaxValue;
+                    @EditorModesShelf.CurrentEditorMode.RefreshRichText();
                     break;
 
 
@@ -500,6 +548,34 @@ namespace LCLocalizationInterface.Internal.Configuration
         {
             @PartialStateUpdater.Limbus.FullyRefreshShownRichText();
             /// -> <see cref="Buttons_AutoSaveConfig"/>
+        }
+        #endregion
+
+
+
+
+
+
+        #region ⦁ Discord RPC
+        private void SwitchDiscordRPCScopeEditing(object Sender, MouseButtonEventArgs Args)
+        {
+            @Languages.PresentedTextElements["[Settings / Discord RPC] * Editing Scope Switch - Main Menu"].Tag = "Disabled";
+            @Languages.PresentedTextElements["[Settings / Discord RPC] * Editing Scope Switch - Active Editor"].Tag = "Disabled";
+            @Languages.PresentedTextElements["[Settings / Discord RPC] * Editing Scope Switch - Preview Creator"].Tag = "Disabled";
+            (Sender as IntenseStareType1)!.Tag = null;
+
+            @DataContextDomain.Configuration!.DiscordRPCOptions.CurrentScopeInSettings = (Sender as IntenseStareType1)!.Uid switch
+            {
+                "Main Menu" => @DataContextDomain.Configuration!.DiscordRPCOptions.MainMenu,
+                "Active Editor" => @DataContextDomain.Configuration!.DiscordRPCOptions.ActiveEditor,
+                "Preview Creator" => @DataContextDomain.Configuration!.DiscordRPCOptions.PreviewCreator
+            };
+
+            DiscordRPCTextFields.FindVisualChildren<IntenseStareType3>().ForEach(x => x.Document.UndoStack.ClearAll());
+        }
+        private void DiscordRPCActivitySelector_SelectionChanged(object Sender, SelectionChangedEventArgs Args)
+        {
+            @Configurazione.Save();
         }
         #endregion
     }

@@ -827,9 +827,21 @@ namespace LCLocalizationInterface.Internal
                         ? ToSolidColorBrush(MarkTag.ExpressionMatch.Groups["ColorValue"].Value)
                         : Brushes.Transparent;
 
+                ImageSource ImageToInsert = ImageDictionaries.UnknownSpriteImage;
+
+                if (ImageSourceExpression.StartsWith("AppResource:///"))
+                {
+                    try   { ImageToInsert = BitmapFromResource(ImageSourceExpression.RemovePrefix("AppResource:///")); }
+                    catch { }
+                }
+                else if (File.Exists(ImageSourceExpression))
+                {
+                    ImageToInsert = BitmapFromFile(ImageSourceExpression);
+                }
+
                 Image CreatedImage = new Image()
                 {
-                    Source = File.Exists(ImageSourceExpression) ? BitmapFromFile(ImageSourceExpression) : ImageDictionaries.UnknownSpriteImage,
+                    Source = ImageToInsert,
                     Width = Size, Height = Size,
                     RenderTransform = new TranslateTransform(XOffset, YOffset)
                 };

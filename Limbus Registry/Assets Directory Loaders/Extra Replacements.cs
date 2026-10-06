@@ -5,9 +5,9 @@
         // Replace context menu with specific one when Left Shift is pressed
         private void LimbusJsonTextEditor_ContextMenuOpening(object Sender, ContextMenuEventArgs Args)
         {
-            LimbusJsonTextEditor.ContextMenu = Keyboard.IsKeyDown(Key.LeftShift) && ExtraReplacementsContextMenu.ContextMenuObject.Items.Count > 0
-                ? ExtraReplacementsContextMenu.ContextMenuObject
-                : ExtraReplacementsContextMenu.DefaultContextMenu;
+            LimbusJsonTextEditor.ContextMenu = Keyboard.IsKeyDown(Key.LeftShift) && ExtraReplacementsContextMenu.ContextMenu_ExtraReplacements.Items.Count > 0
+                ? ExtraReplacementsContextMenu.ContextMenu_ExtraReplacements
+                : ExtraReplacementsContextMenu.TextEditorContextMenu_Default;
         }
     }
 
@@ -15,8 +15,8 @@
     {
         public static class ExtraReplacementsContextMenu
         {
-            public static ContextMenu ContextMenuObject => (MainWindowInstance.JsonTextEditor_And_RichTextViews.Resources["LimbusJsonTextEditor_ExtraReplacements"] as ContextMenu)!;
-            public static ContextMenu DefaultContextMenu => (MainWindowInstance.JsonTextEditor_And_RichTextViews.Resources["LimbusJsonTextEditor_Conversions"] as ContextMenu)!;
+            public static ContextMenu ContextMenu_ExtraReplacements => (MainWindowInstance.JsonTextEditor_And_RichTextViews.Resources["LimbusJsonTextEditor_ExtraReplacements"] as ContextMenu)!;
+            public static ContextMenu TextEditorContextMenu_Default => (MainWindowInstance.JsonTextEditor_And_RichTextViews.Resources["LimbusJsonTextEditor_Conversions"] as ContextMenu)!;
 
 
 
@@ -42,10 +42,10 @@
             }
 
 
-            public readonly record struct RegexReplaceOption(Regex RegularExpression, string Replacement);
+            public readonly record struct RegexReplaceOption(Regex? RegularExpression = null, string? Replacement = null, bool ParentIsUnclickableHeader = false, bool ParentIsSeparator = false);
             private static void ReadExtraReplacementsFile()
             {
-                ContextMenuObject.Items.Clear();
+                ContextMenu_ExtraReplacements.Items.Clear();
 
                 if (File.Exists(CurrentFilePath))
                 {
@@ -56,29 +56,52 @@
                         List<string> Lines = StreamReadLines(CurrentFilePath);
 
                         int LineIndex = 0; string? LatestOptionName = null;
+                        int SeparatorCounter = 0;
 
                         foreach (string Line in Lines)
                         {
                             if (Line.StartsWith("{Regex Option} - "))
                             {
                                 LatestOptionName = Line[17..];
-                                Readed[LatestOptionName] = new List<RegexReplaceOption>();
-                            }
-                            else if (LatestOptionName is not null && Line.StartsWith("* Pattern: ") && LineIndex < Lines.Count - 1 && Lines[LineIndex + 1].StartsWith("  Replace: "))
-                            {
-                                string RepalceForPattern = Lines[LineIndex + 1][11..];
 
-                                // Unicode escapes
-                                RepalceForPattern = Regex.Replace(RepalceForPattern, @"\\u(?<UnicodeCharacterCode>[a-fA-F0-9]{4})", Match =>
+                                if (Readed.ContainsKey(LatestOptionName) == false)
                                 {
-                                    int UnicodeCharacterCode = int.Parse(Match.Groups["UnicodeCharacterCode"].Value, System.Globalization.NumberStyles.HexNumber);
-                                    return $"{(char)UnicodeCharacterCode}";
-                                });
+                                    Readed[LatestOptionName] = new List<RegexReplaceOption>();
+                                }
+                                else
+                                {
+                                    LatestOptionName = null;
+                                }
+                            }
+                            else if (Line.StartsWith("{Unclickable Text} - "))
+                            {
+                                LatestOptionName = Line[21..];
+                                Readed[LatestOptionName] = new List<RegexReplaceOption>() { new RegexReplaceOption(ParentIsUnclickableHeader: true) };
+                            }
+                            else if (Line.StartsWith("{Separator}"))
+                            {
+                                LatestOptionName = $"<Separator {SeparatorCounter}>";
+                                SeparatorCounter++;
+                                Readed[LatestOptionName] = new List<RegexReplaceOption>() { new RegexReplaceOption(ParentIsSeparator: true) };
+                            }
+                            else if (LatestOptionName is not null)
+                            {
+                                if (Line.StartsWith("* Pattern: ") && LineIndex < Lines.Count - 1 && Lines[LineIndex + 1].StartsWith("  Replace: "))
+                                {
+                                    string RepalceForPattern = Lines[LineIndex + 1][11..];
 
-                                // Line breaks
-                                RepalceForPattern = RepalceForPattern.Replace("\\n", "\n");
+                                    // Unicode escapes
+                                    RepalceForPattern = Regex.Replace(RepalceForPattern, @"\\u(?<UnicodeCharacterCode>[a-fA-F0-9]{4})", Match =>
+                                    {
+                                        int UnicodeCharacterCode = int.Parse(Match.Groups["UnicodeCharacterCode"].Value, System.Globalization.NumberStyles.HexNumber);
+                                        return $"{(char)UnicodeCharacterCode}";
+                                    });
 
-                                Readed[LatestOptionName].Add(new RegexReplaceOption(RegularExpression: new Regex(pattern: Line[11..]), Replacement: RepalceForPattern));
+                                    // Line breaks
+                                    RepalceForPattern = RepalceForPattern.Replace("\\n", "\n");
+
+                                    Readed[LatestOptionName].Add(new RegexReplaceOption(RegularExpression: new Regex(pattern: Line[11..]), Replacement: RepalceForPattern));
+                                }
                             }
 
                             LineIndex++;
@@ -86,14 +109,28 @@
 
                         foreach (KeyValuePair<string, List<RegexReplaceOption>> ExtraRegexItem in Readed)
                         {
-                            IntenseStareType1 CreatedHeader = new();
-                            CreatedHeader.InherintPropertiesFrom(@Languages.PresentedTextElements["[Context Menu] [-] * Extra replacements item header"]);
-                            CreatedHeader.RichText = ExtraRegexItem.Key;
+                            if (ExtraRegexItem.Value.Any(x => x.ParentIsSeparator))
+                            {
+                                ContextMenu_ExtraReplacements.Items.Add(new Separator() { UseLayoutRounding = true });
+                            }
+                            else
+                            {
+                                IntenseStareType1 CreatedHeader = new();
+                                CreatedHeader.InherintPropertiesFrom(@Languages.PresentedTextElements["[Context Menu] [-] * Extra replacements item header"]);
+                                CreatedHeader.RichText = ExtraRegexItem.Key;
 
-                            MenuItem_T1 CreatedMenuItem = new() { Header = CreatedHeader, DataContext = ExtraRegexItem.Value };
-                            CreatedMenuItem.Click += MainWindowInstance.TextEditor_ContextMenuClick;
+                                if (ExtraRegexItem.Value.Any(x => x.ParentIsUnclickableHeader))
+                                {
+                                    ContextMenu_ExtraReplacements.Items.Add(new MenuItem() { Header = CreatedHeader, IsHitTestVisible = false });
+                                }
+                                else
+                                {
+                                    MenuItem_T1 CreatedMenuItem = new() { Header = CreatedHeader, DataContext = ExtraRegexItem.Value, Tag = ExtraRegexItem.Key };
+                                    CreatedMenuItem.Click += MainWindowInstance.TextEditor_ContextMenuClick;
 
-                            ContextMenuObject.Items.Add(CreatedMenuItem);
+                                    ContextMenu_ExtraReplacements.Items.Add(CreatedMenuItem);
+                                }
+                            }
                         }
                     }
                     catch (Exception Occurred)

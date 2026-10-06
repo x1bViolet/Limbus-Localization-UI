@@ -94,6 +94,8 @@
 
                 string? Latest__CoinMathOperator = null;
 
+                bool? Latest__CanDuel = null;
+
 
                 // "FirstEncountered" because Level Correction may be initially defined in the first Uptie in list, but then set as 0 in some following one
                 // Despite this fact it doesn't change in the game from initially defined
@@ -137,6 +139,7 @@
                     UptieLevel.CoinPower = Prolong(ref Latest__CoinPower, UptieLevel.CoinPower);
                     UptieLevel.BasePower = Prolong(ref Latest__BasePower, UptieLevel.BasePower);
                     UptieLevel.CoinMathOperator = Prolong(ref Latest__CoinMathOperator, UptieLevel.CoinMathOperator);
+                    UptieLevel.CanDuel = Prolong(ref Latest__CanDuel, UptieLevel.CanDuel);
 
 
 
@@ -204,7 +207,7 @@
             public int? BasePower { get; set; } // May vary from Uptie to Uptie
 
             [JsonProperty("canDuel")]
-            public bool CanDuel { get; set; } = true;
+            public bool? CanDuel { get; set; }
 
             public bool IsClashableDefense => CanDuel == true & SkillType!.EqualsToOneOf("Guard", "Counter");
 

@@ -166,9 +166,12 @@ namespace LCLocalizationInterface
                     if (Shortcut.Command!.Matches(@"^Extra \d+$"))
                     {
                         int CommantNumber = int.Parse(Regex.Match(Shortcut.Command!, @"^Extra (\d+)$").Groups[1].Value);
-                        if (CommantNumber <= ExtraReplacementsContextMenu.ContextMenuObject.Items.Count)
+
+                        List<MenuItem_T1> ExtraReplacementButtons = [.. ExtraReplacementsContextMenu.ContextMenu_ExtraReplacements.Items.OfType<MenuItem_T1>()];
+
+                        if (CommantNumber <= ExtraReplacementButtons.Count)
                         {
-                            TextEditor_ContextMenuClick(ExtraReplacementsContextMenu.ContextMenuObject.Items[CommantNumber - 1], null!);
+                            TextEditor_ContextMenuClick(ExtraReplacementButtons[CommantNumber - 1], null!);
                         }
                     }
 

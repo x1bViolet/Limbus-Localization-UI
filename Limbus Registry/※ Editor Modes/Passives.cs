@@ -251,6 +251,8 @@ namespace LCLocalizationInterface.LimbusRegistry
                 {
                     this.CurrentPassiveID = TargetPassiveID;
 
+                    this.VirtualCurrentObject = this.CurrentPassive;
+
                     base.CheckSwitchIDButtonsAvailability(this.AvailableIDsList.IndexOf(this.CurrentPassiveID), this.AvailableIDsList.Count - 1);
 
                     #region DataContextDomain values set

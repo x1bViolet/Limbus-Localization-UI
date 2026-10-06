@@ -20,6 +20,7 @@ namespace LCLocalizationInterface
             DoStartupActions();
 
             this.Loaded += (_, _) => App.CheckLatestVersion();
+            this.Loaded += (_, _) => App.InitializeDiscordRPC();
         }
 
 
@@ -76,7 +77,7 @@ namespace LCLocalizationInterface
         #region Current json file
         private void OpenJsonFileButton_Click(object Sender, RoutedEventArgs Args)
         {
-            OpenFileDialog Select = NewOpenFileDialog("Limbus localization files (Skills/Passives/Keywords/E.G.O Gifts)", ["json"]);
+            OpenFileDialog Select = NewOpenFileDialog("Limbus localization files (Skills/Passives/Keywords/E.G.O Gifts/Observation Logs)", ["json"]);
 
             if (Select.ShowDialog() == true) OpenJsonFile_Action(Select.FileName);
         }

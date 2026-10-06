@@ -14,6 +14,10 @@ namespace LCLocalizationInterface
         /// Configurable open and close regex pattern parts to wrap start/end expressions of <see cref="TagDefinition"/> : <c>Regex.Match(..., Open + Start/End Expression + Close)</c>
         /// </summary>
         public record TagDividers([StringSyntax(StringSyntaxAttribute.Regex)] string Open, [StringSyntax(StringSyntaxAttribute.Regex)] string Close);
+
+        /// <summary>
+        /// Contains values originally provided for <see cref="SetRichText"/> method
+        /// </summary>
         public readonly struct RichTextGenerationContext
         {
             public required string OrigianlRichText { get; init; }

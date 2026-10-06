@@ -38,6 +38,20 @@ namespace LCLocalizationInterface
 
             if (typeof(MainWindow) == typeof(MainWindow))
             {
+                if (Directory.Exists(@"[⇲] Assets Directory") == false)
+                {
+                    MessageBox.Show(@$"""[⇲] Assets Directory"" folder not found, what did you do with it? (Program cannot run without it and closes)", "Missing resources folder", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Application.Current.Shutdown();
+                    return;
+                }
+                if (File.Exists(@"[⇲] Assets Directory\Configurazione^.json") == false)
+                {
+                    MessageBox.Show(@$"""[⇲] Assets Directory\Configurazione^.json"" config file not found, what did you do with it? (Program cannot run without it and closes)", "Missing config file", MessageBoxButton.OK, MessageBoxImage.Error);
+                    Application.Current.Shutdown();
+                    return;
+                }
+
+
                 SetupExceptionsHandling();
                 ErrorMessageWindow.ErrorMessageWindowInstance = new();
                 SetupExternalStatics();
@@ -205,6 +219,38 @@ namespace LCLocalizationInterface
 
             TextMeshLarp.TagsPreset.DefaultRegistry.ImportTagsFromNewInstanceOf<ImportableLimbusTags>();
             TextMeshLarp.TagsPreset.DefaultRegistry.Add(@Languages.InlineImage);
+        }
+
+        // I'll just leave it here, too lazy to move it into RijnadelClassLibrary.Json for now
+        public class InvalidEnumLiteralResolver<TEnum>(TEnum DefaultEnumValueInput) : JsonConverter<TEnum> where TEnum : struct, Enum
+        {
+            private readonly TEnum DefaultEnumValue = DefaultEnumValueInput;
+
+            public override TEnum ReadJson(JsonReader Reader, Type ObjectType, TEnum ExistingValue, bool HasExistingValue, JsonSerializer Serializer)
+            {
+                if (Reader.TokenType == JsonToken.String)
+                {
+                    string? EnumText = Reader.Value?.ToString();
+                    if (Enum.TryParse(EnumText, ignoreCase: true, out TEnum ParsedEnum))
+                    {
+                        return ParsedEnum;
+                    }
+                    else
+                    {
+                        return DefaultEnumValue;
+                    }
+                }
+                // Maybe `if (Reader.TokenType == JsonToken.Integer)` too, unused there
+                else
+                {
+                    return DefaultEnumValue;
+                }
+            }
+
+            public override void WriteJson(JsonWriter Writer, TEnum Value, JsonSerializer Serializer)
+            {
+                Writer.WriteValue(Value.ToString());
+            }
         }
     }
 }

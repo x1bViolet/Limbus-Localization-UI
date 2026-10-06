@@ -298,6 +298,8 @@ namespace LCLocalizationInterface.LimbusRegistry
                 {
                     this.CurrentObservationLogID = TargetObservationLogID;
 
+                    this.VirtualCurrentObject = this.CurrentObservationLog;
+
                     base.CheckSwitchIDButtonsAvailability(this.AvailableIDsList.IndexOf(this.CurrentObservationLogID), this.AvailableIDsList.Count - 1);
 
                     #region DataContextDomain values set

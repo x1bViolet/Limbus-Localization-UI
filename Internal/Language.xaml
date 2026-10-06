@@ -1,10 +1,7 @@
 ﻿<ResourceDictionary
 	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
 	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
-	xmlns:AvalonEdit="clr-namespace:ICSharpCode.AvalonEdit;assembly=ICSharpCode.AvalonEdit"
 	xmlns:InternalStyle="clr-namespace:LCLocalizationInterface.Internal.UIStyle"
-	xmlns:T="clr-namespace:LCLocalizationInterface.MarkupExtensions"
-	xmlns:AvalonEditEditing="clr-namespace:ICSharpCode.AvalonEdit.Editing;assembly=ICSharpCode.AvalonEdit"
 	xmlns:AvalonEditRendering="clr-namespace:ICSharpCode.AvalonEdit.Rendering;assembly=ICSharpCode.AvalonEdit"
 	xmlns:Terminus="clr-namespace:LCLocalizationInterface.Internal.Terminus"
 	x:Class="LCLocalizationInterface.Internal.Terminus.LanguageUIElementsResourceDictionary">

@@ -15,6 +15,7 @@ namespace LCLocalizationInterface.Internal
             if (new FileInfo(@"[⇲] Assets Directory\Configurazione^.json").TryDeserealizeJsonAs(out JsonConfigurationFile Loaded, out Exception Occurred))
             {
                 @DataContextDomain.Configuration = Loaded;
+                @DataContextDomain.Configuration.DiscordRPCOptions.CurrentScopeInSettings = @DataContextDomain.Configuration.DiscordRPCOptions.ActiveEditor;
 
                 @Languages.PresentedTextFields["[Settings / Editor Parameters] * Preview update delay"].Document.Text = $"{LoadedConfiguration.PreviewSettings.Base.PreviewUpdateDelay}";
                 @Languages.PresentedTextFields["[Settings / Editor Parameters] * Autosave delay"].Document.Text = $"{LoadedConfiguration.Internal.AutosaveDelay}";
@@ -475,6 +476,70 @@ namespace LCLocalizationInterface.Internal
                 {
                     AssertScaleFactor();
                     BackgroundColor = BackgroundColor.Cut("#");
+                }
+            }
+
+
+
+            [JsonProperty("Discord RPC")]
+            public DiscordRPC_PROP DiscordRPCOptions { get; set; } = new();
+            public record DiscordRPC_PROP : Explicit
+            {
+                [JsonProperty("Enabled")]
+                public bool Enabled { get; set; } = false;
+
+                [JsonProperty("Activity Type"), JsonConverter(typeof(InvalidEnumLiteralResolver<DiscordRPC.ActivityType>), DiscordRPC.ActivityType.Watching)]
+                public DiscordRPC.ActivityType ActivityType { get; set; } = DiscordRPC.ActivityType.Playing;
+
+                [JsonProperty("Main Menu")]
+                public DiscordRPCScope_PROP MainMenu { get; set; } = new("In the Main Menu", "> Idling");
+
+                [JsonProperty("Active Text Editor")]
+                public DiscordRPCScope_PROP ActiveEditor { get; set; } = new("Editing \"{file_name}\"", "> ID {current_object_id} (\"{current_object_name}\") [{current_object_number}/{total_objects_count}]");
+
+                [JsonProperty("Identity/E.G.O Preview Creator")]
+                public DiscordRPCScope_PROP PreviewCreator { get; set; } = new("In Identity/E.G.O Preview Creator", "> {previewcreator_identity_or_ego_name} {previewcreator_sinner_name} ({previewcreator_portrait_type} | {previewcreator_rarity_or_risk_level})");
+
+
+                [JsonIgnore] // For scope switching in settings window
+                #pragma warning disable CS8618
+                public DiscordRPCScope_PROP CurrentScopeInSettings { get; set; }
+                #pragma warning restore CS8618
+
+
+                public record DiscordRPCScope_PROP(string Details = "", string State = "") : Explicit
+                {
+                    [JsonProperty("Details")]
+                    public string Details { get; set; } = Details;
+
+                    [JsonProperty("Details (Click URL)")]
+                    public string Details_URL { get; set; } = "";
+
+
+                    [JsonProperty("State")]
+                    public string State { get; set; } = State;
+
+                    [JsonProperty("State (Click URL)")]
+                    public string State_URL { get; set; } = "";
+
+
+                    [JsonProperty("Button 1")]
+                    public DiscordRPC_Button_PROP Button1 { get; set; } = new();
+
+                    [JsonProperty("Button 2")]
+                    public DiscordRPC_Button_PROP Button2 { get; set; } = new();
+
+                    public record DiscordRPC_Button_PROP : Explicit
+                    {
+                        [JsonProperty("Enabled")]
+                        public bool Enabled { get; set; } = false;
+
+                        [JsonProperty("Label")]
+                        public string Label { get; set; } = "";
+
+                        [JsonProperty("URL")]
+                        public string URL { get; set; } = "";
+                    }
                 }
             }
         }
