@@ -106,7 +106,7 @@
 												Margin="19 0 0 -4.5"
 												VerticalAlignment="Stretch"
 												Focusable="False"
-												Maximum="1900"
+												Maximum="3900"
 												Minimum="400"
 												Orientation="Vertical"
 												RenderTransformOrigin="0.5 0.5"
@@ -1237,11 +1237,11 @@
 
                                                 <TStyle:TwoColumned x:Name="OffsetSliders">
                                                     <StackPanel Margin="0 0 2 0" x:Name="VerticalOffset_Panel">
-                                                        <Slider Maximum="3000" Minimum="-3000" TickFrequency="0" LargeChange="0.5" Value="{Binding RelatedJsonData.VerticalOffset}" />
+                                                        <Slider Maximum="900" Minimum="-900" TickFrequency="0" LargeChange="0.5" Value="{Binding RelatedJsonData.VerticalOffset}" />
                                                         <Terminus:IntenseStareType1 RichText="Vertical offset" TextAlignment="Center" UID="[C] * [Element context menu] Vertical offset" />
                                                     </StackPanel>
                                                     <StackPanel Grid.Column="1" Margin="2 0 0 0" x:Name="HorizontalOffset_Panel">
-                                                        <Slider Maximum="3000" Minimum="-3000" TickFrequency="0" LargeChange="0.5" Value="{Binding RelatedJsonData.HorizontalOffset}" />
+                                                        <Slider Maximum="900" Minimum="-900" TickFrequency="0" LargeChange="0.5" Value="{Binding RelatedJsonData.HorizontalOffset}" />
                                                         <Terminus:IntenseStareType1 RichText="Horizontal offset [size=76%](Content only)" TextAlignment="Center" UID="[C] * [Element context menu] Horizontal offset" />
                                                     </StackPanel>
                                                 </TStyle:TwoColumned>
